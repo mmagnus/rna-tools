@@ -1,0 +1,853 @@
+	A.H2U16	0.18
+	A.H2U17	0.18
+
+Processing file 'test_data/6TNA.pdb'
+
+total number of base pairs: 33
+
+total number of multiplets: 4
+
+total number of helices: 2
+
+total number of stems: 4
+
+total number of hairpin loops: 3
+
+total number of bulges: 0
+
+total number of internal loops: 0
+
+total number of junctions: 1
+****************************************************************************
+    DSSR: Software for Defining the (Secondary) Structures of RNA
+      by Xiang-Jun Lu (xiangjun@x3dna.org), beta-r08-on-20130323
+
+   The program is currently under active development. As always, we
+   greatly appreciate your feedback! Please report all DSSR-related
+   issues on the 3DNA Forum (http://forum.x3dna.org/), and I strive
+   to promptly respond to any questions posted there.
+****************************************************************************
+Date and time: Sat Nov 23 17:52:34 2013
+File name: test_data/6TNA.pdb
+    no. of DNA/RNA chains: 1 [A=76]
+    no. of nucleotides:    76
+    no. of waters:         84
+    no. of metals:         4 [Mg=4]
+****************************************************************************
+List of 33 base pair(s)
+   1 A.G1             A.C72            [G-C] WC           19-XIX    cWW cW-W
+       -168.6(anti) C2'-exo  lambda=54.0; -164.7(anti) C3'-endo lambda=52.4
+       d(C1'-C1')=10.57 d(N1-N9)=8.80 d(C6-C8)=9.65 tor(N1-C1'-C1'-N9)=-9.5
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.55]; N1(imino)-N3[2.66]; N2(amino)-O2(carbonyl)[2.78]"
+       bp_pars: [0.03    -0.37   -0.05   2.49    -14.20  -3.33]
+   2 A.C2             A.G71            [C-G] WC           19-XIX    cWW cW-W
+       173.5(anti) C2'-exo  lambda=48.7; -169.7(anti) C3'-endo lambda=54.7
+       d(C1'-C1')=10.87 d(N1-N9)=9.03 d(C6-C8)=9.81 tor(N1-C1'-C1'-N9)=3.4
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.98]; N3-N1(imino)[2.82]; N4(amino)-O6(carbonyl)[2.56]"
+       bp_pars: [-0.41   -0.22   -0.02   -2.51   5.36    -7.06]
+   3 A.G3             A.C70            [G-C] WC           19-XIX    cWW cW-W
+       -173.5(anti) C3'-endo lambda=53.0; -164.3(anti) C3'-endo lambda=52.1
+       d(C1'-C1')=10.47 d(N1-N9)=8.67 d(C6-C8)=9.50 tor(N1-C1'-C1'-N9)=-14.2
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.50]; N1(imino)-N3[2.55]; N2(amino)-O2(carbonyl)[2.62]"
+       bp_pars: [-0.06   -0.53   0.46    -0.23   -14.96  -5.13]
+   4 A.G4             A.U69            [G-U] Wobble       28-XXVIII cWW cW-W
+       -176.2(anti) C2'-exo  lambda=48.8; -157.8(anti) C3'-endo lambda=67.5
+       d(C1'-C1')=10.04 d(N1-N9)=8.50 d(C6-C8)=9.54 tor(N1-C1'-C1'-N9)=-2.5
+       H-bonds[3]: "O6(carbonyl)-N3(imino)[2.80]; N1(imino)-O2(carbonyl)[2.52]; N2(amino)-O2(carbonyl)[2.72]"
+       bp_pars: [-1.66   -0.61   0.32    5.51    -0.28   4.74]
+   5 A.A5             A.U68            [A-U] WC           20-XX     cWW cW-W
+       179.1(anti) C3'-endo lambda=54.7; -165.3(anti) C3'-endo lambda=52.3
+       d(C1'-C1')=10.61 d(N1-N9)=8.85 d(C6-C8)=9.75 tor(N1-C1'-C1'-N9)=-10.0
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.78]; N1-N3(imino)[2.77]"
+       bp_pars: [0.22    -0.22   0.44    0.06    -9.09   -3.72]
+   6 A.U6             A.A67            [U-A] WC           20-XX     cWW cW-W
+       176.2(anti) C3'-endo lambda=54.1; -172.3(anti) C3'-endo lambda=53.5
+       d(C1'-C1')=10.63 d(N1-N9)=8.89 d(C6-C8)=9.82 tor(N1-C1'-C1'-N9)=-16.5
+       H-bonds[2]: "N3(imino)-N1[2.84]; O4(carbonyl)-N6(amino)[2.97]"
+       bp_pars: [-0.00   -0.13   0.33    -4.99   -19.91  -2.12]
+   7 A.U7             A.A66            [U-A] WC           20-XX     cWW cW-W
+       -150.7(anti) C2'-endo lambda=48.9; -174.3(anti) C3'-endo lambda=53.5
+       d(C1'-C1')=10.81 d(N1-N9)=8.96 d(C6-C8)=9.75 tor(N1-C1'-C1'-N9)=2.3
+       H-bonds[2]: "N3(imino)-N1[2.80]; O4(carbonyl)-N6(amino)[2.56]"
+       bp_pars: [-0.45   -0.19   0.09    -3.87   3.66    -8.37]
+   8 A.U8             A.A14            [U-A] rHoogsteen   24-XXIV   tWH tW-M
+       -161.1(anti) C3'-endo lambda=27.3; -176.0(anti) C3'-endo lambda=19.7
+       d(C1'-C1')=9.66 d(N1-N9)=7.05 d(C6-C8)=5.98 tor(N1-C1'-C1'-N9)=-179.7
+       H-bonds[2]: "O2(carbonyl)-N6(amino)[2.94]; N3(imino)-N7[2.64]"
+       bp_pars: [3.83    -1.70   1.05    -0.93   13.80   -103.02]
+   9 A.U8             A.A21            [U+A]              00-n/a    ... t...
+       -161.1(anti) C3'-endo lambda=109.8; -149.5(anti) C3'-endo lambda=49.4
+       d(C1'-C1')=8.81 d(N1-N9)=8.71 d(C6-C8)=10.76 tor(N1-C1'-C1'-N9)=162.8
+       H-bonds[1]: "O2'(hydroxyl)-N1[2.88]"
+       bp_pars: [-1.00   -7.79   0.80    -9.91   24.77   -120.68]
+  10 A.A9             A.A23            [A+A]              02-II     tHH tM+M
+       -80.3(anti) C2'-endo lambda=13.6; -165.3(anti) C3'-endo lambda=10.4
+       d(C1'-C1')=10.99 d(N1-N9)=8.11 d(C6-C8)=6.23 tor(N1-C1'-C1'-N9)=124.8
+       H-bonds[3]: "N7-N6(amino)[2.87]; N6(amino)-OP2[3.20]; N6(amino)-N7[2.95]"
+       bp_pars: [6.09    -4.99   -0.25   -20.69  -10.42  177.97]
+  11 A.2MG10          A.C25            [g-C] WC           19-XIX    cWW cW-W
+       -171.1(anti) C2'-exo  lambda=54.3; 177.4(anti) C2'-exo  lambda=53.0
+       d(C1'-C1')=10.77 d(N1-N9)=9.02 d(C6-C8)=9.88 tor(N1-C1'-C1'-N9)=-2.8
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.77]; N1(imino)-N3[2.88]; N2(amino)-O2(carbonyl)[2.89]"
+       bp_pars: [-0.02   -0.15   -0.13   -1.19   -5.08   -2.89]
+  12 A.2MG10          A.G45            [g+G]              00-n/a    cHS cM+m
+       -171.1(anti) C2'-exo  lambda=37.5; -163.6(anti) C3'-endo lambda=120.1
+       d(C1'-C1')=8.85 d(N1-N9)=8.43 d(C6-C8)=8.54 tor(N1-C1'-C1'-N9)=-3.3
+       H-bonds[1]: "O6(carbonyl)-N2(amino)[2.60]"
+       bp_pars: [-6.46   -1.29   -1.25   27.91   -11.25  22.43]
+  13 A.C11            A.G24            [C-G] WC           19-XIX    cWW cW-W
+       -160.1(anti) C3'-endo lambda=54.1; -166.7(anti) C3'-endo lambda=54.5
+       d(C1'-C1')=10.81 d(N1-N9)=9.09 d(C6-C8)=9.97 tor(N1-C1'-C1'-N9)=1.7
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.98]; N3-N1(imino)[2.99]; N4(amino)-O6(carbonyl)[2.91]"
+       bp_pars: [0.12    -0.06   0.40    -3.83   7.52    -1.55]
+  14 A.U12            A.A23            [U-A] WC           20-XX     cWW cW-W
+       -158.8(anti) C3'-endo lambda=53.0; -165.3(anti) C3'-endo lambda=53.3
+       d(C1'-C1')=10.88 d(N1-N9)=9.10 d(C6-C8)=9.98 tor(N1-C1'-C1'-N9)=-5.1
+       H-bonds[2]: "N3(imino)-N1[3.02]; O4(carbonyl)-N6(amino)[2.94]"
+       bp_pars: [-0.05   0.03    0.10    -2.93   -5.51   -4.32]
+  15 A.C13            A.G22            [C-G] WC           19-XIX    cWW cW-W
+       -175.5(anti) C3'-endo lambda=54.4; -174.5(anti) C2'-exo  lambda=53.3
+       d(C1'-C1')=10.89 d(N1-N9)=9.14 d(C6-C8)=10.02 tor(N1-C1'-C1'-N9)=-3.3
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[3.03]; N3-N1(imino)[3.05]; N4(amino)-O6(carbonyl)[2.96]"
+       bp_pars: [0.26    -0.02   0.14    1.63    -2.93   -2.65]
+  16 A.G15            A.C48            [G+C] rWC          22-XXII   tWW tW+W
+       -152.7(anti) C3'-endo lambda=39.6; -136.9(anti) C2'-endo lambda=60.8
+       d(C1'-C1')=10.51 d(N1-N9)=8.93 d(C6-C8)=10.48 tor(N1-C1'-C1'-N9)=-169.7
+       H-bonds[2]: "N1(imino)-O2(carbonyl)[2.85]; N2(amino)-N3[2.87]"
+       bp_pars: [0.06    3.93    -0.10   -1.74   9.43    157.03]
+  17 A.G18            A.PSU55          [G+P]              00-n/a    tWS tW+m
+       -103.4(anti) C2'-endo lambda=30.2; -152.1(anti) C3'-endo lambda=111.8
+       d(C1'-C1')=8.67 d(N1-N9)=8.16 d(C6-C8)=9.47 tor(N1-C1'-C1'-N9)=-123.5
+       H-bonds[2]: "N1(imino)-O4[3.02]; N2(amino)-O4[3.07]"
+       bp_pars: [-0.64   5.58    -0.59   -28.23  -9.69   85.76]
+  18 A.G19            A.C56            [G-C] WC           19-XIX    cWW cW-W
+       -87.3(anti) C3'-exo  lambda=58.1; -175.9(anti) C3'-endo lambda=50.5
+       d(C1'-C1')=10.28 d(N1-N9)=8.56 d(C6-C8)=9.42 tor(N1-C1'-C1'-N9)=-16.7
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.75]; N1(imino)-N3[2.59]; N2(amino)-O2(carbonyl)[2.58]"
+       bp_pars: [0.13    -0.34   0.17    -27.29  -25.86  -2.42]
+  19 A.G22            A.7MG46          [G-g]              07-VII    tHW tM-W
+       -174.5(anti) C2'-exo  lambda=31.7; -99.2(anti) C3'-exo  lambda=27.6
+       d(C1'-C1')=11.21 d(N1-N9)=8.77 d(C6-C8)=7.45 tor(N1-C1'-C1'-N9)=179.7
+       H-bonds[2]: "N7-N1(imino)[2.81]; O6(carbonyl)-N2(amino)[2.91]"
+       bp_pars: [-5.50   -0.19   -0.30   1.45    5.11    -116.67]
+  20 A.M2G26          A.A44            [g-A]              00-n/a    cWW cW-W
+       -164.3(anti) C2'-exo  lambda=54.4; -165.3(anti) C3'-endo lambda=45.2
+       d(C1'-C1')=12.69 d(N1-N9)=10.79 d(C6-C8)=11.28 tor(N1-C1'-C1'-N9)=-19.5
+       H-bonds[2]: "N1(imino)-N1[3.21]; N2(amino)-N1[2.96]"
+       bp_pars: [1.34    1.63    0.06    22.85   -22.36  -13.19]
+  21 A.C27            A.G43            [C-G] WC           19-XIX    cWW cW-W
+       -165.6(anti) C3'-endo lambda=57.0; -169.1(anti) C3'-endo lambda=52.1
+       d(C1'-C1')=10.83 d(N1-N9)=9.11 d(C6-C8)=10.02 tor(N1-C1'-C1'-N9)=-10.4
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[3.08]; N3-N1(imino)[3.12]; N4(amino)-O6(carbonyl)[3.13]"
+       bp_pars: [0.66    -0.02   -0.01   5.61    -14.63  -0.70]
+  22 A.C28            A.G42            [C-G] WC           19-XIX    cWW cW-W
+       -162.8(anti) C3'-endo lambda=55.0; -157.7(anti) C3'-endo lambda=56.2
+       d(C1'-C1')=10.54 d(N1-N9)=8.87 d(C6-C8)=9.82 tor(N1-C1'-C1'-N9)=-4.1
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.64]; N3-N1(imino)[2.78]; N4(amino)-O6(carbonyl)[2.82]"
+       bp_pars: [0.04    -0.21   -0.08   2.33    -6.77   1.00]
+  23 A.A29            A.U41            [A-U] WC           20-XX     cWW cW-W
+       174.0(anti) C3'-endo lambda=56.0; -160.5(anti) C3'-endo lambda=50.4
+       d(C1'-C1')=10.73 d(N1-N9)=8.96 d(C6-C8)=9.84 tor(N1-C1'-C1'-N9)=2.0
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.76]; N1-N3(imino)[2.84]"
+       bp_pars: [0.52    -0.13   -0.06   -0.32   2.62    -4.10]
+  24 A.G30            A.5MC40          [G-c] WC           19-XIX    cWW cW-W
+       -168.2(anti) C3'-endo lambda=55.6; -173.5(anti) C3'-endo lambda=51.1
+       d(C1'-C1')=10.49 d(N1-N9)=8.73 d(C6-C8)=9.60 tor(N1-C1'-C1'-N9)=-12.5
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.55]; N1(imino)-N3[2.57]; N2(amino)-O2(carbonyl)[2.65]"
+       bp_pars: [0.21    -0.43   0.03    -6.11   -18.20  -2.63]
+  25 A.A31            A.PSU39          [A-P]              00-n/a    cWW cW-W
+       173.1(anti) C2'-exo  lambda=58.5; 167.4(anti) C3'-endo lambda=46.9
+       d(C1'-C1')=11.12 d(N1-N9)=9.34 d(C6-C8)=10.18 tor(N1-C1'-C1'-N9)=-8.8
+       H-bonds[2]: "N6(amino)-O2[3.20]; N1-N3[3.30]"
+       bp_pars: [1.22    0.13    0.86    -2.83   -2.04   -7.23]
+  26 A.OMC32          A.A38            [c-A]              00-n/a    t.H c.-M
+       -155.5(anti) C3'-endo lambda=97.1; -175.4(anti) C2'-exo  lambda=10.6
+       d(C1'-C1')=11.27 d(N1-N9)=10.07 d(C6-C8)=10.59 tor(N1-C1'-C1'-N9)=6.0
+       H-bonds[1]: "O2(carbonyl)-N6(amino)[3.79]"
+       bp_pars: [7.79    -2.65   1.03    -15.63  9.38    -2.27]
+  27 A.U33            A.A36            [U-A]              00-n/a    ... t...
+       -161.4(anti) C3'-endo lambda=72.0; -179.0(anti) C3'-endo lambda=45.6
+       d(C1'-C1')=7.25 d(N1-N9)=6.26 d(C6-C8)=6.28 tor(N1-C1'-C1'-N9)=-166.3
+       H-bonds[3]: "O2(carbonyl)*N7[3.19]; N3(imino)-O5'[3.20]; O4(carbonyl)*OP2[2.72]"
+       bp_pars: [6.14    -7.47   0.36    11.69   12.61   -84.11]
+  28 A.5MC49          A.G65            [c-G] WC           19-XIX    cWW cW-W
+       -166.9(anti) C3'-endo lambda=53.3; -175.4(anti) C3'-endo lambda=54.4
+       d(C1'-C1')=10.52 d(N1-N9)=8.78 d(C6-C8)=9.65 tor(N1-C1'-C1'-N9)=-3.0
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.65]; N3-N1(imino)[2.65]; N4(amino)-O6(carbonyl)[2.55]"
+       bp_pars: [0.05    -0.38   -0.01   0.26    -3.97   -2.74]
+  29 A.U50            A.A64            [U-A] WC           20-XX     cWW cW-W
+       169.3(anti) C3'-endo lambda=50.4; -177.4(anti) C3'-endo lambda=52.6
+       d(C1'-C1')=10.70 d(N1-N9)=8.86 d(C6-C8)=9.66 tor(N1-C1'-C1'-N9)=3.2
+       H-bonds[2]: "N3(imino)-N1[2.73]; O4(carbonyl)-N6(amino)[2.50]"
+       bp_pars: [-0.20   -0.28   0.19    0.24    7.63    -7.45]
+  30 A.G51            A.C63            [G-C] WC           19-XIX    cWW cW-W
+       -173.2(anti) C4'-exo  lambda=51.6; -155.6(anti) C3'-endo lambda=53.4
+       d(C1'-C1')=10.66 d(N1-N9)=8.86 d(C6-C8)=9.67 tor(N1-C1'-C1'-N9)=-2.3
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.55]; N1(imino)-N3[2.76]; N2(amino)-O2(carbonyl)[2.87]"
+       bp_pars: [-0.31   -0.36   -0.18   -1.54   -5.21   -5.21]
+  31 A.U52            A.A62            [U-A] WC           20-XX     cWW cW-W
+       -171.7(anti) C3'-endo lambda=53.4; -168.0(anti) C3'-endo lambda=54.1
+       d(C1'-C1')=10.64 d(N1-N9)=8.89 d(C6-C8)=9.79 tor(N1-C1'-C1'-N9)=-5.4
+       H-bonds[2]: "N3(imino)-N1[2.81]; O4(carbonyl)-N6(amino)[2.79]"
+       bp_pars: [-0.08   -0.17   0.21    -0.81   -4.99   -3.10]
+  32 A.G53            A.C61            [G-C] WC           19-XIX    cWW cW-W
+       -179.0(anti) C3'-endo lambda=54.1; -176.6(anti) C3'-endo lambda=55.4
+       d(C1'-C1')=10.84 d(N1-N9)=9.13 d(C6-C8)=10.04 tor(N1-C1'-C1'-N9)=-2.5
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.03]; N1(imino)-N3[3.05]; N2(amino)-O2(carbonyl)[2.97]"
+       bp_pars: [-0.27   0.01    0.21    1.53    -0.82   -0.92]
+  33 A.5MU54          A.1MA58          [u-a] rHoogsteen   24-XXIV   tWH tW-M
+       -151.3(anti) C3'-endo lambda=27.0; -96.7(anti) C2'-endo lambda=22.9
+       d(C1'-C1')=9.72 d(N1-N9)=7.15 d(C6-C8)=6.09 tor(N1-C1'-C1'-N9)=-177.6
+       H-bonds[2]: "N3(imino)-N7[2.79]; O2(carbonyl)-N6(amino)[3.22]"
+       bp_pars: [4.07    -1.56   0.02    2.01    7.66    -106.91]
+****************************************************************************
+List of 4 multiplet(s)
+   1 nts=3 A.U8+A.A14+A.A21 [UAA]
+   2 nts=3 A.A9+A.U12+A.A23 [AUA]
+   3 nts=3 A.2MG10+A.C25+A.G45 [gCG]
+   4 nts=3 A.C13+A.G22+A.7MG46 [CGg]
+****************************************************************************
+List of 2 helices
+  helix=1[2] bps=15
+   1 A.G1             A.C72            [G-C] WC           19-XIX    cWW cW-W
+   2 A.C2             A.G71            [C-G] WC           19-XIX    cWW cW-W
+   3 A.G3             A.C70            [G-C] WC           19-XIX    cWW cW-W
+   4 A.G4             A.U69            [G-U] Wobble       28-XXVIII cWW cW-W
+   5 A.A5             A.U68            [A-U] WC           20-XX     cWW cW-W
+   6 A.U6             A.A67            [U-A] WC           20-XX     cWW cW-W
+   7 A.U7             A.A66            [U-A] WC           20-XX     cWW cW-W
+   8 A.5MC49          A.G65            [c-G] WC           19-XIX    cWW cW-W
+   9 A.U50            A.A64            [U-A] WC           20-XX     cWW cW-W
+  10 A.G51            A.C63            [G-C] WC           19-XIX    cWW cW-W
+  11 A.U52            A.A62            [U-A] WC           20-XX     cWW cW-W
+  12 A.G53            A.C61            [G-C] WC           19-XIX    cWW cW-W
+  13 A.5MU54          A.1MA58          [u-a] rHoogsteen   24-XXIV   tWH tW-M
+  14 A.PSU55          A.G18            [P+G]              00-n/a    tSW tm+W
+  15 A.C56            A.G19            [C-G] WC           19-XIX    cWW cW-W
+
+  helix=2[2] bps=14
+   1 A.A36            A.U33            [A-U]              00-n/a    ... t...
+   2 A.A38            A.OMC32          [A-c]              00-n/a    tH. cM-.
+   3 A.PSU39          A.A31            [P-A]              00-n/a    cWW cW-W
+   4 A.5MC40          A.G30            [c-G] WC           19-XIX    cWW cW-W
+   5 A.U41            A.A29            [U-A] WC           20-XX     cWW cW-W
+   6 A.G42            A.C28            [G-C] WC           19-XIX    cWW cW-W
+   7 A.G43            A.C27            [G-C] WC           19-XIX    cWW cW-W
+   8 A.A44            A.M2G26          [A-g]              00-n/a    cWW cW-W
+   9 A.2MG10          A.C25            [g-C] WC           19-XIX    cWW cW-W
+  10 A.C11            A.G24            [C-G] WC           19-XIX    cWW cW-W
+  11 A.U12            A.A23            [U-A] WC           20-XX     cWW cW-W
+  12 A.C13            A.G22            [C-G] WC           19-XIX    cWW cW-W
+  13 A.A14            A.U8             [A-U] rHoogsteen   24-XXIV   tHW tM-W
+  14 A.G15            A.C48            [G+C] rWC          22-XXII   tWW tW+W
+****************************************************************************
+List of 4 stems
+  stem=1[#1] bps=7
+   1 A.G1             A.C72            [G-C] WC           19-XIX    cWW cW-W
+   2 A.C2             A.G71            [C-G] WC           19-XIX    cWW cW-W
+   3 A.G3             A.C70            [G-C] WC           19-XIX    cWW cW-W
+   4 A.G4             A.U69            [G-U] Wobble       28-XXVIII cWW cW-W
+   5 A.A5             A.U68            [A-U] WC           20-XX     cWW cW-W
+   6 A.U6             A.A67            [U-A] WC           20-XX     cWW cW-
+total number of ribose zippers: 0 (1)
+
+Time used: 00:00:00:00
+W
+   7 A.U7             A.A66            [U-A] WC           20-XX     cWW cW-W
+
+  stem=2[#2] bps=4
+   1 A.2MG10          A.C25            [g-C] WC           19-XIX    cWW cW-W
+   2 A.C11            A.G24            [C-G] WC           19-XIX    cWW cW-W
+   3 A.U12            A.A23            [U-A] WC           20-XX     cWW cW-W
+   4 A.C13            A.G22            [C-G] WC           19-XIX    cWW cW-W
+
+  stem=3[#2] bps=4
+   1 A.C27            A.G43            [C-G] WC           19-XIX    cWW cW-W
+   2 A.C28            A.G42            [C-G] WC           19-XIX    cWW cW-W
+   3 A.A29            A.U41            [A-U] WC           20-XX     cWW cW-W
+   4 A.G30            A.5MC40          [G-c] WC           19-XIX    cWW cW-W
+
+  stem=4[#1] bps=5
+   1 A.5MC49          A.G65            [c-G] WC           19-XIX    cWW cW-W
+   2 A.U50            A.A64            [U-A] WC           20-XX     cWW cW-W
+   3 A.G51            A.C63            [G-C] WC           19-XIX    cWW cW-W
+   4 A.U52            A.A62            [U-A] WC           20-XX     cWW cW-W
+   5 A.G53            A.C61            [G-C] WC           19-XIX    cWW cW-W
+****************************************************************************
+List of 1 lone WC/wobble pair(s)
+  -1 A.G19            A.C56            [G-C] WC           19-XIX    cWW cW-W
+****************************************************************************
+List of 2 coaxial stack(s)
+   1 Helix#1 contains 2 stems: [#1, #4]
+   2 Helix#2 contains 2 stems: [#2, #3]
+****************************************************************************
+List of 3 hairpin loop(s)
+   1 nts=8 AGuuGGGA closed by pair {A.C13+A.G22 [CG], #2}
+       A.C13+A.A14+A.G15+A.H2U16+A.H2U17+A.G18+A.G19+A.G20+A.A21+A.G22 [CAGuuGGGAG]
+   2 nts=9 AcUgAAgAP closed by pair {A.G30+A.5MC40 [Gc], #3}
+       A.G30+A.A31+A.OMC32+A.U33+A.OMG34+A.A35+A.A36+A.YG37+A.A38+A.PSU39+A.5MC40 [GAcUgAAgAPc]
+   3 nts=7 uPCGaUC closed by pair {A.G53+A.C61 [GC], #4}
+       A.G53+A.5MU54+A.PSU55+A.C56+A.G57+A.1MA58+A.U59+A.C60+A.C61 [GuPCGaUCC]
+****************************************************************************
+List of 1 junction(s)
+   1 4-way junctions: 16 nts; [2x1x5x0]; linked by [#1, #2, #3, #4]
+       A.U7+A.U8+A.A9+A.2MG10+A.C25+A.M2G26+A.C27+A.G43+A.A44+A.G45+A.7MG46+A.U47+A.C48+A.5MC49+A.G65+A.A66 [UUAgCgCGAGgUCcGA]
+
+This structure contains pseudo-knot(s).
+****************************************************************************
+>chain-A #1 RNA with 76 nts
+GCGGAUUUAgCUCAGuuGGGAGAGCgCCAGAcUgAAgAPcUGGAGgUCcUGUGuPCGaUCCACAGAAUUCGCACCA
+(((((((..((((.....[..)))).((((.........)))).....(((((..]....))))))))))))....
+	A.CCC89	0.11
+	B.CCC89	0.10
+
+Processing file 'test_data/3skz.pdb'
+
+total number of base pairs: 67
+
+total number of multiplets: 10
+
+total number of helices: 4
+
+total number of stems: 8
+
+total number of hairpin loops: 6
+
+total number of bulges: 0
+
+total number of internal loops: 0
+
+total number of junctions: 0
+****************************************************************************
+    DSSR: Software for Defining the (Secondary) Structures of RNA
+      by Xiang-Jun Lu (xiangjun@x3dna.org), beta-r08-on-20130323
+
+   The program is currently under active development. As always, we
+   greatly appreciate your feedback! Please report all DSSR-related
+   issues on the 3DNA Forum (http://forum.x3dna.org/), and I strive
+   to promptly respond to any questions posted there.
+****************************************************************************
+Date and time: Sat Nov 23 17:52:34 2013
+File name: test_data/3skz.pdb
+    no. of DNA/RNA chains: 2 [A=69, B=69]
+    no. of nucleotides:    138
+    no. of waters:         7
+    no. of metals:         3 [Mg=3]
+****************************************************************************
+List of 67 base pair(s)
+   1 A.GTP22          A.CCC89          [g-c] WC           19-XIX    cWW cW-W
+       -167.9(anti) C3'-endo lambda=51.4; -129.8(anti) C4'-exo  lambda=57.5
+       d(C1'-C1')=10.67 d(N1-N9)=8.96 d(C6-C8)=9.79 tor(N1-C1'-C1'-N9)=-6.0
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.38]; N1(imino)-N3[3.01]; N2(amino)-O2(carbonyl)[3.05]"
+       bp_pars: [-0.89   -0.15   -0.32   -12.91  -14.24  1.86]
+   2 A.G23            A.U88            [G-U] Wobble       28-XXVIII cWW cW-W
+       -170.1(anti) C3'-endo lambda=40.8; -160.4(anti) C3'-endo lambda=72.5
+       d(C1'-C1')=10.45 d(N1-N9)=8.89 d(C6-C8)=9.85 tor(N1-C1'-C1'-N9)=-12.0
+       H-bonds[2]: "O6(carbonyl)-N3(imino)[3.01]; N1(imino)-O2(carbonyl)[2.75]"
+       bp_pars: [-2.68   -0.50   0.71    11.28   -12.39  3.09]
+   3 A.C24            A.G87            [C-G] WC           19-XIX    cWW cW-W
+       -161.1(anti) C3'-endo lambda=56.6; -168.7(anti) C3'-endo lambda=58.6
+       d(C1'-C1')=10.37 d(N1-N9)=8.79 d(C6-C8)=9.76 tor(N1-C1'-C1'-N9)=-14.1
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.74]; N3-N1(imino)[2.73]; N4(amino)-O6(carbonyl)[2.87]"
+       bp_pars: [0.09    -0.26   0.25    7.42    -21.01  0.80]
+   4 A.C25            A.G86            [C-G] WC           19-XIX    cWW cW-W
+       -168.8(anti) C3'-endo lambda=57.6; -171.6(anti) C3'-endo lambda=53.5
+       d(C1'-C1')=10.59 d(N1-N9)=8.92 d(C6-C8)=9.90 tor(N1-C1'-C1'-N9)=-10.8
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.74]; N3-N1(imino)[2.91]; N4(amino)-O6(carbonyl)[3.11]"
+       bp_pars: [0.39    -0.11   0.45    -10.23  -11.43  2.33]
+   5 A.U26            A.A85            [U-A] WC           20-XX     cWW cW-W
+       -170.4(anti) C3'-endo lambda=58.9; -156.0(anti) C3'-endo lambda=51.6
+       d(C1'-C1')=10.84 d(N1-N9)=9.16 d(C6-C8)=10.13 tor(N1-C1'-C1'-N9)=-9.8
+       H-bonds[2]: "N3(imino)-N1[3.14]; O4(carbonyl)-N6(amino)[3.23]"
+       bp_pars: [0.28    0.16    0.41    -0.95   -5.86   1.32]
+   6 A.U27            A.A84            [U-A] WC           20-XX     cWW cW-W
+       -162.9(anti) C3'-endo lambda=56.0; -161.1(anti) C3'-endo lambda=54.3
+       d(C1'-C1')=10.72 d(N1-N9)=9.03 d(C6-C8)=9.89 tor(N1-C1'-C1'-N9)=-6.4
+       H-bonds[2]: "N3(imino)-N1[2.95]; O4(carbonyl)-N6(amino)[2.82]"
+       bp_pars: [0.08    -0.05   -0.46   7.24    -16.06  -2.38]
+   7 A.A28            A.U83            [A-U] WC           20-XX     cWW cW-W
+       -172.8(anti) C3'-endo lambda=58.6; -150.9(anti) C3'-endo lambda=60.6
+       d(C1'-C1')=10.49 d(N1-N9)=9.00 d(C6-C8)=10.08 tor(N1-C1'-C1'-N9)=-10.4
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[3.45]; N1-N3(imino)[3.10]"
+       bp_pars: [-0.05   0.26    -0.22   -17.85  -15.68  6.55]
+   8 A.U29            A.A82            [U-A] WC           20-XX     cWW cW-W
+       -155.0(anti) C3'-endo lambda=59.0; -155.3(anti) C3'-endo lambda=59.2
+       d(C1'-C1')=10.40 d(N1-N9)=8.89 d(C6-C8)=9.97 tor(N1-C1'-C1'-N9)=-13.8
+       H-bonds[2]: "N3(imino)-N1[2.95]; O4(carbonyl)-N6(amino)[3.28]"
+       bp_pars: [-0.19   0.07    0.31    -12.39  -17.91  4.55]
+   9 A.A30            A.U81            [A-U] WC           20-XX     cWW cW-W
+       -141.3(anti) C3'-endo lambda=55.2; -161.6(anti) C3'-endo lambda=57.3
+       d(C1'-C1')=10.77 d(N1-N9)=9.14 d(C6-C8)=9.96 tor(N1-C1'-C1'-N9)=-5.1
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.76]; N1-N3(imino)[3.13]"
+       bp_pars: [-0.33   0.04    0.49    11.26   -2.62   -8.77]
+  10 A.C31            A.G59            [C-G] WC           19-XIX    cWW cW-W
+       -142.5(anti) C2'-endo lambda=53.9; -173.4(anti) C3'-endo lambda=54.3
+       d(C1'-C1')=10.68 d(N1-N9)=8.94 d(C6-C8)=9.83 tor(N1-C1'-C1'-N9)=-7.0
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.95]; N3-N1(imino)[2.92]; N4(amino)-O6(carbonyl)[2.75]"
+       bp_pars: [0.58    -0.23   -0.18   4.34    -12.50  -2.23]
+  11 A.A32            A.G53            [A+G]              00-n/a    tWS tW+m
+       92.6(syn) C4'-exo  lambda=22.0; -148.5(anti) C3'-endo lambda=103.1
+       d(C1'-C1')=9.54 d(N1-N9)=8.74 d(C6-C8)=10.12 tor(N1-C1'-C1'-N9)=175.8
+       H-bonds[2]: "N6(amino)-O2'(hydroxyl)[2.97]; N1-N2(amino)[2.83]"
+       bp_pars: [-1.43   5.12    -0.01   3.81    -0.77   96.22]
+  12 A.G33            A.G34            [G+G] Platform     00-n/a    cSH cm+M
+       -125.2(anti) C1'-exo  lambda=145.2; -174.0(anti) C3'-endo lambda=42.1
+       d(C1'-C1')=6.84 d(N1-N9)=6.94 d(C6-C8)=6.92 tor(N1-C1'-C1'-N9)=10.1
+       H-bonds[1]: "N2(amino)-O6(carbonyl)[2.82]"
+       bp_pars: [7.34    0.81    -0.46   -1.02   6.62    5.76]
+  13 A.G33            A.U52            [G-U]              00-n/a    cWW cW-W
+       -125.2(anti) C1'-exo  lambda=86.6; -160.0(anti) C3'-endo lambda=36.6
+       d(C1'-C1')=12.00 d(N1-N9)=10.76 d(C6-C8)=11.83 tor(N1-C1'-C1'-N9)=-16.3
+       H-bonds[1]: "N2(amino)-O4(carbonyl)[2.88]"
+       bp_pars: [5.28    0.55    1.04    6.67    -13.00  7.84]
+  14 A.G34            A.U52            [G-U] Wobble       28-XXVIII cWW cW-W
+       -174.0(anti) C3'-endo lambda=44.3; -160.0(anti) C3'-endo lambda=69.9
+       d(C1'-C1')=10.30 d(N1-N9)=8.75 d(C6-C8)=9.73 tor(N1-C1'-C1'-N9)=-14.8
+       H-bonds[3]: "O6(carbonyl)-N3(imino)[2.92]; N1(imino)-O2(carbonyl)[2.78]; N2(amino)-O2(carbonyl)[3.35]"
+       bp_pars: [-1.97   -0.47   0.30    8.79    -19.18  1.82]
+  15 A.G35            A.C51            [G-C] WC           19-XIX    cWW cW-W
+       -173.3(anti) C3'-endo lambda=52.6; -165.8(anti) C3'-endo lambda=53.8
+       d(C1'-C1')=10.86 d(N1-N9)=9.09 d(C6-C8)=9.96 tor(N1-C1'-C1'-N9)=-9.2
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.91]; N1(imino)-N3[2.96]; N2(amino)-O2(carbonyl)[2.97]"
+       bp_pars: [-0.04   -0.05   0.20    -5.35   -12.52  -1.94]
+  16 A.U36            A.A50            [U-A] WC           20-XX     cWW cW-W
+       -159.6(anti) C3'-endo lambda=56.5; -156.3(anti) C3'-endo lambda=55.2
+       d(C1'-C1')=10.41 d(N1-N9)=8.75 d(C6-C8)=9.76 tor(N1-C1'-C1'-N9)=-10.4
+       H-bonds[2]: "N3(imino)-N1[2.78]; O4(carbonyl)-N6(amino)[3.00]"
+       bp_pars: [0.29    -0.17   0.14    -7.07   -10.17  3.52]
+  17 A.A37            A.U49            [A-U] WC           20-XX     cWW cW-W
+       -151.0(anti) C3'-endo lambda=59.4; -163.4(anti) C3'-endo lambda=55.4
+       d(C1'-C1')=10.43 d(N1-N9)=8.84 d(C6-C8)=9.82 tor(N1-C1'-C1'-N9)=-6.0
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.73]; N1-N3(imino)[2.70]"
+       bp_pars: [0.46    -0.18   0.11    0.81    -4.43   0.36]
+  18 A.G38            A.C48            [G-C] WC           19-XIX    cWW cW-W
+       -167.8(anti) C3'-endo lambda=56.1; -155.1(anti) C3'-endo lambda=55.9
+       d(C1'-C1')=10.61 d(N1-N9)=8.96 d(C6-C8)=9.98 tor(N1-C1'-C1'-N9)=-11.2
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.11]; N1(imino)-N3[2.92]; N2(amino)-O2(carbonyl)[2.70]"
+       bp_pars: [-0.07   -0.04   0.32    -4.86   -13.36  3.39]
+  19 A.C39            A.G47            [C-G] WC           19-XIX    cWW cW-W
+       -166.8(anti) C3'-endo lambda=58.2; -172.1(anti) C3'-endo lambda=57.0
+       d(C1'-C1')=10.51 d(N1-N9)=8.93 d(C6-C8)=9.98 tor(N1-C1'-C1'-N9)=-7.7
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.71]; N3-N1(imino)[3.02]; N4(amino)-O6(carbonyl)[3.25]"
+       bp_pars: [0.39    -0.01   0.30    9.28    -11.20  4.50]
+  20 A.A42            A.G45            [A-G]              00-n/a    cWS cW-m
+       -174.0(anti) C3'-endo lambda=91.4; -176.0(anti) C3'-endo lambda=143.6
+       d(C1'-C1')=5.41 d(N1-N9)=6.68 d(C6-C8)=9.04 tor(N1-C1'-C1'-N9)=28.0
+       H-bonds[2]: "N1-N2(amino)[2.85]; N3-O2'(hydroxyl)[2.68]"
+       bp_pars: [-2.43   4.70    -1.97   43.07   17.75   128.24]
+  21 A.G45            A.C69            [G-C] WC           19-XIX    cWW cW-W
+       -176.0(anti) C3'-endo lambda=53.3; -132.2(anti) C2'-endo lambda=57.4
+       d(C1'-C1')=10.55 d(N1-N9)=8.88 d(C6-C8)=9.74 tor(N1-C1'-C1'-N9)=-2.1
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.76]; N1(imino)-N3[2.91]; N2(amino)-O2(carbonyl)[2.93]"
+       bp_pars: [-0.62   -0.23   -0.26   -15.96  -9.67   -3.90]
+  22 A.G46            A.C68            [G-C] WC           19-XIX    cWW cW-W
+       -157.1(anti) C3'-endo lambda=52.8; 178.5(anti) C3'-endo lambda=54.9
+       d(C1'-C1')=10.68 d(N1-N9)=8.93 d(C6-C8)=9.84 tor(N1-C1'-C1'-N9)=-10.3
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.93]; N1(imino)-N3[2.92]; N2(amino)-O2(carbonyl)[2.88]"
+       bp_pars: [-0.40   -0.17   0.14    -6.63   -10.52  -0.77]
+  23 A.G53            A.C60            [G-C] WC           19-XIX    cWW cW-W
+       -148.5(anti) C3'-endo lambda=51.4; -160.5(anti) C3'-endo lambda=55.6
+       d(C1'-C1')=10.65 d(N1-N9)=8.94 d(C6-C8)=9.86 tor(N1-C1'-C1'-N9)=-12.4
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.82]; N1(imino)-N3[2.87]; N2(amino)-O2(carbonyl)[2.89]"
+       bp_pars: [-0.02   -0.13   0.42    14.08   -14.02  -3.04]
+  24 A.C57            A.U81            [C-U]              00-n/a    cWS cW-m
+       -168.3(anti) C3'-endo lambda=38.5; -161.6(anti) C3'-endo lambda=141.2
+       d(C1'-C1')=7.87 d(N1-N9)=7.87 d(C6-C8)=9.50 tor(N1-C1'-C1'-N9)=-38.0
+       H-bonds[3]: "O2(carbonyl)-O2'(hydroxyl)[3.12]; N3-O2'(hydroxyl)[2.66]; N4(amino)-O2(carbonyl)[3.24]"
+       bp_pars: [-5.91   -0.72   0.33    14.10   -21.25  73.51]
+  25 A.C58            A.GMP120         [C+g]              29-XXIX*  tWS tW+m
+       -163.9(anti) C3'-endo lambda=9.7; -62.9(anti) C3'-endo lambda=102.0
+       d(C1'-C1')=9.31 d(N1-N9)=8.30 d(C6-C8)=9.39 tor(N1-C1'-C1'-N9)=107.6
+       H-bonds[2]: "N3-N2(amino)[2.99]; N4(amino)-N3[3.35]"
+       bp_pars: [-1.90   3.10    0.70    2.32    -8.57   86.32]
+  26 A.C61            A.G78            [C-G] WC           19-XIX    cWW cW-W
+       -163.4(anti) C3'-endo lambda=59.3; -178.2(anti) C3'-endo lambda=55.2
+       d(C1'-C1')=10.57 d(N1-N9)=8.98 d(C6-C8)=9.94 tor(N1-C1'-C1'-N9)=-4.7
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.90]; N3-N1(imino)[2.93]; N4(amino)-O6(carbonyl)[2.84]"
+       bp_pars: [0.18    -0.10   -0.33   6.36    -12.07  0.18]
+  27 A.U62            A.A77            [U-A] WC           20-XX     cWW cW-W
+       -157.5(anti) C3'-endo lambda=58.0; -158.1(anti) C3'-endo lambda=54.1
+       d(C1'-C1')=10.50 d(N1-N9)=8.85 d(C6-C8)=9.82 tor(N1-C1'-C1'-N9)=-10.1
+       H-bonds[2]: "N3(imino)-N1[2.87]; O4(carbonyl)-N6(amino)[3.05]"
+       bp_pars: [0.31    -0.13   0.11    -1.38   -12.15  1.44]
+  28 A.U63            A.G76            [U-G] Wobble       28-XXVIII cWW cW-W
+       -164.8(anti) C3'-endo lambda=66.4; -160.1(anti) C3'-endo lambda=48.0
+       d(C1'-C1')=10.32 d(N1-N9)=8.75 d(C6-C8)=9.66 tor(N1-C1'-C1'-N9)=1.9
+       H-bonds[4]: "O2(carbonyl)-N1(imino)[2.97]; O2(carbonyl)-N2(amino)[3.01]; N3(imino)-O6(carbonyl)[2.96]; O4(carbonyl)*O6(carbonyl)[2.92]"
+       bp_pars: [1.20    -0.43   0.10    1.71    0.15    -2.79]
+  29 A.C64            A.G75            [C-G] WC           19-XIX    cWW cW-W
+       -156.9(anti) C3'-endo lambda=52.1; -173.8(anti) C3'-endo lambda=54.9
+       d(C1'-C1')=10.71 d(N1-N9)=8.98 d(C6-C8)=9.77 tor(N1-C1'-C1'-N9)=-5.0
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[3.24]; N3-N1(imino)[2.88]; N4(amino)-O6(carbonyl)[2.59]"
+       bp_pars: [0.16    -0.23   -0.51   10.56   -18.89  -7.12]
+  30 A.A65            A.U74            [A-U] WC           20-XX     cWW cW-W
+       -165.1(anti) C3'-endo lambda=61.7; -153.2(anti) C3'-endo lambda=56.8
+       d(C1'-C1')=10.19 d(N1-N9)=8.69 d(C6-C8)=9.74 tor(N1-C1'-C1'-N9)=-3.3
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.84]; N1-N3(imino)[2.69]"
+       bp_pars: [0.10    -0.21   -0.43   -11.08  -11.31  2.98]
+  31 A.A66            A.U73            [A-U] WC           20-XX     cWW cW-W
+       -152.4(anti) C3'-endo lambda=57.3; -162.7(anti) C3'-endo lambda=54.2
+       d(C1'-C1')=10.73 d(N1-N9)=9.08 d(C6-C8)=10.05 tor(N1-C1'-C1'-N9)=-4.1
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[3.20]; N1-N3(imino)[3.05]"
+       bp_pars: [0.94    0.03    -0.49   3.97    -7.69   1.76]
+  32 A.A67            A.U72            [A-U] WC           20-XX     cWW cW-W
+       -151.9(anti) C3'-endo lambda=60.7; -105.1(anti) C2'-endo lambda=64.8
+       d(C1'-C1')=10.22 d(N1-N9)=8.87 d(C6-C8)=10.03 tor(N1-C1'-C1'-N9)=-3.2
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[3.39]; N1-N3(imino)[2.99]"
+       bp_pars: [0.14    0.12    -0.26   8.60    -10.21  9.71]
+  33 A.C80            A.GMP120         [C-g] WC           19-XIX    cWW cW-W
+       -169.7(anti) C3'-endo lambda=50.5; -62.9(anti) C3'-endo lambda=53.5
+       d(C1'-C1')=10.87 d(N1-N9)=9.06 d(C6-C8)=9.92 tor(N1-C1'-C1'-N9)=-20.3
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.96]; N3-N1(imino)[2.86]; N4(amino)-O6(carbonyl)[3.03]"
+       bp_pars: [0.08    -0.17   0.49    4.50    -18.64  -5.23]
+  34 B.GTP22          B.CCC89          [g-c] WC           19-XIX    cWW cW-W
+       165.0(anti) C3'-endo lambda=50.2; -135.4(anti) O4'-endo lambda=56.4
+       d(C1'-C1')=10.90 d(N1-N9)=9.14 d(C6-C8)=9.96 tor(N1-C1'-C1'-N9)=0.1
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.33]; N1(imino)-N3[2.99]; N2(amino)-O2(carbonyl)[2.94]"
+       bp_pars: [-0.35   -0.01   0.00    -3.00   -1.17   0.84]
+  35 B.G23            B.U88            [G-U] Wobble       28-XXVIII cWW cW-W
+       -164.7(anti) C3'-endo lambda=47.3; -154.3(anti) C3'-endo lambda=72.0
+       d(C1'-C1')=10.42 d(N1-N9)=8.97 d(C6-C8)=10.07 tor(N1-C1'-C1'-N9)=-15.4
+       H-bonds[3]: "O6(carbonyl)-N3(imino)[3.26]; N1(imino)-O2(carbonyl)[2.86]; N2(amino)-O2(carbonyl)[3.35]"
+       bp_pars: [-2.16   -0.15   0.20    4.17    -19.24  8.52]
+  36 B.C24            B.G87            [C-G] WC           19-XIX    cWW cW-W
+       -162.9(anti) C3'-endo lambda=55.5; -161.5(anti) C3'-endo lambda=60.7
+       d(C1'-C1')=10.49 d(N1-N9)=8.92 d(C6-C8)=9.93 tor(N1-C1'-C1'-N9)=-7.5
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.74]; N3-N1(imino)[2.87]; N4(amino)-O6(carbonyl)[2.95]"
+       bp_pars: [-0.27   -0.10   -0.03   5.79    -15.32  2.51]
+  37 B.C25            B.G86            [C-G] WC           19-XIX    cWW cW-W
+       -167.2(anti) C3'-endo lambda=61.1; -175.8(anti) C3'-endo lambda=57.9
+       d(C1'-C1')=10.75 d(N1-N9)=9.26 d(C6-C8)=10.24 tor(N1-C1'-C1'-N9)=-6.2
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[3.17]; N3-N1(imino)[3.23]; N4(amino)-O6(carbonyl)[3.23]"
+       bp_pars: [0.13    0.17    0.59    4.63    -8.72   -0.25]
+  38 B.U26            B.A85            [U-A] WC           20-XX     cWW cW-W
+       -157.8(anti) C3'-endo lambda=62.3; -153.5(anti) C3'-endo lambda=62.4
+       d(C1'-C1')=10.15 d(N1-N9)=8.77 d(C6-C8)=10.04 tor(N1-C1'-C1'-N9)=-8.4
+       H-bonds[2]: "N3(imino)-N1[2.95]; O4(carbonyl)-N6(amino)[3.51]"
+       bp_pars: [-0.10   0.16    0.09    1.14    -12.42  14.34]
+  39 B.U27            B.A84            [U-A] WC           20-XX     cWW cW-W
+       -147.0(anti) C3'-endo lambda=56.4; -151.5(anti) C3'-endo lambda=64.4
+       d(C1'-C1')=10.07 d(N1-N9)=8.61 d(C6-C8)=9.82 tor(N1-C1'-C1'-N9)=-7.8
+       H-bonds[2]: "N3(imino)-N1[2.81]; O4(carbonyl)-N6(amino)[3.36]"
+       bp_pars: [-0.76   -0.13   -0.54   5.68    -16.51  13.25]
+  40 B.A28            B.U83            [A-U] WC           20-XX     cWW cW-W
+       -164.9(anti) C3'-endo lambda=58.1; -162.9(anti) C3'-endo lambda=58.6
+       d(C1'-C1')=10.50 d(N1-N9)=8.95 d(C6-C8)=10.04 tor(N1-C1'-C1'-N9)=-6.5
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[3.29]; N1-N3(imino)[3.00]"
+       bp_pars: [0.11    0.11    0.38    -5.88   -4.27   6.14]
+  41 B.U29            B.A82            [U-A] WC           20-XX     cWW cW-W
+       -151.2(anti) C3'-endo lambda=54.4; -172.0(anti) C3'-endo lambda=55.3
+       d(C1'-C1')=10.68 d(N1-N9)=8.98 d(C6-C8)=9.89 tor(N1-C1'-C1'-N9)=-12.0
+       H-bonds[2]: "N3(imino)-N1[2.85]; O4(carbonyl)-N6(amino)[2.87]"
+       bp_pars: [-0.18   -0.09   0.26    0.51    -13.94  -2.11]
+  42 B.A30            B.U81            [A-U] WC           20-XX     cWW cW-W
+       -150.4(anti) C3'-endo lambda=57.5; -174.2(anti) C3'-endo lambda=56.0
+       d(C1'-C1')=10.75 d(N1-N9)=9.13 d(C6-C8)=10.12 tor(N1-C1'-C1'-N9)=-9.1
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[3.30]; N1-N3(imino)[3.11]"
+       bp_pars: [0.30    0.16    0.78    10.12   -4.54   1.23]
+  43 B.C31            B.G59            [C-G] WC           19-XIX    cWW cW-W
+       -140.0(anti) C2'-endo lambda=63.6; -178.0(anti) C3'-endo lambda=51.6
+       d(C1'-C1')=10.42 d(N1-N9)=8.85 d(C6-C8)=9.79 tor(N1-C1'-C1'-N9)=-5.2
+       H-bonds[4]: "O2(carbonyl)-N1(imino)[3.17]; O2(carbonyl)-N2(amino)[3.06]; N3-N1(imino)[3.04]; N4(amino)-O6(carbonyl)[3.00]"
+       bp_pars: [1.18    -0.32   -0.11   5.87    -10.53  -0.26]
+  44 B.A32            B.G53            [A+G]              00-n/a    tWS tW+m
+       88.5(syn) C3'-endo lambda=13.6; -146.4(anti) C3'-endo lambda=106.1
+       d(C1'-C1')=9.41 d(N1-N9)=8.56 d(C6-C8)=9.79 tor(N1-C1'-C1'-N9)=158.5
+       H-bonds[2]: "N6(amino)-O2'(hydroxyl)[2.74]; N1-N2(amino)[2.71]"
+       bp_pars: [-1.87   4.69    0.38    3.34    -2.68   86.13]
+  45 B.G33            B.G34            [G+G] Platform     00-n/a    cSH cm+M
+       -120.8(anti) C1'-exo  lambda=144.6; 176.8(anti) C3'-endo lambda=42.8
+       d(C1'-C1')=6.85 d(N1-N9)=6.96 d(C6-C8)=6.91 tor(N1-C1'-C1'-N9)=5.9
+       H-bonds[1]: "N2(amino)-O6(carbonyl)[3.11]"
+       bp_pars: [7.55    0.59    -0.69   2.77    2.21    7.86]
+  46 B.G33            B.U52            [G-U]              00-n/a    cWW cW-W
+       -120.8(anti) C1'-exo  lambda=84.0; -161.9(anti) C3'-endo lambda=38.2
+       d(C1'-C1')=11.80 d(N1-N9)=10.50 d(C6-C8)=11.61 tor(N1-C1'-C1'-N9)=-12.0
+       H-bonds[1]: "N2(amino)-O4(carbonyl)[2.61]"
+       bp_pars: [4.99    0.53    0.47    8.37    -12.04  12.42]
+  47 B.G34            B.U52            [G-U] Wobble       28-XXVIII cWW cW-W
+       176.8(anti) C3'-endo lambda=41.2; -161.9(anti) C3'-endo lambda=72.7
+       d(C1'-C1')=10.36 d(N1-N9)=8.81 d(C6-C8)=9.78 tor(N1-C1'-C1'-N9)=-9.2
+       H-bonds[2]: "O6(carbonyl)-N3(imino)[2.95]; N1(imino)-O2(carbonyl)[2.66]"
+       bp_pars: [-2.51   -0.53   0.22    6.67    -13.92  4.11]
+  48 B.G35            B.C51            [G-C] WC           19-XIX    cWW cW-W
+       -161.3(anti) C3'-endo lambda=54.9; -169.1(anti) C3'-endo lambda=58.2
+       d(C1'-C1')=10.75 d(N1-N9)=9.13 d(C6-C8)=10.15 tor(N1-C1'-C1'-N9)=-16.9
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.33]; N1(imino)-N3[3.07]; N2(amino)-O2(carbonyl)[2.90]"
+       bp_pars: [-0.10   0.13    0.22    -1.79   -21.33  4.56]
+  49 B.U36            B.A50            [U-A] WC           20-XX     cWW cW-W
+       -165.7(anti) C3'-endo lambda=56.6; -150.4(anti) C3'-endo lambda=59.9
+       d(C1'-C1')=10.45 d(N1-N9)=8.91 d(C6-C8)=10.03 tor(N1-C1'-C1'-N9)=-11.8
+       H-bonds[2]: "N3(imino)-N1[3.01]; O4(carbonyl)-N6(amino)[3.47]"
+       bp_pars: [-0.27   0.16    0.41    -12.71  -15.99  7.28]
+  50 B.A37            B.U49            [A-U] WC           20-XX     cWW cW-W
+       -161.7(anti) C3'-endo lambda=56.6; -159.1(anti) C3'-endo lambda=55.1
+       d(C1'-C1')=10.44 d(N1-N9)=8.79 d(C6-C8)=9.78 tor(N1-C1'-C1'-N9)=-6.2
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.86]; N1-N3(imino)[2.75]"
+       bp_pars: [0.10    -0.19   0.39    2.48    -0.68   1.18]
+  51 B.G38            B.C48            [G-C] WC           19-XIX    cWW cW-W
+       -169.8(anti) C3'-endo lambda=55.4; -165.1(anti) C3'-endo lambda=58.6
+       d(C1'-C1')=10.64 d(N1-N9)=9.05 d(C6-C8)=10.14 tor(N1-C1'-C1'-N9)=-12.7
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.39]; N1(imino)-N3[3.08]; N2(amino)-O2(carbonyl)[2.71]"
+       bp_pars: [-0.12   0.12    0.67    7.33    -8.75   6.04]
+  52 B.C39            B.G47            [C-G] WC           19-XIX    cWW cW-W
+       -167.1(anti) C3'-endo lambda=57.0; -172.6(anti) C3'-endo lambda=53.7
+       d(C1'-C1')=10.62 d(N1-N9)=8.94 d(C6-C8)=9.97 tor(N1-C1'-C1'-N9)=-5.6
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.63]; N3-N1(imino)[2.97]; N4(amino)-O6(carbonyl)[3.19]"
+       bp_pars: [0.36    -0.06   0.36    5.07    -5.31   4.33]
+  53 B.A42            B.G45            [A-G]              00-n/a    cWS cW-m
+       -167.3(anti) C3'-endo lambda=93.1; 179.4(anti) C3'-endo lambda=142.4
+       d(C1'-C1')=5.13 d(N1-N9)=6.45 d(C6-C8)=8.83 tor(N1-C1'-C1'-N9)=37.9
+       H-bonds[2]: "N1-N2(amino)[3.13]; N3-O2'(hydroxyl)[2.71]"
+       bp_pars: [-2.27   5.18    -2.25   46.33   22.02   136.74]
+  54 B.G45            B.C69            [G-C] WC           19-XIX    cWW cW-W
+       179.4(anti) C3'-endo lambda=56.3; -127.1(anti) C2'-endo lambda=64.4
+       d(C1'-C1')=10.44 d(N1-N9)=9.00 d(C6-C8)=10.10 tor(N1-C1'-C1'-N9)=14.2
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.49]; N1(imino)-N3[3.15]; N2(amino)-O2(carbonyl)[2.87]"
+       bp_pars: [-0.71   0.13    -0.20   -12.91  12.08   7.57]
+  55 B.G46            B.C68            [G-C] WC           19-XIX    cWW cW-W
+       -164.6(anti) C3'-endo lambda=54.5; -154.7(anti) C3'-endo lambda=58.5
+       d(C1'-C1')=10.59 d(N1-N9)=8.96 d(C6-C8)=9.96 tor(N1-C1'-C1'-N9)=-7.6
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[3.43]; N1(imino)-N3[3.19]; N2(amino)-O2(carbonyl)[2.98]"
+       bp_pars: [-0.72   0.11    -1.04   -24.01  -19.25  8.42]
+  56 B.G53            B.C60            [G-C] WC           19-XIX    cWW cW-W
+       -146.4(anti) C3'-endo lambda=53.4; -160.7(anti) C3'-endo lambda=56.3
+       d(C1'-C1')=10.53 d(N1-N9)=8.85 d(C6-C8)=9.83 tor(N1-C1'-C1'-N9)=-11.4
+       H-bonds[3]: "O6(carbonyl)-N4(amino)[2.98]; N1(imino)-N3[2.83]; N2(amino)-O2(carbonyl)[2.66]"
+       bp_pars: [0.21    -0.11   0.48    16.45   -10.33  2.11]
+  57 B.C57            B.U81            [C-U]              00-n/a    cWS cW-m
+       172.7(anti) C3'-endo lambda=32.7; -174.2(anti) C3'-endo lambda=138.5
+       d(C1'-C1')=8.23 d(N1-N9)=8.13 d(C6-C8)=9.69 tor(N1-C1'-C1'-N9)=-35.6
+       H-bonds[2]: "N3-O2'(hydroxyl)[2.71]; N4(amino)-O2(carbonyl)[3.48]"
+       bp_pars: [-6.31   -0.93   0.74    12.82   -22.29  70.27]
+  58 B.C58            B.GMP120         [C+g]              29-XXIX*  tWS tW+m
+       -158.2(anti) C3'-endo lambda=12.7; -123.2(anti) C3'-endo lambda=107.0
+       d(C1'-C1')=8.80 d(N1-N9)=7.92 d(C6-C8)=8.98 tor(N1-C1'-C1'-N9)=96.8
+       H-bonds[2]: "N3-N2(amino)[3.38]; N4(amino)-N3[3.31]"
+       bp_pars: [-2.05   3.27    0.40    12.94   -9.16   75.51]
+  59 B.C61            B.G78            [C-G] WC           19-XIX    cWW cW-W
+       177.9(anti) C3'-endo lambda=48.6; -172.2(anti) C3'-endo lambda=60.7
+       d(C1'-C1')=11.09 d(N1-N9)=9.39 d(C6-C8)=10.33 tor(N1-C1'-C1'-N9)=-9.0
+       H-bonds[4]: "O2(carbonyl)-N2(amino)[3.17]; N3-N1(imino)[3.27]; N3-N2(amino)[3.35]; N4(amino)-O6(carbonyl)[3.29]"
+       bp_pars: [-0.72   0.26    0.31    -3.41   -8.94   -0.32]
+  60 B.U62            B.A77            [U-A] WC           20-XX     cWW cW-W
+       -173.0(anti) C3'-endo lambda=56.4; -167.1(anti) C3'-endo lambda=59.5
+       d(C1'-C1')=10.46 d(N1-N9)=8.89 d(C6-C8)=9.89 tor(N1-C1'-C1'-N9)=0.8
+       H-bonds[2]: "N3(imino)-N1[2.81]; O4(carbonyl)-N6(amino)[2.88]"
+       bp_pars: [-0.49   -0.09   0.20    -1.84   0.07    1.79]
+  61 B.U63            B.G76            [U-G] Wobble       28-XXVIII cWW cW-W
+       -153.8(anti) C3'-endo lambda=67.1; -166.7(anti) C3'-endo lambda=46.6
+       d(C1'-C1')=10.30 d(N1-N9)=8.73 d(C6-C8)=9.67 tor(N1-C1'-C1'-N9)=-5.6
+       H-bonds[3]: "O2(carbonyl)-N1(imino)[2.81]; O2(carbonyl)-N2(amino)[3.26]; N3(imino)-O6(carbonyl)[2.78]"
+       bp_pars: [1.79    -0.52   -0.10   4.62    -11.47  -1.80]
+  62 B.C64            B.G75            [C-G] WC           19-XIX    cWW cW-W
+       -158.7(anti) C3'-endo lambda=60.8; -168.5(anti) C3'-endo lambda=54.5
+       d(C1'-C1')=10.39 d(N1-N9)=8.82 d(C6-C8)=9.89 tor(N1-C1'-C1'-N9)=0.5
+       H-bonds[4]: "O2(carbonyl)-N1(imino)[3.20]; O2(carbonyl)-N2(amino)[2.74]; N3-N1(imino)[3.04]; N4(amino)-O6(carbonyl)[3.27]"
+       bp_pars: [1.03    -0.15   -0.40   10.33   -8.72   6.30]
+  63 B.A65            B.U74            [A-U] WC           20-XX     cWW cW-W
+       -171.6(anti) C3'-endo lambda=60.0; -167.2(anti) C3'-endo lambda=55.0
+       d(C1'-C1')=10.51 d(N1-N9)=8.93 d(C6-C8)=9.87 tor(N1-C1'-C1'-N9)=-4.9
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.76]; N1-N3(imino)[2.84]"
+       bp_pars: [0.06    -0.11   -0.27   -7.17   -15.32  -2.55]
+  64 B.A66            B.U73            [A-U] WC           20-XX     cWW cW-W
+       -155.3(anti) C3'-endo lambda=58.3; -168.2(anti) C3'-endo lambda=56.4
+       d(C1'-C1')=10.64 d(N1-N9)=9.05 d(C6-C8)=9.98 tor(N1-C1'-C1'-N9)=2.6
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[2.86]; N1-N3(imino)[2.96]"
+       bp_pars: [0.55    -0.02   -0.50   4.12    -3.88   -1.19]
+  65 B.A67            B.U72            [A-U] WC           20-XX     cWW cW-W
+       -162.0(anti) C3'-endo lambda=55.7; -105.6(anti) C2'-endo lambda=64.9
+       d(C1'-C1')=10.30 d(N1-N9)=8.84 d(C6-C8)=9.94 tor(N1-C1'-C1'-N9)=0.4
+       H-bonds[2]: "N6(amino)-O4(carbonyl)[3.22]; N1-N3(imino)[2.93]"
+       bp_pars: [-0.33   0.00    -0.31   7.05    -2.36   7.01]
+  66 B.C68            B.U72            [C-U]              00-n/a    cWW cW-W
+       -154.7(anti) C3'-endo lambda=86.1; -105.6(anti) C2'-endo lambda=69.5
+       d(C1'-C1')=6.80 d(N1-N9)=6.19 d(C6-C8)=7.92 tor(N1-C1'-C1'-N9)=-14.4
+       H-bonds[1]: "O2(carbonyl)-N3(imino)[2.89]"
+       bp_pars: [1.60    -1.79   2.42    26.71   -5.80   40.41]
+  67 B.C80            B.GMP120         [C-g] WC           19-XIX    cWW cW-W
+       -171.6(anti) C3'-endo lambda=56.2; -123.2(anti) C3'-endo lambda=59.6
+       d(C1'-C1')=10.77 d(N1-N9)=9.21 d(C6-C8)=10.34 tor(N1-C1'-C1'-N9)=-23.5
+       H-bonds[3]: "O2(carbonyl)-N2(amino)[2.70]; N3-N1(imino)[3.23]; N4(amino)-O6(carbonyl)[3.89]"
+       bp_pars: [-0.10   0.31    0.85    13.34   -24.56  7.94]
+****************************************************************************
+List of 10 multiplet(s)
+   1 nts=3 A.A30+A.C57+A.U81 [ACU]
+   2 nts=3 A.A32+A.G53+A.C60 [AGC]
+   3 nts=3 A.G33+A.G34+A.U52 [GGU]
+   4 nts=3 A.A42+A.G45+A.C69 [AGC]
+   5 nts=3 A.C58+A.C80+A.GMP120 [CCg]
+   6 nts=3 B.A30+B.C57+B.U81 [ACU]
+   7 nts=3 B.A32+B.G53+B.C60 [AGC]
+   8 nts=3 B.G33+B.G34+B.U52 [GGU]
+   9 nts=3 B.A42+B.G45+B.C69 [AGC]
+  10 nts=3 B.C58+B.C80+B.GMP120 [CCg]
+****************************************************************************
+List of 4 helices
+  helix=1[2] bps=18
+   1 A.GTP22          A.CCC89          [g-c] WC           19-XIX    cWW cW-W
+   2 A.G23            A.U88            [G-U] Wobble       28-XXVIII cWW cW-W
+   3 A.C24            A.G87            [C-G] WC           19-XIX    cWW cW-W
+   4 A.C25            A.G86            [C-G] WC           19-XIX    cWW cW-W
+   5 A.U26            A.A85            [U-A] WC           20-XX     cWW cW-W
+   6 A.U27            A.A84            [U-A] WC           20-XX     cWW cW-W
+   7 A.A28            A.U83            [A-U] WC           20-XX     cWW cW-W
+   8 A.U29            A.A82            [U-A] WC           20-XX     cWW cW-W
+   9 A.A30            A.U81            [A-U] WC           20-XX     cWW cW-W
+  10 A.GMP120         A.C80            [g-C] WC           19-XIX    cWW cW-W
+  11 A.G59            A.C31            [G-C] WC           19-XIX    cWW cW-W
+  12 A.C60            A.G53            [C-G] WC           19-XIX    cWW cW-W
+  13 A.G34            A.U52            [G-U] Wobble       28-XXVIII cWW cW-W
+  14 A.G35            A.C51            [G-C] WC           19-XIX    cWW cW-W
+  15 A.U36            A.A50            [U-A] WC           20-XX     cWW cW-W
+  16 A.A37            A.U49            [A-U] WC           20-XX     cWW cW-W
+  17 A.G38            A.C48            [G-C] WC           19-XIX    cWW cW-W
+  18 A.C39            A.G47            [C-G] WC           19-XIX    cWW cW-W
+
+  helix=2[2] bps=9
+   1 A.G45            A.C69            [G-C] WC           19-XIX    cWW cW-W
+   2 A.G46            A.C68            [G-C] WC           19-XIX    cWW cW-W
+   3 A.U72            A.A67            [U-A] WC           20-XX     cWW cW-W
+   4 A.U73            A.A66            [U-A] WC           20-XX     cWW cW-W
+   5 A.U74            A.A65            [U-A] WC           20-XX     cWW cW-W
+   6 A.G75            A.C64            [G-C] WC           19-XIX    cWW cW-W
+   7 A.G76            A.U63            [G-U] Wobble       28-XXVIII cWW cW-W
+   8 A.A77            A.U62            [A-U] WC           20-XX     cWW cW-W
+   9 A.G78            A.C61            [G-C] WC           19-XIX    cWW cW-W
+
+  helix=3[2] bps=18
+   1 B.GTP22          B.CCC89          [g-c] WC           19-XIX    cWW cW-W
+   2 B.G23            B.U88            [G-U] Wobble       28-XXVIII cWW cW-W
+   3 B.C24            B.G87            [C-G] WC           19-XIX    cWW cW-W
+   4 B.C25            B.G86            [C-G] WC           19-XIX    cWW cW-W
+   5 B.U26            B.A85            [U-A] WC           20-XX     cWW cW-W
+   6 B.U27            B.A84            [U-A] WC           20-XX     cWW cW-W
+   7 B.A28            B.U83            [A-U] WC           20-XX     cWW cW-W
+   8 B.U29            B.A82            [U-A] WC           20-XX     cWW cW-W
+   9 B.A30            B.U81            [A-U] WC           20-XX     cWW cW-W
+  10 B.GMP120         B.C80            [g-C] WC           19-XIX    cWW cW-W
+  11 B.G59            B.C31            [G-C] WC           19-XIX    cWW cW-W
+  12 B.C60            B.G53            [C-G] WC           19-XIX    cWW cW-W
+  13 B.G34            B.U52            [G-U] Wobble       28-XXVIII cWW cW-W
+  14 B.G35            B.C51            [G-C] WC           19-XIX    cWW cW-W
+  15 B.U36            B.A50            [U-A] WC           20-XX     cWW cW-W
+  16 B.A37            B.U49            [A-U] WC           20-XX     cWW cW-W
+  17 B.G38            B.C48            [G-C] WC           19-XIX    cWW cW-W
+  18 B.C39            B.G47            [C-G] WC           19-XIX    cWW cW-W
+
+  helix=4[2] bps=9
+   1 B.G45            B.C69            [G-C] WC           19-XIX    cWW cW-W
+   2 B.G46            B.C68            [G-C] WC           19-XIX    cWW cW-W
+   3 B.U72            B.A67            [U-A] WC           20-XX     cWW cW-W
+   4 B.U73            B.A66            [U-A] WC           20-XX     cWW cW-W
+   5 B.U74            B.A65            [U-A] WC           20-XX     cWW cW-W
+   6 B.G75            B.C64            [G-C] WC           19-XIX    cWW cW-W
+   7 B.G76            B.U63            [G-U] Wobble       28-XXVIII cWW cW-W
+   8 B.A77            B.U62            [A-U] WC           20-XX     cWW cW-W
+   9 B.G78            B.C61            [G-C] WC           19-XIX    cWW cW-W
+****************************************************************************
+List of 8 stems
+  stem=1[#1] bps=9
+   1 A.GTP22          A.CCC89          [g-c] WC           19-XIX    cWW cW-W
+   2 A.G23            A.U88            [G-U] Wobble       28-XXVIII cWW cW-W
+   3 A.C24            A.G87            [C-G] WC           19-XIX    cWW cW-W
+   4 A.C25            A.G86            [C-G] WC           19-XIX    cWW cW-W
+   5 A.U26            A.A85            [U-A] WC           20-XX     cWW cW-W
+   6 A.U27            A.A84            [U-A] WC           20-XX     cWW cW-W
+   7 A.A28            A.U83            [A-U] WC           20-XX     cWW cW-W
+   8 A.U29            A.A82            [U-A] WC           20-XX     cWW cW-W
+   9 A.A30            A.U81            [A-U] WC           20-XX     cWW cW-W
+
+  stem=2[#1] bps=6
+   1 A.G34            A.U52            [G-U] Wobble       28-XXVIII cWW cW-W
+   2 A.G35            A.C51            [G-C] WC           19-XIX    cWW cW-W
+   3 A.U36            A.A50            [U-A] WC           20-XX     cWW cW-W
+   4 A.A37            A.U49            [A-U] WC           20-XX     cWW cW-W
+   5 A.G38            A.C48            [G-C] WC           19-XIX    cWW cW-W
+   6 A.C39            A.G47            [C-G] WC           19-XIX    cWW cW-W
+
+  stem=3[#2] bps=2
+   1 A.G45            A.C69            [G-C] WC           19-XIX    cWW cW-W
+   2 A.G46            A.C68            [G-C] WC           19-XIX    cWW cW-W
+
+  stem=4[#2] bps=7
+   1 A.C61            A.G78            [C-G] WC           19-XIX    cWW cW-W
+   2 A.U62            A.A77            [U-A] WC           20-XX     cWW cW-W
+   3 A.U63            A.G76            [U-G] Wobble       28-XXVIII cWW cW-W
+   4 A.C64            A.G75            [C-G] WC           19-XIX    cWW cW-W
+   5 A.A65            A.U74            [A-U
+total number of ribose zippers: 0 (2)
+] WC           20-XX     cWW cW-W
+   6 A.A66            A.U73            [A-U] WC           20-XX     cWW cW-W
+   7 A.A67            A.U72            [A-U] WC           20-XX     cWW cW-W
+
+  stem=5[#3] bps=9
+   1 B.GTP22          B.CCC89          [g-c] WC           19-XIX    cWW cW-W
+   2 B.G23            B.U88            [G-U] Wobble       28-XXVIII cWW cW-W
+   3 B.C24            B.G87            [C-G] WC           19-XIX    cWW cW-W
+   4 B.C25            B.G86            [C-G] WC           19-XIX    cWW cW-W
+   5 B.U26            B.A85            [U-A] WC           20-XX     cWW cW-W
+   6 B.U27            B.A84            [U-A] WC           20-XX     cWW cW-W
+   7 B.A28            B.U83            [A-U] WC           20-XX     cWW cW-W
+   8 B.U29            B.A82            [U-A] WC           20-XX     cWW cW-W
+   9 B.A30            B.U81            [A-U] WC           20-XX     cWW cW-W
+
+  stem=6[#3] bps=6
+   1 B.G34            B.U52            [G-U] Wobble       28-XXVIII cWW cW-W
+   2 B.G35            B.C51            [G-C] WC           19-XIX    cWW cW-W
+   3 B.U36            B.A50            [U-A] WC           20-XX     cWW cW-W
+   4 B.A37            B.U49            [A-U] WC           20-XX     cWW cW-W
+   5 B.G38            B.C48            [G-C] WC           19-XIX    cWW cW-W
+   6 B.C39            B.G47            [C-G] WC           19-XIX    cWW cW-W
+
+  stem=7[#4] bps=2
+   1 B.G45            B.C69            [G-C] WC           19-XIX    cWW cW-W
+   2 B.G46            B.C68            [G-C] WC           19-XIX    cWW cW-W
+
+  stem=8[#4] bps=7
+   1 B.C61            B.G78            [C-G] WC           19-XIX    cWW cW-W
+   2 B.U62            B.A77            [U-A] WC           20-XX     cWW cW-W
+   3 B.U63            B.G76            [U-G] Wobble       28-XXVIII cWW cW-W
+   4 B.C64            B.G75            [C-G] WC           19-XIX    cWW cW-W
+   5 B.A65            B.U74            [A-U] WC           20-XX     cWW cW-W
+   6 B.A66            B.U73            [A-U] WC           20-XX     cWW cW-W
+   7 B.A67            B.U72            [A-U] WC           20-XX     cWW cW-W
+****************************************************************************
+List of 6 lone WC/wobble pair(s)
+  -1 A.C31            A.G59            [C-G] WC           19-XIX    cWW cW-W
+  -2 A.G53            A.C60            [G-C] WC           19-XIX    cWW cW-W
+  -3 A.C80            A.GMP120         [C-g] WC           19-XIX    cWW cW-W
+  -4 B.C31            B.G59            [C-G] WC           19-XIX    cWW cW-W
+  -5 B.G53            B.C60            [G-C] WC           19-XIX    cWW cW-W
+  -6 B.C80            B.GMP120         [C-g] WC           19-XIX    cWW cW-W
+****************************************************************************
+List of 4 coaxial stack(s)
+   1 Helix#1 contains 2 stems: [#1, #2]
+   2 Helix#2 contains 2 stems: [#3, #4]
+   3 Helix#3 contains 2 stems: [#5, #6]
+   4 Helix#4 contains 2 stems: [#7, #8]
+****************************************************************************
+List of 6 hairpin loop(s)
+   1 nts=7 AUAAUGG closed by pair {A.C39+A.G47 [CG], #2}
+       A.C39+A.A40+A.U41+A.A42+A.A43+A.U44+A.G45+A.G46+A.G47 [CAUAAUGGG]
+   2 nts=4 CCUA closed by pair {A.A67+A.U72 [AU], #4}
+       A.A67+A.C68+A.C69+A.U70+A.A71+A.U72 [ACCUAU]
+   3 nts=7 AUAAUGG closed by pair {B.C39+B.G47 [CG], #6}
+       B.C39+B.A40+B.U41+B.A42+B.A43+B.U44+B.G45+B.G46+B.G47 [CAUAAUGGG]
+   4 nts=4 CCUA closed by pair {B.A67+B.U72 [AU], #8}
+       B.A67+B.C68+B.C69+B.U70+B.A71+B.U72 [ACCUAU]
+   5 nts=6 ACCCCG closed by pair {A.G53+A.C60 [GC], #-2}
+       A.G53+A.A54+A.C55+A.C56+A.C57+A.C58+A.G59+A.C60 [GACCCCGC]
+   6 nts=6 ACCCCG closed by pair {B.G53+B.C60 [GC], #-5}
+       B.G53+B.A54+B.C55+B.C56+B.C57+B.C58+B.G59+B.C60 [GACCCCGC]
+
+This structure contains pseudo-knot(s).
+****************************************************************************
+>chain-A #1 RNA* with 69 nts
+gGCCUUAUACAGGGUAGCAUAAUGGGCUACUGACCCCGCCUUCAAACCUAUUUGGAGACUAUAAGGUcg
+((((((((([..((((((.....[[))))))[.....]][[[[[[[]]..]]]]]]].[)))))))))]
+>chain-B #2 RNA* with 69 nts
+gGCCUUA
+Time used: 00:00:00:01
+UACAGGGUAGCAUAAUGGGCUACUGACCCCGCCUUCAAACCUAUUUGGAGACUAUAAGGUcg
+((((((((([..((((((.....[[))))))[.....]][[[[[[[]]..]]]]]]].[)))))))))]
