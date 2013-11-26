@@ -37,8 +37,8 @@ class Py3DNA(object):
     """
     Atributes:
 
-     **self.curr_fn**
-     **self.report**
+     **curr_fn**
+     **report**
 
     """
 
