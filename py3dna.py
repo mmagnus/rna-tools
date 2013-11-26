@@ -66,7 +66,7 @@ class Py3DNA(object):
 
         self.report = stdout.strip()
 
-    def clean_up(self):
+    def clean_up(self, verbose=False):
         files_to_remove = [
             'dssr-helices.pdb',
             'dssr-pairs.pdb',
@@ -77,7 +77,10 @@ class Py3DNA(object):
             ]
 
         for f in files_to_remove:
-            remove(f)
+            try:
+                remove(f)
+            except OSError:
+                if verbose: print 'can not remove %s' % f
 
     def get_seq(self):
         """Get sequence.
