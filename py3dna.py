@@ -60,7 +60,9 @@ class Py3DNA(object):
         outerr = out.stderr.read()
 
         if outerr.find('does not exist!') > -1:  # not very pretty
-            raise Py3DNAMissingFile  # (oouterr)
+            raise Py3DNAMissingFile
+        if outerr.find('not found') > -1:  # not very pretty
+            raise Exception('x3dna not found!')
 
         self.report = stdout.strip()
 
