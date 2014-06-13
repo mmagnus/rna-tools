@@ -20,14 +20,16 @@ Usage::
 .. warning:: it get_seq() and get_secstruc work only for 1 chain PDB file!
 
 """
-
-from subprocess import Popen, PIPE
-from os import listdir, remove
-
+import sys
 import re
 
-BINARY_PATH = '/usr/bin/x3dna-dssr-64bit'
-BINARY_PATH_FP = '/home/magnus/opt/x3dna-dssr/2.1/x3dna-v2.1/bin/find_pair'
+from subprocess import Popen, PIPE
+from os import listdir, remove, path
+
+## fixed version of x3dna
+PATH = path.abspath(path.dirname(__file__))
+BINARY_PATH = PATH + '/opt/x3dna-dssr-64bit'
+BINARY_PATH_FP = PATH + '/opt/find_pair'
 
 
 class Py3DNAMissingFile(Exception):
@@ -159,13 +161,15 @@ File name: /tmp/tmp0pdNHS
 
 
 if __name__ == '__main__':
-    directory = 'test_data'
-
-    pdbs = listdir(directory)
+    #directory = 'test_data'
+    #pdbs = listdir(directory)
     #pdbs = ['1xjr.pdb']
+    pdbs = sys.argv[1:]
     for f in pdbs:
-        fn = directory + '/' + f
-        print fn
+        #fn = directory + '/' + f
+        #print fn
+        fn = f
+        print f
 
         p = Py3DNA(fn)
 
