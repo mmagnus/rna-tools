@@ -5,7 +5,11 @@
 
 Installation::
 
-  BINARY_PATH = '/usr/bin/x3dna-dssr-64bit'
+  BINARY_PATH = 'opt/x3dna-dssr-64bit' or  'opt/x3dna-dssr-32bit' 
+
+Basic functionality is given just by x3nda-dssr-X.
+
+[!] To use find_pair you have to install x3dna and set up X3DNA variable properly!
 
 Usage::
 
@@ -28,7 +32,9 @@ from os import listdir, remove, path
 
 ## fixed version of x3dna
 PATH = path.abspath(path.dirname(__file__))
-BINARY_PATH = PATH + '/opt/x3dna-dssr-64bit'
+
+from py3dna_config import PLATFORM
+BINARY_PATH = PATH + '/opt/x3dna-dssr-' + PLATFORM
 BINARY_PATH_FP = PATH + '/opt/find_pair'
 
 

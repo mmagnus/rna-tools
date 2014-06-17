@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase, main
 from py3dna import Py3DNA, Py3DNAMissingFile
-
+from py3dna_config import PLATFORM
 
 class Tests(TestCase):
-
+    print 'USE CORRECT PLATFORM! Set up curr platform is ', PLATFORM
     def setUp(self):
+        
         pass
 
     def test_Basic_1xjr(self):

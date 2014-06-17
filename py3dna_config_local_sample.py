@@ -1,0 +1,1 @@
+PLATFORM='32bit'
