@@ -28,12 +28,16 @@ import sys
 import re
 
 from subprocess import Popen, PIPE
-from os import listdir, remove, path
+from os import remove, path, readlink
 
-## fixed version of x3dna
-PATH = path.abspath(path.dirname(__file__))
+PATH = path.abspath(__file__)
+if path.islink(PATH):
+    PATH = path.dirname(readlink(PATH))
+else:
+    PATH = path.dirname(path.abspath(__file__))
 
 from py3dna_config import PLATFORM
+
 BINARY_PATH = PATH + '/opt/x3dna-dssr-' + PLATFORM
 BINARY_PATH_FP = PATH + '/opt/find_pair'
 
