@@ -54,6 +54,45 @@ def get_atom_lines(fn):
     return al
 
 
+def check_res_if_std_dna(res):
+    wrong_res = []
+    for r in res:
+        if r.upper().strip() in ['A', 'T', 'C', 'G']:
+            if r not in wrong_res:
+                wrong_res.append(r)
+    return wrong_res
+
+def check_res_if_supid_rna(res):
+    wrong_res = []
+    for r in res:
+        if r.upper().strip() in ['RC', 'RU', 'RA', 'RG', 'RT']:
+            if r not in wrong_res:
+                wrong_res.append(r)
+    return wrong_res
+
+def is_rna(res):
+    for r in res:
+        
+        if r.upper().strip() in ['RC', 'RU', 'RA', 'RG', 'RT']:
+            if r not in wrong_res:
+                wrong_res.append(r)
+    return wrong_res
+
+def renum_atoms(fn,out):
+    c = 1
+    ntxt = ''
+    for l in open(fn).read().split('\n'):
+        if l.startswith('ATOM') or l.startswith('HETATM') :
+            print l
+            nl = l[:6] + str(c).rjust(5) + l[11:]
+            print nl
+            c += 1
+            ntxt += nl + '\n'
+
+    o = open(out, 'w')
+    o.write(ntxt)
+    o.close()
+
 if '__main__' == __name__:
     fn = 'test_data/image'
     print 'fn:', fn
@@ -69,8 +108,20 @@ if '__main__' == __name__:
     res = get_all_res(na)
     #print res
     print 'non standard:', check_res_if_std_na(res)
+    #print 'is protein:', is_protein(res)
 
     fn = 'test_data/prot.pdb'
     prot = open(fn).read().split('\n')
     res = get_all_res(prot)
     print 'non standard:', check_res_if_std_prot(res)   
+    #print 'is protein:', is_protein(res)
+
+
+    fn = 'test_data/rna-ru.pdb'
+    prot = open(fn).read().split('\n')
+    res = get_all_res(prot)
+    print 'non standard:', check_res_if_supid_rna(res)
+    #print 'is protein:', is_protein(res)
+
+    fn = 'test_data/na_highAtomNum.pdb'
+    renum_atoms(fn, '/tmp/out.pdb')
