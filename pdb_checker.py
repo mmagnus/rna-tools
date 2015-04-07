@@ -39,11 +39,13 @@ def check_res_if_std_prot(res):
             wrong.append(r)
     return wrong
 
+
 def has_atom_line(na):
     for i in na:
         if i.startswith('ATOM'):
             return True
     return False
+
 
 def get_atom_lines(fn):
     lines = open(fn).read().split('\n')
@@ -62,6 +64,7 @@ def check_res_if_std_dna(res):
                 wrong_res.append(r)
     return wrong_res
 
+
 def check_res_if_supid_rna(res):
     wrong_res = []
     for r in res:
@@ -70,6 +73,7 @@ def check_res_if_supid_rna(res):
                 wrong_res.append(r)
     return wrong_res
 
+
 def is_rna(res):
     for r in res:
         if r.upper().strip() in ['RC', 'RU', 'RA', 'RG', 'RT']:
@@ -77,7 +81,9 @@ def is_rna(res):
                 wrong_res.append(r)
     return wrong_res
 
+
 def renum_atoms(fn,out):
+    """Renum atoms, from 1 to X for line; ATOM/HETATM"""
     c = 1
     ntxt = ''
     i = open(fn)
@@ -90,10 +96,7 @@ def renum_atoms(fn,out):
             c += 1
             ntxt += nl + '\n'
 
-        if l.startswith("END"):
-            ntxt += l + '\n'
-
-        if l.startswith("TER"):
+        if l.startswith("END") or l.startswith("TER"):
             ntxt += l + '\n'
 
     i.close()
@@ -114,11 +117,10 @@ def fix_op_atoms(fn,out):
             nl = nl.replace('O3P', 'OP3')
 
             ntxt += nl + '\n'
-        if l.startswith("END"):
+
+        if l.startswith("END") or l.startswith("TER"):
             ntxt += l + '\n'
 
-        if l.startswith("TER"):
-            ntxt += l + '\n'
     i.close()
     o = open(out, 'w')
     o.write(ntxt)
@@ -226,10 +228,7 @@ def fix_rresnumes(fn,out):
 
             ntxt += nl + '\n'
 
-        if l.startswith("END"):
-            ntxt += l + '\n'
-
-        if l.startswith("TER"):
+        if l.startswith("END") or l.startswith("TER"):
             ntxt += l + '\n'
 
     i.close()
