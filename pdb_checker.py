@@ -1,4 +1,4 @@
-#!/usr
+#!/usr/bin/env python
 
 #from formatlib.PDBFile import PDBFile
 
@@ -72,7 +72,6 @@ def check_res_if_supid_rna(res):
 
 def is_rna(res):
     for r in res:
-        
         if r.upper().strip() in ['RC', 'RU', 'RA', 'RG', 'RT']:
             if r not in wrong_res:
                 wrong_res.append(r)
@@ -81,17 +80,164 @@ def is_rna(res):
 def renum_atoms(fn,out):
     c = 1
     ntxt = ''
-    for l in open(fn).read().split('\n'):
+    i = open(fn)
+    txt = i.read().split('\n')
+    for l in txt:
         if l.startswith('ATOM') or l.startswith('HETATM') :
-            print l
+            #print l
             nl = l[:6] + str(c).rjust(5) + l[11:]
-            print nl
+            #print nl
             c += 1
             ntxt += nl + '\n'
 
+        if l.startswith("END"):
+            ntxt += l + '\n'
+
+        if l.startswith("TER"):
+            ntxt += l + '\n'
+
+    i.close()
     o = open(out, 'w')
     o.write(ntxt)
     o.close()
+
+def fix_op_atoms(fn,out):
+    c = 1
+    ntxt = ''
+    i = open(fn)
+    txt = i.read().split('\n')
+    for l in txt:
+        if l.startswith('ATOM') or l.startswith('HETATM') :
+            l = l.replace('*', '\'')
+            nl = l.replace('O1P', 'OP1')
+            nl = nl.replace('O2P', 'OP2')
+            nl = nl.replace('O3P', 'OP3')
+
+            ntxt += nl + '\n'
+        if l.startswith("END"):
+            ntxt += l + '\n'
+
+        if l.startswith("TER"):
+            ntxt += l + '\n'
+    i.close()
+    o = open(out, 'w')
+    o.write(ntxt)
+    o.close()
+
+
+def remove_hydrogen(fn, out):
+    pdb_fn = fn
+    f = open(pdb_fn)
+
+    ntxt = ''
+    hydrogen_names = ["H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'", 
+                      "2H5'", "HO2'", "1H4", "2H4", "1H2", "2H2", "H1", "H8", "H2", "1H6", "2H6",
+                      "HO5'", "H21", "H22", "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1" , "HO'2", "HO'2",
+                      "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2"]
+
+    for l in f:
+        if l[77:79].strip() == 'H':
+            continue
+        if l[12:16].strip() in hydrogen_names:
+        #if l[12:16].strip().startswith('H'):
+            continue
+        else:
+            #print l[12:16]
+            ntxt += l
+    f.close()
+
+    f = open(out, 'w')
+    f.write(ntxt)
+    f.close()
+
+def remove_ion(fn, out):
+    """
+TER    1025        U A  47                                                      
+HETATM 1026 MG    MG A 101      42.664  34.395  50.249  1.00 70.99          MG  
+HETATM 1027 MG    MG A 201      47.865  33.919  48.090  1.00 67.09          MG 
+    """
+    pdb_fn = fn
+    f = open(pdb_fn)
+
+    ntxt = ''
+
+    for l in f:
+        element = l[76:78].strip().upper()
+        if element in ['NA', 'MG']:
+            continue
+        else:
+            ntxt += l
+    f.close()
+
+    f = open(out, 'w')
+    f.write(ntxt)
+    f.close()
+
+def remove_water(fn, out):
+    pdb_fn = fn
+    f = open(pdb_fn)
+
+    ntxt = ''
+
+    for l in f:
+        if l[17:20] in ['WAT', 'HOH']:
+            continue
+        else:
+            ntxt += l
+    f.close()
+
+    f = open(out, 'w')
+    f.write(ntxt)
+    f.close()
+
+
+def fix_rresnumes(fn,out):
+    c = 1
+    ntxt = ''
+    i = open(fn)
+    txt = i.read().split('\n')
+    for l in txt:
+        if l.startswith('ATOM') or l.startswith('HETATM') :
+            #print l
+            nl = l.replace( 'RA5', '  A') # RA should be the last!!!!
+            nl = nl.replace('RA3', '  A')
+            nl = nl.replace(' RA', '  A')
+            nl = nl.replace(' rA', '  A')
+
+            nl = nl.replace( 'RC5', '  C')
+            nl = nl.replace('RC3', '  C')
+            nl = nl.replace(' RC', '  C')
+            nl = nl.replace(' rC', '  C')
+
+            nl = nl.replace( 'RG5', '  G')
+            nl = nl.replace('RG3', '  G')
+            nl = nl.replace(' RG', '  G')
+            nl = nl.replace(' rG', '  G')
+
+            nl = nl.replace( 'RU5', '  U')
+            nl = nl.replace('RU3', '  U')
+            nl = nl.replace(' RU', '  U')
+            nl = nl.replace(' rU', '  U')
+
+            nl = nl.replace( 'RT5', '  T')
+            nl = nl.replace('RT3', '  T')
+            nl = nl.replace(' RT', '  T')
+            nl = nl.replace(' rT', '  T')
+
+            ntxt += nl + '\n'
+
+        if l.startswith("END"):
+            ntxt += l + '\n'
+
+        if l.startswith("TER"):
+            ntxt += l + '\n'
+
+    i.close()
+    o = open(out, 'w')
+    o.write(ntxt)
+    o.close()
+
+def start():pass
 
 if '__main__' == __name__:
     fn = 'test_data/image'
@@ -125,3 +271,42 @@ if '__main__' == __name__:
 
     fn = 'test_data/na_highAtomNum.pdb'
     renum_atoms(fn, '/tmp/out.pdb')
+
+    fn = 'test_data/na_solvet_old_format.pdb'
+    fix_op_atoms(fn, 'out.pdb')
+
+    fn = 'test_data/na_solvet_old_format.pdb'
+    fix_rresnumes(fn, 'out2.pdb')
+
+    fn = 'test_data/na_solvet_old_format__.pdb'
+    fix_rresnumes(fn, 'out2.pdb')
+    remove_hydrogen('out2.pdb', 'out3.pdb')
+    remove_ion('out3.pdb', 'out4.pdb')
+    remove_water('out4.pdb', 'out5.pdb')
+    renum_atoms('out5.pdb', 'out6.pdb')
+    fix_op_atoms('out6.pdb', 'out7_.pdb')
+
+
+    fn = 'test_data/1xjr.pdb'
+    fix_rresnumes(fn, 'out2.pdb')
+    remove_hydrogen('out2.pdb', 'out3.pdb')
+    remove_ion('out3.pdb', 'out4.pdb')
+    remove_water('out4.pdb', 'out5.pdb')
+    renum_atoms('out5.pdb', 'out6.pdb')
+    fix_op_atoms('out6.pdb', 'out7__.pdb')
+
+    fn = 'test_data/decoy0165_amb.pdb'
+    fix_rresnumes(fn, 'out2.pdb')
+    remove_hydrogen('out2.pdb', 'out3.pdb')
+    remove_ion('out3.pdb', 'out4.pdb')
+    remove_water('out4.pdb', 'out5.pdb')
+    renum_atoms('out5.pdb', 'out6.pdb')
+    fix_op_atoms('out6.pdb', 'out7___.pdb')
+
+    fn = 'test_data/farna.pdb'
+    fix_rresnumes(fn, 'out2.pdb')
+    remove_hydrogen('out2.pdb', 'out3.pdb')
+    remove_ion('out3.pdb', 'out4.pdb')
+    remove_water('out4.pdb', 'out5.pdb')
+    fix_op_atoms('out5.pdb', 'out7.pdb')
+    renum_atoms('out7.pdb', 'out8farna.pdb')
