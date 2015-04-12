@@ -127,6 +127,30 @@ def fix_op_atoms(fn,out):
     o.close()
 
 
+
+def fix_O_in_UC(fn, out):
+    """.. warning: remove RU names before using this function"""
+
+    pdb_fn = fn
+    f = open(pdb_fn)
+
+    ntxt = ''
+
+    for l in f:
+        #if l[12:16].strip() in 
+        #if l[12:16].strip().startswith('H'):
+        nl = l.replace('O     U',
+                       'O2    U')
+        nl =nl.replace('O     C',
+                       'O2    C')
+        ntxt += nl
+    f.close()
+
+    f = open(out, 'w')
+    f.write(ntxt)
+    f.close()
+
+
 def remove_hydrogen(fn, out):
     pdb_fn = fn
     f = open(pdb_fn)
@@ -300,7 +324,8 @@ if '__main__' == __name__:
     remove_ion('out3.pdb', 'out4.pdb')
     remove_water('out4.pdb', 'out5.pdb')
     renum_atoms('out5.pdb', 'out6.pdb')
-    fix_op_atoms('out6.pdb', 'out7___.pdb')
+    fix_O_in_UC('out6.pdb', 'out6.pdb')
+    fix_op_atoms('out6.pdb', 'tmpout/decoy0165_amb_clx.pdb')
 
     fn = 'test_data/farna.pdb'
     fix_rresnumes(fn, 'out2.pdb')
