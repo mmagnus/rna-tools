@@ -8,6 +8,10 @@ AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
 RES = ['DA', 'DG', 'DT', 'DC']
 RES += ['A', 'G', 'U', 'C']
 
+RESS = ['A', 'C', 'G', 'U', 'ADE', 'CYT', 'GUA', 'URY', 'URI', 'U34', 'U31', 'C31', '4SU', 'H2U', 'QUO', 'G7M', '5MU', '5MC', 'PSU', '2MG', '1MG', '1MA', 'M2G', '5BU', 'FHU', 'FMU', 'IU', 'OMG', 'OMC', 'OMU', 'A2M', 'A23', 'CCC', 'I'] + ['RC', 'RU', 'RA', 'RG', 'RT']
+#DNA = ['DA', 'DG', 'DT', 'DC']
+#RNA = ['A', 'G', 'U', 'C']
+
 def check_no_lines(pl):
     """Check number of lines of pdb file"""
     c = 0
@@ -38,6 +42,36 @@ def check_res_if_std_prot(res):
         if r not in AMINOACID_CODES:
             wrong.append(r)
     return wrong
+
+def what_is(res):
+    """give it a score"""
+    aa = []
+    na = []
+
+    for r in res:
+        if r in AMINOACID_CODES:
+            aa.append(r)
+        if r in RESS:
+            na.append(r)            
+
+    aa = float(len(aa)) / len(res)
+    na = float(len(na)) / len(res)
+
+    if aa == 0 and na == 0:
+        return 'error'
+    if aa > na:
+        return '>protein< vs na', aa, na
+    else:
+        return 'protein vs >na<', aa, na
+
+
+def is_rna(res):
+    wrong = []
+    for r in res:
+        if r.upper().strip() in ['RC', 'RU', 'RA', 'RG', 'RT']:
+            if r not in wrong_res:
+                wrong_res.append(r)
+    return wrong_res
 
 
 def has_atom_line(na):
@@ -271,26 +305,28 @@ if '__main__' == __name__:
     fn = 'test_data/na.pdb'
     na = get_atom_lines(fn)
     print has_atom_line(na)
-
+    res = get_all_res(na)
+    print 'what is?', what_is(res)
+    
     c = check_no_lines(na)
     print c
     res = get_all_res(na)
     #print res
     print 'non standard:', check_res_if_std_na(res)
-    #print 'is protein:', is_protein(res)
+    print 'is protein:', what_is(res)
 
     fn = 'test_data/prot.pdb'
     prot = open(fn).read().split('\n')
     res = get_all_res(prot)
     print 'non standard:', check_res_if_std_prot(res)   
-    #print 'is protein:', is_protein(res)
+    print 'is protein:', what_is(res)
 
 
     fn = 'test_data/rna-ru.pdb'
     prot = open(fn).read().split('\n')
     res = get_all_res(prot)
     print 'non standard:', check_res_if_supid_rna(res)
-    #print 'is protein:', is_protein(res)
+    print 'is protein:', what_is(res)
 
     fn = 'test_data/na_highAtomNum.pdb'
     renum_atoms(fn, '/tmp/out.pdb')
