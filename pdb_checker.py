@@ -361,7 +361,7 @@ if '__main__' == __name__:
     remove_water('out4.pdb', 'out5.pdb')
     renum_atoms('out5.pdb', 'out6.pdb')
     fix_O_in_UC('out6.pdb', 'out6.pdb')
-    fix_op_atoms('out6.pdb', 'tmpout/decoy0165_amb_clx.pdb')
+    fix_op_atoms('out6.pdb', 'tmp/decoy0165_amb_clx.pdb')
 
     fn = 'test_data/farna.pdb'
     fix_rresnumes(fn, 'out2.pdb')
