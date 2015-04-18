@@ -1,11 +1,14 @@
-usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] file outfile
+usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] [--getchain GETCHAIN]
+                    [--getseq]
+                    file
 
 positional arguments:
-  file               file
-  outfile            outfile
+  file                 file
 
 optional arguments:
-  -h, --help         show this help message and exit
-  -r, --report       get report
-  --rosetta2generic  convert ROSETTA-like format to generic pdb
-  -c, --clean        get clean structure
+  -h, --help           show this help message and exit
+  -r, --report         get report
+  --rosetta2generic    convert ROSETTA-like format to generic pdb
+  -c, --clean          get clean structure
+  --getchain GETCHAIN  get chain, .e.g A
+  --getseq             get seq

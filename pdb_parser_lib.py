@@ -17,9 +17,6 @@ HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", 
                           "HO5'", "H21", "H22", "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1" , "HO'2", "HO'2",
                           "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2"]
 
-
-print 'pdb_parser_lib loading...'
-
 class StrucFile:
     def __init__(self, fn):
         self.fn = fn
@@ -35,7 +32,7 @@ class StrucFile:
             if l.startswith('MODEL'):
                 raise Exception('Please select only one model before using this program!')
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER') or l.startswith('END'):
-                self.lines.append(l)
+                self.lines.append(l.strip())
             if l.startswith("@<TRIPOS>"):
                 self.mol2_format = True
                 self.report.append('This is mol2 format')
@@ -81,9 +78,23 @@ class StrucFile:
         self.report.append('  Converted from mol2 to PDB')
         return outfn
 
-
     def get_no_lines(self):
         return len(self.lines)
+
+    def get_text(self):
+        txt = ''
+        for l in self.lines:
+            txt += l.strip() + '\n'
+        return txt
+
+    def get_chain(self, chain_id='A'):
+        txt = ''
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM') :
+                if l[21] == chain_id:
+                    txt += l.strip() + '\n'
+        txt += 'TER'
+        return txt
 
     def get_resn_uniq(self):
         res = set()
@@ -100,6 +111,17 @@ class StrucFile:
                 wrong.append(r)
         return wrong
 
+    def get_seq(self):
+        seq = ''
+        curri = int(self.lines[0][22:26])
+        seq = self.lines[0][19]
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM') :
+                resi = int(l[22:26])
+                if curri != resi:
+                    seq += l[19]
+                    curri = resi
+        return seq
 
     def detect_file_format(self):
         pass
@@ -107,8 +129,6 @@ class StrucFile:
     def detect_molecule_type(self):
         aa = []
         na = []
-        
-        
         for r in self.res:
             if r in AMINOACID_CODES:
                 aa.append(r)

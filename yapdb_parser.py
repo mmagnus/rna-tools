@@ -15,8 +15,12 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
+    parser.add_argument('--getchain', help='get chain, .e.g A')
+
+    parser.add_argument('--getseq', help='get seq', action='store_true')
+
     parser.add_argument('file', help='file') 
-    parser.add_argument('outfile', help='outfile')   
+    #parser.add_argument('outfile', help='outfile')   
 
     args = parser.parse_args()
 
@@ -34,8 +38,36 @@ if __name__ == '__main__':
         s.renum_atoms()
         s.fix_O_in_UC()
         s.fix_op_atoms()
-        print s.get_preview()
-        s.write(args.outfile)
+        #print s.get_preview()
+        #s.write(args.outfile)
+        print s.get_text()
+
+    s = StrucFile(args.file)
+    if args.getseq:
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.renum_atoms()
+        s.fix_O_in_UC()
+        s.fix_op_atoms()
+        #print s.get_preview()
+        print s.get_seq()
+        #s.write(args.outfile)
+
+    s = StrucFile(args.file)
+    if args.getchain:
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.renum_atoms()
+        s.fix_O_in_UC()
+        s.fix_op_atoms()
+        #print s.get_preview()
+        print s.get_chain(args.getchain)
+        #s.write(args.outfile)
+
 
     if args.rosetta2generic:
         s = StrucFile(args.file)
@@ -45,5 +77,6 @@ if __name__ == '__main__':
         s.remove_water()
         s.fix_op_atoms()
         s.renum_atoms()
-        print s.get_preview()
-        s.write(args.outfile)
+        #print s.get_preview()
+        #s.write(args.outfile)
+        print s.get_text()

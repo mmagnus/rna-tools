@@ -3,6 +3,8 @@ YetAnotherPDB Parser (yapdb_parser) or diypdb_parser DoItYourselfPDB Parser
 
 [![Build Status](https://travis-ci.org/m4rx9/yapdb_parser.svg?branch=master)](https://travis-ci.org/m4rx9/yapdb_parser)
 
+It intended to be used with RNA structures.
+
 What is fun here?
 
 + you see input & output -- this is what you want to get?
@@ -12,17 +14,21 @@ What is fun here?
 .. or you want to use the lib as the program:
 
     $ ./yapdb_parser.py -h
-    usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] file outfile
+    usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] [--getchain GETCHAIN]
+                        [--getseq]
+                        file
     
     positional arguments:
-      file               file
-      outfile            outfile
+      file                 file
     
     optional arguments:
-      -h, --help         show this help message and exit
-      -r, --report       get report
-      --rosetta2generic  convert ROSETTA-like format to generic pdb
-      -c, --clean        get clean structure
+      -h, --help           show this help message and exit
+      -r, --report         get report
+      --rosetta2generic    convert ROSETTA-like format to generic pdb
+      -c, --clean          get clean structure
+      --getchain GETCHAIN  get chain, .e.g A
+      --getseq             get seq
+
 
 Inpiration:
 
