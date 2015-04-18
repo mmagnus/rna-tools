@@ -6,8 +6,8 @@ YetAnotherPDB Parser (yapdb_parser) or diypdb_parser DoItYourselfPDB Parser
 What is fun here?
 
 + you see input & output -- this is what you want to get?
-+ it's tested via travis! -- it (should) alwasy works as you just want!
-+ my miss a converter you like, just do it yourself (build from brick-like functions)
++ it's tested via Travis! -- it (should) always works as you just want!
++ you miss a converter you would like to have? Just Do It Yourself - compose your converter/parsre from LEGO brick-like functions, see `--rosetta2generic`)
 
 .. or you want to use the lib as the program:
 
@@ -27,3 +27,4 @@ What is fun here?
 Inpiration:
 
 + http://blue11.bch.msu.edu/mmtsb/convpdb.pl
++ .. and more!
