@@ -7,15 +7,17 @@ YetAnotherPDB Parser (yapdb_parser) or diypdb_parser DoItYourselfPDB Parser
 Make your own PDB parser (more soon!)
 
     $ ./yapdb_parser.py -h
-    usage: yapdb_parser [-h] [-r] [-c] file
+    usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] file outfile
     
     positional arguments:
-      file          file
+      file               file
+      outfile            outfile
     
     optional arguments:
-      -h, --help    show this help message and exit
-      -r, --report  get report
-      -c, --clean   get clean structure
+      -h, --help         show this help message and exit
+      -r, --report       get report
+      --rosetta2generic  convert ROSETTA-like format to generic pdb
+      -c, --clean        get clean structure
 
 Inpiration:
 
