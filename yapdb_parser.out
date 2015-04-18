@@ -1,0 +1,9 @@
+usage: yapdb_parser [-h] [-r] [-c] file
+
+positional arguments:
+  file          file
+
+optional arguments:
+  -h, --help    show this help message and exit
+  -r, --report  get report
+  -c, --clean   get clean structure
