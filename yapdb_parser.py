@@ -14,7 +14,9 @@ if __name__ == '__main__':
                         action='store_true')
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
-    parser.add_argument('file', help='file')  # , type=string)
+
+    parser.add_argument('file', help='file') 
+    parser.add_argument('outfile', help='outfile')   
 
     args = parser.parse_args()
 
@@ -33,7 +35,7 @@ if __name__ == '__main__':
         s.fix_O_in_UC()
         s.fix_op_atoms()
         print s.get_preview()
-        s.write(os.path.basename(args.file).replace('.pdb', '_clx.pdb'))
+        s.write(args.outfile)
 
     if args.rosetta2generic:
         s = StrucFile(args.file)
@@ -44,5 +46,4 @@ if __name__ == '__main__':
         s.fix_op_atoms()
         s.renum_atoms()
         print s.get_preview()
-        s.write(os.path.basename(args.file).replace('.pdb', '_clx.pdb'))
-
+        s.write(args.outfile)

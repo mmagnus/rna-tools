@@ -1,7 +1,8 @@
-usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] file
+usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] file outfile
 
 positional arguments:
   file               file
+  outfile            outfile
 
 optional arguments:
   -h, --help         show this help message and exit
