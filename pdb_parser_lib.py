@@ -12,17 +12,23 @@ RESS = ['A', 'C', 'G', 'U', 'ADE', 'CYT', 'GUA', 'URY', 'URI', 'U34', 'U31', 'C3
 #DNA = ['DA', 'DG', 'DT', 'DC']
 #RNA = ['A', 'G', 'U', 'C']
 IONS = ['NA', 'MG']
-HYDROGEN_NAMES = ["H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'", 
+HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'", 
                           "2H5'", "HO2'", "1H4", "2H4", "1H2", "2H2", "H1", "H8", "H2", "1H6", "2H6",
                           "HO5'", "H21", "H22", "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1" , "HO'2", "HO'2",
                           "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2"]
 
 
+print 'pdb_parser_lib loading...'
 
 class StrucFile:
     def __init__(self, fn):
         self.fn = fn
     
+        self.report = []
+        self.report.append('The RNAStrucFile report: %s ' % fn) 
+
+        self.mol2_format = False
+
         self.lines = []
         lines = open(fn).read().strip().split('\n')
         for l in lines:
@@ -30,10 +36,11 @@ class StrucFile:
                 raise Exception('Please select only one model before using this program!')
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER') or l.startswith('END'):
                 self.lines.append(l)
+            if l.startswith("@<TRIPOS>"):
+                self.mol2_format = True
+                self.report.append('This is mol2 format')
 
         self.res = self.get_resn_uniq()
-        self.report = []
-        self.report.append('The RNAStrucFile report: %s ' % fn) 
 
     def is_it_pdb(self):
         if len(self.lines):
@@ -42,13 +49,9 @@ class StrucFile:
             return False
 
     def is_mol2(self):
-        """Use self.lines and check if there is XX line
+        """Return true if is_mol2 (based on the presence of "@<TRIPOS>" during __init__.
         """
-        for l in self.lines:
-            if l.startswith("@<TRIPOS>"):
-                self.report.append('This is mol2 format')
-                return True
-        return False
+        return self.mol2_format
 
     def is_amber_like(self):
         """Use self.lines and check if there is XX line
@@ -60,12 +63,6 @@ class StrucFile:
                     self.report.append('This is amber-like format')
                     return True
         return False
-
-        for l in self.lines:
-            if l.startswith("@<TRIPOS>"):
-                return True
-        return False
-
 
     def mol2toPDB(self, outfn=""):
         try:
@@ -189,8 +186,8 @@ class StrucFile:
                 rn = rn.replace('G  ', '  G')
                 rn = rn.replace('U  ', '  U')
                 rn = rn.replace('C  ', '  C')
-                rn = rn.replace('C  ', '  C')
-                l = l[:16] +  '   ' + l[17] + ' ' + l[21:]
+                rn = rn.replace('A  ', '  A')
+                l = l[:16] + ' ' + rn + ' ' + l[21:]
             #print l.strip()
             #print l2
             #l = l.replace(' U   ', '   U ')
