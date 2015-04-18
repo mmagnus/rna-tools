@@ -1,6 +1,9 @@
 YetAnotherPDB Parser (yapdb_parser) or diypdb_parser DoItYourselfPDB Parser
 -------------------------------------------------
 
+
+[![Build Status](https://travis-ci.org/m4rx9/yapdb_parser.svg?branch=master)](https://travis-ci.org/m4rx9/yapdb_parser)
+
 Make your own PDB parser (more soon!)
 
     $ ./yapdb_parser.py -h
