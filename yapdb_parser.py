@@ -10,9 +10,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('yapdb_parser')
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
+    parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to generic pdb',
+                        action='store_true')
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
     parser.add_argument('file', help='file')  # , type=string)
+
     args = parser.parse_args()
 
     s = StrucFile(args.file)
@@ -31,3 +34,15 @@ if __name__ == '__main__':
         s.fix_op_atoms()
         print s.get_preview()
         s.write(os.path.basename(args.file).replace('.pdb', '_clx.pdb'))
+
+    if args.rosetta2generic:
+        s = StrucFile(args.file)
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.fix_op_atoms()
+        s.renum_atoms()
+        print s.get_preview()
+        s.write(os.path.basename(args.file).replace('.pdb', '_clx.pdb'))
+

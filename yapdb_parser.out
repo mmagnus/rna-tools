@@ -1,9 +1,10 @@
-usage: yapdb_parser [-h] [-r] [-c] file
+usage: yapdb_parser [-h] [-r] [--rosetta2generic] [-c] file
 
 positional arguments:
-  file          file
+  file               file
 
 optional arguments:
-  -h, --help    show this help message and exit
-  -r, --report  get report
-  -c, --clean   get clean structure
+  -h, --help         show this help message and exit
+  -r, --report       get report
+  --rosetta2generic  convert ROSETTA-like format to generic pdb
+  -c, --clean        get clean structure
