@@ -30,7 +30,16 @@ What is fun here?
       --getseq             get seq
 
 
-Inpiration:
+## Features (TODO):
+
+- [X] get RNA seq
+- [X] get chain
+- [ ] remove RNA modifications (from seq and output file)
+- [ ] get only first model
+- [ ] get protein seq
+
+## Inpiration:
 
 + http://blue11.bch.msu.edu/mmtsb/convpdb.pl
++ https://github.com/haddocking/pdb-tools
 + .. and more!
