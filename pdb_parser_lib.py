@@ -278,7 +278,7 @@ class StrucFile:
             nl = nl.replace('O1P', 'OP1')
             nl = nl.replace('O2P', 'OP2')
             nl = nl.replace('O3P', 'OP3')
-            lines.append(l)
+            lines.append(nl)
         self.lines = lines
 
     def get_report(self):
