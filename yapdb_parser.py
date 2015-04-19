@@ -10,18 +10,18 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('yapdb_parser')
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
-    parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to generic pdb',
-                        action='store_true')
-
-    parser.add_argument('--getrnapuzzle', help='get RNApuzzle ready',
-                        action='store_true')
-
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
     parser.add_argument('--getchain', help='get chain, .e.g A')
 
     parser.add_argument('--getseq', help='get seq', action='store_true')
+
+    parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to generic pdb',
+                        action='store_true')
+
+    parser.add_argument('--getrnapuzzle', help='get RNApuzzle ready',
+                        action='store_true')
 
     parser.add_argument('file', help='file') 
     #parser.add_argument('outfile', help='outfile')   
