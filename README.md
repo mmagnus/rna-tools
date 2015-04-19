@@ -36,6 +36,9 @@ What is fun here?
 - [X] get chain
 - [X] get only first model
 - [X] remove RNA modifications (from seq and output file) (at least, GTP)
+
+*low priority*
+
 - [ ] get protein seq
 
 ## Inpiration:
