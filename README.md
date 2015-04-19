@@ -13,8 +13,9 @@ What is fun here?
 
 .. or you want to use the lib as the program:
 
-    usage: yapdb_parser [-h] [-r] [--rosetta2generic] [--getrnapuzzle] [-c]
-                        [--getchain GETCHAIN] [--getseq]
+    $ ./yapdb_parser.py -h
+    usage: yapdb_parser [-h] [-r] [-c] [--getchain GETCHAIN] [--getseq]
+                        [--rosetta2generic] [--getrnapuzzle]
                         file
     
     positional arguments:
@@ -23,11 +24,11 @@ What is fun here?
     optional arguments:
       -h, --help           show this help message and exit
       -r, --report         get report
-      --rosetta2generic    convert ROSETTA-like format to generic pdb
-      --getrnapuzzle       get RNApuzzle ready
       -c, --clean          get clean structure
       --getchain GETCHAIN  get chain, .e.g A
       --getseq             get seq
+      --rosetta2generic    convert ROSETTA-like format to generic pdb
+      --getrnapuzzle       get RNApuzzle ready
 
 ## Features (TODO):
 
