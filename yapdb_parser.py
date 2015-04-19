@@ -31,6 +31,7 @@ if __name__ == '__main__':
 
     s = StrucFile(args.file)
     if args.clean:
+        s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -44,6 +45,7 @@ if __name__ == '__main__':
 
     s = StrucFile(args.file)
     if args.getseq:
+        s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()

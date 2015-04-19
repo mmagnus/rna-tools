@@ -54,6 +54,24 @@ class StrucFile:
         """
         return self.mol2_format
 
+    def decap_gtp(self):
+        lines = []
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM') :
+                if l[12:16].strip() in ['PG', 'O1G', 'O2G', 'O3G', 'O3B', 'PB','O1B','O2B', 'O3A']:
+                    continue
+                if l[12:16].strip() == 'PA':
+                    l = l.replace('PA', 'P ')
+                if l[12:16].strip() == 'O1A':
+                    l = l.replace('O1A', 'O1P')
+                if l[12:16].strip() == 'O2A':
+                    l = l.replace('O2A', 'O2P')
+                if l[17:20].strip() == 'GTP':
+                    l = l[:17] + '  G' + l[20:]
+                    l = l.replace('HETATM', 'ATOM  ')
+                lines.append(l)
+        self.lines = lines
+        
     def is_amber_like(self):
         """Use self.lines and check if there is XX line
         """
@@ -342,7 +360,7 @@ class StrucFile:
         lines = []
         c = 1
         for l in self.lines:
-            nl = l[:6] + str(c).rjust(5) + l[11:]
+            l = l[:6] + str(c).rjust(5) + l[11:]
             c += 1
             lines.append(l)
         self.lines = lines

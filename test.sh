@@ -13,3 +13,5 @@
 ./yapdb_parser.py --getseq input/1xjr.pdb > output/1xjr.seq
 
 ./yapdb_parser.py -c input/1a9l_NMR_1_2_models.pdb > output/1a9l_NMR_1_2_models_tool.pdb
+
+./yapdb_parser.py -c input/1xjr_GTP.pdb > output/1xjr_GTP.pdb
