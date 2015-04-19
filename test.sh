@@ -19,3 +19,5 @@
 ./yapdb_parser.py --getrnapuzzle input/1xjr_onlyGTP.pdb
 
 ./yapdb_parser.py --getrnapuzzle input/1xjr_onlyGTP.pdb > input/1xjr_onlyGTP_rnapuzzle_ready.pdb
+
+./yapdb_parser.py --clean bucket/1osw.pdb > output/1osw_NMR_1.pdb
