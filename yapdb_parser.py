@@ -12,6 +12,10 @@ if __name__ == '__main__':
                         action='store_true')
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to generic pdb',
                         action='store_true')
+
+    parser.add_argument('--getrnapuzzle', help='get RNApuzzle ready',
+                        action='store_true')
+
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
@@ -81,4 +85,18 @@ if __name__ == '__main__':
         s.renum_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
+        print s.get_text()
+
+    if args.getrnapuzzle:
+        s = StrucFile(args.file)
+        s.decap_gtp()
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.fix_op_atoms()
+        s.renum_atoms()
+        #print s.get_preview()
+        #s.write(args.outfile)
+        s.get_rnapuzzle_ready()
         print s.get_text()

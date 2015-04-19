@@ -41,6 +41,7 @@ class StrucFile:
             if l.startswith("@<TRIPOS>"):
                 self.mol2_format = True
                 self.report.append('This is mol2 format')
+            
         self.res = self.get_resn_uniq()
 
     def is_it_pdb(self):
@@ -412,7 +413,7 @@ class StrucFile:
         return wrong
 
 
-    def write(self, outfn):
+    def write(self, outfn,v=True):
         """Write (and END file")"""
         f = open(outfn, 'w')
         for l in self.lines:
@@ -420,7 +421,108 @@ class StrucFile:
         if not l.startswith('END'):
             f.write('END')
         f.close()
-        print 'Write %s' % outfn
+        if v:
+            print 'Write %s' % outfn
+
+    def get_rnapuzzle_ready(self):
+        from Bio import PDB
+        from Bio.PDB import PDBIO
+        import copy
+
+        G_ATOMS = ['P', 'OP1', 'OP2', 'O5\'', 'C5\'', 'C4\'', 'O4\'', 'C3\'', 'O3\'', 'C2\'', 'O2\'', 'C1\'', 'N9', 'C8', 'N7', 'C5', 'C6', 'O6', 'N1', 'C2', 'N2', 'N3', 'C4']
+        A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
+        U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
+        C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
+
+        ftmp = '/tmp/out.pdb'
+        self.write(ftmp,v=False)
+
+        parser = PDB.PDBParser()
+        struct = parser.get_structure('', ftmp)
+        model = struct[0]
+        chain = model['A']
+        residue = chain.get_residues()
+
+        res = [] 
+        for r in residue:
+            res.append(r)
+
+        res = copy.copy(res)
+
+        s2 = PDB.Structure.Structure(struct.id)
+        m2 = PDB.Model.Model(model.id)    
+        c2 = PDB.Chain.Chain(chain.id)        
+
+        c = 1
+        for r in res:
+            # hack for amber/qrna
+
+            if r.resname == 'RC3': r.resname = 'C'
+            if r.resname == 'RU3': r.resname = 'U'
+            if r.resname == 'RG3': r.resname = 'G'
+            if r.resname == 'RA3': r.resname = 'A'
+
+            if r.resname == 'RC5': r.resname = 'C'
+            if r.resname == 'RU5': r.resname = 'U'
+            if r.resname == 'RG5': r.resname = 'G'
+            if r.resname == 'RA5': r.resname = 'A'
+
+            if r.resname.strip() == 'RC': r.resname = 'C'
+            if r.resname.strip() == 'RU': r.resname = 'U'
+            if r.resname.strip() == 'RG': r.resname = 'G'
+            if r.resname.strip() == 'RA': r.resname = 'A'
+
+            r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
+            #print r.resi
+            r2.id = (' ', c, ' ') ## renumber!
+
+            if str(r.get_resname()).strip() == "G":
+                for an in G_ATOMS:
+                    try:
+                        r2.add(r[an])
+                    except KeyError:
+                        print 'Missing:', an, r, ' new resi', c
+                c2.add(r2)
+
+            elif str(r.get_resname()).strip() == "A":
+                for an in A_ATOMS:
+                    try:
+                        r2.add(r[an])
+                    except KeyError:
+                        print 'Missing:', an, r, ' new resi', c
+
+                c2.add(r2)
+
+            elif str(r.get_resname()).strip() == "C":
+                for an in C_ATOMS:
+                    try:
+                        r2.add(r[an])
+                    except:
+                        print 'Missing:', an, r, ' new resi', c
+                c2.add(r2)
+
+            elif str(r.get_resname()).strip() == "U":
+                for an in U_ATOMS:
+                    try:
+                        r2.add(r[an])
+                    except KeyError:
+                        print 'Missing:', an, r,' new resi', c
+
+                c2.add(r2)
+
+            c += 1
+        io = PDBIO()
+        m2.add(c2)
+        s2.add(m2)
+        #print c2
+        #print m2
+        io.set_structure(s2)
+        #fout = fn.replace('.pdb', '_fx.pdb')
+        fout = '/tmp/outout.pdb' # hack
+        #print 'Output:', fout
+        s = StrucFile(fout)
+        self.lines = s.lines
+        io.save(fout)
 
 def start(): pass
 
