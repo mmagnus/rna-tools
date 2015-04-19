@@ -5,6 +5,10 @@ rna-pdb-tools
 
 It intended to be used with RNA structures.
 
+![rna](rna.png)
+
+**Figure 1**. Cleaned `1osw.pdb`
+
 What is fun here?
 
 + you see input & output -- this is what you want to get?
@@ -29,6 +33,7 @@ What is fun here?
       --getseq             get seq
       --rosetta2generic    convert ROSETTA-like format to generic pdb
       --getrnapuzzle       get RNApuzzle ready
+
 
 ## Features (TODO):
 
