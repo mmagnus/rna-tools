@@ -85,7 +85,7 @@ class StrucFile:
         txt = ''
         for l in self.lines:
             txt += l.strip() + '\n'
-        return txt
+        return txt.strip()
 
     def get_chain(self, chain_id='A'):
         txt = ''
