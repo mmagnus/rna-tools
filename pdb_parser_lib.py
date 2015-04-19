@@ -107,6 +107,8 @@ class StrucFile:
         txt = ''
         for l in self.lines:
             txt += l.strip() + '\n'
+        if not l.startswith('END'):
+            txt += 'END'
         return txt.strip()
 
     def get_chain(self, chain_id='A'):
