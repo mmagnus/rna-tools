@@ -52,8 +52,10 @@ What is fun here?
 
 `.is_mol2()` needs OpenBabel
 
-## Inpiration:
+## Inspiration (and alternatives):
 
 + http://blue11.bch.msu.edu/mmtsb/convpdb.pl
 + https://github.com/haddocking/pdb-tools
++ https://github.com/harmslab/pdbtools
++ http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
 + .. and more!
