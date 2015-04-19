@@ -1,4 +1,4 @@
-YetAnotherPDB Parser (yapdb_parser) or diypdb_parser DoItYourselfPDB Parser
+rna-pdb-tools
 -------------------------------------------------
 
 [![Build Status](https://travis-ci.org/m4rx9/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/m4rx9/rna-pdb-tools)
