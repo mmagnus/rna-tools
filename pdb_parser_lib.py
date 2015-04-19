@@ -28,15 +28,19 @@ class StrucFile:
 
         self.lines = []
         lines = open(fn).read().strip().split('\n')
+        has_many_models = False
         for l in lines:
+            # multi-models pdb files
             if l.startswith('MODEL'):
-                raise Exception('Please select only one model before using this program!')
+                has_many_models = True
+            if l.startswith('ENDMDL'):
+                break
+
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER') or l.startswith('END'):
                 self.lines.append(l.strip())
             if l.startswith("@<TRIPOS>"):
                 self.mol2_format = True
                 self.report.append('This is mol2 format')
-
         self.res = self.get_resn_uniq()
 
     def is_it_pdb(self):
@@ -574,3 +578,11 @@ if '__main__' == __name__:
     print r.get_tail()
     print r.get_preview()
     r.write("output/dna_fconvpdb_charmm22.pdb")
+
+
+    print
+    fn = "input/1a9l_NMR_1_2_models.pdb"
+    print fn
+    r = StrucFile(fn)
+    r.write("output/1a9l_NMR_1_2_models_lib.pdb")
+    #r.get_text() # get #1 model

@@ -34,8 +34,8 @@ What is fun here?
 
 - [X] get RNA seq
 - [X] get chain
+- [X] get only first model
 - [ ] remove RNA modifications (from seq and output file)
-- [ ] get only first model
 - [ ] get protein seq
 
 ## Inpiration:
