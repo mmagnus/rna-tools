@@ -41,7 +41,17 @@ What is fun here?
 - [X] get chain
 - [X] get only first model
 - [X] remove RNA modifications (from seq and output file) (at least, GTP)
-- [ ] find missing atoms and report them
+- [X] find missing atoms and report them (`--getrnapuzzle`) if atoms are missing you get the Exceptions
+
+        $ ./yapdb_parser.py --getrnapuzzle input/1xjr_missing_atom.pdb 
+        Missing atoms:
+         + C8 <Residue   G het=  resseq=2 icode= > residue # 2
+        Traceback (most recent call last):
+          File "./yapdb_parser.py", line 101, in <module>
+            s.get_rnapuzzle_ready()
+          File "/home/magnus/work/yapdb_parser/pdb_parser_lib.py", line 540, in get_rnapuzzle_ready
+            raise Exception('Missing atoms')
+        Exception: Missing atoms
 
 *low priority*
 

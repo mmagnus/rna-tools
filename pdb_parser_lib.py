@@ -454,6 +454,8 @@ class StrucFile:
         c2 = PDB.Chain.Chain(chain.id)        
 
         c = 1
+
+        missing = []
         for r in res:
             # hack for amber/qrna
 
@@ -481,7 +483,8 @@ class StrucFile:
                     try:
                         r2.add(r[an])
                     except KeyError:
-                        print 'Missing:', an, r, ' new resi', c
+                        #print 'Missing:', an, r, ' new resi', c
+                        missing.append([an, r, c])
                 c2.add(r2)
 
             elif str(r.get_resname()).strip() == "A":
@@ -489,8 +492,8 @@ class StrucFile:
                     try:
                         r2.add(r[an])
                     except KeyError:
-                        print 'Missing:', an, r, ' new resi', c
-
+                        #print 'Missing:', an, r, ' new resi', c
+                        missing.append([an, r, c])
                 c2.add(r2)
 
             elif str(r.get_resname()).strip() == "C":
@@ -498,7 +501,8 @@ class StrucFile:
                     try:
                         r2.add(r[an])
                     except:
-                        print 'Missing:', an, r, ' new resi', c
+                        #print 'Missing:', an, r, ' new resi', c
+                        missing.append([an, r, c])
                 c2.add(r2)
 
             elif str(r.get_resname()).strip() == "U":
@@ -506,8 +510,8 @@ class StrucFile:
                     try:
                         r2.add(r[an])
                     except KeyError:
-                        print 'Missing:', an, r,' new resi', c
-
+                        #print 'Missing:', an, r,' new resi', c
+                        missing.append([an, r, c])
                 c2.add(r2)
 
             c += 1
@@ -519,10 +523,17 @@ class StrucFile:
         io.set_structure(s2)
         #fout = fn.replace('.pdb', '_fx.pdb')
         fout = '/tmp/outout.pdb' # hack
-        #print 'Output:', fout
+        io.save(fout)
+        
+        if missing:
+            print 'Missing atoms:'
+            for i in missing:
+                print ' +', i[0], i[1], 'residue #', i[2]
+            raise Exception('Missing atoms')
+            #print 'Output:', fout
         s = StrucFile(fout)
         self.lines = s.lines
-        io.save(fout)
+
 
 def start(): pass
 
