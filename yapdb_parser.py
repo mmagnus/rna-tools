@@ -7,7 +7,9 @@ import os
 from pdb_parser_lib import *
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('yapdb_parser')
+    version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
+    version = version[1].strip()
+    parser = argparse.ArgumentParser('yapdb_parser ver: %s' % version)
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
     parser.add_argument('-c', '--clean', help='get clean structure',

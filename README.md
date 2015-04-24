@@ -59,6 +59,7 @@ What is fun here?
             Wrong middle line:  ATOM    514  H3T RC3 B  24       7.142  23.044  10.287  1.00  0.00 H3T
             [          ]   1 0.04 % 2746 decoy3308.pdb                                           -0.1      -1.0     29.17    -67.13 104916.67     12.74     10.28      -0.0     28.28
 
+- [X] add version of the tool (based on https://github.com/m4rx9/curr_version )
 *low priority*
 
 - [ ] get protein seq

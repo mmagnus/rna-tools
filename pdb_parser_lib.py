@@ -17,6 +17,34 @@ HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", 
                           "HO5'", "H21", "H22", "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1" , "HO'2", "HO'2",
                           "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2", "H3T"]
 
+import os
+
+def get_version(currfn='', verbose=False):
+    """Get version of the tool based on state of the git repository.
+    Return version. 
+    If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
+    The version is not printed!
+    https://github.com/m4rx9/curr_version/
+    """
+    try:
+        import sh
+    except ImportError:
+        #print 'sh lib is missing'
+        return 'unknown'
+
+    if currfn == '':
+
+        path = '.'
+    else:
+        path = os.path.dirname(currfn)
+    if verbose: print 'get_version::path', path
+    if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+        path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+    if not path: path = '.'
+    if verbose: print 'get_version::path2', path
+    git = sh.git.bake(_cwd=path)
+    return git.describe('--long' ,'--tags', '--dirty', '--always')
+
 class StrucFile:
     def __init__(self, fn):
         self.fn = fn

@@ -1,6 +1,7 @@
-usage: yapdb_parser [-h] [-r] [-c] [--getchain GETCHAIN] [--getseq]
-                    [--rosetta2generic] [--getrnapuzzle]
-                    file
+usage: yapdb_parser ver: d65f9d1-dirty [-h] [-r] [-c] [--getchain GETCHAIN]
+                                       [--getseq] [--rosetta2generic]
+                                       [--getrnapuzzle]
+                                       file
 
 positional arguments:
   file                 file
