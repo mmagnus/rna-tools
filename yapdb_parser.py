@@ -3,8 +3,13 @@
 
 import argparse
 import os
+import time
 
 from pdb_parser_lib import *
+
+def add_header():
+    now = time.strftime("%c")
+    print 'HEADER Generated with yapdb_parser, version: %s (https://github.com/m4rx9/rna-pdb-tools) %s' % (version, now)
 
 if __name__ == '__main__':
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
@@ -23,6 +28,9 @@ if __name__ == '__main__':
                         action='store_true')
 
     parser.add_argument('--getrnapuzzle', help='get RNApuzzle ready',
+                        action='store_true')
+
+    parser.add_argument('--nohr', help='do not insert the header into files',
                         action='store_true')
 
     parser.add_argument('file', help='file') 
@@ -47,6 +55,8 @@ if __name__ == '__main__':
         s.fix_op_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
+        if not args.nohr:
+            add_header()
         print s.get_text()
 
     s = StrucFile(args.file)
@@ -60,6 +70,7 @@ if __name__ == '__main__':
         s.fix_O_in_UC()
         s.fix_op_atoms()
         #print s.get_preview()
+
         print s.get_seq()
         #s.write(args.outfile)
 
@@ -87,6 +98,8 @@ if __name__ == '__main__':
         s.renum_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
+        if not args.nohr:
+            add_header()
         print s.get_text()
 
     if args.getrnapuzzle:
@@ -100,5 +113,7 @@ if __name__ == '__main__':
         s.renum_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
+        if not args.nohr:
+            add_header()
         s.get_rnapuzzle_ready()
         print s.get_text()

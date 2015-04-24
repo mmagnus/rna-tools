@@ -1,0 +1,184 @@
+HETATM    1  PA  GTP A   1      44.578  80.212  38.128  1.00161.74           P  
+HETATM    2  PB  GTP A   1      42.318  81.908  38.372  1.00158.30           P  
+HETATM    3  C5' GTP A   1      47.151  79.593  38.147  1.00152.24           C  
+HETATM    4  O5' GTP A   1      46.133  80.512  37.785  1.00156.91           O  
+HETATM    5  C4' GTP A   1      48.383  80.306  38.688  1.00154.11           C  
+HETATM    6  O4' GTP A   1      47.974  81.479  39.337  1.00157.10           O  
+HETATM    7  C3' GTP A   1      49.110  79.535  39.781  1.00162.80           C  
+HETATM    8  O3' GTP A   1      50.052  78.602  39.283  1.00167.77           O  
+HETATM    9  C2' GTP A   1      49.777  80.590  40.658  1.00156.97           C  
+HETATM   10  O2' GTP A   1      50.983  81.036  40.075  1.00151.37           O  
+HETATM   11  C1' GTP A   1      48.732  81.695  40.517  1.00157.78           C  
+HETATM   12  N1  GTP A   1      48.258  81.690  45.778  1.00154.39           N  
+HETATM   13  O1A GTP A   1      43.909  79.697  36.870  1.00149.49           O1-
+HETATM   14  O1B GTP A   1      42.014  83.321  38.816  1.00151.78           O  
+HETATM   15  C2  GTP A   1      49.422  81.692  45.032  1.00151.93           C  
+HETATM   16  N2  GTP A   1      50.598  81.690  45.650  1.00148.60           N  
+HETATM   17  O2A GTP A   1      44.455  79.217  39.262  1.00155.58           O  
+HETATM   18  O2B GTP A   1      41.877  81.706  36.937  1.00156.76           O1-
+HETATM   19  N3  GTP A   1      49.370  81.691  43.650  1.00151.05           N  
+HETATM   20  O3A GTP A   1      43.901  81.612  38.578  1.00159.22           O  
+HETATM   21  O3B GTP A   1      41.573  80.873  39.363  1.00137.05           O  
+HETATM   22  C4  GTP A   1      48.170  81.690  43.014  1.00155.68           C  
+HETATM   23  C5  GTP A   1      46.985  81.689  43.751  1.00156.90           C  
+HETATM   24  C6  GTP A   1      47.029  81.688  45.145  1.00154.54           C  
+HETATM   25  O6  GTP A   1      45.988  81.686  45.807  1.00150.76           O  
+HETATM   26  N7  GTP A   1      45.951  81.690  42.879  1.00154.13           N  
+HETATM   27  C8  GTP A   1      46.448  81.695  41.620  1.00157.06           C  
+HETATM   28  N9  GTP A   1      47.821  81.685  41.682  1.00158.30           N  
+ATOM     29  P     G A   2      50.001  77.254  40.137  1.00162.09           P  
+ATOM     30  C5'   G A   2      51.979  76.620  41.738  1.00155.27           C  
+ATOM     31  O5'   G A   2      51.384  77.570  40.867  1.00156.12           O  
+ATOM     32  C4'   G A   2      52.646  77.286  42.915  1.00155.22           C  
+ATOM     33  O4'   G A   2      51.874  78.441  43.324  1.00151.60           O  
+ATOM     34  C3'   G A   2      52.760  76.443  44.177  1.00157.71           C  
+ATOM     35  O3'   G A   2      53.875  75.563  44.155  1.00161.82           O  
+ATOM     36  C2'   G A   2      52.827  77.486  45.289  1.00153.28           C  
+ATOM     37  O2'   G A   2      54.150  77.978  45.436  1.00144.79           O  
+ATOM     38  C1'   G A   2      51.955  78.609  44.724  1.00152.67           C  
+ATOM     39  N1    G A   2      48.877  78.997  48.839  1.00150.93           N  
+ATOM     40  C2    G A   2      50.249  79.015  48.790  1.00149.76           C  
+ATOM     41  N2    G A   2      50.858  79.158  49.975  1.00151.75           N  
+ATOM     42  N3    G A   2      50.961  78.904  47.676  1.00147.02           N  
+ATOM     43  C4    G A   2      50.170  78.769  46.590  1.00148.92           C  
+ATOM     44  C5    G A   2      48.788  78.737  46.540  1.00149.19           C  
+ATOM     45  C6    G A   2      48.039  78.864  47.738  1.00149.53           C  
+ATOM     46  O6    G A   2      46.809  78.852  47.887  1.00147.80           O  
+ATOM     47  N7    G A   2      48.338  78.580  45.239  1.00149.80           N  
+ATOM     48  C8    G A   2      49.432  78.521  44.533  1.00154.26           C  
+ATOM     49  N9    G A   2      50.583  78.614  45.280  1.00153.73           N  
+ATOM     50  OP1   G A   2      50.150  76.113  39.198  1.00158.31           O  
+ATOM     51  OP2   G A   2      48.878  77.258  41.113  1.00160.28           O1-
+ATOM     52  P     C A   3      53.712  74.058  43.607  1.00166.81           P  
+ATOM     53  C5'   C A   3      51.929  72.736  45.006  1.00156.20           C  
+ATOM     54  O5'   C A   3      52.211  73.703  44.008  1.00158.18           O  
+ATOM     55  C4'   C A   3      52.302  73.231  46.381  1.00157.68           C  
+ATOM     56  O4'   C A   3      51.899  74.617  46.542  1.00151.02           O  
+ATOM     57  C3'   C A   3      51.636  72.516  47.542  1.00161.04           C  
+ATOM     58  O3'   C A   3      52.263  71.288  47.865  1.00166.05           O  
+ATOM     59  C2'   C A   3      51.708  73.553  48.651  1.00157.41           C  
+ATOM     60  O2'   C A   3      53.017  73.609  49.198  1.00158.49           O  
+ATOM     61  C1'   C A   3      51.462  74.840  47.866  1.00151.95           C  
+ATOM     62  N1    C A   3      50.028  75.204  47.821  1.00150.52           N  
+ATOM     63  C2    C A   3      49.305  75.539  48.983  1.00148.77           C  
+ATOM     64  O2    C A   3      49.854  75.523  50.099  1.00145.11           O  
+ATOM     65  N3    C A   3      47.994  75.872  48.865  1.00142.77           N  
+ATOM     66  C4    C A   3      47.416  75.881  47.661  1.00143.04           C  
+ATOM     67  N4    C A   3      46.130  76.218  47.589  1.00138.02           N  
+ATOM     68  C5    C A   3      48.126  75.553  46.471  1.00147.50           C  
+ATOM     69  C6    C A   3      49.416  75.230  46.599  1.00148.11           C  
+ATOM     70  OP1   C A   3      54.661  73.208  44.373  1.00156.71           O  
+ATOM     71  OP2   C A   3      53.842  74.111  42.126  1.00160.09           O1-
+CONECT    1    4   13
+CONECT    1   17
+CONECT    1   17
+CONECT    1   20
+CONECT    2   14   18   20
+CONECT    2   21
+CONECT    2   21
+CONECT    3    4    5
+CONECT    4    1    3
+CONECT    5    3    6    7
+CONECT    6    5   11
+CONECT    7    5    8    9
+CONECT    8    7   29
+CONECT    9    7   10   11
+CONECT   10    9
+CONECT   11    6    9   28
+CONECT   12   15
+CONECT   12   15
+CONECT   12   15
+CONECT   12   15
+CONECT   12   24
+CONECT   12   24
+CONECT   12   24
+CONECT   12   24
+CONECT   13    1
+CONECT   14    2
+CONECT   15   12
+CONECT   15   12
+CONECT   15   12
+CONECT   15   12
+CONECT   15   16
+CONECT   15   19
+CONECT   15   19
+CONECT   15   19
+CONECT   15   19
+CONECT   16   15
+CONECT   17    1
+CONECT   17    1
+CONECT   18    2
+CONECT   19   15
+CONECT   19   15
+CONECT   19   15
+CONECT   19   15
+CONECT   19   22
+CONECT   19   22
+CONECT   19   22
+CONECT   19   22
+CONECT   20    1    2
+CONECT   21    2
+CONECT   21    2
+CONECT   22   19
+CONECT   22   19
+CONECT   22   19
+CONECT   22   19
+CONECT   22   23
+CONECT   22   23
+CONECT   22   23
+CONECT   22   23
+CONECT   22   28
+CONECT   22   28
+CONECT   22   28
+CONECT   22   28
+CONECT   23   22
+CONECT   23   22
+CONECT   23   22
+CONECT   23   22
+CONECT   23   24
+CONECT   23   24
+CONECT   23   24
+CONECT   23   24
+CONECT   23   26
+CONECT   23   26
+CONECT   23   26
+CONECT   23   26
+CONECT   24   12
+CONECT   24   12
+CONECT   24   12
+CONECT   24   12
+CONECT   24   23
+CONECT   24   23
+CONECT   24   23
+CONECT   24   23
+CONECT   24   25
+CONECT   24   25
+CONECT   25   24
+CONECT   25   24
+CONECT   26   23
+CONECT   26   23
+CONECT   26   23
+CONECT   26   23
+CONECT   26   27
+CONECT   26   27
+CONECT   26   27
+CONECT   26   27
+CONECT   27   26
+CONECT   27   26
+CONECT   27   26
+CONECT   27   26
+CONECT   27   28
+CONECT   27   28
+CONECT   27   28
+CONECT   27   28
+CONECT   28   11
+CONECT   28   22
+CONECT   28   22
+CONECT   28   22
+CONECT   28   22
+CONECT   28   27
+CONECT   28   27
+CONECT   28   27
+CONECT   28   27
+CONECT   29    8
+END

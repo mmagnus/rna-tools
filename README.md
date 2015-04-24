@@ -17,10 +17,10 @@ What is fun here?
 
 .. or you want to use the lib as the program:
 
-    $ ./yapdb_parser.py -h
-    usage: yapdb_parser [-h] [-r] [-c] [--getchain GETCHAIN] [--getseq]
-                        [--rosetta2generic] [--getrnapuzzle]
-                        file
+    usage: yapdb_parser ver: acad6df-dirty [-h] [-r] [-c] [--getchain GETCHAIN]
+                                           [--getseq] [--rosetta2generic]
+                                           [--getrnapuzzle] [--nohr]
+                                           file
     
     positional arguments:
       file                 file
@@ -33,7 +33,7 @@ What is fun here?
       --getseq             get seq
       --rosetta2generic    convert ROSETTA-like format to generic pdb
       --getrnapuzzle       get RNApuzzle ready
-
+      --nohr               do not insert the header into files
 
 ## Features (TODO):
 
@@ -60,6 +60,8 @@ What is fun here?
             [          ]   1 0.04 % 2746 decoy3308.pdb                                           -0.1      -1.0     29.17    -67.13 104916.67     12.74     10.28      -0.0     28.28
 
 - [X] add version of the tool (based on https://github.com/m4rx9/curr_version )
+- [X] add a header to pdb file with version of the program (and add `--nohr` option if you don't like the header :-)
+
 *low priority*
 
 - [ ] get protein seq

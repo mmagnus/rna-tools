@@ -1,6 +1,6 @@
-usage: yapdb_parser ver: d65f9d1-dirty [-h] [-r] [-c] [--getchain GETCHAIN]
+usage: yapdb_parser ver: acad6df-dirty [-h] [-r] [-c] [--getchain GETCHAIN]
                                        [--getseq] [--rosetta2generic]
-                                       [--getrnapuzzle]
+                                       [--getrnapuzzle] [--nohr]
                                        file
 
 positional arguments:
@@ -14,3 +14,4 @@ optional arguments:
   --getseq             get seq
   --rosetta2generic    convert ROSETTA-like format to generic pdb
   --getrnapuzzle       get RNApuzzle ready
+  --nohr               do not insert the header into files
