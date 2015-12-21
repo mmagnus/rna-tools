@@ -18,7 +18,7 @@
 
 ./yapdb_parser.py --nohr --getrnapuzzle input/1xjr_onlyGTP.pdb
 
-./yapdb_parser.py --nohr --getrnapuzzle input/1xjr_onlyGTP.pdb > input/1xjr_onlyGTP_rnapuzzle_ready.pdb
+./yapdb_parser.py --nohr --getrnapuzzle input/1xjr_onlyGTP.pdb > output/1xjr_onlyGTP_rnapuzzle_ready.pdb
 
 ./yapdb_parser.py --nohr --clean input/1osw.pdb > output/1osw_NMR_1.pdb
 
