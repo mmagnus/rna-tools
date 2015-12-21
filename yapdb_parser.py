@@ -30,6 +30,9 @@ if __name__ == '__main__':
     parser.add_argument('--getrnapuzzle', help='get RNApuzzle ready',
                         action='store_true')
 
+    parser.add_argument('--get_simrna_ready', help='',
+                        action='store_true')
+
     parser.add_argument('--nohr', help='do not insert the header into files',
                         action='store_true')
 
@@ -117,3 +120,18 @@ if __name__ == '__main__':
             add_header()
         s.get_rnapuzzle_ready()
         print s.get_text()
+
+    if args.get_simrna_ready:
+        s = StrucFile(args.file)
+        s.decap_gtp()
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.fix_op_atoms()
+        s.renum_atoms()
+        if not args.nohr:
+            add_header()
+        s.get_simrna_ready()
+        print s.get_text()
+        

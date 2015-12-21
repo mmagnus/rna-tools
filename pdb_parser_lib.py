@@ -18,6 +18,9 @@ HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", 
                           "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2", "H3T"]
 
 import os
+import sys
+
+ignore_op3 = False
 
 def get_version(currfn='', verbose=False):
     """Get version of the tool based on state of the git repository.
@@ -65,6 +68,7 @@ class StrucFile:
                 break
 
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER') or l.startswith('END'):
+
                 self.lines.append(l.strip())
             if l.startswith("@<TRIPOS>"):
                 self.mol2_format = True
@@ -468,84 +472,99 @@ class StrucFile:
         parser = PDB.PDBParser()
         struct = parser.get_structure('', ftmp)
         model = struct[0]
-        chain = model['A']
-        residue = chain.get_residues()
-
-        res = [] 
-        for r in residue:
-            res.append(r)
-
-        res = copy.copy(res)
 
         s2 = PDB.Structure.Structure(struct.id)
-        m2 = PDB.Model.Model(model.id)    
-        c2 = PDB.Chain.Chain(chain.id)        
+        m2 = PDB.Model.Model(model.id)
 
-        c = 1
+        chains2 = []
 
         missing = []
-        for r in res:
-            # hack for amber/qrna
+        for chain in model.get_list():
+            residue = chain.get_residues()
+            
+            res = [] 
+            for r in residue:
+                res.append(r)
 
-            if r.resname == 'RC3': r.resname = 'C'
-            if r.resname == 'RU3': r.resname = 'U'
-            if r.resname == 'RG3': r.resname = 'G'
-            if r.resname == 'RA3': r.resname = 'A'
+            res = copy.copy(res)
 
-            if r.resname == 'RC5': r.resname = 'C'
-            if r.resname == 'RU5': r.resname = 'U'
-            if r.resname == 'RG5': r.resname = 'G'
-            if r.resname == 'RA5': r.resname = 'A'
+            c2 = PDB.Chain.Chain(chain.id)        
 
-            if r.resname.strip() == 'RC': r.resname = 'C'
-            if r.resname.strip() == 'RU': r.resname = 'U'
-            if r.resname.strip() == 'RG': r.resname = 'G'
-            if r.resname.strip() == 'RA': r.resname = 'A'
+            c = 1  # new chain, goes from 1 !!!
+            for r in res:
+                # hack for amber/qrna
+                r.resname = r.resname.strip()
+                if r.resname == 'RC3': r.resname = 'C'
+                if r.resname == 'RU3': r.resname = 'U'
+                if r.resname == 'RG3': r.resname = 'G'
+                if r.resname == 'RA3': r.resname = 'A'
 
-            r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
-            #print r.resi
-            r2.id = (' ', c, ' ') ## renumber!
+                if r.resname == 'C3': r.resname = 'C'
+                if r.resname == 'U3': r.resname = 'U'
+                if r.resname == 'G3': r.resname = 'G'
+                if r.resname == 'A3': r.resname = 'A'
 
-            if str(r.get_resname()).strip() == "G":
-                for an in G_ATOMS:
-                    try:
-                        r2.add(r[an])
-                    except KeyError:
-                        #print 'Missing:', an, r, ' new resi', c
-                        missing.append([an, r, c])
-                c2.add(r2)
+                if r.resname == 'RC5': r.resname = 'C'
+                if r.resname == 'RU5': r.resname = 'U'
+                if r.resname == 'RG5': r.resname = 'G'
+                if r.resname == 'RA5': r.resname = 'A'
 
-            elif str(r.get_resname()).strip() == "A":
-                for an in A_ATOMS:
-                    try:
-                        r2.add(r[an])
-                    except KeyError:
-                        #print 'Missing:', an, r, ' new resi', c
-                        missing.append([an, r, c])
-                c2.add(r2)
+                if r.resname == 'C5': r.resname = 'C'
+                if r.resname == 'U5': r.resname = 'U'
+                if r.resname == 'G5': r.resname = 'G'
+                if r.resname == 'A5': r.resname = 'A'
 
-            elif str(r.get_resname()).strip() == "C":
-                for an in C_ATOMS:
-                    try:
-                        r2.add(r[an])
-                    except:
-                        #print 'Missing:', an, r, ' new resi', c
-                        missing.append([an, r, c])
-                c2.add(r2)
+                if r.resname.strip() == 'RC': r.resname = 'C'
+                if r.resname.strip() == 'RU': r.resname = 'U'
+                if r.resname.strip() == 'RG': r.resname = 'G'
+                if r.resname.strip() == 'RA': r.resname = 'A'
 
-            elif str(r.get_resname()).strip() == "U":
-                for an in U_ATOMS:
-                    try:
-                        r2.add(r[an])
-                    except KeyError:
-                        #print 'Missing:', an, r,' new resi', c
-                        missing.append([an, r, c])
-                c2.add(r2)
+                r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
+                r2.id = (' ', c, ' ') ## renumber!
 
-            c += 1
+                if str(r.get_resname()).strip() == "G":
+                    for an in G_ATOMS:
+                        try:
+                            r2.add(r[an])
+                        except KeyError:
+                            #print 'Missing:', an, r, ' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                elif str(r.get_resname()).strip() == "A":
+                    for an in A_ATOMS:
+                        try:
+                            r2.add(r[an])
+                        except KeyError:
+                            #print 'Missing:', an, r, ' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                elif str(r.get_resname()).strip() == "C":
+                    for an in C_ATOMS:
+                        try:
+                            r2.add(r[an])
+                        except:
+                            #print 'Missing:', an, r, ' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                elif str(r.get_resname()).strip() == "U":
+                    for an in U_ATOMS:
+                        try:
+                            r2.add(r[an])
+                        except KeyError:
+                            #print 'Missing:', an, r,' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                c += 1
+            chains2.append(c2)
+
         io = PDBIO()
-        m2.add(c2)
         s2.add(m2)
+        for chain2 in chains2:
+            m2.add(chain2) 
         #print c2
         #print m2
         io.set_structure(s2)
@@ -554,14 +573,177 @@ class StrucFile:
         io.save(fout)
         
         if missing:
-            print 'Missing atoms:'
+            print 'REMARK 000 Missing atoms:'
             for i in missing:
-                print ' +', i[0], i[1], 'residue #', i[2]
-            raise Exception('Missing atoms')
-            #print 'Output:', fout
+                print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
+            #raise Exception('Missing atoms in %s' % self.fn)
         s = StrucFile(fout)
         self.lines = s.lines
 
+
+    def get_simrna_ready(self):
+        from Bio import PDB
+        from Bio.PDB import PDBIO
+        import copy
+
+        G_ATOMS = ['P', 'OP1', 'OP2', 'O5\'', 'C5\'', 'C4\'', 'O4\'', 'C3\'', 'O3\'', 'C2\'', 'O2\'', 'C1\'', 'N9', 'C8', 'N7', 'C5', 'C6', 'O6', 'N1', 'C2', 'N2', 'N3', 'C4']
+        A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
+        U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
+        C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
+
+        ftmp = '/tmp/out.pdb'
+        self.write(ftmp,v=False)
+
+        parser = PDB.PDBParser()
+        struct = parser.get_structure('', ftmp)
+        model = struct[0]
+
+        s2 = PDB.Structure.Structure(struct.id)
+        m2 = PDB.Model.Model(model.id)
+
+        chains2 = []
+
+        missing = []
+        
+
+        for chain in model.get_list():
+            residue = chain.get_residues()
+            
+            c = 1  # new chain, goes from 1 !!!
+
+            res = [] 
+            for r in residue:
+                res.append(r)
+
+            res = copy.copy(res)
+
+            c2 = PDB.Chain.Chain(chain.id)        
+
+            for r in res:
+                # hack for amber/qrna
+                r.resname = r.resname.strip()
+                if r.resname == 'RC3': r.resname = 'C'
+                if r.resname == 'RU3': r.resname = 'U'
+                if r.resname == 'RG3': r.resname = 'G'
+                if r.resname == 'RA3': r.resname = 'A'
+
+                if r.resname == 'C3': r.resname = 'C'
+                if r.resname == 'U3': r.resname = 'U'
+                if r.resname == 'G3': r.resname = 'G'
+                if r.resname == 'A3': r.resname = 'A'
+
+                if r.resname == 'RC5': r.resname = 'C'
+                if r.resname == 'RU5': r.resname = 'U'
+                if r.resname == 'RG5': r.resname = 'G'
+                if r.resname == 'RA5': r.resname = 'A'
+
+                if r.resname == 'C5': r.resname = 'C'
+                if r.resname == 'U5': r.resname = 'U'
+                if r.resname == 'G5': r.resname = 'G'
+                if r.resname == 'A5': r.resname = 'A'
+
+                if r.resname.strip() == 'RC': r.resname = 'C'
+                if r.resname.strip() == 'RU': r.resname = 'U'
+                if r.resname.strip() == 'RG': r.resname = 'G'
+                if r.resname.strip() == 'RA': r.resname = 'A'
+
+                r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
+                r2.id = (' ', c, ' ') ## renumber!
+
+                if c == 1:
+                    p_missing = True
+                    for a in r:
+                        if a.id == 'P':
+                            p_missing = False
+                    if p_missing:
+                        x = r["O5'"]
+                        x.id =       ' P'
+                        x.name =     ' P'
+                        x.fullname = ' P'
+                        print "REMARK 000 FIX O5' -> P fix in chain ", chain.id
+                #p_missing = False # off this function
+                
+                if str(r.get_resname()).strip() == "G":
+                    for an in G_ATOMS:
+                        if c == 1 and ignore_op3:
+                            if an in ['P', 'OP1', 'OP2']:
+                                continue
+                        try:
+                            if c == 1 and an == "O5'" and p_missing:
+                                r2.add(x)
+                            else:
+                                r2.add(r[an])
+                        except KeyError:
+                            #print 'Missing:', an, r, ' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                elif str(r.get_resname()).strip() == "A":
+                    for an in A_ATOMS:
+                        if c == 1 and ignore_op3:
+                            if an in ['P', 'OP1', 'OP2']:
+                                continue
+                        try:
+                            if c == 1 and an == "O5'" and p_missing:
+                                r2.add(x)
+                            else:
+                                r2.add(r[an])
+                        except KeyError:
+                            #print 'Missing:', an, r, ' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                elif str(r.get_resname()).strip() == "C":
+                    for an in C_ATOMS:
+                        if c == 1 and ignore_op3:
+                            if an in ['P', 'OP1', 'OP2']:
+                                continue
+                        try:
+                            if c == 1 and an == "O5'" and p_missing:
+                                r2.add(x)
+                            else:
+                                r2.add(r[an])
+                        except:
+                            #print 'Missing:', an, r, ' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                elif str(r.get_resname()).strip() == "U":
+                    for an in U_ATOMS:
+                        if c == 1 and ignore_op3:
+                            if an in ['P', 'OP1', 'OP2']:
+                                continue
+                        try:
+                            if c == 1 and an == "O5'" and p_missing:
+                                r2.add(x)
+                            else:
+                                r2.add(r[an])
+                        except KeyError:
+                            #print 'Missing:', an, r,' new resi', c
+                            missing.append([an, chain.id, r, c])
+                    c2.add(r2)
+
+                c += 1
+            chains2.append(c2)
+
+        io = PDBIO()
+        s2.add(m2)
+        for chain2 in chains2:
+            m2.add(chain2) 
+        #print c2
+        #print m2
+        io.set_structure(s2)
+        #fout = fn.replace('.pdb', '_fx.pdb')
+        fout = '/tmp/outout.pdb' # hack
+        io.save(fout)
+        
+        if missing:
+            print 'REMARK 000 Missing atoms:'
+            for i in missing:
+                print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
+            #raise Exception('Missing atoms in %s' % self.fn)
+        s = StrucFile(fout)
+        self.lines = s.lines
 
 def start(): pass
 

@@ -1,7 +1,8 @@
-usage: yapdb_parser ver: acad6df-dirty [-h] [-r] [-c] [--getchain GETCHAIN]
-                                       [--getseq] [--rosetta2generic]
-                                       [--getrnapuzzle] [--nohr]
-                                       file
+usage: yapdb_parser ver: unknown [-h] [-r] [-c] [--getchain GETCHAIN]
+                                 [--getseq] [--rosetta2generic]
+                                 [--getrnapuzzle] [--get_simrna_ready]
+                                 [--nohr]
+                                 file
 
 positional arguments:
   file                 file
@@ -14,4 +15,5 @@ optional arguments:
   --getseq             get seq
   --rosetta2generic    convert ROSETTA-like format to generic pdb
   --getrnapuzzle       get RNApuzzle ready
+  --get_simrna_ready
   --nohr               do not insert the header into files

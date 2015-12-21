@@ -27,3 +27,5 @@
 ./yapdb_parser.py --nohr --getrnapuzzle input/gtp.pdb  > output/gtp.pdb
 
 ./yapdb_parser.py --nohr --getrnapuzzle input/377D.pdb # should finish with error
+
+./yapdb_parser.py --nohr --get_simrna_ready input/1xjr_no_op3.pdb > output/1xjr_no_op3_simrna_ready.pdb
