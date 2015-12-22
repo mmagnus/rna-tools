@@ -459,6 +459,7 @@ class StrucFile:
     def get_rnapuzzle_ready(self):
         from Bio import PDB
         from Bio.PDB import PDBIO
+
         import copy
 
         G_ATOMS = ['P', 'OP1', 'OP2', 'O5\'', 'C5\'', 'C4\'', 'O4\'', 'C3\'', 'O3\'', 'C2\'', 'O2\'', 'C1\'', 'N9', 'C8', 'N7', 'C5', 'C6', 'O6', 'N1', 'C2', 'N2', 'N3', 'C4']
@@ -584,6 +585,12 @@ class StrucFile:
     def get_simrna_ready(self):
         from Bio import PDB
         from Bio.PDB import PDBIO
+
+        import warnings
+        
+        warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
+        warnings.filterwarnings('ignore', '.*with given element *',)
+        
         import copy
 
         G_ATOMS = ['P', 'OP1', 'OP2', 'O5\'', 'C5\'', 'C4\'', 'O4\'', 'C3\'', 'O3\'', 'C2\'', 'O2\'', 'C1\'', 'N9', 'C8', 'N7', 'C5', 'C6', 'O6', 'N1', 'C2', 'N2', 'N3', 'C4']
