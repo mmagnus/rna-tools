@@ -27,16 +27,10 @@ def get_version(currfn='', verbose=False):
     Return version. 
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
     The version is not printed!
-    https://github.com/m4rx9/curr_version/
-    """
-    try:
-        import sh
-    except ImportError:
-        #print 'sh lib is missing'
-        return 'unknown'
+    https://github.com/m4rx9/curr_version/"""
+    from commands import getoutput
 
     if currfn == '':
-
         path = '.'
     else:
         path = os.path.dirname(currfn)
@@ -45,8 +39,15 @@ def get_version(currfn='', verbose=False):
         path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
     if not path: path = '.'
     if verbose: print 'get_version::path2', path
-    git = sh.git.bake(_cwd=path)
-    return git.describe('--long' ,'--tags', '--dirty', '--always')
+    curr_path = os.getcwd()
+    os.chdir(os.path.abspath(path))
+    version = getoutput('git describe --long --tags --dirty --always')
+    os.chdir(curr_path)
+    if version.find('not found')>-1:
+        return ' unknown' # > install git to get versioning based on git'
+    else:
+        return version
+
 
 class StrucFile:
     def __init__(self, fn):
