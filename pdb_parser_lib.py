@@ -674,7 +674,15 @@ class StrucFile:
                             p_missing = False
 
                     if p_missing:
-                            po3_struc = PDB.PDBParser().get_structure('', 'data/po3_inner.pdb') # PO3.pdb
+                            currfn = __file__
+                            if currfn == '':
+                                path = '.'
+                            else:
+                                path = os.path.dirname(currfn)
+                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+
+                            po3_struc = PDB.PDBParser().get_structure('', path + '/data/PO3_inner.pdb') 
                             po3 = [po3_atom for po3_atom in po3_struc[0].get_residues()][0]
 
                             r_atoms = [r["O4'"], r["C4'"], r["C3'"]]
