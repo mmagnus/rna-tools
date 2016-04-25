@@ -659,17 +659,48 @@ class StrucFile:
 
                 if c == 1:
                     p_missing = True
+                    #if p_missing:
+                    #    try:
+                    #        x = r["O5'"]
+                    #        x.id =       ' P'
+                    #        x.name =     ' P'
+                    #        x.fullname = ' P'
+                    #        print "REMARK 000 FIX O5' -> P fix in chain ", chain.id
+                    #    except:
+                    #        pass
                     for a in r:
                         if a.id == 'P':
                             p_missing = False
+
                     if p_missing:
-                        x = r["O5'"]
-                        x.id =       ' P'
-                        x.name =     ' P'
-                        x.fullname = ' P'
-                        print "REMARK 000 FIX O5' -> P fix in chain ", chain.id
-                #p_missing = False # off this function
-                
+                            po3_struc = PDB.PDBParser().get_structure('', 'data/po3_inner.pdb') # PO3.pdb
+                            po3 = [po3_atom for po3_atom in po3_struc[0].get_residues()][0]
+
+                            r_atoms = [r["O4'"], r["C4'"], r["C3'"]]
+                            po3_atoms = [po3["O4'"], po3["C4'"], po3["C3'"]]
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, po3_atoms)
+                            rms = round(sup.rms, 3)
+
+                            sup.apply( po3_struc.get_atoms() ) # to all atoms of po3
+
+                            r.add( po3['P'])
+                            r.add( po3['OP1'])
+                            r.add( po3['OP2'])
+                            try:
+                                r.add( po3["O5'"]) 
+                            except:
+                                del r["O5'"] 
+                                r.add( po3["O5'"]) 
+
+                    p_missing = False # off this function
+
+                    # save it
+                    #io = PDB.PDBIO()
+                    #io.set_structure( po3_struc )
+                    #io.save("po3.pdb")
+
                 if str(r.get_resname()).strip() == "G":
                     for an in G_ATOMS:
                         if c == 1 and ignore_op3:
