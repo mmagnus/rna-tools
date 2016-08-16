@@ -27,13 +27,13 @@ if __name__ == '__main__':
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to generic pdb',
                         action='store_true')
 
-    parser.add_argument('--getrnapuzzle', help='get RNApuzzle ready',
-                        action='store_true')
-
-    parser.add_argument('--get_simrna_ready', help='',
+    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready',
                         action='store_true')
 
     parser.add_argument('--nohr', help='do not insert the header into files',
+                        action='store_true')
+
+    parser.add_argument('--get_simrna_ready', help='',
                         action='store_true')
 
     parser.add_argument('file', help='file') 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
             add_header()
         print s.get_text()
 
-    if args.getrnapuzzle:
+    if args.get_rnapuzzle_ready:
         s = StrucFile(args.file)
         s.decap_gtp()
         s.fix_resn()
