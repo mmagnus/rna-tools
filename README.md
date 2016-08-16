@@ -3,11 +3,7 @@ rna-pdb-tools
 
 [![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools)
 
-It intended to be used with RNA structures.
-
-![rna](rna.png)
-
-**Figure 1**. Cleaned `1osw.pdb`
+A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
 What is fun here?
 
@@ -15,7 +11,12 @@ What is fun here?
 + it's tested via Travis! -- it (should) always works as you just want!
 + you miss a converter you would like to have? Just Do It Yourself - compose your converter/parsre from LEGO brick-like functions, see `--rosetta2generic`)
 
-.. or you want to use the lib as the program:
+.. or you want to use the lib as the program.
+
+![rna](rna.png)
+**Figure 1**. Cleaned `1osw.pdb`
+
+The main program:
 
     usage: yapdb_parser ver: unknown [-h] [-r] [-c] [--getchain GETCHAIN]
                                      [--getseq] [--rosetta2generic]
