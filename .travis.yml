@@ -6,7 +6,7 @@ python:
 install:
 - "pip install -r requirements.txt"
 # command to run tests, e.g. python setup.py test
-script: "pdb_parser_lib.py"
+script: "python pdb_parser_lib.py"
 notifications:
    email:
      - magnus@genesilico.pl
