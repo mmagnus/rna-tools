@@ -976,3 +976,6 @@ if '__main__' == __name__:
     r = StrucFile(fn)
     r.write("output/1a9l_NMR_1_2_models_lib.pdb")
     #r.get_text() # get #1 model
+
+    from Bio import PDB
+    from Bio.PDB import PDBIO
