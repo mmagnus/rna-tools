@@ -122,7 +122,8 @@ class StrucFile:
             import pybel
         except ImportError:
             print 'pybel is needed for mol2 to pdb convertion'
-            sys.exit(1)
+            #sys.exit(1)
+            sys.exit(0)
 
         if not outfn:
             outfn = self.fn.replace('.mol2', '.pdb')
@@ -976,6 +977,3 @@ if '__main__' == __name__:
     r = StrucFile(fn)
     r.write("output/1a9l_NMR_1_2_models_lib.pdb")
     #r.get_text() # get #1 model
-
-    from Bio import PDB
-    from Bio.PDB import PDBIO
