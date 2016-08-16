@@ -7,7 +7,7 @@ install:
  - sudo apt-get install python-biopython
 
 script:
- - python pdb_parser_lib.py
+ - bash test.sh
 
 notifications:
    email:
