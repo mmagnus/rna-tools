@@ -4,7 +4,7 @@ python:
 - 2.6
 
 install:
- - apt-get install python-biopython
+ - sudo apt-get install python-biopython
 
 script:
  - python pdb_parser_lib.py
