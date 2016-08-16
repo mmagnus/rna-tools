@@ -9,9 +9,9 @@ What is fun here?
 
 + you see input & output -- this is what you want to get?
 + it's tested via Travis! -- it (should) always works as you just want!
-+ you miss a converter you would like to have? Just Do It Yourself - compose your converter/parsre from LEGO brick-like functions, see `--rosetta2generic`)
++ you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
 
-.. or you want to use the lib as the program.
+.. or you might want to use the lib in the program.
 
 ![rna](rna.png)
 **Figure 1**. Cleaned `1osw.pdb`
