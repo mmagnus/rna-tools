@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ./pdb_parser_lib.py
 
 ./yapdb_parser.py -h | tee yapdb_parser.out

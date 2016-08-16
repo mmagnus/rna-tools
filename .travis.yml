@@ -6,7 +6,7 @@ python:
 install:
 - "pip install -r requirements.txt"
 # command to run tests, e.g. python setup.py test
-script: "bash test.sh"
+script: "bash test_travis.sh"
 notifications:
    email:
      - magnus@genesilico.pl
