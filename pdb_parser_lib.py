@@ -483,10 +483,8 @@ class StrucFile:
 
         missing = []
         for chain in model.get_list():
-            residue = chain.get_residues()
-            
             res = [] 
-            for r in residue:
+            for r in chain:
                 res.append(r)
 
             res = copy.copy(res)
@@ -616,12 +614,10 @@ class StrucFile:
         
 
         for chain in model.get_list():
-            residue = chain.get_residues()
-            
             c = 1  # new chain, goes from 1 !!!
 
             res = [] 
-            for r in residue:
+            for r in chain:
                 res.append(r)
 
             res = copy.copy(res)
