@@ -1,7 +1,7 @@
 rna-pdb-tools
 -------------------------------------------------
 
-[![Build Status](https://travis-ci.org/m4rx9/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/m4rx9/rna-pdb-tools)
+[![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools)
 
 It intended to be used with RNA structures.
 
