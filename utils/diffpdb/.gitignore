@@ -1,6 +1,7 @@
+.pyc
 *~
-*pyc
-bucket*
+*.pyc
+.ropeproject
 .Rhistory
 *#*
 moderna.log
