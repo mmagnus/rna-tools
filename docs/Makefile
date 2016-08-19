@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = build
+BUILDDIR      = ./
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -13,6 +13,8 @@ PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
+
+GH_PAGES_SOURCES = docs/source soccermetrics docs/Makefile
 
 .PHONY: help
 help:
@@ -44,13 +46,27 @@ help:
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 	@echo "  dummy      to check syntax errors of document sources"
 
+.PHONY: gh-pages
+gh-pages:
+	git checkout gh-pages
+	rm -rf build _sources _static _modules
+	git checkout master $(GH_PAGES_SOURCES)
+	git reset HEAD
+	make -f docs/Makefile html
+	mv -fv build/html/* ./
+	rm -rf $(GH_PAGES_SOURCES) build
+	git add -A
+	git commit -m "Generated gh-pages for `git log master -1 --pretty=short \
+    --abbrev-commit`" && git push origin gh-pages ; git checkout master
+
+
 .PHONY: clean
 clean:
 	rm -rf $(BUILDDIR)/*
 
 .PHONY: html
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
