@@ -14,6 +14,8 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) sou
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
 
+GH_PAGES_SOURCES = docs/source docs/Makefile
+
 .PHONY: help
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -43,6 +45,19 @@ help:
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 	@echo "  dummy      to check syntax errors of document sources"
+
+.PHONY: gh-pages
+gh-pages:
+	git checkout gh-pages
+	rm -rf build _sources _static _modules
+	git checkout master $(GH_PAGES_SOURCES)
+	git reset HEAD
+	make -f docs/Makefile html
+	mv -fv build/html/* ./
+	rm -rf $(GH_PAGES_SOURCES) build
+	git add -A
+	git commit -m "Generated gh-pages for `git log master -1 --pretty=short \
+	--abbrev-commit`" && git push origin gh-pages ; git checkout master
 
 .PHONY: clean
 clean:

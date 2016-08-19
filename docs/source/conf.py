@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # rna-pdb-tools documentation build configuration file, created by
-# sphinx-quickstart on Fri Aug 19 22:26:51 2016.
+# sphinx-quickstart on Fri Aug 19 23:03:14 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -16,9 +16,9 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath('.'))))
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
 # -- General configuration ------------------------------------------------
 
