@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-"""
-Author Marcin Magnus mmagnus@stanford.edu // magnus@genesilico.pl
-"""
+
+
 AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
             "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
             "TRP", "TYR", "VAL"]
@@ -50,6 +49,7 @@ def get_version(currfn='', verbose=False):
 
 
 class StrucFile:
+    """StrucFile"""
     def __init__(self, fn):
         self.fn = fn
     
