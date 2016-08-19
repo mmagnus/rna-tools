@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>utils.pdb_formatix.PDBFile &mdash; rna-pdb-tools 1.0a documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="rna-pdb-tools 1.0a documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for utils.pdb_formatix.PDBFile</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">SingleLineUtils</span> <span class="k">import</span> <span class="n">get_res_code</span><span class="p">,</span> <span class="n">get_res_num</span><span class="p">,</span> <span class="n">get_atom_code</span><span class="p">,</span> \
+    <span class="n">set_atom_code</span><span class="p">,</span> <span class="n">set_line_bfactor</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<div class="viewcode-block" id="PDBFile"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile">[docs]</a><span class="k">class</span> <span class="nc">PDBFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for holding data from a PDB file and modifying it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c"># find &#39;ATOM&#39; lines in a PDB file</span>
+    <span class="n">ATOM_LINE_PATTERN</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;^ATOM&#39;</span><span class="p">)</span>
+    
+    <span class="c"># dictionary for changing residue names from 3 letters to 1 letter</span>
+    <span class="n">RES3TO1</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;GUA&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;URI&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;CYT&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;ADE&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="s">&#39;RG&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RU&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RC&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RA&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="s">&#39;R3G&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;R3U&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;R3C&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;R3A&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="s">&#39;R5G&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;R5U&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;R5C&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;R5A&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="s">&#39;RG3&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RU3&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RC3&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RA3&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="s">&#39;RG5&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RU5&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RC5&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RA5&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="s">&#39;RGU&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;URA&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RCY&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;RAD&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+
+        <span class="c"># just in case</span>
+        <span class="s">&#39;G&#39;</span><span class="p">:</span> <span class="s">&#39;G&#39;</span><span class="p">,</span>
+        <span class="s">&#39;U&#39;</span><span class="p">:</span> <span class="s">&#39;U&#39;</span><span class="p">,</span>
+        <span class="s">&#39;C&#39;</span><span class="p">:</span> <span class="s">&#39;C&#39;</span><span class="p">,</span>
+        <span class="s">&#39;A&#39;</span><span class="p">:</span> <span class="s">&#39;A&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+    
+    <span class="n">AMINOACID_CODES</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Ala&quot;</span><span class="p">,</span> <span class="s">&quot;Arg&quot;</span><span class="p">,</span> <span class="s">&quot;Asn&quot;</span><span class="p">,</span> <span class="s">&quot;Asp&quot;</span><span class="p">,</span> <span class="s">&quot;Cys&quot;</span><span class="p">,</span> <span class="s">&quot;Glu&quot;</span><span class="p">,</span> <span class="s">&quot;Gln&quot;</span><span class="p">,</span> <span class="s">&quot;Gly&quot;</span><span class="p">,</span>
+            <span class="s">&quot;His&quot;</span><span class="p">,</span> <span class="s">&quot;Ile&quot;</span><span class="p">,</span> <span class="s">&quot;Leu&quot;</span><span class="p">,</span> <span class="s">&quot;Lys&quot;</span><span class="p">,</span> <span class="s">&quot;Met&quot;</span><span class="p">,</span> <span class="s">&quot;Phe&quot;</span><span class="p">,</span> <span class="s">&quot;Pro&quot;</span><span class="p">,</span> <span class="s">&quot;Ser&quot;</span><span class="p">,</span> <span class="s">&quot;Thr&quot;</span><span class="p">,</span>
+            <span class="s">&quot;Trp&quot;</span><span class="p">,</span> <span class="s">&quot;Tyr&quot;</span><span class="p">,</span> <span class="s">&quot;Val&quot;</span><span class="p">,</span>
+            <span class="s">&quot;ALA&quot;</span><span class="p">,</span> <span class="s">&quot;ARG&quot;</span><span class="p">,</span> <span class="s">&quot;ASN&quot;</span><span class="p">,</span> <span class="s">&quot;ASP&quot;</span><span class="p">,</span> <span class="s">&quot;CYS&quot;</span><span class="p">,</span> <span class="s">&quot;GLU&quot;</span><span class="p">,</span> <span class="s">&quot;GLN&quot;</span><span class="p">,</span> <span class="s">&quot;GLY&quot;</span><span class="p">,</span>
+            <span class="s">&quot;HIS&quot;</span><span class="p">,</span> <span class="s">&quot;ILE&quot;</span><span class="p">,</span> <span class="s">&quot;LEU&quot;</span><span class="p">,</span> <span class="s">&quot;LYS&quot;</span><span class="p">,</span> <span class="s">&quot;MET&quot;</span><span class="p">,</span> <span class="s">&quot;PHE&quot;</span><span class="p">,</span> <span class="s">&quot;PRO&quot;</span><span class="p">,</span> <span class="s">&quot;SER&quot;</span><span class="p">,</span> <span class="s">&quot;THR&quot;</span><span class="p">,</span>
+            <span class="s">&quot;TRP&quot;</span><span class="p">,</span> <span class="s">&quot;TYR&quot;</span><span class="p">,</span> <span class="s">&quot;VAL&quot;</span>
+            <span class="p">)</span>
+    
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdb_string</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">pdb_path</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">pdb_handle</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor, should get exactly one of the arguments:</span>
+<span class="sd">             * pdb_string = PDB as a string</span>
+<span class="sd">             * pdb_path = string with path to a PDB file</span>
+<span class="sd">             * pdb_handle = handle to a PDB file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">,</span> <span class="p">[</span><span class="n">pdb_string</span><span class="p">,</span> <span class="n">pdb_path</span><span class="p">,</span> <span class="n">pdb_handle</span><span class="p">]))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s">&#39;You should provide at most one source for PDB file&#39;</span>
+            <span class="k">raise</span> <span class="ne">Exception</span>
+        <span class="n">input_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">pdb_string</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">input_string</span> <span class="o">=</span> <span class="n">pdb_string</span>
+        <span class="k">elif</span> <span class="n">pdb_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pdb_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">input_string</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">pdb_handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">input_string</span> <span class="o">=</span> <span class="n">pdb_handle</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span> <span class="o">=</span> <span class="n">input_string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixes</span> <span class="o">=</span> <span class="p">[]</span>
+    
+<div class="viewcode-block" id="PDBFile.save"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save current PDB to disk</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * file_path = path where it will be saved</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_apply_fix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fix_name</span><span class="p">,</span> <span class="n">result_string</span><span class="p">,</span> <span class="n">result_lines</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function for applying fixes and saving information about them.</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * fix_name = string that will be added to self.pdb_fixes, unless </span>
+<span class="sd">            result_string is the same as pdb_string</span>
+<span class="sd">          * result_string = string after applying this fix</span>
+<span class="sd">          * result_lines = optional, list of lines, use this argument if you </span>
+<span class="sd">            already have such list and don&#39;t want to lose time on splitting </span>
+<span class="sd">            result_string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span> <span class="o">!=</span> <span class="n">result_string</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fix_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span> <span class="o">=</span> <span class="n">result_string</span>
+            <span class="k">if</span> <span class="n">result_lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span> <span class="o">=</span> <span class="n">result_lines</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="PDBFile.set_string"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.set_string">[docs]</a>    <span class="k">def</span> <span class="nf">set_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdb_string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Change PDB string stored in this instance of the class</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * pdb_string = new PDB string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span> <span class="o">=</span> <span class="n">pdb_string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span> <span class="o">=</span> <span class="n">pdb_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span></div>
+        
+    <span class="k">def</span> <span class="nf">_get_atom_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get only lines with ATOM information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span> <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ATOM_LINE_PATTERN</span><span class="p">,</span> <span class="n">l</span><span class="p">)]</span>
+        
+<div class="viewcode-block" id="PDBFile.validate_pdb"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.validate_pdb">[docs]</a>    <span class="k">def</span> <span class="nf">validate_pdb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if file is a PDB structure</span>
+<span class="sd">        </span>
+<span class="sd">        Output:</span>
+<span class="sd">          * True if it is a PDB, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">atom_lines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_atom_lines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">atom_lines</span><span class="p">):</span>
+            <span class="k">return</span> <span class="k">False</span>
+        <span class="k">return</span> <span class="k">True</span></div>
+    
+<div class="viewcode-block" id="PDBFile.detect_proteins"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.detect_proteins">[docs]</a>    <span class="k">def</span> <span class="nf">detect_proteins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if there are any aminoacid fragments in the file</span>
+<span class="sd">        </span>
+<span class="sd">        Output:</span>
+<span class="sd">          * True if there are some, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">get_res_code</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">AMINOACID_CODES</span><span class="p">:</span>
+                <span class="k">return</span> <span class="k">True</span>
+        <span class="k">return</span> <span class="k">False</span></div>
+    
+<div class="viewcode-block" id="PDBFile.seq_from_pdb"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.seq_from_pdb">[docs]</a>    <span class="k">def</span> <span class="nf">seq_from_pdb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract sequence from a PDB and return it as a string.</span>
+<span class="sd">    </span>
+<span class="sd">        Output:</span>
+<span class="sd">          * sequence, returned as a string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_atom_lines</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;r&#39;</span><span class="p">:</span>  <span class="c"># it is &#39;r&#39; if it&#39;s a ROSETTA PDB</span>
+            <span class="n">seq</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">RES3TO1</span><span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">seq</span> <span class="o">=</span> <span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)):</span>
+            <span class="c"># atom number is different than previous one</span>
+            <span class="k">if</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">!=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;r&#39;</span><span class="p">:</span>  <span class="c"># check for ROSETTA PDB</span>
+                    <span class="n">seq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RES3TO1</span><span class="p">[</span><span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">3</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">seq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PDBFile.seq_from_amber_like_pdb"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.seq_from_amber_like_pdb">[docs]</a>    <span class="k">def</span> <span class="nf">seq_from_amber_like_pdb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract sequence from a PDB and return it as a string - use it for amber-like files.</span>
+
+<span class="sd">        Output:</span>
+<span class="sd">          * sequence, returned as a string, such as: RG5 RC RU RG RG RG RC RG RC RA RG RG3 RC5 RC RU RG RA RC RG RG RU RA RC RA RG RC3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_atom_lines</span><span class="p">()]</span>
+        <span class="n">seq</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">seq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)):</span>
+            <span class="c"># atom number is different than previous one</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">5</span><span class="p">],</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span> <span class="o">!=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">5</span><span class="p">]:</span>
+                <span class="n">seq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atoms</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PDBFile.get_fasta"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.get_fasta">[docs]</a>    <span class="k">def</span> <span class="nf">get_fasta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;seq&#39;</span><span class="p">,</span> <span class="n">lowercase</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Format sequence in FASTA format, with a header and lines split</span>
+<span class="sd">        at 80 characters.</span>
+<span class="sd">    </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * name = name of the sequence (it&#39;s put in the header line)</span>
+<span class="sd">    </span>
+<span class="sd">        Output:</span>
+<span class="sd">          * FASTA returned as a string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq_from_pdb</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">lowercase</span><span class="p">:</span>
+            <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&gt;&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">80</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">),</span> <span class="mi">80</span><span class="p">)])</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="PDBFile.remove_non_atoms"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.remove_non_atoms">[docs]</a>    <span class="k">def</span> <span class="nf">remove_non_atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove all lines that are not ATOMs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_atom_lines</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix</span><span class="p">(</span><span class="s">&#39;Removed non-atom lines&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">result</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_resname_3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if PDB uses 3 or 1 letter residue names.</span>
+<span class="sd">    </span>
+<span class="sd">        Output:</span>
+<span class="sd">          * bool, True if 3 letters, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;ATOM&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="mi">3</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">])</span>
+    
+    <span class="k">def</span> <span class="nf">_resname_3to1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert residue names in PDB file from 3 letters to 1 letter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;ATOM&#39;</span><span class="p">):</span>
+                <span class="n">long_name</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">short_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RES3TO1</span><span class="p">[</span><span class="n">long_name</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">short_name</span> <span class="o">=</span> <span class="s">&#39;X&#39;</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">[:</span><span class="mi">17</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span> <span class="o">+</span> <span class="n">short_name</span> <span class="o">+</span> <span class="n">l</span><span class="p">[</span><span class="mi">20</span><span class="p">:])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix</span><span class="p">(</span><span class="s">&#39;resname_3to1&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">result</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PDBFile.resname_check_and_3to1"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.resname_check_and_3to1">[docs]</a>    <span class="k">def</span> <span class="nf">resname_check_and_3to1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if resnames are 3 letter long and if so convert them to 1 letter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_resname_3</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_resname_3to1</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="s">&#39;Conversion to 1-letter residue names failed&#39;</span></div>
+    
+<div class="viewcode-block" id="PDBFile.terminate_chains"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.terminate_chains">[docs]</a>    <span class="k">def</span> <span class="nf">terminate_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add &#39;TER&#39; at the end of chain if none &#39;TER&#39;s are found in PDB.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;TER&#39;</span><span class="p">):</span>
+                <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">chain_started</span> <span class="o">=</span> <span class="k">False</span>
+            <span class="n">ter_added</span> <span class="o">=</span> <span class="k">False</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s">&#39;ATOM&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                    <span class="n">chain_started</span> <span class="o">=</span> <span class="k">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">chain_started</span><span class="p">:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;TER&#39;</span><span class="p">)</span>
+                        <span class="n">ter_added</span> <span class="o">=</span> <span class="k">True</span>
+                        <span class="n">chain_started</span> <span class="o">=</span> <span class="k">False</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ter_added</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;TER&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix</span><span class="p">(</span><span class="s">&#39;terminate_chains&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">result</span><span class="p">)</span></div>
+    
+    <span class="k">def</span> <span class="nf">_split_by_ters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s">&#39;TER</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Split a PDB string by TER lines or other separator</span>
+<span class="sd">    </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * separator = optional, separator dividing structures, default is &#39;TER\n&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">separator</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">separator</span><span class="p">)]</span>
+    
+<div class="viewcode-block" id="PDBFile.remove_short_chains"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.remove_short_chains">[docs]</a>    <span class="k">def</span> <span class="nf">remove_short_chains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove chains that have chains with a small number of atoms.</span>
+<span class="sd">    </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * threshold = if chain has more atoms, it stays in the result</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chains</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;TER</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">good_chains</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chains</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">ATOM&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix</span><span class="p">(</span><span class="s">&#39;remove_short_chains&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">good_chains</span><span class="p">))</span></div>
+                
+    <span class="k">def</span> <span class="nf">check_and_add_P_at_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">residues</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="n">res_num</span> <span class="o">=</span> <span class="n">get_res_num</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res_num</span> <span class="ow">in</span> <span class="n">residues</span><span class="p">:</span>
+                <span class="n">residues</span><span class="p">[</span><span class="n">res_num</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">residues</span><span class="p">[</span><span class="n">res_num</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="p">]</span>
+        <span class="n">first_residue</span> <span class="o">=</span> <span class="n">residues</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">residues</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+        <span class="c"># check P</span>
+        <span class="n">has_p</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">first_residue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">get_atom_code</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;P&#39;</span><span class="p">:</span>
+                <span class="n">has_p</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_p</span><span class="p">:</span>
+            <span class="c"># add P</span>
+            <span class="n">corrected_residue</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">first_residue</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">get_atom_code</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;O5</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="ow">or</span> <span class="n">get_atom_code</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;O5*&#39;</span> <span class="p">:</span>
+                    <span class="n">corrected_residue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">set_atom_code</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s">&#39;P&#39;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">corrected_residue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="n">residues</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">residues</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span> <span class="o">=</span> <span class="n">corrected_residue</span>
+            <span class="n">residues</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">residues</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">residues</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix</span><span class="p">(</span><span class="s">&#39;add_P_at_start&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">residues</span><span class="p">))</span>
+    
+<div class="viewcode-block" id="PDBFile.set_residues_bfactor"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.set_residues_bfactor">[docs]</a>    <span class="k">def</span> <span class="nf">set_residues_bfactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bfactors</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set B-factor to any value you want</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * bfactors = list of B-factors that will be set, should be of same </span>
+<span class="sd">            length as nucleotide sequence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;ATOM&#39;</span><span class="p">):</span>
+                <span class="n">res_num</span> <span class="o">=</span> <span class="n">get_res_num</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">set_line_bfactor</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">bfactors</span><span class="p">[</span><span class="n">res_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span> <span class="o">=</span> <span class="n">ans</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdb_string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="PDBFile.pedantic_pdb"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.pedantic_pdb">[docs]</a>    <span class="k">def</span> <span class="nf">pedantic_pdb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do everything that&#39;s possible to fix PDB: 3-to-1, no HETATMs, TERs etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resname_check_and_3to1</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_chains</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_short_chains</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="PDBFile.count_models"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.count_models">[docs]</a>    <span class="k">def</span> <span class="nf">count_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Count models in the PDB file</span>
+<span class="sd">        </span>
+<span class="sd">        Output:</span>
+<span class="sd">          * number of models as an int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;MODEL&#39;</span><span class="p">):</span>
+                <span class="n">model_num</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">model_num</span></div>
+    
+<div class="viewcode-block" id="PDBFile.get_model"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get n-th model from the file</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">          * model_num = number of model to get, starts with 0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_borders</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+                            <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;MODEL&#39;</span><span class="p">)],</span>
+                            <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;ENDMDL&#39;</span><span class="p">)]</span>
+                            <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">[:</span><span class="n">model_borders</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">[</span><span class="n">model_borders</span><span class="p">[</span><span class="n">model_num</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="n">model_borders</span><span class="p">[</span><span class="n">model_num</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pdb_lines</span><span class="p">[</span><span class="n">model_borders</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_fix</span><span class="p">(</span><span class="s">&#39;get_model&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">result</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="PDBFile.check_and_get_first_model"><a class="viewcode-back" href="../../../utils.html#utils.pdb_formatix.PDBFile.PDBFile.check_and_get_first_model">[docs]</a>    <span class="k">def</span> <span class="nf">check_and_get_first_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if there are more than one models and get only the first one</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">count_models</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Marcin Magnus.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

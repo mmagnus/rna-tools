@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to rna-pdb-tools’s documentation! &mdash; rna-pdb-tools 1.0a documentation</title>
+    <title>Utils &mdash; rna-pdb-tools 1.0a documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="rna-pdb-tools 1.0a documentation" href="#" />
-    <link rel="next" title="Utils" href="utils.html" />
+    <link rel="top" title="rna-pdb-tools 1.0a documentation" href="index.html" />
+    <link rel="prev" title="Welcome to rna-pdb-tools’s documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -41,82 +41,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-rna-pdb-tools-s-documentation">
-<h1>Welcome to rna-pdb-tools&#8217;s documentation!<a class="headerlink" href="#welcome-to-rna-pdb-tools-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
-</ul>
-</div>
-<div class="section" id="module-pdb_parser_lib">
-<span id="strucfile"></span><h2>StrucFile<a class="headerlink" href="#module-pdb_parser_lib" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-utils.pdb_formatix.RosettaUtils">
+<span id="utils"></span><h1>Utils<a class="headerlink" href="#module-utils.pdb_formatix.RosettaUtils" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="pdb_parser_lib.StrucFile">
-<em class="property">class </em><code class="descclassname">pdb_parser_lib.</code><code class="descname">StrucFile</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="pdb_parser_lib.StrucFile.edit_occupancy_of_pdb">
-<code class="descname">edit_occupancy_of_pdb</code><span class="sig-paren">(</span><em>txt</em>, <em>pdb</em>, <em>pdb_out</em>, <em>v=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.edit_occupancy_of_pdb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.edit_occupancy_of_pdb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.
-Return False if error. True if OK</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.fix_O_in_UC">
-<code class="descname">fix_O_in_UC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.fix_O_in_UC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.fix_O_in_UC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.is_amber_like">
-<code class="descname">is_amber_like</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.is_amber_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.is_amber_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use self.lines and check if there is XX line</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.is_mol2">
-<code class="descname">is_mol2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.is_mol2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.is_mol2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return true if is_mol2 (based on the presence of &#8220;&#64;&lt;TRIPOS&gt;&#8221; during __init__.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.remove_ion">
-<code class="descname">remove_ion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.remove_ion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.remove_ion" title="Permalink to this definition">¶</a></dt>
-<dd><p>TER    1025        U A  47                                                      
-HETATM 1026 MG    MG A 101      42.664  34.395  50.249  1.00 70.99          MG  
-HETATM 1027 MG    MG A 201      47.865  33.919  48.090  1.00 67.09          MG</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.remove_water">
-<code class="descname">remove_water</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.remove_water"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.remove_water" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove HOH and TIP3</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.renum_atoms">
-<code class="descname">renum_atoms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.renum_atoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.renum_atoms" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renum atoms, from 1 to X for line; ATOM/HETATM</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pdb_parser_lib.StrucFile.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>outfn</em>, <em>v=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#StrucFile.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.StrucFile.write" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write (and END file&#8221;)</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pdb_parser_lib.get_version">
-<code class="descclassname">pdb_parser_lib.</code><code class="descname">get_version</code><span class="sig-paren">(</span><em>currfn=''</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pdb_parser_lib.html#get_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pdb_parser_lib.get_version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get version of the tool based on state of the git repository.
-Return version. 
-If currfn is empty, then the path is &#8216;.&#8217;. Hmm.. I think it will work. We will see.
-The version is not printed!
-<a class="reference external" href="https://github.com/m4rx9/curr_version/">https://github.com/m4rx9/curr_version/</a></p>
-</dd></dl>
-
-<span class="target" id="module-utils.pdb_formatix.RosettaUtils"></span><dl class="class">
 <dt id="utils.pdb_formatix.RosettaUtils.RosettaPDBFile">
 <em class="property">class </em><code class="descclassname">utils.pdb_formatix.RosettaUtils.</code><code class="descname">RosettaPDBFile</code><span class="sig-paren">(</span><em>pdb_string=None</em>, <em>pdb_path=None</em>, <em>pdb_handle=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/pdb_formatix/RosettaUtils.html#RosettaPDBFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.pdb_formatix.RosettaUtils.RosettaPDBFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for preparing PDB files for ROSETTA/FARNA</p>
@@ -452,15 +379,6 @@ length as nucleotide sequence</li>
 </dl>
 </dd></dl>
 
-<span class="target" id="module-yapdb_parser"></span></div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
 </div>
 
 
@@ -468,27 +386,18 @@ length as nucleotide sequence</li>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to rna-pdb-tools&#8217;s documentation!</a><ul>
-<li><a class="reference internal" href="#module-pdb_parser_lib">StrucFile</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-<div class="relations">
+        <div class="sphinxsidebarwrapper"><div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="utils.html" title="next chapter">Utils</a></li>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to rna-pdb-tools&#8217;s documentation!</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/utils.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -514,7 +423,7 @@ length as nucleotide sequence</li>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
-      <a href="_sources/index.txt"
+      <a href="_sources/utils.txt"
           rel="nofollow">Page source</a>
     </div>
 
