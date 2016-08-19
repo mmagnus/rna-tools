@@ -47,7 +47,7 @@ def get_atom_coords(line):
     """
     if not line.startswith('ATOM'):
         return None
-    return tuple(map(float, line[33:54].split()))
+    return tuple(map(float, line[31:54].split()))
 
 
 def set_line_bfactor(line, bfactor):
