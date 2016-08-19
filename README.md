@@ -5,6 +5,8 @@ rna-pdb-tools
 
 A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
+http://mmagnus.github.io/rna-pdb-tools/
+
 What is fun here?
 
 + you see input & output -- this is what you want to get?
