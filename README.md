@@ -7,7 +7,7 @@ A library and a program to run various Python functions related to work with PDB
 
 http://mmagnus.github.io/rna-pdb-tools/
 
-The software is used by me in my servers NPDock (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and SimRNAweb (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/).
+The software is used by me in my servers NPDock (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and SimRNAweb (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and mqapRNA (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress)
 
 What is fun here?
 
