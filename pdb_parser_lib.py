@@ -18,6 +18,9 @@ HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", 
 
 import os
 import sys
+from collections import OrderedDict
+import re
+import string
 
 ignore_op3 = False
 
@@ -46,6 +49,36 @@ def get_version(currfn='', verbose=False):
         return ' unknown' # > install git to get versioning based on git'
     else:
         return version
+
+
+def select_pdb_fragment(txt):
+    """Caution: e.g. resi 61 is not included, works like in Python"""
+    v = False
+    txt = txt.replace(' ','')
+    if v:print txt
+    l = re.split('[,:;]', txt)
+    if v:print l
+
+    selection = OrderedDict()
+    for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
+        if i in string.ascii_letters:
+            if v:print 'chain', i
+            chain_curr = i
+            continue
+
+        if i.find('-') > -1:
+            start, ends = i.split('-')
+            if start > ends:
+                print >>sys.stderr, 'Error: range start > end ' + i
+                return False
+            index = range(int(start), int(ends))#+1)
+        else:
+            index=[int(i)]
+        if selection.has_key(chain_curr):
+            selection[chain_curr] += index
+        else:
+            selection[chain_curr] = index
+    return selection
 
 
 class StrucFile:
@@ -459,6 +492,14 @@ class StrucFile:
             print 'Write %s' % outfn
 
     def get_rnapuzzle_ready(self):
+        """Get rnapuzzle ready structure.
+        Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
+
+        Does:
+        - keep only given atoms,
+        - renumber residues from 1,
+        """
+
         from Bio import PDB
         from Bio.PDB import PDBIO
 
@@ -840,7 +881,6 @@ class StrucFile:
         io.save(pdb_out)
         print 'Saved ', pdb_out
         return True
-
 def start(): pass
 
 if '__main__' == __name__:

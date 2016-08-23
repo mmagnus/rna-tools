@@ -9,34 +9,41 @@ from pdb_parser_lib import *
 
 def add_header():
     now = time.strftime("%c")
-    print 'HEADER Generated with yapdb_parser, version: %s (https://github.com/m4rx9/rna-pdb-tools) %s' % (version, now)
+    print 'HEADER Generated with rna-pdb-tools'
+    print 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
 
 if __name__ == '__main__':
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
-    parser = argparse.ArgumentParser('yapdb_parser ver: %s' % version)
+    parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
+
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
-    parser.add_argument('--getchain', help='get chain, .e.g A')
+    parser.add_argument('--get_chain', help='get chain, .e.g A')
 
-    parser.add_argument('--getseq', help='get seq', action='store_true')
+    parser.add_argument('--get_seq', help='get seq', action='store_true')
 
-    parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to generic pdb',
+    parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready',
+    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms, renumber residues)',
                         action='store_true')
 
-    parser.add_argument('--nohr', help='do not insert the header into files',
+    parser.add_argument('--no_hr', help='do not insert the header into files',
                         action='store_true')
 
     parser.add_argument('--get_simrna_ready', help='',
                         action='store_true')
 
-    parser.add_argument('file', help='file') 
+    parser.add_argument('--delete',# type="string",
+			dest="delete",
+			default='',
+			help="delete the selected fragment, e.g. A:10-16")
+    
+    parser.add_argument('file', help='file')
     #parser.add_argument('outfile', help='outfile')   
 
     args = parser.parse_args()
@@ -58,12 +65,12 @@ if __name__ == '__main__':
         s.fix_op_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
-        if not args.nohr:
+        if not args.no_hr:
             add_header()
         print s.get_text()
 
     s = StrucFile(args.file)
-    if args.getseq:
+    if args.get_seq:
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -78,7 +85,7 @@ if __name__ == '__main__':
         #s.write(args.outfile)
 
     s = StrucFile(args.file)
-    if args.getchain:
+    if args.get_chain:
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -87,7 +94,7 @@ if __name__ == '__main__':
         s.fix_O_in_UC()
         s.fix_op_atoms()
         #print s.get_preview()
-        print s.get_chain(args.getchain)
+        print s.get_chain(args.get_chain)
         #s.write(args.outfile)
 
 
@@ -101,7 +108,7 @@ if __name__ == '__main__':
         s.renum_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
-        if not args.nohr:
+        if not args.no_hr:
             add_header()
         print s.get_text()
 
@@ -116,7 +123,7 @@ if __name__ == '__main__':
         s.renum_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
-        if not args.nohr:
+        if not args.no_hr:
             add_header()
         s.get_rnapuzzle_ready()
         print s.get_text()
@@ -130,8 +137,22 @@ if __name__ == '__main__':
         s.remove_water()
         s.fix_op_atoms()
         s.renum_atoms()
-        if not args.nohr:
+        if not args.no_hr:
             add_header()
         s.get_simrna_ready()
         print s.get_text()
-        
+
+    if args.delete:
+        selection = select_pdb_fragment(args.delete)
+        s = StrucFile(args.file)
+        if not args.no_hr:
+            add_header()
+            print 'HEADER --delete ' + args.delete #' '.join(str(selection))
+        for l in s.lines:
+            if l.startswith('ATOM'):
+                chain = l[21]
+                resi = int(l[23:26].strip())
+                if selection.has_key(chain):
+                    if resi in selection[chain]:
+                        continue  # print chain, resi
+                print l
