@@ -32,8 +32,12 @@
 
 ./rna-pdb-tools.py --no_hr --get_simrna_ready input/1xjr_no_op3.pdb > output/1xjr_no_op3_simrna_ready.pdb
 
-./rna-pdb-tools.py --delete A:10-60 input/rp17.out.1.pdb > output/rp17_rmA10-60.pdb
+./rna-pdb-tools.py --no_hr --delete A:10-60 input/rp17.out.1.pdb > output/rp17_rmA10-60.pdb
 
 # ClashCalc
 cd ./utils/ClashCalc/
 ./ClashCalc.py
+cd ../..
+
+cd ./utils/rmsd_calc/
+./test.sh
