@@ -26,6 +26,11 @@ What is fun here?
 
 `.is_mol2()` needs OpenBabel
 
+## Used libraries
+
++ biopython (https://github.com/biopython/biopython)
++ rmsd (https://github.com/charnley/rmsd)
+
 ## Inspiration (and alternatives):
 
 + https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
