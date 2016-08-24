@@ -31,6 +31,10 @@ What is fun here?
 + biopython (https://github.com/biopython/biopython)
 + rmsd (https://github.com/charnley/rmsd)
 
+## Utils
+
++ rnashape2ascii `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
+
 ## Inspiration (and alternatives):
 
 + https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
