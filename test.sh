@@ -49,3 +49,8 @@ cd ../..
 
 cd ./utils/rmsd_calc/
 ./test.sh
+cd ../..
+
+cd ./utils/rnashape2ascii/
+./test.sh
+cd ../..
