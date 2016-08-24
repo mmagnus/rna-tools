@@ -52,7 +52,9 @@ def get_version(currfn='', verbose=False):
 
 
 def select_pdb_fragment(txt):
-    """Caution: e.g. resi 61 is not included, works like in Python
+    """Take A:1-31,B:1-11
+
+    Caution: e.g. resi 61 is not included, works like in Python
 
 OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]), ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
 None
@@ -208,16 +210,39 @@ class StrucFile:
         return wrong
 
     def get_seq(self):
+        """
+        You get `chains` such as:
+        OrderedDict([('A', {'header': 'A:1-47', 'seq': 'CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAU'}), ('B', {'header': 'B:48-58', 'seq': 'AUCAGGUGCAA'})])"""
+        
         seq = ''
         curri = int(self.lines[0][22:26])
         seq = self.lines[0][19]
+        chains = OrderedDict()
+        curri = -100000000000000 #ugly
+        chain_prev = None
         for l in self.lines:
             if l.startswith('ATOM') or l.startswith('HETATM') :
                 resi = int(l[22:26])
                 if curri != resi:
                     seq += l[19]
-                    curri = resi
-        return seq
+                    chain_curr = l[21]
+                    if chain_prev != chain_curr and chain_prev:
+                        chains[chain_prev]['header'] += '-' + str(resi_prev)
+                    if chains.has_key(chain_curr):                
+                        chains[chain_curr]['seq'] += l[19]
+                    else:
+                        chains[chain_curr] = dict()
+                        chains[chain_curr]['header'] = chain_curr + ':' + str(resi)#resi_prev)
+                        chains[chain_curr]['seq'] =l[19]
+                    resi_prev = resi
+                    chain_prev = chain_curr
+                curri = resi
+        chains[chain_prev]['header'] += '-' + str(resi_prev)
+        seq = ''
+        for c in chains.keys():
+            seq += '> ' + os.path.basename(self.fn) + ' ' + chains[c]['header'] + '\n'
+            seq += chains[c]['seq'] + '\n'
+        return seq.strip()
 
     def detect_file_format(self):
         pass
