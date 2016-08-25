@@ -1,7 +1,11 @@
 rna-pdb-tools
 -------------------------------------------------
 
-[![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools)
+[![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools) [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60933.svg)](http://dx.doi.org/10.5281/zenodo.60933)
+
+If you find the tools helpful, you can cite the repo using the DOI above :-)
+
+---
 
 A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
