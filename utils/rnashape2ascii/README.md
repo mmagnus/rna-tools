@@ -1,8 +1,6 @@
 shape2text
 -------------------------------------------------------------------------------
 
-[![Build Status](https://travis-ci.org/m4rx9/shape2text.svg?branch=master)](https://travis-ci.org/m4rx9/shape2text)
-
 See the head of the python script.
 
 The output of the script for test.sh
