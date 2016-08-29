@@ -24,3 +24,7 @@ Output:
 The program is using Biopython:
 
 Cock, P.J.A. et al. Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics 2009 Jun 1; 25(11) 1422-3 http://dx.doi.org/10.1093/bioinformatics/btp163 pmid:19304878
+
+Install
+==========================
+Add to your PATH in .bashrc something like this `/home/magnus/src/rna-pdb-tools/utils/rmsd_calc/`
