@@ -1,11 +1,11 @@
-calc\_rmsd\_dir
+rmsd_calc_dir
 -------------------------------------------------------------------------------
 
 The program calculates all-atom rmsds (root-mean-square deviation) for all PDB structures in a given folder and save them to a file, as a matrix (which can be read by <https://github.com/m4rx9/rnastruc_clanstix>).
 
 Usage:
 
-	$ ./calc_rmsd_dir.py -i test_data -o test_output/matrix.txt
+	$ ./rmsd_calc_dir.py -i test_data -o test_output/matrix.txt
 
 Output:
 
