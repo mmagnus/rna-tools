@@ -22,9 +22,6 @@ What is fun here?
 + you see input & output -- this is what you want to get?
 + it's tested via Travis! -- it (should) always works as you just want!
 + you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
-+ run it in a bash loop:
-    
-        for i in *pdb; do rna-pdb-tools.py --delete A:48-52 $i > $i._noloop.pdb ; done
 
 .. or you might want to use the lib in the program.
 
@@ -100,7 +97,7 @@ What is fun here?
 - [X] remove RNA modifications (from seq and output file) (at least, GTP)
 - [X] find missing atoms and report them (`--get_rnapuzzle`) if atoms are missing you get the info
 
-        ➜  rna-pdb-tools git:(master) ✗ ./rna-pdb-tools.py --get_rnapuzzle input/1xjr_missing_atom.pdb
+        ➜  rna-pdb-tools git:(master) ✗ ./rna-pdb-tools.py --get_rnapuzzle_ready input/1xjr_missing_atom.pdb
         HEADER Generated with rna-pdb-tools
         HEADER ver c54c2ca-dirty
         HEADER https://github.com/mmagnus/rna-pdb-tools
