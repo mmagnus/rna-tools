@@ -30,6 +30,13 @@ What is fun here?
 ![rna](rna.png)
 **Figure 1**. Cleaned `1osw.pdb`
 
+## Tricks
+
+    ➜  struc  for i in *; do echo $i; rna-pdb-tools.py --delete A:48-52 $i > ${i/.pdb/_noloop.pdb}; done
+    10_rp17c.out.14.pdb
+    10_rp17c.out.14_out.pdb
+    [..]
+
 ## Requirement
 
 `.get_rnapuzzle_ready()` needs Biopython
