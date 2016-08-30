@@ -1,4 +1,4 @@
-rna-pdb-tools
+rna-pdb-tools (under heavy development)
 -------------------------------------------------
 
 [![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools) 
