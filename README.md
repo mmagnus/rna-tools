@@ -23,7 +23,8 @@ What is fun here?
 + it's tested via Travis! -- it (should) always works as you just want!
 + you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
 + run it in a bash loop:
-    for i in `ls *pdb`; do rna-pdb-tools.py --delete A:48-52 $i > $i._noloop.pdb ; done
+    
+        for i in *pdb; do rna-pdb-tools.py --delete A:48-52 $i > $i._noloop.pdb ; done
 
 .. or you might want to use the lib in the program.
 
