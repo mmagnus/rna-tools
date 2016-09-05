@@ -68,7 +68,7 @@ class SimRNATrajectory:
         h = f.readline().strip()
         l = f.readline().strip()
         frames.append(Frame(c, h, l))
-        while not h:
+        while h:
             c += 1
             h = f.readline().strip()
             l = f.readline().strip()
