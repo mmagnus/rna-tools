@@ -30,10 +30,12 @@ What is fun here?
 
 ## Tricks
 
-    ➜  struc  for i in *; do echo $i; rna-pdb-tools.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
+    $ for i in *; do echo $i; rna-pdb-tools.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
     10_rp17c.out.14.pdb
     10_rp17c.out.14_out.pdb
     [..]
+    
+    $ for i in `ls *.pdb`; do rna-pdb-tools.py --c $i > ${i/.pdb/_clx.pdb}; done
 
 ## Requirement
 
