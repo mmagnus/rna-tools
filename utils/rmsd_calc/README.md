@@ -1,4 +1,4 @@
-rmsd_calc_dir
+rmsd_calc_dir.py
 -------------------------------------------------------------------------------
 
 The program calculates all-atom rmsds (root-mean-square deviation) for all PDB structures in a given folder and save them to a file, as a matrix (which can be read by <https://github.com/m4rx9/rnastruc_clanstix>).
@@ -24,6 +24,20 @@ Output:
 The program is using Biopython:
 
 Cock, P.J.A. et al. Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics 2009 Jun 1; 25(11) 1422-3 http://dx.doi.org/10.1093/bioinformatics/btp163 pmid:19304878
+
+rmsd_calc_to_target.py
+-------------------------------------------------------------------------------
+
+	./rmsd_calc_to_target.py -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target.tsv test_data/struc1.pdb test_data/struc2.pdb test_data/struc3.pdb test_data/struc4.pdb
+	rmsd_calc_rmsd_to_target
+	--------------------------------------------------------------------------------
+	# of models: 4
+	target:struc1.pdb      	rmsd_all
+	struc1.pdb     	0.0
+	struc2.pdb     	11.803
+	struc3.pdb     	4.879
+	struc4.pdb     	3.982
+	tsv was created!  test_output/rmsd_calc_dir_to_target.tsv
 
 Install
 ==========================
