@@ -50,7 +50,7 @@ What is fun here?
 
 ## Utils
 
-+ [rnashape2ascii](rna-pdb-tools/utils/rnashape2ascii/
++ [rnashape2ascii](utils/rnashape2ascii/
 ) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
 
 ## Inspiration (and alternatives):
