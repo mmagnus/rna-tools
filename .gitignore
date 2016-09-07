@@ -7,3 +7,4 @@ moderna.log
 *flymake.py
 *.out
 diffpdb_conf.py
+*DS_Store
