@@ -7,7 +7,7 @@ class Atom:
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
-        self.coord = np.array([self.z, self.y, self.z])
+        self.coord = np.array([self.x, self.y, self.z])
 
     def __repr__(self):
         return 'Atom ' +  str(self.x) + ' ' + str(self.y) + ' '+ str(self.z)
