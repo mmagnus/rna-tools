@@ -1,4 +1,4 @@
-target:struc1.pdb	RMSD
+target:struc1.pdb	rmsd_all
 struc1.pdb	0.0 
 struc2.pdb	11.803 
 struc3.pdb	4.879 

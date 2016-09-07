@@ -8,7 +8,12 @@ echo $cmd
 $cmd
 echo
 
-cmd="./rmsd_calc_dir_to_target.py -t test_data/struc1.pdb -i test_data -o test_output/rmsd_calc_dir_to_target.tsv"
+cmd="./rmsd_calc_to_target.py -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target.tsv test_data/*"
+echo $cmd
+$cmd
+echo
+
+cmd="./rmsd_calc_to_target.py -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target.tsv test_data/*"
 echo $cmd
 $cmd
 echo

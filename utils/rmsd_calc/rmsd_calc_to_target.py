@@ -14,12 +14,12 @@ import glob
 import re
 import os
 
-def get_rna_models_from_dir(directory):
+def get_rna_models_from_dir(files):
     """models - a list of filenames, ['test_data/rp17/2_restr1_Michal1.pdb_clean.pdb', 'test_data/rp17/2a_nonrestr2_Michal1.pdb_clean.pdb', 'test_data/rp17/3_nonrestr1_Michal1.pdb_clean.pdb', 'test_data/rp17/5_restr1_Michal3.pdb_clean.pdb']"""
     models = []
-    if not os.path.exists(directory):
-        raise Exception('Dir does not exist! ', directory)
-    files = glob.glob(directory + "/*.pdb")
+    #if not os.path.exists(directory):
+    #    raise Exception('Dir does not exist! ', directory)
+    #files = glob.glob(directory + "/*.pdb")
     files_sorted = sort_nicely(files)
     for f in files_sorted:
         models.append(f)
@@ -65,11 +65,6 @@ if __name__ == '__main__':
     
     optparser=optparse.OptionParser(usage="%prog [<options>]")
 
-    optparser.add_option('-i',"--input_dir", type="string",
-                         dest="input_dir",
-                         default='',
-                         help="")
-
     optparser.add_option('-t',"--target_fn", type="string",
                          dest="target_fn",
                          default='',
@@ -89,16 +84,16 @@ if __name__ == '__main__':
         print optparser.format_help() #prints help if no arguments
         sys.exit(1)
 
-    input_dir = opts.input_dir
+    input_files = args[:] # opts.input_dir
     rmsds_fn = opts.rmsds_fn
     target_fn = opts.target_fn
 
-    models = get_rna_models_from_dir(input_dir)        
+    models = get_rna_models_from_dir(input_files)        
 
     print '# of models:', len(models)
 
     f = open(rmsds_fn, 'w')
-    t = 'target:' + os.path.basename(target_fn) + '\tRMSD\n'
+    t = 'target:' + os.path.basename(target_fn) + '\trmsd_all\n'
 
     c = 1
     for r1 in models:
@@ -112,7 +107,5 @@ if __name__ == '__main__':
 
     print t.strip() # matrix
 
-    if True:
-        print 'matrix was created! ', rmsds_fn
-    else:
-        print 'matrix NOT was created!'
+    if opts.rmsds_fn:
+        print 'tsv was created! ', rmsds_fn
