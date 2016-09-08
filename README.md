@@ -1,5 +1,5 @@
 rna-pdb-tools (under heavy development)
--------------------------------------------------
+=================
 
 [![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools) 
 
@@ -10,9 +10,8 @@ rna-pdb-tools (under heavy development)
 If you find the tools helpful, you can cite the repo using the DOI above :-)
 
 Table of Contents
-=================
+-----------------
 
- * [rna\-pdb\-tools (under heavy development)](#rna-pdb-tools-under-heavy-development)
  * [Tricks](#tricks)
  * [Requirement](#requirement)
  * [Used libraries](#used-libraries)
@@ -20,7 +19,6 @@ Table of Contents
  * [Inspiration (and alternatives):](#inspiration-and-alternatives)
  * [Main program](#main-program)
  * [Features:](#features)
- * [test\.sh](#testsh)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
