@@ -1,5 +1,7 @@
-rna-pdb-tools (under heavy development)
+rna-pdb-tools
 =================
+
+**(under heavy development)**
 
 [![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools) 
 
@@ -64,8 +66,7 @@ What is fun here?
 + [diffpdb](utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
       ![diffpdb](utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
-      
-+ 
+
 + [rnashape2ascii](utils/rnashape2ascii/
 ) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
 
