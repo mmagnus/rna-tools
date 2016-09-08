@@ -9,7 +9,20 @@ rna-pdb-tools (under heavy development)
 
 If you find the tools helpful, you can cite the repo using the DOI above :-)
 
----
+Table of Contents
+=================
+
+    * [rna\-pdb\-tools (under heavy development)](#rna-pdb-tools-under-heavy-development)
+    * [Tricks](#tricks)
+    * [Requirement](#requirement)
+    * [Used libraries](#used-libraries)
+    * [Utils](#utils)
+    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+    * [Main program](#main-program)
+    * [Features:](#features)
+    * [test\.sh](#testsh)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
 A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
