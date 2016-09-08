@@ -23,7 +23,7 @@ One file is created per pdb. In the final step DIFF_TOOL is executed
 
 Configuration:
 
- * DIFF_TOOL, set up what tool would you like to use to diff files (e.g. `diff` or `kompare` etc.)
+ * `DIFF_TOOL="open -a diffmerge"` or DIFF_TOOL="kompare" to set up what tool would you like to use to diff files in the file `rna-pdb-tools/utils/diffpdb/diffpdb_conf.py` (create it if needed)
 
 ![screenshot](doc/screenshot.png)
 
