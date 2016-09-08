@@ -31,6 +31,10 @@ Configuration:
 
 ![screenshot](doc/screenshot2.png)
 
+and on the Mac (using `diffmerge`):
+
+![screenshot](doc/diffpdb_osx_diffmerge.png)
+
 ## Features
 
 - [X] htmlout, based on (http://git.droids-corp.org/?p=diff2html.git;a=summary)
