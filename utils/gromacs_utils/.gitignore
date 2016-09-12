@@ -1,0 +1,11 @@
+*.pyc
+*~
+*.swp
+*.log
+*#
+*.gro
+*.top
+*.ndx
+*.mdp
+*.itp
+*tmp*pdb
