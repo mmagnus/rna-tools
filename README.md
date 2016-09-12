@@ -63,11 +63,11 @@ What is fun here?
 
 ## Utils
 
-+ [diffpdb](utils/diffpdb/) - a simple tool to compare text-content of PDB files
++ [diffpdb](rna-pdb-tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
-      ![diffpdb](utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
+      ![diffpdb](rna-pdb-tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
 
-+ [rnashape2ascii](utils/rnashape2ascii/
++ [rnashape2ascii](rna-pdb-tools/utils/rnashape2ascii/
 ) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
 
 ## Inspiration (and alternatives):
