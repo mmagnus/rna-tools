@@ -1,0 +1,136 @@
+del 1
+r RU & a C1'
+name 1 uC1s
+r RU & a C2
+name 2 uC2
+r RU & a C2'
+name 3 uC2s
+r RU & a C3'
+name 4 uC3s
+r RU & a C4
+name 5 uC4
+r RU & a C4'
+name 6 uC4s
+r RU & a C5
+name 7 uC5
+r RU & a C5'
+name 8 uC5s
+r RU & a C6
+name 9 uC6
+r RU & a N1
+name 10 uN1
+r RU & a N3
+name 11 uN3
+r RU & a O2
+name 12 uO2
+r RU & a O2'
+name 13 uO2s
+r RU & a O3'
+name 14 uO3s
+r RU & a O4
+name 15 uO4
+r RU & a O4'
+name 16 uO4s
+r RU & a O5'
+name 17 uO5s
+r RU & a O1P
+name 18 uO1P
+r RU & a O2P
+name 19 uO2P
+r RU & a P
+name 20 uP
+r RG & a C3'
+name 21 gC3s
+r RG & a C5
+name 22 gC5
+r RG & a C4
+name 23 gC4
+r RG & a C6
+name 24 gC6
+r RG & a C8
+name 25 gC8
+r RG & a O2'
+name 26 gO2s
+r RG & a P
+name 27 gP
+r RG & a C2'
+name 28 gC2s
+r RG & a O5'
+name 29 gO5s
+r RG & a C5'
+name 30 gC5s
+r RG & a C1'
+name 31 gC1s
+r RG & a O3'
+name 32 gO3s
+r RG & a O6
+name 33 gO6
+r RG & a N2
+name 34 gN2
+r RG & a N3
+name 35 gN3
+r RG & a N1
+name 36 gN1
+r RG & a N7
+name 37 gN7
+r RG & a N9
+name 38 gN9
+r RG & a C2
+name 39 gC2
+r RG & a C4'
+name 40 gC4s
+r RG & a O4'
+name 41 gO4s
+r RG & a O2P
+name 42 gO2P
+r RG & a O1P
+name 43 gO1P
+r RA & a O3'
+name 44 aO3s
+r RA & a O2'
+name 45 aO2s
+r RA & a N7
+name 46 aN7
+r RA & a N1
+name 47 aN1
+r RA & a N3
+name 48 aN3
+r RA & a N9
+name 49 aN9
+r RA & a C2'
+name 50 aC2s
+r RA & a O5'
+name 51 aO5s
+r RA & a N6
+name 52 aN6
+r RA & a C5'
+name 53 aC5s
+r RA & a C1'
+name 54 aC1s
+r RA & a C2
+name 55 aC2
+r RA & a C6
+name 56 aC6
+r RA & a C5
+name 57 aC5
+r RA & a C4
+name 58 aC4
+r RA & a O4'
+name 59 aO4s
+r RA & a C4'
+name 60 aC4s
+r RA & a C8
+name 61 aC8
+r RA & a C3'
+name 62 aC3s
+r RA & a P
+name 63 aP
+r RA & a O1P
+name 64 aO1P
+r RA & a O2P
+name 65 aO2P
+1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65
+name 66 RNA_5pt
+0 & ! 66
+name 67 other
+q
