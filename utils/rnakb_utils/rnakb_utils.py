@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Gromacs utils.
+"""RNAkb (previous Gromacs) utils.
 
 A module with different functions needed for Gromacs/RNAkb merriage.
+
+Marcin Magnus
+Albert Bogdanowicz
 """
 
 import re
@@ -62,6 +65,9 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
 
     Output:
       * new PDB returned as a string
+
+    (!!!) # hmm... [ RA5 ] will not be detected based on it (!?)
+    Hmm.. becase it detects if the structure is already prepared.
     """
     #pdb_string = resname_3to1(pdb_string)
     #pdb_string = remove_hetatms(pdb_string)
@@ -76,7 +82,7 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
 
 
     for l in pdb_lines:
-        if l.startswith('ATOM') and l[19] in ('A', 'U', 'C', 'G'):
+        if l.startswith('ATOM') and l[19] in ('A', 'U', 'C', 'G'): # hmm... [ RA5 ] will not be detected based on it (!?)
             res = get_res_code(l)        
             if res.startswith('R') and res.endswith('5') : # it's RX5 file so skip fixing
                 if verbose:
@@ -119,18 +125,82 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
             result.append(l)
     return '\n'.join(result)
 
+def make_rna_rnakb_ready(pdb_string, verbose=VERBOSE):
+    """RNAkb read (difference between this function and 
+    make_rna_gromacs_ready is ignoring R5U etc. RNAkb does not treat
+    them differently so there is no point to distinguish them.
+
+    Arguments:
+      * pdb_string = contents of PDB file as a string
+
+    Output:
+      * new PDB returned as a string
+    """
+    #pdb_string = resname_3to1(pdb_string)
+    #pdb_string = remove_hetatms(pdb_string)
+    result = []
+    pdb_lines = pdb_string.split('\n')
+
+    # find smallest residue number
+    min_res = min(map(get_res_num,
+        [l for l in pdb_lines if l.startswith('ATOM')]))
+    max_res = max(map(get_res_num,
+        [l for l in pdb_lines if l.startswith('ATOM')]))
+
+    for l in pdb_lines:
+        if l.startswith('ATOM'):# and l[19] in ('A', 'U', 'C', 'G'):
+            res = get_res_code(l)
+            print res
+            #if res.startswith('R') and res.endswith('5') : # it's RX5 file so skip fixing
+            #    if verbose:
+            #        print '-- already gromacs ready'
+            #    return pdb_string
+
+            l = l.replace('*', '\'')
+            l = l.replace('O1P', 'OP1')
+            l = l.replace('O2P', 'OP2')
+
+            res_num = get_res_num(l)
+            atom_type = l.split()[2].strip()
+            # remove P OP1 OP2
+            if res_num == min_res and atom_type == 'P':
+                continue
+            if res_num == min_res and atom_type == 'OP1':
+                continue
+            if res_num == min_res and atom_type == 'OP2':
+                continue
+
+            # convert G -> RG5, RG3
+            #if res_num == min_res: # RG5
+            #    l = set_res_code(l, 'R' + get_res_code(l).strip() + '5')
+            #elif res_num == max_res: # RG3
+            #    l = set_res_code(l, 'R' + get_res_code(l).strip() + '3')
+            #else:
+            l = set_res_code(l, ' R' + get_res_code(l).strip().replace('R','').replace('3','').replace('5','')) # 
+            print l
+            if res_num == min_res:
+                if atom_type in GROMACS_ALLOWED_5:
+                    result.append(l)
+                else:
+                    print 'Wrong start line: ', l, atom_type
+            else:
+                if atom_type in GROMACS_ALLOWED_MIDDLE:
+                    result.append(l)
+                else:
+                    print 'Wrong middle line: ', l, atom_type
+        else: # keep TER, etc.
+            result.append(l)
+    return '\n'.join(result)
 
 def get_res_code(line):
     """Get residue code from a line of a PDB file
     """
     return line[17:20]
 
-
 def set_res_code(line, code):
     """Set residue code from a line of a PDB file
     """
     return line[:17] + code.rjust(3) + line[20:]
-
 
 def fix_gromacs_gro(path, verbose=False):
     """It's probably a bug in GROMACS, but box coordinates in gro files are
@@ -201,55 +271,6 @@ def fix_gromacs_ndx(path):
     f = open(path, 'w')
     f.write(result)
     f.close()
-
-
-def test_gromacs_ready(fn):
-    """Test if gromacs ready
-    """
-    cmd = 'pdb2gmx -ff amber03 -water none -f %s -o query.gro -p query.top' % fn
-    os.system(cmd)
-
-
-def test():
-    """Test #1
-    """
-    fn = 'test_data/1msy_output4_01-000001_AA.pdb'
-    f = open(fn).read()
-    out = make_rna_gromacs_ready(f)
-    o = open('tmp.pdb', 'w')
-    o.write(out)
-    o.close()
-    test_gromacs_ready('tmp.pdb')
-
-
-def test2():
-    """Test #2
-    """
-    fn = 'test_data/1duq.pdb'
-    f = open(fn).read()
-    out = make_rna_gromacs_ready(f)
-    o = open('tmp2.pdb', 'w')
-    o.write(out)
-    o.close()
-    test_gromacs_ready(fn)
-
-
-def test3():
-    """Test #3
-    """
-    fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_error_fx.pdb'
-    f = open(fn).read()
-    out = make_rna_gromacs_ready(f)
-    o = open('tmp3.pdb', 'w')
-    o.write(out)
-    o.close()
-    test_gromacs_ready('tmp3.pdb')
-
-
-def clean_up_tmp():
-    """Clean up files starting with ``#`` i getcwd
-    """
-    [os.remove(os.path.join(os.getcwd(),i)) for i in os.listdir(os.getcwd()) if i.startswith('#')]
 
 
 def prepare_groups(fn, gr_fn, verbose=False):
@@ -399,11 +420,11 @@ def format_score_mdp_5pt_hardcoded(mdp_out, seq_uniq_sorted, mdp_template=MDP_TE
     #nt_to_remove = set(['A', 'G'])  # to debug
 
     # load template
-    with open(LIB_PATH + 'gromacs_utils/' + mdp_template, 'r') as f:
+    with open(LIB_PATH + 'rnakb_utils/' + mdp_template, 'r') as f:
         txt = f.readlines()
 
     # load rnakb_all
-    with open(LIB_PATH + 'gromacs_utils/' + 'data/rnakb_all.txt', 'r') as f:
+    with open(LIB_PATH + 'rnakb_utils/' + 'data/rnakb_all.txt', 'r') as f:
         pairs = [i.strip() for i in f.readlines()]
 
     # 5pt data
@@ -420,7 +441,7 @@ def format_score_mdp_5pt_hardcoded(mdp_out, seq_uniq_sorted, mdp_template=MDP_TE
     if verbose: print 'eg:', ' '.join(eg)
     eg.remove('other')
 
-    with open(LIB_PATH + 'gromacs_utils' + '/data/rnakb_all.txt', 'r') as f:
+    with open(LIB_PATH + 'rnakb_utils' + '/data/rnakb_all.txt', 'r') as f:
        pairs = [i.strip() for i in f.readlines()]
 
     egt = []
@@ -460,26 +481,28 @@ def format_score_mdp_5pt_hardcoded(mdp_out, seq_uniq_sorted, mdp_template=MDP_TE
 
 # main
 if __name__ == '__main__':
-    #test()
-    #test2()
-    #clean_up_tmp()
-    #test3()
     #fn = 'test_data/decoy0165_amb_clx.pdb'
     #fn = 'test_data/1duq.pdb'
     fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
     pdblines = make_rna_gromacs_ready(open(fn).read())
     print pdblines
-    with open('test_data/temp.pdb', 'w') as f:
+    with open('test_output/gromacs_ready.pdb', 'w') as f:
         f.write(pdblines)
-    fn = "test_data/temp.pdb"
+
+    fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
+    pdblines = make_rna_rnakb_ready(open(fn).read())
+    fready = 'test_output/rnakb_ready.pdb'
+    print pdblines
+    with open(fready, 'w') as f:
+        f.write(pdblines)
 
     # prepare groups
-    groups_txt, energygrps, seq_uniq = prepare_groups(fn, LIB_PATH + '/gromacs_utils/test_data/groups.txt', verbose=True)
+    groups_txt, energygrps, seq_uniq = prepare_groups(fready, LIB_PATH + '/rnakb_utils/test_output/groups.txt', verbose=True)
 
     # prepare score.mdp
     fout = 'test_data/out.mdp'
-    energygrps = ['aP', 'gP', 'uP'] # debug
+    #energygrps = ['aP', 'gP', 'uP'] # debug
     format_score_mdp_5pt_hardcoded(fout, seq_uniq)#, energygrps)
     for l in open(fout):
         if l.startswith('energygrps'):
-            print l
+            print 'preview energygrps:', l
