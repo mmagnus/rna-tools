@@ -1,0 +1,36 @@
+del 1
+r RA & a P
+name 1 aP
+r RA & a C4'
+name 2 aC4s
+r RA & a C2
+name 3 aC2
+r RA & a C4
+name 4 aC4
+r RA & a C6
+name 5 aC6
+r RU & a P
+name 6 uP
+r RU & a C4'
+name 7 uC4s
+r RU & a C2
+name 8 uC2
+r RU & a C4
+name 9 uC4
+r RU & a C6
+name 10 uC6
+r RG & a P
+name 11 gP
+r RG & a C4'
+name 12 gC4s
+r RG & a C2
+name 13 gC2
+r RG & a C4
+name 14 gC4
+r RG & a C6
+name 15 gC6
+1|2|3|4|5|6|7|8|9|10|11|12|13|14|15
+name 16 RNA_5pt
+0 & ! 16
+name 17 other
+q
