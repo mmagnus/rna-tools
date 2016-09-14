@@ -1,0 +1,87 @@
+rnakb_utils
+========================
+A lib to run RNAkb (http://csb.stanford.edu/rna) (previous Gromacs) utils.
+
+A module with different functions needed for Gromacs/RNAkb merriage.
+
+Authors: Marcin Magnus, Albert Bogdanowicz
+
+Step: (1) prepare groups and then (2) mdp score file (auto)
+
+Features:
+
+- `G` will be changed into `RG`
+- `RG3`  will be changed into `RG` and TER are kept (`3nt_edited.pdb -> 3nt_edited_rnakb_ready.pdb`) 
+- gromacs ready has `RG3` (`gromacs_ready.pdb`)
+- if nt is missing, then groups and mdp will be made accordingly
+
+WARNING: all-atoms still does not work because for all groups for all-atoms causes `Error: aa is off because of "a line longer than 4095 characters"`
+
+.. example (`3nt_edited_rnakb_ready.pdb`):
+
+    ATOM      1  O5'  RU A   7      20.386  15.427  27.178  0.50 21.61           O
+    ATOM      2  C5'  RU A   7      21.339  16.437  27.476  0.50 21.61           C
+    ATOM      3  C4'  RU A   7      20.788  17.269  28.593  0.50 21.61           C
+    ATOM      4  O4'  RU A   7      21.887  17.703  29.427  0.50 21.61           O
+    ATOM      5  C3'  RU A   7      20.044  18.519  28.142  0.50 21.61           C
+    ATOM      6  O3'  RU A   7      18.630  18.402  28.230  0.50 21.61           O
+    ATOM      7  C2'  RU A   7      20.531  19.629  29.069  0.50 21.61           C
+    ATOM      8  O2'  RU A   7      19.599  19.988  30.066  0.50 21.61           O
+    ATOM      9  C1'  RU A   7      21.778  19.073  29.737  0.50 21.61           C
+    ATOM     10  N1   RU A   7      21.982  20.165  29.489  0.50 21.16           N
+    ATOM     11  C2   RU A   7      21.654  21.439  29.911  0.50 21.16           C
+    ATOM     12  O2   RU A   7      20.786  21.663  30.736  0.50 21.16           O
+    ATOM     13  N3   RU A   7      22.381  22.449  29.329  0.50 21.16           N
+    ATOM     14  C4   RU A   7      23.381  22.315  28.389  0.50 21.16           C
+    ATOM     15  O4   RU A   7      23.946  23.319  27.959  0.50 21.16           O
+    ATOM     16  C5   RU A   7      23.663  20.962  28.001  0.50 21.16           C
+    ATOM     17  C6   RU A   7      22.970  19.961  28.551  0.50 21.16           C
+    ATOM     18  P    RG A   8      17.910  18.422  26.467  1.00 19.94           P
+    ATOM     19  OP1  RG A   8      16.664  17.621  26.608  1.00 19.94           O
+    ATOM     20  OP2  RG A   8      18.611  18.475  25.153  1.00 19.94           O
+    ATOM     21  O5'  RG A   8      17.621  19.921  26.924  1.00 19.94           O
+    ATOM     22  C5'  RG A   8      16.785  20.193  28.035  1.00 19.94           C
+    ATOM     23  C4'  RG A   8      16.850  21.657  28.391  1.00 19.94           C
+    ATOM     24  O4'  RG A   8      18.212  22.012  28.753  1.00 19.94           O
+    ATOM     25  C3'  RG A   8      16.503  22.611  27.266  1.00 19.94           C
+    ATOM     26  O3'  RG A   8      15.096  22.790  27.179  1.00 19.94           O
+    ATOM     27  C2'  RG A   8      17.213  23.882  27.705  1.00 19.94           C
+    ATOM     28  O2'  RG A   8      16.507  24.581  28.705  1.00 19.94           O
+    ATOM     29  C1'  RG A   8      18.509  23.314  28.282  1.00 19.94           C
+    ATOM     30  N9   RG A   8      19.551  23.159  27.289  1.00 18.28           N
+    ATOM     31  C8   RG A   8      20.143  22.006  26.833  1.00 18.28           C
+    ATOM     32  N7   RG A   8      21.143  22.225  26.023  1.00 18.28           N
+    ATOM     33  C5   RG A   8      21.219  23.603  25.938  1.00 18.28           C
+    ATOM     34  C6   RG A   8      22.106  24.435  25.207  1.00 18.28           C
+    ATOM     35  O6   RG A   8      23.034  24.098  24.462  1.00 18.28           O
+    ATOM     36  N1   RG A   8      21.833  25.786  25.403  1.00 18.28           N
+    ATOM     37  C2   RG A   8      20.830  26.275  26.206  1.00 18.28           C
+    ATOM     38  N2   RG A   8      20.722  27.609  26.271  1.00 18.28           N
+    ATOM     39  N3   RG A   8      19.998  25.515  26.891  1.00 18.28           N
+    ATOM     40  C4   RG A   8      20.244  24.199  26.714  1.00 18.28           C
+    TER
+    ATOM     41  P    RG B   9      27.751  32.185  24.626  0.50 20.93           P  
+    ATOM     42  OP1  RG B   9      28.381  33.516  24.464  0.50 20.93           O  
+    ATOM     43  OP2  RG B   9      28.555  30.940  24.632  0.50 20.93           O  
+    ATOM     44  O5'  RG B   9      26.947  32.163  26.015  0.50 20.93           O  
+    ATOM     45  C5'  RG B   9      25.668  32.799  26.021  0.50 20.93           C  
+    ATOM     46  C4'  RG B   9      24.887  32.643  27.310  0.50 20.93           C  
+    ATOM     47  O4'  RG B   9      23.917  31.568  27.169  0.50 20.93           O  
+    ATOM     48  C3'  RG B   9      25.706  32.357  28.567  0.50 20.93           C  
+    ATOM     49  O3'  RG B   9      25.420  33.282  29.611  0.50 20.93           O  
+    ATOM     50  C2'  RG B   9      25.294  30.954  29.001  0.50 20.93           C  
+    ATOM     51  O2'  RG B   9      25.057  30.821  30.385  0.50 20.93           O  
+    ATOM     52  C1'  RG B   9      24.020  30.643  28.230  0.50 20.93           C  
+    ATOM     53  N9   RG B   9      24.159  29.584  27.812  0.50 20.22           N  
+    ATOM     54  C8   RG B   9      25.187  29.306  26.944  0.50 20.22           C  
+    ATOM     55  N7   RG B   9      25.369  28.028  26.754  0.50 20.22           N  
+    ATOM     56  C5   RG B   9      24.405  27.423  27.539  0.50 20.22           C  
+    ATOM     57  C6   RG B   9      24.110  26.051  27.746  0.50 20.22           C  
+    ATOM     58  O6   RG B   9      24.669  25.064  27.251  0.50 20.22           O  
+    ATOM     59  N1   RG B   9      23.047  25.874  28.628  0.50 20.22           N  
+    ATOM     60  C2   RG B   9      22.354  26.894  29.235  0.50 20.22           C  
+    ATOM     61  N2   RG B   9      21.359  26.526  30.053  0.50 20.22           N  
+    ATOM     62  N3   RG B   9      22.617  28.173  29.053  0.50 20.22           N  
+    ATOM     63  C4   RG B   9      23.646  28.369  28.201  0.50 20.22           C  
+    TER
+    END
