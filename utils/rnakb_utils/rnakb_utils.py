@@ -465,4 +465,3 @@ if __name__ == '__main__':
     groups_txt, energygrps, seq_uniq = prepare_groups(fready, LIB_PATH + '/rnakb_utils/test_output/groups.txt', potential='5pt', verbose=True)
     print groups_txt
     fout = 'test_data/out.mdp'
-    format_score_mdp(fout, energygrps, seq_uniq)
