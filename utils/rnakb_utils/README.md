@@ -15,6 +15,8 @@ Features:
 - gromacs ready has `RG3` (`gromacs_ready.pdb`)
 - if nt is missing, then groups and mdp will be made accordingly
 
+WARNING: all-atoms still does not work because for all groups for all-atoms causes `Error: aa is off because of "a line longer than 4095 characters"`
+
 .. example (`3nt_edited_rnakb_ready.pdb`):
 
     ATOM      1  O5'  RU A   7      20.386  15.427  27.178  0.50 21.61           O
