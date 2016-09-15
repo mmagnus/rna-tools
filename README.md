@@ -11,18 +11,6 @@ rna-pdb-tools
 
 If you find the tools helpful, you can cite the repo using the DOI above :-)
 
-Table of Contents
------------------
-
- * [Docs](#docs)
- * [Tricks](#tricks)
- * [Requirement](#requirement)
- * [Used libraries](#used-libraries)
- * [Utils](#utils)
- * [Inspiration (and alternatives):](#inspiration-and-alternatives)
- * [Main program](#main-program)
- * [Features:](#features)
-
 A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
 The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress)
@@ -35,8 +23,19 @@ What is fun here?
 
 .. or you might want to use the lib in the program.
 
-![rna](rna.png)
-**Figure 1**. Cleaned `1osw.pdb`
+Table of Contents
+-----------------
+
+ * [Docs](#docs)
+ * [Tricks](#tricks)
+ * [Requirement](#requirement)
+ * [Used libraries](#used-libraries)
+ * [Utils](#utils)
+ * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+ * [Main program](#main-program)
+ * [Features:](#features)
+
+
 
 ## Docs
 
