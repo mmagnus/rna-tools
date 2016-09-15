@@ -1,5 +1,5 @@
 .. rna-pdb-tools documentation master file, created by
-   sphinx-quickstart on Fri Aug 19 23:03:14 2016.
+   sphinx-quickstart on Thu Sep 15 12:43:15 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
