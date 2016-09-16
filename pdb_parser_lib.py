@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+"""Main lib file"""
 
 AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
             "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
