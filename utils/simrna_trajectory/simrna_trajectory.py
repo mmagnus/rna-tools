@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from collections import deque
 import numpy as np
 
@@ -18,7 +21,9 @@ class Atom:
     def __sub__(self, other_atom):
         diff = self.coord - other_atom.coord
         return np.sqrt(np.dot(diff, diff)) 
-        
+    def __add__(self, other_atom):
+        return self.coord + other_atom.coord
+
 class Residue:
     def __init__(self, id, p, c4p, n1n9, b1, b2):
         self.id = id
@@ -34,6 +39,8 @@ class Residue:
 
     def get_atoms(self):
         return self.atoms
+    def get_center(self):
+        return (self.n1n9 + self.b2) / 2
 
 class Frame:
     def __init__(self, id, header, coords):
@@ -81,6 +88,7 @@ class SimRNATrajectory:
         #        do_something_with(line)
         #f = open(fn)  # how much is loaded in memory?
         #f.next()  
+def start(): pass
 
 if __name__ == '__main__':
     s = SimRNATrajectory('8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl')
@@ -93,4 +101,7 @@ if __name__ == '__main__':
         print r.c4p
         print r.c4p.get_coord()
         print r.c4p - r.p
+        print r.n1n9
+        print r.b2
+        print r.get_center()
         break
