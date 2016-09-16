@@ -130,14 +130,16 @@ todo_include_todos = True
 # a list of builtin themes.
 #
 
-html_theme = 'alabaster'
-#import sphinx_rtd_theme
-#html_theme = "sphinx_rtd_theme"
-#html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-#html_theme_options = {
-#    'collapse_navigation': True,
-#}
-#    'display_version': False,
+#html_theme = 'alabaster'
+import sphinx_rtd_theme
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme_options = {
+    'collapse_navigation': True,
+    'display_version': False,
+    'sticky_navigation' :False, 
+}
+
 #    'navigation_depth': 3,
 
 # Theme options are theme-specific and customize the look and feel of a theme
