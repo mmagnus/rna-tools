@@ -6,7 +6,9 @@ from Bio.PDB.PDBIO import Select
 from Bio.PDB import PDBIO, Superimposer
 
 from lib.rmsd.calculate_rmsd import *
-
+import sys
+sys.path.append("../../")
+from pdb_parser_lib import select_pdb_fragment
 import optparse
 import sys
 import math
@@ -35,10 +37,15 @@ def sort_nicely( l ):
    l.sort( key=alphanum_key )
    return l
 
-def calc_rmsd(a,b):
-    
-    atomsP, P = get_coordinates(a, 'pdb', True)
-    atomsQ, Q = get_coordinates(b, 'pdb', True)
+def calc_rmsd(a,b, selection_model, selection_target):
+    """
+    :params: a = filename of structure a
+    :params: b = filename of structure b
+
+    :return: rmsd, number of atoms
+    """
+    atomsP, P = get_coordinates(a, selection_model, 'pdb', True)
+    atomsQ, Q = get_coordinates(b, selection_target, 'pdb', True)
 
     # Calculate 'dumb' RMSD
     normal_rmsd = rmsd(P, Q)
@@ -57,24 +64,34 @@ def calc_rmsd(a,b):
         write_coordinates(atomsP, V)
         quit()
 
-    return kabsch_rmsd(P, Q)    
+    return kabsch_rmsd(P, Q), atomsP
 
 if __name__ == '__main__':
     print 'rmsd_calc_rmsd_to_target'
     print '-' * 80
     
-    optparser=optparse.OptionParser(usage="%prog [<options>]")
+    optparser=optparse.OptionParser(usage="%prog [<options>] <pdb files (test_data/*)>")
 
     optparser.add_option('-t',"--target_fn", type="string",
                          dest="target_fn",
                          default='',
                          help="")
 
+    optparser.add_option('',"--target_selection", type="string",
+                         dest="target_selection",
+                         default='',
+                         help="")
+
+    optparser.add_option('',"--model_selection", type="string",
+                         dest="model_selection",
+                         default='',
+                         help="")
+
     optparser.add_option('-o',"--rmsds_fn", type="string",
                          dest="rmsds_fn",
-                         default='rmsds.tsv',
+                         default='rmsds.csv',
                          help="ouput, matrix")
-
+    
     optparser.add_option("-s", "--save",
                      action="store_true", default=False, dest="save", help="")
 
@@ -87,25 +104,29 @@ if __name__ == '__main__':
     input_files = args[:] # opts.input_dir
     rmsds_fn = opts.rmsds_fn
     target_fn = opts.target_fn
+    target_selection = select_pdb_fragment(opts.target_selection)
+    model_selection = select_pdb_fragment(opts.model_selection)
 
     models = get_rna_models_from_dir(input_files)        
 
     print '# of models:', len(models)
 
     f = open(rmsds_fn, 'w')
-    t = 'target:' + os.path.basename(target_fn) + '\trmsd_all\n'
+    #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
+    t = 'fn,rmsd_all\n'
 
     c = 1
     for r1 in models:
-            rmsd_curr = calc_rmsd(r1, target_fn)
-            t += os.path.basename(r1) + '\t' + str(round(rmsd_curr,3)) + ' '
-            c += 1
-            t += '\n'
+        rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, model_selection)
+        t += os.path.basename(r1) + ',' + str(round(rmsd_curr,3)) + ' '
+        c += 1
+        t += '\n'
             
     f.write(t)
     f.close()
 
     print t.strip() # matrix
 
+    print '# of atoms used:', atoms
     if opts.rmsds_fn:
-        print 'tsv was created! ', rmsds_fn
+        print 'csv was created! ', rmsds_fn
