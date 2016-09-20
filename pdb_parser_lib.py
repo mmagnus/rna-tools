@@ -57,9 +57,12 @@ def select_pdb_fragment(txt):
 
     Caution: e.g. resi 61 is not included, works like in Python
 
-OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]), ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
-None
-"""
+    Example::
+
+      A:1-31,B:1-11 gives
+      OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]), ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
+
+    """
     v = False
     txt = txt.replace(' ','')
     if v:print txt

@@ -13,10 +13,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   lib
    utils
-
-.. automodule:: pdb_parser_lib
-   :members:
 
 Indices and tables
 ==================
