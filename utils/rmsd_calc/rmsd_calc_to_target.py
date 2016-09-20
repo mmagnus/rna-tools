@@ -1,9 +1,22 @@
 #!/usr/bin/python
 
-import Bio.PDB.PDBParser
-import Bio.PDB.Superimposer
-from Bio.PDB.PDBIO import Select
-from Bio.PDB import PDBIO, Superimposer
+"""
+rmsd_calc_rmsd_to_target
+--------------------------------------------------------------------------------
+Usage::
+  rmsd_calc_to_target.py [<options>] <pdb files (test_data/*)>
+
+Options:
+  -h, --help            show this help message and exit
+  -t TARGET_FN, --target_fn=TARGET_FN
+  --target_selection=TARGET_SELECTION
+  --model_selection=MODEL_SELECTION
+  -o RMSDS_FN, --rmsds_fn=RMSDS_FN
+                        ouput, matrix
+  -s, --save
+
+this version if BioPython free == should be super fast!
+"""
 
 from lib.rmsd.calculate_rmsd import *
 import sys
@@ -17,7 +30,14 @@ import re
 import os
 
 def get_rna_models_from_dir(files):
-    """models - a list of filenames, ['test_data/rp17/2_restr1_Michal1.pdb_clean.pdb', 'test_data/rp17/2a_nonrestr2_Michal1.pdb_clean.pdb', 'test_data/rp17/3_nonrestr1_Michal1.pdb_clean.pdb', 'test_data/rp17/5_restr1_Michal3.pdb_clean.pdb']"""
+    """
+    :param models: a list of filenames 
+
+    Example of the list::
+
+       ['test_data/rp17/2_restr1_Michal1.pdb_clean.pdb', 'test_data/rp17/2a_nonrestr2_Michal1.pdb_clean.pdb', 
+       'test_data/rp17/3_nonrestr1_Michal1.pdb_clean.pdb', 'test_data/rp17/5_restr1_Michal3.pdb_clean.pdb']"""
+
     models = []
     #if not os.path.exists(directory):
     #    raise Exception('Dir does not exist! ', directory)
