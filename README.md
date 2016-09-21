@@ -52,11 +52,11 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 ## Requirement
 
-`.get_rnapuzzle_ready()` needs Biopython
-
-`.is_mol2()` needs OpenBabel
+Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
 
 ## Used libraries
+
+This packages uses other pieces of software, it would be impossible without them to develop rna-pdb-tools, thanks!
 
 + biopython (https://github.com/biopython/biopython)
 + rmsd (https://github.com/charnley/rmsd)
