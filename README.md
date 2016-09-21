@@ -29,6 +29,7 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 
+ * [Install](#install)
  * [Docs](#docs)
  * [Tricks](#tricks)
  * [Requirement](#requirement)
@@ -38,7 +39,9 @@ Table of Contents
  * [Main program](#main-program)
  * [Features:](#features)
 
+## Install
 
+Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` to your .bashrc .
 
 ## Docs
 
