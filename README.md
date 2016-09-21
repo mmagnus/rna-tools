@@ -29,9 +29,9 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 
- * [Install](#install)
  * [Docs](#docs)
  * [Tricks](#tricks)
+ * [Install](#install) 
  * [Requirement](#requirement)
  * [Used libraries](#used-libraries)
  * [Utils](#utils)
@@ -39,9 +39,6 @@ Table of Contents
  * [Main program](#main-program)
  * [Features:](#features)
 
-## Install
-
-Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` to your .bashrc .
 
 ## Docs
 
@@ -55,6 +52,10 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
     [..]
     
     $ for i in `ls *.pdb`; do rna-pdb-tools.py --c $i > ${i/.pdb/_clx.pdb}; done
+
+## Install
+
+Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` to your .bashrc .
 
 ## Requirement
 
@@ -84,7 +85,6 @@ This packages uses other pieces of software, it would be impossible without them
 + https://github.com/harmslab/pdbtools
 + http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
 + .. and more!
-
 
 ## Main program
 
