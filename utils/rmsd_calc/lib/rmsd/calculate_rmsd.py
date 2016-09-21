@@ -10,7 +10,7 @@ license: https://github.com/charnley/rmsd/blob/master/LICENSE
 """
 import numpy as np
 import re
-
+from rna_pdb_tools.utils.extra_functions.select_fragment import is_in_selection
 
 def kabsch_rmsd(P, Q):
     """
@@ -101,15 +101,12 @@ def rmsd(V, W):
     return np.sqrt(rmsd/N)
 
 
-def get_coordinates(filename, selection, fmt, ignore_hydrogens):
-    """
-    Get coordinates from filename.
-
-    """
-    return get_coordinates_pdb(filename, selection, ignore_hydrogens)
+def get_coordinates(filename, selection, ignore_selection, fmt, ignore_hydrogens):
+    """Get coordinates from filename."""
+    return get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
 
 
-def get_coordinates_pdb(filename, selection, ignore_hydrogens):
+def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens):
     """
     Get coordinates from the first chain in a pdb file
     and return a vectorset with all the coordinates.
@@ -133,30 +130,25 @@ def get_coordinates_pdb(filename, selection, ignore_hydrogens):
             if line.startswith("ATOM"):
                 curr_chain_id = line[21]
                 curr_resi = int(line[22:26])
+                curr_atom_name = line[12:16].strip()
                 if selection:
                     if selection.has_key(curr_chain_id):
                         if curr_resi in selection[curr_chain_id]:
-                            try:
+                            # ignore if to be ingored (!)
+                            #try:
                                     x = line[30:38]
                                     y = line[38:46]
                                     z = line[46:54]
-                                    V.append(np.asarray([x,y,z],dtype=float))
-                            except:
-                                exit("Error parsing input for the following line: \n%s" % line)
+                                    if ignore_selection:
+                                        if not is_in_selection(ignore_selection, curr_chain_id, curr_resi, curr_atom_name):
+                                            V.append(np.asarray([x,y,z],dtype=float))
+                                    else:
+                                        V.append(np.asarray([x,y,z],dtype=float))
                 else:
-                    # Try to read the coordinates
-                    try:
-                        V.append(np.asarray(tokens[x_column:x_column+3],dtype=float))
-                    except:
-                        # If that doesn't work, use hardcoded indices
-                        try:
-                            x = line[30:38]
-                            y = line[38:46]
-                            z = line[46:54]
-                            V.append(np.asarray([x,y,z],dtype=float))
-                        except:
-                            exit("Error parsing input for the following line: \n%s" % line)
-                    
+                                    x = line[30:38]
+                                    y = line[38:46]
+                                    z = line[46:54]
+                                    V.append(np.asarray([x,y,z],dtype=float))                    
 
     V = np.asarray(V)
     return len(V), V

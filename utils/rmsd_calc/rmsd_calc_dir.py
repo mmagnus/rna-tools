@@ -36,8 +36,8 @@ def sort_nicely( l ):
 
 def calc_rmsd(a,b):
     """empty selection"""
-    atomsP, P = get_coordinates(a, '', 'pdb', True)
-    atomsQ, Q = get_coordinates(b, '','pdb', True)
+    atomsP, P = get_coordinates(a, None, None, 'pdb', True)
+    atomsQ, Q = get_coordinates(b, None, None, 'pdb', True)
 
     # Calculate 'dumb' RMSD
     normal_rmsd = rmsd(P, Q)

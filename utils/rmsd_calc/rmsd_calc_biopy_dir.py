@@ -16,17 +16,19 @@ class RNAmodel:
     def __init__(self, fpath):
         # parser 1-5 -> 1 2 3 4 5
         self.struc = Bio.PDB.PDBParser().get_structure('', fpath)
-        self.__get_atoms()
         self.fpath = fpath
         self.fn = os.path.basename(fpath)
         #self.atoms = []
         #if save:
         #    self.save() # @save
 
-    def __get_atoms(self):
+    def get_atoms(self, gaps=''):
         self.atoms=[]
-        for res in self.struc.get_residues():
-                self.atoms.extend(res.get_list())
+        for res in enumerate(self.struc.get_residues()):
+            if res[0]+1 not in gaps: # (61, <Residue   A het=  resseq=62 icode= >) # index +1
+                self.atoms.extend(res[1].get_list())
+            else:
+                print 'skip resi', res[0]+1
         return self.atoms
     
     def __str__(self):
@@ -45,6 +47,10 @@ class RNAmodel:
     def get_rmsd_to(self, other_rnamodel, output=''):
         """Calc rmsd P-atom based rmsd to other rna model"""
         sup = Bio.PDB.Superimposer()
+
+        self.get_atoms(gaps)
+        other_rnamodel.get_atoms(gaps)
+
         sup.set_atoms(self.atoms, other_rnamodel.atoms)
         rms = round(sup.rms, 3)
 
@@ -58,7 +64,6 @@ class RNAmodel:
             sup.apply(other_rnamodel.struc.get_atoms())
             io.set_structure( other_rnamodel.struc )
             io.save("aligned2.pdb")
-            
         return rms
 
 def get_rna_models_from_dir(directory):
@@ -68,7 +73,6 @@ def get_rna_models_from_dir(directory):
     files = glob.glob(directory + "/*.pdb")
     files_sorted = sort_nicely(files)
     for f in files_sorted:
-        #print f
         models.append(RNAmodel(f))
     return models
 
@@ -97,7 +101,6 @@ if __name__ == '__main__':
 
     optparser.add_option("-s", "--save",
                      action="store_true", default=False, dest="save", help="")
-
     
     (opts, args)=optparser.parse_args()
 
@@ -121,11 +124,13 @@ if __name__ == '__main__':
     t += '\n'
 
     c = 1
+    gaps = [1,2,3]
+    print 'gaps', gaps
     for r1 in models:
             for r2 in models:
                 #print
                 #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
-                rmsd = r1.get_rmsd_to(r2) #, 'tmp.pdb')
+                rmsd = r1.get_rmsd_to(r2, gaps) #, 'tmp.pdb')
                 #print rmsd
                 t += str(rmsd) + ' '
                 #break    
