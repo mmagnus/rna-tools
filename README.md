@@ -69,12 +69,14 @@ This packages uses other pieces of software, it would be impossible without them
 + rmsd (https://github.com/charnley/rmsd)
 
 ## Utils
+b   hag
+See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
-+ [diffpdb](rna-pdb-tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
++ [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
-      ![diffpdb](rna-pdb-tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
+      ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
 
-+ [rnashape2ascii](rna-pdb-tools/utils/rnashape2ascii/
++ [rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
 ) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
 
 ## Inspiration (and alternatives):
