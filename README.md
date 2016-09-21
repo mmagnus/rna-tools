@@ -69,7 +69,7 @@ This packages uses other pieces of software, it would be impossible without them
 + rmsd (https://github.com/charnley/rmsd)
 
 ## Utils
-b   hag
+
 See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
 + [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
