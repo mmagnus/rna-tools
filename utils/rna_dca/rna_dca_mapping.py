@@ -9,8 +9,11 @@ def rna_dca_mapping(fileseq,file_interactions):
     header = f.readline().strip() # get rid of header
     seq = f.read().strip()
     print header
-    print seq
-
+    print seq.strip()
+    if not seq.strip():
+        sys.exit("""Seq is missing, the file format is:
+> header
+seq""")
     df=pd.read_csv(file_interactions,sep=" ")
     interactions = zip(df['i'].tolist(), df['j'].tolist())
     fileseq.strip() 
@@ -22,6 +25,7 @@ def rna_dca_mapping(fileseq,file_interactions):
         ij = [0,0]
         ij[0] = i[0] - 1
         ij[1] = i[1] - 1
+        print ij
         if v: print seq[ij[0]], seq[ij[1]]
         if seq[ij[0]] == '.' or seq[ij[1]] == '.':
             if v: print 'Removed Interaction:', ij
@@ -37,13 +41,14 @@ def rna_dca_mapping(fileseq,file_interactions):
     print 'output seq:\n', seq.replace('.','')
     print 'output file:', file_interactions+"_mapped.csv"
 
-    a=pd.DataFrame(mapped_interactions, columns=["i","j"])
+    a = pd.DataFrame(mapped_interactions, columns=["i","j"])
     a.to_csv(file_interactions+"_mapped.csv",sep=" ")
 
 def usage():
     if len(sys.argv)!=3:
-        print sys.argv[0] + " <seq.fa> <interactions_parsed.txt>"
+        print 'rna_dca_mapping.py' + " <seq.fa> <interactions_parsed.txt>"
         sys.exit()
+
 if __name__=="__main__":
     usage()
     rna_dca_mapping(sys.argv[1],sys.argv[2])
