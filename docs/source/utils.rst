@@ -1,12 +1,12 @@
 Utils
 =========================================
 
-.. automodule:: utils.simrna_trajectory.simrna_trajectory
+.. automodule:: rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory
    :members:
 
 Calc RMSD
 -----------------------------------------
 
-.. automodule:: utils.rmsd_calc.rmsd_calc_to_target
+.. automodule:: rna_pdb_tools.utils.rmsd_calc.rmsd_calc_to_target
    :members:
 

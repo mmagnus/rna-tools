@@ -1,24 +1,29 @@
 #!/usr/bin/python
 
-"""
-rmsd_calc_rmsd_to_target
+"""rmsd_calc_rmsd_to_target
 --------------------------------------------------------------------------------
-Usage::
-  rmsd_calc_to_target.py [<options>] <pdb files (test_data/*)>
+Usage: rmsd_calc_to_target.py [<options>] <pdb files (test_data/*)>
 
 Options:
   -h, --help            show this help message and exit
   -t TARGET_FN, --target_fn=TARGET_FN
+                        pdb file
   --target_selection=TARGET_SELECTION
+                        selection, e.g. A:10-16+20, caution: it works like in
+                        Python, 16 it's not included
+  --target_ignore_selection=TARGET_IGNORE_SELECTION
+                        A/10/O2'
   --model_selection=MODEL_SELECTION
+                        selection, e.g. A:10-16+20, caution: it works like in
+                        Python, 16 it's not included
+  --model_ignore_selection=MODEL_IGNORE_SELECTION
+                        A/10/O2'
   -o RMSDS_FN, --rmsds_fn=RMSDS_FN
                         ouput, matrix
-  -s, --save
 
-this version if BioPython free == should be super fast!
-"""
+.. caution:: this version if BioPython free == should be super fast! """
 
-from lib.rmsd.calculate_rmsd import *
+from rna_pdb_tools.utils.rmsd_calc.lib.rmsd.calculate_rmsd import *
 import sys
 from rna_pdb_tools.pdb_parser_lib import select_pdb_fragment
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style
@@ -97,36 +102,33 @@ if __name__ == '__main__':
     optparser.add_option('-t',"--target_fn", type="string",
                          dest="target_fn",
                          default='',
-                         help="")
+                         help="pdb file")
 
     optparser.add_option('',"--target_selection", type="string",
                          dest="target_selection",
                          default='',
-                         help="")
+                         help="selection, e.g. A:10-16+20, caution: it works like in Python, 16 it's not included")
 
     optparser.add_option('',"--target_ignore_selection", type="string",
                          dest="target_ignore_selection",
                          default='',
-                         help="")
+                         help="A/10/O2\'")
     
     optparser.add_option('',"--model_selection", type="string",
                          dest="model_selection",
                          default='',
-                         help="")
+                         help="selection, e.g. A:10-16+20, caution: it works like in Python, 16 it's not included")
 
     optparser.add_option('',"--model_ignore_selection", type="string",
                          dest="model_ignore_selection",
                          default='',
-                         help="")
+                         help="A/10/O2\'")
     
     optparser.add_option('-o',"--rmsds_fn", type="string",
                          dest="rmsds_fn",
                          default='rmsds.csv',
                          help="ouput, matrix")
     
-    optparser.add_option("-s", "--save",
-                     action="store_true", default=False, dest="save", help="")
-
     (opts, args)=optparser.parse_args()
 
     if len(sys.argv) == 1:

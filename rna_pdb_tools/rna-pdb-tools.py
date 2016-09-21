@@ -6,6 +6,7 @@ import os
 import time
 
 from pdb_parser_lib import *
+from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 def add_header():
     now = time.strftime("%c")

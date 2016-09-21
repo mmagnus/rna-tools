@@ -7,7 +7,7 @@ install:
  - sudo apt-get install python-biopython
 
 script:
- - bash test.sh
+ - bash rna_pdb_tools/test.sh
 
 notifications:
    email:

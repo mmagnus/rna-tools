@@ -17,7 +17,8 @@ Contents:
 
    lib
    utils
-
+   selection
+   
 Indices and tables
 ==================
 
