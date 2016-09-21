@@ -1,1 +1,130 @@
-test...
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js – The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+				  <h1><code>rna-pdb-tools</code></h1>
+					<h3>Why do you need this?</h3>
+					<p>
+					  <small>Created by Marcin Magnus</br> (magnus@genesilico.pl)</small>
+					</p>
+				</section>
+
+<section data-markdown>
+<script type="text/template">
+<h1>pdb format</h1>
+<pre><code class="hljs" data-trim contenteditable>
+SCALE3      0.000000  0.000000  0.017350        0.0000
+ATOM      1  C5'   A A   3      25.674  19.091   3.459  1.00 16.99
+ATOM      2  C4'   A A   3      24.292  19.184   2.879  1.00 14.76
+ATOM      3  O4'   A A   3      24.238  18.433   1.640  1.00 14.59
+</code></pre>
+
+</script>
+</section>
+
+<div class="slides">
+<section>
+<section>
+	<h1><code>diffpdb</code></h1>
+	</p>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+
+<small><code>
+     diffpdb --names
+			5k7c_clean_onechain_renumber_as_puzzle_srr.pdb clusters/pistol_thrs0.50A_clust272-000001_AA.pdb
+</code></small>
+
+<p class="fragment">
+<img style="height:60%" src="pngs/rp17_simrna.png">
+</br>
+You can see gaps in the pistol structure and extra `O2'` in G (this is deoxy-G used to mpare crystalization).
+</p>
+</script>
+</section>
+</section>
+
+<section data-markdown>
+<script type="text/template">
+<h1>more soon...</h1>
+</code></pre>
+
+</script>
+</section>
+
+</div>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
