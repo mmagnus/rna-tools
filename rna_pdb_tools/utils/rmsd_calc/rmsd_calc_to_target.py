@@ -25,8 +25,7 @@ Options:
 
 from rna_pdb_tools.utils.rmsd_calc.lib.rmsd.calculate_rmsd import *
 import sys
-from rna_pdb_tools.pdb_parser_lib import select_pdb_fragment
-from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style
+from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 import optparse
 import sys
 import math
