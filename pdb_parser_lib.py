@@ -25,7 +25,7 @@ import string
 
 ignore_op3 = False
 
-def get_version(currfn='', verbose=False):
+def get_version(currfn='', verbose=False): #dupa
     """Get version of the tool based on state of the git repository.
     Return version. 
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
@@ -53,16 +53,12 @@ def get_version(currfn='', verbose=False):
 
 
 def select_pdb_fragment(txt):
-    """Take A:1-31,B:1-11
+    """Take txt such as A:1-31,B:1-11 and parse into::
 
-    Caution: e.g. resi 61 is not included, works like in Python
+      OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]),
+      ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
 
-    Example::
-
-      A:1-31,B:1-11 gives
-      OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]), ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
-
-    """
+    .. warning:: e.g. for A:1-31, resi 31 is not included, works like in Python."""
     v = False
     txt = txt.replace(' ','')
     if v:print txt
@@ -121,14 +117,14 @@ class StrucFile:
         self.res = self.get_resn_uniq()
 
     def is_it_pdb(self):
+        """Return True if the files is in PDB format."""
         if len(self.lines):
             return True
         else:
             return False
 
     def is_mol2(self):
-        """Return true if is_mol2 (based on the presence of "@<TRIPOS>" during __init__.
-        """
+        """Return True if is_mol2 based on the presence of ```@<TRIPOS>```."""
         return self.mol2_format
 
     def decap_gtp(self):
@@ -228,16 +224,21 @@ class StrucFile:
             if l.startswith('ATOM') or l.startswith('HETATM') :
                 resi = int(l[22:26])
                 if curri != resi:
-                    seq += l[19]
+                    resname = l[17:20].strip()
+                    if len(resname) == 'GTP': # DG -> g GTP
+                        resname = 'g'
+                    if len(resname) > 1: # DG -> g GTP
+                        resname = resname[-1].lower()
+                    seq += resname
                     chain_curr = l[21]
                     if chain_prev != chain_curr and chain_prev:
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
                     if chains.has_key(chain_curr):                
-                        chains[chain_curr]['seq'] += l[19]
+                        chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
                         chains[chain_curr]['header'] = chain_curr + ':' + str(resi)#resi_prev)
-                        chains[chain_curr]['seq'] =l[19]
+                        chains[chain_curr]['seq'] = resname
                     resi_prev = resi
                     chain_prev = chain_curr
                 curri = resi
@@ -514,7 +515,7 @@ class StrucFile:
 
 
     def write(self, outfn,v=True):
-        """Write (and END file")"""
+        """Write ```self.lines``` to a file (and END file")"""
         f = open(outfn, 'w')
         for l in self.lines:
             f.write(l + '\n')
@@ -524,17 +525,19 @@ class StrucFile:
         if v:
             print 'Write %s' % outfn
 
-    def get_rnapuzzle_ready(self):
+    def get_rnapuzzle_ready(self, renumber_residues=True):
         """Get rnapuzzle ready structure.
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
         Does:
         - keep only given atoms,
-        - renumber residues from 1,
+        - renumber residues from 1, if renumber_residues=True (by default)
         """
-
-        from Bio import PDB
-        from Bio.PDB import PDBIO
+        try:
+            from Bio import PDB
+            from Bio.PDB import PDBIO
+        except:
+            sys.exit('Error: Install biopython to use this function (pip biopython)')
 
         import copy
 
@@ -595,9 +598,10 @@ class StrucFile:
                 if r.resname.strip() == 'RA': r.resname = 'A'
 
                 r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
-                r2.id = (' ', c, ' ') ## renumber!
-
+                if renumber_residues:
+                    r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
                 if str(r.get_resname()).strip() == "G":
+
                     for an in G_ATOMS:
                         try:
                             r2.add(r[an])
@@ -631,8 +635,8 @@ class StrucFile:
                         except KeyError:
                             #print 'Missing:', an, r,' new resi', c
                             missing.append([an, chain.id, r, c])
+                    
                     c2.add(r2)
-
                 c += 1
             chains2.append(c2)
 
@@ -656,9 +660,18 @@ class StrucFile:
         self.lines = s.lines
 
 
-    def get_simrna_ready(self):
-        from Bio import PDB
-        from Bio.PDB import PDBIO
+    def get_simrna_ready(self,  renumber_residues=True):
+        """Get simrna_ready .. 
+
+        - take only first model,
+        - renumber residues if renumber_residues=True
+
+        .. warning:: requires: Biopython"""
+        try:
+            from Bio import PDB
+            from Bio.PDB import PDBIO
+        except:
+            sys.exit('Error: Install biopython to use this function (pip biopython)')
 
         import warnings
         
@@ -667,7 +680,7 @@ class StrucFile:
         
         import copy
 
-        G_ATOMS = ['P', 'OP1', 'OP2', 'O5\'', 'C5\'', 'C4\'', 'O4\'', 'C3\'', 'O3\'', 'C2\'', 'O2\'', 'C1\'', 'N9', 'C8', 'N7', 'C5', 'C6', 'O6', 'N1', 'C2', 'N2', 'N3', 'C4']
+        G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
         U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
         C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
@@ -686,10 +699,7 @@ class StrucFile:
 
         missing = []
         
-
         for chain in model.get_list():
-            c = 1  # new chain, goes from 1 !!!
-
             res = [] 
             for r in chain:
                 res.append(r)
@@ -698,6 +708,7 @@ class StrucFile:
 
             c2 = PDB.Chain.Chain(chain.id)        
 
+            c = 1  # new chain, goes from 1 if renumber True
             for r in res:
                 # hack for amber/qrna
                 r.resname = r.resname.strip()
@@ -727,8 +738,8 @@ class StrucFile:
                 if r.resname.strip() == 'RA': r.resname = 'A'
 
                 r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
-                r2.id = (' ', c, ' ') ## renumber!
-
+                if renumber_residues:
+                    r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
                 if c == 1:
                     p_missing = True
                     #if p_missing:
@@ -914,8 +925,8 @@ class StrucFile:
         io.save(pdb_out)
         print 'Saved ', pdb_out
         return True
-def start(): pass
 
+# main
 if '__main__' == __name__:
     fn = 'input/image'
     print 'fn:', fn

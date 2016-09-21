@@ -27,7 +27,8 @@
 ./rna-pdb-tools.py --no_hr --get_rnapuzzle input/377D.pdb # should finish with error
 
 ## --get_simrna_ready
-./rna-pdb-tools.py --no_hr --get_simrna_ready input/1xjr_no_op3.pdb > output/1xjr_no_op3_simrna_ready.pdb
+./rna-pdb-tools.py --no_hr  --renumber_residues --get_simrna_ready input/1xjr_no_op3.pdb > output/1xjr_no_op3_simrna_ready.pdb
+./rna-pdb-tools.py --no_hr  --get_simrna_ready input/pistol_thrs0.50A_clust99-000001_AA.pdb > output/pistol_thrs0.50A_clust99-000001_AA_srr.pdb
 
 ## --delete
 ./rna-pdb-tools.py --no_hr --delete A:10-60 input/rp17.out.1.pdb > output/rp17_rmA10-60.pdb

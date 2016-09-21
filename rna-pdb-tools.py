@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import argparse
@@ -33,6 +33,9 @@ if __name__ == '__main__':
                         action='store_true')
 
     parser.add_argument('--no_hr', help='do not insert the header into files',
+                        action='store_true')
+
+    parser.add_argument('--renumber_residues', help='',
                         action='store_true')
 
     parser.add_argument('--get_simrna_ready', help='',
@@ -85,9 +88,7 @@ if __name__ == '__main__':
         s.fix_O_in_UC()
         s.fix_op_atoms()
         #print s.get_preview()
-
         print s.get_seq()
-        #s.write(args.outfile)
 
     s = StrucFile(args.file)
     if args.get_chain:
@@ -100,8 +101,6 @@ if __name__ == '__main__':
         s.fix_op_atoms()
         #print s.get_preview()
         print s.get_chain(args.get_chain)
-        #s.write(args.outfile)
-
 
     if args.rosetta2generic:
         s = StrucFile(args.file)
@@ -130,7 +129,7 @@ if __name__ == '__main__':
         #s.write(args.outfile)
         if not args.no_hr:
             add_header()
-        s.get_rnapuzzle_ready()
+        s.get_simrna_ready(args.renumber_residues)
         print s.get_text()
 
     if args.get_simrna_ready:
@@ -144,7 +143,7 @@ if __name__ == '__main__':
         s.renum_atoms()
         if not args.no_hr:
             add_header()
-        s.get_simrna_ready()
+        s.get_simrna_ready(args.renumber_residues)
         print s.get_text()
 
     if args.delete:
@@ -189,3 +188,6 @@ if __name__ == '__main__':
                         print nl
                     else:
                         print l
+
+if __name__ == '__main__':
+    pass
