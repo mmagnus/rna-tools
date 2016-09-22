@@ -29,9 +29,9 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 
- * [Install](#install)
  * [Docs](#docs)
  * [Tricks](#tricks)
+ * [Install](#install) 
  * [Requirement](#requirement)
  * [Used libraries](#used-libraries)
  * [Utils](#utils)
@@ -39,9 +39,6 @@ Table of Contents
  * [Main program](#main-program)
  * [Features:](#features)
 
-## Install
-
-Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` to your .bashrc .
 
 ## Docs
 
@@ -56,6 +53,10 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
     
     $ for i in `ls *.pdb`; do rna-pdb-tools.py --c $i > ${i/.pdb/_clx.pdb}; done
 
+## Install
+
+Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` to your .bashrc .
+
 ## Requirement
 
 Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
@@ -69,11 +70,13 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## Utils
 
-+ [diffpdb](rna-pdb-tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
+See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
-      ![diffpdb](rna-pdb-tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
++ [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
-+ [rnashape2ascii](rna-pdb-tools/utils/rnashape2ascii/
+      ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
+
++ [rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
 ) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
 
 ## Inspiration (and alternatives):
@@ -84,7 +87,6 @@ This packages uses other pieces of software, it would be impossible without them
 + https://github.com/harmslab/pdbtools
 + http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
 + .. and more!
-
 
 ## Main program
 
