@@ -55,7 +55,13 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 ## Install
 
-Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` to your .bashrc .
+Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` and PATH, e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/` to your `.bashrc` and run the following script:
+
+    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
+    Installed in ./bin
+    rmsd_calc_to_target.py
+
+to make links of utils to `./bin`.
 
 ## Requirement
 
