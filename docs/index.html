@@ -13,7 +13,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -63,15 +63,14 @@ ATOM      3  O4'   A A   3      24.238  18.433   1.640  1.00 14.59
 <div class="slides">
 <section>
 <section>
-	<h1><code>rna_pdb_tools.py</code></h1>
+  <h2>rna_pdb_tools.py</h2>
 </section>
 </section>
 
 <div class="slides">
 <section>
 <section>
-	<h1><code>diffpdb</code></h1>
-	</p>
+  <h2>diffpdb</h2>
 </section>
 
 <section data-markdown>
@@ -85,15 +84,106 @@ ATOM      3  O4'   A A   3      24.238  18.433   1.640  1.00 14.59
 <p class="fragment">
 <img style="height:60%" src="pngs/rp17_simrna.png">
 </br>
-You can see gaps in the pistol structure and extra `O2'` in G (this is deoxy-G used to mpare crystalization).
+<small>
+  You can see gaps in the pistol structure and extra `O2'` in G (this is deoxy-G used to mpare crystalization).
+</small>
 </p>
 </script>
 </section>
+
+<!--
+diffpdb --names_and_resi 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb clusters/pistol_thrs0.50A_clust01-000001_AA.pdb
+  -->
+
+<section>
+  <h2># of atoms</h2>
+  <img style="height:60%" src="pngs/rp17_atoms.png">  
+</section>
+   
+<section>
+  <h2>Calc rmsd</h2>
+  (clusters/pistol_thrs0.50A_clust01-000001_AA.pdb)
+  <pre><code class="hljs" data-trim contenteditable>
+		$ rmsd_calc_to_target.py
+		-t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+		--target_selection A:1-48,52-63
+		--model_selection A:1-48,52-63
+		--target_ignore_selection A/57/O2\'
+		clusters/pistol_thrs0.50A_clust01-000001_AA.pdb
+
+rmsd_calc_rmsd_to_target
+--------------------------------------------------------------------------------
+  target_selection:  A:1-48,52-63
+  model_selection:   A:1-48,52-63
+  target_ignore_selection:  A/57/O2'
+  model_ignore_selection:
+# of models: 1
+fn,rmsd_all
+pistol_thrs0.50A_clust01-000001_AA.pdb,7.596
+# of atoms used: 1237
+csv was created!  rmsds.csv
+</code></pre>
 </section>
 
+<section>
+  Why NOT to edit the structures?
+
+  
+</section>
+
+
+<section>
+  <h2>Calc rmsd</h2>
+  (clusters/*_AA.pdb)
+  <pre><code class="hljs" data-trim contenteditable>
+
+      time rmsd_calc_to_target.py
+      -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+      --target_selection A:1-48,52-63
+      --model_selection A:1-48,52-63
+      --target_ignore_selection A/57/O2\'
+      clusters/*_AA.pdb
+      
+rmsd_calc_rmsd_to_target
+--------------------------------------------------------------------------------
+  target_selection:  A:1-48,52-63
+  model_selection:   A:1-48,52-63
+  target_ignore_selection:  A/57/O2'
+  model_ignore_selection:
+# of models: 801
+fn,rmsd_all
+pistol_thrs0.50A_clust01-000001_AA.pdb,7.596
+pistol_thrs0.50A_clust02-000001_AA.pdb,7.766
+pistol_thrs0.50A_clust03-000001_AA.pdb,18.171
+[..]
+pistol_thrs0.50A_clust799-000001_AA.pdb,5.356
+pistol_thrs0.50A_clust800-000001_AA.pdb,15.282
+pistol_thrs0.50A_clust801-000001_AA.pdb,16.339
+# of atoms used: 1237
+csv was created!  rmsds.csv
+rmsd_calc_to_target.py -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+37.93s user 1.07s system 87% cpu 44.650 total
+</code></pre>
+</section>
+</section>
+
+<section>
+  <section>
+    <h2>RNA DeCoupling Analysis (DCA)</h2>
+  </section>    
+  <section>
+    <img src="../rna_pdb_tools/utils/rna_dca/doc/screen.png">
+    <p><small>get_dists(output of the script, python list>)</small><p>
+  </section>       
+</section>
+  
 <section data-markdown>
 <script type="text/template">
 <h1>more soon...</h1>
+<li>
+  <a href="http://rna-pdb-tools.readthedocs.io/en/latest">http://rna-pdb-tools.readthedocs.io/en/latest</a>
+</li>  
+
 </code></pre>
 
 </script>
