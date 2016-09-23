@@ -10,3 +10,4 @@ diffpdb_conf.py
 *DS_Store
 *docs/build/*
 *_off*
+bin
