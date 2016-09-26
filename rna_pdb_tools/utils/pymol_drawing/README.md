@@ -13,4 +13,6 @@ https://sourceforge.net/p/pymol/mailman/message/25795427/
 
 ![](docs/circle.png)
 
+`cgoCircle(55,35,41,.1)` on GC.pdb
+
 https://pymolwiki.org/index.php/CgoCircle
