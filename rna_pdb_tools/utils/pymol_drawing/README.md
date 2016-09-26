@@ -1,4 +1,4 @@
-https://pymolwiki.org/index.php/Category:CGO
+Read more: https://pymolwiki.org/index.php/Category:CGO
 
 # Draw a point
 
@@ -11,6 +11,14 @@ https://pymolwiki.org/index.php/Category:CGO
 
 https://sourceforge.net/p/pymol/mailman/message/25795427/
 
+# Draw a vector
+
+    x1, y1,z1 =  54.729 , 28.9375, 41.421
+	x2, y2,z2 = 55.3425 ,35.3605,  42.7455
+
+![](docs/draw_vector.png)
+`draw_vector(x1,y1,z1,x2,y2,z2)` goes from blue to red
+
 # Draw a circle
 
 ![](docs/circle.png)
@@ -18,3 +26,9 @@ https://sourceforge.net/p/pymol/mailman/message/25795427/
 `cgoCircle(55,35,41,.1)` on GC.pdb
 
 https://pymolwiki.org/index.php/CgoCircle
+
+# Install
+
+    run ~/work/src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/CgoCircle.py
+    run ~/work/src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/DrawVector.py
+
