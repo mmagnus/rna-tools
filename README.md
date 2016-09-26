@@ -29,6 +29,7 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 
+ * [Tour](#tour)
  * [Docs](#docs)
  * [Tricks](#tricks)
  * [Install](#install) 
@@ -39,6 +40,9 @@ Table of Contents
  * [Main program](#main-program)
  * [Features:](#features)
 
+## Tour
+
+Take a tour http://mmagnus.github.io/rna-pdb-tools/#/ 
 
 ## Docs
 
