@@ -3,7 +3,7 @@ import pymol
 from pymol.cgo import *
 import random
 
-def cgoCircle(x, y, z, r=8.0, cr=1.0, cg=0.4, cb=0.8, w=2.0):
+def draw_circle(x, y, z, r=8.0, cr=1.0, cg=0.4, cb=0.8, w=2.0):
   """
   Create a CGO circle
 
@@ -51,7 +51,7 @@ def cgoCircle(x, y, z, r=8.0, cr=1.0, cg=0.4, cb=0.8, w=2.0):
   return obj
 
 
-def circleSelection( selName, r=None, cr=1.0, cg=0.4, cb=0.8, w=2.0 ):
+def draw_circle_selection( selName, r=None, cr=1.0, cg=0.4, cb=0.8, w=2.0 ):
   """
   circleSelection -- draws a cgo circle around a given selection or object
 
@@ -88,5 +88,5 @@ def circleSelection( selName, r=None, cr=1.0, cg=0.4, cb=0.8, w=2.0 ):
   return cgoCircle( centerX, centerY, centerZ, r, cr, cg, cb, w )
 
 
-cmd.extend( "cgoCircle", cgoCircle )
-cmd.extend( "circleSelection", circleSelection )
+cmd.extend( "draw_circle", draw_circle )
+cmd.extend( "draw_circle_selection", draw_circle_selection )

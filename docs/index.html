@@ -169,24 +169,51 @@ rmsd_calc_to_target.py -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
 
 <section>
   <section>
+    <h2>PyMOL drawing</h2>
+  </section>
+
+ <section>
+   <pre><code>x1, y1,z1 = 54.729, 28.9375, 41.421
+x2, y2,z2 = 55.342, 35.3605, 42.745
+draw_dist(x1,y1,z1,x2,y2,z2)
+</code></pre>
+<img src="pngs/draw_dist.png">
+ </section>
+
+ <section>
+<pre><code>x1, y1,z1 = 54.729, 28.9375, 41.421
+x2, y2,z2 = 55.342, 35.3605, 42.745
+draw_vector(x1,y1,z1,x2,y2,z2) # colored from blue to red
+</code></pre>
+<img src="pngs/draw_vector.png">
+  </section>       
+
+  <section>
+<pre><code>draw_circle(55,35,41,.1)
+</code></pre>
+<img src="pngs/draw_circle.png">
+  </section>       
+
+</section>
+
+<section>
+  <section>
     <h2>RNA DeCoupling Analysis (DCA)</h2>
   </section>    
   <section>
-    <img src="../rna_pdb_tools/utils/rna_dca/doc/screen.png">
+    <img src="pngs/dca.png">
     <p><small>get_dists(output of the script, python list>)</small><p>
   </section>       
 </section>
   
-<section data-markdown>
-<script type="text/template">
+<section>
 <h1>more soon...</h1>
 <li>
   <a href="http://rna-pdb-tools.readthedocs.io/en/latest">http://rna-pdb-tools.readthedocs.io/en/latest</a>
+</li>
+<li>
+  <a href="https://github.com/mmagnus/rna-pdb-tools">https://github.com/mmagnus/rna-pdb-tools</a>
 </li>  
-
-</code></pre>
-
-</script>
 </section>
 
 </div>
