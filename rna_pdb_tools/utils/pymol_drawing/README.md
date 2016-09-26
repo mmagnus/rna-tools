@@ -27,6 +27,16 @@ https://sourceforge.net/p/pymol/mailman/message/25795427/
 
 https://pymolwiki.org/index.php/CgoCircle
 
+# Draw a cylinder
+
+	from pymol.cgo import *    # get constants
+	from pymol import cmd
+	obj = []
+	obj.extend([ CYLINDER, 67.4734,39.1894,30.9236,55.5007,32.2414,42.8594, 2, 1, 0, 0, 1,0,0 ])
+	cmd.load_cgo(obj,'cg1')
+
+http://www.pymolwiki.org/index.php/CGOCylinder
+
 # Install
 
     run ~/work/src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/CgoCircle.py
