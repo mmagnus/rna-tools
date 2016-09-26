@@ -1,3 +1,5 @@
+https://pymolwiki.org/index.php/Category:CGO
+
 # Draw a point
 
     pseudoatom pt1, pos=[x1, y1, z1]
