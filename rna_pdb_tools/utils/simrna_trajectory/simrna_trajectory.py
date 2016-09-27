@@ -1,10 +1,37 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""SimRNATrajectory module"""
 
 from collections import deque
 import numpy as np
 
+class SimRNATrajectory:
+    """SimRNATrajectory:
+
+    -> Frame / Residue / Atom"""
+    def __init__(self, fn):
+        """h(eader), l(line), f(ile)"""
+        frames = []
+        f = open(fn)
+        c = 1
+        h = f.readline().strip()
+        l = f.readline().strip()
+        frames.append(Frame(c, h, l))
+        while h:
+            c += 1
+            h = f.readline().strip()
+            l = f.readline().strip()
+            if h and l:
+                frames.append(Frame(c, h, l))
+        self.frames = frames
+        #with open(fn) as f:
+        #    for line in f:
+        #        do_something_with(line)
+        #f = open(fn)  # how much is loaded in memory?
+        #f.next()  
+
 class Atom:
+    """Atom"""
     def __init__(self, name, x, y, z):
         self.name = name
         self.x = float(x)
@@ -25,6 +52,7 @@ class Atom:
         return self.coord + other_atom.coord
 
 class Residue:
+    """Residue"""
     def __init__(self, id, p, c4p, n1n9, b1, b2):
         self.id = id
         self.p = p
@@ -39,13 +67,14 @@ class Residue:
 
     def get_atoms(self):
         return self.atoms
+
     def get_center(self):
         return (self.n1n9 + self.b2) / 2
 
 class Frame:
+    """Frame"""
     def __init__(self, id, header, coords):
         """header: write_number replica_id total_energy energy_without_restraints temperature"""
-        print 'header:', header
         self.id = id
         self.header = header
         self.energy = float(header.split(' ')[3])
@@ -66,30 +95,7 @@ class Frame:
     def __repr__(self):
         return 'Frame #' + str(self.id) + ' e:' + str(round(self.energy,2))
                 
-class SimRNATrajectory:
-    def __init__(self, fn):
-        """h(eader), l(line), f(ile)"""
-        frames = []
-        f = open(fn)
-        c = 1
-        h = f.readline().strip()
-        l = f.readline().strip()
-        frames.append(Frame(c, h, l))
-        while h:
-            c += 1
-            h = f.readline().strip()
-            l = f.readline().strip()
-            if h and l:
-                frames.append(Frame(c, h, l))
-        print frames
-        self.frames = frames
-        #with open(fn) as f:
-        #    for line in f:
-        #        do_something_with(line)
-        #f = open(fn)  # how much is loaded in memory?
-        #f.next()  
-def start(): pass
-
+#main
 if __name__ == '__main__':
     s = SimRNATrajectory('8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl')
     for f in s.frames:
