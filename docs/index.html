@@ -157,6 +157,55 @@ rmsd_calc_to_target.py -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
 
 <section>
   <section>
+    <h2>RNA filter</h2>
+  </section>
+  <section>
+    <h3>$ rna_filter.py -r restraints_fn -s *.pdb -v</h3>
+    <pre><code>
+python rna_filter.py -r restraints.txt -s test_data/CG.pdb -v
+(d:A1-A2 <  10.0  1)|(d:A2-A1 <= 10 1)
+ restraints [('A1', 'A2', '<', '10.0', '1'), ('A2', 'A1', '<=', '10', '1')]
+
+test_data/CG.pdb
+ mb for  A1 [ 54.729   28.9375  41.421 ]
+ mb for  A2 [ 55.3425  35.3605  42.7455]
+  d:A1-A2 6.58677550096
+  d:A2-A1 6.58677550096
+  </code></pre>
+  </section>
+
+  <section>
+    <h3>$ rna_filter.py -r restraints_fn -t simulation.trafl</h3>
+    <pre><code>
+python rna_filter.py -r restraints.txt -t test_data/CG.trafl -v
+(d:A1-A2 <  10.0  1)|(d:A2-A1 <= 10 1)
+ restraints [('A1', 'A2', '<', '10.0', '1'), ('A2', 'A1', '<=', '10', '1')]
+
+Frame #1 e:1252.26
+  mb for A1 [ 54.729   28.9375  41.421 ]
+  mb for A2 [ 55.3425  35.3605  42.7455]
+   d:A1-A2 6.58677550096
+  mb for A2 [ 55.3425  35.3605  42.7455]
+  mb for A1 [ 54.729   28.9375  41.421 ]
+   d:A2-A1 6.58677550096
+      </code>
+    </pre>      
+  </section>
+</section>
+
+<section>
+  <section>
+    <h2>RNA DeCoupling Analysis (DCA)</h2>
+  </section>    
+  <section>
+    <img src="pngs/dca.png">
+    <p><small>get_dists(output of the script, python list>)</small><p>
+  </section>       
+</section>
+
+  
+<section>
+  <section>
     <h2>PyMOL drawing</h2>
   </section>
 
@@ -183,19 +232,9 @@ draw_circle(x,y,z,radius)
 </code></pre>
 <img src="pngs/draw_circle.png">
   </section>       
-
 </section>
 
-<section>
-  <section>
-    <h2>RNA DeCoupling Analysis (DCA)</h2>
-  </section>    
-  <section>
-    <img src="pngs/dca.png">
-    <p><small>get_dists(output of the script, python list>)</small><p>
-  </section>       
-</section>
-  
+
 <section>
 <h1>more soon...</h1>
 <li>
