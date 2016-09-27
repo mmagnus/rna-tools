@@ -1,7 +1,10 @@
 Utils
 =========================================
 
-.. automodule:: rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory
+Calculate RMSD
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rmsd_calc.rmsd_calc_to_target
    :members:
 
 diffpdb
@@ -9,9 +12,21 @@ diffpdb
 
 .. image:: rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
 
-Calc RMSD
+RNA_filter
 -----------------------------------------
 
-.. automodule:: rna_pdb_tools.utils.rmsd_calc.rmsd_calc_to_target
+.. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
    :members:
 
+SimRNATrajectory
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory
+   :members:
+
+PyMOL drawing
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
+   :members:
+     
