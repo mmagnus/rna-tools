@@ -87,6 +87,24 @@ def draw_circle_selection( selName, r=None, cr=1.0, cg=0.4, cb=0.8, w=2.0 ):
 
   return cgoCircle( centerX, centerY, centerZ, r, cr, cg, cb, w )
 
+def draw_dist(x1,y1,z1,x2,y2,z2):
+    """
+    draw_dist(54.729, 28.9375, 41.421, 55.342, 35.3605, 42.745)
 
-cmd.extend( "draw_circle", draw_circle )
-cmd.extend( "draw_circle_selection", draw_circle_selection )
+    https://sourceforge.net/p/pymol/mailman/message/25795427/
+    """
+    cmd.pseudoatom('pt1', pos=[x1, y1, z1])
+    cmd.pseudoatom('pt2', pos=[x2, y2, z2])
+    cmd.distance('pt1-pt2', 'pt1','pt2')
+
+def draw_vector(x1,y1,z1,x2,y2,z2):
+    """https://pymolwiki.org/index.php/CGOCylinder"""
+    radius = 0.1
+    r1,g1,b1 = 0,0,1 # color (blue)
+    r2,g2,b2 = 1,0,0 # color (red)    
+    cmd.load_cgo( [ 9.0, x1, y1, z1, x2, y2, z2, radius, r1, g1, b1, r2, g2, b2 ], "vector" )
+
+cmd.extend("draw_vector", draw_vector)    
+cmd.extend("draw_dist", draw_dist)  
+cmd.extend("draw_circle", draw_circle )
+cmd.extend("draw_circle_selection", draw_circle_selection )

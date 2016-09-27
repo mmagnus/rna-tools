@@ -39,6 +39,4 @@ http://www.pymolwiki.org/index.php/CGOCylinder
 
 # Install
 
-    run ~/work/src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/CgoCircle.py
-    run ~/work/src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/DrawVector.py
-
+    run ~/work/src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/pymol_drawing.py
