@@ -1,0 +1,2 @@
+# ignore comments
+(d:A1-A2 <  10.0  1)|(d:A2-A1 <= 10 1)
