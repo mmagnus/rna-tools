@@ -32,29 +32,25 @@
 		<![endif]-->
 	</head>
 
-
 	<body>
 
-		<div class="reveal">
+	  <div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-				  <h1><code>rna-pdb-tools</code></h1>
-					<h3>Why do you need this?</h3>
-					<p>
-					  <small>Created by Marcin Magnus</br> (magnus@genesilico.pl)</small>
-					</p>
-				</section>
+			
+			  <section>
+			    <h1><code>rna-pdb-tools</code></h1>
+			    <h3>Why do you need this?</h3>
+			    <p>
+			      <small>Created by Marcin Magnus</br> (magnus@genesilico.pl)</small>
+			    </p>
+			  </section>
 
-<div class="slides">
-<section>
-<section>
-  <h2>rna_pdb_tools.py</h2>
-</section>
-</section>
+  <section>
+    <h2>rna_pdb_tools.py</h2>
+  </section>
 
-<div class="slides">
 <section>
 <section>
   <h2>diffpdb</h2>
@@ -114,11 +110,14 @@ csv was created!  rmsds.csv
 
 <section>
   Why NOT to edit the structures?
-
-  
 </section>
 
+</section>
 
+<section>
+<section>
+  <h2>Calculate RMSD</h2>
+</section>
 <section>
   <h2>Calc rmsd</h2>
   (clusters/*_AA.pdb)
@@ -176,7 +175,9 @@ draw_vector(x1,y1,z1,x2,y2,z2) # colored from blue to red
   </section>       
 
   <section>
-<pre><code>draw_circle(55,35,41,.1)
+    <pre><code>x, y,z = 55.342, 35.3605, 42.745
+radius = .1
+draw_circle(x,y,z,radius)
 </code></pre>
 <img src="pngs/draw_circle.png">
   </section>       
