@@ -176,6 +176,28 @@ test_data/CG.pdb
   </section>
 
   <section>
+  <h2>Class: SimRNATrajectory</h2>
+    <pre><code>
+    s = SimRNATrajectory()
+    s.load_from_file('8b2c1278-ee2f-4calust01.trafl')
+    for f in s.frames:
+        print f.header
+        print f.coords
+	r = f.residues[0]
+	for r in f.residues:
+	    print r
+        print r.get_atoms()
+        print r.p
+        print r.c4p
+        print r.c4p.get_coord()
+        print r.c4p - r.p
+        print r.n1n9
+        print r.b2
+    print r.get_center()
+    </code></pre>
+  </section>
+
+  <section>
     <h3>$ rna_filter.py -r restraints_fn -t simulation.trafl</h3>
     <pre><code>
 python rna_filter.py -r restraints.txt -t test_data/CG.trafl -v
@@ -191,6 +213,22 @@ Frame #1 e:1252.26
    d:A2-A1 6.58677550096
       </code>
     </pre>      
+
+  </section>
+
+  <section>
+    <h2>Speed</h2>
+    <p>Python object-oriented implementation. </br> Q: 500mb file with 80k frames in about ...</p>
+      <pre class="fragment"><code>
+...
+80041
+   d:A1-A2 4.39878486062
+   d:A2-A1 4.39878486062
+./rna_filter.py -r restraints.txt -t ~/work/simrna_pistol_trafl/pistol.trafl
+115.25s user 6.34s system 93% cpu 2:10.60 total
+      </code>
+      </pre>
+    <p class="fragment">~2min</p>
   </section>
 </section>
 
