@@ -124,17 +124,26 @@ Format:
                     print '  d:' + h[0] + '-' + h[1] + ' ' + str(dist)
 
     if args.trajectory:
-        traj = SimRNATrajectory(args.trajectory)
         print
-        for frame in traj.frames:
-            print frame
+        f = (line for line in open(args.trajectory).xreadlines())
+        c = 0
+        while 1:
+            try:
+                header = f.next().strip()
+            except StopIteration: # not nice
+                break
+            c += 1
+            coords = f.next().strip()
+            traj = SimRNATrajectory()
+            traj.load_from_string(header + '\n' + coords)
+            frame = traj.frames[0]
+            print(c)
             for h in restraints:
                 a = int(h[0].replace('A','')) - 1 # A1 -> 0 (indexing Python-like)
                 b = int(h[1].replace('A','')) - 1 
                 a_mb = frame.residues[a].get_center()
                 b_mb = frame.residues[b].get_center()
-                print '  mb for A' + str(a+1), a_mb
-                print '  mb for A' + str(b+1), b_mb
+                #print '  mb for A' + str(a+1), a_mb
+                #print '  mb for A' + str(b+1), b_mb
                 dist = get_distance(a_mb, b_mb)
                 print '   d:A' + str(a+1) + "-A" + str(b+1),  dist
-                
