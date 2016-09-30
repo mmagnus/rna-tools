@@ -14,7 +14,8 @@ from optparse import OptionParser
 ####### ClaRNA related imports  ########
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 ########################################
-CLARNA_PATH = "/home/magnus/work/clarna-play/ClaRNAlib/"
+CLARNA_PATH = os.environ['ClaRNAlib']
+
 sys.path.append(CLARNA_PATH)
 from Bio import PDB
 from structure_ciach import StructureCiachCiach
