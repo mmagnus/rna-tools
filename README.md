@@ -56,6 +56,8 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
     [..]
     
     $ for i in `ls *.pdb`; do rna-pdb-tools.py --c $i > ${i/.pdb/_clx.pdb}; done
+    
+    $ for i in `ls *.pdb`; do rna-pdb-tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 
 ## Install
 
