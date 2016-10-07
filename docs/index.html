@@ -51,9 +51,40 @@
 
   <section>
     <h2>rna_pdb_tools.py</h2>
+    <p>Too many PDB "formats"?</p>
+    <pre><code>ATOM      1  P     C A   1     -29.720 -19.750   3.190  1.00183.16           P
+ATOM      2  OP1   C A   1     -28.490 -20.280   2.531  1.00180.35           O
+ATOM      3  OP2   C A   1     -29.638 -18.728   4.275  1.00185.39           O
+ATOM      4  O5'   C A   1     -30.685 -20.928   3.695  1.00186.30           O
+ATOM      5  C5'   C A   1     -30.499 -22.286   3.303  1.00184.69           C
+ATOM      6  C4'   C A   1     -31.442 -22.699   2.192  1.00181.85           C
+ATOM      7  O4'   C A   1     -32.682 -21.940   2.275  1.00182.04           O
+ATOM      8  C3'   C A   1     -30.946 -22.434   0.779  1.00174.44           C
+ATOM      9  O3'   C A   1     -30.025 -23.403   0.309  1.00171.18           O
+    </code></pre>
+    <p>run <code>rna-pdb-tools.py --get_rnapuzzle_ready</code> to get your structures in RNA-Puzzle ready format </p>
   </section>
 
-<section>
+  <section>
+    <h2>rna_pdb_tools.py</h2>
+    <p>get info on missing atoms</p>
+    <pre><code>$ rna-pdb-tools.py --get_rnapuzzle_ready 5k7c_clean_onechain_renumber_as_puzzle_rpr.pdb
+
+HEADER Generated with rna-pdb-tools
+HEADER ver 61003e1-dirty
+HEADER https://github.com/mmagnus/rna-pdb-tools
+HEADER Fri Oct  7 17:27:50 2016
+REMARK 000 Missing atoms:
+REMARK 000  + O2' A Residue G het=  resseq=57 icode=  residue # 53
+ATOM      1  P     C A   1     -29.720 -19.750   3.190  1.00183.16           P
+ATOM      2  OP1   C A   1     -28.490 -20.280   2.531  1.00180.35           O
+ATOM      3  OP2   C A   1     -29.638 -18.728   4.275  1.00185.39           O
+ATOM      4  O5'   C A   1     -30.685 -20.928   3.695  1.00186.30           O
+ATOM      5  C5'   C A   1     -30.499 -22.286   3.303  1.00184.69           C
+    </code></pre>
+
+</section>    
+
 <section>
   <h2>diffpdb</h2>
 </section>
@@ -271,7 +302,7 @@ def rp17():
 color_by_text(txt)
 </code></pre></p>    
   </section>
-</section>  
+</section>
      
 <section>
   <section>
