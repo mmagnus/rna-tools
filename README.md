@@ -59,6 +59,16 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
     
     $ for i in `ls *.pdb`; do rna-pdb-tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 
+.. keep original structures in original and use rpr:
+
+    ➜  bujnicki_server_ss for i in `ls original/*.pdb`; do rna-pdb-tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    ➜  bujnicki_server_ss ls
+    17pz_withSS_all_thrs6.00A_clust01-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust06-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust02-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust07-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust03-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust08-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust04-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust09-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust05-000001_AA_rpr.pdb original
+
 ## Install
 
 Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` and PATH, e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/` to your `.bashrc` and run the following script:
