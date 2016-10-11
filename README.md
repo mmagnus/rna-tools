@@ -69,6 +69,10 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
     17pz_withSS_all_thrs6.00A_clust04-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust09-000001_AA_rpr.pdb
     17pz_withSS_all_thrs6.00A_clust05-000001_AA_rpr.pdb original
 
+.. or to get SimRNAready structures:
+
+    $ for i in `ls *pdb`; do rna-pdb-tools.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
+
 ## Install
 
 Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` and PATH, e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/` to your `.bashrc` and run the following script:
