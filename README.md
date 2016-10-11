@@ -116,18 +116,19 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
 ## Main program
 
-    ➜  rna-pdb-tools git:(master) ✗ ./rna-pdb-tools.py -h
-    usage: rna-pdb-tools.py ver: c54c2ca-dirty [-h] [-r] [-c]
+    rna-pdb-tools.py -h
+    usage: rna-pdb-tools.py ver: 37c5b4e-dirty [-h] [-r] [-c]
                                                [--get_chain GET_CHAIN] [--get_seq]
                                                [--rosetta2generic]
                                                [--get_rnapuzzle_ready] [--no_hr]
-                                               [--get_simrna_ready]
+                                               [--renumber_residues]
+                                               [--get_simrna_ready] [--edit EDIT]
                                                [--delete DELETE]
                                                file
-    
+
     positional arguments:
       file                  file
-    
+
     optional arguments:
       -h, --help            show this help message and exit
       -r, --report          get report
@@ -140,7 +141,9 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
                             get RNApuzzle ready (keep only standard atoms,
                             renumber residues)
       --no_hr               do not insert the header into files
+      --renumber_residues
       --get_simrna_ready
+      --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
       --delete DELETE       delete the selected fragment, e.g. A:10-16
 
 ## Features:
