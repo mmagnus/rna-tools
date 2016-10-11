@@ -29,16 +29,18 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 
- * [Tour](#tour)
- * [Docs](#docs)
- * [Tricks](#tricks)
- * [Install](#install) 
- * [Requirement](#requirement)
- * [Used libraries](#used-libraries)
- * [Utils](#utils)
- * [Inspiration (and alternatives):](#inspiration-and-alternatives)
- * [Main program](#main-program)
- * [Features:](#features)
+   * [Tour](#tour)
+   * [Docs](#docs)
+   * [Tricks](#tricks)
+   * [Main program](#main-program)
+   * [Utils](#utils)
+   * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+   * [Features](#features)
+      * [test](#test)
+   * [Install](#install)
+   * [Requirement](#requirement)
+   * [Used libraries](#used-libraries)
+   * [Quick notes](#quick-notes)
 
 ## Tour
 
@@ -73,47 +75,6 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
     $ for i in `ls *pdb`; do rna-pdb-tools.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
 
-## Install
-
-Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` and PATH, e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/` to your `.bashrc` and run the following script:
-
-    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
-    Installed in ./bin
-    rmsd_calc_to_target.py
-
-to make links of utils to `./bin`.
-
-## Requirement
-
-Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
-
-## Used libraries
-
-This packages uses other pieces of software, it would be impossible without them to develop rna-pdb-tools, thanks!
-
-+ biopython (https://github.com/biopython/biopython)
-+ rmsd (https://github.com/charnley/rmsd)
-
-## Utils
-
-See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
-
-+ [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
-
-      ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
-
-+ [rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
-
-## Inspiration (and alternatives):
-
-+ https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
-+ http://blue11.bch.msu.edu/mmtsb/convpdb.pl
-+ https://github.com/haddocking/pdb-tools
-+ https://github.com/harmslab/pdbtools
-+ http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
-+ .. and more!
-
 ## Main program
 
     rna-pdb-tools.py -h
@@ -146,7 +107,28 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
       --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
       --delete DELETE       delete the selected fragment, e.g. A:10-16
 
-## Features:
+## Utils
+
+See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
+
++ [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
+
+      ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
+
++ [rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
+) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
+
+## Inspiration (and alternatives):
+
++ https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
++ http://blue11.bch.msu.edu/mmtsb/convpdb.pl
++ https://github.com/haddocking/pdb-tools
++ https://github.com/harmslab/pdbtools
++ http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
++ .. and more!
+
+
+## Features
 
 - [X] get RNA seq
 - [X] get chain
@@ -226,7 +208,7 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
     TER
     END
 
-## test.sh
+### test
 
     ./pdb_parser_lib.py
     
@@ -277,6 +259,28 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
     
     cd ./utils/rmsd_calc/
     ./test.sh
+
+## Install
+
+Add the package to your PYTHONPATH, e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` and PATH, e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/` to your `.bashrc` and run the following script:
+
+    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
+    Installed in ./bin
+    rmsd_calc_to_target.py
+
+to make links of utils to `./bin`.
+
+## Requirement
+
+Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
+
+## Used libraries
+
+This packages uses other pieces of software, it would be impossible without them to develop rna-pdb-tools, thanks!
+
++ biopython (https://github.com/biopython/biopython)
++ rmsd (https://github.com/charnley/rmsd)
+
 
 ## Quick notes
 
