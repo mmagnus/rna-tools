@@ -147,6 +147,17 @@ if __name__ == '__main__':
         s.get_simrna_ready(args.renumber_residues)
         print s.get_text()
 
+    if args.renumber_residues:
+        s = StrucFile(args.file)
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.get_simrna_ready(args.renumber_residues)
+        s.renum_atoms()
+        if not args.no_hr:
+            add_header()
+        print s.get_text()
+
     if args.delete:
         selection = select_pdb_fragment(args.delete)
         s = StrucFile(args.file)
