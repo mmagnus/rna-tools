@@ -49,6 +49,7 @@
 			    </p>
 			  </section>
 
+<section>
   <section>
     <h2>rna_pdb_tools.py</h2>
     <p>Too many PDB "formats"?</p>
@@ -82,9 +83,113 @@ ATOM      3  OP2   C A   1     -29.638 -18.728   4.275  1.00185.39           O
 ATOM      4  O5'   C A   1     -30.685 -20.928   3.695  1.00186.30           O
 ATOM      5  C5'   C A   1     -30.499 -22.286   3.303  1.00184.69           C
     </code></pre>
-
 </section>    
 
+<section>
+    <h2>rna_pdb_tools.py</h2>
+<pre><code>$ struc for i in `ls *.pdb`;
+        do rna-pdb-tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb};
+done
+</code></pre>
+</section>
+
+<section>
+  <pre><code>$  struc head *
+==> 17_Bujnicki1.pdb <==
+ATOM      1  O5'   C A   1      22.073  10.765  62.912  1.00  0.00
+ O
+ATOM      2  C5'   C A   1      22.338  11.788  61.950  1.00  0.00
+ C
+ATOM      3  C4'   C A   1      21.346  12.915  62.095  1.00  0.00
+ C
+ATOM      4  O4'   C A   1      22.036  14.076  62.633  1.00  0.00
+ O
+ATOM      5  C1'   C A   1      21.546  15.251  62.014  1.00  0.00
+ C
+
+==> 17_Bujnicki1_rpr.pdb <==
+HEADER Generated with rna-pdb-tools
+HEADER ver dc80780-dirty
+HEADER https://github.com/mmagnus/rna-pdb-tools
+HEADER Sun Oct 16 01:26:32 2016
+ATOM      1  P     C A   1      24.552  11.248  60.616  1.00 11.89           P
+ATOM      2  OP1   C A   1      24.122   9.842  60.420  1.00 14.35           O
+ATOM      3  OP2   C A   1      25.338  11.941  59.582  1.00 12.68           O
+ATOM      4  O5'   C A   1      23.306  12.183  60.921  1.00 10.34           O
+ATOM      5  C5'   C A   1      22.338  11.788  61.950  1.00  0.00           C
+ATOM      6  C4'   C A   1      21.346  12.915  62.095  1.00  0.00           C
+</code></pre>
+</section>
+
+<section>
+    <h2>rna_pdb_tools.py</h2>
+<pre><code>$ 
+
+rna-pdb-tools.py -h
+usage: rna-pdb-tools.py ver: 37c5b4e-dirty [-h] [-r] [-c]
+                                           [--get_chain GET_CHAIN] [--get_seq]
+                                           [--rosetta2generic]
+                                           [--get_rnapuzzle_ready] [--no_hr]
+                                           [--renumber_residues]
+                                           [--get_simrna_ready] [--edit EDIT]
+                                           [--delete DELETE]
+                                           file
+
+positional arguments:
+  file                  file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r, --report          get report
+  -c, --clean           get clean structure
+  --get_chain GET_CHAIN
+                        get chain, .e.g A
+  --get_seq             get seq
+  --rosetta2generic     convert ROSETTA-like format to a generic pdb
+  --get_rnapuzzle_ready
+                        get RNApuzzle ready (keep only standard atoms,
+                        renumber residues)
+  --no_hr               do not insert the header into files
+  --renumber_residues
+  --get_simrna_ready
+  --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
+  --delete DELETE       delete the selected fragment, e.g. A:10-16
+</code></pre>
+</section>
+
+<section>
+<pre><code>if args.get_rnapuzzle_ready:
+        s = StrucFile(args.file)
+        s.decap_gtp()
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.fix_op_atoms()
+        s.renum_atoms()
+        #print s.get_preview()
+        #s.write(args.outfile)
+        if not args.no_hr:
+            add_header()
+        s.get_simrna_ready(args.renumber_residues)
+        print s.get_text()
+
+    if args.renumber_residues:
+        s = StrucFile(args.file)
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.get_simrna_ready(args.renumber_residues)
+        s.renum_atoms()
+        if not args.no_hr:
+            add_header()
+        print s.get_text()
+
+</code></pre>
+</section>
+</section>
+
+<section>
 <section>
   <h2>diffpdb</h2>
 </section>
@@ -101,10 +206,14 @@ ATOM      5  C5'   C A   1     -30.499 -22.286   3.303  1.00184.69           C
 <img style="height:60%" src="pngs/rp17_simrna.png">
 </br>
 <small>
-  You can see gaps in the pistol structure and extra `O2'` in G (this is deoxy-G used to mpare crystalization).
+  You can see gaps in the pistol structure and extra `O2'` in G (this is deoxy-G used to compare crystalization).
 </small>
 </p>
 </script>
+</section>
+
+<section>
+<img style="height:60%" src="pngs/diffpdb_osx_diffmerge.png">
 </section>
 
 <!--
@@ -150,10 +259,14 @@ csv was created!  rmsds.csv
 <section>
 <section>
   <h2>Calculate RMSD</h2>
+    <p><a target="_blank" href="https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils/rmsd_calc">rna-pdb-tools/utils/rmsd_calc</a>
+
 </section>
 <section>
   <h2>Calc rmsd</h2>
   (clusters/*_AA.pdb)
+  </br>
+  srs = SimRNA ready
   <pre><code class="hljs" data-trim contenteditable>
 
       time rmsd_calc_to_target.py
@@ -263,17 +376,6 @@ Frame #1 e:1252.26
   </section>
 </section>
 
-<section>
-  <section>
-    <h2>RNA DeCoupling Analysis (DCA)</h2>
-  </section>    
-  <section>
-    <img src="pngs/dca.png">
-    <p><small>get_dists(output of the script, python list>)</small><p>
-  </section>       
-</section>
-
-  
 <section>
   <section>
     <h2>PyMOL4RNA</h2>
