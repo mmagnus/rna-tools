@@ -1,9 +1,16 @@
+## RUN:
+## Rscript bpseq2cl.R csv_file.csv
+## input: csv_file.csv
+## output: csv_file.csv_CLnotation.txt
+
+# These 3 lines are to call on console the file for input
 args <- commandArgs(trailingOnly = TRUE)
 fn <- args[1]
-bpseq <- read.csv(fn, header = FALSE)
+bpseq <- read.csv(fn, header = FALSE) 
 names(bpseq) <- c("posi", "res", "posj")
 bpseq
 
+# Creating the new data frame object 
 df <- data.frame(chainA=character(nrow(bpseq)),
                  posi=integer(nrow(bpseq)),
                  chain=character(nrow(bpseq)),
@@ -22,11 +29,18 @@ df$posi <- bpseq$posi
 df$posj <- bpseq$posj
 df$residuei <- bpseq$res
 
-df <- df[!df$posj == 0, ]
-
+# To keep only the resi and resj that actually form a connection
+df <- df[!df$posj == 0, ] 
 df$residuej <- bpseq$res[bpseq$posj[1:nrow(bpseq)]]
-#df
-df <- df[1:(nrow(df)/2),]
+
+# To remove repeated connections. Exemple: resi=6 and resj=378 are connected, as are resi=378 with resj=6. We don't need the repetition.
+cols = c(2,4) 
+newdf = df[,cols]
+for (i in 1:nrow(df))
+{
+  newdf[i, ] = sort(df[i,cols])
+}
+df <- df[!duplicated(newdf),]
 df
 
 write.table(df, file = paste(args[1],"_CLnotation.txt", sep = ""), col.names = F, row.names = F, sep = "\t")
