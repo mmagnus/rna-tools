@@ -280,7 +280,7 @@ This packages uses other pieces of software, it would be impossible without them
 
 + biopython (https://github.com/biopython/biopython)
 + rmsd (https://github.com/charnley/rmsd)
-
++ forgi (http://www.tbi.univie.ac.at/%7Ethiel/forgi/graph_tutorial.html)
 
 ## Quick notes
 
