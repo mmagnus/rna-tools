@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""SimRNATrajectory module"""
+"""SimRNATrajectory module
+
+SimRNATrajectory / Frame / Residue / Atom"""
 
 from collections import deque
 import numpy as np
@@ -9,21 +11,25 @@ import gc
 
 
 class SimRNATrajectory:
-    """SimRNATrajectory:
-
-    -> Frame / Residue / Atom"""
+    """SimRNATrajectory"""
     def __init__(self):
+        """Crate SimRNATrajectory object, empty.
+        Use 
+        - load_from_file
+        - load_from_string
+        to load the data."""
         self.frames = []
         
     def load_from_file(self, fn):
-        """h(eader), l(line), f(ile)"""
-        frames = []
+        """Create a trajectory based on give filename.
+
+        h(eader), l(line), f(ile)."""
+        self.frames = []
         f = (line for line in open(fn).xreadlines())
-        c = 1
         h = f.next().strip()
         l = f.next().strip()
-        frames.append(Frame(c, h, l))
         c = 0
+        self.frames.append(Frame(c, h, l))
         while 1:
             c += 1
             try:
@@ -32,38 +38,47 @@ class SimRNATrajectory:
                 break
             l = f.next().strip()
             if h and l:
-                frames.append(Frame(c, h, l))
+                self.frames.append(Frame(c, h, l))
                 if c % 1000 == 0:
                     print c/1000,'k cleaning...'
                     gc.collect()
-        self.frames = frames
-        #with open(fn) as f:
-        #    for line in f:
-        #        do_something_with(line)
-        #f = open(fn)  # how much is loaded in memory?
-        #f.next()  
 
-    def load_from_string(self, txt):
-        c = 0
+    def load_from_string(self, c, txt):
+        """Create a trajectory based on given string (txt) with id given by c"""
         h,l = txt.split('\n')
         self.frames.append(Frame(c, h, l))        
     
 class Atom:
-    """Atom"""
+    """Atom
+    x
+    y
+    z
+    coord
+    """
     def __init__(self, name, x, y, z):
+        """Create Atom object."""
         self.name = name
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
         self.coord = np.array([self.x, self.y, self.z])
 
+    def get_coord(self):
+        """Return coords (np.array)."""
+        return self.coord
+
     def __repr__(self):
         return 'Atom ' +  str(self.x) + ' ' + str(self.y) + ' '+ str(self.z)
-
-    def get_coord(self):
-        return self.coord
         
     def __sub__(self, other_atom):
+        """Calculate distance between two atoms.
+
+        Example::
+
+            >>> distance=atom1-atom2
+
+        """
+
         diff = self.coord - other_atom.coord
         return np.sqrt(np.dot(diff, diff)) 
 
@@ -71,7 +86,8 @@ class Atom:
         return self.coord + other_atom.coord
 
 class Residue:
-    """Residue"""
+    """Create Residue object.
+    """
     def __init__(self, id, p, c4p, n1n9, b1, b2):
         self.id = id
         self.p = p
@@ -82,19 +98,28 @@ class Residue:
         self.atoms = [p, c4p, n1n9, b1, b2]
         # self.center
 
-    def __repr__(self):
-        return 'Residue ' + str(self.id)
-
     def get_atoms(self):
+        """Return all atoms"""
         return self.atoms
 
     def get_center(self):
+        """Return MB for residue ```((self.n1n9 + self.b2) / 2)```"""
         return (self.n1n9 + self.b2) / 2
 
+    def __repr__(self):
+        return 'Residue ' + str(self.id)
+
 class Frame:
-    """Frame"""
+    """Frame
+
+    Syntax of header: 
+     - write_number
+     - replica_id
+     - total_energy 
+     - energy_without_restraints
+     - temperature
+    """
     def __init__(self, id, header, coords):
-        """header: write_number replica_id total_energy energy_without_restraints temperature"""
         self.id = id
         self.header = header
         self.energy = float(header.split(' ')[3])
@@ -118,7 +143,7 @@ class Frame:
 #main
 if __name__ == '__main__':
     s = SimRNATrajectory()
-    s.load_from_file('8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl')
+    s.load_from_file('test_data/8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl')
     for f in s.frames:
         #print f.header
         #print f.coords
@@ -137,6 +162,6 @@ if __name__ == '__main__':
     s2 = SimRNATrajectory()
     traj = """1 1 1252.257530 1252.257530 0.950000
  53.570 23.268 39.971 55.119 24.697 43.283 55.145 27.966 42.270 55.258 29.321 42.618 54.313 29.909 40.572 57.246 41.229 41.492 57.056 39.572 45.104 55.672 36.799 43.722 55.491 33.284 44.069 55.013 33.922 41.769"""
-    s2.load_from_string(traj)
+    s2.load_from_string(0, traj)
     for f in s2.frames:
         print f
