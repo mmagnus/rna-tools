@@ -43,4 +43,4 @@ for (i in 1:nrow(df))
 df <- df[!duplicated(newdf),]
 df
 
-write.table(df, file = paste(args[1],"_CLnotation.txt", sep = ""), col.names = F, row.names = F, sep = "\t")
+write.table(df, file = paste(args[1],"_CLnotation.txt", sep = ""), col.names = F, row.names = F, sep = " ")
