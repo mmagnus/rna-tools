@@ -141,12 +141,15 @@ class StrucFile:
     def get_no_lines(self):
         return len(self.lines)
 
-    def get_text(self):
+    def get_text(self, add_end=True):
         txt = ''
         for l in self.lines:
+            if l.startswith('END'):
+                continue # skip end
             txt += l.strip() + '\n'
-        if not l.startswith('END'):
-            txt += 'END'
+        if add_end:
+            if not l.startswith('END'):
+                txt += 'END'
         return txt.strip()
 
     def get_chain(self, chain_id='A'):
