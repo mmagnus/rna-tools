@@ -6,17 +6,18 @@ import string
 import sys
 
 
-def select_pdb_fragment(txt):
+def select_pdb_fragment(txt, separator="-"):
     """Take txt such as A:1-31,B:1-11 and parse into::
 
       OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]),
       ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
-
-    .. warning:: e.g. for A:1-31, resi 31 is not included, works like in Python."""
+    
+      .. warning:: e.g. for A:1-31, resi 31 is not included, works like in Python."""
     v = False
     txt = txt.replace(' ','')
     if v:print txt
-    l = re.split('[,:;]', txt)
+    #l = re.split('[,:;]', txt)
+    l = re.split('[:\+]', txt)
     if v:print l
 
     selection = OrderedDict()
@@ -26,12 +27,14 @@ def select_pdb_fragment(txt):
             chain_curr = i
             continue
 
-        if i.find('-') > -1:
-            start, ends = i.split('-')
+        if i.find(separator) > -1:
+            start, ends = i.split(separator)
+            start = int(start)
+            ends = int(ends)
             if start > ends:
                 print >>sys.stderr, 'Error: range start > end ' + i
-                return False
-            index = range(int(start), int(ends))#+1)
+                sys.exit(1)
+            index = range(int(start), int(ends)+1) # without +1 python like, with +1 people-like
         else:
             index=[int(i)]
         if selection.has_key(chain_curr):
