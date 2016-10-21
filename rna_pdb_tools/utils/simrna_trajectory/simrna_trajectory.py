@@ -20,7 +20,7 @@ class SimRNATrajectory:
         to load the data."""
         self.frames = []
         
-    def load_from_file(self, fn):
+    def load_from_file(self, fn, debug_break=False):
         """Create a trajectory based on give filename.
 
         h(eader), l(line), f(ile)."""
@@ -39,6 +39,7 @@ class SimRNATrajectory:
             l = f.next().strip()
             if h and l:
                 self.frames.append(Frame(c, h, l))
+                if debug_break: break
                 if c % 1000 == 0:
                     print c/1000,'k cleaning...'
                     gc.collect()
@@ -98,6 +99,10 @@ class Residue:
         self.atoms = [p, c4p, n1n9, b1, b2]
         # self.center
 
+    def __sub__(self, other_residue):
+        diff = self.get_center() - other_residue.get_center()
+        return np.sqrt(np.dot(diff, diff)) 
+        
     def get_atoms(self):
         """Return all atoms"""
         return self.atoms
