@@ -10,6 +10,7 @@ import urllib2, urllib
 import string
 from Bio import SeqIO
 from optparse import OptionParser
+from lib.rna_pdb_tools.pdb_parser_lib import StrucFile
 
 ####### ClaRNA related imports  ########
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -1177,7 +1178,7 @@ class testClarna:
             if d['type']=='contact' and d['weight']>min_score: print u,v, d['n_type'], d['desc'], d['weight']
         #
     #
-
+#main
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print "ERROR: %s requires at least one argument!" % PROGRAM
@@ -1187,6 +1188,7 @@ if __name__ == '__main__':
     
     cl = CommandLine()
     cl.parse_Clarna_CL(sys.argv)
+    print '#', StrucFile(cl.flnm_pdb).get_info_chains()
     seeClarna = SeeClarna()
 
     seeClarna.eval_PDB(cl)
