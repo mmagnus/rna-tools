@@ -1,3 +1,5 @@
+Install
+-------------------------------------------------------------------------------
 
 This is a really impossible mess!
 
@@ -129,8 +131,6 @@ analyze the data.
 9a) It is rather cumbersome to do analysis on an individual file;
 however, it is possible. For an individual pair of ClaRNA outputs,
 you can run the following program anal_clarna.py.
-
-
 
 9b) For bulk analysis with SimRNA.
 
