@@ -21,7 +21,7 @@
 #define CONTACT_BASE_PH 3
 #define CONTACT_OTHER   4
 
-#define MAX_SS_LINES 5
+#define MAX_SS_LINES 25
 
 typedef struct
 {
