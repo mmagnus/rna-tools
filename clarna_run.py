@@ -1188,7 +1188,7 @@ if __name__ == '__main__':
     
     cl = CommandLine()
     cl.parse_Clarna_CL(sys.argv)
-    print '#', StrucFile(cl.flnm_pdb).get_info_chains()
+    print 'chains: ', StrucFile(cl.flnm_pdb).get_info_chains()
     seeClarna = SeeClarna()
 
     seeClarna.eval_PDB(cl)

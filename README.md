@@ -15,19 +15,19 @@ ClaRNA requires:
 # Start
 To start:
 
-    ./clarna_run.py -ipdb test_data/3e5fA_M15_c.pdb > test_output/3e5fA_M15_c.pdb.outCR
-    ./clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb > test_output/3e5fA_M500_c.pdb.outCR
+    $ ./clarna_run.py -ipdb test_data/3e5fA_M15_c.pdb > test_output/3e5fA_M15_c.pdb.outCR
+    $ ./clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb > test_output/3e5fA_M500_c.pdb.outCR
 
 to analyze:
 
-    ./clarna_compare.py -iref test_output/3e5fA_M15_c.pdb.outCR -ichk test_output/3e5fA_M500_c.pdb.outCR
+    $ ./clarna_compare.py -iref test_output/3e5fA_M15_c.pdb.outCR -ichk test_output/3e5fA_M500_c.pdb.outCR
     3e5A_M15_c.pdb.outCR                       3e5fA_M500_c.pdb.outCR      0.662      NA         0.647      0.707      0.538      0.778      0.500      1.000
 
 ![](docs/clarna_run.png)
 
 Tested with ClaRNA only.
 
-    ./clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb
+    $ ./clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb
     Classifier: Clarna
     A    5   A   49          bp C G                  WW_cis   0.6965
     A    6   A   48          bp C G                  WW_cis   0.6878
@@ -41,6 +41,21 @@ Tested with ClaRNA only.
     A   18   A   23          bp G C                 WW_tran   0.7475
     A   31   A   36          bp G G                 HW_tran   0.6888
     A   41   A   46          bp C G                  WW_cis   0.8555
+
+## Get secondary structure
+First, you have to make a binary file of Michal's program. Go to `lib/ClaRNAwd_to_vienaSS/` and run `make` you should get a binary file. Now you can run:
+
+    $ lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS test_output/3e5fA_M15_c.pdb.outCR
+    (((((..(((...(((......)))......)))....((....))))))).
+
+or 
+
+	$ lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS lib/ClaRNAwd_to_vienaSS/example.pdb.outCR
+	(((((......)))))........(.((....(.......)..(((. .)))...)).)
+	.....((((((......................))))))........ ...........
+
+To "re-make" the installation do `make clean` and `make` again.
+## Compare two structures
 
 .. `clarna_compare.py -v`:
     
