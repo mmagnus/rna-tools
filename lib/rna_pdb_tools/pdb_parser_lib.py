@@ -250,7 +250,7 @@ class StrucFile:
         chains[chain_prev]['header'] += '-' + str(resi_prev)
         seq = ''
         for c in chains.keys():
-            seq += chains[c]['header'] + ' '
+            seq += chains[c]['header'].replace(':', ' ').replace('-', ' ') + ' '
         return seq.strip()
 
     def detect_file_format(self):

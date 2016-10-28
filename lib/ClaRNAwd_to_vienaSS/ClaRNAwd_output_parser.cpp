@@ -12,7 +12,7 @@
 
 #include "ClaRNAwd_output_parser.h"
 
-#define EXTENDED_SS  //extended ss means WC pairs considering not only A-U/U-A and C-G/G-C pairings but also G-U/U-G pairings
+#define TREAT_GU_AS_CANON  //extended ss means WC pairs considering not only A-U/U-A and C-G/G-C pairings but also G-U/U-G pairings
 
 #define DATA_LINE_LENGTH 65
 #define MIN_N_ITEMS 9
@@ -105,8 +105,8 @@ T_ClaRNAwd_data::T_ClaRNAwd_data(const char *filename){
     if(chains_info_found == 0){
 	fprintf(stderr, "there is no chains information in file: %s\n", filename);
 	fprintf(stderr, "chains field should look like:\n");
-	fprintf(stderr, "chains: A:1-47 B:52-62\n");
-	fprintf(stderr, "where A and B are chain ids, 1-47 and 52-62 are first and last number of nucleotide (as it is in pdb) for chain A and B, respectively\n");
+	fprintf(stderr, "chains:  A 1 47  B 52 62\n");
+	fprintf(stderr, "where A and B are chain ids, 1 47 and 52 62 are first and last number of nucleotide (as it is in pdb) for chain A and B, respectively\n");
 	exit(EXIT_FAILURE);
     }
 
@@ -127,19 +127,30 @@ int  T_ClaRNAwd_data::parse_chains_info(char *curr_line){
 
     int i, n_items;
     char *splitted_line[MAX_N_ITEMS];
-    char *splitted_by_colon[MAX_N_ITEMS];
-    char *splitted_by_dash[MAX_N_ITEMS];
+    char curr_line_backup[MAX_LINE_LENGTH];
+
+    strcpy(curr_line_backup, curr_line); // in order to have it intact for displaying error messages
 
     n_items = split_string(curr_line, " ", splitted_line, MAX_N_ITEMS);
-    if(n_items < 1){
+    if(n_items < 3){
 	fprintf(stderr, "there is no chains information\n");
 	fprintf(stderr, "chains field should look like:\n");
-	fprintf(stderr, "chains: A:1-47 B:52-62\n");
-	fprintf(stderr, "where A and B are chain ids, 1-47 and 52-62 are first and last number of nucleotide (as it is in pdb) for chain A and B, respectively\n");
+	fprintf(stderr, "chains: A 1 47  B 52 62\n");
+	fprintf(stderr, "where A and B are chain ids, 1 47 and 52 62 are first and last number of nucleotide (as it is in pdb) for chain A and B, respectively\n");
 	exit(EXIT_FAILURE);
     }
 
-    n_chains = n_items;
+    if(n_items%3 != 0){
+	fprintf(stderr, "parsing error of line \"chains:\", number of items should be dividable by 3, because of the line format which is:\n");
+	fprintf(stderr, "chains: chain_id_1 first_nucl_num_in_chain_1 last_nucl_num_in_chain_1 ...\n");
+	fprintf(stderr, "i.e.\n");
+	fprintf(stderr, "chains:  A 1 47  B 52 62\n");
+	fprintf(stderr, "where A and B are chain ids, 1 47 and 52 62 are first and last number of nucleotide (as it is in pdb) for chain A and B, respectively. They should be separated by space.\n\n");
+	fprintf(stderr, "in fact chains line is:\n%s\n", curr_line);
+	fprintf(stderr, "n_items after \"chain:\" is %d\n", n_items);
+    }
+
+    n_chains = n_items/3; //n_chains is actually number of triples
     if(n_chains >= MAX_N_CHAINS){
 	fprintf(stderr, "field: chains: indicates too many chains ... max number of chains is: %d, but actually is: %d, probably data error\n", MAX_N_CHAINS, n_chains);
 	exit(EXIT_FAILURE);
@@ -149,31 +160,26 @@ int  T_ClaRNAwd_data::parse_chains_info(char *curr_line){
 
 	int curr_begin_pdb, curr_term_pdb, curr_chain_length;
 
-	n_items = split_string(splitted_line[i], ":", splitted_by_colon, MAX_N_ITEMS);
-	if(n_items != 2){
-	    fprintf(stderr, "error parsing of chain field: %s, splitting by : should give 2 items: chain_id and range, format should be as: A:1-47\n", splitted_line[i]);
+	if(strlen(splitted_line[i*3]) != 1){
+	    fprintf(stderr, "error parsing of chain line: %s,\nchain_id should span ONE character, example: A 1 47\n", curr_line_backup);
 	    exit(EXIT_FAILURE);
 	}
-	if(strlen(splitted_by_colon[0]) != 1){
-	    fprintf(stderr, "error parsing of chain field: %s, chain_id should span ONE character, example: A:1-47\n", splitted_line[i]);
-	    exit(EXIT_FAILURE);
-	}
-	v_chains[i].chain_id = splitted_by_colon[0][0];
+	v_chains[i].chain_id = splitted_line[i*3][0];
 //fprintf(stderr, "chain_id: %c\n", v_chains[i].chain_id);
-	n_items = split_string(splitted_by_colon[1], "-", splitted_by_dash, MAX_N_ITEMS);
-	if(n_items != 2){
-	    fprintf(stderr, "error parsing of chain field: %s, splitting by - should give 2 items: two numbers, format should be as: A:1-47, but is: %s\n", splitted_line[i], splitted_by_colon[1]);
+
+	if(sscanf(splitted_line[i*3+1], "%d", &curr_begin_pdb) != 1){
+	    fprintf(stderr, "error parsing of chain line: %s,\nerror converting: %s into int\n", curr_line_backup, splitted_line[i*3+1]);
 	    exit(EXIT_FAILURE);
 	}
-	if(sscanf(splitted_by_dash[0], "%d", &curr_begin_pdb) != 1){
-	    fprintf(stderr, "error parsing of chain field: %s, error converting: %s into int\n", splitted_line[i], splitted_by_dash[0]);
+	if(sscanf(splitted_line[i*3+2], "%d", &curr_term_pdb) != 1){
+	    fprintf(stderr, "error parsing of chain line: %s,\nerror converting: %s into int\n", curr_line_backup, splitted_line[i*3+2]);
 	    exit(EXIT_FAILURE);
 	}
-	if(sscanf(splitted_by_dash[1], "%d", &curr_term_pdb) != 1){
-	    fprintf(stderr, "error parsing of chain field: %s, error converting: %s into int\n", splitted_line[i], splitted_by_dash[1]);
+	if(curr_term_pdb <= curr_begin_pdb){
+	    fprintf(stderr, "data inconsistency in chain line: %s, last_nucl_number is lower than first_nucl_number: chain_id: %c first: %d, last: %d\n", curr_line_backup, v_chains[i].chain_id, curr_begin_pdb, curr_term_pdb);
 	    exit(EXIT_FAILURE);
 	}
-	
+
 	curr_chain_length = curr_term_pdb - curr_begin_pdb + 1;
 
 	v_chains[i].begin_pdb = curr_begin_pdb;
@@ -312,7 +318,7 @@ int T_ClaRNAwd_data::print_ss(const char *filename){
     int result;
     
     if((outfile=fopen(filename,"w")) == NULL){
-	fprintf(stderr,"error opening file %s in int T_RNAView_data::print_ss(const char*)\n",filename);
+	fprintf(stderr,"error opening file %s in int T_ClaRNAwd_data::print_ss(const char*)\n",filename);
 	exit(EXIT_FAILURE);
     }
     
@@ -367,7 +373,7 @@ int T_ClaRNAwd_data::is_pair_canonical(T_ClaRNAwd_pair *curr_pair){
 	return 1;
     if(curr_pair->nucl_1.nucl_name == 'U' && curr_pair->nucl_2.nucl_name == 'A')
 	return 1;
-#ifdef EXTENDED_SS
+#ifdef TREAT_GU_AS_CANON
     if(curr_pair->nucl_1.nucl_name == 'G' && curr_pair->nucl_2.nucl_name == 'U')
 	return 1;
     if(curr_pair->nucl_1.nucl_name == 'U' && curr_pair->nucl_2.nucl_name == 'G')
@@ -378,11 +384,28 @@ int T_ClaRNAwd_data::is_pair_canonical(T_ClaRNAwd_pair *curr_pair){
 
 int T_ClaRNAwd_data::renum_nucl_number(T_ClaRNAwd_nucleotide *curr_nucleotide){
 
-    int i;
+    int i, nucl_renum;
 
     for(i=0; i<n_chains; i++)
-	if(curr_nucleotide->chain_id == v_chains[i].chain_id)
-	    return curr_nucleotide->nucl_number_in_pdb - v_chains[i].begin_pdb + v_chains[i].begin_renum;
+	if(curr_nucleotide->chain_id == v_chains[i].chain_id){
+	
+	    nucl_renum = curr_nucleotide->nucl_number_in_pdb - v_chains[i].begin_pdb + v_chains[i].begin_renum;
+
+	    if(nucl_renum < v_chains[i].begin_renum){
+		fprintf(stderr, "data inconsistensy: nucleotide in contact list has number lower than declared in chains line, for this chain.\n");
+		fprintf(stderr, "chain %c spans: %d %d, but there is nucleotide: chain: %c number: %d\n",\
+		v_chains[i].chain_id, v_chains[i].begin_pdb, v_chains[i].term_pdb, curr_nucleotide->chain_id, curr_nucleotide->nucl_number_in_pdb);
+		exit(EXIT_FAILURE);
+	    }
+
+	    if(nucl_renum > v_chains[i].term_renum){
+		fprintf(stderr, "data inconsistensy: nucleotide in contact list has number greater than declared in chains line, for this chain.\n");
+		fprintf(stderr, "chain %c spans: %d %d, but there is nucleotide: chain: %c number: %d\n",\
+		v_chains[i].chain_id, v_chains[i].begin_pdb, v_chains[i].term_pdb, curr_nucleotide->chain_id, curr_nucleotide->nucl_number_in_pdb);
+		exit(EXIT_FAILURE);
+	    }
+	    return nucl_renum;
+	}
 
     fprintf(stderr, "data inconsistency: nucleotide present in base-pair list has pdb_id: %c, which hasn't been found among chains ids defined in field \"chain:\"\n", curr_nucleotide->chain_id);
     fprintf(stderr, "chain ids defined in field \"chains:\" are: ");
@@ -456,7 +479,7 @@ int T_ClaRNAwd_data::calc_ss(){
 		}
 
 		if(j == MAX_SS_LINES){
-		    fprintf(stderr,"too many pseudoknots detected, increase MAX_SS_LINES and recompile, or error in structure or RNAView classication is possible - check data\n");
+		    fprintf(stderr,"too many pseudoknots detected, increase MAX_SS_LINES and recompile, or error in structure or ClaRNAwd classication is possible - check data\n");
 		    exit(EXIT_FAILURE);
 		}
 	    }

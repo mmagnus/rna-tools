@@ -1,5 +1,5 @@
 Classifier: Clarna
-chains: A:1-47 B:52-62
+chains:  A 1 47  B 52 62
 A    1   A   16          bp C G                  WW_cis   0.8667
 A    2   A   15          bp G C                  WW_cis   0.9263
 A    3   A   14          bp U A                  WW_cis   0.9244
