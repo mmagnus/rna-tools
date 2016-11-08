@@ -28,9 +28,10 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 
 Table of Contents
 -----------------
-
+	
    * [Tour](#tour)
    * [Docs](#docs)
+   * [RNA Puzzle submission](#rna-puzzle-submission)
    * [Tricks](#tricks)
    * [Main program](#main-program)
    * [Utils](#utils)
@@ -49,6 +50,50 @@ Take a tour http://mmagnus.github.io/rna-pdb-tools/#/
 ## Docs
 
 Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
+
+## RNA Puzzle Submission
+Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`):
+
+	$ for i in `ls *.pdb`; do rna-pdb-tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+	
+.. merge them as one file in the order as you like (or use `*`):
+
+	$ rna-pdb-merge-into-one.py 02_19pz_v1_SimRNA3.22_thrs6.60A_clust02-000001_AA_out_rpr.pdb 09_19pz_v2_SimRNA3.22_thrs6.60A_clust03-000001_AA_out_rpr.pdb d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust01-000001_AA_out_rpr.pdb d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust03-000001_AA_out_rpr.pdb 05_19pz_v1_SimRNA4.xx_thrs6.60A_clust02-000001_AA_out_rpr.pdb  > rp19_bujnicki.pdb
+	
+and verify your file with the template provided by the organizers:
+
+	$ submisson diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
+	#<empty = no difference but xyz columns, OK!>
+
+![diffpdb](docs/pngs/rp19.png)
+
+	$ head -n 5 Reference_19.pdb rp19_bujnicki.pdb
+	==> Reference_19.pdb <==
+	MODEL        1
+	ATOM      1  P     G A   1       0.000   0.000   0.000  1.00  0.00           P
+	ATOM      2  OP1   G A   1       0.000   0.000   0.000  1.00  0.00           O
+	ATOM      3  OP2   G A   1       0.000   0.000   0.000  1.00  0.00           O
+	ATOM      4  O5'   G A   1       0.000   0.000   0.000  1.00  0.00           O
+	==> rp19_bujnicki.pdb <==
+	MODEL        1
+	ATOM      1  P     G A   1      31.463  14.180  -0.676  1.00  0.00           P
+	ATOM      2  OP1   G A   1      31.412  12.806  -1.223  1.00  0.00           O
+	ATOM      3  OP2   G A   1      30.646  15.083  -1.517  1.00  0.00           O
+	ATOM      4  O5'   G A   1      30.955  14.212   0.842  1.00  0.00           O
+
+	$ tail -n 5 Reference_19.pdb rp19_bujnicki.pdb
+	==> Reference_19.pdb <==
+	ATOM   1325  C5    C B  22       0.000   0.000   0.000  1.00  0.00           C
+	ATOM   1326  C6    C B  22       0.000   0.000   0.000  1.00  0.00           C
+	TER    1327        C B  22
+	ENDMDL
+	END
+	==> rp19_bujnicki.pdb <==
+	ATOM   1325  C5    C B  22      29.927  21.506  -6.542  1.00  0.00           C
+	ATOM   1326  C6    C B  22      29.822  22.338  -5.500  1.00  0.00           C
+	TER    1327        C B  22
+	ENDMDL
+	END
 
 ## Tricks
 
