@@ -61,6 +61,7 @@ if __name__ == '__main__':
     if args.report:
         print s.get_report()
         print s.get_preview()
+        print s.get_info_chains()
 
     s = StrucFile(args.file)
     if args.clean:
@@ -130,7 +131,7 @@ if __name__ == '__main__':
         #s.write(args.outfile)
         if not args.no_hr:
             add_header()
-        s.get_simrna_ready(args.renumber_residues)
+        s.get_rnapuzzle_ready(args.renumber_residues)
         print s.get_text()
 
     if args.get_simrna_ready:
