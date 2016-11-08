@@ -62,7 +62,7 @@ Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr
 	
 and verify your file with the template provided by the organizers:
 
-	$ submisson diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
+	$ diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
 	#<empty = no difference but xyz columns, OK!>
 
 ![diffpdb](docs/pngs/rp19.png)
