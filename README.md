@@ -64,6 +64,8 @@ and verify your file with the template provided by the organizers:
 
 	$ diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
 	#<empty = no difference but xyz columns, OK!>
+	
+[diffpdb](rna_pdb_tools/utils/diffpdb/) is a part of the rna-pdb-tools package.
 
 ![diffpdb](docs/pngs/rp19.png)
 
