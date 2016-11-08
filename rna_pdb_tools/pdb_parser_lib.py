@@ -216,6 +216,43 @@ class StrucFile:
             seq += chains[c]['seq'] + '\n'
         return seq.strip()
 
+    def get_info_chains(self):
+        """return A:3-21 B:22-32
+        """
+        seq = ''
+        curri = int(self.lines[0][22:26])
+        seq = self.lines[0][19]
+        chains = OrderedDict()
+        curri = -100000000000000 #ugly
+        chain_prev = None
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM') :
+                resi = int(l[22:26])
+                if curri != resi:
+                    resname = l[17:20].strip()
+                    if len(resname) == 'GTP': # DG -> g GTP
+                        resname = 'g'
+                    if len(resname) > 1: # DG -> g GTP
+                        resname = resname[-1].lower()
+                    seq += resname
+                    chain_curr = l[21]
+                    if chain_prev != chain_curr and chain_prev:
+                        chains[chain_prev]['header'] += '-' + str(resi_prev)
+                    if chains.has_key(chain_curr):                
+                        chains[chain_curr]['seq'] += resname
+                    else:
+                        chains[chain_curr] = dict()
+                        chains[chain_curr]['header'] = chain_curr + ':' + str(resi)#resi_prev)
+                        chains[chain_curr]['seq'] = resname
+                    resi_prev = resi
+                    chain_prev = chain_curr
+                curri = resi
+        chains[chain_prev]['header'] += '-' + str(resi_prev)
+        seq = ''
+        for c in chains.keys():
+            seq += chains[c]['header'] + ' '
+        return seq.strip()
+
     def detect_file_format(self):
         pass
     
@@ -492,6 +529,77 @@ class StrucFile:
         if v:
             print 'Write %s' % outfn
 
+    def get_atom_num(self,line):
+        """Extract atom number from a line of PDB file
+        Arguments:
+          * line = ATOM line from a PDB file
+        Output:
+          * atom number as an integer
+        """
+        return int(''.join(filter(lambda x: x.isdigit(), line[6:11]))) 
+
+    def get_res_num(self,line):
+        """Extract residue number from a line of PDB file
+        Arguments:
+          * line = ATOM line from a PDB file
+        Output:
+          * residue number as an integer
+        """
+        return int(''.join(filter(lambda x: x.isdigit(), line[22:27])))
+
+    def get_res_code(self,line):
+        """Get residue code from a line of a PDB file
+        """
+        if not line.startswith('ATOM'):
+            return None
+        return line[17:20]
+
+    def get_atom_code(self,line):
+        """Get atom code from a line of a PDB file
+        """
+        if not line.startswith('ATOM'):
+            return None
+        return line[13:16].replace(' ', '')
+
+    def get_atom_coords(self,line):
+        """Get atom coordinates from a line of a PDB file
+        """
+        if not line.startswith('ATOM'):
+            return None
+        return tuple(map(float, line[31:54].split()))
+
+    def set_line_bfactor(self,line, bfactor):
+        if not line.startswith('ATOM'):
+            return None
+        return line[:60] + (" %5.2f" % bfactor) + line[66:]
+
+    def set_atom_code(self,line, code):
+        return line[:13] + code + ' ' * (3 - len(code)) + line[16:]
+
+    def set_res_code(self,line, code):
+        return line[:17] + code.rjust(3) + line[21:]
+
+    def get_chain_id(self,line):
+        return line[21:22]
+
+    def get_atom_index(self,line):
+        try:
+            return int(line[6:11])
+        except:
+            return None
+
+    def set_atom_index(self,line,index):
+        return line[:7] + str(index).rjust(4) + line[11:]
+
+    def get_res_index(self,line):
+        return int(line[22:26])
+
+    def set_res_index(self,line, index):
+        return line[:23] + str(index).rjust(3) + line[26:]
+
+    def set_chain_id(self,line, chain_id):
+        return line[:21] + chain_id + line[22:]
+
     def get_rnapuzzle_ready(self, renumber_residues=True):
         """Get rnapuzzle ready structure.
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
@@ -623,9 +731,34 @@ class StrucFile:
             for i in missing:
                 print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
             #raise Exception('Missing atoms in %s' % self.fn)
+        #
+        # fix ter 'TER' -> TER    1528        G A  71
+        #
         s = StrucFile(fout)
         self.lines = s.lines
+        c = 0
+        #ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
+        nlines = []
+        no_ters = 0
+        for l in self.lines:
+            if l.startswith('TER'):
+                atom_l = self.lines[c-1]
+                #print 'TER    1528        G A  71 <<<'
 
+                new_l = 'TER'.ljust(80)
+                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
+                new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
+                new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
+                new_l = self.set_res_index(new_l, self.get_res_index(atom_l))                
+                #print new_l
+                nlines.append(new_l)
+                no_ters += 1
+            else:
+                if self.get_atom_index(l):
+                    l = self.set_atom_index(l, self.get_atom_index(l) + no_ters) # 1 ter +1 2 ters +2 etc
+                nlines.append(l)
+            c += 1
+        self.lines = nlines
 
     def get_simrna_ready(self,  renumber_residues=True):
         """Get simrna_ready .. 
@@ -893,6 +1026,8 @@ class StrucFile:
         print 'Saved ', pdb_out
         return True
 
+    def view(self):
+        os.system('pymol ' + self.fn)
 # main
 if '__main__' == __name__:
     fn = 'input/image'
