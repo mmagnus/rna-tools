@@ -36,6 +36,7 @@ Table of Contents
    * [Main program](#main-program)
    * [Utils](#utils)
      * [diffpdb](#diffpdb)
+     * [rmsd_calc](#rmsd_calc)
      * [rna\_convert\_pseudoknot\_formats](#rna_convert_pseudoknot_formats)
      * [misc](#misc)
    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
@@ -166,6 +167,9 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
 ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
+
+### rmsd_calc
+[rmsd_calc](rna_pdb_tools/utils/rmsd_calc/) - various ways how to calc rmsd.
 
 ### rna_convert_pseudoknot_formats
 
