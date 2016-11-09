@@ -43,6 +43,9 @@
 ./rna-pdb-tools.py --no_hr --get_seq input/tetraloop.pdb >> output/get_seq.txt
 ./rna-pdb-tools.py --get_seq input/1xjr.pdb > output/1xjr.seq
 
+## --renumber_residues
+rna-pdb-tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
+
 # ClashCalc
 cd ./utils/ClashCalc/
 ./ClashCalc.py
@@ -55,3 +58,12 @@ cd ../..
 cd ./utils/rnashape2ascii/
 ./test.sh
 cd ../..
+
+cd ./utils/simrna_trajectory
+./test.sh
+cd ../..
+
+cd ./utils/rna_filter/
+./test.sh
+cd ../..
+
