@@ -29,24 +29,24 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 	
-    * [Table of Contents](#table-of-contents)
-    * [Tour](#tour)
-    * [Docs](#docs)
-    * [RNA Puzzle Submission](#rna-puzzle-submission)
-    * [Tricks](#tricks)
-    * [Main program](#main-program)
-    * [Utils](#utils)
-      * [diffpdb](#diffpdb)
-      * [rna\_convert\_pseudoknot\_formats](#rna_convert_pseudoknot_formats)
-      * [misc](#misc)
-    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
-    * [Features](#features)
-      * [test](#test)
-    * [Install](#install)
-    * [Requirement](#requirement)
-    * [Used libraries](#used-libraries)
-    * [Quick notes](#quick-notes)
-	
+   * [Tour](#tour)
+   * [Docs](#docs)
+   * [RNA Puzzle Submission](#rna-puzzle-submission)
+   * [Tricks](#tricks)
+   * [Main program](#main-program)
+   * [Utils](#utils)
+     * [diffpdb](#diffpdb)
+     * [rna\_convert\_pseudoknot\_formats](#rna_convert_pseudoknot_formats)
+     * [misc](#misc)
+   * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+   * [Features](#features)
+     * [test](#test)
+   * [Install](#install)
+   * [Requirement](#requirement)
+   * [Used libraries](#used-libraries)
+   * [Quick notes](#quick-notes)
+   * [Table of Contents](#table-of-contents)
+
 ## Tour
 
 Take a tour http://mmagnus.github.io/rna-pdb-tools/#/ 
