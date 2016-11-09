@@ -6,24 +6,23 @@ import string
 import sys
 
 
-def select_pdb_fragment(txt, separator="-"):
+def select_pdb_fragment(txt, separator="-", splitting='[:\+]', verbose=False):
     """Take txt such as A:1-31,B:1-11 and parse into::
 
       OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]),
       ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
     
       .. warning:: e.g. for A:1-31, resi 31 is not included, works like in Python."""
-    v = False
     txt = txt.replace(' ','')
-    if v:print txt
-    #l = re.split('[,:;]', txt)
-    l = re.split('[:\+]', txt)
-    if v:print l
+    if verbose: print txt
+    #l = re.split, txt)
+    l = re.split(splitting, txt)
+    if verbose: print l
 
     selection = OrderedDict()
     for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
         if i in string.ascii_letters:
-            if v:print 'chain', i
+            if verbose: print 'chain', i
             chain_curr = i
             continue
 

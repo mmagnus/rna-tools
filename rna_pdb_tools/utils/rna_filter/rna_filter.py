@@ -66,8 +66,9 @@ def get_residues(pdb_fn, restraints, verbose):
         b = b[0] + ':' + b[1:]
         residues.add(b)
     # set(['A:41', 'A:9', 'A:10', 'A:16'])
+
     selection = ','.join(residues)
-    selection_parsed = select_pdb_fragment(selection)
+    selection_parsed = select_pdb_fragment(selection, separator=",", splitting="[,:;]")
 
     residues = parse_pdb(pdb_fn, selection_parsed)
 
@@ -135,7 +136,7 @@ Format:
             c += 1
             coords = f.next().strip()
             traj = SimRNATrajectory()
-            traj.load_from_string(header + '\n' + coords)
+            traj.load_from_string(c, header + '\n' + coords)
             frame = traj.frames[0]
             print(c)
             for h in restraints:
