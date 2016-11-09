@@ -1,4 +1,4 @@
-rna\_convert\_psuedoknot\_formats
+rna\_convert\_pseudoknot\_formats
 --------------------------------------------------------------------------
 Run this as:
 
