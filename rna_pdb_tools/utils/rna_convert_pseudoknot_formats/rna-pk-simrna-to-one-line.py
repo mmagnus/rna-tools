@@ -3,6 +3,8 @@
 
 import argparse
 
+SECOND_PK_CHAR = ['{', '}']
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('file', help='file')
@@ -28,9 +30,9 @@ if __name__ == '__main__':
                 if j == ')':
                     i = ']'
                 if k == '(':
-                    i = '<'
+                    i = SECOND_PK_CHAR[0]
                 if k == ')':
-                    i = '>'
+                    i = SECOND_PK_CHAR[1]
                 ss += i
             print ss.strip()
             
