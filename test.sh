@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd rna_pdb_tools
+
 ./pdb_parser_lib.py
 
 ./rna-pdb-tools.py -h | tee rna-pdb-tools.out
