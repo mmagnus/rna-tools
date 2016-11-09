@@ -29,20 +29,24 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 Table of Contents
 -----------------
 	
-   * [Tour](#tour)
-   * [Docs](#docs)
-   * [RNA Puzzle submission](#rna-puzzle-submission)
-   * [Tricks](#tricks)
-   * [Main program](#main-program)
-   * [Utils](#utils)
-   * [Inspiration (and alternatives):](#inspiration-and-alternatives)
-   * [Features](#features)
+    * [Table of Contents](#table-of-contents)
+    * [Tour](#tour)
+    * [Docs](#docs)
+    * [RNA Puzzle Submission](#rna-puzzle-submission)
+    * [Tricks](#tricks)
+    * [Main program](#main-program)
+    * [Utils](#utils)
+      * [diffpdb](#diffpdb)
+      * [rna\_convert\_pseudoknot\_formats](#rna_convert_pseudoknot_formats)
+      * [misc](#misc)
+    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+    * [Features](#features)
       * [test](#test)
-   * [Install](#install)
-   * [Requirement](#requirement)
-   * [Used libraries](#used-libraries)
-   * [Quick notes](#quick-notes)
-
+    * [Install](#install)
+    * [Requirement](#requirement)
+    * [Used libraries](#used-libraries)
+    * [Quick notes](#quick-notes)
+	
 ## Tour
 
 Take a tour http://mmagnus.github.io/rna-pdb-tools/#/ 
@@ -158,11 +162,17 @@ and verify your file with the template provided by the organizers:
 
 See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
-+ [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
+### diffpdb
+[diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
       ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
 
-+ [rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
+### rna_convert_pseudoknot_formats
+[rna_convert_pseudoknot_formats](rna_pdb_tools/utils/rna_convert_pseudoknot_formats)
+
+### misc
+
+[rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
 ) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
 
 ## Inspiration (and alternatives):
