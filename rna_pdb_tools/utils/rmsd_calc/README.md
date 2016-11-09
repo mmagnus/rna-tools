@@ -1,7 +1,7 @@
 rmsd_calc_dir.py
 -------------------------------------------------------------------------------
 
-The program calculates all-atom rmsds (root-mean-square deviation) for all PDB structures in a given folder and save them to a file, as a matrix (which can be read by <https://github.com/m4rx9/rnastruc_clanstix>).
+The program calculates all-atom rmsds (root-mean-square deviation) for all PDB structures in a given folder and save them to a file, as a matrix (which can be read by <https://github.com/mmagnus/rnastruc_clanstix>).
 
 Usage:
 
@@ -38,7 +38,24 @@ rmsd_calc_to_target.py
 	struc3.pdb     	4.879
 	struc4.pdb     	3.982
 	tsv was created!  test_output/rmsd_calc_dir_to_target.tsv
+	
+.. select some residues and ignore some atoms 
+
+	rmsd_calc_to_target.py -t test_data/pistol/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb --target_selection A:1-47+52-62 --model_selection A:1-47+52-62 /Users/magnus/work/src/rna-pdb-tools/rna_pdb_tools/utils/rmsd_calc/test_data/pistol/clusters/pistol_thrs0.50A_clust01-000001_AA.pdb --model_ignore_selection A/57/O2\'  test_data/pistol/clusters/*_AA.pdb
+	
+	rmsd_calc_rmsd_to_target
+	--------------------------------------------------------------------------------
+	# of models: 4
+	pistol_thrs0.50A_clust01-000001_AA.pdb 7.59648219355 1237
+	pistol_thrs0.50A_clust01-000001_AA.pdb 7.59648219355 1237
+	pistol_thrs0.50A_clust02-000001_AA.pdb 7.76647001671 1237
+	pistol_thrs0.50A_clust03-000001_AA.pdb 18.1711015479 1237
+	# of atoms used: 1237
+	csv was created!  rmsds.csv
+
+OK :-)
 
 Install
 ==========================
 Add to your PATH in .bashrc something like this `/home/magnus/src/rna-pdb-tools/utils/rmsd_calc/`
+

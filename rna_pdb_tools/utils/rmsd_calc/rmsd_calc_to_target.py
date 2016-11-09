@@ -9,17 +9,18 @@ Options:
   -t TARGET_FN, --target_fn=TARGET_FN
                         pdb file
   --target_selection=TARGET_SELECTION
-                        selection, e.g. A:10-16+20, caution: it works like in
-                        Python, 16 it's not included
+                        selection, e.g. A:10-16+20, where #16 residue is
+                        included
   --target_ignore_selection=TARGET_IGNORE_SELECTION
                         A/10/O2'
   --model_selection=MODEL_SELECTION
-                        selection, e.g. A:10-16+20, caution: it works like in
-                        Python, 16 it's not included
+                        selection, e.g. A:10-16+20, where #16 residue is
+                        included
   --model_ignore_selection=MODEL_IGNORE_SELECTION
                         A/10/O2'
   -o RMSDS_FN, --rmsds_fn=RMSDS_FN
                         ouput, matrix
+  -v, --verbose         verbose
 
 .. caution:: this version if BioPython free == should be super fast! """
 
@@ -61,20 +62,24 @@ def sort_nicely( l ):
    l.sort( key=alphanum_key )
    return l
 
-def calc_rmsd(a,b, selection_model, target_ignore_selection, selection_target, model_ignore_selection):
+def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, model_ignore_selection, verbose):
     """
+    a is model
+    b is target
+
     :params: a = filename of structure a
     :params: b = filename of structure b
 
     :return: rmsd, number of atoms
     """
-    atomsP, P = get_coordinates(a, selection_model, target_ignore_selection, 'pdb', True)
-    atomsQ, Q = get_coordinates(b, selection_target, model_ignore_selection, 'pdb', True)
+    if verbose: print 'in:', a
+    atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True)
+    atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
+    
     if atomsQ != atomsP:
-        sys.exit('Error: # of atoms is not equal target:' + str(atomsP) + ' vs model:' + str(atomsQ))
+        sys.exit('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
     # Calculate 'dumb' RMSD
     normal_rmsd = rmsd(P, Q)
-
     # Create the centroid of P and Q which is the geometric center of a
     # N-dimensional region and translate P and Q onto that center.
     # http://en.wikipedia.org/wiki/Centroid
@@ -88,7 +93,7 @@ def calc_rmsd(a,b, selection_model, target_ignore_selection, selection_target, m
         V += Qc
         write_coordinates(atomsP, V)
         quit()
-
+    
     return kabsch_rmsd(P, Q), atomsP
 
 # main
@@ -106,7 +111,7 @@ if __name__ == '__main__':
     optparser.add_option('',"--target_selection", type="string",
                          dest="target_selection",
                          default='',
-                         help="selection, e.g. A:10-16+20, caution: it works like in Python, 16 it's not included")
+                         help="selection, e.g. A:10-16+20, where #16 residue is included")
 
     optparser.add_option('',"--target_ignore_selection", type="string",
                          dest="target_ignore_selection",
@@ -116,7 +121,7 @@ if __name__ == '__main__':
     optparser.add_option('',"--model_selection", type="string",
                          dest="model_selection",
                          default='',
-                         help="selection, e.g. A:10-16+20, caution: it works like in Python, 16 it's not included")
+                         help="selection, e.g. A:10-16+20, where #16 residue is included")
 
     optparser.add_option('',"--model_ignore_selection", type="string",
                          dest="model_ignore_selection",
@@ -128,6 +133,10 @@ if __name__ == '__main__':
                          default='rmsds.csv',
                          help="ouput, matrix")
     
+    optparser.add_option("-v", "--verbose",
+                      action="store_true", dest="verbose", default=False,
+                      help="verbose")
+
     (opts, args)=optparser.parse_args()
 
     if len(sys.argv) == 1:
@@ -140,8 +149,10 @@ if __name__ == '__main__':
 
     target_selection = select_pdb_fragment(opts.target_selection)
     model_selection = select_pdb_fragment(opts.model_selection)
-    print '  target_selection: ', opts.target_selection
-    print '  model_selection:  ', opts.model_selection
+    if target_selection:
+        if opts.verbose: print '  target_selection: ', opts.target_selection, target_selection
+    if model_selection:
+        if opts.verbose: print '  model_selection:  ', opts.model_selection, model_selection
 
     if opts.target_ignore_selection:
         target_ignore_selection = select_pdb_fragment_pymol_style(opts.target_ignore_selection)
@@ -153,8 +164,10 @@ if __name__ == '__main__':
     else:
         model_ignore_selection = None
 
-    print '  target_ignore_selection: ', opts.target_ignore_selection
-    print '  model_ignore_selection:  ', opts.model_ignore_selection
+    if  opts.target_ignore_selection:
+        if opts.verbose: print '  target_ignore_selection: ', opts.target_ignore_selection
+    if  opts.model_ignore_selection:
+        if opts.verbose: print '  model_ignore_selection:  ', opts.model_ignore_selection
 
     models = get_rna_models_from_dir(input_files)        
 
@@ -166,15 +179,17 @@ if __name__ == '__main__':
 
     c = 1
     for r1 in models:
-        rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection)
-        t += os.path.basename(r1) + ',' + str(round(rmsd_curr,3)) + ' '
+        rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, opts.verbose)
+        r1_basename = os.path.basename(r1)
+        print r1_basename, rmsd_curr, atoms
+        t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '
         c += 1
         t += '\n'
             
     f.write(t)
     f.close()
 
-    print t.strip() # matrix
+    #print t.strip() # matrix
 
     print '# of atoms used:', atoms
     if opts.rmsds_fn:

@@ -122,11 +122,15 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
     # Same with atoms and atom naming. The most robust way to do this is probably
     # to assume that the atomtype is given in column 3.
     atoms = []
+    resi_set = set()
     with open(filename) as f:
         lines = f.readlines()
         for line in lines:
-            if line.startswith("TER") or line.startswith("END"):
-                break
+            # hmm...
+            # of models: 490
+            # Error: # of atoms is not equal target (1f27_rpr.pdb):641 vs model (struc/1f27_rnakbnm_decoy0001_amb_clx_rpr.pdb):408
+            #if line.startswith("TER") or line.startswith("END"):
+            #    break
             if line.startswith("ATOM"):
                 curr_chain_id = line[21]
                 curr_resi = int(line[22:26])
@@ -136,6 +140,7 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
                         if curr_resi in selection[curr_chain_id]:
                             # ignore if to be ingored (!)
                             #try:
+                                    resi_set.add(curr_chain_id + ':' + str(curr_resi))
                                     x = line[30:38]
                                     y = line[38:46]
                                     z = line[46:54]
@@ -151,4 +156,5 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
                                     V.append(np.asarray([x,y,z],dtype=float))                    
 
     V = np.asarray(V)
+    #print filename, resi_set, len(resi_set)
     return len(V), V
