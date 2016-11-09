@@ -165,10 +165,13 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 ### diffpdb
 [diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
 
-      ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
+![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
 
 ### rna_convert_pseudoknot_formats
+
 [rna_convert_pseudoknot_formats](rna_pdb_tools/utils/rna_convert_pseudoknot_formats)
+
+![diffpdb](rna_pdb_tools/utils/rna_convert_pseudoknot_formats/doc/varna_2pk.png)
 
 ### misc
 
