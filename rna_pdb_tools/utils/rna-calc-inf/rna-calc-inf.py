@@ -6,9 +6,9 @@ import os
 import subprocess
 import re
 
-def clarna_run(fn):
+def clarna_run(fn, force):
     fn_out = fn + '.outCR'
-    if os.path.isfile(fn_out):
+    if os.path.isfile(fn_out) and not force:
         pass
     else:
         cmd = 'clarna_run.py -ipdb ' + fn + ' > ' + fn_out
@@ -33,9 +33,14 @@ if __name__ == '__main__':
                          default='',
                          help="pdb file")
 
+    optparser.add_option('-f',"--force",
+                         dest="force",
+                         action="store_true",
+                         help="force to run ClaRNA")
+
     optparser.add_option('-o',"--out_fn", type="string",
                          dest="out_fn",
-                         default='',
+                         default='inf.csv',
                          help="out csv file")
 
     (opts, args)=optparser.parse_args()
@@ -47,7 +52,7 @@ if __name__ == '__main__':
     input_files = args[:] # opts.input_dir
     target_fn = opts.target_fn
     out_fn = opts.out_fn
-    target_cl_fn = clarna_run(target_fn)    
+    target_cl_fn = clarna_run(target_fn, opts.force)    
 
     f = open(out_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
@@ -55,7 +60,7 @@ if __name__ == '__main__':
     print 'target, fn, inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC'
     f.write(t)
     for i in input_files:
-        i_cl_fn = clarna_run(i)
+        i_cl_fn = clarna_run(i, opts.force)
         scores = clarna_compare(target_cl_fn,i_cl_fn)
         print scores
         f.write(re.sub('\s+', ',', scores) + '\n')
