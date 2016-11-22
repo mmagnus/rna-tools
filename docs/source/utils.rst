@@ -18,6 +18,7 @@ RNA_filter
 .. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
    :members:
 
+
 SimRNATrajectory
 -----------------------------------------
 
@@ -30,3 +31,9 @@ PyMOL drawing
 .. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
    :members:
      
+
+secstruc (secondary structure)
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.secstruc.secstruc
+   :members:
