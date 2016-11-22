@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+"""
+ClaRNA_play required!
+https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server)
+"""
+
 import optparse
 import sys
 import os

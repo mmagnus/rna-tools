@@ -12,3 +12,6 @@ rna-calc-inf
 	5k7c_clean_onechain_renumber_as_puzzle_srr.pdb.outCR     pistol_thrs0.50A_clust02-000001_AA.pdb.outCR      0.642      NA         0.865      0.000      0.889      0.842      0.000      0.000
 	5k7c_clean_onechain_renumber_as_puzzle_srr.pdb.outCR     pistol_thrs0.50A_clust03-000001_AA.pdb.outCR      0.577      NA         0.754      0.000      0.833      0.682      0.000      0.000
 	csv was created!  test_output/pistol_inf.csv
+
+ClaRNA_play required!
+https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server)
