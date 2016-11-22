@@ -1,0 +1,3 @@
+[submodule "rna_pdb_tools/utils/RNA-Puzzzles_format"]
+    path = rna_pdb_tools/utils/RNA-Puzzzles_format
+    url = git@github.com:chichaumiau/RNA-Puzzzles_format.git
