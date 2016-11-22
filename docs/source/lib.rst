@@ -1,5 +1,5 @@
 Lib
 =========================================
 
-.. automodule:: pdb_parser_lib
+.. automodule:: rna_pdb_tools.pdb_parser_lib
    :members:
