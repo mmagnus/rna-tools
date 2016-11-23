@@ -1,0 +1,5 @@
+# test_data/struc1.pdb test_data/struc2.pdb test_data/struc3.pdb test_data/struc4.pdb 
+0.0 11.803 4.879 3.982 
+11.803 0.0 12.153 12.043 
+4.879 12.153 0.0 3.487 
+3.982 12.043 3.487 0.0 

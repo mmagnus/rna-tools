@@ -11,3 +11,4 @@ diffpdb_conf.py
 *docs/build/*
 *_off*
 bin
+*outCR
