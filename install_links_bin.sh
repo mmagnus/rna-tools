@@ -9,3 +9,7 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_multimodels/rna-pdb-merge-into-one.py $c
 ln -s $curr_dir/rna_pdb_tools/utils/rna-calc-inf/rna-calc-inf.py $curr_dir/bin/rna-calc-inf.py
 echo 'Installed in ./bin'
 ls -l bin
+echo
+echo 'Broken links:'
+find bin -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print
+echo '^ should be none!'
