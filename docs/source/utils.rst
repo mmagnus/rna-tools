@@ -10,6 +10,10 @@ Calculate RMSD
 Calculate Interaction Network Fidelity (INF) and not only
 -----------------------------------------
 
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_inf.rna_calc_inf.get_parser
+   :prog: rna_calc_inf
+
 .. automodule:: rna_pdb_tools.utils.rna_calc_inf.rna_calc_inf
    :members:
 
