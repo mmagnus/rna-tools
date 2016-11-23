@@ -7,6 +7,12 @@ Calculate RMSD
 .. automodule:: rna_pdb_tools.utils.rmsd_calc.rmsd_calc_to_target
    :members:
 
+Calculate Interaction Network Fidelity (INF) and not only
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rna_calc_inf.rna_calc_inf
+   :members:
+
 diffpdb
 -----------------------------------------
 
@@ -17,7 +23,6 @@ RNA_filter
 
 .. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
    :members:
-
 
 SimRNATrajectory
 -----------------------------------------

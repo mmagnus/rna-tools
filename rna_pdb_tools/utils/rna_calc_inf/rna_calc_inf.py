@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
 """
+A tool to calc inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC between two structures.
+
 ClaRNA_play required!
 https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server)
+
 """
 
 import optparse
@@ -12,6 +15,7 @@ import subprocess
 import re
 
 def clarna_run(fn, force):
+    """Run ClaRNA run"""
     fn_out = fn + '.outCR'
     if os.path.isfile(fn_out) and not force:
         pass
@@ -22,13 +26,14 @@ def clarna_run(fn, force):
     return fn_out
 
 def clarna_compare(target_cl_fn,i_cl_fn):
+    """Run ClaRNA compare"""
     cmd = 'clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std = o.stdout.read().strip()
     return std
     
 if __name__ == '__main__':
-    print 'rna-calc-inf'
+    print 'rna_calc_inf'
     print '-' * 80
     
     optparser=optparse.OptionParser(usage="%prog [<options>] <pdb files (test_data/*)>")

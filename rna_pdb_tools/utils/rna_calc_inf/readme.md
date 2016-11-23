@@ -1,7 +1,7 @@
-rna-calc-inf
+rna_calc_inf
 -------------------------------------------------------------------------------
 
-	python rna-calc-inf.py -t ../rmsd_calc/test_data/pistol/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb \
+	$ rna_calc_inf.py -t ../rmsd_calc/test_data/pistol/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb \
 		../rmsd_calc/test_data/pistol/clusters/*.pdb \
 		-o test_output/pistol_inf.csv
 
