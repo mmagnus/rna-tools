@@ -1,13 +1,13 @@
 Utils
 =========================================
 
-Calculate RMSD
+rmsd_calc_to_target - Calculate RMSD
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rmsd_calc.rmsd_calc_to_target
    :members:
 
-Calculate Interaction Network Fidelity (INF) and not only
+rna_calc_inf - Calculate Interaction Network Fidelity (INF) and not only
 -----------------------------------------
 
 .. argparse::
@@ -22,7 +22,7 @@ diffpdb
 
 .. image:: rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
 
-RNA_filter
+rna_filter
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
