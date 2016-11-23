@@ -7,6 +7,7 @@ rna-pdb-tools
 [![Documentation Status](https://readthedocs.org/projects/rna-pdb-tools/badge/?version=latest)](http://rna-pdb-tools.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/mmagnus/rna-pdb-tools/badge.svg?branch=master)](https://coveralls.io/github/mmagnus/rna-pdb-tools?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/?branch=master)
+[![codecov](https://codecov.io/gh/mmagnus/rna-pdb-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/mmagnus/rna-pdb-tools)
 ![http://www.gnu.org/licenses/gpl-3.0.html](http://img.shields.io/:license-gpl3-blue.svg)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60933.svg)](http://dx.doi.org/10.5281/zenodo.60933) 
 
