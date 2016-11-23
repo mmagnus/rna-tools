@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """rna_filter"""
 
-from rna_pdb_tools.utils.rmsd_calc.lib.rmsd.calculate_rmsd import get_coordinates
+from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import get_coordinates
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 

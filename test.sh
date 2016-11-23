@@ -53,7 +53,7 @@ cd ./utils/ClashCalc/
 ./ClashCalc.py
 cd ../..
 
-cd ./utils/rmsd_calc/
+cd ./utils/rna_calc_rmsd/
 ./test.sh
 cd ../..
 
