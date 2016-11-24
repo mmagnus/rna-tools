@@ -329,17 +329,17 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
 ## Install
 
-Install requirements and do this three steps:
+Install requirements and do these three steps:
 
-1) add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` 
-2) add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/`
-3) and run the install script
+1. add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` 
+2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/`
+3. and run the install script:
+	
+	    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
+	    Installed in ./bin
+	    rmsd_calc_to_target.py
 
-    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
-    Installed in ./bin
-    rmsd_calc_to_target.py
-
-should be OK!
+should be OK now :-)
 
 ## Requirement
 
