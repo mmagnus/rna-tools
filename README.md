@@ -172,7 +172,7 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 ![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
 
 ### rmsd_calc
-[rmsd_calc](rna_pdb_tools/utils/rmsd_calc/) - various ways how to calc rmsd.
+[rna_calc_rmsd](rna_pdb_tools/utils/rna_calc_rmsd/) - various ways how to calc rmsd.
 
 ### rna_convert_pseudoknot_formats
 
