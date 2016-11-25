@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p bin
 rm bin/*
 curr_dir=$(pwd)
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd/rna_calc_rmsd.py $curr_dir/bin/rna_calc_rmsd.py
