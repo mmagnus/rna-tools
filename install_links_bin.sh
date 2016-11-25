@@ -9,6 +9,7 @@ ln -s $curr_dir/rna_pdb_tools/rna-pdb-tools.py $curr_dir/bin/rna-pdb-tools.py
 ln -s $curr_dir/rna_pdb_tools/utils/diffpdb/diffpdb.py $curr_dir/bin/diffpdb
 ln -s $curr_dir/rna_pdb_tools/utils/rna_multimodels/rna-pdb-merge-into-one.py $curr_dir/bin/rna-pdb-merge-into-one.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_inf/rna_calc_inf.py $curr_dir/bin/rna_calc_inf.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_convert_pseudoknot_formats/rna_pk_simrna_to_one_line.py $curr_dir/bin/rna_pk_simrna_to_one_line.py
 echo 'Installed in ./bin'
 ls -l bin
 echo
