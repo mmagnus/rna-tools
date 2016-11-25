@@ -1,20 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-"""
-rna_calc_rmsd git:(master) ✗ ./rna_calc_rmsd_all_vs_all.py
-calc_rmsd_dir
---------------------------------------------------------------------------------
-Usage: rna_calc_rmsd_all_vs_all.py [<options>]
 
-Options:
-  -h, --help            show this help message and exit
-  -i INPUT_DIR, --input_dir=INPUT_DIR
-  -o MATRIX_FN, --matrix_fn=MATRIX_FN
-                        ouput, matrix
-  -s, --save
-
-required biopython
-"""
 import Bio.PDB.PDBParser
 import Bio.PDB.Superimposer
 from Bio.PDB.PDBIO import Select

@@ -13,7 +13,7 @@ The code of the project can be found at GitHub (https://github.com/mmagnus/rna-p
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    lib
    utils

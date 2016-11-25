@@ -1,31 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
-
-"""
-➜  rna_calc_rmsd git:(master) ✗ ./rna_calc_rmsd.py
-rmsd_calc_rmsd_to_target
---------------------------------------------------------------------------------
-Usage: rna_calc_rmsd.py [<options>] <pdb files (test_data/*)>
-
-Options:
-  -h, --help            show this help message and exit
-  -t TARGET_FN, --target_fn=TARGET_FN
-                        pdb file
-  --target_selection=TARGET_SELECTION
-                        selection, e.g. A:10-16+20, where #16 residue is
-                        included
-  --target_ignore_selection=TARGET_IGNORE_SELECTION
-                        A/10/O2'
-  --model_selection=MODEL_SELECTION
-                        selection, e.g. A:10-16+20, where #16 residue is
-                        included
-  --model_ignore_selection=MODEL_IGNORE_SELECTION
-                        A/10/O2'
-  -m METHOD, --method=METHOD
-  -o RMSDS_FN, --rmsds_fn=RMSDS_FN
-                        ouput, matrix
-  -v, --verbose         verbose
-"""
 
 from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import *
 import sys
@@ -69,9 +43,9 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     """Calculate rmsd using PyMOL. Two methods are available: align and fit
 
     See:
-      Align: http://www.pymolwiki.org/index.php/Align
-      Fit:   http://www.pymolwiki.org/index.php/Fit 
-      (https://pymolwiki.org/index.php?title=Fit&redirect=no)
+
+    -  Align: http://www.pymolwiki.org/index.php/Align
+    -  Fit:   http://www.pymolwiki.org/index.php/Fit 
 
     Align can return a list with 7 items:
 
@@ -83,10 +57,7 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     Raw alignment score
     Number of residues aligned 
 
-    in this version of function, the function returns `RMSD before refinement`.
-
-
-    """
+    in this version of function, the function returns `RMSD before refinement`."""
 
     import __main__
     __main__.pymol_argv = ['pymol', '-qc']
