@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 """
 rna_calc_rmsd git:(master) ✗ ./rna_calc_rmsd_all_vs_all.py
