@@ -20,7 +20,7 @@ rna_calc_inf - Calculate Interaction Network Fidelity (INF) and not only
 diffpdb
 -----------------------------------------
 
-.. image:: rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
+.. image:: ../rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
 
 rna_filter
 -----------------------------------------
