@@ -1,3 +1,5 @@
 numpy
 biopython
 sphinx-argparse
+pymol
+forgi
