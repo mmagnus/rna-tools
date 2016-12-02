@@ -6,7 +6,7 @@
 Welcome to rna-pdb-tools's documentation!
 =========================================
 
-rna-pdb-tools: a  a toolbox to analyze structures and simulations (SimRNA, ROSETTA/FARNA/FARFAR) of RNA.
+rna-pdb-tools: a toolbox to analyze structures and simulations (SimRNA, ROSETTA/FARNA/FARFAR) of RNA.
 
 The code of the project can be found at GitHub (https://github.com/mmagnus/rna-pdb-tools).
 
