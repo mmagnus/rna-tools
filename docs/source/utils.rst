@@ -1,6 +1,15 @@
 Utils
 =========================================
 
+Apps
+-----------------------------------------
+
+ClaRNA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
+   :members:
+
 Calculate RMSD
 -----------------------------------------
 
@@ -18,6 +27,9 @@ rna_calc_rmsd_all_vs_all
 
 Calculate Interaction Network Fidelity (INF) and not only
 ----------------------------------------------------------
+
+rna_calc_inf
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_calc_inf.rna_calc_inf.get_parser

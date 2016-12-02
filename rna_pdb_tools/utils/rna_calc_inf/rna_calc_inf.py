@@ -13,25 +13,10 @@ import sys
 import os
 import subprocess
 import re
+import tempfile
 
-def clarna_run(fn, force):
-    """Run ClaRNA run"""
-    fn_out = fn + '.outCR'
-    if os.path.isfile(fn_out) and not force:
-        pass
-    else:
-        cmd = 'clarna_run.py -ipdb ' + fn + ' > ' + fn_out
-        print cmd
-        os.system(cmd)
-    return fn_out
+from rna_pdb_tools.utils.clarna_app.clarna_app import *
 
-def clarna_compare(target_cl_fn,i_cl_fn):
-    """Run ClaRNA compare"""
-    cmd = 'clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
-    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    std = o.stdout.read().strip()
-    return std
-    
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
 
@@ -39,6 +24,11 @@ def get_parser():
                            dest="target_fn",
                          default='',
                          help="pdb file")
+
+    parser.add_argument('-s',"--ss",
+                         dest="ss",
+                         default='',
+                         help="A:(([[))]]")
 
     parser.add_argument('-f',"--force",
                          dest="force",
@@ -53,7 +43,7 @@ def get_parser():
     parser.add_argument('files', help="files", nargs='+')
 
     return parser
-    
+
 if __name__ == '__main__':
     print 'rna_calc_inf'
     print '-' * 80
@@ -67,16 +57,22 @@ if __name__ == '__main__':
 
     input_files = args.files
     target_fn = args.target_fn
+    ss = args.ss
+    if ss:
+        # generate target_fn
+        target_cl_fn = get_ClaRNA_output_from_dot_bracket(ss, temp=False)
+    else:
+        target_cl_fn = clarna_run(target_fn, args.force)    
     out_fn = args.out_fn
+    # output
     print 'target, fn, inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC'
-    target_cl_fn = clarna_run(target_fn, args.force)    
     f = open(out_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
     t = 'target,fn,inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC\n'
     f.write(t)
     for i in input_files:
         i_cl_fn = clarna_run(i, args.force)
-        scores = clarna_compare(target_cl_fn,i_cl_fn)
-        print scores
-        f.write(re.sub('\s+', ',', scores) + '\n')
+        output = clarna_compare(target_cl_fn,i_cl_fn)
+        print output
+        f.write(re.sub('\s+', ',', output) + '\n')
     print 'csv was created! ', out_fn
