@@ -1,6 +1,17 @@
 #!/usr/bin/env python
 
 """
+Usage::
+
+    ./rna_helix_vis.py
+    usage: rna_helix_vis.py [-h] [-p PDB_FN] [-s SS]
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -p PDB_FN, --pdb_fn PDB_FN
+                            pdb file
+      -s SS, --ss_fn SS
+
 Example::
 
     $ ./rna_helix_vis.py -p test_data/rp14_farna_eloop.out.1.pdb -s test_data/rp14.ss
