@@ -15,7 +15,7 @@ import subprocess
 import re
 import tempfile
 
-from rna_pdb_tools.utils.clarna_app.clarna_app import *
+from rna_pdb_tools.utils.clarna_app import clarna_app
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
@@ -60,9 +60,9 @@ if __name__ == '__main__':
     ss = args.ss
     if ss:
         # generate target_fn
-        target_cl_fn = get_ClaRNA_output_from_dot_bracket(ss, temp=False)
+        target_cl_fn = clarna_app.get_ClaRNA_output_from_dot_bracket(ss, temp=False)
     else:
-        target_cl_fn = clarna_run(target_fn, args.force)    
+        target_cl_fn = clarna_app.clarna_run(target_fn, args.force)    
     out_fn = args.out_fn
     # output
     print 'target, fn, inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC'
@@ -71,8 +71,8 @@ if __name__ == '__main__':
     t = 'target,fn,inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC\n'
     f.write(t)
     for i in input_files:
-        i_cl_fn = clarna_run(i, args.force)
-        output = clarna_compare(target_cl_fn,i_cl_fn)
+        i_cl_fn = clarna_app.clarna_run(i, args.force)
+        output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn)
         print output
         f.write(re.sub('\s+', ',', output) + '\n')
     print 'csv was created! ', out_fn
