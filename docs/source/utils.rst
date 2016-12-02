@@ -10,6 +10,12 @@ ClaRNA
 .. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
    :members:
 
+RNA Helix Vis
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis
+   :members:
+
 Calculate RMSD
 -----------------------------------------
 
