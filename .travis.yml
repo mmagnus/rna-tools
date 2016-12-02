@@ -5,7 +5,7 @@ python:
 
 install:
  - sudo apt-get install python-biopython
- - pip install codecov
+ - pip install codecov forgi
 
 script:
  - bash test.sh
