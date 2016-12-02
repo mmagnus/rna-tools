@@ -7,11 +7,16 @@ Apps
 ClaRNA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 .. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
    :members:
 
 RNA Helix Vis
 -----------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis.get_parser
+   :prog: rna_helix_vis
 
 .. automodule:: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis
    :members:
