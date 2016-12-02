@@ -30,8 +30,10 @@ import os
 import tempfile
 from rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_pk_simrna_to_one_line import get_one_line
 
-ClaRNA_play_path = os.environ['ClaRNA_play_path']
-
+try:
+    ClaRNA_play_path = os.environ['ClaRNA_play_path']
+except:
+    print 'you need to set up ClaRNA_play_path in your .bashrc'
 
 def clarna_run(fn, force):
     """Run ClaRNA run
