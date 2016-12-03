@@ -60,8 +60,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'rna-pdb-tools'
-copyright = u'2016, Marcin Magnus et al'
-author = u'Marcin Magnus et al'
+copyright = u'2016, Marcin Magnus et al.'
+author = u'Marcin Magnus et al.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
