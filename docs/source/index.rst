@@ -16,6 +16,7 @@ If you find the tools helpful, you can cite the repo using the doi_::
     
 .. _doi: https://scholar.google.pl/citations?view_op=view_citation&hl=en&user=O2gLO2EAAAAJ&citation_for_view=O2gLO2EAAAAJ:mB3voiENLucC&gmla=AJsN-F5Nk3ZKqGryiFr6erWZFIFqc5Qp-8rh4hhHQIxfQ0P-iYqUFzKcoDQ4Fb378_tT-wXfW9kPqDe5gOm5XM2mUswZsdK3jsRW4_kCFmQUtT-btlrydJQ
 
+If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-pdb-tools/issues
 Contents:
 
 .. toctree::
