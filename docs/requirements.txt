@@ -2,3 +2,4 @@ numpy
 biopython
 sphinx-argparse
 forgi
+progressbar2
