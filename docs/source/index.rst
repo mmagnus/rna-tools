@@ -18,6 +18,7 @@ Contents:
    lib
    utils
    selection
+   git
    
 Indices and tables
 ==================
