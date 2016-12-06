@@ -12,7 +12,7 @@ computer run::
 
 and if you want to update the package later run::
 
-  $ git pull
+  $ git pull # be in the folder like ~/src/rna-pdb-tools/ <here>
 
 if you see something like this::
 
@@ -20,3 +20,19 @@ if you see something like this::
   Already up-to-date.  
 
 it means that your version of the package is up to date, congrats! :-)
+
+If you see something like this::
+
+	 $ git pull
+	remote: Counting objects: 3, done.
+	remote: Compressing objects: 100% (1/1), done.
+	remote: Total 3 (delta 2), reused 3 (delta 2), pack-reused 0
+	Unpacking objects: 100% (3/3), done.
+	From github.com:mmagnus/rna-pdb-tools
+	  69c4ee3..7f90739  master     -> origin/master
+	Updating 69c4ee3..7f90739
+	Fast-forward
+	install_links_bin.sh | 1 + 
+	1 file changed, 1 insertion(+)
+
+it means that there is a small change in ``install_links_bin.sh`` and you are up to date, congrats as well! You might need to run ``./install_links_bin.sh`` to "install" new tools that were added to the packages (it this is the case). If you get any error then talk to me ``magnus@genesilico.pl``.
