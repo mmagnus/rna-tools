@@ -35,4 +35,4 @@ If you see something like this::
 	install_links_bin.sh | 1 + 
 	1 file changed, 1 insertion(+)
 
-it means that there is a small change in ``install_links_bin.sh`` and you are up to date, congrats as well! You might need to run ``./install_links_bin.sh`` to "install" new tools that were added to the packages (it this is the case). If you get any error then talk to me ``magnus@genesilico.pl``.
+it means that there is a small change in ``install_links_bin.sh`` and you are up to date, congrats as well! You might need to run ``./install_links_bin.sh`` to "install" new tools that were added to the packages (if this is the case). If you get any error then talk to me ``magnus@genesilico.pl``.
