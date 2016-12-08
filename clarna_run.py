@@ -51,6 +51,7 @@ class AttributeDict(dict):
 
 # Provides a definition of the command line arguments used in this program.
 class Usage_Clarna:
+
   def __init__(self):
      # define a usage statement
      USAGE =  PROGRAM + ' -ipdb <infile>.pdb [-Clarna] [ -thresh f ] [ -bps ] [ -PS ] [ -stack ] [ -other ]\n'
@@ -829,6 +830,7 @@ class Clarna_utils:
     #
 
 class ClarnaBabbel:
+    """ClaRNABabbel"""
     def __init__(self):
         # the file "descriptions-dict.json" contains all the critical
         # definitions that allow translation between various other
@@ -936,10 +938,9 @@ class ClarnaBabbel:
         bbclarna = {(ch1, int(rs1), ch2, int(rs2)) : \
                     { "bp": (bbk[1][0], bbk[1][1]), bbk2c: 1.0 }  }
         return bbclarna
-    #
-    
 
 class SeeClarna:
+    """SeeClarna"""
     def __init__(self):
         self.pdbclasslist={} # I am not sure if this MUST be here
         self.cutils = ''
@@ -1066,7 +1067,7 @@ class SeeClarna:
     
     
     def eval_PDB(self, cl):
-        # 
+        """eval_PDB"""
         debug_eval_PDB_with_clarna = False
         flnm = cl.flnm_pdb 
         min_score = cl.min_score
@@ -1163,7 +1164,7 @@ class SeeClarna:
     #
 
 class testClarna:
-    
+    """testClarna"""
     def __init__(self):
         self.cutils = ''
     #

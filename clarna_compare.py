@@ -1,19 +1,20 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
-# used for reconstructing the dictonary from a run_clarna.sh output
-# file of structure built with the flag -ipdb
+"""used for reconstructing the dictonary from a run_clarna.sh output
+file of structure built with the flag -ipdb"""
 
 import sys
 import re
 import math
 
 # ###############  GLOBAL DEFINTIONS  ################
-PROGRAM = "anal_clarna.py"  # program name
+PROGRAM = "clarna_compare.py"  # program name
 ANAL_EXT='.pdb.outCR$'      # the default extension is for CLARNA files
 # ####################################################
 
 # Provides a definition of the command line arguments used in this program.
 class Usage_AnalClarna:
+    """Usage_AnalClarna"""
     def __init__(self, v_extension):
         # define a usage statement
         ac_ext = v_extension[:len(v_extension)-1] # remove the '$' character that is used for class re
@@ -49,19 +50,13 @@ class Usage_AnalClarna:
         USAGE +=' -h/-help/--help   -         prints this message                               \n' 
         
         self.u = USAGE
-    #
-  
+
     def get_Usage_AnalClarna(self):
         return 'Usage: %s\n' % self.u
-    #
-#
-
-#################
-
-#################
 
 class CommandLine:
-        
+
+    """CommandLine"""
     def __init__(self):
         self.command_line = ''
         self.option_list  = ['-iref', '-ichk', '-w_fr3d', '-w_rnaview', '-w_mc_annotate', '-w_all_methods', '-rnaview', '-mc_annotate', '-fr3d', '-CSV', '-v', '-verbose', '-details']
@@ -72,12 +67,10 @@ class CommandLine:
         self.min_score    = 0.6
         self.details      = False
         self.CSV          = False
-    #
-    
-    
-    # parses the command line arguments for Entropy calls
+
     def parse_AnalClarna_CL(self, command_line):
-        #
+        """parses the command line arguments for Entropy calls"""
+
         self.command_line = command_line
         debug_AnalClarna_CL_Opt = False
         n = len(self.command_line)
@@ -148,7 +141,6 @@ class CommandLine:
                 i = self.check_end(i, n)
                 self.chkout = self.command_line[i]
                 
-                #
                 if (self.chkout == ''):
                     emsg  = '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
                     emsg += "ERROR: input file name undefined.\n"
@@ -167,9 +159,7 @@ class CommandLine:
                     %   (self.chkout, ac_ext)
                     emsg += '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
                     self.error(emsg)
-                    #
             elif self.command_line[i] == '-thresh':
-                #
                 i = self.check_end(i, n)
                 
                 try:
@@ -187,9 +177,6 @@ class CommandLine:
                 
                 if debug_AnalClarna_CL_Opt:
                     print "threshold to be displayed ", self.min_score
-                #
-                #
-            # 
             elif (self.command_line[i] == '-details') or \
                  (self.command_line[i] == '-verbose') or \
                  (self.command_line[i] == '-v'):
@@ -197,42 +184,32 @@ class CommandLine:
                 if self.CSV:
                     print "WARNING: \'%s\' option not supported with option \'-CSV\'" % self.command_line[i]
                     self.CSV = False
-
-                #
             elif (self.command_line[i] == '-CSV'):
                 self.CSV = True
                 if self.details:
                     print "WARNING: \'CSV\' option not supported with option \'-details,-v,-verbose\'"
                     self.CSV = False
-                #
             # include results from RNAVIEW classifier
             elif (self.command_line[i] == '-w_rnaview'):
                 self.classifiers = "w_rnaview"
-                #
             # include results from MC-Annotate classifier
             elif (self.command_line[i] == '-w_mc_annotate'):
                 self.classifiers = "w_mc_annotate"
-                #
             # include results from FR3D classifier
             elif (self.command_line[i] == '-w_fr3d'):
                 self.classifiers = "w_fr3d"
-                #
             # include results from RNAVIEW, MC-Annotate and FR3D classifiers
             elif (self.command_line[i] == '-w_all_methods'):
                 self.classifiers = "w_all_methods"
-                #
             # analyze RNAVIEW results:
             elif (self.command_line[i] == '-rnaview'):
                 self.classifiers = "rnaview"
-                #
             # analyze MC-Annotate results:
             elif (self.command_line[i] == '-mc_annotate'):
                 self.classifiers = "mc_annotate"
-                #
             # analyze FR3D classifier
             elif (self.command_line[i] == '-fr3d'):
                 self.classifiers = "fr3d"
-                #
             # is it a plea for help? (in one of its many different versions ...)
             elif (self.command_line[i] == '-h') or \
                  (self.command_line[i] == '--help') or \
@@ -241,21 +218,15 @@ class CommandLine:
                 a = Usage_AnalClarna(self.v_ext)
                 print '%s\n' % a.get_Usage_AnalClarna()
                 sys.exit(0)
-                #
-            #
             else:
                 emsg  = '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
                 emsg += 'ERROR: command line is corrupted:\n'
                 emsg += '\noffending command \'%s\'\n' % self.command_line[i]
                 emsg += '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
                 self.error(emsg)
-            #
-            #
             i += 1
         #
         # error checking
-        
-        
         if (not flag_refPDB) or (not flag_chkPDB):
             if (not flag_refPDB):
                 emsg  = '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
@@ -269,17 +240,12 @@ class CommandLine:
                 emsg += '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
                 emsg += '\n'
                 self.error(emsg)
-            #
-        #
-
 
         if debug_AnalClarna_CL_Opt:
             print 'input reference PDB file: *.pdb = %s' % self.refout
             print 'input SimRNA PDB file:    *.pdb = %s' % self.chkout
 
         return 0
-    #
-    
     
     def check_end(self, i, n):
         if (i+1 < n):
@@ -291,8 +257,7 @@ class CommandLine:
             self.error(emsg)
             # terminates
         return i
-    #
-    
+
     # delivers error/exit messages for this class
     def error(self, e_msg):
         print '\n'
@@ -302,8 +267,7 @@ class CommandLine:
         a = Usage_AnalClarna(self.v_ext)
         print '%s' % a.get_Usage_AnalClarna()
         sys.exit(1)
-        #
-    #
+
     # separates the command line arguments into specific strings
     def show_CL(self):
         n = len(self.command_line)
@@ -314,17 +278,15 @@ class CommandLine:
             else:
                 ss += '%s' % self.command_line[i]
         return ss
-    #
-#
 
 class Data:
+    """Data"""
     def __init__(self):
         self.flnm = ''
         self.pdbdt = {}
         self.min_score = 0.6
         self.data_type = "Clarna"
         self.verbose = False
-    #
     
     def readData(self, flnm):
         debug_readData = False
@@ -347,11 +309,8 @@ class Data:
                 sys.exit(1)
             else:
                 classifier = title[1]
-            #
-        #
         if debug_readData:
             print "classifier: ", classifier
-        #
         for i in range(1,nlines):
             # print len(dlist[i])
             if len(dlist[i]) > 25:
@@ -359,9 +318,6 @@ class Data:
                 v = self.reconstructDict(dlist[i])
                 if not (v == {}):
                     self.pdbdt.update(v)
-                #
-            #
-        #
         if debug_readData:
             print 'pdbdt:          ', self.pdbdt
             print 'pdbdt.keys():   ', self.pdbdt.keys()
@@ -370,38 +326,38 @@ class Data:
             pd = PrintData()
             print pd.display_bbstack(self.pdbdt)
         return self.pdbdt
-    #
     
     def reconstructDict(self, strng):
+        """150511wkd: I had some problems early on here where there was
+        some trouble constructing v; however, it seems to have been
+        fixed.  At least when I tried to do a full scan, I didn't
+        encounter any issues any longer.  
+
+        I think the reason was that RNAVIEW (at the time) did not
+        override errors in "Clarnafied" types.  Most types are
+        identified by Clarna, but there seem to be some rare
+        varieties in MC-annotate and RNAVIEW (and probably FR3D)
+        that are either not defined properly in Clarna or are bugs
+        in these existing programs.  When I ask for verbose with
+        run_clarna.sh, these errors are also expressed, but
+        originally, I assumed that RNAVIEW and clarna had a full
+        listing.  
+
+        At any rate, if there are assignment errors generated by the
+        python program, I would first guess that they are most
+        likely to be occurring here.
+
+        (this was between v and ^"""
+        
         debug_reconstructDict = False
         # strng = "A    1   A   21          bp G C                  WW_cis   0.8637                  WW_cis   0.8637"
         # ss = strng.split()
         # ss
         # ['A', '1', 'A', '21', 'bp', 'G', 'C', 'WW_cis', '0.8637', 'WW_cis', '0.8637']
         
-        
         sv = []
         v = {}
-        
         # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-        # 150511wkd: I had some problems early on here where there was
-        # some trouble constructing v; however, it seems to have been
-        # fixed.  At least when I tried to do a full scan, I didn't
-        # encounter any issues any longer.  
-
-        # I think the reason was that RNAVIEW (at the time) did not
-        # override errors in "Clarnafied" types.  Most types are
-        # identified by Clarna, but there seem to be some rare
-        # varieties in MC-annotate and RNAVIEW (and probably FR3D)
-        # that are either not defined properly in Clarna or are bugs
-        # in these existing programs.  When I ask for verbose with
-        # run_clarna.sh, these errors are also expressed, but
-        # originally, I assumed that RNAVIEW and clarna had a full
-        # listing.  
-
-        # At any rate, if there are assignment errors generated by the
-        # python program, I would first guess that they are most
-        # likely to be occurring here.
         sv = strng.split()
         if len(sv) >= 7:
             v = {(sv[0], int(sv[1]), sv[2], int(sv[3])) : { sv[4]: (sv[5], sv[6])} }
@@ -409,9 +365,7 @@ class Data:
             print "problems with reconstruction (%s):" % self.flnm 
             print "sv: ", sv
             sys.exit(1)
-        #
         # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        #
         Nstructs = (len(sv) - 7)/2
         key = v.keys()
         Nused = 0 # normally, these should equal Nstruct after the for loop.
@@ -426,28 +380,18 @@ class Data:
                 Nused += 1
                 if debug_reconstructDict:
                     print 'struct:  ', struct
-                #
-            #
             else:
                 # print user information if requested
                 if self.verbose:
                     print "data below threshold (rejected sv): ", sv
-                #
-            #
-        #
         if Nused == 0:
           v = {} # all entries were rejected, so v is canceled
         return v
-    #
-    
-    
-#
 
 class PrintData:
+    """PrintData"""
     def __init__(self):
         self.debug = False
-    #
-    
     # print out base-base stack
     def display_bbstack(self, pdbanal):
         debug_display_bbstack = False
@@ -476,20 +420,17 @@ class PrintData:
                     print "MORE THAN ONE!"
                     print strng
                     # print bb_k, pdbanal[bb_k], pdbanal[bb_k].keys()
-            #
             result += strng + '\n'
-        #
         return result
-    #
-    
-    # bubbleSort: I took the easy way....  This sorts the order of the
-    # keys so the output is a little more ordered than what is stored
-    # in the dictionary. The mixture of stacking and base pairing data
-    # is a bit annoying.  It looks a little more readable if you can
-    # separate the base pairing from the stacking.  At this point, I
-    # am not sure I want to waste time on the appearance of the
-    # output.
+
     def bubbleSort(self, key_order):
+        """bubbleSort: I took the easy way....  This sorts the order of the
+        keys so the output is a little more ordered than what is stored
+        in the dictionary. The mixture of stacking and base pairing data
+        is a bit annoying.  It looks a little more readable if you can
+        separate the base pairing from the stacking.  At this point, I
+        am not sure I want to waste time on the appearance of the
+        output."""
         debug_bubbleSort = False
         if debug_bubbleSort:
             print 'length: ', len(key_order)
@@ -501,17 +442,11 @@ class PrintData:
                     temp = key_order[i]
                     key_order[i] = key_order[i+1]
                     key_order[i+1] = temp
-                #
-            #
-        #
         if debug_bubbleSort:
             print 'result: ', key_order
         return key_order
-    #
-    
     
     # key operations
-    
     # when there are more than two structure keys recorded
     def get_other_keys(self,bb_struct):
         zz = bb_struct.keys()
@@ -519,14 +454,15 @@ class PrintData:
         for zzi in zz:
             if (not zzi == "bp"):
                 keys += [zzi]
-            #
-        #
         return keys
-    #
-#
 
 class Analyze:
+    """Analyze"""
     def __init__(self):
+        """
+        .stat_details = False # prints out all TP, FP, FN information
+        .CSV = False # self.stat_details shown with CSV
+        """
         self.refflnm = ''
         self.refdata = {}
         self.rWCbpKeys = []
@@ -537,9 +473,10 @@ class Analyze:
         self.cWCbpKeys = []
         self.cnWCbpKeys = []
         self.cstackKeys = []
+
         self.verbose = True
-        self.stat_details = False # prints out all TP, FP, FN information
-        self.CSV          = False # self.stat_details shown with CSV
+        self.stat_details = False 
+        self.CSV          = False
         self.flag_pass_setup = False
         self.print_with_file_list = True  # output display
         
@@ -560,7 +497,6 @@ class Analyze:
         self.nchk         = 0 # predicted structure
         self.nref_match   = 0 # reference pairs that match the prediction
         self.nFP          = 0 # nchk - nref_match (should be zero if perfect)
-    #
     
     def setup_Analysis(self, refout, chkout, cl):
         self.refflnm      = refout
@@ -570,14 +506,11 @@ class Analyze:
         self.stat_details = cl.details # for internal files
         self.CSV          = cl.CSV
     
-    #
     def set_verbose(self, b):
         self.verbose = b
-    #
-    
+
     def set_print_with_file_list(self, b):
         self.print_with_file_list = b
-    #
     
     def get_outdata(self):
         # Reference input file (*.pdb.out)
@@ -607,7 +540,6 @@ class Analyze:
         # print rdt.refdata 
         # print cdt.chkdata
         self.flag_pass_setup = True
-    #
     
     def get_bbkeys(self, ddata, bbtype):
         debug_get_bbkeys = False
@@ -620,7 +552,6 @@ class Analyze:
         elif bbtype == "nWCbp":
             if debug_get_bbkeys:
                 print "non-Watson-Crick base pairs"
-        #
 
         keys = ddata.keys()
         bbkeys = []
@@ -649,28 +580,17 @@ class Analyze:
                         if not canonical or not (kstr == "WW_cis"):
                             bbkeys += [keys[k]]
                             # print "flag_WC = False, bbtype = ", bbtype 
-                        #
-                    #
-                #
-            #
-            
             if debug_get_bbkeys:
                 print kstr
                 print kstr_k
-            #
-        #
         if debug_get_bbkeys:
             print '%s keys:    ' % (bbtype), bbkeys
             for bpk in bbkeys:
                 print ddata[bpk].keys()
-            #
-        #
         return bbkeys
-    #
-    
-    
     
     def analyze_data(self):
+        """Analyze data"""
         if not self.flag_pass_setup:
             print "ERROR: input data is not properly define"
             print "       need to run get_outdata or get_pdbdata."
@@ -725,25 +645,23 @@ class Analyze:
         self.nFP        = self.nchk - self.nref_match
         rslt = self.summarize_analysis()
         return rslt
-    #
-    
     
     def test_against_reference_motifs(self, refkeys, mtype):
-        # count how many instances of the given types of motifs of the
-        # reference structure (refkeys) are matched in the predicted
-        # structure. This should correspond to the number of true
-        # positives (motifs matching the reference) and false
-        # negatives (reference motifs missing in the predition).
-        #
-        # Hence, 
-        # 
-        # TP = n_match_ref/n_ref_motifs
-        # FN = (n_ref_motifs - n_match_ref)/n_ref_motifs
-        #
-        # and 
-        #
-        # 1 = TP + FN
-        #
+        """count how many instances of the given types of motifs of the
+        reference structure (refkeys) are matched in the predicted
+        structure. This should correspond to the number of true
+        positives (motifs matching the reference) and false
+        negatives (reference motifs missing in the predition).
+        
+        Hence, 
+         
+        TP = n_match_ref/n_ref_motifs
+        FN = (n_ref_motifs - n_match_ref)/n_ref_motifs
+        
+        and 
+        
+        1 = TP + FN"""
+        
         debug_this = False
         n_match_ref = 0
         n_ref_motifs = len(refkeys)
@@ -758,25 +676,22 @@ class Analyze:
                 if debug_this:
                     print refmotif, " <-> ", chkmotif
                 n_match_ref += 1
-            #
-        #
         if debug_this:
             print "%5s    ref: %5d   pred match: %5d" % (mtype, n_ref_motifs, n_match_ref)
         return [n_ref_motifs, n_match_ref]
-    #
     
     def test_against_predicted_motifs(self, chkkeys, mtype):
-        # count how many instances of the given types of motifs of the
-        # predicted structure (chkkeys) are matched in the calculated
-        # structure. The DIFFERENCE between the counted motifs of the
-        # predicted structure and the matching motifs of the reference
-        # structure should correspond to the number of false positive
-        # motifs (FP).
-        #
-        # Hence,
-        #
-        # FP = (n_chk_motifs - n_match_chk)/n_chk_motifs
-        #
+        """Count how many instances of the given types of motifs of the
+        predicted structure (chkkeys) are matched in the calculated
+        structure. The DIFFERENCE between the counted motifs of the
+        predicted structure and the matching motifs of the reference
+        structure should correspond to the number of false positive
+        motifs (FP).
+        
+        Hence,
+        
+        FP = (n_chk_motifs - n_match_chk)/n_chk_motifs"""
+        
         debug_this = False
         n_match_chk = 0
         n_chk_motifs = len(chkkeys)
@@ -796,118 +711,117 @@ class Analyze:
         if debug_this:
             print "%5s   pred: %5d    ref match: %5d" % (mtype, n_chk_motifs, n_match_chk)
         return [n_chk_motifs, n_match_chk]
-    #
-    
-    def calc_inf(self, TP, FP, FN):
-        # Interaction Network Fidelity (essentially Matthew's
-        # correlation coefficient when TN --> infinity)
-        inf = -999.999
+
+    def calc_inf(self, TP, FP, FN, verbose=False):
+        """Interaction Network Fidelity (essentially Matthew's
+        correlation coefficient when TN --> infinity)
+        
+        #magnus, default value is not -999.999 but 0"""
+        inf = 0 #-999.999
         x = TP + FP
         y = TP + FN
+        if verbose: print 'TP:', TP, 'FP:', FP, 'FN:', FN
         if x > 0.0 and y > 0.0:
             inf = math.sqrt(TP**2/((TP + FP)*(TP + FN)))
         return inf
-    #
     
     def summarize_analysis(self): 
+        """
+        The definitions are taken from https://en.wikipedia.org/wiki/Matthews_correlation_coefficient
+        
+        true positive (TP)
+             eqv. with hit
+        true negative (TN)
+             eqv. with correct rejection
+        false positive (FP)
+             eqv. with false alarm, Type I error
+        false negative (FN)
+             eqv. with miss, Type II error         
+        
+        P and N:
+         P = TP + FN
+         N = FP + TN
+        
+        sensitivity or true positive rate (TPR)
+            eqv. with hit rate, recall
+            TPR = TP / P = TP / (TP+FN)
+
+        specificity (SPC) or True Negative Rate
+            SPC = TN / N = TN / (FP + TN) 
+             
+        precision or positive predictive value (PPV)
+            PPV = TP / (TP + FP)
+        negative predictive value (NPV)
+             NPV = TN / (TN + FN)
+        fall-out or false positive rate (FPR)
+             FPR = FP / N = FP / (FP + TN)
+        false discovery rate (FDR)
+             FDR = FP / (FP + TP) = 1 - PPV 
+        Miss Rate or False Negative Rate (FNR)
+             FNR = FN / (FN + TP) 
+        
+        accuracy (ACC)
+             ACC = (TP + TN) / (P + N)
+
+        F1 score
+             is the harmonic mean of precision and sensitivity
+             F1 = 2 TP / (2 TP + FP + FN)
+
+        Matthews correlation coefficient (MCC)
+             (TP*TN - FP*FN)/[(TP+FP)(TP+FN)(TN+FP)(TN+FN)]^(1/2)  
+        
+        Informedness
+            TPR + SPC - 1
+        Markedness
+            PPV + NPV - 1 
+        
+        #####################################################
+        
+        Unfortunately, converting this information into something
+        that is easy to understand is still a bit complicated!!!
+        Let's work with an example to illustrate how the terms are
+        used::
+        
+           motifs         motifs
+          reference      prediction
+             A               
+             B               B
+             C               C
+             D               
+             E               E
+                             F
+                             G
+                             H
+        
+        where we assume that the reference motifs are the "truth
+        incarnate" (this is not necessarily so, but we assume it)::
+        
+         nTP = 3: B,C,E
+         nFP = 3: F,G,H
+         nFN = 2: A,D
+        
+        so this much is easy.
+        
+        Now, recall that "ref" is the reference structure and "chk"
+        is the predicted structure (to be checked)::
+        
+         nref       = r_vs_p_WC[0] + r_vs_p_nWC[0] + r_vs_p_stack[0]
+         nchk_match = r_vs_p_WC[1] + r_vs_p_nWC[1] + r_vs_p_stack[1]
+         nFN        = nref - nchk_match
+         nTP        = nchk_match
+        
+        clearly ``nref = nFP + nTP, so ppv is nTP/nref``::
+        
+         nchk       = p_vs_r_WC[0] + p_vs_r_nWC[0] + p_vs_r_stack[0]
+         nref_match = p_vs_r_WC[1] + p_vs_r_nWC[1] + p_vs_r_stack[1]
+         nFP        = nchk - nref_match
+        
+        so for individual cases such as WC pairing::
+        
+         nTP = r_vs_p_WC[1]
+         nFN = r_vs_p_WC[0] - r_vs_p_WC[1]
+         nFP = p_vs_r_WC[0] - p_vs_r_WC[1] """
         debug_summarize_analysis = False
-        # #########################################
-        # ############   DEFINITIONS   ############
-        # #########################################
-        # from https://en.wikipedia.org/wiki/Matthews_correlation_coefficient
-        
-        # true positive (TP)
-        #     eqv. with hit
-        # true negative (TN)
-        #     eqv. with correct rejection
-        # false positive (FP)
-        #     eqv. with false alarm, Type I error
-        # false negative (FN)
-        #     eqv. with miss, Type II error         
-        
-        # P = TP + FN
-        # N = FP + TN
-        
-        # sensitivity or true positive rate (TPR)
-        #     eqv. with hit rate, recall
-        #     TPR = TP / P = TP / (TP+FN)
-        #     
-        # specificity (SPC) or True Negative Rate
-        #     SPC = TN / N = TN / (FP + TN) 
-        #     
-        # precision or positive predictive value (PPV)
-        #     PPV = TP / (TP + FP)
-        # negative predictive value (NPV)
-        #     NPV = TN / (TN + FN)
-        # fall-out or false positive rate (FPR)
-        #     FPR = FP / N = FP / (FP + TN)
-        # false discovery rate (FDR)
-        #     FDR = FP / (FP + TP) = 1 - PPV 
-        # Miss Rate or False Negative Rate (FNR)
-        #     FNR = FN / (FN + TP) 
-        
-        
-        # accuracy (ACC)
-        #     ACC = (TP + TN) / (P + N)
-        # F1 score
-        #     is the harmonic mean of precision and sensitivity
-        #     F1 = 2 TP / (2 TP + FP + FN)
-        # Matthews correlation coefficient (MCC)
-        #      (TP*TN - FP*FN)/[(TP+FP)(TP+FN)(TN+FP)(TN+FN)]^(1/2)  
-        
-        # Informedness
-        #     TPR + SPC - 1
-        # Markedness
-        #     PPV + NPV - 1 
-        
-        # #####################################################
-        
-        # Unfortunately, converting this information into something
-        # that is easy to understand is still a bit complicated!!!
-        # Let's work with an example to illustrate how the terms are
-        # used....
-        
-        #  motifs         motifs
-        # reference      prediction
-        #    A               
-        #    B               B
-        #    C               C
-        #    D               
-        #    E               E
-        #                    F
-        #                    G
-        #                    H
-        
-        
-        
-        # where we assume that the reference motifs are the "truth
-        # incarnate" (this is not necessarily so, but we assume it).
-        
-        # nTP = 3: B,C,E
-        # nFP = 3: F,G,H
-        # nFN = 2: A,D
-        
-        # so this much is easy.
-        
-        # Now, recall that "ref" is the reference structure and "chk"
-        # is the predicted structure (to be checked)
-        
-        # nref       = r_vs_p_WC[0] + r_vs_p_nWC[0] + r_vs_p_stack[0]
-        # nchk_match = r_vs_p_WC[1] + r_vs_p_nWC[1] + r_vs_p_stack[1]
-        # nFN        = nref - nchk_match
-        # nTP        = nchk_match
-        
-        # clearly nref = nFP + nTP, so ppv is nTP/nref
-        
-        # nchk       = p_vs_r_WC[0] + p_vs_r_nWC[0] + p_vs_r_stack[0]
-        # nref_match = p_vs_r_WC[1] + p_vs_r_nWC[1] + p_vs_r_stack[1]
-        # nFP        = nchk - nref_match
-        
-        # so for individual cases such as WC pairing
-        
-        # nTP = r_vs_p_WC[1]
-        # nFN = r_vs_p_WC[0] - r_vs_p_WC[1]
-        # nFP = p_vs_r_WC[0] - p_vs_r_WC[1]
         
         rf = self.refflnm.split("/")
         cf = self.chkflnm.split("/")
@@ -990,7 +904,7 @@ class Analyze:
         PPV_WC = -999.999
         if (TP_WC + FP_WC) > 0.0:
             PPV_WC = TP_WC/(TP_WC + FP_WC)
-        #
+
         SNS_nWC = -999.999
         if self.r_vs_p_nWC[0] > 0:
             SNS_nWC = TP_nWC/float(self.r_vs_p_nWC[0])
@@ -1077,141 +991,134 @@ class Analyze:
                     sdt += "      NA   " 
                 else:
                     sdt += "   %8.3f" % inf_all
-                #
+
                 if inf_stack < 0.0:
                     sdt += "      NA   " 
                 else:
                     sdt += "   %8.3f" % inf_stack
-                #
+
                 if inf_WC < 0.0:
                     sdt += "      NA   " 
                 else:
                     sdt += "   %8.3f" % inf_WC
-                #
+
                 if inf_nWC < 0.0:
                     sdt += "      NA   "
                 else:
                     sdt += "   %8.3f" % inf_nWC
-                #
+
                 # print SNS_nWC and/or PPV_nWC if it exists
                 if SNS_WC < 0.0:
                     sdt += "      NA   "
                 else:
                     sdt += "   %8.3f" % SNS_WC
-                #
+
                 if PPV_WC < 0.0:
                     sdt += "      NA   "
                 else:
                     sdt += "   %8.3f" % PPV_WC
-                #
+
                 if SNS_nWC < 0.0:
                     sdt += "      NA   "
                 else:
                     sdt += "   %8.3f" % SNS_nWC
-                #
+
                 if PPV_nWC < 0.0:
                     sdt += "      NA   "
                 else:
                     sdt += "   %8.3f" % PPV_nWC
-                #
-            #
-        #
-        return sdt
-    #
-#
 
+        return sdt
 
 # main
-cl = CommandLine()
-cl.parse_AnalClarna_CL(sys.argv)
-s_clarna = ''
-if not ((cl.classifiers == "mc_annotate") or (cl.classifiers == "rnaview")):
-    # either only ClaRNA or with other applications
-    refoutCR = cl.refout
-    chkoutCR = cl.chkout
-    anal_clarna = Analyze()
-    # default settings for output
-    anal_clarna.set_verbose(False)
-    anal_clarna.set_print_with_file_list(True)
-    # -----
-    anal_clarna.setup_Analysis(refoutCR, chkoutCR, cl)
-    anal_clarna.get_outdata()
-    s_clarna +=  anal_clarna.analyze_data()
-    if cl.classifiers == "w_mc_annotate" or cl.classifiers == "w_all_methods": 
-        refoutMC = cl.refout[:-2] + "MC"
-        chkoutMC = cl.chkout[:-2] + "MC"
-        # print "refoutMC,chkoutMC: ", refoutMC, chkoutMC
-        anal_mc_annotate = Analyze()
+if __name__ == '__main__':
+    cl = CommandLine()
+    cl.parse_AnalClarna_CL(sys.argv)
+    s_clarna = ''
+    if not ((cl.classifiers == "mc_annotate") or (cl.classifiers == "rnaview")):
+        # either only ClaRNA or with other applications
+        refoutCR = cl.refout
+        chkoutCR = cl.chkout
+        anal_clarna = Analyze()
         # default settings for output
-        anal_mc_annotate.set_verbose(False)
-        anal_mc_annotate.set_print_with_file_list(False)
+        anal_clarna.set_verbose(False)
+        anal_clarna.set_print_with_file_list(True)
         # -----
-        
-        anal_mc_annotate.setup_Analysis(refoutMC, chkoutMC, cl)
-        anal_mc_annotate.get_outdata()
-        s_clarna += anal_mc_annotate.analyze_data()
-    if cl.classifiers == "w_rnaview" or cl.classifiers == "w_all_methods": 
-        refoutRV = cl.refout[:-2] + "RV"
-        chkoutRV = cl.chkout[:-2] + "RV"
-        # print "refoutRV,chkoutRV: ", refoutRV, chkoutRV
-        anal_rnaview = Analyze()
-        # default settings for output
-        anal_rnaview.set_verbose(False)
-        anal_rnaview.set_print_with_file_list(False)
-        # -----
-        anal_rnaview.setup_Analysis(refoutRV, chkoutRV, cl)
-        anal_rnaview.get_outdata()
-        s_clarna +=  anal_rnaview.analyze_data()
-    if cl.classifiers == "w_fr3d" or cl.classifiers == "w_all_methods": 
-        refoutFR = cl.refout[:-2] + "FR"
-        chkoutFR = cl.chkout[:-2] + "FR"
-        # print "refoutFR,chkoutFR: ", refoutFR, chkoutFR
-        anal_fr3d = Analyze()
-        # default settings for output
-        anal_fr3d.set_verbose(False)
-        anal_fr3d.set_print_with_file_list(False)
-        # -----
-        anal_fr3d.setup_Analysis(refoutFR, chkoutFR, cl)
-        anal_fr3d.get_outdata()
-        s_clarna +=  anal_fr3d.analyze_data()
-else:
-    if cl.classifiers == "mc_annotate":
-        refoutMC = cl.refout
-        chkoutMC = cl.chkout
-        anal_mc_annotate = Analyze()
-        # default settings for output
-        anal_mc_annotate.set_verbose(False)
-        anal_mc_annotate.set_print_with_file_list(True)
-        # -----
-        anal_mc_annotate.setup_Analysis(refoutMC, chkoutMC, cl)
-        anal_mc_annotate.get_outdata()
-        s_clarna += anal_mc_annotate.analyze_data()
-    elif cl.classifiers == "rnaview":
-        refoutRV = cl.refout
-        chkoutRV = cl.chkout
-        anal_rnaview = Analyze()
-        # default settings for output
-        anal_rnaview.set_verbose(False)
-        anal_rnaview.set_print_with_file_list(True)
-        # -----
-        anal_rnaview.setup_Analysis(refoutRV, chkoutRV, cl)
-        anal_rnaview.get_outdata()
-        s_clarna +=  anal_rnaview.analyze_data()
-    elif cl.classifiers == "rnaview":
-        refoutFR = cl.refout
-        chkoutFR = cl.chkout
-        anal_rnaview = Analyze()
-        # default settings for output
-        anal_fr3d.set_verbose(False)
-        anal_fr3d.set_print_with_file_list(True)
-        # -----
-        anal_fr3d.setup_Analysis(refoutFR, chkoutFR, cl)
-        anal_fr3d.get_outdata()
-        s_clarna +=  anal_fr3d.analyze_data()
+        anal_clarna.setup_Analysis(refoutCR, chkoutCR, cl)
+        anal_clarna.get_outdata()
+        s_clarna +=  anal_clarna.analyze_data()
+        if cl.classifiers == "w_mc_annotate" or cl.classifiers == "w_all_methods": 
+            refoutMC = cl.refout[:-2] + "MC"
+            chkoutMC = cl.chkout[:-2] + "MC"
+            # print "refoutMC,chkoutMC: ", refoutMC, chkoutMC
+            anal_mc_annotate = Analyze()
+            # default settings for output
+            anal_mc_annotate.set_verbose(False)
+            anal_mc_annotate.set_print_with_file_list(False)
+            # -----
+
+            anal_mc_annotate.setup_Analysis(refoutMC, chkoutMC, cl)
+            anal_mc_annotate.get_outdata()
+            s_clarna += anal_mc_annotate.analyze_data()
+        if cl.classifiers == "w_rnaview" or cl.classifiers == "w_all_methods": 
+            refoutRV = cl.refout[:-2] + "RV"
+            chkoutRV = cl.chkout[:-2] + "RV"
+            # print "refoutRV,chkoutRV: ", refoutRV, chkoutRV
+            anal_rnaview = Analyze()
+            # default settings for output
+            anal_rnaview.set_verbose(False)
+            anal_rnaview.set_print_with_file_list(False)
+            # -----
+            anal_rnaview.setup_Analysis(refoutRV, chkoutRV, cl)
+            anal_rnaview.get_outdata()
+            s_clarna +=  anal_rnaview.analyze_data()
+        if cl.classifiers == "w_fr3d" or cl.classifiers == "w_all_methods": 
+            refoutFR = cl.refout[:-2] + "FR"
+            chkoutFR = cl.chkout[:-2] + "FR"
+            # print "refoutFR,chkoutFR: ", refoutFR, chkoutFR
+            anal_fr3d = Analyze()
+            # default settings for output
+            anal_fr3d.set_verbose(False)
+            anal_fr3d.set_print_with_file_list(False)
+            # -----
+            anal_fr3d.setup_Analysis(refoutFR, chkoutFR, cl)
+            anal_fr3d.get_outdata()
+            s_clarna +=  anal_fr3d.analyze_data()
     else:
-        print "no information!"
-    
-print s_clarna
+        if cl.classifiers == "mc_annotate":
+            refoutMC = cl.refout
+            chkoutMC = cl.chkout
+            anal_mc_annotate = Analyze()
+            # default settings for output
+            anal_mc_annotate.set_verbose(False)
+            anal_mc_annotate.set_print_with_file_list(True)
+            # -----
+            anal_mc_annotate.setup_Analysis(refoutMC, chkoutMC, cl)
+            anal_mc_annotate.get_outdata()
+            s_clarna += anal_mc_annotate.analyze_data()
+        elif cl.classifiers == "rnaview":
+            refoutRV = cl.refout
+            chkoutRV = cl.chkout
+            anal_rnaview = Analyze()
+            # default settings for output
+            anal_rnaview.set_verbose(False)
+            anal_rnaview.set_print_with_file_list(True)
+            # -----
+            anal_rnaview.setup_Analysis(refoutRV, chkoutRV, cl)
+            anal_rnaview.get_outdata()
+            s_clarna +=  anal_rnaview.analyze_data()
+        elif cl.classifiers == "rnaview":
+            refoutFR = cl.refout
+            chkoutFR = cl.chkout
+            anal_rnaview = Analyze()
+            # default settings for output
+            anal_fr3d.set_verbose(False)
+            anal_fr3d.set_print_with_file_list(True)
+            # -----
+            anal_fr3d.setup_Analysis(refoutFR, chkoutFR, cl)
+            anal_fr3d.get_outdata()
+            s_clarna +=  anal_fr3d.analyze_data()
+        else:
+            print "no information!"
 
-
-#
+    print s_clarna
