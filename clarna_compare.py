@@ -914,16 +914,20 @@ class Analyze:
         PPV_WC = -999.999
         if (TP_WC + FP_WC) > 0.0:
             PPV_WC = TP_WC/(TP_WC + FP_WC)
-        if TP_WC == 0 and FP_WC == 0.0:
+        # --magnus 
+        if TP_WC == 0 and FP_WC == 0:
             PPV_WC = 0
-            
+        # --end
         SNS_nWC = -999.999
         if self.r_vs_p_nWC[0] > 0:
             SNS_nWC = TP_nWC/float(self.r_vs_p_nWC[0])
         PPV_nWC = -999.999
         if (TP_nWC + FP_nWC) > 0.0:
             PPV_nWC = TP_nWC/(TP_nWC + FP_nWC)
-        
+        # --magnus 
+        if TP_nWC == 0 and FP_nWC == 0:
+            PPV_nWC = 0
+        # --end
         if  self.stat_details:
             sdt +=  "summary:\n"
             sdt +=  "inf_all   %8.3f\n" % inf_all
