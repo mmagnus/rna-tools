@@ -12,6 +12,7 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_inf/rna_calc_inf.py $curr_dir/bin/r
 ln -s $curr_dir/rna_pdb_tools/utils/rna_convert_pseudoknot_formats/rna_pk_simrna_to_one_line.py $curr_dir/bin/rna_pk_simrna_to_one_line.py
 ln -s $curr_dir/rna_pdb_tools/utils/clarna_app/clarna_app.py $curr_dir/bin/clarna_app.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_helix_vis/rna_helix_vis.py $curr_dir/bin/rna_helix_vis.py
+ln -s $curr_dir/rna_pdb_tools/utils/misc/rna_add_chain.py $curr_dir/bin/rna_add_chain.py
 echo 'Installed in ./bin'
 ls -l bin
 echo
