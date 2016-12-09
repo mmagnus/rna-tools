@@ -169,7 +169,7 @@ if __name__ == '__main__':
                 print l
 
     if args.edit:
-        edit(args)
+        edit_pdb(args)
         
 if __name__ == '__main__':
     pass
