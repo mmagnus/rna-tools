@@ -4,8 +4,7 @@ rna-pdb-tools
 Edit
 -----------------------------------------
 
-.. automodule:: rna_pdb_tools.pdb_parser_lib.edit
-   :members:
+.. autofunction:: rna_pdb_tools.pdb_parser_lib.edit_pdb
 
 Examples::
 
