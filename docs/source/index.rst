@@ -18,6 +18,7 @@ Contents:
    lib
    utils
    selection
+   rna-puzzles
    git
    
 Indices and tables
