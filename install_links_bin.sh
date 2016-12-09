@@ -15,6 +15,7 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_helix_vis/rna_helix_vis.py $curr_dir/bin
 echo 'Installed in ./bin'
 ls -l bin
 echo
-echo 'Broken links:'
+echo 'Broken links'
+echo '-- below this should be none --'
 find bin -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print
-echo '^ should be none!'
+echo '-- ^ should be none! -- '
