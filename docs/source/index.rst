@@ -15,12 +15,14 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
+   main	     
    lib
    utils
    selection
    rna-puzzles
    git
    
+
 Indices and tables
 ==================
 
