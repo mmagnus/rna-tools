@@ -58,7 +58,7 @@ def get_dot_bracket_from_ClaRNAoutput(inCR, verbose):
     if verbose: std
     return std
     
-def clarna_compare(target_cl_fn,i_cl_fn):
+def clarna_compare(target_cl_fn,i_cl_fn, verbose):
     """Run ClaRNA compare.
 
     :return: a list target, fn, scores
@@ -82,8 +82,12 @@ def clarna_compare(target_cl_fn,i_cl_fn):
     use ``results.split()[4]`` to get inf_WC"""
 
     cmd = 'clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
+    if verbose: print 'clarna_app::cmd', cmd
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std = o.stdout.read().strip()
+    if verbose: 'clarna_app::o.stderr',o.stderr.read()
+    if not std:
+        raise Exception('ClaRNA output is empty, something went wrong:\n\t %s \n %s' % (cmd, std))
     return std # std.replace('.outCR', '') 
     
 def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
@@ -114,7 +118,7 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
         name = '/tmp/target'
 
     foutCR = name + '.pdb.outCR'
-    print  foutCR
+    if verbose: print  foutCR
     ft = open(foutCR, 'w')
     ft.write(txt)
     ft.close()
