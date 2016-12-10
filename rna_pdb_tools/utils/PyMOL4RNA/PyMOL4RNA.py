@@ -11,6 +11,7 @@ def rp():
     cmd.show("cartoon", "all")
     cmd.set("cartoon_ring_mode", 3)
     cmd.set("cartoon_ring_finder", 2)
+    cmd.set("cartoon_ladder_mode", 1)
     
 def rp17():
     txt ="""color forest, resi 1-5+12-16; # p1
