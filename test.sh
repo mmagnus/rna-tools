@@ -39,6 +39,7 @@ cd rna_pdb_tools
 ## --edit
 ./rna-pdb-tools.py --no_hr --edit 'A:6>B:200' input/tetraloop.pdb > output/tetraloop_a6_b200.pdb
 ./rna-pdb-tools.py --no_hr --edit 'A:1-5>B:200-204' input/tetraloop.pdb > output/tetraloop_a1-b200-204.pdb
+./rna-pdb-tools.py --no_hr --edit 'A:2672>A:1' input/1msy_A2672.pdb > output/1msy_A1.pdb
 
 ## --get_seq
 ./rna-pdb-tools.py --no_hr --get_seq input/5k7c.pdb > output/get_seq.txt

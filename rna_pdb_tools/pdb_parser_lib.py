@@ -1072,7 +1072,7 @@ def edit_pdb(args):
             if l.startswith('ATOM'):
                 # get chain and resi
                 chain = l[21:22].strip()
-                resi = int(l[23:26].strip())
+                resi = int(l[22:26].strip())
                 # for selections
                 for select in selects:
                     selection_from, selection_to = select
@@ -1085,8 +1085,8 @@ def edit_pdb(args):
                             chain_new = selection_to.keys()[0] # chain form second list
                             nl[21] =  chain_new # new chain
                             index = selection_from[chain].index(int(resi)) # get index of 1
-                            resi_new = str(selection_to[chain_new][index]).rjust(3) # 'A' [1,2,3] -> '  1'
-                            nl[23:26] = resi_new
+                            resi_new = str(selection_to[chain_new][index]).rjust(4) # 'A' [1,2,3] -> '  1'
+                            nl[22:26] = resi_new
                             nl = ''.join(nl)
                             print nl
                         else:
