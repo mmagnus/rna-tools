@@ -22,6 +22,8 @@ import sys
 from collections import OrderedDict
 import re
 import string
+import time
+from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 ignore_op3 = False
 
@@ -1028,6 +1030,70 @@ class StrucFile:
 
     def view(self):
         os.system('pymol ' + self.fn)
+
+
+def add_header():
+    now = time.strftime("%c")
+    version = get_version()
+    print 'HEADER Generated with rna-pdb-tools'
+    print 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
+
+def edit_pdb(args):
+    """Edit. The function can take A:3-21>A:1-19 or even A:3-21>A:1-19,B:22-32>B:20-30.
+    The output is printed, line by line.
+    Only ATOM lines are edited!"""
+    ## open a new file
+    s = StrucFile(args.file)
+    if not args.no_hr:
+        add_header()
+        print 'HEADER --edit ' + args.edit
+        
+    ## --edit 'A:3-21>A:1-19,B:22-32>B:20-30'
+    if args.edit.find(',')>-1:
+        # more than one edits
+        edits = args.edit.split(',') # ['A:3-21>A:1-19', 'B:22-32>B:20-30']
+        selects = []
+        for e in edits:
+            selection_from, selection_to = select_pdb_fragment(e.split('>')[0]), select_pdb_fragment(e.split('>')[1])
+            if len(selection_to) != len(selection_from):
+                raise Exception('len(selection_to) != len(selection_from)')
+            selects.append([selection_from, selection_to])
+        print edits
+    else:
+        # one edit
+        e = args.edit
+        selection_from, selection_to = select_pdb_fragment(e.split('>')[0]), select_pdb_fragment(e.split('>')[1])
+        if len(selection_to) != len(selection_from):
+            raise Exception('len(selection_to) != len(selection_from)')
+        selects = [[selection_from, selection_to]]
+
+    ## go ever all edits: ['A:3-21>A:1-19','B:22-32>B:20-30']
+    for l in s.lines:
+            if l.startswith('ATOM'):
+                # get chain and resi
+                chain = l[21:22].strip()
+                resi = int(l[22:26].strip())
+                # for selections
+                for select in selects:
+                    selection_from, selection_to = select
+                    if selection_from.has_key(chain):
+                        if resi in selection_from[chain]:
+                            # [1,2,3] mapping from [4,5,10], you want to know how to map 1
+                            # 1 is [0] element of first list, so you have to index first list
+                            # to get 0, with this 0 you can get 4 out of second list [4,5,10][0] -> 4
+                            nl = list(l)
+                            chain_new = selection_to.keys()[0] # chain form second list
+                            nl[21] =  chain_new # new chain
+                            index = selection_from[chain].index(int(resi)) # get index of 1
+                            resi_new = str(selection_to[chain_new][index]).rjust(4) # 'A' [1,2,3] -> '  1'
+                            nl[22:26] = resi_new
+                            nl = ''.join(nl)
+                            print nl
+                        else:
+                            print l
+            else: # if not atom
+                print l
+    
 # main
 if '__main__' == __name__:
     fn = 'input/image'
