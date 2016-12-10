@@ -38,6 +38,13 @@ def get_parser():
                          action="store_true",
                          help="force to run ClaRNA")
 
+
+    parser.add_argument('-v',"--verbose",
+                         dest="verbose",
+                         action="store_true",
+                         help="be verbose")
+
+
     parser.add_argument('-o',"--out_fn",
                          dest="out_fn",
                          default='inf.csv',
@@ -58,7 +65,8 @@ def do_job(i):
     # run clarna & compare
     i_cl_fn = clarna_app.clarna_run(i, args.force)
     output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, DEBUG)
-    #print output
+    if args.verbose:
+        print output
     # counter and bar
     global counter
     counter.value += 1
