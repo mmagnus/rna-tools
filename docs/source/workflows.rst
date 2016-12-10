@@ -67,7 +67,7 @@ Listing::
     > 1nuj_clean_renumber.pdb B:14-24
     GCUGGGAGUCC
 
-Examples #3
+Example #3
 ------------------------------------------------------------------------
 
 Starting structure don't have chain id:
