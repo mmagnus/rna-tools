@@ -26,9 +26,10 @@ Contents:
    lib
    utils
    selection
+   workflows
+   tips
    rna-puzzles
    git
-   
 
 Indices and tables
 ==================

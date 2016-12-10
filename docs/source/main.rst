@@ -1,6 +1,15 @@
 rna-pdb-tools
 ========================================
 
+.. automodule:: rna_pdb_tools.pdb_parser_lib
+   :members:
+
+Selection
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.extra_functions.select_fragment
+		:members:
+
 Edit
 -----------------------------------------
 
