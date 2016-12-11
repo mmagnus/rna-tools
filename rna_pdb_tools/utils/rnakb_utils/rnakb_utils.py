@@ -406,12 +406,11 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
     return gtxt, energygrps, seq_rnakb_order
 
 
-def format_score_mdp(mdp_out, energygrps, seq, verbose=True):
+def format_score_mdp(mdp_out, energygrps, seq, verbose=False):
     """Get a template score mdp and replace energygrps
     (it can be generated with prepare_groups)
     and energygrp_table
     """
-    verbose = True
     # load template
     with open(LIB_PATH + 'rnakb_utils/' + MDP_TEMPLATE, 'r') as f:
         txt = f.readlines()

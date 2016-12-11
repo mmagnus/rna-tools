@@ -1091,6 +1091,8 @@ def edit_pdb(args):
                             print nl
                         else:
                             print l
+                    else:
+                        print l
             else: # if not atom
                 print l
     
