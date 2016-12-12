@@ -1096,6 +1096,27 @@ def edit_pdb(args):
             else: # if not atom
                 print l
     
+def collapsed_view(args):
+    """Collapsed view of pdb file. Only lines with C5' atoms are shown and TER, MODEL, END.
+    
+    example::
+
+        [mm] rna_pdb_tools git:(master) ✗ python rna-pdb-tools.py --cv input/1f27.pdb
+        ATOM      1  C5'   A A   3      25.674  19.091   3.459  1.00 16.99           C
+        ATOM     23  C5'   C A   4      19.700  19.206   5.034  1.00 12.65           C
+        ATOM     43  C5'   C A   5      14.537  16.130   6.444  1.00  8.74           C
+        ATOM     63  C5'   G A   6      11.726  11.579   9.544  1.00  9.81           C
+        ATOM     86  C5'   U A   7      12.007   7.281  13.726  1.00 11.35           C
+        ATOM    106  C5'   C A   8      12.087   6.601  18.999  1.00 12.74           C
+        TER""" 
+    r = StrucFile(args.file)
+    for l in r.lines:
+        at = r.get_atom_code(l)
+        if  at == "C5'":
+            print l
+        if l.startswith('TER') or l.startswith('MODEL') or l.startswith('END'):
+            print l
+
 # main
 if '__main__' == __name__:
     fn = 'input/image'

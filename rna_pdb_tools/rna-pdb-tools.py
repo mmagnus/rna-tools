@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
+
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
@@ -34,6 +35,12 @@ if __name__ == '__main__':
                         action='store_true')
 
     parser.add_argument('--get_simrna_ready', help='',
+                        action='store_true')
+
+    parser.add_argument('--collapsed_view', help='',
+                        action='store_true')
+
+    parser.add_argument('--cv', help='alias to collapsed_view',
                         action='store_true')
 
     parser.add_argument('--edit',
@@ -171,5 +178,8 @@ if __name__ == '__main__':
     if args.edit:
         edit_pdb(args)
         
+    if args.collapsed_view or args.cv:
+        collapsed_view(args)
+
 if __name__ == '__main__':
     pass
