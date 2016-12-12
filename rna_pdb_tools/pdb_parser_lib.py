@@ -1039,9 +1039,9 @@ def add_header():
     print 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
 
 def edit_pdb(args):
-    """Edit. The function can take A:3-21>A:1-19 or even A:3-21>A:1-19,B:22-32>B:20-30.
-    The output is printed, line by line.
-    Only ATOM lines are edited!"""
+    """Edit. The function can take `A:3-21>A:1-19` or even syntax like this
+    `A:3-21>A:1-19,B:22-32>B:20-30` and will do a editing.
+    The output is printed, line by line. Only ATOM lines are edited!"""
     ## open a new file
     s = StrucFile(args.file)
     if not args.no_hr:
