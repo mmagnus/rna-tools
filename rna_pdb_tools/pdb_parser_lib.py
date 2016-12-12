@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """Main lib file"""
 
@@ -1101,7 +1102,7 @@ def collapsed_view(args):
     
     example::
 
-        [mm] rna_pdb_tools git:(master) ✗ python rna-pdb-tools.py --cv input/1f27.pdb
+        [mm] rna_pdb_tools git:(master) $ python rna-pdb-tools.py --cv input/1f27.pdb
         ATOM      1  C5'   A A   3      25.674  19.091   3.459  1.00 16.99           C
         ATOM     23  C5'   C A   4      19.700  19.206   5.034  1.00 12.65           C
         ATOM     43  C5'   C A   5      14.537  16.130   6.444  1.00  8.74           C
