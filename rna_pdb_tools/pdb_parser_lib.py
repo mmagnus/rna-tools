@@ -1074,6 +1074,8 @@ def edit_pdb(args):
                 # get chain and resi
                 chain = l[21:22].strip()
                 resi = int(l[22:26].strip())
+
+                if_selected_dont_print = False
                 # for selections
                 for select in selects:
                     selection_from, selection_to = select
@@ -1089,11 +1091,10 @@ def edit_pdb(args):
                             resi_new = str(selection_to[chain_new][index]).rjust(4) # 'A' [1,2,3] -> '  1'
                             nl[22:26] = resi_new
                             nl = ''.join(nl)
+                            if_selected_dont_print = True
                             print nl
-                        else:
-                            print l
-                    else:
-                        print l
+                if not if_selected_dont_print:
+                    print l
             else: # if not atom
                 print l
     
