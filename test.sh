@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+
 cd rna_pdb_tools
 
 ./pdb_parser_lib.py
