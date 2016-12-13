@@ -4,7 +4,7 @@ python:
 - 2.6
 
 install:
- - sudo apt-get install python-biopython
+ - sudo apt-get install python-biopython pymol
  - pip install codecov forgi
 
 script:
