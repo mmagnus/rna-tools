@@ -5,7 +5,7 @@ python:
 
 install:
  - sudo apt-get install python-biopython pymol
- - pip install codecov forgi collections
+ - pip install codecov forgi
 
 script:
  - python test.py

@@ -59,10 +59,14 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
 
     in this version of function, the function returns `RMSD before refinement`."""
 
-    import __main__
-    __main__.pymol_argv = ['pymol', '-qc']
-    import pymol  # import cmd, finish_launching
-    pymol.finish_launching()
+    try:
+        import __main__
+        __main__.pymol_argv = ['pymol', '-qc']
+        import pymol  # import cmd, finish_launching
+        pymol.finish_launching()
+    except ImportError:
+        print 'calc_rmsd_pymol: you need to have installed PyMOL'
+        sys.exit(0) # no error
 
     pymol.cmd.reinitialize()
     pymol.cmd.delete('all')
