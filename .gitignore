@@ -4,3 +4,5 @@
 *bin
 *tests
 docs/build
+lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser.o
+lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS
