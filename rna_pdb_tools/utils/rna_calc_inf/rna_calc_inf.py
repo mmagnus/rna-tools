@@ -104,7 +104,7 @@ if __name__ == '__main__':
     # Open output file
     csv_file = open(out_fn, 'w')
     csv_writer = csv.writer(csv_file, delimiter=',')
-    csv_writer.writerow('target,fn,inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC'.split(','))
+    csv_writer.writerow('target,fn,inf_all,inf_stack,inf_WC,inf_nWC,SNS_WC,PPV_WC,SNS_nWC,PPV_nWC'.split(','))
     csv_file.flush()
 
     # Init bar and to the job
