@@ -720,7 +720,7 @@ class Analyze:
         
          if x == 0 and y == 0:
             inf = 0"""
-        inf = -999.999
+        inf = 0 # -999.999
         x = TP + FP
         y = TP + FN
         if verbose: print 'TP:', TP, 'FP:', FP, 'FN:', FN
@@ -907,21 +907,21 @@ class Analyze:
         # PPV_all = TP_all/(TP_all + FP_all)
         #
 
-        SNS_WC = -999.999
+        SNS_WC = 0 #-999.999
         if self.r_vs_p_WC[0] > 0:
             SNS_WC = TP_WC/float(self.r_vs_p_WC[0])
 
-        PPV_WC = -999.999
+        PPV_WC = 0 # -999.999
         if (TP_WC + FP_WC) > 0.0:
             PPV_WC = TP_WC/(TP_WC + FP_WC)
         # --magnus 
         if TP_WC == 0 and FP_WC == 0:
             PPV_WC = 0
         # --end
-        SNS_nWC = -999.999
+        SNS_nWC = 0 #-999.999
         if self.r_vs_p_nWC[0] > 0:
             SNS_nWC = TP_nWC/float(self.r_vs_p_nWC[0])
-        PPV_nWC = -999.999
+        PPV_nWC = 0 # -999.999
         if (TP_nWC + FP_nWC) > 0.0:
             PPV_nWC = TP_nWC/(TP_nWC + FP_nWC)
         # --magnus 
