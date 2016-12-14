@@ -154,3 +154,7 @@ To "re-make" the installation do `make clean` and `make` again.
     A   44   B   55          bp U A                  WW_cis   0.8551
     A   45   B   54          bp G C                  WW_cis   0.8454
     A   46   B   53          bp A U                  WW_cis   0.8995
+# Warning
+I changed the default value -9999 to 0. I don't know it this simplification is good in your projects! Think about it!
+
+<https://github.com/mmagnus/ClaRNA_play/commit/a86d589c32cf019e61314f2e42e01c350799190e>
