@@ -289,6 +289,11 @@ class Data:
         self.verbose = False
     
     def readData(self, flnm):
+        """readData, read ClaRNA output
+
+        for debugging you can use `debug_readData = False` inside this function.
+        
+        :params flnm: file name"""
         debug_readData = False
         self.flnm = flnm
         try: 
@@ -313,6 +318,8 @@ class Data:
             print "classifier: ", classifier
         for i in range(1,nlines):
             # print len(dlist[i])
+            if dlist[i].startswith('chains'): # skip line starting with chains
+                continue
             if len(dlist[i]) > 25:
                 # print dlist[i]
                 v = self.reconstructDict(dlist[i])
@@ -347,7 +354,10 @@ class Data:
         python program, I would first guess that they are most
         likely to be occurring here.
 
-        (this was between v and ^"""
+        (this was between v and ^)
+        
+        :param: strng - a line of ClaRNA output
+        """
         
         debug_reconstructDict = False
         # strng = "A    1   A   21          bp G C                  WW_cis   0.8637                  WW_cis   0.8637"
