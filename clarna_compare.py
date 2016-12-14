@@ -726,18 +726,28 @@ class Analyze:
         """Interaction Network Fidelity (essentially Matthew's
         correlation coefficient when TN --> infinity)
         
-        #magnus, default value is not -999.999 but 0"""
-        inf = 0 #-999.999
+        -- magnus::
+        
+         if x == 0 and y == 0:
+            inf = 0"""
+        inf = -999.999
         x = TP + FP
         y = TP + FN
         if verbose: print 'TP:', TP, 'FP:', FP, 'FN:', FN
         if x > 0.0 and y > 0.0:
             inf = math.sqrt(TP**2/((TP + FP)*(TP + FN)))
+        if x == 0 and y == 0:
+            inf = 0
         return inf
     
     def summarize_analysis(self): 
         """
         The definitions are taken from https://en.wikipedia.org/wiki/Matthews_correlation_coefficient
+        
+        -- magnus change::
+
+         if TP_WC == 0 and FP_WC == 0.0:
+             PPV_WC = 0
         
         true positive (TP)
              eqv. with hit
@@ -830,7 +840,8 @@ class Analyze:
         
          nTP = r_vs_p_WC[1]
          nFN = r_vs_p_WC[0] - r_vs_p_WC[1]
-         nFP = p_vs_r_WC[0] - p_vs_r_WC[1] """
+         nFP = p_vs_r_WC[0] - p_vs_r_WC[1]
+        """
         debug_summarize_analysis = False
         
         rf = self.refflnm.split("/")
@@ -902,8 +913,6 @@ class Analyze:
         inf_WC    = self.calc_inf(TP_WC,    FP_WC,    FN_WC)
         inf_nWC   = self.calc_inf(TP_nWC,   FP_nWC,   FN_nWC)
         
-
-        
         # SNS_all = TP_all/float(self.nchk) # still not sure about this one
         # PPV_all = TP_all/(TP_all + FP_all)
         #
@@ -911,6 +920,7 @@ class Analyze:
         SNS_WC = -999.999
         if self.r_vs_p_WC[0] > 0:
             SNS_WC = TP_WC/float(self.r_vs_p_WC[0])
+
         PPV_WC = -999.999
         if (TP_WC + FP_WC) > 0.0:
             PPV_WC = TP_WC/(TP_WC + FP_WC)
