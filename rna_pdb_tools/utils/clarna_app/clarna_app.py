@@ -48,6 +48,9 @@ def clarna_run(fn, force):
     else:
         cmd = 'clarna_run.py -ipdb ' + fn + ' > ' + fn_out
         os.system(cmd)
+    if os.stat(fn_out).st_size == 0: # if file is empty also run
+        cmd = 'clarna_run.py -ipdb ' + fn + ' > ' + fn_out
+        os.system(cmd)
     return fn_out
 
 def get_dot_bracket_from_ClaRNAoutput(inCR, verbose):
