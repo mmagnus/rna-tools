@@ -88,10 +88,14 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose):
     if verbose: print 'clarna_app::cmd', cmd
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std = o.stdout.read().strip()
-    if verbose: 'clarna_app::o.stderr',o.stderr.read()
     if not std:
         raise Exception('ClaRNA output is empty, something went wrong:\n\t %s \n %s' % (cmd, std))
-    return std # std.replace('.outCR', '') 
+    if verbose: 'clarna_app::o.stderr',o.stderr.read()
+
+    #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
+    #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
+    #1i6uD_M1.pdb.outCR                         1i6uD_M425.pdb.outCR      0.707      0.000      0.756      0.500      0.571      1.000      0.250      1.000
+    return std.split('\n')[-1] # solution for this ^, keep the clarna_compare quite
     
 def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     """
