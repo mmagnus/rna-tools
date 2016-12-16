@@ -1,12 +1,13 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """A tool to calc inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC between two structures.
 
 ClaRNA_play required!
-https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server)
+https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server). Contact <magnus@genesilico.pl>.
 
-import progressbar (in version 2) is required!
-"""
+import progressbar (in version 2) is required! """
+
 import progressbar
 import argparse
 import sys
@@ -42,22 +43,19 @@ def get_parser():
     parser.add_argument('-f',"--force",
                          dest="force",
                          action="store_true",
-                         help="force to run ClaRNA")
-
+                         help="force to run ClaRNA even if <pdb>.outCR file is there")
 
     parser.add_argument('-v',"--verbose",
                          dest="verbose",
                          action="store_true",
-                         help="be verbose")
-
+                         help="be verbose, tell me more what're doing")
 
     parser.add_argument('-o',"--out_fn",
                          dest="out_fn",
                          default='inf.csv',
-                         help="out csv file")
+                         help="out csv file, be default `inf.csv`")
 
     parser.add_argument('files', help="files", nargs='+')
-
     return parser
 
 # Prepare the lock and the counter for MP
@@ -73,6 +71,7 @@ def do_job(i):
     output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, DEBUG)
     if args.verbose:
         print output
+
     # counter and bar
     global counter
     counter.value += 1
@@ -83,8 +82,7 @@ def do_job(i):
     csv_writer.writerow(output.split())
     csv_file.flush()
     lock.release()
-
-
+    
 #main
 if __name__ == '__main__':
     parser = get_parser()
