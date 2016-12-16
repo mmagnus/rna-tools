@@ -16,9 +16,8 @@ import re
 import tempfile
 import csv
 import shutil
-from multiprocessing import Pool, Lock, Value, Process
-number_processes = 7
 
+from multiprocessing import Pool, Lock, Value, Process
 from rna_pdb_tools.utils.clarna_app import clarna_app
 
 def get_parser():
@@ -28,6 +27,12 @@ def get_parser():
                            dest="target_fn",
                          default='',
                          help="pdb file")
+
+    parser.add_argument('-m',"--number_of_threads",
+                           dest="nt",
+                         default=8,
+                         help="number of threads used for multiprocessing, if 1 then mp is not used \
+                         (useful for debugging)!")
 
     parser.add_argument('-s',"--ss",
                          dest="ss",
@@ -118,11 +123,14 @@ if __name__ == '__main__':
     # Init bar and to the job
     bar = progressbar.ProgressBar(max_value=len(input_files))
     bar.update(0)
-    if 1:
+
+    # Main meat
+    number_processes = int(args.nt)
+
+    if number_processes > 1: # multi
         p = Pool(number_processes)
-        # print do_job(input_files[0])
         p.map(do_job, input_files)
-    else:
+    else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
             do_job(i)    
     print 'csv was created! ', out_fn
