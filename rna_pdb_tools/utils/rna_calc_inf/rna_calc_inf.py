@@ -15,6 +15,7 @@ import subprocess
 import re
 import tempfile
 import csv
+import shutil
 from multiprocessing import Pool, Lock, Value, Process
 number_processes = 7
 
@@ -96,10 +97,17 @@ if __name__ == '__main__':
         target_cl_fn = clarna_app.get_ClaRNA_output_from_dot_bracket(ss, temp=False)
     else:
         target_cl_fn = clarna_app.clarna_run(target_fn, args.force)    
-    out_fn = args.out_fn
 
-    # output
-    #print 'target, fn, inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC'
+    # keep target save, don't overwrite it when force and
+    # target is in the folder that you are running ClaRNA on
+    # /tmp/tmp2nmeVB/1i6uD_M1.pdb.outCR
+    d = tempfile.mkdtemp()
+    tmp_target_cl_fn = d + os.sep + os.path.basename(target_cl_fn)
+    shutil.copyfile(target_cl_fn, tmp_target_cl_fn)
+    target_cl_fn = tmp_target_cl_fn
+    ##
+    
+    out_fn = args.out_fn
 
     # Open output file
     csv_file = open(out_fn, 'w')
