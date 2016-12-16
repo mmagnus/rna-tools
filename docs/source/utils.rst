@@ -11,6 +11,16 @@ ClaRNA
 .. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
    :members:
 
+ROSETTA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_run_rosetta.rna_run_rosetta.get_parser
+   :prog: rna_run_rosetta
+
+.. automodule:: rna_pdb_tools.utils.rna_run_rosetta.rna_run_rosetta
+   :members:
+
 RNA Helix Vis
 -----------------------------------------
 
