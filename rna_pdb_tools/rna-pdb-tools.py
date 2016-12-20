@@ -6,12 +6,6 @@ import os
 import time
 
 from pdb_parser_lib import *
-from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
-
-def add_header():
-    now = time.strftime("%c")
-    print 'HEADER Generated with rna-pdb-tools'
-    print 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
 
 if __name__ == '__main__':
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
@@ -20,6 +14,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
+
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
@@ -40,6 +35,12 @@ if __name__ == '__main__':
                         action='store_true')
 
     parser.add_argument('--get_simrna_ready', help='',
+                        action='store_true')
+
+    parser.add_argument('--collapsed_view', help='',
+                        action='store_true')
+
+    parser.add_argument('--cv', help='alias to collapsed_view',
                         action='store_true')
 
     parser.add_argument('--edit',
@@ -175,32 +176,10 @@ if __name__ == '__main__':
                 print l
 
     if args.edit:
-        selection_from, selection_to = select_pdb_fragment(args.edit.split('>')[0]), select_pdb_fragment(args.edit.split('>')[1])
-        if len(selection_to) != len(selection_from):
-            raise Exception('len(selection_to) != len(selection_from)')
-        s = StrucFile(args.file)
-        if not args.no_hr:
-            add_header()
-            print 'HEADER --edit ' + args.edit
-        c = 0
-        resi_prev = None
-        for l in s.lines:
-            if l.startswith('ATOM'):
-                chain = l[21:22].strip()
-                resi = int(l[23:26].strip())
-                if selection_from.has_key(chain):
-                    if resi in selection_from[chain]:
-                        if resi != resi_prev and resi_prev:
-                            c += 1
-                        resi_prev = resi
-
-                        nl = list(l)
-                        nl[21] =  selection_to.keys()[0]
-                        nl[23:26] = str(selection_to[selection_to.keys()[0]][c]).rjust(3)
-                        nl = ''.join(nl)
-                        print nl
-                    else:
-                        print l
+        edit_pdb(args)
+        
+    if args.collapsed_view or args.cv:
+        collapsed_view(args)
 
 if __name__ == '__main__':
     pass

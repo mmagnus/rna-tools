@@ -5,8 +5,7 @@ Git Quickref
 	   
 Git is a version control system that is used for software development that helps you to keep track of versions of your program. To start using git you have to know only these two commands below. If you want to contribute to the package you need a few more, but it's not important right now :-)
 
-To get the package for the first time on your
-computer run::
+To get the package for the first time on your computer go to the selected package and on the top left corner select clone or download. Copy the link and run it on console with git clone::
 
   $ git clone git@github.com:mmagnus/rna-pdb-tools.git
 
@@ -35,4 +34,4 @@ If you see something like this::
 	install_links_bin.sh | 1 + 
 	1 file changed, 1 insertion(+)
 
-it means that there is a small change in ``install_links_bin.sh`` and you are up to date, congrats as well! You might need to run ``./install_links_bin.sh`` to "install" new tools that were added to the packages (it this is the case). If you get any error then talk to me ``magnus@genesilico.pl``.
+it means that there is a small change in ``install_links_bin.sh`` and you are up to date, congrats as well! You might need to run ``./install_links_bin.sh`` to "install" new tools that were added to the packages (if this is the case). If you get any error then talk to me ``magnus@genesilico.pl``.
