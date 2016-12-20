@@ -92,6 +92,16 @@ Secondary Structure (secstruc)
 Misc
 ------------------------------------------
 
+rna_sali2dotbracket
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_sali2dotbracket.rna_sali2dotbracket.get_parser
+   :prog: rna_sali2dotbracket
+   
+.. automodule:: rna_pdb_tools.utils.rna_sali2dotbracket.rna_sali2dotbracket
+   :members:
+
 rna_add_chain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
