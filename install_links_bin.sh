@@ -13,6 +13,7 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_convert_pseudoknot_formats/rna_pk_simrna
 ln -s $curr_dir/rna_pdb_tools/utils/clarna_app/clarna_app.py $curr_dir/bin/clarna_app.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_helix_vis/rna_helix_vis.py $curr_dir/bin/rna_helix_vis.py
 ln -s $curr_dir/rna_pdb_tools/utils/misc/rna_add_chain.py $curr_dir/bin/rna_add_chain.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_sali2dotbracket/rna_sali2dotbracket.py $curr_dir/bin/rna_sali2dotbracket.py
 echo 'Installed in ./bin'
 ls -l bin
 echo
