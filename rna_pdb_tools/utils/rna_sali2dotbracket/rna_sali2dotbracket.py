@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """This beauty here will go to sali notation and convert it to dotbracket notation.
-The file name should be xxxx.sali"""
+The file name should be xxxx.sali
+
+Author: Catarina Almeida"""
 
 import re
 import string
@@ -13,10 +15,8 @@ import os
 dic_ss_elements = {'>':')', '<':'(', '[':'(', ']':')', '~':'-', '^':'.'}
 
 def repl(m):
-  """
-  This function will substitute the length of a given string by the correspondent number of dashes.
-  The expression "qwerty" will be replaced by "------".
-  """
+  """This function will substitute the length of a given string by the correspondent number of dashes.
+  The expression "qwerty" will be replaced by "------"."""
   return '-' * len(m.group())
 
 def get_parser():
@@ -25,7 +25,9 @@ def get_parser():
   return parser
 
 def convert_sali2dotbracket(fn):
-  """It needs a filename in the Sali format. This finction will get the secondary structure of the sequence, then get its identifier and then the sequence itself.
+  """The function needs a filename in the Sali format. 
+  This function will get the secondary structure of the sequence, 
+  then get its identifier and then the sequence itself.
   
   **To get the ss**
   
@@ -64,9 +66,7 @@ def convert_sali2dotbracket(fn):
   **To get the sequence**
   
   The sequence, much like the ss, can sometimes be in a different position in the list. Like in the ss, the longest element will be selected.
-  Also, like in the ss, patterns for repeated gaps appear. So these must also be removed.
-  
-  """ 
+  Also, like in the ss, patterns for repeated gaps appear. So these must also be removed.""" 
   for line in open(fn):
     if line.startswith(' ') and not re.search('[a-zA-Z]', line):
       # see pydoc # ss #
