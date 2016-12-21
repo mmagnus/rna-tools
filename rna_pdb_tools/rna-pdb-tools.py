@@ -22,6 +22,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db')
 
+    parser.add_argument('--fetch_ba', action='store_true', help='fetch biological assembly from the PDB db')
+
     parser.add_argument('--get_seq', help='get seq', action='store_true')
 
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
@@ -183,6 +185,9 @@ if __name__ == '__main__':
         
     if args.fetch:
         fetch(args.file)
+
+    if args.fetch_ba:
+        fetch_ba(args.file)
 
     if args.collapsed_view or args.cv:
         collapsed_view(args)

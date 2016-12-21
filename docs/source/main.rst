@@ -11,6 +11,29 @@ Example::
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch
 
+Fetch Biological Assembly
+-----------------------------------------
+
+Example::
+
+  $ rna-pdb-tools.py --fetch_ba 1xjr
+  downloading...1xjr_ba.pdb ok
+
+or over a list of pdb ids in a text file::
+
+  $ cat data/pdb_ids.txt
+  1y26
+  1fir
+
+  $ while read p; do rna-pdb-tools.py --fetch_ba $p; done < data/pdb_ids.txt
+  downloading...1y26_ba.pdb ok
+  downloading...1fir_ba.pdb ok
+
+  $ ls *.pdb
+  1fir_ba.pdb 1y26_ba.pdb
+
+.. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch_ba
+
 Selection
 -----------------------------------------
 
