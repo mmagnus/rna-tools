@@ -9,6 +9,14 @@ Selection
 
 .. automodule:: rna_pdb_tools.utils.extra_functions.select_fragment
 		:members:
+Delete
+-----------------------------------------
+
+Examples::
+
+	for i in `ls *pdb`; do rna-pdb-tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+
+go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
 Edit
 -----------------------------------------
