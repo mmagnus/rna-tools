@@ -24,6 +24,7 @@ from collections import OrderedDict
 import re
 import string
 import time
+import urllib2
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 ignore_op3 = False
@@ -1118,6 +1119,21 @@ def collapsed_view(args):
             print l
         if l.startswith('TER') or l.startswith('MODEL') or l.startswith('END'):
             print l
+
+def fetch(pdb_id):
+    """fetch pdb file from RCSB.org
+    https://files.rcsb.org/download/1Y26.pdb"""
+    try:
+        response = urllib2.urlopen('https://files.rcsb.org/download/' + pdb_id + '.pdb')
+    except urllib2.HTTPError:
+        raise Exception('The PDB does not exists: ' + pdb_id)
+    txt = response.read()
+
+    print 'downloading...' + pdb_id,
+    
+    with open(pdb_id + '.pdb', 'w') as f:
+        f.write(txt)
+    print 'ok'
 
 # main
 if '__main__' == __name__:

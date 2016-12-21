@@ -20,6 +20,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--get_chain', help='get chain, .e.g A')
 
+    parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db')
+
     parser.add_argument('--get_seq', help='get seq', action='store_true')
 
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
@@ -58,14 +60,15 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    s = StrucFile(args.file)
+
     if args.report:
+        s = StrucFile(args.file)
         print s.get_report()
         print s.get_preview()
         print s.get_info_chains()
 
-    s = StrucFile(args.file)
     if args.clean:
+        s = StrucFile(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -80,8 +83,8 @@ if __name__ == '__main__':
             add_header()
         print s.get_text()
 
-    s = StrucFile(args.file)
     if args.get_seq:
+        s = StrucFile(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -93,8 +96,8 @@ if __name__ == '__main__':
         #print s.get_preview()
         print s.get_seq()
 
-    s = StrucFile(args.file)
     if args.get_chain:
+        s = StrucFile(args.file)
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -178,6 +181,9 @@ if __name__ == '__main__':
     if args.edit:
         edit_pdb(args)
         
+    if args.fetch:
+        fetch(args.file)
+
     if args.collapsed_view or args.cv:
         collapsed_view(args)
 

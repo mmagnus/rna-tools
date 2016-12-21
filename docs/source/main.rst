@@ -1,8 +1,15 @@
 rna-pdb-tools
 ========================================
 
-.. automodule:: rna_pdb_tools.pdb_parser_lib
-   :members:
+Fetch
+-----------------------------------------
+
+Example::
+
+  $ ./rna-pdb-tools.py --fetch 1xjr
+  downloading...1xjr ok
+
+.. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch
 
 Selection
 -----------------------------------------
@@ -30,3 +37,10 @@ Examples::
 or even::
 
   $ md_1f27_clx rna-pdb-tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
+
+The library
+-----------------------------------------
+
+  .. automodule:: rna_pdb_tools.pdb_parser_lib
+   :members:
+
