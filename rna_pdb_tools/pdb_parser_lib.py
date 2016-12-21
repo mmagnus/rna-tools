@@ -25,6 +25,9 @@ import re
 import string
 import time
 import urllib2
+import gzip
+import tempfile
+
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 ignore_op3 = False
@@ -1134,6 +1137,27 @@ def fetch(pdb_id):
     with open(pdb_id + '.pdb', 'w') as f:
         f.write(txt)
     print 'ok'
+
+def fetch_ba(pdb_id):
+    """fetch biological assembly pdb file from RCSB.org"""
+    try:
+        response = urllib2.urlopen('https://files.rcsb.org/download/' + pdb_id + '.pdb1.gz')
+    except urllib2.HTTPError:
+        raise Exception('The PDB does not exists: ' + pdb_id)
+    txt = response.read()
+
+    print 'downloading...' +  pdb_id + '_ba.pdb',
+
+    f = tempfile.NamedTemporaryFile(delete=False)
+    with open(f.name, 'w') as f:
+        f.write(txt)
+
+    with gzip.open(f.name, 'rb') as f:
+        file_content = f.read()
+        with open(pdb_id + '_ba.pdb', 'w') as ff:
+            ff.write(file_content)
+    print 'ok'
+
 
 # main
 if '__main__' == __name__:
