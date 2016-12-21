@@ -7,7 +7,7 @@ import time
 
 from pdb_parser_lib import *
 
-if __name__ == '__main__':
+def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
     parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
@@ -58,10 +58,12 @@ if __name__ == '__main__':
 			help="delete the selected fragment, e.g. A:10-16")
     
     parser.add_argument('file', help='file')
-    #parser.add_argument('outfile', help='outfile')   
+    #parser.add_argument('outfile', help='outfile')
+    return parser
 
+if __name__ == '__main__':
+    parser = get_parser()
     args = parser.parse_args()
-
 
     if args.report:
         s = StrucFile(args.file)

@@ -38,7 +38,7 @@ but analyzed structres are like::
 	
 You have to renumber 1msy_clean.pdb to 1:27::
 
-    rna-pdb-tools.py --edit 'A:2647-2673>A:1:17' 1msy_clean.pdb > 1msy_clean_renumb.pdb
+    $ rna_pdb_tools.py --edit 'A:2647-2673>A:1:17' 1msy_clean.pdb > 1msy_clean_renumb.pdb
 
 .. image:: ../pngs/edit.png
 
@@ -47,21 +47,21 @@ Example #2
 
 Listing::
   
-    $ rna-pdb-tools.py --get_seq 1nuj_rnakbmd_decoy1000_clx.pdb
+    $ rna_pdb_tools.py --get_seq 1nuj_rnakbmd_decoy1000_clx.pdb
     > 1nuj_rnakbmd_decoy1000_clx.pdb A:1-13
     CGGACCGAGCCAG
     > 1nuj_rnakbmd_decoy1000_clx.pdb B:14-24
     GCUGGGAGUCC
 
-    $ rna-pdb-tools.py --get_seq 1nuj_clean.pdb
+    $ rna_pdb_tools.py --get_seq 1nuj_clean.pdb
     > 1nuj_clean.pdb A:18-30
     CGGACCGAGCCAG
     > 1nuj_clean.pdb B:39-49
     GCUGGGAGUCC
 
-    $ rna-pdb-tools.py --edit 'A:18-30>A:1-13,B:39-49>B:14-24' 1nuj_clean.pdb > 1nuj_clean_renumber.pdb
+    $ rna_pdb_tools.py --edit 'A:18-30>A:1-13,B:39-49>B:14-24' 1nuj_clean.pdb > 1nuj_clean_renumber.pdb
 
-    $ rna-pdb-tools.py --get_seq 1nuj_clean_renumber.pdb
+    $ rna_pdb_tools.py --get_seq 1nuj_clean_renumber.pdb
     > 1nuj_clean_renumber.pdb A:1-13
     CGGACCGAGCCAG
     > 1nuj_clean_renumber.pdb B:14-24
@@ -77,6 +77,6 @@ Starting structure don't have chain id:
   # add chain A
   $ parallel "rna_add_chain.py -c A {} > ../struc_with_chain/{}" ::: *.pdb
   # edit the second part of the new chain A as B
-  $ parallel "rna-pdb-tools.py --edit 'A:14-27>B:14-27' {} > out/{}" ::: *.pdb
+  $ parallel "rna_pdb_gtools.py --edit 'A:14-27>B:14-27' {} > out/{}" ::: *.pdb
 
 .. image:: ../pngs/1duq.png

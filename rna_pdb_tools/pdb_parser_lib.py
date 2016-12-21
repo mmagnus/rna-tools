@@ -28,7 +28,7 @@ import urllib2
 import gzip
 import tempfile
 
-from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 ignore_op3 = False
 
