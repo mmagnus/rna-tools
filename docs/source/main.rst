@@ -5,6 +5,18 @@ rna-pdb-tools
    :ref: rna_pdb_tools.rna_pdb_tools.get_parser
    :prog: rna_pdb_tools.py
 
+Get RNAPuzzle ready
+-----------------------------------------
+
+.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
+   :members: get_rnapuzzle_ready
+
+Get SimRNA ready
+-----------------------------------------
+
+.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
+   :members: get_simrna_ready
+
 Fetch
 -----------------------------------------
 

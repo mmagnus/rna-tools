@@ -481,6 +481,12 @@ class StrucFile:
         self.lines = lines
 
     def fix_resn(self):
+        """
+        fix::
+
+         # URI -> U, URA -> U
+         1xjr_clx_charmm.pdb:ATOM    101  P   URA A   5      58.180  39.153  30.336  1.00 70.94
+         rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens.pdb:ATOM  82  P   URI A   4     501.633 506.561 506.256  1.00  0.00           P"""
         lines = []
         for l in self.lines:
             nl = l.replace( 'RA5', '  A') # RA should be the last!!!!
@@ -611,10 +617,14 @@ class StrucFile:
         """Get rnapuzzle ready structure.
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
+        Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function. 
+
         Does:
-        - keep only given atoms,
-        - renumber residues from 1, if renumber_residues=True (by default)
-        """
+
+         - keep only given atoms,
+         - renumber residues from 1, if renumber_residues=True (by default)
+
+        .. warning:: requires: Biopython"""
         try:
             from Bio import PDB
             from Bio.PDB import PDBIO
@@ -768,10 +778,12 @@ class StrucFile:
         self.lines = nlines
 
     def get_simrna_ready(self,  renumber_residues=True):
-        """Get simrna_ready .. 
+        """Get simrna_ready models in format exactly as an output of SimRNA.
 
         - take only first model,
         - renumber residues if renumber_residues=True
+
+        Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function. 
 
         .. warning:: requires: Biopython"""
         try:
