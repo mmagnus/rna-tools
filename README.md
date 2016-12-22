@@ -45,8 +45,6 @@ Table of Contents
      * [rna\_convert\_pseudoknot\_formats](#rna_convert_pseudoknot_formats)
      * [misc](#misc)
    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
-   * [Features](#features)
-     * [test](#test)
    * [Install](#install)
    * [Requirement](#requirement)
    * [Used libraries](#used-libraries)
