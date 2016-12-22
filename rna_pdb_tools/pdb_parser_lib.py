@@ -509,7 +509,9 @@ class StrucFile:
 
             nl = nl.replace('RU5', '  U')
             nl = nl.replace('RU3', '  U')
-            nl = nl.replace('URA', '  U')  
+            nl = nl.replace('URA', '  U')
+            nl = nl.replace('URI', '  U')              
+            nl = nl.replace('URY', '  U')              
             nl = nl.replace(' RU', '  U')
             nl = nl.replace(' rU', '  U')
 

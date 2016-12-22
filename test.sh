@@ -29,6 +29,7 @@ cd rna_pdb_tools
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/4GXY_3firstNt.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/gtp.pdb  > output/gtp.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle input/377D.pdb # should finish with error
+./rna_pdb_tools.py --no_hr  --get_rnapuzzle_ready input/rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens.pdb > output/rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens_rpr.pdb
 
 ## --get_simrna_ready
 ./rna_pdb_tools.py --no_hr  --renumber_residues --get_simrna_ready input/1xjr_no_op3.pdb > output/1xjr_no_op3_simrna_ready.pdb
