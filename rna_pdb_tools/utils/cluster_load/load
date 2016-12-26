@@ -1,0 +1,4 @@
+python ~/src/cluster_load/cluster_free.py
+/home/oge/bin/lx24-amd64/qstat -u "*" | grep "^[0-9]" | sed 's/^[0-9]*[ ]*[0-9.]*[ ]*[^ ]*[ ][ ]*\([^ ]*[ ][ ]*[^ ]*\).*[ ]\([0-9][0-9]*\)/\1 \2/g' | sort -k2 -r | uniq -c
+
+
