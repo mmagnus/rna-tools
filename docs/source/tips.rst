@@ -105,3 +105,9 @@ Qucikref::
 
 (source: http://cupnet.net/pdb-file-atom-line-memo/)
 
+Working with cluster
+---------------------------------------------------
+Tips::
+
+  # get your pdb files
+  [mm] ade rsync -v peyote2:'~/ade/*.pdb' . # ' is required!
