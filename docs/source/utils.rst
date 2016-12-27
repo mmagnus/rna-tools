@@ -15,10 +15,10 @@ ROSETTA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
-   :ref: rna_pdb_tools.utils.rna_run_rosetta.rna_run_rosetta.get_parser
-   :prog: rna_run_rosetta
+   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.get_parser
+   :prog: rna_rosetta_run
 
-.. automodule:: rna_pdb_tools.utils.rna_run_rosetta.rna_run_rosetta
+.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run
    :members:
 
 RNA Helix Vis
