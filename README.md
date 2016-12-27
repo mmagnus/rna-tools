@@ -19,7 +19,9 @@ If you find the tools helpful, you can cite the repo using the DOI above :-)
 
 A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
-The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress)
+The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress). 
+
+This project is a merge of various related projects such as `rnastruc`, `yapdb_parser` started starting from 2011 :-)
 
 What is fun here?
 
