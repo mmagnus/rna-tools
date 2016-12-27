@@ -61,6 +61,8 @@ Take a tour http://mmagnus.github.io/rna-pdb-tools/#/
 
 Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
 
+<a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
+
 ## RNA Puzzle Submission
 Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`):
 
