@@ -94,17 +94,18 @@ Cluster load
 
 A very simple tool to see your cluster load per user::
 
-  magnus@peyote2:~/src/cluster_load$ ./load
-  jobs: 743 load (1k max):  0.743  to use: 257
-  jobs: 200 load (1k max):  0.2  -- magnus
-  1 magnus       r 200        
-  4 gchojnowski  r 10        
-  17 wdawson      r 10        
-  4 bharat       r 10        
-  29 mboni        r 10        
-  2 mmaciejczyk  r 1        
+  MAX_JOBS: 1000
+  #jobs cluster 917 load:  0.917  to use: 83
+  #jobs you     749 load:  0.749  to use: 251
+  {'deepak': 160, 'azyla': 8, 'magnus': 749}
+  1 azyla        r 8
+  20 magnus       r 10
+  16 deepak       r 10
+  329 magnus       r 1
+  22 magnus       qw 10
 
-<https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils/cluster_load>
+.. automodule:: rna_pdb_tools.utils.cluster_load.cluster_load
+   :members:
 
 Misc
 ------------------------------------------
