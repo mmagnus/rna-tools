@@ -91,7 +91,7 @@ def prepare_rosetta(header):
 def go():
     """send jobs to a cluster (run qsubMINI)"""
     os.system('chmod +x ./qsubMINI')
-    os.system('./qsubMINI &')
+    os.system('./qsubMINI')
     
 def main():
     """Pipline for modeling RNA"""
