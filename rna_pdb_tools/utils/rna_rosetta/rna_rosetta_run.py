@@ -7,7 +7,7 @@ http://www.sciencedirect.com/science/article/pii/S0076687914000524
 
 The script makes (1) a folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder (2) make helices (3) prepare rosetta input files (4) sends jobs to the cluster.
 
-If one of the helices is missing you will get:
+If one of the helices is missing you will get::
 
     IOError: [Errno 2] No such file or directory: 'helix1.out'
     rosetta_submit.py README_FARFAR o 500 100 taf
