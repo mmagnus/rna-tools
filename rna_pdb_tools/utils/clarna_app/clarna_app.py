@@ -35,7 +35,7 @@ try:
 except:
     print 'you need to set up ClaRNA_play_path in your .bashrc'
 
-def clarna_run(fn, force):
+def clarna_run(fn, force=True):
     """Run ClaRNA run
 
     fn: str
@@ -53,7 +53,7 @@ def clarna_run(fn, force):
         os.system(cmd)
     return fn_out
 
-def get_dot_bracket_from_ClaRNAoutput(inCR, verbose):
+def get_dot_bracket_from_ClaRNAoutput(inCR, verbose=False):
     """In inCR file"""
     cmd = ClaRNA_play_path + '/lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS ' + inCR
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -61,7 +61,7 @@ def get_dot_bracket_from_ClaRNAoutput(inCR, verbose):
     if verbose: std
     return std
     
-def clarna_compare(target_cl_fn,i_cl_fn, verbose):
+def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
     """Run ClaRNA compare.
 
     :return: a list target, fn, scores

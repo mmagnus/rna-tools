@@ -1,13 +1,37 @@
+#!/usr/bin/env python
+
 """**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
-http://www.sciencedirect.com/science/article/pii/S0076687914000524 """
+http://www.sciencedirect.com/science/article/pii/S0076687914000524
+
+The script makes (1) a folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder (2) make helices (3) prepare rosetta input files (4) sends jobs to the cluster.
+
+If one of the helices is missing you will get::
+
+    IOError: [Errno 2] No such file or directory: 'helix1.out'
+    rosetta_submit.py README_FARFAR o 500 100 taf
+    Could not find:  README_FARFAR
+
+and the problem was a1 and g8 pairing::
+
+    outputting command line to:  helix0.RUN # previous helix #0
+    Sequence:  AUGG CCGG
+    Secstruc:  (((( ))))
+    Not complementary at positions a1 and g8!
+    Sequence:  GUGGG CCCAU
+    Secstruc:  ((((( )))))
+
+    Writing to fasta file:  helix2.fasta # next helix #2
+
+edit the secondary structure, run the program with -i (init, to overwrite seq.fa, ss.fa) and then it works."""
 
 import argparse
 import textwrap
 import os
 import glob
 import subprocess
+import shutil
 
 ROOT_DIR_MODELING = '/home/magnus/'
 
@@ -25,8 +49,8 @@ def get_parser():
     parser.add_argument('file', help= textwrap.dedent("""file:\n>a04\nUAUAACAUAUAAUUUUGACAAUAUGGGUCAUAAGUUUCUACCGGAAUACCGUAAAUAUUCUGACUAUGUAUA\n((((.((((...((.((((.......)))).))........(.(((((.......))))).)..))))))))"""))
     return parser
 
-def prepare_folder(header,seq,ss,path):
-    """Make folder for you job, with seq.fa, ss.fa"""
+def prepare_folder(args,header,seq,ss,path):
+    """Make folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder"""
     d = path
     try:
         os.mkdir(d)
@@ -42,6 +66,7 @@ def prepare_folder(header,seq,ss,path):
     with open(d + "ss.fa","w") as f:
         f.write(ss)
     print 'Seq & ss created'
+    shutil.copyfile(args.file, d + 'input.fa')
 
 def prepare_helices():
     """Make helices (wrapper around 'helix_preassemble_setup.py')"""
@@ -85,7 +110,7 @@ def prepare_rosetta(header):
 def go():
     """send jobs to a cluster (run qsubMINI)"""
     os.system('chmod +x ./qsubMINI')
-    os.system('./qsubMINI &')
+    os.system('./qsubMINI')
     
 def main():
     """Pipline for modeling RNA"""
@@ -105,8 +130,7 @@ def main():
         path = ROOT_DIR_MODELING + os.sep + header + os.sep
         curr = os.getcwd()
         if args.init:
-            prepare_folder(header, seq, ss, path)
-
+            prepare_folder(args,header, seq, ss, path)
         try:
             os.chdir(path)
         except OSError:

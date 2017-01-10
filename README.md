@@ -1,7 +1,7 @@
 🔧rna-pdb-tools
 =================
 
-**(under heavy development)**
+**This is still under development. We'll be adding features and possibly making breaking changes in future releases.**
 
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_pdb_tools.svg?style=social&label=Follow)](https://twitter.com/rna_pdb_tools)
 
