@@ -14,11 +14,32 @@ ClaRNA
 ROSETTA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Run all modeling steps
+``````````````````````````````````````````
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.get_parser
    :prog: rna_rosetta_run
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run
+   :members:
+
+Minimize
+``````````````````````````````````````````
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.get_parser
+   :prog: rna_rosetta_min
+
+.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min
+   :members:
+
+Cluster
+```````````````````````````````````````````
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.get_parser
+   :prog: rna_rosetta_min
+
+.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
    :members:
 
 RNA Helix Vis
