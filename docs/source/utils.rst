@@ -37,7 +37,7 @@ Cluster
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.get_parser
-   :prog: rna_rosetta_min
+   :prog: rna_rosetta_cluster
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
    :members:
