@@ -14,7 +14,7 @@ ClaRNA
 ROSETTA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Run all modeling steps
+Run (modeling)
 ``````````````````````````````````````````
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.get_parser
