@@ -1,4 +1,5 @@
-from cogent.app.vienna_package import RNAfold, RNAsubopt
+"""Seq and secondary structure prediction"""
+
 import commands
 
 class Seq:
@@ -19,9 +20,11 @@ class Seq:
         f.close()
         # run prediction
         if method == "RNAsubopt":
+            from cogent.app.vienna_package import RNAfold, RNAsubopt
             r = RNAsubopt(WorkingDir="/tmp")
             res = r([self.seq])
             return str(res['StdOut'].read()).strip()
+
         if method == "ipknot":
             self.ss_log = commands.getoutput('ipknot /tmp/ss.fa')
             return '\n'.join(self.ss_log.split('\n')[2:])
@@ -36,6 +39,7 @@ class Seq:
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         if method == 'RNAfold':
+            from cogent.app.vienna_package import RNAfold, RNAsubopt
             r = RNAfold(WorkingDir="/tmp")
             res = r([self.seq])
             self.ss_log = res['StdOut'].read()
