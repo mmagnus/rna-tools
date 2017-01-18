@@ -35,3 +35,7 @@ If you see something like this::
 	1 file changed, 1 insertion(+)
 
 it means that there is a small change in ``install_links_bin.sh`` and you are up to date, congrats as well! You might need to run ``./install_links_bin.sh`` to "install" new tools that were added to the packages (if this is the case). If you get any error then talk to me ``magnus@genesilico.pl``.
+
+For more see, git - the simple guide (just a simple guide for getting started with git. no deep shit ;))
+
+http://rogerdudler.github.io/git-guide/ 
