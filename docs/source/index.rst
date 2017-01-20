@@ -22,8 +22,8 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   main	     
-   lib
+   main
+   config
    utils
    selection
    workflows
