@@ -24,6 +24,12 @@ and the problem was a1 and g8 pairing::
 
     Writing to fasta file:  helix2.fasta # next helix #2
 
+My case with a modeling of rp12
+
+    Sequence:  cc gc
+    Secstruc:  (( ))
+    Not complementary at positions 1 and 4!
+
 edit the secondary structure, run the program with -i (init, to overwrite seq.fa, ss.fa) and then it works."""
 
 import argparse
