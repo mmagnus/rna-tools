@@ -18,7 +18,7 @@ Run (modeling)
 ``````````````````````````````````````````
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.get_parser
-   :prog: rna_rosetta_run
+   :prog: rna_rosetta_run.py
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run
    :members:
@@ -37,7 +37,7 @@ Minimize
 ``````````````````````````````````````````
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.get_parser
-   :prog: rna_rosetta_min
+   :prog: rna_rosetta_min.py
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min
    :members:
@@ -47,7 +47,7 @@ Cluster
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.get_parser
-   :prog: rna_rosetta_cluster
+   :prog: rna_rosetta_cluster.py
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
    :members:
