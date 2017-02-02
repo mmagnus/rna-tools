@@ -23,6 +23,16 @@ Run (modeling)
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run
    :members:
 
+Get a number of structures
+```````````````````````````````````````````
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n.get_parser
+   :prog: rna_rosetta_n.py
+
+.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n
+   :members:
+
 Minimize
 ``````````````````````````````````````````
 .. argparse::
