@@ -100,7 +100,7 @@ def run():
 
     cluster_loop(ns) # loop over selected to get 1/6 in the biggest cluster
 
-    print '# of structures in the biggest cluster", get_no_structures('cluster.out')
+    print "# of structures in the biggest cluster", get_no_structures('cluster.out')
 
     extract()
 
