@@ -7,12 +7,13 @@ import sys
 
 
 def select_pdb_fragment(txt, separator="-", splitting='[:\+]', verbose=False):
-    """Take txt such as A:1-31,B:1-11 and parse into::
+    """Take txt such as ``A:1-31+B:1-11`` and parse into::
 
-      OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 25, 26, 27, 28, 29, 30]),
-      ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])])
+          OrderedDict([('A', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 
+          15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]),
+          ('B', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])])          
     
-      .. warning:: e.g. for A:1-31, resi 31 is not included, works like in Python."""
+      .. warning:: e.g. for A:1-31, resi 31 is included"""
     txt = txt.replace(' ','')
     if verbose: print txt
     #l = re.split, txt)
@@ -46,17 +47,19 @@ def select_pdb_fragment(txt, separator="-", splitting='[:\+]', verbose=False):
 def select_pdb_fragment_pymol_style(txt):
     """Take txt such as A/10-15/P and parse into::
     
-    A/57/O2' -> ['A', ['57'], "O2'"]
+      A/57/O2' -> ['A', ['57'], "O2'"]
 
-    .. warning:: e.g. for A:1-31, resi 31 is not included, works like in Python."""
+    If you want to combine a few subselections, please use ``,``::
+ 
+       --model_ignore_selection "A/57/O2',A/58/O2'"
+    
+    .. warning:: e.g. for A:1-31, resi 31 is included"""
     v = 0
     selection = OrderedDict()
-    # 
-    if txt.find('|') < -1:
-        txt = txt.replace(' ','').split('|')
+    if txt.find(',') > -1:
+        txt = txt.replace(' ','').split(',')
     else:
         txt = [txt]
-
     for t in txt:
         l = t.split('/')
         if v:print l
@@ -95,7 +98,7 @@ def is_in_selection(selection, curr_chain_id, curr_resi, curr_atom_name):
 
 #main
 if __name__ == '__main__':
-    selection = select_pdb_fragment_pymol_style('E/1-15+18/P | A/1-3/P')
+    selection = select_pdb_fragment_pymol_style('E/1-15+18/P, A/1-3/P')
 
     curr_chain_id = 'E'
     curr_resi = 1
@@ -108,3 +111,7 @@ if __name__ == '__main__':
     print is_in_selection(selection, 'X', curr_resi, curr_atom_name)        
     print is_in_selection(selection, 'E', curr_resi, "C'")        
     print is_in_selection(selection, 'A', curr_resi, "P'")        
+
+    print select_pdb_fragment_pymol_style('A/48/OP2,B/48/OP2')
+
+    print select_pdb_fragment('A:1-31+B:1-11')
