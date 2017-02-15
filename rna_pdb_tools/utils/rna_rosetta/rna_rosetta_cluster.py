@@ -76,7 +76,7 @@ def extract():
 def cluster_loop(ns):
     """Go from radius 1 to get 1/6 of structures of ns (# of selected structures)
     in the first cluster, then it stops."""
-    radius = 6 # should be 1
+    radius = 1 # should be 1
     while 1:
         cluster(radius)
         n = get_no_structures('cluster.out')
