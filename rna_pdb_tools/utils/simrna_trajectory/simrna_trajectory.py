@@ -24,7 +24,8 @@ class SimRNATrajectory:
     def load_from_file(self, fn, debug_break=False, top_level=False):
         """Create a trajectory based on give filename.
 
-        top_level = True, don't make a huge tree of objects (Residues/Atoms)
+        top_level = True, don't make a huge tree of objects (Residues/Atoms) == amazing speed up! 
+        Useful if you need only frames, energies and coords as text.
 
         h(eader), l(line), f(ile).
         """
@@ -54,13 +55,7 @@ class SimRNATrajectory:
         self.frames.append(Frame(c, h, l))        
 
     def sort(self):
-        """
-        
-        read more http://pythoncentral.io/how-to-sort-a-list-tuple-or-object-with-sorted-in-python/"""
-    def sort(self):
-        """
-        
-        read more http://pythoncentral.io/how-to-sort-a-list-tuple-or-object-with-sorted-in-python/"""
+        """Sort frames within the trajectory according to energy."""
         def getEnergy(frame):
             return frame.energy
         frames_sorted = sorted(self.frames, key=getEnergy)
@@ -70,12 +65,28 @@ class SimRNATrajectory:
         self.frames = frames
         
     def save(self, fn, verbose=True):
+        """Save the trajectory to file."""
         with open(fn, 'w') as fi:
             for f in self.frames:
                 fi.write(f.header + '\n')
                 fi.write(f.coords + '\n')
         if verbose: print('Saved to ' + fn)
             
+    def plot_energy(self, plotfn):
+        """
+        .. image:: ../pngs/simrnatrajectory.png
+        """
+        
+        #plotting inside ipython
+        import matplotlib.pyplot as plt
+        import matplotlib
+
+        plt.plot([f.energy for f in self.frames])
+        plt.ylabel('# frames')
+        plt.ylabel('energies')
+        plt.title('SimRNATrajectory: energies over frames')
+        plt.grid()
+        plt.savefig(plotfn,figsize=(30,10)) #  bbox_inches='tight', 
 
 class Frame:
     """Frame
@@ -179,6 +190,10 @@ class Atom:
 #main
 if __name__ == '__main__':
     s = SimRNATrajectory()
+    s.load_from_file('test_data/6c2ca958-d3aa-43b2-9f02-c42d07a6f7e9_ALL.trafl', top_level=True)
+    s.plot_energy('plot.png')
+
+    s = SimRNATrajectory()
     s.load_from_file('test_data/8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl')
     for f in s.frames:
         #print f.header
@@ -193,7 +208,6 @@ if __name__ == '__main__':
         print r.b2
         print r.get_center()
         break
-
 
     s2 = SimRNATrajectory()
     traj = """1 1 1252.257530 1252.257530 0.950000
