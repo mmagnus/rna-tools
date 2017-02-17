@@ -10,6 +10,7 @@ import numpy as np
 import gc
 
 
+
 class SimRNATrajectory:
     """SimRNATrajectory"""
     def __init__(self):
@@ -20,16 +21,19 @@ class SimRNATrajectory:
         to load the data."""
         self.frames = []
         
-    def load_from_file(self, fn, debug_break=False):
+    def load_from_file(self, fn, debug_break=False, top_level=False):
         """Create a trajectory based on give filename.
 
-        h(eader), l(line), f(ile)."""
+        top_level = True, don't make a huge tree of objects (Residues/Atoms)
+
+        h(eader), l(line), f(ile).
+        """
         self.frames = []
         f = (line for line in open(fn).xreadlines())
         h = f.next().strip()
         l = f.next().strip()
         c = 0
-        self.frames.append(Frame(c, h, l))
+        self.frames.append(Frame(c, h, l, top_level))
         while 1:
             c += 1
             try:
@@ -38,17 +42,103 @@ class SimRNATrajectory:
                 break
             l = f.next().strip()
             if h and l:
-                self.frames.append(Frame(c, h, l))
+                self.frames.append(Frame(c, h, l, top_level))
                 if debug_break: break
                 if c % 1000 == 0:
-                    print c/1000,'k cleaning...'
+                    print c/1000,'k loaded...'
                     gc.collect()
 
     def load_from_string(self, c, txt):
         """Create a trajectory based on given string (txt) with id given by c"""
         h,l = txt.split('\n')
         self.frames.append(Frame(c, h, l))        
-    
+
+    def sort(self):
+        """
+        
+        read more http://pythoncentral.io/how-to-sort-a-list-tuple-or-object-with-sorted-in-python/"""
+    def sort(self):
+        """
+        
+        read more http://pythoncentral.io/how-to-sort-a-list-tuple-or-object-with-sorted-in-python/"""
+        def getEnergy(frame):
+            return frame.energy
+        frames_sorted = sorted(self.frames, key=getEnergy)
+        return frames_sorted
+
+    def load_from_list(self, frames):
+        self.frames = frames
+        
+    def save(self, fn, verbose=True):
+        with open(fn, 'w') as fi:
+            for f in self.frames:
+                fi.write(f.header + '\n')
+                fi.write(f.coords + '\n')
+        if verbose: print('Saved to ' + fn)
+            
+
+class Frame:
+    """Frame
+
+    Syntax of header: 
+     - write_number
+     - replica_id
+     - total_energy 
+     - energy_without_restraints
+     - temperature
+    """
+    def __init__(self, id, header, coords, top_level=True):
+        self.id = id
+        self.header = header
+        self.energy = float(header.split(' ')[3])
+        self.coords = coords
+        coords = deque(coords.split())
+        if top_level:
+            self.residues = []
+        else:
+            self.residues = []
+            c = 1
+            while coords:
+                p = Atom('p', coords.popleft(), coords.popleft(), coords.popleft())
+                c4p = Atom('c4p', coords.popleft(), coords.popleft(), coords.popleft())
+                n1n9 = Atom('n1n9', coords.popleft(), coords.popleft(), coords.popleft())
+                b1 = Atom('b1', coords.popleft(), coords.popleft(), coords.popleft())
+                b2 = Atom('b2', coords.popleft(), coords.popleft(), coords.popleft())
+                r = Residue(c, p, c4p, n1n9, b1, b2)
+                self.residues.append(r)
+                c += 1
+
+    def __repr__(self):
+        return 'Frame #' + str(self.id) + ' e:' + str(round(self.energy,2))
+                
+class Residue:
+    """Create Residue object.
+    """
+    def __init__(self, id, p, c4p, n1n9, b1, b2):
+        self.id = id
+        self.p = p
+        self.c4p = c4p
+        self.n1n9 = n1n9
+        self.b1 = b1
+        self.b2 = b2
+        self.atoms = [p, c4p, n1n9, b1, b2]
+        # self.center
+
+    def __sub__(self, other_residue):
+        diff = self.get_center() - other_residue.get_center()
+        return np.sqrt(np.dot(diff, diff)) 
+        
+    def get_atoms(self):
+        """Return all atoms"""
+        return self.atoms
+
+    def get_center(self):
+        """Return MB for residue ```((self.n1n9 + self.b2) / 2)```"""
+        return (self.n1n9 + self.b2) / 2
+
+    def __repr__(self):
+        return 'Residue ' + str(self.id)
+
 class Atom:
     """Atom
     x
@@ -86,65 +176,6 @@ class Atom:
     def __add__(self, other_atom):
         return self.coord + other_atom.coord
 
-class Residue:
-    """Create Residue object.
-    """
-    def __init__(self, id, p, c4p, n1n9, b1, b2):
-        self.id = id
-        self.p = p
-        self.c4p = c4p
-        self.n1n9 = n1n9
-        self.b1 = b1
-        self.b2 = b2
-        self.atoms = [p, c4p, n1n9, b1, b2]
-        # self.center
-
-    def __sub__(self, other_residue):
-        diff = self.get_center() - other_residue.get_center()
-        return np.sqrt(np.dot(diff, diff)) 
-        
-    def get_atoms(self):
-        """Return all atoms"""
-        return self.atoms
-
-    def get_center(self):
-        """Return MB for residue ```((self.n1n9 + self.b2) / 2)```"""
-        return (self.n1n9 + self.b2) / 2
-
-    def __repr__(self):
-        return 'Residue ' + str(self.id)
-
-class Frame:
-    """Frame
-
-    Syntax of header: 
-     - write_number
-     - replica_id
-     - total_energy 
-     - energy_without_restraints
-     - temperature
-    """
-    def __init__(self, id, header, coords):
-        self.id = id
-        self.header = header
-        self.energy = float(header.split(' ')[3])
-        self.coords = coords
-        coords = deque(coords.split())
-        self.residues = []
-        c = 1
-        while coords:
-            p = Atom('p', coords.popleft(), coords.popleft(), coords.popleft())
-            c4p = Atom('c4p', coords.popleft(), coords.popleft(), coords.popleft())
-            n1n9 = Atom('n1n9', coords.popleft(), coords.popleft(), coords.popleft())
-            b1 = Atom('b1', coords.popleft(), coords.popleft(), coords.popleft())
-            b2 = Atom('b2', coords.popleft(), coords.popleft(), coords.popleft())
-            r = Residue(c, p, c4p, n1n9, b1, b2)
-            self.residues.append(r)
-            c += 1
-            
-    def __repr__(self):
-        return 'Frame #' + str(self.id) + ' e:' + str(round(self.energy,2))
-                
 #main
 if __name__ == '__main__':
     s = SimRNATrajectory()
