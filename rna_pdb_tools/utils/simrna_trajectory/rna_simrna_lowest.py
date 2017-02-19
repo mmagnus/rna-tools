@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-"""Select lowest energy frames out of a SimRNA trajectory file."""
+"""Select lowest energy frames out of a SimRNA trajectory file.
+
+This code uses heavily the SimRNATrajectory class."""
 
 from simrna_trajectory import *
 import argparse
@@ -8,7 +10,7 @@ import argparse
 def get_parser():
         """Get parser of arguments"""
         parser = argparse.ArgumentParser()
-        parser.add_argument('-f', '--file', required=True)
+        parser.add_argument('-f', '--file', help="SimRNA trafl file", required=True)
         return parser
 
 if __name__ == '__main__':
@@ -32,4 +34,5 @@ if __name__ == '__main__':
 
     s2 = SimRNATrajectory()
     s2.load_from_list(sorted_frames[:100])
+    s2.plot_energy('subset.png')
     s2.save(fn.replace('.trafl','') + '_100low.trafl')

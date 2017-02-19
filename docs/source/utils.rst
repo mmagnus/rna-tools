@@ -7,6 +7,13 @@ Apps
 SimRNA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Select low energy frames
+``````````````````````````````````````````
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_lowest.get_parser
+   :prog: rna_simrna_lowest
+	  
 Extract
 ``````````````````````````````````````````
 
