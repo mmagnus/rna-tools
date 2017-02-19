@@ -4,6 +4,20 @@ Utils
 Apps
 -----------------------------------------
 
+SimRNA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Extract
+``````````````````````````````````````````
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_extract.get_parser
+   :prog: rna_simrna_extract
+	  
+.. automodule:: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_extract
+   :members:
+
+
 ClaRNA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
