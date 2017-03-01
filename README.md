@@ -15,7 +15,7 @@
 
 > Magnus, Marcin. (2016). rna-pdb-tools. Zenodo. 10.5281/zenodo.60933 
 
-If you find the tools helpful, you can cite the repo using the DOI above :-) and if you like the project, please "Star it", so it would be easier to find it for others.
+**If you find the tools helpful, you can cite the repo using the DOI above :-) and if you like the project, please "Star it", so it would be easier to find it for others and give me fun.**
 
 ![](docs/pngs/starit.png)
 
