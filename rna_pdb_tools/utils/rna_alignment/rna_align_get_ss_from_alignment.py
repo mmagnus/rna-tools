@@ -19,7 +19,10 @@ import argparse
 
 def get_parser():
     """Get parser of arguments"""
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    try:
+        parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    except:
+        parser = argparse.ArgumentParser()#description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-f', '--file', help="subsection of an alignment", required=True)
     return parser
 
