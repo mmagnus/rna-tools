@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
-"""rna_align_get_ss_from_alignment (from a subsection of an alignment)
-
-Input as a file::
+"""Input as a file::
 
   >ade
   GCU-U-CAUAUAAUCCUAAUGAUAUGG-UUUGGGA-GUUUCUACCAAGAG-CC--UUAAA-CUCUU---GAUUAUG-AAGU-
@@ -19,10 +17,10 @@ import argparse
 
 def get_parser():
     """Get parser of arguments"""
-    try:
-        parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    except:
-        parser = argparse.ArgumentParser()#description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    #try:
+    #parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    #except:
+    parser = argparse.ArgumentParser()#description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-f', '--file', help="subsection of an alignment", required=True)
     return parser
 
