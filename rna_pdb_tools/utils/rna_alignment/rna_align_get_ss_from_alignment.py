@@ -16,7 +16,6 @@ to get::
 import argparse
 
 def get_parser():
-    """Get parser of arguments"""
     #try:
     #parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     #except:
