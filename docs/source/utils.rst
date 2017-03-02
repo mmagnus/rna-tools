@@ -75,11 +75,19 @@ Cluster
 
 RNA Alignment
 ------------------------------------------
+rna_align_get_ss_from_alignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_alignment.rna_align_get_ss_from_alignment.get_parser
    :prog: rna_align_get_ss_from_alignment.py
 
+rna_align_find_seq_in_alignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_alignment.rna_align_find_seq_in_alignment.get_parser
+   :prog: rna_align_find_seq_in_alignment
 
 RNA Helix Vis
 -----------------------------------------
