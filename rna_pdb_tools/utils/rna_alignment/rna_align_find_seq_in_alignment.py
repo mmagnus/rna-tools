@@ -22,11 +22,7 @@ import argparse
 from Bio import AlignIO
 
 def get_parser():
-    """Get parser of arguments"""
-    try:
-        parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    except:
-        parser = argparse.ArgumentParser()#description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-a', '--alignment', help="alignment in stockholm format", required=True)
     parser.add_argument('-f', '--file', help="fasta seq", required=True)
     return parser
