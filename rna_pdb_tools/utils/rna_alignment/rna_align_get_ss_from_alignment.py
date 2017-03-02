@@ -20,7 +20,7 @@ def get_parser():
     #parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     #except:
     parser = argparse.ArgumentParser()#description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-f', '--file', dest="file", help="subsection of an alignment",  required=True)
+    parser.add_argument('-f', '--file', dest="file", help="subsection of an alignment")#,  required=True)
     return parser
 
 def rfam_ss_notat_to_dot_bracket_notat(c):
