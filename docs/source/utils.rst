@@ -73,6 +73,14 @@ Cluster
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
    :members:
 
+RNA Alignment
+------------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_alignment.rna_align_get_ss_from_alignment.get_parser
+   :prog: rna_align_get_ss_from_alignment.py
+
+
 RNA Helix Vis
 -----------------------------------------
 
@@ -134,6 +142,7 @@ PyMOL drawing
 .. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
    :members:
      
+
 
 Secondary structure format conversion
 -----------------------------------------
