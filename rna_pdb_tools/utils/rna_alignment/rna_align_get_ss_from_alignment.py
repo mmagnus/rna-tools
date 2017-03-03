@@ -20,28 +20,6 @@ def get_parser():
     parser.add_argument('-f', '--file', help="subsection of an alignment",  required=True)
     return parser
 
-def rfam_ss_notat_to_dot_bracket_notat(c):
-    """Take (c)haracter and standardize ss"""
-    if c in [',', '_']:
-        return '.'
-    if c == '<':
-        return '('
-    if c == '>':
-        return ')'
-    return c
-
-def clean_seq(seq,ss):
-    #print seq, ss
-    # new
-    nseq = ''
-    nss = ''
-    for i,j in zip(seq,ss):
-        if i != '-': # gap
-            #print i,j
-            nseq += i
-            nss += rfam_ss_notat_to_dot_bracket_notat(j)
-    return nseq.strip(), nss.strip()
-
 if __name__ == '__main__':
     args = get_parser().parse_args() 
 
