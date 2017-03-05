@@ -9,9 +9,6 @@ SimRNA
 
 Select low energy frames
 ``````````````````````````````````````````
-.. automodule:: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_lowest
-   :members:
-
 .. argparse::
    :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_lowest.get_parser
    :prog: rna_simrna_lowest.py
@@ -23,10 +20,6 @@ Extract
    :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_extract.get_parser
    :prog: rna_simrna_extract.py
 	  
-.. automodule:: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_extract
-   :members:
-
-
 ClaRNA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
