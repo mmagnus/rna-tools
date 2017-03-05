@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""rna_pdb_tools main parser code."""
+
 import argparse
 import os
 import time
@@ -8,6 +10,7 @@ import time
 from pdb_parser_lib import *
 
 def get_parser():
+    """Get parser for Sphinx."""
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
     parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)

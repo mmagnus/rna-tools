@@ -75,6 +75,11 @@ Cluster
 
 RNA Alignment
 ------------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rna_alignment.rna_alignment
+   :members:
+
+
 rna_align_get_ss_from_alignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

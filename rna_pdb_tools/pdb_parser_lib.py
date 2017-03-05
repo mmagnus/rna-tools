@@ -30,6 +30,7 @@ import tempfile
 
 from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
+# Don't fix OP3, ignore it
 ignore_op3 = False
 
 def get_version(currfn='', verbose=False): #dupa
@@ -426,6 +427,7 @@ class StrucFile:
 
 
     def fix_op_atoms(self):
+        """Replace OXP' to OPX1, e.g ('O1P' -> 'OP1')"""
         lines = []
         for l in self.lines:
             nl = l.replace('*', '\'')
@@ -436,8 +438,10 @@ class StrucFile:
         self.lines = lines
 
     def get_report(self):
+        """
+        :return report: string
+        """
         return '\n'.join(self.report)
-
 
     def is_rna(self):
         wrong = []
@@ -531,7 +535,6 @@ class StrucFile:
             if r not in AMINOACID_CODES:
                 wrong.append(r)
         return wrong
-
 
     def write(self, outfn,v=True):
         """Write ```self.lines``` to a file (and END file")"""
@@ -940,9 +943,22 @@ def add_header():
     print 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
 
 def edit_pdb(args):
-    """Edit. The function can take `A:3-21>A:1-19` or even syntax like this
-    `A:3-21>A:1-19,B:22-32>B:20-30` and will do a editing.
-    The output is printed, line by line. Only ATOM lines are edited!"""
+    """Edit your structure. 
+
+    The function can take ``A:3-21>A:1-19`` or even syntax like this
+    ``A:3-21>A:1-19,B:22-32>B:20-30`` and will do an editing.
+
+    The output is printed, line by line. Only ATOM lines are edited!
+
+    Examples::
+
+      $ rna_pdb_tools.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
+
+    or even::
+
+      $ rna_pdb_tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
+
+    """
     ## open a new file
     s = StrucFile(args.file)
     if not args.no_hr:

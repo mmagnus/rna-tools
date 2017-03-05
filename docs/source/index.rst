@@ -23,6 +23,7 @@ Contents:
    :maxdepth: 3
 
    main
+   want
    config
    utils
    selection
