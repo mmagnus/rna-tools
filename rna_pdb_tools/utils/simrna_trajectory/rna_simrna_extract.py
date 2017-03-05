@@ -14,18 +14,30 @@ import os
 
 from rna_pdb_tools.rpt_config import SIMRNA_DATA_PATH
 
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler('rna_simrna_extract.log')
+fh.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
 def get_parser():
     """Get parser of arguments."""
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-t', '--template', help="template PDB file used for reconstruction to full atom models", required=True)
     parser.add_argument('-f', '--trafl', help="SimRNA trafl file", required=True)
-    parser.add_argument('-c', '--cleanup', action='store_true', help="Keep only *_AA.pdb files, remove *.ss_detected and *.pdb")
+    parser.add_argument('-c', '--cleanup', action='store_true', help="Keep only *_AA.pdb files, move *.ss_detected and *.pdb to _<traj name folder>")
     return parser
 
 def get_data():
     """Get a link to SimRNA data folder in cwd."""
     print 'getting SimRNA data folder in cwd ...'
-    os.system('ln -s %s %s' % (SIMRNA_DATA_PATH, os.getcwd()))
+    cmd = 'ln -s %s %s' % (SIMRNA_DATA_PATH, os.getcwd())
+    logger.info(cmd)
+    os.system(cmd)
         
 def extract(template, trafl):
     """Run SimRNA_trafl2pdb to extract all full atom structures in the trajectory."""

@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 
-"""Select lowest energy frames out of a SimRNA trajectory file.
-
-This code uses heavily the SimRNATrajectory class."""
+"""Select lowest energy frames out of a SimRNA trajectory file. This code uses heavily the SimRNATrajectory class. Be default 100 lowest energy frames is exported."""
 
 from simrna_trajectory import *
 import argparse
 
 def get_parser():
-        """Get parser of arguments"""
-        parser = argparse.ArgumentParser()
-        parser.add_argument('-f', '--file', help="SimRNA trafl file", required=True)
-        return parser
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('-f', '--file', help="SimRNA trafl file", required=True)
+    return parser
 
 if __name__ == '__main__':
     parser = get_parser()
