@@ -70,7 +70,7 @@ Listing::
 Example #3
 ------------------------------------------------------------------------
 
-Starting structure don't have chain id:
+Starting structure doesn't have chain id:
  
 .. code-block:: console
 		  
