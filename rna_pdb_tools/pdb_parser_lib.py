@@ -615,199 +615,51 @@ class StrucFile:
     def set_chain_id(self,line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True):
-        """Get rnapuzzle ready structure.
+    def get_rnapuzzle_ready(self, renumber_residues=True):#:, ready_for="RNAPuzzle"):
+        """Get rnapuzzle (SimRNA) ready structure.
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
-        Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function. 
+        Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function to fix names.
 
         Does:
 
-         - keep only given atoms,
+         - keep only required atoms in the right order
          - renumber residues from 1, if renumber_residues=True (by default)
 
-        .. warning:: requires: Biopython"""
-        try:
-            from Bio import PDB
-            from Bio.PDB import PDBIO
-        except:
-            sys.exit('Error: Install biopython to use this function (pip biopython)')
-
-        import copy
-
-        G_ATOMS = ['P', 'OP1', 'OP2', 'O5\'', 'C5\'', 'C4\'', 'O4\'', 'C3\'', 'O3\'', 'C2\'', 'O2\'', 'C1\'', 'N9', 'C8', 'N7', 'C5', 'C6', 'O6', 'N1', 'C2', 'N2', 'N3', 'C4']
-        A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
-        U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
-        C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
-
-        ftmp = '/tmp/out.pdb'
-        self.write(ftmp,v=False)
-
-        parser = PDB.PDBParser()
-        struct = parser.get_structure('', ftmp)
-        model = struct[0]
-
-        s2 = PDB.Structure.Structure(struct.id)
-        m2 = PDB.Model.Model(model.id)
-
-        chains2 = []
-
-        missing = []
-        for chain in model.get_list():
-            res = [] 
-            for r in chain:
-                res.append(r)
-
-            res = copy.copy(res)
-
-            c2 = PDB.Chain.Chain(chain.id)        
-
-            c = 1  # new chain, goes from 1 !!!
-            for r in res:
-                # hack for amber/qrna
-                r.resname = r.resname.strip()
-                if r.resname == 'RC3': r.resname = 'C'
-                if r.resname == 'RU3': r.resname = 'U'
-                if r.resname == 'RG3': r.resname = 'G'
-                if r.resname == 'RA3': r.resname = 'A'
-
-                if r.resname == 'C3': r.resname = 'C'
-                if r.resname == 'U3': r.resname = 'U'
-                if r.resname == 'G3': r.resname = 'G'
-                if r.resname == 'A3': r.resname = 'A'
-
-                if r.resname == 'RC5': r.resname = 'C'
-                if r.resname == 'RU5': r.resname = 'U'
-                if r.resname == 'RG5': r.resname = 'G'
-                if r.resname == 'RA5': r.resname = 'A'
-
-                if r.resname == 'C5': r.resname = 'C'
-                if r.resname == 'U5': r.resname = 'U'
-                if r.resname == 'G5': r.resname = 'G'
-                if r.resname == 'A5': r.resname = 'A'
-
-                if r.resname.strip() == 'RC': r.resname = 'C'
-                if r.resname.strip() == 'RU': r.resname = 'U'
-                if r.resname.strip() == 'RG': r.resname = 'G'
-                if r.resname.strip() == 'RA': r.resname = 'A'
-
-                r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
-                if renumber_residues:
-                    r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
-                if str(r.get_resname()).strip() == "G":
-
-                    for an in G_ATOMS:
-                        try:
-                            r2.add(r[an])
-                        except KeyError:
-                            #print 'Missing:', an, r, ' new resi', c
-                            missing.append([an, chain.id, r, c])
-                    c2.add(r2)
-
-                elif str(r.get_resname()).strip() == "A":
-                    for an in A_ATOMS:
-                        try:
-                            r2.add(r[an])
-                        except KeyError:
-                            #print 'Missing:', an, r, ' new resi', c
-                            missing.append([an, chain.id, r, c])
-                    c2.add(r2)
-
-                elif str(r.get_resname()).strip() == "C":
-                    for an in C_ATOMS:
-                        try:
-                            r2.add(r[an])
-                        except:
-                            #print 'Missing:', an, r, ' new resi', c
-                            missing.append([an, chain.id, r, c])
-                    c2.add(r2)
-
-                elif str(r.get_resname()).strip() == "U":
-                    for an in U_ATOMS:
-                        try:
-                            r2.add(r[an])
-                        except KeyError:
-                            #print 'Missing:', an, r,' new resi', c
-                            missing.append([an, chain.id, r, c])
-                    
-                    c2.add(r2)
-                c += 1
-            chains2.append(c2)
-
-        io = PDBIO()
-        s2.add(m2)
-        for chain2 in chains2:
-            m2.add(chain2) 
-        #print c2
-        #print m2
-        io.set_structure(s2)
-        #fout = fn.replace('.pdb', '_fx.pdb')
-        fout = '/tmp/outout.pdb' # hack
-        io.save(fout)
-        
-        if missing:
-            print 'REMARK 000 Missing atoms:'
-            for i in missing:
-                print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
-            #raise Exception('Missing atoms in %s' % self.fn)
-        #
-        # fix ter 'TER' -> TER    1528        G A  71
-        #
-        s = StrucFile(fout)
-        self.lines = s.lines
-        c = 0
-        #ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
-        nlines = []
-        no_ters = 0
-        for l in self.lines:
-            if l.startswith('TER'):
-                atom_l = self.lines[c-1]
-                #print 'TER    1528        G A  71 <<<'
-
-                new_l = 'TER'.ljust(80)
-                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
-                new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
-                new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
-                new_l = self.set_res_index(new_l, self.get_res_index(atom_l))                
-                #print new_l
-                nlines.append(new_l)
-                no_ters += 1
-            else:
-                if self.get_atom_index(l):
-                    l = self.set_atom_index(l, self.get_atom_index(l) + no_ters) # 1 ter +1 2 ters +2 etc
-                nlines.append(l)
-            c += 1
-        self.lines = nlines
-
-    def get_simrna_ready(self,  renumber_residues=True):
-        """Get simrna_ready models in format exactly as an output of SimRNA.
-
-        - take only first model,
-        - renumber residues if renumber_residues=True
-
-        Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function. 
+        170305 Merged with get_simrna_ready and fixing OP3 terminal added 
 
         .. warning:: requires: Biopython"""
         try:
             from Bio import PDB
             from Bio.PDB import PDBIO
+            import warnings
+            warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
+            warnings.filterwarnings('ignore', '.*with given element *',)
         except:
             sys.exit('Error: Install biopython to use this function (pip biopython)')
 
-        import warnings
-        
-        warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
-        warnings.filterwarnings('ignore', '.*with given element *',)
-        
         import copy
-
+        # for debugging
+        #v = True
+        v = False
+        #renumber_residues = True
+        
+        #if ready_for == "RNAPuzzle":
         G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
         U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
         C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
 
-        ftmp = '/tmp/out.pdb'
-        self.write(ftmp,v=False)
+        # hmm.. is it the same as RNApuzzle???
+        #if ready_for == "SimRNA":
+        #    G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
+        #    A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
+        #    U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
+        #    C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
+
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        ftmp = tf.name
+        self.write(ftmp, v=False)
 
         parser = PDB.PDBParser()
         struct = parser.get_structure('', ftmp)
@@ -819,8 +671,8 @@ class StrucFile:
         chains2 = []
 
         missing = []
-        
         for chain in model.get_list():
+            if v: print 'chain:', chain
             res = [] 
             for r in chain:
                 res.append(r)
@@ -829,7 +681,7 @@ class StrucFile:
 
             c2 = PDB.Chain.Chain(chain.id)        
 
-            c = 1  # new chain, goes from 1 if renumber True
+            c = 1  # new chain, goes from 1 !!! if renumber True
             for r in res:
                 # hack for amber/qrna
                 r.resname = r.resname.strip()
@@ -861,6 +713,9 @@ class StrucFile:
                 r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
                 if renumber_residues:
                     r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
+                #
+                # experimental: fixing missing OP3
+                #
                 if c == 1:
                     p_missing = True
                     #if p_missing:
@@ -875,6 +730,7 @@ class StrucFile:
                     for a in r:
                         if a.id == 'P':
                             p_missing = False
+                    if v: print 'p_missing', p_missing
 
                     if p_missing:
                             currfn = __file__
@@ -983,8 +839,9 @@ class StrucFile:
         #print c2
         #print m2
         io.set_structure(s2)
-        #fout = fn.replace('.pdb', '_fx.pdb')
-        fout = '/tmp/outout.pdb' # hack
+
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        fout = tf.name
         io.save(fout)
         
         if missing:
@@ -992,8 +849,33 @@ class StrucFile:
             for i in missing:
                 print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
             #raise Exception('Missing atoms in %s' % self.fn)
+        #
+        # fix ter 'TER' -> TER    1528        G A  71
+        #
         s = StrucFile(fout)
         self.lines = s.lines
+        c = 0
+        #ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
+        nlines = []
+        no_ters = 0
+        for l in self.lines:
+            if l.startswith('TER'):
+                atom_l = self.lines[c-1]
+                #print 'TER    1528        G A  71 <<<'
+                new_l = 'TER'.ljust(80)
+                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
+                new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
+                new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
+                new_l = self.set_res_index(new_l, self.get_res_index(atom_l))                
+                #print new_l
+                nlines.append(new_l)
+                no_ters += 1
+            else:
+                if self.get_atom_index(l):
+                    l = self.set_atom_index(l, self.get_atom_index(l) + no_ters) # 1 ter +1 2 ters +2 etc
+                nlines.append(l)
+            c += 1
+        self.lines = nlines
 
     def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
         """Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.

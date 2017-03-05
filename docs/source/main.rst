@@ -11,12 +11,6 @@ Get RNAPuzzle ready
 .. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
    :members: get_rnapuzzle_ready
 
-Get SimRNA ready
------------------------------------------
-
-.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
-   :members: get_simrna_ready
-
 Fetch
 -----------------------------------------
 
