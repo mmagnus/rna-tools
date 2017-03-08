@@ -16,7 +16,6 @@ class RNAalignment():
         self.lines = open(fn).read().split('\n')
         self.io = AlignIO.read(fn, "stockholm")
         self.ss_cons = self.get_ss_cons()
-        print self.ss_cons
         self.copy_ss_cons_to_all()
 
     def copy_ss_cons_to_all(self):
