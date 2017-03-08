@@ -26,6 +26,20 @@ class RNAalignment():
             s.seq_nogaps = str(s.seq).replace('-', '')
             s.ss_nogaps = self.get_ss_remove_gaps(s.seq, s.ss_clean)
 
+    def copy_ss_cons_to_all_editing_sequence(self,seq_id, before, after):
+	"""Change a sequence's sec structure.
+	
+	:param seq_id: string, sequence id to change, eg: 'AE009948.1/1094322-1094400'
+	:param before: string, character to change from, eg: `,`
+	:param after: string, character to change to, eg: `.`
+	.. warning:: before and after has to be one character long
+        """
+        for s in self.io:
+	    if s.id == seq_id
+	      s.letter_annotations['secondary_structure'] = self.ss_cons.replace(before, after)
+	    else:
+	      s.letter_annotations['secondary_structure'] = self.ss_cons
+
     def get_ss_remove_gaps(self, seq, ss):
         """
         :param seq: string, sequence
