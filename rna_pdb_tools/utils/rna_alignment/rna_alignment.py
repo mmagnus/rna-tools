@@ -55,13 +55,13 @@ class RNAalignment():
         return nss
 
     def get_ss_cons(self):
-        for l in open(self.fn):
+        for l in self.lines:
             if l.startswith('#=GC SS_cons'):
                 return l.replace('#=GC SS_cons','').strip()
         
     def get_shift_seq_in_align(self):
         """RF_cons vs '#=GC RF' ???"""
-        for l in open(self.fn):
+        for l in self.lines:
             if l.startswith('#=GC RF'):
                 # #=GC RF                        .g.gc.a
                 l = l.replace('#=GC RF','')
