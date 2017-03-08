@@ -76,9 +76,9 @@ class RNAalignment():
     def copy_ss_cons_to_all_editing_sequence(self,seq_id, before, after):
         """Change a sequence's sec structure.
 	
-        :param seq_id: string, sequence id to change, eg: 'AE009948.1/1094322-1094400'
-        :param before: string, character to change from, eg: `,`
-        :param after: string, character to change to, eg: `.`
+        :param seq_id: string, sequence id to change, eg: ``AE009948.1/1094322-1094400``
+        :param before: string, character to change from, eg: ``,``
+        :param after: string, character to change to, eg: ``.``
         .. warning:: before and after has to be one character long
         """
         for s in self.io:
