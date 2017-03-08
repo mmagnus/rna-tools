@@ -53,7 +53,7 @@ Table of Contents
    * [Requirement](#requirement)
    * [Used libraries](#used-libraries)
    * [Quick notes](#quick-notes)
-   * [Table of Contents](#table-of-contents)
+   * [History](#history)
 
 ## Tour
 
@@ -237,3 +237,7 @@ This packages uses other pieces of software, it would be impossible without them
     |1.......|10.......|20.......|30.......|40.......|50.......|60.......|70.......|80.......|90.......
     123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789
     .........10.....
+
+## History
+
+170308 Add fixing missing atoms of bases, and O2'

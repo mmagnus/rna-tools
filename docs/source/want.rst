@@ -82,4 +82,14 @@ Run::
     ATOM      3  OP2   C A   1     -15.666  -4.265  69.342  1.00 12.68           O
     ...
 
-    
+add missing atoms
+--------------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.rna_pdb_rnapuzzle_ready.get_parser
+   :prog: rna_pdb_rnapuzzle_ready.py
+
+The tool is using the function:
+
+.. automethod:: rna_pdb_tools.pdb_parser_lib.StrucFile.get_rnapuzzle_ready
+	  

@@ -618,18 +618,23 @@ class StrucFile:
     def set_chain_id(self,line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True):#:, ready_for="RNAPuzzle"):
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False):#:, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
+
+        Clean up a structure, get corrent order of atoms.
+
+        :param renumber_residues: boolean, from 1 to ..., second chain starts from 1 etc. 
+        :param fix_missing_atoms: boolean, superimpose motifs from the minilibrary and copy-paste missing atoms, this is super crude, so should be used with caution.
+
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
         Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function to fix names.
 
-        Does:
-
-         - keep only required atoms in the right order
-         - renumber residues from 1, if renumber_residues=True (by default)
-
         170305 Merged with get_simrna_ready and fixing OP3 terminal added 
+        170308 Fix missing atoms for bases, and O2'
+
+        .. image:: ../pngs/fix_missing_bases.png
+        **Fig.** Rebuild ACGU base-less. It's not perfect but good enough for some applications.
 
         .. warning:: requires: Biopython"""
         try:
@@ -720,6 +725,7 @@ class StrucFile:
                 # experimental: fixing missing OP3
                 #
                 if c == 1:
+                    # if p_missing
                     p_missing = True
                     #if p_missing:
                     #    try:
@@ -735,7 +741,7 @@ class StrucFile:
                             p_missing = False
                     if v: print 'p_missing', p_missing
 
-                    if p_missing:
+                    if p_missing and fix_missing_atoms:
                             currfn = __file__
                             if currfn == '':
                                 path = '.'
@@ -771,6 +777,184 @@ class StrucFile:
                     #io = PDB.PDBIO()
                     #io.set_structure( po3_struc )
                     #io.save("po3.pdb")
+
+                    # if o2p_missing
+                    o2p_missing = True
+                    #if p_missing:
+                    for a in r:
+                        if a.id == "O2'":
+                            o2p_missing = False
+                    if v: print 'o2p_missing', o2p_missing
+
+                    if o2p_missing and fix_missing_atoms:
+                            currfn = __file__
+                            if currfn == '':
+                                path = '.'
+                            else:
+                                path = os.path.dirname(currfn)
+                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+
+                            o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb') 
+                            o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
+
+                            r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
+                            o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, o2p_atoms)
+                            rms = round(sup.rms, 3)
+
+                            sup.apply( o2p_struc.get_atoms() ) # to all atoms of o2p
+
+                            r.add( o2p["O2'"])
+
+                    o2p_missing = False # off this function
+
+                    # fix C
+                if str(r.get_resname()).strip() == "C" and fix_missing_atoms:
+                    for a in r:
+                        if a.id == "N1":
+                            break
+                    else: # fix
+                            currfn = __file__
+                            if currfn == '':
+                                path = '.'
+                            else:
+                                path = os.path.dirname(currfn)
+                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+
+                            C_struc = PDB.PDBParser().get_structure('', path + '/data/C.pdb') 
+                            C = [C_atom for C_atom in C_struc[0].get_residues()][0]
+
+                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                            C_atoms = [C["O4'"], C["C2'"], C["C1'"]]
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, C_atoms)
+                            rms = round(sup.rms, 3)
+
+                            sup.apply( C_struc.get_atoms() ) # to all atoms of C
+
+                            r.add( C["N1"])
+                            r.add( C["C2"])
+                            r.add( C["O2"])
+                            r.add( C["N3"])
+                            r.add( C["C4"])                            
+                            r.add( C["N4"])
+                            r.add( C["C5"])
+                            r.add( C["C6"])
+
+                # fix U
+                if str(r.get_resname()).strip() == "U" and fix_missing_atoms:
+                    for a in r:
+                        if a.id == "N1":
+                            break
+                    else: # fix
+                            currfn = __file__
+                            if currfn == '':
+                                path = '.'
+                            else:
+                                path = os.path.dirname(currfn)
+                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+
+                            U_struc = PDB.PDBParser().get_structure('', path + '/data/U.pdb') 
+                            U = [U_atom for U_atom in U_struc[0].get_residues()][0]
+
+                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                            U_atoms = [U["O4'"], U["C2'"], U["C1'"]]
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, U_atoms)
+                            rms = round(sup.rms, 3)
+
+                            sup.apply( U_struc.get_atoms() ) # to all atoms of U
+
+                            r.add( U["N1"])
+                            r.add( U["C2"])
+                            r.add( U["O2"])
+                            r.add( U["N3"])
+                            r.add( U["C4"])                            
+                            r.add( U["O4"])
+                            r.add( U["C5"])
+                            r.add( U["C6"])
+
+                # fix G
+                if str(r.get_resname()).strip() == "G" and fix_missing_atoms:
+                    for a in r:
+                        if a.id == "N1":
+                            break
+                    else: # fix
+                            currfn = __file__
+                            if currfn == '':
+                                path = '.'
+                            else:
+                                path = os.path.dirname(currfn)
+                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+
+                            G_struc = PDB.PDBParser().get_structure('', path + '/data/G.pdb') 
+                            G = [G_atom for G_atom in G_struc[0].get_residues()][0]
+
+                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                            G_atoms = [G["O4'"], G["C2'"], G["C1'"]]
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, G_atoms)
+                            rms = round(sup.rms, 3)
+
+                            sup.apply( G_struc.get_atoms() ) # to all atoms of G
+
+                            r.add( G["N9"])
+                            r.add( G["C8"])
+                            r.add( G["N7"])
+                            r.add( G["C5"])
+                            r.add( G["C6"])                            
+                            r.add( G["O6"])
+                            r.add( G["N1"])
+                            r.add( G["C2"])
+                            r.add( G["N2"])
+                            r.add( G["N3"])
+                            r.add( G["C4"])
+
+                # fix A
+                if str(r.get_resname()).strip() == "A" and fix_missing_atoms:
+                    for a in r:
+                        if a.id == "N1":
+                            break
+                    else: # fix
+                            currfn = __file__
+                            if currfn == '':
+                                path = '.'
+                            else:
+                                path = os.path.dirname(currfn)
+                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+
+                            A_struc = PDB.PDBParser().get_structure('', path + '/data/A.pdb') 
+                            A = [A_atom for A_atom in A_struc[0].get_residues()][0]
+
+                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                            A_atoms = [A["O4'"], A["C2'"], A["C1'"]]
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, A_atoms)
+                            rms = round(sup.rms, 3)
+
+                            sup.apply( A_struc.get_atoms() ) # to all atoms of A
+
+                            r.add( A["N9"])
+                            r.add( A["C8"])
+                            r.add( A["N7"])
+                            r.add( A["C5"])
+                            r.add( A["C6"])                            
+                            r.add( A["N6"])
+                            r.add( A["N1"])
+                            r.add( A["C2"])
+                            r.add( A["N3"])
+                            r.add( A["C4"])
 
                 if str(r.get_resname()).strip() == "G":
                     for an in G_ATOMS:
