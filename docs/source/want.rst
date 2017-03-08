@@ -39,6 +39,18 @@ Examples::
 
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
+get numbering of your structure and rename chains
+----------------------------------------------------
+Rename chain B in structure 4_das_1_rpr.pdb::
+
+  $ rna_pdb_tools.py --get_seq  4_das_1_rpr.pdb
+  > 4_das_1_rpr.pdb B:1-126
+  GGCUUAUCAAGAGAGGUGGAGGGACUGGCCCGAUGAAACCCGGCAACCACUAGUCUAGCGUCAGCUUCGGCUGACGCUAGGCUAGUGGUGCCAAUUCCUGCAGCGGAAACGUUGAAAGAUGAGCCA
+  $ rna_pdb_tools.py --edit 'B:1-126>A:1-126' 4_das_1_rpr.pdb > 4_das_1_rpr2.pdb
+  $ rna_pdb_tools.py --get_seq  4_das_1_rpr2.pdb
+  > 4_das_1_rpr2.pdb A:1-126
+  GGCUUAUCAAGAGAGGUGGAGGGACUGGCCCGAUGAAACCCGGCAACCACUAGUCUAGCGUCAGCUUCGGCUGACGCUAGGCUAGUGGUGCCAAUUCCUGCAGCGGAAACGUUGAAAGAUGAGCCA
+
 edit your structure (rename chain)
 --------------------------------------------
 
