@@ -3,6 +3,7 @@
 from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+import tempfile
 
 class RNAalignment():
     """RNA alignment
@@ -16,8 +17,53 @@ class RNAalignment():
         self.lines = open(fn).read().split('\n')
         self.io = AlignIO.read(fn, "stockholm")
         self.ss_cons = self.get_ss_cons()
-        print self.ss_cons
         self.copy_ss_cons_to_all()
+        self.rf_cons = self.get_gc_rf_cons()
+        self.rf = self.get_gc_rf()
+        
+    def __exit__(self):
+        pass
+    
+    def __enter__(self):
+        pass
+    
+    def subset(self, ids, verbose=False):
+        """
+        Get subset for ids::
+
+            # STOCKHOLM 1.0
+            #=GF WK Tetrahydrofolate_riboswitch
+            ..
+            AAQK01002704.1/947-1059              -U-GC-AAAAUAGGUUUCCAUGC..
+            #=GC SS_cons                         .(.((.((----((((((((((...
+            #=GC RF_cons                         .g.gc.aGAGUAGggugccgugc..
+            //
+
+        """
+        nalign = ''
+        for l in self.lines:
+            if l.startswith('//'):
+                nalign += l + '\n'
+            if l.startswith('#'):
+                nalign += l + '\n'
+            else:
+                for i in ids:
+                    if l.startswith(i):
+                        if verbose: print 'l', l
+                        nalign += l + '\n'
+                        
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        f = open(tf.name,'w')
+        f.write(nalign)
+        f.write(self.rf_cons + '\n')
+        f.close()
+        #return RNAalignment(tf.name)
+        
+    def write(self, fn):
+        """Write the alignment to a file"""
+        f = open(fn,'w')
+        f.write('\n'.join(self.lines))
+        f.close()
 
     def copy_ss_cons_to_all(self):
         for s in self.io:
@@ -42,10 +88,24 @@ class RNAalignment():
         return nss
 
     def get_ss_cons(self):
-        for l in open(self.fn):
+        for l in self.lines:
             if l.startswith('#=GC SS_cons'):
                 return l.replace('#=GC SS_cons','').strip()
         
+    def get_gc_rf_cons(self):
+        """#=GC RF_cons
+        """
+        for l in self.lines:
+            if l.startswith('#=GC RF_cons'):
+                return l.replace('#=GC RF_cons','').strip()
+
+    def get_gc_rf(self):
+        """#=GC RF
+        """
+        for l in self.lines:
+            if l.startswith('#=GC RF'):
+                return l.replace('#=GC RF','').strip()
+
     def get_shift_seq_in_align(self):
         """RF_cons vs '#=GC RF' ???"""
         for l in open(self.fn):
@@ -219,9 +279,89 @@ class RNAalignment():
                 return s
         raise Exception('Seq not found')
 
+    def align_seq(self, seq):
+        """
+        :var self.rf: string, ``.g.gc.aGAGUAGggugccgugcGUuA............``
+        :param seq: string, ``-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUC...``
+        :return nseq: seq seq, seq that can be inserted into alignemnt, ``.-.GG.AGAGUA-GAUGAUUCGCGUUA`` ! . -> -
+        """
+        seq = list(seq)
+        seq.reverse()
+        nseq = ''
+        for n in self.rf: # n nuclotide
+            if n != '.':
+                try:
+                    j = seq.pop()
+                except:
+                    j = '.'
+                nseq += j
+            if n == '.':
+                nseq += '.'# + j
+        return nseq.replace('.', '-')
+
     def __str__(self):
         return (str(self.io))
+
+class CMAlign():
+    """CMAalign
+
+    http://manpages.ubuntu.com/manpages/wily/man1/cmalign.1.html
+    """
+    def __init__(self, output=None):
+        self.output = output
+
+    def get_cmalign(self, seq, cm):
+        """
+        :param seq: seq fn
+        :param cm: cm fn
+
+        Run::
+
+            $ cmalign RF01831.cm 4lvv.seq
+            # STOCKHOLM 1.0
+            #=GF AU Infernal 1.1.2
+
+            4lvv         -GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUCG-UCACACAACGAAGC---GAGA---GCGCGGUGAAUCAUU-GCAUCCGCUCCA
+            #=GR 4lvv PP .********.******************9999998.***********.8999999******8...5555...8**************.************
+            #=GC SS_cons (((((----(((((((((((,,,,,<<-<<<<<<<<___________>>>>>>>>>>,,,<<<<______>>>>,,,)))))))))))-------)))))
+            #=GC RF      ggcaGAGUAGggugccgugcGUuAAGUGccggcgggAcGGGgaGUUGcccgccggACGAAgggcaaaauugcccGCGguacggcaccCGCAUcCgCugcc
+            // 
+
+        """
+        cmd = ['cmalign', cm, seq]
+        o = subprocess.Popen(cmd, shell=True, stdout=gramm_log, stderr=subprocess.PIPE)
+        stdout = o.stdout.read().strip()
+        stderr = o.stderr.read().strip()
+        print o
     
+    def get_gc_rf(self):
+        """#=GC RF
+        
+        :var self.output: string
+        """
+        for l in self.output.split('\n'):
+            if l.startswith('#=GC RF'):
+                return l.replace('#=GC RF','').strip()
+
+    def get_gc_rf_cons(self):
+        """#=GC RF_cons
+        
+        :var self.output: string
+        """
+        for l in self.output.split('\n'):
+            if l.startswith('#=GC RF_cons'):
+                return l.replace('#=GC RF_cons','').strip()
+
+    def get_seq(self):
+        """
+        :var self.output: output of cmalign, string 
+        """
+        for l in self.output.split('\n'):
+            if l.strip():
+                if not l.startswith('#'):
+                    #  4lvv         -GGAGAGUA-GAUGAU
+                    return l.split()[1].strip()
+
 if __name__ == '__main__':
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     #print a.get_shift_seq_in_align()
