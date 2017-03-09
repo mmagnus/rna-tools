@@ -687,6 +687,8 @@ class StrucFile:
         chains2 = []
 
         missing = []
+        fixed = []
+        
         for chain in model.get_list():
             if v: print 'chain:', chain
             res = [] 
@@ -854,6 +856,8 @@ class StrucFile:
                             r.add( C["C5"])
                             r.add( C["C6"])
 
+                            fixed.append(['add the whole base C', chain.id, r, c])
+                            
                 # fix U
                 if str(r.get_resname()).strip() == "U" and fix_missing_atoms:
                     for a in r:
@@ -889,6 +893,7 @@ class StrucFile:
                             r.add( U["C5"])
                             r.add( U["C6"])
 
+                            fixed.append(['add the whole base U', chain.id, r, c])
                 # fix G
                 if str(r.get_resname()).strip() == "G" and fix_missing_atoms:
                     for a in r:
@@ -927,6 +932,7 @@ class StrucFile:
                             r.add( G["N3"])
                             r.add( G["C4"])
 
+                            fixed.append(['add the whole base G', chain.id, r, c])
                 # fix A
                 if str(r.get_resname()).strip() == "A" and fix_missing_atoms:
                     for a in r:
@@ -963,6 +969,8 @@ class StrucFile:
                             r.add( A["C2"])
                             r.add( A["N3"])
                             r.add( A["C4"])
+
+                            fixed.append(['add the whole base A', chain.id, r, c])
 
                 if str(r.get_resname()).strip() == "G":
                     for an in G_ATOMS:
@@ -1039,6 +1047,11 @@ class StrucFile:
         fout = tf.name
         io.save(fout)
         
+        if fixed:
+            print 'REMARK 000 Fixed atoms/residues:'
+            for i in fixed:
+                print 'REMARK 000 - ', i[0], 'in chain:', i[1], i[2], 'residue #', i[3]
+                
         if missing:
             print 'REMARK 000 Missing atoms:'
             for i in missing:
