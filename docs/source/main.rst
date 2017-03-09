@@ -11,6 +11,15 @@ Get RNAPuzzle ready
 .. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
    :members: get_rnapuzzle_ready
 
+Get sequence
+-----------------------------------------
+
+Example::
+
+      $ rna_pdb_tools.py --get_seq 5_solution_1.pdb
+      > 5_solution_1.pdb A:1-576
+      CAUCCGGUAUCCCAAGACAAUCUCGGGUUGGGUUGGGAAGUAUCAUGGCUAAUCACCAUGAUGCAAUCGGGUUGAACACUUAAUUGGGUUAAAACGGUGGGGGACGAUCCCGUAACAUCCGUCCUAACGGCGACAGACUGCACGGCCCUGCCUCAGGUGUGUCCAAUGAACAGUCGUUCCGAAAGGAAG
+
 Fetch
 -----------------------------------------
 
