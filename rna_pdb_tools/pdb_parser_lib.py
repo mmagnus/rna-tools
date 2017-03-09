@@ -633,6 +633,9 @@ class StrucFile:
         - 170305 Merged with get_simrna_ready and fixing OP3 terminal added 
         - 170308 Fix missing atoms for bases, and O2'
 
+        .. image:: ../pngs/fix_missing_o_before_after.png
+        Fig. Add missing O2' atom (before and after).
+
         .. image:: ../pngs/fix_missing_superposition.png
         Fig. The residue to fix is in cyan. The G base from the library in red. Atoms O4', C2', C1' are shared between the sugar (in cyan) and the G base from the library (in red). These atoms are used to superimpose the G base on the sugar, and then all atoms from the base are copied to the residues.
 
