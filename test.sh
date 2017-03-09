@@ -72,7 +72,9 @@ cd ../..
 
 # rna_pdb_rnapuzzle_ready.py
 echo 'rna_pdb_rnapuzzle_ready.py'
-python rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
+./rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
+./rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/missing_o.pdb > output/missing_o_fixed.pdb
+
 
 cd ..
 codecov --token=e78310dd-7a28-4837-98ef-c93533a84c5b
