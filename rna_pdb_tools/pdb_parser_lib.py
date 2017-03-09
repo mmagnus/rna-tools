@@ -630,12 +630,17 @@ class StrucFile:
 
         Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function to fix names.
 
-        170305 Merged with get_simrna_ready and fixing OP3 terminal added 
-        170308 Fix missing atoms for bases, and O2'
+        - 170305 Merged with get_simrna_ready and fixing OP3 terminal added 
+        - 170308 Fix missing atoms for bases, and O2'
+
+        .. image:: ../pngs/fix_missing_superposition.png
+        Fig. The residue to fix is in cyan. The G base from the library in red. Atoms O4', C2', C1' are shared between the sugar (in cyan) and the G base from the library (in red). These atoms are used to superimpose the G base on the sugar, and then all atoms from the base are copied to the residues.
 
         .. image:: ../pngs/fix_missing_bases.png
         **Fig.** Rebuild ACGU base-less. It's not perfect but good enough for some applications.
 
+        .. warning:: It was only tested with the whole base missing!
+        
         .. warning:: requires: Biopython"""
         try:
             from Bio import PDB
