@@ -46,6 +46,9 @@ python rna_pdb_tools.py --get_rnapuzzle_ready input/1_das_1_rpr_fixed.pdb > outp
 ./rna_pdb_tools.py --no_hr --get_seq input/tetraloop.pdb >> output/get_seq.txt
 ./rna_pdb_tools.py --get_seq input/1xjr.pdb > output/1xjr.seq
 ./rna_pdb_seq.py input/1ykq_clx.pdb > output/1ykq_clx.seq
+./rna_pdb_seq.py input/1xjr.pdb > output/1xjr2.seq
+./rna_pdb_seq.py input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb > output/5k7c_clean_onechain_renumber_as_puzzle_srr.seq
+./rna_pdb_seq.py input/6_solution_0.pdb > output/6_solution_0.seq
 
 ## --renumber_residues
 ./rna_pdb_tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
