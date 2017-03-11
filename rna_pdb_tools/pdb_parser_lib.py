@@ -187,28 +187,93 @@ class StrucFile:
     def get_seq(self):
         """
         You get `chains` such as:
-        OrderedDict([('A', {'header': 'A:1-47', 'seq': 'CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAU'}), ('B', {'header': 'B:48-58', 'seq': 'AUCAGGUGCAA'})])"""
-        
+        OrderedDict([('A', {'header': 'A:1-47', 'seq': 'CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAU'}), ('B', {'header': 'B:48-58', 'seq': 'AUCAGGUGCAA'})])
+
+        .. warning:: take only ATOM and HETATM lines.
+        """
+        seq = self.lines[0][19]
+        chains = OrderedDict()
+        resi_prev = None
+        chain_prev = None
+
+        chains = {}
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM') :
+                resi = int(l[22:26])
+                if resi_prev != resi:
+                    resname = l[17:20].strip()
+                    chain_curr = l[21]
+
+                    if len(resname) == 'GTP': # DG -> g GTP
+                        resname = 'g'
+                    if len(resname) > 1: # DG -> g GTP
+                        resname = resname[-1].lower()
+
+                    try:
+                        chains[chain_curr]['resi'].append(resi)
+                        chains[chain_curr]['seq'].append(resname)
+                    except KeyError:
+                        chains[chain_curr] = {}
+                        chains[chain_curr]['resi'] = []
+                        chains[chain_curr]['resi'].append(resi)
+                        chains[chain_curr]['seq'] = []
+                        chains[chain_curr]['seq'].append(resname)
+
+                    resi_prev = resi
+                    chain_prev = chain_curr
+
+        for c in chains.keys():
+            header = c + ':' + str(chains[c]['resi'][0]) + '-' # add A:1-
+            for i in range(1, len(chains[c]['resi'])): # start from second element
+                if chains[c]['resi'][i] - chains[c]['resi'][i - 1] > 1:
+                    header += '' + str(chains[c]['resi'][i - 1]) + ' '
+                    header += '' + str(chains[c]['resi'][i]) + '-'                
+            header += '' + str(chains[c]['resi'][-1])                
+            chains[c]['header'] = header # add -163 (last element)
+
+        txt = ''
+        for c in chains.keys():
+            txt += '> ' + os.path.basename(self.fn.replace('.pdb', '')) + ' ' + chains[c]['header'] + '\n'
+            txt += ''.join(chains[c]['seq']) + '\n'
+        return txt.strip()
+
+
+    def __get_seq(self):
+        """get_seq DEPRECATED
+
+        You get `chains` such as:
+        OrderedDict([('A', {'header': 'A:1-47', 'seq': 'CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAU'}), ('B', {'header': 'B:48-58', 'seq': 'AUCAGGUGCAA'})])
+
+        .. warning:: take only ATOM and HETATM lines.
+        """
         seq = ''
         curri = int(self.lines[0][22:26])
         seq = self.lines[0][19]
         chains = OrderedDict()
-        curri = -100000000000000 #ugly
+        curri = -100000000000000000000000000000000 #ugly
         chain_prev = None
+
         for l in self.lines:
             if l.startswith('ATOM') or l.startswith('HETATM') :
                 resi = int(l[22:26])
                 if curri != resi:
+                    print l
                     resname = l[17:20].strip()
                     if len(resname) == 'GTP': # DG -> g GTP
                         resname = 'g'
                     if len(resname) > 1: # DG -> g GTP
                         resname = resname[-1].lower()
+
                     seq += resname
                     chain_curr = l[21]
+
+                    # if distances between curr res and previevs is bigger than 1, then show it as a fragment
+                    if resi - curri > 1 and resi - curri < 100000000000000000000000000000000: # ugly hack
+                        print resi - curri
+                        chains[chain_prev]['header'] += '-' + str(resi_prev)                        
                     if chain_prev != chain_curr and chain_prev:
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
-                    if chains.has_key(chain_curr):                
+                    if chains.has_key(chaoin_curr):                
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()

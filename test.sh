@@ -45,6 +45,7 @@ python rna_pdb_tools.py --get_rnapuzzle_ready input/1_das_1_rpr_fixed.pdb > outp
 ./rna_pdb_tools.py --no_hr --get_seq input/5k7c.pdb > output/get_seq.txt
 ./rna_pdb_tools.py --no_hr --get_seq input/tetraloop.pdb >> output/get_seq.txt
 ./rna_pdb_tools.py --get_seq input/1xjr.pdb > output/1xjr.seq
+./rna_pdb_seq.py input/1ykq_clx.pdb > output/1ykq_clx.seq
 
 ## --renumber_residues
 ./rna_pdb_tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
@@ -74,7 +75,6 @@ cd ../..
 echo 'rna_pdb_rnapuzzle_ready.py'
 ./rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
 ./rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/missing_o.pdb > output/missing_o_fixed.pdb
-
 
 cd ..
 codecov --token=e78310dd-7a28-4837-98ef-c93533a84c5b
