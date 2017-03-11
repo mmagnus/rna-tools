@@ -154,7 +154,7 @@ html_theme_options = {
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
 #
-# html_title = u'rna-pdb-tools v0.99'
+html_title = u'rna-pdb-tools v0.99'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #
@@ -280,8 +280,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'rna-pdb-tools.tex', u'rna-pdb-tools Documentation',
-     u'Marcin Magnus et al', 'manual'),
+    (master_doc, 'rna-pdb-tools.tex', u'rna-pdb-tools documentation',
+     u'Marcin Magnus et al.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
