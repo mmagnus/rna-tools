@@ -185,11 +185,23 @@ class StrucFile:
         return wrong
 
     def get_seq(self):
-        """
-        You get `chains` such as:
-        OrderedDict([('A', {'header': 'A:1-47', 'seq': 'CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAU'}), ('B', {'header': 'B:48-58', 'seq': 'AUCAGGUGCAA'})])
+        """Get seq (v2) gets segments of chains with correct numbering
 
-        .. warning:: take only ATOM and HETATM lines.
+        Run::
+
+            python rna_pdb_seq.py input/1ykq_clx.pdb
+            > 1ykq_clx A:101-111
+            GGAGCUCGCCC
+            > 1ykq_clx B:201-238
+            GGGCGAGGCCGUGCCAGCUCUUCGGAGCAAUACUCGGC
+
+            > 6_solution_0 A:1-19 26-113 117-172
+            GGCGGCAGGUGCUCCCGACGUCGGGAGUUAAAAGGGAAG
+
+        Chains is ``{'A': {'header': 'A:1-19 26-113 117-172', 'resi': [1, 2, 3, ..., \
+        19, 26, 27, ..., 172], 'seq': ['G', 'G', 'C', 'G', ... C', 'G', 'U', 'C']}}``
+
+        .. warning :: take only ATOM and HETATM lines.
         """
         seq = self.lines[0][19]
         chains = OrderedDict()
