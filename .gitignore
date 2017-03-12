@@ -13,3 +13,4 @@ diffpdb_conf.py
 bin
 *outCR
 rpt_config_local.py
+.ipynb_checkpoints
