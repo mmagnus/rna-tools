@@ -4,9 +4,13 @@ from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 import tempfile
+import subprocess
+
+class RNAalignmentError(Exception):
+    pass
 
 class RNAalignment():
-    """RNA alignment
+    """RNA alignment - adapter class around BioPython to do RNA stuff
 
     :var self.io: ``AlignIO.read(fn, "stockholm")``
 
@@ -18,25 +22,18 @@ class RNAalignment():
         self.io = AlignIO.read(fn, "stockholm")
         self.ss_cons = self.get_ss_cons()
         self.copy_ss_cons_to_all()
-        self.rf_cons = self.get_gc_rf_cons()
+        #self.rf_cons = self.get_gc_rf_cons()
         self.rf = self.get_gc_rf()
-        
-    def __exit__(self):
-        pass
-    
-    def __enter__(self):
-        pass
-    
+
     def subset(self, ids, verbose=False):
-        """
-        Get subset for ids::
+        """Get subset for ids::
 
             # STOCKHOLM 1.0
             #=GF WK Tetrahydrofolate_riboswitch
             ..
             AAQK01002704.1/947-1059              -U-GC-AAAAUAGGUUUCCAUGC..
             #=GC SS_cons                         .(.((.((----((((((((((...
-            #=GC RF_cons                         .g.gc.aGAGUAGggugccgugc..
+            #=GC RF                              .g.gc.aGAGUAGggugccgugc..
             //
 
         """
@@ -53,9 +50,10 @@ class RNAalignment():
                         nalign += l + '\n'
                         
         tf = tempfile.NamedTemporaryFile(delete=False)
+        print 'Saved to ', tf.name
         f = open(tf.name,'w')
         f.write(nalign)
-        f.write(self.rf_cons + '\n')
+        f.write(self.rf + '\n')
         f.close()
         #return RNAalignment(tf.name)
         
@@ -79,6 +77,7 @@ class RNAalignment():
         :param seq_id: string, sequence id to change, eg: ``AE009948.1/1094322-1094400``
         :param before: string, character to change from, eg: ``,``
         :param after: string, character to change to, eg: ``.``
+
         .. warning:: before and after has to be one character long
         """
         for s in self.io:
@@ -106,12 +105,14 @@ class RNAalignment():
             if l.startswith('#=GC SS_cons'):
                 return l.replace('#=GC SS_cons','').strip()
         
-    def get_gc_rf_cons(self):
+    def get_gc_rf_cons(self, verbose=False):
         """#=GC RF_cons
         """
         for l in self.lines:
             if l.startswith('#=GC RF_cons'):
                 return l.replace('#=GC RF_cons','').strip()
+        else:
+            raise RNAalignmentError('There is on #=GC RF_cons in the alignment! There can be #=GC RF but we want #=GC RF_cons')
 
     def get_gc_rf(self):
         """#=GC RF
@@ -119,6 +120,8 @@ class RNAalignment():
         for l in self.lines:
             if l.startswith('#=GC RF'):
                 return l.replace('#=GC RF','').strip()
+        else:
+            raise RNAalignmentError('There is on #=GC RF in the alignment!')
 
     def get_shift_seq_in_align(self):
         """RF_cons vs '#=GC RF' ???"""
@@ -126,7 +129,7 @@ class RNAalignment():
             if l.startswith('#=GC RF'):
                 # #=GC RF                        .g.gc.a
                 l = l.replace('#=GC RF','')
-                c = 12 # len of '#=GC RF'
+                c = 7 #12 # len of '#=GC RF'
                 #                         .g.gc.a
                 for i in l:
                     #print i
@@ -241,37 +244,28 @@ class RNAalignment():
         for l in fnlist:
             print l
 
-    def find_seq_in_align(self, seq, verbose=False):
-        """
-        :param seq: string, seq
+    def find_seq(self, seq, verbose=False):
+        """Find seq (also subsequences) in the alignment.
+
+        :param seq: string, seq, seq is upper()
         :param verbose: boolean, be verbose or not
         """
-        seq = seq.replace('-','')
+        seq = seq.replace('-','').upper()
         for s in self.io:
-            seq_str = str(s.seq).replace('-','')
+            seq_str = str(s.seq).replace('-','').upper()
             if verbose:
                 print (seq_str)
-            if seq == seq_str:
+            if seq_str.find(seq) > -1:
                 print 'Match:', s.id
                 print s
                 print seq
                 return s
         print 'Not found'
 
-    def get_rfam_ss_notat_to_dot_bracket_notat(self, c):
-        """Take (c)haracter and standardize ss"""
-        if c in [',', '_']:
-            return '.'
-        if c == '<':
-            return '('
-        if c == '>':
-            return ')'
-        return c
-
     def get_clean_ss(self, ss):
         nss = ''
         for s in ss:
-            nss += self.get_rfam_ss_notat_to_dot_bracket_notat(s)
+            nss += get_rfam_ss_notat_to_dot_bracket_notat(s)
         return nss
     
     def get_seq_ss(self,seq_id):#seq,ss):
@@ -284,12 +278,18 @@ class RNAalignment():
             if i != '-': # gap
                 #print i,j
                 nseq += i
-                nss += rfam_ss_notat_to_dot_bracket_notat(j)
+                nss += get_rfam_ss_notat_to_dot_bracket_notat(j)
         return nseq.strip(), nss.strip()
 
     def get_seq(self, seq_id):
         for s in self.io:
             if s.id == seq_id:
+                return s
+        raise Exception('Seq not found')
+
+    def get_seq_with_name(self, seq_name):
+        for s in self.io:
+            if s.name == seq_name:
                 return s
         raise Exception('Seq not found')
 
@@ -317,15 +317,18 @@ class RNAalignment():
         return (str(self.io))
 
 class CMAlign():
-    """CMAalign
+    """CMAalign class around cmalign (of Inferal).
 
     http://manpages.ubuntu.com/manpages/wily/man1/cmalign.1.html
     """
-    def __init__(self, output=None):
-        self.output = output
+    def __init__(self, outputfn=None):
+        """Use run_cmalign or load cmalign output from a file"""
+        if outputfn:
+            self.output = open(outputfn).read().strip().split('\n')
 
-    def get_cmalign(self, seq, cm):
-        """
+    def run_cmalign(self, seq, cm, verbose=True):
+        """Run cmalign and process the result.
+
         :param seq: seq fn
         :param cm: cm fn
 
@@ -341,40 +344,63 @@ class CMAlign():
             #=GC RF      ggcaGAGUAGggugccgugcGUuAAGUGccggcgggAcGGGgaGUUGcccgccggACGAAgggcaaaauugcccGCGguacggcaccCGCAUcCgCugcc
             // 
 
+        .. warning :: requires cmalign to be set in your shell
         """
-        cmd = ['cmalign', cm, seq]
-        o = subprocess.Popen(cmd, shell=True, stdout=gramm_log, stderr=subprocess.PIPE)
+        cmd = 'cmalign -g ' + cm + ' ' + seq # global
+        if verbose: print 'cmd', cmd
+        o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout = o.stdout.read().strip()
         stderr = o.stderr.read().strip()
-        print o
+        if verbose: print stdout
+        self.output = stdout.split('\n')
     
     def get_gc_rf(self):
-        """#=GC RF
+        """Get ``#=GC RF``.
         
         :var self.output: string
         """
-        for l in self.output.split('\n'):
+        for l in self.output:
             if l.startswith('#=GC RF'):
                 return l.replace('#=GC RF','').strip()
-
-    def get_gc_rf_cons(self):
-        """#=GC RF_cons
-        
-        :var self.output: string
-        """
-        for l in self.output.split('\n'):
-            if l.startswith('#=GC RF_cons'):
-                return l.replace('#=GC RF_cons','').strip()
 
     def get_seq(self):
         """
         :var self.output: output of cmalign, string 
         """
-        for l in self.output.split('\n'):
+        for l in self.output:
             if l.strip():
                 if not l.startswith('#'):
                     #  4lvv         -GGAGAGUA-GAUGAU
                     return l.split()[1].strip()
+
+def clean_seq_and_ss(seq,ss):
+        nseq = ''
+        nss = ''
+        for i,j in zip(seq,ss):
+            if i != '-': # gap
+                #print i,j
+                nseq += i
+                nss += get_rfam_ss_notat_to_dot_bracket_notat(j)
+        return nseq.strip(), nss.strip()
+
+def get_rfam_ss_notat_to_dot_bracket_notat(c):
+    """Take (c)haracter and standardize ss"""
+    if c in [',', '_',':']:
+        return '.'
+    if c == '<':
+        return '('
+    if c == '{':
+        return '('
+    if c == '}':
+        return ')'
+    if c == ']':
+        return ')'
+    if c == '[':
+        return '('
+    if c == '>':
+        return ')'
+    return c
+
 
 if __name__ == '__main__':
     a = RNAalignment('test_data/RF00167.stockholm.sto')
@@ -396,3 +422,5 @@ if __name__ == '__main__':
     for s in a.io:
         print s.seq_nogaps
         print s.ss_nogaps
+
+    a.write('test_output/out.sto')

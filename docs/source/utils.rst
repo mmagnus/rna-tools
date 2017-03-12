@@ -71,23 +71,49 @@ Cluster
 RNA Alignment
 ------------------------------------------
 
-.. automodule:: rna_pdb_tools.utils.rna_alignment.rna_alignment
+RNAalignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNAalignment
    :members:
 
 
-rna_align_get_ss_from_alignment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CMAlign
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.CMAlign
+   :members:
+
+
+Shell utils
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+rna_align_get_ss_from_alignment.py
+``````````````````````````````````````````
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_alignment.rna_align_get_ss_from_alignment.get_parser
    :prog: rna_align_get_ss_from_alignment.py
 
-rna_align_find_seq_in_alignment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+rna_align_seq_to_alignment.py
+``````````````````````````````````````````
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_alignment.rna_align_seq_to_alignment.get_parser
+   :prog: rna_align_seq_to_alignment.py
 
+rna_align_find_seq_in_alignment.py
+```````````````````````````````````````````          
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_alignment.rna_align_find_seq_in_alignment.get_parser
-   :prog: rna_align_find_seq_in_alignment
+   :prog: rna_align_find_seq_in_alignment.py
+
+rna_align_find_core.py
+`````````````````````````````````````````
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_alignment.rna_align_find_core.get_parser
+   :prog: rna_align_find_core.py
+
+
 
 RNA Helix Vis
 -----------------------------------------

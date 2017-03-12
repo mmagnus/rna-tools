@@ -13,119 +13,40 @@ cmaling::
     #=GC RF      ggcaGAGUAGggugccgugcGUuAAGUGccggcgggAcGGGgaGUUGcccgccggACGAAgggcaaaauugcccGCGguacggcaccCGCAUcCgCugcc
     //
 
+Reads seq files::
+   
+   >4lvv
+   GGAGAGUAGAUGAUUCGCGUUAAGUGUGUGUGAAUGGGAUGUCGUCACACAACGAAGCGAGAGCGCGGUGAAUCAUUGCAUCCGCUCCA
 """
+import rna_pdb_tools.utils.rna_alignment.rna_alignment as ra
+
 import sys
 import argparse
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-f', '--file', help="cmalign output",  required=True)
+    parser.add_argument('-f', '--file', help="cmalign output")
     parser.add_argument('-a', '--alignment', help="alignment file",  required=True)
+    parser.add_argument('-m', '--cm', help="cm model to run cmalign on")
+    parser.add_argument('-s', '--seq', help="seq fn, fasta!")
     return parser
-
-def get_seq(cmhfn):
-    """
-    :param cmhfn: cmalign hit filename ^ see 
-    """
-    for l in open(cmhfn):
-        if l.strip():
-            if not l.startswith('#'):
-                #  4lvv         -GGAGAGUA-GAUGAU
-                return l.split()[1].strip()
-    
-def get_gc_rf(a):
-    """#=GC RF
-
-    :parm a: alignment filename
-    """
-    for l in open(a):
-        if l.startswith('#=GC RF'):
-            rf = l.replace('#=GC RF','').strip()
-    return rf
 
 if __name__ == '__main__':
     args = get_parser().parse_args()
-    hrf = get_gc_rf(args.file) # hit rf
-    seq = get_seq(args.file)
-    arf = get_gc_rf(args.alignment) # align rf
 
-    print 'seq', seq
-    #print 'hrf', hrf
-    print 'arf', arf
-    print
-    
-    aa = arf
-    cm = seq #hrf
+    # don't run cmalign
+    if args.file:
+        cma = ra.CMAlign(outputfn=args.file)
+    else:
+        cma = ra.CMAlign()#(outputfn=args.file)
+        cma.run_cmalign(args.seq, args.cm)
 
-    #aa =  ".g.gc.aGAGUAGggugccgugcGUuA.................AGUG.ccggcgggAc.GGGgaGUUGcccgccggACGAA.g.ggc..........................aaaau........................ugcccGCGguacggcac.cCGCAUcCg.Cug.c.c." #cc.u.CgUAUAAucccgggAAUAUGG.cccggga.GUUUCUACCaggcagCC..GUAAAcugccu...GACUAcG.aggg."
-    #cm =  "ggcaGAGUAGggugccgugcGUuAAGUGccggcgggAcGGGgaGUUGcccgccggACGAAgggcaaaauugcccGCGguacggcaccCGCAUcCgCugcc"#ccuCgUAUAAucccgggAAUAUGGcccgggaGUUUCUACCaggcagCCGUAAAcugccuGACUAcGagg"
-    #seq = "-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUCG-UCACACAACGAAGC---GAGA---GCGCGGUGAAUCAUU-GCAUCCGCUCCA"#CUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAG-CCUUAAA-CUCUUGAUUAUGAAG"
-    #ss =  "(((((----(((((((((((,,,,,<<-<<<<<<<<___________>>>>>>>>>>,,,<<<<______>>>>,,,)))))))))))-------)))))"#(((((((,,,<<<<<<<_______>>>>>>>,,,,,,,,<<<<<<<_______>>>>>>>,,)))))))"
+    seq = cma.get_seq()
+
+    a = ra.RNAalignment(args.alignment)
+    print 'cma hit  ', seq
+    print 'seq      ', a.align_seq(seq)
+    print 'a.rf     ', a.rf
 
 
-    nseq = ''
-    nss = ''
 
-    indices = [i for i, x in enumerate(aa) if x == "."]
-    #print indices
-    nindices = []     
-
-    for i in indices:
-        ind = indices.index(i)
-        #print ind
-        nindices.append(i - ind - 1)
-    #print nindices
-
-    ncm = ''
-    dots = 0
-
-    ncm = ''
-    c = 0
-
-    cm = list(seq)
-    cm.reverse()
-
-    for a in aa:
-        if a != '.':
-            try:
-                j = cm.pop()
-            except:
-                j = '.'
-            ncm += j
-        if a == '.':
-            ncm += '.'# + j
-    print 'arf', aa
-    print 'ncm', ncm
-
-    sys.exit(1)    
-
-
-    for i,s in enumerate(cm):
-        if aa[i + c] == '.':
-            x = '.' + s
-            c += 1
-        else:
-            x = s
-        print i, s, aa[i+c]
-
-    print 'ncm', ncm
-    print 'aa ', aa
-
-    aaa
-    for i,s in enumerate(seq):
-        if i in indices:
-            nseq += '.' + s
-        nseq += s        
-    for i,s in enumerate(ss):
-        if i in indices:
-            nss += '.' + s
-        nss += s        
-
-    print nseq
-    print nss
-
-
-    #for a in aa:
-#    if a == '.':
-
-    

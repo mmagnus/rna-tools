@@ -31,7 +31,7 @@ so you can combine this with `grep`::
 
 """
 
-from rna_alignment import RNAalignment
+from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment
 
 import sys
 import argparse
@@ -52,4 +52,4 @@ if __name__ == '__main__':
     seq = open(args.file).readline().strip()
 
     a = RNAalignment(args.alignment)
-    a.find_seq_in_align(seq, args.verbose)
+    a.find_seq(seq, args.verbose)

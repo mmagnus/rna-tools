@@ -1,0 +1,5 @@
+#SS              (((((((,,,<<<<<<<_______>>>>>>>,,,,,,,,<<<<<<<_______>>>>>>>,,)))))))           
+#CM           19 ccuCgUAUAAucccgggAAUAUGGcccgggaGUUUCUACCaggcagCCGUAAAcugccuGACUAcGagg 87        
+#MATCH           C:UC:UAUAAUCC:::: AUAUGG::::GGAGUUUCUACCA:G:: CC UAAA ::C:UGA UA:GA:G           
+#SEQ           3 CUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAG-CCUUAAA-CUCUUGAUUAUGAAG 69        
+#PP              *********************************************.*******.***************      
