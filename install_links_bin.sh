@@ -28,11 +28,11 @@ ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_extract.py $curr_dir/bin/rna_simrna_extract.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_cluster.py $curr_dir/bin/rna_simrna_cluster.py
 
-ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
-ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_align_find_core.py $curr_dir/bin/rna_align_find_core.py
-ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_align_get_ss_from_alignment.py $curr_dir/bin/rna_align_get_ss_from_alignment.py
-ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
-
+# rna_alignment
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_find_core.py $curr_dir/bin/rna_align_find_core.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_get_ss_from_alignment.py $curr_dir/bin/rna_align_get_ss_from_alignment.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
 
 echo 'Installed in ./bin'
 ls -l bin
