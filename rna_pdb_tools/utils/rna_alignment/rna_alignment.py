@@ -9,6 +9,39 @@ import subprocess
 class RNAalignmentError(Exception):
     pass
 
+class Seq:
+    def __init__(self, id, seq, ss=None):
+        self.id = id
+        self.seq = seq
+        self.ss = ss
+
+    def __repr__(self):
+        return self.id
+    
+    def __len__(self):
+        return len(self.seq)
+
+    def __getitem__(self, i):
+        if self.ss:
+            return Seq(self.id + '_slice', self.seq[i], self.ss[i])
+        else:
+            return Seq(self.id + '_slice', self.seq[i])            
+
+    def remove_columns(self, to_remove):
+        """indexing from 0"""
+        nseq = ''
+        for i, s in enumerate(self.seq):
+            if i not in to_remove:
+                nseq += s
+
+        nss = ''
+        if self.ss:
+            for i, s in enumerate(self.ss):
+                if i not in to_remove:
+                    nss += s
+        self.seq = nseq
+        self.ss = nss
+    
 class RNAalignment():
     """RNA alignment - adapter class around BioPython to do RNA stuff
 
@@ -24,6 +57,24 @@ class RNAalignment():
         self.copy_ss_cons_to_all()
         #self.rf_cons = self.get_gc_rf_cons()
         self.rf = self.get_gc_rf()
+        self.shift = self.get_shift_seq_in_align()
+
+        seq_lines = [l for l in self.lines if (not l.startswith('#')) and (not l.startswith('//')) and (l)]
+        self.seqs = []
+        for seq in seq_lines:
+            seq_id, seq_seq = seq.split()
+            self.seqs.append(Seq(seq_id, seq_seq))
+
+    def __len__(self):
+        return len(self.seqs)
+
+    def __getitem__(self, i):
+        if type(i) is str:
+            for s in self:
+                if s.id == i:
+                    return s
+        else:
+            return self.seqs[i]
 
     def subset(self, ids, verbose=False):
         """Get subset for ids::
@@ -46,22 +97,29 @@ class RNAalignment():
             else:
                 for i in ids:
                     if l.startswith(i):
-                        if verbose: print 'l', l
                         nalign += l + '\n'
                         
         tf = tempfile.NamedTemporaryFile(delete=False)
+        tf.name += '.stk'
         print 'Saved to ', tf.name
+        if verbose:
+            print nalign
         f = open(tf.name,'w')
         f.write(nalign)
-        f.write(self.rf + '\n')
+        #f.write(self.rf + '\n')
         f.close()
-        #return RNAalignment(tf.name)
+        return RNAalignment(tf.name)
         
-    def write(self, fn):
+    def write(self, fn, verbose=True):
         """Write the alignment to a file"""
-        f = open(fn,'w')
-        f.write('\n'.join(self.lines))
-        f.close()
+        if verbose: print 'Save to ', fn
+        with open(fn, 'w') as f:
+            f.write('# STOCKHOLM 1.0\n')
+            shift = max([len(x) for x in [s.id for s in self.seqs] + ['#=GC=SS_cons']])
+            for s in self:
+                f.write(s.id.ljust(shift + 2, ' ') + s.seq + '\n')
+            f.write('#=GC SS_cons'.ljust(shift + 2, ' ') + self.ss_cons + '\n')
+            f.write('//')
 
     def copy_ss_cons_to_all(self):
         for s in self.io:
@@ -119,7 +177,7 @@ class RNAalignment():
         """
         for l in self.lines:
             if l.startswith('#=GC RF'):
-                return l.replace('#=GC RF','').strip()
+                return l.replace('#=GC RF','').replace('_cons','').strip()
         else:
             raise RNAalignmentError('There is on #=GC RF in the alignment!')
 
@@ -135,6 +193,7 @@ class RNAalignment():
                     #print i
                     if i == ' ':
                         c += 1 
+                self.shift = c
                 return c
 
     def map_seq_on_seq(self, seq_id, seq_id_target, resis, v=True):
@@ -213,14 +272,44 @@ class RNAalignment():
         return '\n'.join(self.lines[-5:])
 
     def describe(self):
+        """Describe the alignment.
+
+           >>> print a.describe()
+           SingleLetterAlphabet() alignment with 13 rows and 82 columns
+
+        """
         return str(self.io).split('\n')[0]
     
-    def find_core(self, ids=[]):
+    def remove_empty_columns(self, verbose=False):
+        """go over all seq"""
+        cols_to_rm = []
+
+        # get only seqs
+        for i in range(len(self[0])):
+            gap = True
+            for seq in self:
+                if seq.seq[i] != '-':
+                    gap = False
+            if gap:
+                cols_to_rm.append(i)
+        #print cols_to_rm
+        for s in self:
+            s.remove_columns(cols_to_rm)
+        nss_cons = ''
+        for i, s in enumerate(self.ss_cons):
+            if i not in cols_to_rm:
+                nss_cons += s
+        self.ss_cons = nss_cons
+
+    def format_annotation(self,t):
+        return self.shift * ' ' + t
+    def find_core(self, ids=None):
         """Find common core for ids.
 
         :param id: list, ids of seq in the alignment to use
         """
-        if ids == []:
+        if not ids:
+            ids = []
             for s in self.io:
                 ids.append(s.id)
 
@@ -245,7 +334,22 @@ class RNAalignment():
             print l
 
     def find_seq(self, seq, verbose=False):
-        """Find seq (also subsequences) in the alignment.
+        """Find seq (also subsequences) and reverse in the alignment.
+
+            seq = "ggaucgcugaacccgaaaggggcgggggacccagaaauggggcgaaucucuuccgaaaggaagaguaggguuacuccuucgacccgagcccgucagcuaaccucgcaagcguccgaaggagaauc"
+            hit = a.find_seq(seq, verbose=False)
+            ggaucgcugaacccgaaaggggcgggggacccagaaauggggcgaaucucuuccgaaaggaagaguaggguuacuccuucgacccgagcccgucagcuaaccucgcaagcguccgaaggagaauc
+            Match: AL939120.1/174742-174619
+            ID: AL939120.1/174742-174619
+            Name: AL939120.1
+            Description: AL939120.1/174742-174619
+            Number of features: 0
+            /start=174742
+            /end=174619
+            /accession=AL939120.1
+            Per letter annotation for: secondary_structure
+            Seq('CCAGGUAAGUCGCC-G-C--ACCG---------------GUCA-----------...GGA', SingleLetterAlphabet())
+            GGAUCGCUGAACCCGAAAGGGGCGGGGGACCCAGAAAUGGGGCGAAUCUCUUCCGAAAGGAAGAGUAGGGUUACUCCUUCGACCCGAGCCCGUCAGCUAACCUCGCAAGCGUCCGAAGGAGAAUC
 
         :param seq: string, seq, seq is upper()
         :param verbose: boolean, be verbose or not
@@ -255,7 +359,7 @@ class RNAalignment():
             seq_str = str(s.seq).replace('-','').upper()
             if verbose:
                 print (seq_str)
-            if seq_str.find(seq) > -1:
+            if seq_str.find(seq) > -1 or seq.find(seq_str) > -1 :
                 print 'Match:', s.id
                 print s
                 print seq
@@ -268,7 +372,7 @@ class RNAalignment():
             nss += get_rfam_ss_notat_to_dot_bracket_notat(s)
         return nss
     
-    def get_seq_ss(self,seq_id):#seq,ss):
+    def get_seq_ss(self, seq_id):#seq,ss):
         s = self.get_seq(seq_id).seq
         #print seq, ss
         # new
@@ -313,7 +417,7 @@ class RNAalignment():
                 nseq += '.'# + j
         return nseq.replace('.', '-')
 
-    def __str__(self):
+    def __repr__(self):
         return (str(self.io))
 
 class CMAlign():
@@ -401,7 +505,7 @@ def get_rfam_ss_notat_to_dot_bracket_notat(c):
         return ')'
     return c
 
-
+#main
 if __name__ == '__main__':
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     #print a.get_shift_seq_in_align()
@@ -424,3 +528,18 @@ if __name__ == '__main__':
         print s.ss_nogaps
 
     a.write('test_output/out.sto')
+
+    a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
+    #print a.get_seq_ss("AL939120.1/174742-174619")
+    subset = a.subset(["AL939120.1/174742-174619",
+          "rp12bsubtilis", 
+          "AAWL01000001.1/57092-56953",
+          "CP000612.1/87012-87130",
+             "BA000028.3/1706087-1706245"])
+             #% cat /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpTzPenx
+    for s in subset:
+        print s.seq
+    subset.remove_empty_columns()
+    subset.write('/home/magnus/out2.stk')
+    for s in subset:
+        print s.seq
