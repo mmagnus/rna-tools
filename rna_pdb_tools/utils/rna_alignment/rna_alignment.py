@@ -3,12 +3,47 @@
 from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from rna_pdb_tools import SecondaryStructure
+from rna_pdb_tools.rpt_config import RCHIE_PATH
 import tempfile
 import subprocess
+import os
+import shutil
 
 class RNAalignmentError(Exception):
     pass
 
+class RChie:
+    def __init__(self):
+        pass
+    def plot_cov(self, seqs, ss_cons):
+        fasta_alignment = tempfile.NamedTemporaryFile(delete=False)
+        with open(fasta_alignment.name,'w') as f:
+            f.write(seqs)
+
+        plot = tempfile.NamedTemporaryFile(delete=False)
+        ss = tempfile.NamedTemporaryFile(delete=False)
+        with open(ss.name,'w') as f:
+            f.write(ss_cons)
+
+        cmd = RCHIE_PATH + "rchie.R --msafile=" + fasta_alignment.name + \
+          " --format1 vienna " + ss.name + \
+          " --output " + plot.name + '.png'
+        #print cmd
+        os.system(cmd)
+        self.plotfn = plot.name + '.png'
+        #print self.plotfn
+        from IPython.display import Image
+        return Image(filename=self.plotfn)
+
+    def show(self):
+        from IPython.display import Image
+        return Image(filename=self.plotfn)
+
+    def write(self, outfn):
+        shutil.copyfile(self.plotfn, outfn)
+        print 'Write to %s' % outfn
+        
 class Seq:
     def __init__(self, id, seq, ss=None):
         self.id = id
@@ -41,8 +76,52 @@ class Seq:
                     nss += s
         self.seq = nseq
         self.ss = nss
-    
-class RNAalignment():
+
+    def draw_ss(self, title='', resolution=1.5):
+        drawfn = tempfile.NamedTemporaryFile(delete=False).name + '.png'
+        SecondaryStructure.draw_ss(title, self.seq, self.ss, drawfn, resolution)#, verbose=True)
+        from IPython.display import Image
+        return Image(filename=drawfn)
+    def remove_gaps(self, check_bps=True):
+        nseq = ''
+        nss = list()
+
+        bps = self.ss_to_bp()
+
+        if check_bps:
+            nss = list(self.ss)
+            # remove wierd base pairs
+            for i, (c,s) in enumerate(zip(self.seq, self.ss)):
+                if c == '-':
+                    for bp in bps:
+                        if i in bp:
+                            nss[bp[0]] = '.'
+                            nss[bp[1]] = '.'
+            self.ss = ''.join(nss)
+        # two
+        nss = []
+        for i, (c, s) in enumerate(zip(self.seq, self.ss)):
+            if c != '-':
+                nseq += c
+                nss.append(s)
+
+        self.seq = nseq
+        self.ss = ''.join(nss)            
+
+    def ss_to_bp(self):
+        j = []
+        bp = []
+        for i, s in enumerate(self.ss):
+            if s == '(':
+                j.append(i)
+            if s == ')':
+                bp.append([j.pop(),i])
+        if len(j):
+            raise Exception('Mis-paired secondary structure') # if something left, this is a problem (!!!)
+        bp.sort()
+        return bp
+
+class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA stuff
 
     :var self.io: ``AlignIO.read(fn, "stockholm")``
@@ -55,6 +134,7 @@ class RNAalignment():
         self.io = AlignIO.read(fn, "stockholm")
         self.ss_cons = self.get_ss_cons()
         self.copy_ss_cons_to_all()
+        self.ss_cons_std = self.ss_cons
         #self.rf_cons = self.get_gc_rf_cons()
         self.rf = self.get_gc_rf()
         self.shift = self.get_shift_seq_in_align()
@@ -63,7 +143,7 @@ class RNAalignment():
         self.seqs = []
         for seq in seq_lines:
             seq_id, seq_seq = seq.split()
-            self.seqs.append(Seq(seq_id, seq_seq))
+            self.seqs.append(Seq(seq_id, seq_seq, ss = self.ss_cons_std))
 
     def __len__(self):
         return len(self.seqs)
@@ -76,6 +156,15 @@ class RNAalignment():
         else:
             return self.seqs[i]
 
+
+    @property
+    def ss_cons_std(self):
+        return get_rfam_ss_notat_to_dot_bracket_notat(self.ss_cons)
+
+    @ss_cons_std.setter
+    def ss_cons_std(self, ss):
+        self._ss_cons_std = ss
+    
     def subset(self, ids, verbose=False):
         """Get subset for ids::
 
@@ -281,7 +370,8 @@ class RNAalignment():
         return str(self.io).split('\n')[0]
     
     def remove_empty_columns(self, verbose=False):
-        """go over all seq"""
+        """go over all seq
+        modifes self.nss_cons"""
         cols_to_rm = []
 
         # get only seqs
@@ -292,9 +382,17 @@ class RNAalignment():
                     gap = False
             if gap:
                 cols_to_rm.append(i)
-        #print cols_to_rm
+
+        # remove from sequences
         for s in self:
             s.remove_columns(cols_to_rm)
+
+        # update io # hack #
+        tmpfn = tempfile.NamedTemporaryFile(delete=False).name
+        self.write(tmpfn, verbose=False)
+        self.io = AlignIO.read(tmpfn, "stockholm")
+
+        # nss_cons update
         nss_cons = ''
         for i, s in enumerate(self.ss_cons):
             if i not in cols_to_rm:
@@ -484,10 +582,17 @@ def clean_seq_and_ss(seq,ss):
             if i != '-': # gap
                 #print i,j
                 nseq += i
-                nss += get_rfam_ss_notat_to_dot_bracket_notat(j)
+                nss += get_rfam_ss_notat_to_dot_bracket_notat_per_char(j)
         return nseq.strip(), nss.strip()
 
-def get_rfam_ss_notat_to_dot_bracket_notat(c):
+def get_rfam_ss_notat_to_dot_bracket_notat(ss):
+        nss = ''
+        for s in ss:
+                ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
+                nss += ns
+        return nss.strip()
+    
+def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
     """Take (c)haracter and standardize ss"""
     if c in [',', '_',':']:
         return '.'
@@ -543,3 +648,16 @@ if __name__ == '__main__':
     subset.write('/home/magnus/out2.stk')
     for s in subset:
         print s.seq
+
+    print 'subset.ss_cons_std:', subset.ss_cons_std
+
+    a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
+    #a.ss_cons = "::::::::::{{{{,,,<<<_..."
+    print a.ss_cons
+    print a.ss_cons_std
+    #print get_rfam_ss_notat_to_dot_bracket_notat(subset.ss_cons)
+    
+    a.ss_cons_std = 'test of setter'
+    print a._ss_cons_std
+
+    pass
