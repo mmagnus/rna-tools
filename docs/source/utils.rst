@@ -71,6 +71,12 @@ Cluster
 RNA Alignment
 ------------------------------------------
 
+RNASeq
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNASeq
+   :members:
+
 RNAalignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -84,6 +90,11 @@ CMAlign
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.CMAlign
    :members:
 
+RChie
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RChie
+   :members:
 
 Shell utils
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

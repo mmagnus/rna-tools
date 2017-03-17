@@ -20,9 +20,39 @@ class RChieError(Exception):
     pass
 
 class RChie:
+    """RChie - plotting arc diagrams of RNA secondary structures.
+
+    .. image:: ../pngs/rchie.png
+
+    http://www.e-rna.org/r-chie/
+    
+    The offline version of R-chie, which requires first installing R4RNA is available here, or clone our git repository here
+    How to install it:
+
+    - Ensure R is installed already, or download it freely from http://www.r-project.org/
+    - Download the R4RNA (https://github.com/jujubix/r-chie), open R and install the package::
+
+            install.packages(path_to_file, repos = NULL, type="source")
+            # Install the optparse and RColorBrewer
+            install.packages('optparse')
+            install.packages('RColorBrewer')
+
+    - Go to rna_pdb_tools/rpt_config_local.py and set RCHIE_PATH to the folder with RChie, e.g. ``"/home/magnus/work/opt/r-chie/"``.
+    
+    More at http://www.e-rna.org/r-chie/download.cgi
+
+    Cite: Daniel Lai, Jeff R. Proctor, Jing Yun A. Zhu, and Irmtraud M. Meyer (2012) R-chie: a web server and R package for visualizing RNA secondary structures. Nucleic Acids Research, first published online March 19, 2012. doi:10.1093/nar/gks241
+    """
     def __init__(self):
         pass
+
     def plot_cov(self, seqs, ss_cons, verbose=False):
+        """Plot an RChie plot_conv.
+
+        :param seqs: seqs in the fasta format
+        :param ss_cons: a string of secondary structure consensus, use only ``().``. Works with pseuoknots.
+        """
+
         fasta_alignment = tempfile.NamedTemporaryFile(delete=False)
         with open(fasta_alignment.name,'w') as f:
             f.write(seqs)
@@ -95,11 +125,37 @@ class RNASeq(object):
         self.ss = nss
 
     def draw_ss(self, title='', resolution=1.5):
+        """Draw secondary structure of RNA with VARNA.
+
+        VARNA: Visualization Applet for RNA
+        A Java lightweight component and applet for drawing the RNA secondary structure
+
+        .. image :: ../pngs/varna.png
+
+        Cite: VARNA: Interactive drawing and editing of the RNA secondary structure Kevin Darty, Alain Denise and Yann Ponty Bioinformatics, pp. 1974-197,, Vol. 25, no. 15, 2009
+
+        http://varna.lri.fr/"""
         drawfn = tempfile.NamedTemporaryFile(delete=False).name + '.png'
         SecondaryStructure.draw_ss(title, self.seq, self.ss, drawfn, resolution)#, verbose=True)
         from IPython.display import Image
         return Image(filename=drawfn)
+
     def remove_gaps(self, check_bps=True):
+        """
+        check_bps fix mistakes as 
+        
+        .. image :: ../pngs/ss_misgap.png 
+
+        A residue "paired" with a gap. 
+
+        .. image :: ../pngs/ss_misgap_wrong.png
+
+        .. when check_bps (by default), then when removing gaps, the functions check is the gap is
+        paired with any residues (in the blue circle). If yes, then this residues is unpair (in this case ``)`` -> ``.``).
+
+        .. image :: ../pngs/ss_misgap_ok.png    
+
+        """
         nseq = ''
         nss = list()
 
@@ -617,8 +673,13 @@ class RNAalignment(object):
 class CMAlign():
     """CMAalign class around cmalign (of Inferal).
 
-    http://manpages.ubuntu.com/manpages/wily/man1/cmalign.1.html
-    """
+    cmalign - aligns  the RNA sequences in <seqfile> to the covariance model
+    (CM) in <cmfile>.  The new alignment is output to stdout  in  Stockholm
+    format.
+    
+    Install http://eddylab.org/infernal/
+
+    Cite: Nawrocki and S. R. Eddy, Infernal 1.1: 100-fold faster RNA homology searches, Bioinformatics 29:2933-2935 (2013). """
     def __init__(self, outputfn=None):
         """Use run_cmalign or load cmalign output from a file"""
         if outputfn:
@@ -708,8 +769,25 @@ def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
 
     ## load from fasta
 def fasta2stokholm(fn):
-    """
+    """Take a gapped fasta file and return an RNAalignment object.
+
+    A fasta file should look like this::
+
+        >AE009948.1/1094322-1094400
+        UAC-U-UAUUUAUGCUGAGGAU--UGG--CUUAGC-GUCUCUACAAGACA-CC--GU-AA-UGUCU---AACAAUA-AGUA-
+        ...
+        >CP000721.1/2204691-2204778
+        CAC-U-UAUAUAAAUCUGAUAAUAAGG-GUCGGAU-GUUUCUACCAAGCUACC--GUAAAUUGCUAUAGGACUAUA-AGUG-
+        >SS_cons
+        (((.(.((((...(((((((........))))))).........(((((((.........))))))...)..)))).)))).
+        >SS_cons_pk
+        .........................[[........................]].............................
+
+    ``SS_cons_pk`` in optionally and is an extra line used to define a pseudoknot. You 
+    can also define second psedoknot as ``<<<...>>>`` and the third one with ``{{{ }}}``.
+
     :param fn: file 
+    :return: RNAalignment object
     """
     seqs = []
     s = None
@@ -725,6 +803,7 @@ def fasta2stokholm(fn):
     for l in open(fn):
         if l.startswith('>'):
             id = '\n' + l.replace('>', '\n').strip() + ' '
+            id = re.sub('ss_cons_pk', '#=GC SS_cons_pk', id, flags=re.IGNORECASE)
             id = re.sub('ss_cons', '#=GC SS_cons', id, flags=re.IGNORECASE)
             txt += id
         else:
@@ -802,8 +881,8 @@ if __name__ == '__main__':
 
     #a = fasta2stokholm('test_output/ade_gapped.fa')
     #print a
-        
-    a = RNAalignment('test_data/RF00167.stockholm.sto')
+
+    a = RNAalignment('test_data/RF0016ggxf7.stockholm.sto')
     print a.tail()
     print a.ss_cons
     print a.ss_cons_pk
