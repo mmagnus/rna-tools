@@ -1,22 +1,28 @@
 #!/usr/bin/env python
+"""RNAalignemt"""
 
 from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from rna_pdb_tools import SecondaryStructure
 from rna_pdb_tools.rpt_config import RCHIE_PATH
+
 import tempfile
 import subprocess
 import os
 import shutil
+import re
 
 class RNAalignmentError(Exception):
+    pass
+
+class RChieError(Exception):
     pass
 
 class RChie:
     def __init__(self):
         pass
-    def plot_cov(self, seqs, ss_cons):
+    def plot_cov(self, seqs, ss_cons, verbose=False):
         fasta_alignment = tempfile.NamedTemporaryFile(delete=False)
         with open(fasta_alignment.name,'w') as f:
             f.write(seqs)
@@ -29,10 +35,19 @@ class RChie:
         cmd = RCHIE_PATH + "rchie.R --msafile=" + fasta_alignment.name + \
           " --format1 vienna " + ss.name + \
           " --output " + plot.name + '.png'
-        #print cmd
-        os.system(cmd)
+        if verbose: print cmd
+        o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out = o.stdout.read().strip()
+        err = o.stderr.read().strip()
+        # *****PROCESSING MSA FILE*****
+        # Error in readFasta(opt$msafile, filter = TRUE) : no FASTA sequences found
+        # Error: ERROR: Invalid FASTA file
+        # Execution halted
+        if 'error' in err.lower():
+            raise Exception('\n'.join([cmd, err]))
+        if verbose: print '\n'.join([cmd, err])
         self.plotfn = plot.name + '.png'
-        #print self.plotfn
+        if verbose: print self.plotfn
         from IPython.display import Image
         return Image(filename=self.plotfn)
 
@@ -44,11 +59,13 @@ class RChie:
         shutil.copyfile(self.plotfn, outfn)
         print 'Write to %s' % outfn
         
-class Seq:
+class RNASeq(object):
+    """RNASeq"""
     def __init__(self, id, seq, ss=None):
         self.id = id
         self.seq = seq
         self.ss = ss
+        self.seq_no_gaps = seq.replace('-', '')
 
     def __repr__(self):
         return self.id
@@ -58,9 +75,9 @@ class Seq:
 
     def __getitem__(self, i):
         if self.ss:
-            return Seq(self.id + '_slice', self.seq[i], self.ss[i])
+            return RNASeq(self.id + '_slice', self.seq[i], self.ss[i])
         else:
-            return Seq(self.id + '_slice', self.seq[i])            
+            return RNASeq(self.id + '_slice', self.seq[i])            
 
     def remove_columns(self, to_remove):
         """indexing from 0"""
@@ -127,15 +144,18 @@ class RNAalignment(object):
     :var self.io: ``AlignIO.read(fn, "stockholm")``
 
     Read more: http://biopython.org/DIST/docs/api/Bio.AlignIO.StockholmIO-module.html
+    and on the format itself
+    - https://en.wikipedia.org/wiki/Stockholm_format
+    - http://sonnhammer.sbc.su.se/Stockholm.html
     """
     def __init__(self,fn):
         self.fn = fn
         self.lines = open(fn).read().split('\n')
         self.io = AlignIO.read(fn, "stockholm")
         self.ss_cons = self.get_ss_cons()
+        self.ss_cons_pk = self.get_ss_cons_pk()
         self.copy_ss_cons_to_all()
-        self.ss_cons_std = self.ss_cons
-        #self.rf_cons = self.get_gc_rf_cons()
+        self._ss_cons_std = self.ss_cons
         self.rf = self.get_gc_rf()
         self.shift = self.get_shift_seq_in_align()
 
@@ -143,8 +163,43 @@ class RNAalignment(object):
         self.seqs = []
         for seq in seq_lines:
             seq_id, seq_seq = seq.split()
-            self.seqs.append(Seq(seq_id, seq_seq, ss = self.ss_cons_std))
+            self.seqs.append(RNASeq(seq_id, seq_seq, ss = self.ss_cons_with_pk_std))
 
+        # this is sick!
+        # I create a Cols object to be able to slice alignments
+        class Cols:
+            def __init__(self, alignment):
+                self.alignment = alignment
+            def __getitem__(self, i):
+                """Return new alignment"""
+                if type(i) is list:
+                    pass
+                else:
+                    # collect "new" sequences
+                    n_seqs = []
+                    for s in self.alignment:
+                         new_seq = RNASeq(s.id, s.seq[i], s.ss[i])
+                         n_seqs.append(new_seq)
+
+                    # this is not very smart :(
+                    # save new seqs to a file
+                    # and load it as RNAalignment
+                    tf = tempfile.NamedTemporaryFile(delete=False)
+                    tf.name += '.stk'
+                    with open(tf.name, 'w') as f:
+                        f.write('# STOCKHOLM 1.0\n')
+                        for s in n_seqs:
+                            f.write(' '.join([s.id, s.seq, '\n']))
+                        # add ss_cons & //
+                        f.write('#=GC SS_cons ' + self.alignment.ss_cons[i] + '\n')
+                        if self.alignment.ss_cons_pk:
+                            f.write('#=GC SS_cons_pk' + self.alignment.ss_cons_pk[i] + '\n')
+                        f.write('#=GC RF ' + self.alignment.rf[i] + '\n')
+                        f.write('//\n')
+                    return RNAalignment(tf.name)
+        self.cols = Cols(self)
+        ## ^^^^ sick ^^^^^^^^^^^
+            
     def __len__(self):
         return len(self.seqs)
 
@@ -153,9 +208,13 @@ class RNAalignment(object):
             for s in self:
                 if s.id == i:
                     return s
+        elif type(i) is list:
+            seqs = []
+            for j in i:
+                seqs.append(self.seqs[j])
+            return seqs
         else:
             return self.seqs[i]
-
 
     @property
     def ss_cons_std(self):
@@ -164,6 +223,7 @@ class RNAalignment(object):
     @ss_cons_std.setter
     def ss_cons_std(self, ss):
         self._ss_cons_std = ss
+        print self._ss_cons_std
     
     def subset(self, ids, verbose=False):
         """Get subset for ids::
@@ -247,20 +307,55 @@ class RNAalignment(object):
                 nss += j
         return nss
 
+    def plot(self):
+        return RChie().plot_cov(self.io.format("fasta"), self.ss_cons_std)
+        
     def get_ss_cons(self):
         for l in self.lines:
             if l.startswith('#=GC SS_cons'):
                 return l.replace('#=GC SS_cons','').strip()
-        
-    def get_gc_rf_cons(self, verbose=False):
-        """#=GC RF_cons
-        """
-        for l in self.lines:
-            if l.startswith('#=GC RF_cons'):
-                return l.replace('#=GC RF_cons','').strip()
-        else:
-            raise RNAalignmentError('There is on #=GC RF_cons in the alignment! There can be #=GC RF but we want #=GC RF_cons')
 
+    @property
+    def ss_cons_with_pk(self):
+        """go over ss_cons and overwrite bp is there is pk (ss_cons_pk)
+        
+        ss_cons:         (((.(.((((,,,(((((((_______.))))))).,,,,,,,,(((((((__.._____))))))...),,)))).)))).
+        ss_cons_pk:      .......................[[...............................]]........................
+        ss_cons_with_pk: (((.(.((((,,,(((((((___[[__.))))))).,,,,,,,,(((((((__.._]]__))))))...),,)))).)))).
+
+        "return ss_cons_with_pk: string, e.g. (((.(.((((,,,(((((((___[[__.))))"""
+        if self.ss_cons_pk:
+            ss_cons_with_pk = ''
+            for i, (s, p) in enumerate(zip(self.ss_cons, self.ss_cons_pk)):
+                if p != '.':
+                    ss_cons_with_pk += p
+                else:
+                    ss_cons_with_pk += s
+            return ss_cons_with_pk
+        else:
+            return self.ss_cons
+
+    @property
+    def ss_cons_with_pk_std(self):
+        if self.ss_cons_pk:
+            ss_cons_with_pk_std = ''
+            for i, (s, p) in enumerate(zip(get_rfam_ss_notat_to_dot_bracket_notat(self.ss_cons), self.ss_cons_pk)):
+                if p != '.':
+                    ss_cons_with_pk_std += p
+                else:
+                    ss_cons_with_pk_std += s
+            return ss_cons_with_pk_std
+        else:
+            return self.ss_cons
+
+    def get_ss_cons_pk(self):
+        """
+        :return: SS_cons_pk line or None if there is now SS_cons_pk:"""
+        for l in self.lines:
+            if l.startswith('#=GC SS_cons_pk'):
+                return l.replace('#=GC SS_cons_pk','').strip()
+        return None
+    
     def get_gc_rf(self):
         """#=GC RF
         """
@@ -268,7 +363,8 @@ class RNAalignment(object):
             if l.startswith('#=GC RF'):
                 return l.replace('#=GC RF','').replace('_cons','').strip()
         else:
-            raise RNAalignmentError('There is on #=GC RF in the alignment!')
+            return ''
+            #raise RNAalignmentError('There is on #=GC RF in the alignment!')
 
     def get_shift_seq_in_align(self):
         """RF_cons vs '#=GC RF' ???"""
@@ -610,54 +706,108 @@ def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
         return ')'
     return c
 
+    ## load from fasta
+def fasta2stokholm(fn):
+    """
+    :param fn: file 
+    """
+    seqs = []
+    s = None
+    for l in open(fn):
+        if l.startswith('>'):
+            if s:
+                seqs.append(s)
+            s = RNASeq(l.replace('>','').strip(), '')
+        else:
+            s.seq += l.strip()
+
+    txt = ''
+    for l in open(fn):
+        if l.startswith('>'):
+            id = '\n' + l.replace('>', '\n').strip() + ' '
+            id = re.sub('ss_cons', '#=GC SS_cons', id, flags=re.IGNORECASE)
+            txt += id
+        else:
+            txt += l.strip()
+    txt = txt.strip() + '\n' # clean upfront \n and add tailing \n
+
+    tf = tempfile.NamedTemporaryFile(delete=False)
+    tf.name += '.stk'
+    with open(tf.name, 'w') as f:
+        f.write('# STOCKHOLM 1.0\n')
+        f.write(txt)
+        f.write('//\n')
+    return RNAalignment(tf.name)
+
 #main
 if __name__ == '__main__':
-    a = RNAalignment('test_data/RF00167.stockholm.sto')
-    #print a.get_shift_seq_in_align()
-    #print a.map_seq_on_align('CP000721.1/2204691-2204778', [5,6,8])
-    print a.map_seq_on_seq('AAML04000013.1/228868-228953', 'CP000721.1/2204691-2204778', [4,5,6])
+    ## a = RNAalignment('test_data/RF00167.stockholm.sto')
+    ## #print a.get_shift_seq_in_align()
+    ## #print a.map_seq_on_align('CP000721.1/2204691-2204778', [5,6,8])
+    ## print a.map_seq_on_seq('AAML04000013.1/228868-228953', 'CP000721.1/2204691-2204778', [4,5,6])
     
-    #print(record.letter_annotations['secondary_structure'])
-    seq = a.get_seq('AAML04000013.1/228868-228953')
-    print seq.seq
-    print seq.ss
-    print a.ss_cons
+    ## #print(record.letter_annotations['secondary_structure'])
+    ## seq = a.get_seq('AAML04000013.1/228868-228953')
+    ## print seq.seq
+    ## print seq.ss
+    ## print a.ss_cons
 
-    print 'x'
-    for s in a.io:
-        print s.seq
-        print s.ss_clean #letter_annotations['secondary_structure']
+    ## print 'x'
+    ## for s in a.io:
+    ##     print s.seq
+    ##     print s.ss_clean #letter_annotations['secondary_structure']
         
-    for s in a.io:
-        print s.seq_nogaps
-        print s.ss_nogaps
+    ## for s in a.io:
+    ##     print s.seq_nogaps
+    ##     print s.ss_nogaps
 
-    a.write('test_output/out.sto')
+    ## a.write('test_output/out.sto')
 
-    a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
-    #print a.get_seq_ss("AL939120.1/174742-174619")
-    subset = a.subset(["AL939120.1/174742-174619",
-          "rp12bsubtilis", 
-          "AAWL01000001.1/57092-56953",
-          "CP000612.1/87012-87130",
-             "BA000028.3/1706087-1706245"])
-             #% cat /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpTzPenx
-    for s in subset:
-        print s.seq
-    subset.remove_empty_columns()
-    subset.write('/home/magnus/out2.stk')
-    for s in subset:
-        print s.seq
+    ## a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
+    ## #print a.get_seq_ss("AL939120.1/174742-174619")
+    ## subset = a.subset(["AL939120.1/174742-174619",
+    ##       "rp12bsubtilis", 
+    ##       "AAWL01000001.1/57092-56953",
+    ##       "CP000612.1/87012-87130",
+    ##          "BA000028.3/1706087-1706245"])
+    ##          #% cat /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpTzPenx
+    ## for s in subset:
+    ##     print s.seq
+    ## subset.remove_empty_columns()
+    ## subset.write('/home/magnus/out2.stk')
+    ## for s in subset:
+    ##     print s.seq
 
-    print 'subset.ss_cons_std:', subset.ss_cons_std
+    ## print 'subset.ss_cons_std:', subset.ss_cons_std
 
-    a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
-    #a.ss_cons = "::::::::::{{{{,,,<<<_..."
-    print a.ss_cons
-    print a.ss_cons_std
-    #print get_rfam_ss_notat_to_dot_bracket_notat(subset.ss_cons)
+    ## a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
+    ## #a.ss_cons = "::::::::::{{{{,,,<<<_..."
+    ## print a.ss_cons
+    ## print a.ss_cons_std
+    ## #print get_rfam_ss_notat_to_dot_bracket_notat(subset.ss_cons)
     
-    a.ss_cons_std = 'test of setter'
-    print a._ss_cons_std
+    ## a.ss_cons_std = 'test of setter'
+    ## print a._ss_cons_std
 
-    pass
+    ## pass
+    # slice
+    
+    ## slices = a.cols[0:10]
+    ## for s in a:
+    ##     print s.seq
+    ## # add pk
+
+    ## for s in slices:
+    ##     print s, s.seq, s.ss
+
+    #a = fasta2stokholm('test_output/ade_gapped.fa')
+    #print a
+        
+    a = RNAalignment('test_data/RF00167.stockholm.sto')
+    print a.tail()
+    print a.ss_cons
+    print a.ss_cons_pk
+    print a.ss_cons_with_pk
+
+    print a[[1,2]]
+    
