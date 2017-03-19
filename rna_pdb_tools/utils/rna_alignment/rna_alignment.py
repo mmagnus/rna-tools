@@ -676,7 +676,30 @@ class CMAlign():
     cmalign - aligns  the RNA sequences in <seqfile> to the covariance model
     (CM) in <cmfile>.  The new alignment is output to stdout  in  Stockholm
     format.
-    
+
+    Example::
+
+        cma = ra.CMAlign()
+        cma.run_cmalign("ade_seq.fa", "RF00167.cm")
+        seq = cma.get_seq()
+        print 'cma hit  ', seq
+        print 'seq      ', a.align_seq(seq)
+        print 'a.rf     ', a.rf
+
+        cmd cmalign -g RF00167.cm ade_seq.fa
+
+        # STOCKHOLM 1.0
+        #=GF AU Infernal 1.1.2
+
+        ade          ----------------CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAG-CCUUAAA-CUCUUGAUUAUGAAGUGA------------
+        #=GR ade PP  ................99*********************************************.*******.***************999............
+        #=GC SS_cons :::::::::::::::::((((((((,,,<<<<<<<_______>>>>>>>,,,,,,,,<<<<<<<_______>>>>>>>,,))))))))::::::::::::::
+        #=GC RF      aaaaaauaaaaaaaauucccuCgUAUAAucccgggAAUAUGGcccgggaGUUUCUACCaggcagCCGUAAAcugccuGACUAcGagggaaauuuuuuuuuuu
+        //
+        cma hit   ----------------CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAG-CCUUAAA-CUCUUGAUUAUGAAGUGA------------
+        seq       ----------------CGCU-U-CAUAUAAUCCUAAUGAUAUGG-UUUGGGA-GUUUCUACCAAGAG-CC--UUAAA-CUCUU---GAUUAUG-AAGUGA-------------
+        a.rf      aaaaaauaaaaaaaauuccc.u.CgUAUAAucccgggAAUAUGG.cccggga.GUUUCUACCaggcagCC..GUAAAcugccu...GACUAcG.agggaaauuuuuuuuuuu.
+
     Install http://eddylab.org/infernal/
 
     Cite: Nawrocki and S. R. Eddy, Infernal 1.1: 100-fold faster RNA homology searches, Bioinformatics 29:2933-2935 (2013). """
