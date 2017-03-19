@@ -240,6 +240,8 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## History
 
+170319 Add clanstix (move it from its own GitHub repository).
+
 170311 Get seq (v2) gets segments of chains with correct numbering
 
 170308 Add fixing missing atoms of bases, and O2'
