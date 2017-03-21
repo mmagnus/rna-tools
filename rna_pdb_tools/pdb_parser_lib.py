@@ -668,6 +668,10 @@ class StrucFile:
             return None
         return line[:60] + (" %5.2f" % bfactor) + line[66:]
 
+    def set_atom_occupancy(self, line, occupancy):
+        """set occupancy for line"""
+        return line[:54] + (" %5.2f" % occupancy) + line[60:]
+
     def set_atom_code(self,line, code):
         return line[:13] + code + ' ' * (3 - len(code)) + line[16:]
 
@@ -1162,6 +1166,19 @@ class StrucFile:
             c += 1
         self.lines = nlines
 
+    def set_occupancy_atoms(self, occupancy):
+        """
+        :param occupancy:
+        """
+        nlines = []
+        for l in self.lines:
+           if l.startswith('ATOM'):
+               l = self.set_atom_occupancy(l, 0.00)
+               nlines.append(l)
+           else:
+               nlines.append(l)
+        self.lines = nlines
+               
     def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
         """Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.
         Return False if error. True if OK
