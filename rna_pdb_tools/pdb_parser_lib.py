@@ -1218,9 +1218,8 @@ class StrucFile:
         os.system('pymol ' + self.fn)
 
 
-def add_header():
+def add_header(version=None):
     now = time.strftime("%c")
-    version = get_version()
     print 'HEADER Generated with rna-pdb-tools'
     print 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
 
