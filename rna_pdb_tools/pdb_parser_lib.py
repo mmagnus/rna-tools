@@ -27,8 +27,11 @@ import time
 import urllib2
 import gzip
 import tempfile
+import shutil
+import subprocess
 
 from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rpt_config import QRNAS_PATH
 
 # Don't fix OP3, ignore it
 ignore_op3 = False
@@ -128,6 +131,58 @@ class StrucFile:
                     return True
         return False
 
+    def fix(self, outfn="", verbose=False):
+        """Add missing heavy atom. 
+
+        A residue is recognized base on a residue names.
+
+        Copy QRNAS folder to curr folder, run QRNAS and remove QRNAS.
+
+        .. warning:: QRNAS required (http://genesilico.pl/QRNAS/QRNAS.tgz)
+        """
+        # prepare folder get ff folder
+        to_go = os.path.abspath(os.path.dirname(self.fn))
+        curr = os.getcwd()
+
+        # set occupancy to 0
+        s = StrucFile(self.fn)
+        s.set_occupancy_atoms(0.00)
+        s.write(self.fn)
+
+        os.chdir(to_go)
+        try:
+            shutil.copytree(QRNAS_PATH, to_go + os.sep + "QRNAS")
+        except OSError:
+            pass
+        # prepare config file
+        with open('qrna_config.txt', 'w') as f:
+            f.write("WRITEFREQ   1\n")
+            f.write("NSTEPS      1\n")
+        # run qrnas
+        print 'QRNAS...'
+        
+        if not outfn:
+            cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn)
+        else:
+            cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn) + " -o " + curr + os.sep + outfn
+        #o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        os.system(cmd)
+        if False:
+            out = o.stdout.read().strip()
+            err = o.stderr.read().strip()
+            if verbose:
+                print out
+                print err
+                shutil.rmtree(to_go + os.sep + "QRNAS")
+        # post cleaning
+        if outfn:
+            print 'Cleaning...'
+            s = StrucFile(curr + os.sep + outfn)
+            s.remove_hydrogen()
+            s.fix_resn()
+            s.write(curr + os.sep + outfn)
+        os.chdir(curr)
+        
     def mol2toPDB(self, outfn=""):
         try:
             import pybel
