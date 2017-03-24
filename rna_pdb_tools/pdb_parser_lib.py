@@ -27,8 +27,12 @@ import time
 import urllib3
 import gzip
 import tempfile
+import shutil
+import subprocess
 
-# from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+
+from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rpt_config import QRNAS_PATH
 
 # Don't fix OP3, ignore it
 ignore_op3 = False
@@ -127,6 +131,58 @@ class StrucFile:
                     self.report.append('This is amber-like format')
                     return True
         return False
+
+    def fix(self, outfn="", verbose=False):
+        """Add missing heavy atom.
+
+        A residue is recognized base on a residue names.
+
+        Copy QRNAS folder to curr folder, run QRNAS and remove QRNAS.
+
+        .. warning:: QRNAS required (http://genesilico.pl/QRNAS/QRNAS.tgz)
+        """
+        # prepare folder get ff folder
+        to_go = os.path.abspath(os.path.dirname(self.fn))
+        curr = os.getcwd()
+
+        # set occupancy to 0
+        s = StrucFile(self.fn)
+        s.set_occupancy_atoms(0.00)
+        s.write(self.fn)
+
+        os.chdir(to_go)
+        try:
+            shutil.copytree(QRNAS_PATH, to_go + os.sep + "QRNAS")
+        except OSError:
+            pass
+        # prepare config file
+        with open('qrna_config.txt', 'w') as f:
+            f.write("WRITEFREQ   1\n")
+            f.write("NSTEPS      1\n")
+        # run qrnas
+        print 'QRNAS...'
+
+        if not outfn:
+            cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn)
+        else:
+            cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn) + " -o " + curr + os.sep + outfn
+        #o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        os.system(cmd)
+        if False:
+            out = o.stdout.read().strip()
+            err = o.stderr.read().strip()
+            if verbose:
+                print out
+                print err
+                shutil.rmtree(to_go + os.sep + "QRNAS")
+        # post cleaning
+        if outfn:
+            print 'Cleaning...'
+            s = StrucFile(curr + os.sep + outfn)
+            s.remove_hydrogen()
+            s.fix_resn()
+            s.write(curr + os.sep + outfn)
+        os.chdir(curr)
 
     def mol2toPDB(self, outfn=""):
         try:
@@ -668,6 +724,10 @@ class StrucFile:
             return None
         return line[:60] + (" %5.2f" % bfactor) + line[66:]
 
+    def set_atom_occupancy(self, line, occupancy):
+        """set occupancy for line"""
+        return line[:54] + (" %5.2f" % occupancy) + line[60:]
+
     def set_atom_code(self,line, code):
         return line[:13] + code + ' ' * (3 - len(code)) + line[16:]
 
@@ -1162,6 +1222,19 @@ class StrucFile:
             c += 1
         self.lines = nlines
 
+    def set_occupancy_atoms(self, occupancy):
+        """
+        :param occupancy:
+        """
+        nlines = []
+        for l in self.lines:
+           if l.startswith('ATOM'):
+               l = self.set_atom_occupancy(l, 0.00)
+               nlines.append(l)
+           else:
+               nlines.append(l)
+        self.lines = nlines
+
     def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
         """Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.
         Return False if error. True if OK
@@ -1218,11 +1291,11 @@ class StrucFile:
         os.system('pymol ' + self.fn)
 
 
-def add_header():
+def add_header(version=None):
     now = time.strftime("%c")
-    version = get_version()
-    print( 'HEADER Generated with rna-pdb-tools')
-    print(( 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)))
+    print('HEADER Generated with rna-pdb-tools')
+    print('HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now))
+
 
 def edit_pdb(args):
     """Edit your structure.
