@@ -11,7 +11,7 @@ import argparse
 import os
 import time
 
-from pdb_parser_lib import *
+from .pdb_parser_lib import *
 
 version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
 version = version[1].strip()
@@ -39,4 +39,4 @@ if __name__ == '__main__':
     #print s.get_preview()
     if args.verbose:
         add_header(version=version)
-    print s.get_seq()
+    print(s.get_seq())

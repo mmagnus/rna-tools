@@ -13,7 +13,7 @@ def check_clash(str_name, v=True):
 
         c is counter
         """
-        print str_name
+        print(str_name)
         structure = open(str_name)
         #model = structure[0]
         atoms_A = []
@@ -50,19 +50,19 @@ def check_clash(str_name, v=True):
                  if neighbors1 != []:
                      contacts +=1
         if v:
-                print ' problem:', float(problem)
-                print ' contacts:', float(contacts)
+                print((' problem:', float(problem)))
+                print((' contacts:', float(contacts)))
         try:
             fract = float(problem)/float(contacts)
         except ZeroDivisionError:
             fract = problem # or skip this structure
-            print 'ZeroDivison -- skip:', problem, contacts, str_name
+            print(('ZeroDivison -- skip:', problem, contacts, str_name))
             return fract
 
         #print 'Contacts, str_name:', problem, contacts, str_name, "Sterical clashes ", fract
         return fract
     
 if __name__ == '__main__':
-    print check_clash('test_data/no_clash.pdb')
-    print check_clash('test_data/super_clash.pdb')
-    print check_clash('test_data/prot-na_2392.pdb')
+    print((check_clash('test_data/no_clash.pdb')))
+    print((check_clash('test_data/super_clash.pdb')))
+    print((check_clash('test_data/prot-na_2392.pdb')))

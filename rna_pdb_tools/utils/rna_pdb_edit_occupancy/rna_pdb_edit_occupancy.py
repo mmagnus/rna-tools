@@ -16,9 +16,9 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
     struc = PDB.PDBParser().get_structure('struc', pdb)
 
     txt = txt.replace(' ','')
-    if v:print txt
+    if v:print(txt)
     l = re.split('[,:;]', txt)
-    if v:print l 
+    if v:print(l) 
 
     for s in struc:
         for c in s:
@@ -29,16 +29,16 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
     for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
 
         if i in string.ascii_letters:
-            if v:print 'chain', i
+            if v:print('chain', i)
             chain_curr = i
             continue
 
         if i.find('-') > -1:
             start, ends = i.split('-')
             if start > ends:
-                print >>sys.stderr, 'Error: range start > end ' + i
+                print('Error: range start > end ' + i, file=sys.stderr)
                 return False
-            index = range(int(start), int(ends)+1)
+            index = list(range(int(start), int(ends)+1))
         else:
             index=[int(i)]
 
@@ -48,9 +48,9 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
                 atoms = struc[0][chain_curr][i]
             except KeyError:
                 if i == chain_curr:
-                    print >>sys.stderr, 'Error: Chain ' + chain_curr + ' not found in the PDB structure'
+                    print('Error: Chain ' + chain_curr + ' not found in the PDB structure', file=sys.stderr)
                 else:
-                    print >>sys.stderr, 'Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure'
+                    print('Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure', file=sys.stderr)
                     return False
             for a in atoms:
                 a.set_occupancy(0)
@@ -58,7 +58,7 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
     io = PDBIO()
     io.set_structure(struc)
     io.save(pdb_out)
-    print 'Saved ', pdb_out
+    print('Saved ', pdb_out)
     return True
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ Options:
 
 """
 
-from simrna_trajectory import *
+from .simrna_trajectory import *
 import argparse
 import os
 
@@ -34,7 +34,7 @@ def get_parser():
 
 def get_data():
     """Get a link to SimRNA data folder in cwd."""
-    print 'getting SimRNA data folder in cwd ...'
+    print('getting SimRNA data folder in cwd ...')
     cmd = 'ln -s %s %s' % (SIMRNA_DATA_PATH, os.getcwd())
     logger.info(cmd)
     os.system(cmd)

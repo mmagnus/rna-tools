@@ -190,28 +190,28 @@ if '__main__' == __name__:
     # 1 43
     a = chain[3]
     b = chain[43]
-    print a,b
+    print((a,b))
 
 
     bp = BasePair(a,b,struct)
-    print 'coord:', bp.calc_coord()
-    print bp.name
+    print(('coord:', bp.calc_coord()))
+    print((bp.name))
     #dist = bg - bg2
 
     a = chain[2]
     b = chain[42]
-    print a,b
+    print((a,b))
     bp2 = BasePair(a,b, struct)
-    print 'coord:', bp2.calc_coord()
-    print bp2.name
+    print(('coord:', bp2.calc_coord()))
+    print((bp2.name))
 
-    print 'bp, bp2, distance', bp, bp2, bp2 - bp
+    print(('bp, bp2, distance', bp, bp2, bp2 - bp))
 
-    print 'rmsd:', bp.calc_rmsd_to(bp2)
+    print(('rmsd:', bp.calc_rmsd_to(bp2)))
     bp.overlap_with(bp2)
     bp.save()
-    print 'overlapped rmsd', bp.calc_rmsd_to(bp2)
+    print(('overlapped rmsd', bp.calc_rmsd_to(bp2)))
     bp.reset_coord()
-    print 'reset & rmsd', bp.calc_rmsd_to(bp2)
+    print(('reset & rmsd', bp.calc_rmsd_to(bp2)))
 
     #print bp.get_atoms()

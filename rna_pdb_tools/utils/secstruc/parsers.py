@@ -20,8 +20,8 @@ from cogent.parse.ct import ct_parser
 from cogent.parse.stockholm import MinimalStockholmParser
 from moderna.ModernaSequence import Sequence
 
-from knotted2nested.ct_simple import MinimalCtParser
-from secstruc import BasePairs, ViennaStructure, PSEUDOKNOTS_TOKENS, \
+from .knotted2nested.ct_simple import MinimalCtParser
+from .secstruc import BasePairs, ViennaStructure, PSEUDOKNOTS_TOKENS, \
 PseudoknotTokensError
 
 """
@@ -290,7 +290,7 @@ def parse_bp(data):
     out_data = []
     seq = ""
     
-    if type(data) in (str, unicode):
+    if type(data) in (str, str):
         data = data.split('\n')
     elif type(data) is file:
         pass
@@ -343,7 +343,7 @@ def parse_hotknots_v20(open_file, seq_len):
     """
     for line in open_file:
         if line.startswith('Total number of RNA structures:'):
-            seq_line = open_file.next()
+            seq_line = next(open_file)
             while True:
                 ss_line = open_file.next().split()
                 vienna = ss_line[1]
@@ -357,13 +357,13 @@ def parse_hotknots(open_file, seq_len):
     for line in open_file:
         if line.startswith(' total number of Rna structures:'):
             while True:                
-                energy_line = open_file.next()
+                energy_line = next(open_file)
                 try:
                     energy = float(energy_line.split()[-2])
                 except IndexError:
                     raise StopIteration
                 
-                sec_struc_line = open_file.next()
+                sec_struc_line = next(open_file)
                 vienna = '.' * seq_len
                 
                 pseudoknots_tokens = iter([('[',']'), ('{','}'), ('<','>')])
@@ -375,13 +375,13 @@ def parse_hotknots(open_file, seq_len):
                     split_end   = end_range.split('-')
                     
                     if not len(vienna) == vienna.count('.') and vienna[int(split_start[1]) : int(split_end[0]) + 1].count(')') == vienna[:int(split_start[0]) + 1].count('('):
-                        tokens = pseudoknots_tokens.next()
+                        tokens = next(pseudoknots_tokens)
                     else:
                         tokens = ['(',')']
                     
-                    vienna_start_part = vienna[:int(split_start[0])-1] + tokens[0] * len(range(int(split_start[0]), int(split_start[1])+1)) + vienna[int(split_start[1]):]
+                    vienna_start_part = vienna[:int(split_start[0])-1] + tokens[0] * len(list(range(int(split_start[0]), int(split_start[1])+1))) + vienna[int(split_start[1]):]
                     vienna = vienna_start_part + vienna[len(vienna_start_part):]
-                    vienna_end_part = vienna[:int(split_end[0])-1] + tokens[1] * len(range(int(split_start[0]), int(split_start[1])+1)) + vienna[int(split_end[1]):]
+                    vienna_end_part = vienna[:int(split_end[0])-1] + tokens[1] * len(list(range(int(split_start[0]), int(split_start[1])+1))) + vienna[int(split_end[1]):]
                     vienna = vienna_end_part
                     
                 yield (vienna, energy)
@@ -550,7 +550,7 @@ def write_bp_file(bplist, filename):
 def has_overlapping_basepairs(bplist):
     indices = {}
     for bp in bplist:
-        if indices.has_key(bp[0]) or indices.has_key(bp[1]): return True
+        if bp[0] in indices or bp[1] in indices: return True
         indices[bp[0]]=True
         indices[bp[1]]=True
     return False
@@ -710,8 +710,8 @@ class RNAStrandParser(object):
     def __iter__(self):
         return self
     
-    def next(self):
-        return RNAStrandRecord(self.ct_files.next())
+    def __next__(self):
+        return RNAStrandRecord(next(self.ct_files))
         
     def make_length_histogram(self):
         """Makes length dependent histogram using matplotlib
@@ -720,11 +720,11 @@ class RNAStrandParser(object):
         for rec in self:
             if rec.sequence:
                 seqs_lengths.append(len(rec.sequence))
-        bins = range(1, 4000, 10)
+        bins = list(range(1, 4000, 10))
         try:
             from matplotlib import pylab
         except ImportError:
-            print "This feature requires having matplotlib installed!"
+            print("This feature requires having matplotlib installed!")
         else:
             pylab.hist(seqs_lengths, bins)
             pylab.show()
@@ -1009,7 +1009,7 @@ def compose_ss_from_cmfinder_motives(motives, seq_name, sequence):
     with_highest_scores.sort(key=itemgetter(0), reverse=True)
     
     final_motif = with_highest_scores[0][1:]
-    final_motif_coords = range(final_motif[0], final_motif[1]+1)
+    final_motif_coords = list(range(final_motif[0], final_motif[1]+1))
     
     # 3. let's see whether it is possible to add more motives to the best one,
     # provided that they don't overlap
@@ -1021,7 +1021,7 @@ def compose_ss_from_cmfinder_motives(motives, seq_name, sequence):
         # only motives located before or after are allowed
         if d[1] < min(final_motif_coords) or d[0] > max(final_motif_coords):
             # ok, merging!
-            final_motif_coords += range(d[0], d[1]+1)
+            final_motif_coords += list(range(d[0], d[1]+1))
             final_motives.append(d)
     
     final_ss = ['.'] * len(sequence)

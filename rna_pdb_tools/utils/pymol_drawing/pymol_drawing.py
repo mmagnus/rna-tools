@@ -81,9 +81,9 @@ def draw_circle_selection( selName, r=None, cr=1.0, cg=0.4, cb=0.8, w=2.0 ):
   cmd.iterate_state(1, selName, "stored.coords.append([x,y,z])")
   l = len(stored.coords)
 
-  centerX = sum(map(lambda x: x[0], stored.coords)) / l
-  centerY = sum(map(lambda x: x[1], stored.coords)) / l
-  centerZ = sum(map(lambda x: x[2], stored.coords)) / l
+  centerX = sum([x[0] for x in stored.coords]) / l
+  centerY = sum([x[1] for x in stored.coords]) / l
+  centerZ = sum([x[2] for x in stored.coords]) / l
 
   return cgoCircle( centerX, centerY, centerZ, r, cr, cg, cb, w )
 

@@ -3,7 +3,7 @@ from rna_pdb_tools.pdb_parser_lib import *
 def color_by_text(txt):
   for t in txt.strip().split('\n'):
       color, resi = t.replace('color ', '').split(',')
-      print color, resi
+      print((color, resi))
       cmd.color(color.strip(), resi.strip())
     
 def rp():
@@ -21,7 +21,7 @@ def get_pdb():
     cmd.save(tmpfn, '(sele)')
     s = StrucFile(tmpfn)
     for l in s.lines:
-      print l
+      print(l)
   
 def rp17():
     txt ="""color forest, resi 1-5+12-16; # p1

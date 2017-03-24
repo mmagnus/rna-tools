@@ -21,14 +21,14 @@ def get_no_structures(file):
     p.wait()
     stderr = p.stderr.read().strip()
     if stderr:
-        print stderr
+        print(stderr)
     return int(p.stdout.read().strip()) - 1
 
 def run():
     """Pipline for modeling RNA"""
     args = get_parser().parse_args()
     ns = get_no_structures(args.file)
-    print ns
+    print(ns)
 
 #main
 if __name__ == '__main__':

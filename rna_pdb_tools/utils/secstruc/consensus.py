@@ -13,7 +13,7 @@ __email__ = "t.puton@amu.edu.pl"
 __status__ = "Production"
 
 import numpy as np
-from secstruc import ViennaStructure, BasePairs
+from .secstruc import ViennaStructure, BasePairs
 
 class ConsensusSecstrucError(Exception): pass
 

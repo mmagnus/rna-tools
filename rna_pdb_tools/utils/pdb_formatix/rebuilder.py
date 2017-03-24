@@ -9,8 +9,8 @@ DIRNAME = os.path.dirname(__file__)
 from subprocess import Popen
 from shutil import copyfile, rmtree
 from tempfile import mkdtemp
-from SingleLineUtils import get_res_num
-from PDBFile import PDBFile
+from .SingleLineUtils import get_res_num
+from .PDBFile import PDBFile
 
 REBUILDRNA_PATH=os.path.join(DIRNAME, 'RebuildRNA', 'trunk')
 
@@ -40,7 +40,7 @@ def rebuild_full_atom(input_pdb, output_pdb):
     """
     try:
         old_pwd = os.getcwd()
-        print old_pwd
+        print(old_pwd)
     except:
         old_pwd = None
     tempdir = mkdtemp()

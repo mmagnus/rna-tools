@@ -70,7 +70,7 @@ def do_job(i):
     i_cl_fn = clarna_app.clarna_run(i, args.force)
     output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, DEBUG)
     if args.verbose:
-        print output
+        print(output)
 
     # counter and bar
     global counter
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
-        print parser.print_help()
+        print((parser.print_help()))
         sys.exit(1)
 
     input_files = args.files
@@ -131,4 +131,4 @@ if __name__ == '__main__':
     else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
             do_job(i)    
-    print 'csv was created! ', out_fn
+    print(('csv was created! ', out_fn))

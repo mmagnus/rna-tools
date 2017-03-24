@@ -3,7 +3,7 @@ import copy
 import sys
 
 import os
-from commands import getoutput
+from subprocess import getoutput
 
 f = sys.argv[1].strip().split(',')
 
@@ -19,4 +19,4 @@ for i in f:
             txt += 'SLOPE A/' + str(i) + '/MB A/' + str(x) + '/MB 15 25 0.5 \n' # energy values about restrains. slope <-> penalty
             txt += 'WELL A/' + str(i) + '/MB A/' + str(x) + '/MB  15 25 0.5 \n' # well <-> reward # check paper
     f2.pop()
-print txt.strip()
+print((txt.strip()))

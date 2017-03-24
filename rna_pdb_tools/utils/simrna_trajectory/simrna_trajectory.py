@@ -30,7 +30,7 @@ class SimRNATrajectory:
         h(eader), l(line), f(ile).
         """
         self.frames = []
-        f = (line for line in open(fn).xreadlines())
+        f = (line for line in open(fn))
         h = f.next().strip()
         l = f.next().strip()
         c = 0
@@ -46,7 +46,7 @@ class SimRNATrajectory:
                 self.frames.append(Frame(c, h, l, top_level))
                 if debug_break: break
                 if c % 1000 == 0:
-                    print c/1000,'k loaded...'
+                    print((c/1000,'k loaded...'))
                     gc.collect()
 
     def load_from_string(self, c, txt):
@@ -70,7 +70,7 @@ class SimRNATrajectory:
             for f in self.frames:
                 fi.write(f.header + '\n')
                 fi.write(f.coords + '\n')
-        if verbose: print('Saved to ' + fn)
+        if verbose: print(('Saved to ' + fn))
             
     def plot_energy(self, plotfn):
         """
@@ -199,14 +199,14 @@ if __name__ == '__main__':
         #print f.header
         #print f.coords
         r = f.residues[0]
-        print r.get_atoms()
-        print r.p
-        print r.c4p
-        print r.c4p.get_coord()
-        print r.c4p - r.p
-        print r.n1n9
-        print r.b2
-        print r.get_center()
+        print((r.get_atoms()))
+        print((r.p))
+        print((r.c4p))
+        print((r.c4p.get_coord()))
+        print((r.c4p - r.p))
+        print((r.n1n9))
+        print((r.b2))
+        print((r.get_center()))
         break
 
     s2 = SimRNATrajectory()
@@ -214,4 +214,4 @@ if __name__ == '__main__':
  53.570 23.268 39.971 55.119 24.697 43.283 55.145 27.966 42.270 55.258 29.321 42.618 54.313 29.909 40.572 57.246 41.229 41.492 57.056 39.572 45.104 55.672 36.799 43.722 55.491 33.284 44.069 55.013 33.922 41.769"""
     s2.load_from_string(0, traj)
     for f in s2.frames:
-        print f
+        print(f)

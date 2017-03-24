@@ -12,7 +12,7 @@ if __name__ == '__main__':
     (opts, args)=optparser.parse_args()
 
     if len(sys.argv) != 2:
-        print optparser.format_help()
+        print((optparser.format_help()))
         sys.exit(1)
 
 
@@ -32,4 +32,4 @@ if __name__ == '__main__':
         # print chars[b],
         plot += chars[b]
 
-    print plot
+    print(plot)

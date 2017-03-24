@@ -13,7 +13,7 @@ __maintainer__ = "Tomasz Puton"
 __email__ = "t.puton@amu.edu.pl"
 __status__ = "Production"
 
-from secstruc import BasePairs
+from .secstruc import BasePairs
 
 class BpseqWriterError(Exception): pass
 
@@ -43,7 +43,7 @@ class BpseqWriter:
         partners = self.bplist.toPartners(len(self.seq), -1)
 
         for position, partners, nt in \
-            zip(range(1, len(self.seq) + 1), partners, self.seq):
+            zip(list(range(1, len(self.seq) + 1)), partners, self.seq):
 
             if partners == None:
                 bpseq += str(position) + ' ' + nt + ' ' + '0\n'

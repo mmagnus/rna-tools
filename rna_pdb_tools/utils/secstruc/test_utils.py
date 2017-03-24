@@ -5,7 +5,7 @@
 tests for utils.py.
 """
 
-from __future__ import division
+
 
 __author__ = "Tomasz Puton"
 __credits__ = "Kristian Rother"
@@ -24,11 +24,11 @@ from cogent.struct.pairs_util import correlation_coefficient, extract_seqs
 from cogent.core.sequence import RnaSequence, ModelSequence
 from cogent.core.moltype import RNA
 
-from secstruc import BasePairs
-from utils import mcc, selectivity, sensitivity, get_counts, \
+from .secstruc import BasePairs
+from .utils import mcc, selectivity, sensitivity, get_counts, \
 make_sequence_alignment, extract_query_seq_pred, ExtractQuerySeqPredError,\
 get_all_pairs, get_bps_for_aligned_seq
-from utils import CannotMakeSequenceAlignmentError as CMSAE
+from .utils import CannotMakeSequenceAlignmentError as CMSAE
 
 class GardnerMetricsTest(TestCase):
     """Tests for the metrics from Gardner & Giegerich 2004"""
@@ -382,20 +382,20 @@ class ExtractQuerySeqPredTests(TestCase):
         """
         first_result = extract_query_seq_pred(self.results[0], 'ACUG', 'seq 0')
         self.assertTrue(type(first_result) is dict)
-        self.assertTrue(first_result.has_key('sequence'))
-        self.assertTrue(first_result.has_key('program_name'))
+        self.assertTrue('sequence' in first_result)
+        self.assertTrue('program_name' in first_result)
         self.assertEqual(first_result.get('best_predicted_ss'), '....')
         
         second_result = extract_query_seq_pred(self.results[0], 'ACCC', 'seq 1')
         self.assertTrue(type(second_result) is dict)
-        self.assertTrue(second_result.has_key('sequence'))
-        self.assertTrue(second_result.has_key('program_name'))
+        self.assertTrue('sequence' in second_result)
+        self.assertTrue('program_name' in second_result)
         self.assertEqual(second_result.get('best_predicted_ss'), '(..)')
         
         third_result = extract_query_seq_pred(self.results[1], 'ACCC', 'seq 1')
         self.assertTrue(type(third_result) is dict)
-        self.assertTrue(third_result.has_key('sequence'))
-        self.assertTrue(third_result.has_key('program_name'))
+        self.assertTrue('sequence' in third_result)
+        self.assertTrue('program_name' in third_result)
         self.assertEqual(third_result.get('best_predicted_ss'), '.().')
         
     def test_extract_query_seq_pred_not_ok(self):
@@ -412,8 +412,8 @@ class ExtractQuerySeqPredTests(TestCase):
         """
         first_result = extract_query_seq_pred(self.results[2], 'ACUG', 'seq 0')
         self.assertTrue(type(first_result) is dict)
-        self.assertTrue(first_result.has_key('sequence'))
-        self.assertTrue(first_result.has_key('program_name'))
+        self.assertTrue('sequence' in first_result)
+        self.assertTrue('program_name' in first_result)
         self.assertEqual(first_result.get('best_predicted_ss'),
                          '....(((...)))....')
         self.assertEqual(first_result.get('best_predicted_energy'),

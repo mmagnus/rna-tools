@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from PDBFile import PDBFile
+from .PDBFile import PDBFile
 
 
 class RosettaPDBFile(PDBFile):

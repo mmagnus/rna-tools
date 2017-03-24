@@ -6,7 +6,7 @@ class RfamSearch():
         pass
 
     def cmscan(self, seq):
-        print seq
+        print(seq)
         # make tmp file
         f = open('/tmp/ss.fa','w')
         f.write('>test\n')
@@ -22,7 +22,7 @@ class RfamSearch():
         return self.output
 #main
 if __name__ == '__main__':
-    import Seq
+    from . import Seq
     seq = Seq.Seq("GGCGCGGCACCGUCCGCGGAACAAACGG")
     rs = RfamSearch()
     rs.cmscan(seq)

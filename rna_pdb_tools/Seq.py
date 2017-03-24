@@ -1,6 +1,6 @@
 """Seq and secondary structure prediction"""
 
-import commands
+import subprocess
 
 class Seq:
     def __init__(self, seq):
@@ -26,16 +26,16 @@ class Seq:
             return str(res['StdOut'].read()).strip()
 
         if method == "ipknot":
-            self.ss_log = commands.getoutput('ipknot /tmp/ss.fa')
+            self.ss_log = subprocess.getoutput('ipknot /tmp/ss.fa')
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         if method == "contextfold":
             cmd = "cd /home/magnus/work/opt/ContextFold_1_00 && java -cp bin contextFold.app.Predict in:" + self.seq
-            self.ss_log = commands.getoutput(cmd)
+            self.ss_log = subprocess.getoutput(cmd)
             return '\n'.join(self.ss_log.split('\n')[1:])
         
         if method == "centroid_fold":
-            self.ss_log = commands.getoutput('centroid_fold /tmp/ss.fa')
+            self.ss_log = subprocess.getoutput('centroid_fold /tmp/ss.fa')
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         if method == 'RNAfold':
@@ -54,5 +54,5 @@ class Seq:
 #main
 if __name__ == '__main__':
     seq = Seq("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
-    print seq.predict_ss(method="ipknot")
+    print(seq.predict_ss(method="ipknot"))
     

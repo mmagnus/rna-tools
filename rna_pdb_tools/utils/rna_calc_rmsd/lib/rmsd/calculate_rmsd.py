@@ -136,7 +136,7 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
                 curr_resi = int(line[22:26])
                 curr_atom_name = line[12:16].strip()
                 if selection:
-                    if selection.has_key(curr_chain_id):
+                    if curr_chain_id in selection:
                         if curr_resi in selection[curr_chain_id]:
                             # ignore if to be ingored (!)
                             #try:

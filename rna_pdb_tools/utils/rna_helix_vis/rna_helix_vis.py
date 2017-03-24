@@ -82,8 +82,8 @@ def show_cyliders(ss):
 
     helices = []
 
-    print """from pymol.cgo import *
-from pymol import cmd"""
+    print("""from pymol.cgo import *
+from pymol import cmd""")
 
     ht = 'obj = [ CYLINDER, ' 
     for i in bg.to_bg_string().split('\n'):
@@ -94,11 +94,11 @@ from pymol import cmd"""
             x = [int(x) for x in x.split()]
             h = Helix( x[0], fn, chain,(x[1],x[2]), (x[3], x[4]))
             helices.append(h)
-            print h.get_ids()
+            print((h.get_ids()))
             ht += h.get_helix_coord() + ', CYLINDER, '
 
-    print ht[:-11] + ']'
-    print "cmd.load_cgo(obj,'cgo01') "
+    print((ht[:-11] + ']'))
+    print("cmd.load_cgo(obj,'cgo01') ")
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
@@ -126,8 +126,8 @@ if __name__ == '__main__':
     fn = args.pdb_fn
     ss = open(args.ss).read().strip()
 
-    print ss
-    print
-    print '>>>> copy below to pymol <<<<'
+    print(ss)
+    print()
+    print('>>>> copy below to pymol <<<<')
     show_cyliders(ss)
-    print '>>>> copy above to pymol <<<<'
+    print('>>>> copy above to pymol <<<<')
