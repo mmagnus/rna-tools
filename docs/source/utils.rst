@@ -12,14 +12,14 @@ Select low energy frames
 .. argparse::
    :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_lowest.get_parser
    :prog: rna_simrna_lowest.py
-	  
+
 Extract
 ``````````````````````````````````````````
 
 .. argparse::
    :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_extract.get_parser
    :prog: rna_simrna_extract.py
-	  
+
 ClaRNA
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -94,6 +94,7 @@ Frickey, T., & Lupas, A. (2004). CLANS: a Java application for visualizing prote
 
 RNA Alignment
 ------------------------------------------
+.. autofunction:: rna_pdb_tools.utils.rna_alignment.rna_alignment.fetch_stokholm
 
 RNASeq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,7 +137,7 @@ rna_align_seq_to_alignment.py
    :prog: rna_align_seq_to_alignment.py
 
 rna_align_find_seq_in_alignment.py
-```````````````````````````````````````````          
+```````````````````````````````````````````
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_alignment.rna_align_find_seq_in_alignment.get_parser
    :prog: rna_align_find_seq_in_alignment.py
@@ -210,7 +211,7 @@ PyMOL drawing
 
 .. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
    :members:
-     
+
 
 
 Secondary structure format conversion
@@ -255,7 +256,7 @@ to::
 
 	> b
 	..(.[[.[..(((....)))..((((.(..{{{{...).)))))..].]]...}}}}((((......))))
-	
+
 and it works with VARNA:
 
 .. image:: ../../rna_pdb_tools/utils/rna_convert_pseudoknot_formats/doc/varna_2pk.png
@@ -297,7 +298,7 @@ rna_sali2dotbracket
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_sali2dotbracket.rna_sali2dotbracket.get_parser
    :prog: rna_sali2dotbracket
-   
+
 .. automodule:: rna_pdb_tools.utils.rna_sali2dotbracket.rna_sali2dotbracket
    :members:
 

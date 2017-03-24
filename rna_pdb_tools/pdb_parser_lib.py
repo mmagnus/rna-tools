@@ -31,8 +31,8 @@ import shutil
 import subprocess
 
 
-from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
-from rpt_config import QRNAS_PATH
+from .utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from .rpt_config import QRNAS_PATH
 
 # Don't fix OP3, ignore it
 ignore_op3 = False
@@ -160,7 +160,7 @@ class StrucFile:
             f.write("WRITEFREQ   1\n")
             f.write("NSTEPS      1\n")
         # run qrnas
-        print 'QRNAS...'
+        print('QRNAS...')
 
         if not outfn:
             cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn)
@@ -172,12 +172,12 @@ class StrucFile:
             out = o.stdout.read().strip()
             err = o.stderr.read().strip()
             if verbose:
-                print out
-                print err
+                print(out)
+                print(err)
                 shutil.rmtree(to_go + os.sep + "QRNAS")
         # post cleaning
         if outfn:
-            print 'Cleaning...'
+            print('Cleaning...')
             s = StrucFile(curr + os.sep + outfn)
             s.remove_hydrogen()
             s.fix_resn()

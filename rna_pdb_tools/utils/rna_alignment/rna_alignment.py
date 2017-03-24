@@ -843,21 +843,28 @@ def fasta2stokholm(fn):
     return RNAalignment(tf.name)
 
 
-def fetch_stokholm(rfam_acc, dpath="."):
-    """fetch stolholm fasta file from Rfam"""
+def fetch_stokholm(rfam_acc, dpath=None):
+    """Fetch Stokholm file from Rfam.
+
+    :param rfam_acc: str, Rfam accession number, eg. RF00028
+    :param dpath: str or None, if None saves to current location, otherwise save to dpath folder
+    """
     http = urllib3.PoolManager()
     #try:
-    response = http.request('GET', url='href="http://rfam.xfam.org/family/' + rfam_acc.lower() + '/alignment?acc=' + rfam_acc.lower() + '&format=stockholm&download=1"')
+    print(dpath)
+    response = http.request('GET', url='http://rfam.xfam.org/family/' + rfam_acc.lower() + '/alignment?acc=' + rfam_acc.lower() + '&format=stockholm&download=1')
     #except urllib3.HTTPError:
     #    raise Exception('The PDB does not exists: ' + pdb_id)
     txt = response.data
-
-    npath = dpath + os.sep + rfam_acc + '_stokholm.txt'
+    if dpath is None:
+        npath = rfam_acc + '.stk'
+    else:
+        npath = dpath + os.sep + rfam_acc + '.stk'
     print(('downloading...' + npath))
     with open(npath, 'wb') as f:
         f.write(txt)
     print('ok')
-    return rfam_acc + '_stokholm.txt'
+    return rfam_acc + '.stk'
 
 
 #main
