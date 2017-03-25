@@ -57,7 +57,21 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     Raw alignment score
     Number of residues aligned 
 
-    in this version of function, the function returns `RMSD before refinement`."""
+    in this version of function, the function returns `RMSD before refinement`.
+
+    Install on OSX: ``brew install homebrew/science/pymol`` and set ``PYTHONPATH`` to 
+    your PyMOL packages, .e.g ::
+  
+      PYTHONPATH=$PYTHONPATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages
+
+    If problem::
+
+      Match-Error: unable to open matrix file '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/data/pymol/matrices/BLOSUM62'.
+     
+    then define ``PYMOL_PATH`` in your .bashrc, e.g.::
+
+       export PYMOL_PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pymol/
+     """
 
     try:
         import __main__
@@ -73,8 +87,15 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     pymol.cmd.load(pdb1, 's1')
     pymol.cmd.load(pdb2, 's2')
     if method == 'align':
-        return (pymol.cmd.align('s1', 's2')[3], pymol.cmd.align('s1',
-                's2')[4])
+        # experiments with align <https://pymolwiki.org/index.php/Align>
+        # quiet = 0/1: suppress output {default: 0 in command mode, 1 in API} 
+        return  (pymol.cmd.align('s1', 's2',quiet=1, object='aln')[3],0) #, pymol.cmd.align('s1','s2')[4])
+        #raw_aln = pymol.cmd.get_raw_alignment('aln')
+        #print raw_aln
+        #for idx1, idx2 in raw_aln:
+        #    print '%s`%d -> %s`%d' % tuple(idx1 + idx2)
+        #pymol.cmd.save('aln.aln', 'aln')
+
     if method == 'fit':
         return (pymol.cmd.fit('s1', 's2'), 'fit')
 
@@ -147,7 +168,7 @@ if __name__ == '__main__':
     optparser.add_option('-m',"--method", type="string",
                          dest="method",
                          default='',
-                         help="")
+                         help="align, fit")
 
     optparser.add_option('-o',"--rmsds_fn", type="string",
                          dest="rmsds_fn",
