@@ -250,6 +250,10 @@ This packages uses other pieces of software, it would be impossible without them
         ((((....)))) ( -6.40)
 
 - 170324 Starting converting to Python3, fetch_align by Pietro
+- 170320 `rna_cartoon` in PyMOL
+
+![](docs/pngs/rna_cartoon_small.png)
+
 - 170319 Add clanstix (move it from its own GitHub repository).
 - 170315 SimRNA_trajectory:
   - get len of frame, and trajectory

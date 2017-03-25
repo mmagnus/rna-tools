@@ -240,12 +240,14 @@ SimRNATrajectory
 .. automodule:: rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory
    :members:
 
-PyMOL drawing
+PyMOL
 -----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.PyMOL4RNA.PyMOL4RNA
+   :members:
 
 .. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
    :members:
-     
 
 
 Secondary structure format conversion
