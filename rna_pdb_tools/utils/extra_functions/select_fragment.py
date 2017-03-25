@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 from collections import OrderedDict
 import re
 import string
 import sys
-
 
 def select_pdb_fragment(txt, separator="-", splitting='[:\+]', verbose=False):
     """Take txt such as ``A:1-31+B:1-11`` and parse into::

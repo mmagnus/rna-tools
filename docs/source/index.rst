@@ -19,17 +19,17 @@ If you find the tools helpful, you can cite the repo using the doi_::
 If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-pdb-tools/issues
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
 
-   main
    want
-   config
+   main
    utils
    selection
    workflows
    tips
    rna-puzzles
    git
+   install
 
 Indices and tables
 ==================

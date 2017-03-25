@@ -89,7 +89,7 @@ def convert_sali2dotbracket(fn):
       # see pydoc # sequence #
       temp = line.split(' ')
       sequence = max(temp, key=len) # the longest element of the list will be the sequence
-      print(re.sub(r'\d*\dnt|\d*\d|(?P<smthBeautiful>\(\d+\))', repl, sequence), end=' ')
+      print(re.sub(r'\d*\dnt|\d*\d|(?P<smthBeautiful>\(\d+\))', repl, sequence, end=' '))
 
 if __name__ == '__main__':
    parser = get_parser()

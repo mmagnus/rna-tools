@@ -207,19 +207,7 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 + .. and more!
 
 ## Install
-
-Install requirements and do these three steps:
-
-1. add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` 
-2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/`
-3. and run the install script:
-	
-	    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
-	    Installed in ./bin
-	    rmsd_calc_to_target.py
-
-should be OK now :-)
-
+Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
 ## Requirement
 
 Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
@@ -231,12 +219,6 @@ This packages uses other pieces of software, it would be impossible without them
 + biopython (https://github.com/biopython/biopython)
 + rmsd (https://github.com/charnley/rmsd)
 + forgi (http://www.tbi.univie.ac.at/%7Ethiel/forgi/graph_tutorial.html)
-
-## Quick notes
-
-    |1.......|10.......|20.......|30.......|40.......|50.......|60.......|70.......|80.......|90.......
-    123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789
-    .........10.....
 
 ## History
 
