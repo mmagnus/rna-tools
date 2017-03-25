@@ -244,3 +244,4 @@ This packages uses other pieces of software, it would be impossible without them
 
 - 170311 Get seq (v2) gets segments of chains with correct numbering
 - 170308 Add fixing missing atoms of bases, and O2'
+- ~2011 Prelimiary version as rnastruc, yapdb_parser etc.
