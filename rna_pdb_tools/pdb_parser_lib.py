@@ -24,7 +24,6 @@ from collections import OrderedDict
 import re
 import string
 import time
-import urllib3
 import gzip
 import tempfile
 import shutil
@@ -1392,6 +1391,7 @@ def collapsed_view(args):
 def fetch(pdb_id, path=""):
     """fetch pdb file from RCSB.org
     https://files.rcsb.org/download/1Y26.pdb"""
+    import urllib3
     http = urllib3.PoolManager()
     # try:
     response = http.request('GET', 'https://files.rcsb.org/download/' + pdb_id + '.pdb')
@@ -1409,6 +1409,7 @@ def fetch(pdb_id, path=""):
 
 def fetch_ba(pdb_id, path=""):
     """fetch biological assembly pdb file from RCSB.org"""
+    import urllib3
     http = urllib3.PoolManager()
     #try:
     response = http.request('GET', url='https://files.rcsb.org/download/' + pdb_id.lower() + '.pdb1')
