@@ -1,6 +1,41 @@
 Utils
 =========================================
 
+RNA Sequence
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.Seq
+   :members:
+
+RNA Alignment
+------------------------------------------
+
+RNASeq
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNASeq
+   :members:
+
+RNAalignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNAalignment
+   :members:
+
+
+CMAlign
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.CMAlign
+   :members:
+
+RChie
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RChie
+   :members:
+
+      
 Apps
 -----------------------------------------
 
