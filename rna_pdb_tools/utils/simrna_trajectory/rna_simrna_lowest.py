@@ -7,7 +7,7 @@ import argparse
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-f', '--file', help="SimRNA trafl file", required=True)
+    parser.add_argument('trafl', help="SimRNA trafl file")
     return parser
 
 if __name__ == '__main__':
@@ -15,7 +15,7 @@ if __name__ == '__main__':
     args = parser.parse_args()    
     
     s = SimRNATrajectory()
-    fn = args.file
+    fn = args.trafl
 
     s.load_from_file(fn, top_level=True)
 
