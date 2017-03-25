@@ -21,7 +21,7 @@ class SimRNATrajectory:
         to load the data."""
         self.frames = []
         
-    def load_from_file(self, fn, debug_break=False, top_level=False):
+    def load_from_file(self, fn, debug_break=False, top_level=False, only_first_frame=False):
         """Create a trajectory based on give filename.
 
         top_level = True, don't make a huge tree of objects (Residues/Atoms) == amazing speed up! 
@@ -35,20 +35,21 @@ class SimRNATrajectory:
         l = f.next().strip()
         c = 0
         self.frames.append(Frame(c, h, l, top_level))
-        while 1:
-            c += 1
-            try:
-                h = f.next().strip()
-            except StopIteration:
-                break
-            l = f.next().strip()
-            if h and l:
-                self.frames.append(Frame(c, h, l, top_level))
-                if debug_break: break
-                if c % 1000 == 0:
-                    print c/1000,'k loaded...'
-                    gc.collect()
 
+        if not only_first_frame:
+            while 1:
+                c += 1
+                try:
+                    h = f.next().strip()
+                except StopIteration:
+                    break
+                l = f.next().strip()
+                if h and l:
+                    self.frames.append(Frame(c, h, l, top_level))
+                    if debug_break: break
+                    if c % 1000 == 0:
+                        print c/1000,'k loaded...'
+                        gc.collect()
     def load_from_string(self, c, txt):
         """Create a trajectory based on given string (txt) with id given by c"""
         h,l = txt.split('\n')
@@ -88,6 +89,11 @@ class SimRNATrajectory:
         plt.grid()
         plt.savefig(plotfn,figsize=(30,10)) #  bbox_inches='tight', 
 
+    def __len__(self):
+        """Get number of frames"""
+        return len(self.frames)
+    def __getitem__(self, i):
+        return self.frames[i]
 class Frame:
     """Frame
 
@@ -97,11 +103,19 @@ class Frame:
      - total_energy 
      - energy_without_restraints
      - temperature
+
+    .. warning:: If there is an invalid frame, please use `repair_trafl.py` to fix the trajectory first.
     """
     def __init__(self, id, header, coords, top_level=True):
         self.id = id
         self.header = header
-        self.energy = float(header.split(' ')[3])
+
+        # 443 10 -1211.659921 -1218.294753 1.100000
+        l = header.split() 
+        if len(l) != 5:
+            raise Exception('Invalid frame, please use `repair_trafl.py` to fix it.')
+        self.energy = float(l[3])
+        
         self.coords = coords
         coords = deque(coords.split())
         if top_level:
@@ -121,7 +135,11 @@ class Frame:
 
     def __repr__(self):
         return 'Frame #' + str(self.id) + ' e:' + str(round(self.energy,2))
-                
+
+    def __len__(self):
+        """Get a number of residues"""
+        return len(self.residues)
+    
 class Residue:
     """Create Residue object.
     """

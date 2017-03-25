@@ -240,6 +240,11 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## History
 
+- 170315 SimRNA_trajectory:
+  - get len of frame, and trajectory
+  - warn about broken frame
+  - `only_first_frame` to get only the first frame
+
 - 170325 Seq: secondary structure prediction with constraints
 
         >>> seq = Seq("CCCCUUUUGGGG")
