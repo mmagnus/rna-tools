@@ -17,9 +17,9 @@ import os
 from numpy import array, zeros
 from numpy.testing import assert_array_equal
 from unittest import TestCase, main
-from consensus import calc_consensus_secstruc_for_dbn, ConsensusSecstrucError, \
+from .consensus import calc_consensus_secstruc_for_dbn, ConsensusSecstrucError, \
 turn_dbn_into_interaction_matrix, calc_consensus_secstruc_for_bps
-from secstruc import ConflictInBasePairsError, ViennaStructure, BasePairs, \
+from .secstruc import ConflictInBasePairsError, ViennaStructure, BasePairs, \
 solve_conflicts
 
 class CalcConsensusSecstrucForDbnTests(TestCase):
@@ -99,7 +99,7 @@ class CalcConsensusSecstrucForDbnTests(TestCase):
         dbns = [pred_1, pred_2]
         try:
             cutoff, consensus = calc_consensus_secstruc_for_dbn(dbns, threshold=cutoff)
-        except ConflictInBasePairsError, error:
+        except ConflictInBasePairsError as error:
             conflicting_bps = BasePairs(eval(str(error).split('\'')[1]))
             solve_conflicts(conflicting_bps)   
             consensus_pred = conflicting_bps.toVienna(len(pred_1), 0)
@@ -120,7 +120,7 @@ class CalcConsensusSecstrucForDbnTests(TestCase):
         
         try:
             cutoff, consensus = calc_consensus_secstruc_for_dbn(dbns, threshold=cutoff)
-        except ConflictInBasePairsError, error:
+        except ConflictInBasePairsError as error:
             conflicting_bps = BasePairs(eval(str(error).split('\'')[1]))
             solve_conflicts(conflicting_bps)
             consensus_pred = conflicting_bps.toVienna(len(pred_3), 0)

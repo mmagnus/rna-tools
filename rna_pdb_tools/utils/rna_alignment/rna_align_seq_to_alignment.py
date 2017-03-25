@@ -44,9 +44,9 @@ if __name__ == '__main__':
     seq = cma.get_seq()
 
     a = ra.RNAalignment(args.alignment)
-    print 'cma hit  ', seq
-    print 'seq      ', a.align_seq(seq)
-    print 'a.rf     ', a.rf
+    print(('cma hit  ', seq))
+    print(('seq      ', a.align_seq(seq)))
+    print(('a.rf     ', a.rf))
 
 
 

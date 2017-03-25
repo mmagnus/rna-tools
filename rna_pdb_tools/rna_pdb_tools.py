@@ -7,7 +7,7 @@ import argparse
 import os
 import time
 
-from pdb_parser_lib import *
+from .pdb_parser_lib import *
 
 def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
@@ -69,9 +69,9 @@ if __name__ == '__main__':
 
     if args.report:
         s = StrucFile(args.file)
-        print s.get_report()
-        print s.get_preview()
-        print s.get_info_chains()
+        print(s.get_report())
+        print(s.get_preview())
+        print(s.get_info_chains())
 
     if args.clean:
         s = StrucFile(args.file)
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         #s.write(args.outfile)
         if not args.no_hr:
             add_header()
-        print s.get_text()
+        print(s.get_text())
 
     if args.get_seq:
         s = StrucFile(args.file)
@@ -100,7 +100,7 @@ if __name__ == '__main__':
         s.fix_O_in_UC()
         s.fix_op_atoms()
         #print s.get_preview()
-        print s.get_seq()
+        print(s.get_seq())
 
     if args.get_chain:
         s = StrucFile(args.file)
@@ -112,7 +112,7 @@ if __name__ == '__main__':
         s.fix_O_in_UC()
         s.fix_op_atoms()
         #print s.get_preview()
-        print s.get_chain(args.get_chain)
+        print(s.get_chain(args.get_chain))
 
     if args.rosetta2generic:
         s = StrucFile(args.file)
@@ -126,7 +126,7 @@ if __name__ == '__main__':
         #s.write(args.outfile)
         if not args.no_hr:
             add_header()
-        print s.get_text()
+        print(s.get_text())
 
     if args.get_rnapuzzle_ready:
         s = StrucFile(args.file)
@@ -142,7 +142,7 @@ if __name__ == '__main__':
         if not args.no_hr:
             add_header()
         s.get_rnapuzzle_ready(args.renumber_residues)
-        print s.get_text()
+        print(s.get_text())
 
     if args.get_simrna_ready:
         s = StrucFile(args.file)
@@ -156,7 +156,7 @@ if __name__ == '__main__':
         if not args.no_hr:
             add_header()
         s.get_simrna_ready(args.renumber_residues)
-        print s.get_text()
+        print(s.get_text())
 
     if args.renumber_residues:
         s = StrucFile(args.file)
@@ -167,22 +167,22 @@ if __name__ == '__main__':
         s.renum_atoms()
         if not args.no_hr:
             add_header()
-        print s.get_text()
+        print(s.get_text())
 
     if args.delete:
         selection = select_pdb_fragment(args.delete)
         s = StrucFile(args.file)
         if not args.no_hr:
             add_header()
-            print 'HEADER --delete ' + args.delete #' '.join(str(selection))
+            print('HEADER --delete ' + args.delete) #' '.join(str(selection))
         for l in s.lines:
             if l.startswith('ATOM'):
                 chain = l[21]
                 resi = int(l[23:26].strip())
-                if selection.has_key(chain):
+                if chain in selection:
                     if resi in selection[chain]:
                         continue  # print chain, resi
-                print l
+                print(l)
 
     if args.edit:
         edit_pdb(args)

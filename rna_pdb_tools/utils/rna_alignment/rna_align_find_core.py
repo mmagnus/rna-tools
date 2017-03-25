@@ -20,5 +20,5 @@ if __name__ == '__main__':
     fn = args.file
     
     a = ra.RNAalignment(fn)
-    print a.find_core()
+    print((a.find_core()))
     

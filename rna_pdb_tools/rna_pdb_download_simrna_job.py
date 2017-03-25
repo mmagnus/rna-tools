@@ -13,7 +13,7 @@ The names will be shorten: ``d86c07d9-9871-4454-bfc6-fb2e6edf13fc_ALL_thrs12.50A
 
 import argparse
 import os
-import urllib2
+import urllib.request, urllib.error, urllib.parse
     
 import sys
 sys.tracebacklimit = 0
@@ -38,8 +38,8 @@ if __name__ == '__main__':
     # http://genesilico.pl/SimRNAweb/media/jobs/d86c07d9-9871-4454-bfc6-fb2e6edf13fc/output_PDBS/d86c07d9-9871-4454-bfc6-fb2e6edf13fc_ALL_thrs12.50A_clust01-000001_AA.pdb
     url = "http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/output_PDBS/"
     try:
-        response = urllib2.urlopen(url)
-    except urllib2.HTTPError:
+        response = urllib.request.urlopen(url)
+    except urllib.error.HTTPError:
         raise SimRNAwebError('Job not found on the server: %s' % job_id)
     else:
         html = response.read()
@@ -52,7 +52,7 @@ if __name__ == '__main__':
             # shorten names
             nfn = fn.replace("-000001", '').replace('_AA','X').replace('_ALL_','-')
             parts = nfn.split('-')
-            print parts
+            print(parts)
             nfn = '-'.join([fn[:12], ''.join(parts[-1])])
 
             # wget

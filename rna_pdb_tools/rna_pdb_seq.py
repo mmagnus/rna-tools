@@ -11,7 +11,7 @@ import argparse
 import os
 import time
 
-from pdb_parser_lib import *
+from .pdb_parser_lib import *
 
 version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
 version = version[1].strip()
@@ -35,7 +35,6 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-
     for f in sort_nicely(args.files):
         s = StrucFile(f)
         s.decap_gtp()
@@ -49,5 +48,5 @@ if __name__ == '__main__':
         #print s.get_preview()
         if args.verbose:
             add_header(version=version)
-        print s.get_seq()
-        print
+        print(s.get_seq())
+

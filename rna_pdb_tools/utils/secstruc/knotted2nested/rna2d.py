@@ -70,7 +70,7 @@ class Partners(list):
     def __setitem__(self, index, item):
         """Sets self[index] to item, enforcing integrity constraints."""
         if index == item:
-            raise ValueError, "Cannot set base %s to pair with itself." % item
+            raise ValueError("Cannot set base %s to pair with itself." % item)
         #if item already paired, raise Error or make partner unpaired
         if item and self[item]:
             self[self[item]] = None
@@ -130,8 +130,8 @@ class Pairs(list):
             
             if result[upstream] or result[downstream]:
                 if strict:
-                    raise ValueError, "Pairs contain conflicting partners: %s"\
-                        % self
+                    raise ValueError("Pairs contain conflicting partners: %s"\
+                        % self)
             result[upstream] = downstream
         return result
             
@@ -146,7 +146,7 @@ class Pairs(list):
         strict specifies whether collisions cause fatal errors.
         """
         if self.hasPseudoknots():
-            raise Exception, "Pairs contains pseudoknots %s"%(self)
+            raise Exception("Pairs contains pseudoknots %s"%(self))
         
         try:
             length = int(length)
@@ -164,8 +164,8 @@ class Pairs(list):
 
             if strict:
                 if (result[upstream] != '.') or (result[downstream] != '.'):
-                    raise ValueError, "Pairs contain conflicting partners: %s"\
-                        % self
+                    raise ValueError("Pairs contain conflicting partners: %s"\
+                        % self)
             result[upstream] = '('
             result[downstream] = ')'
         return ViennaStructure(''.join(result))
@@ -177,7 +177,7 @@ class Pairs(list):
         different types, e.g. lists and tuples, will sort according to type
         rather than to position).
         """
-        self[:] = map(tuple, self)
+        self[:] = list(map(tuple, self))
 
     def unique(self):
         """Returns copy of self omitting duplicate pairs, preserving order.
@@ -205,7 +205,7 @@ class Pairs(list):
             if up > down:
                 up, down = down, up
             seen[(up, down)] = True
-        result = seen.keys()
+        result = list(seen.keys())
         return Pairs(result)
 
     def symmetric(self):
@@ -220,7 +220,7 @@ class Pairs(list):
      
     def paired(self):
         """Returns copy of self omitting items where a 'partner' is None."""
-        return Pairs(filter(not_none, self))
+        return Pairs(list(filter(not_none, self)))
         
     def hasPseudoknots(self):
         """Returns True if the pair list contains pseudoknots.
@@ -325,8 +325,7 @@ class StructureString(str):
         if a:
             for i in Structure:
                 if i not in a:
-                    raise ValueError,\
-                    "Tried to include unknown symbol '%s'" % i
+                    raise ValueError("Tried to include unknown symbol '%s'" % i)
         
         return str.__new__(cls,Structure)
 
@@ -373,8 +372,7 @@ class StructureString(str):
                
         #test whether there are any open pairs left unaccounted for        
         if stack:
-           raise IndexError, \
-           "Too many open pairs in structure:\n%s" % self
+           raise IndexError("Too many open pairs in structure:\n%s" % self)
         return Partners(result)
 
     def toPairs(self):
@@ -396,8 +394,7 @@ class StructureString(str):
                result[stack.pop()] = i
         #test whether there are any open pairs left unaccounted for        
         if stack:
-           raise IndexError, \
-           "Too many open pairs in structure:\n%s" % self
+           raise IndexError("Too many open pairs in structure:\n%s" % self)
         return Pairs([(key,result[key]) for key in result])
 
 

@@ -13,5 +13,5 @@ def seq_numbers():
     return lineNr
 
 if __name__ == '__main__':
-    print seq_numbers()
+    print((seq_numbers()))
     

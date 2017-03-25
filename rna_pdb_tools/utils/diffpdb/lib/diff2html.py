@@ -34,7 +34,8 @@
 #   Detect if the character is "printable" for whatever definition,
 #   and display those directly.
 
-import sys, re, htmlentitydefs, getopt, StringIO, codecs, datetime
+import sys, re, html.entities, getopt, io, codecs, datetime
+from functools import reduce
 try:
     from simplediff import diff, string_diff
 except ImportError:
@@ -128,9 +129,9 @@ def linediff(s, t):
     Original line diff algorithm of diff2html. It's character based.
     '''
     if len(s):
-        s = unicode(reduce(lambda x, y:x+y, [ sane(c) for c in s ]))
+        s = str(reduce(lambda x, y:x+y, [ sane(c) for c in s ]))
     if len(t):
-        t = unicode(reduce(lambda x, y:x+y, [ sane(c) for c in t ]))
+        t = str(reduce(lambda x, y:x+y, [ sane(c) for c in t ]))
 
     m, n = len(s), len(t)
     d = [[(0, 0) for i in range(n+1)] for i in range(m+1)]
@@ -247,17 +248,17 @@ def diff_changed_words_ts(old, new):
 
 def convert(s, linesize=0, ponct=0):
     i = 0
-    t = u""
+    t = ""
     for c in s:
         # used by diffs
         if c == DIFFON:
-            t += u'<span class="diffchanged2">'
+            t += '<span class="diffchanged2">'
         elif c == DIFFOFF:
-            t += u"</span>"
+            t += "</span>"
 
         # special html chars
-        elif htmlentitydefs.codepoint2name.has_key(ord(c)):
-            t += u"&%s;" % (htmlentitydefs.codepoint2name[ord(c)])
+        elif ord(c) in html.entities.codepoint2name:
+            t += "&%s;" % (html.entities.codepoint2name[ord(c)])
             i += 1
 
         # special highlighted chars
@@ -265,22 +266,22 @@ def convert(s, linesize=0, ponct=0):
             n = tabsize-(i%tabsize)
             if n == 0:
                 n = tabsize
-            t += (u'<span class="diffponct">&raquo;</span>'+'&nbsp;'*(n-1))
+            t += ('<span class="diffponct">&raquo;</span>'+'&nbsp;'*(n-1))
         elif c == " " and ponct == 1:
-            t += u'<span class="diffponct">&middot;</span>'
+            t += '<span class="diffponct">&middot;</span>'
         elif c == "\n" and ponct == 1:
             if show_CR:
-                t += u'<span class="diffponct">\</span>'
+                t += '<span class="diffponct">\</span>'
         else:
             t += c
             i += 1
 
         if linesize and (WORDBREAK.count(c) == 1):
-            t += u'&#8203;'
+            t += '&#8203;'
             i = 0
         if linesize and i > linesize:
             i = 0
-            t += u"&#8203;"
+            t += "&#8203;"
 
     return t
 
@@ -416,7 +417,7 @@ def parse_input(input_file, output_file, input_file_name, output_file_name,
         m = re.match("@@ -(\d+),?(\d*) \+(\d+),?(\d*)", l)
         if m:
             empty_buffer(output_file)
-            hunk_data = map(lambda x:x=="" and 1 or int(x), m.groups())
+            hunk_data = [x=="" and 1 or int(x) for x in m.groups()]
             hunk_off1, hunk_size1, hunk_off2, hunk_size2 = hunk_data
             line1, line2 = hunk_off1, hunk_off2
             add_hunk(output_file, show_hunk_infos)
@@ -456,7 +457,7 @@ def parse_input(input_file, output_file, input_file_name, output_file_name,
 
 
 def usage():
-    print '''
+    print('''
 diff2html.py [-e encoding] [-i file] [-o file] [-x]
 diff2html.py -h
 
@@ -474,7 +475,7 @@ stdout may not work with UTF-8, instead use -o option.
    -k          show hunk infos
    -a algo     line diff algorithm (0: linediff characters, 1: word, 2: simplediff characters) (default 0)
    -h          show help and exit
-'''
+''')
 
 def main():
     global linesize, tabsize
@@ -493,8 +494,8 @@ def main():
                                    ["help", "encoding=", "input=", "output=",
                                     "exclude-html-headers", "tabsize=",
                                     "linesize=", "show-cr", "show-hunk-infos", "algorithm="])
-    except getopt.GetoptError, err:
-        print unicode(err) # will print something like "option -a not recognized"
+    except getopt.GetoptError as err:
+        print((str(err))) # will print something like "option -a not recognized"
         usage()
         sys.exit(2)
     verbose = False
@@ -538,8 +539,8 @@ def main():
 
 def parse_from_memory(txt, exclude_headers, show_hunk_infos):
     " Parses diff from memory and returns a string with html "
-    input_stream = StringIO.StringIO(txt)
-    output_stream = StringIO.StringIO()
+    input_stream = io.StringIO(txt)
+    output_stream = io.StringIO()
     parse_input(input_stream, output_stream, '', '', exclude_headers, show_hunk_infos)
     return output_stream.getvalue()
 

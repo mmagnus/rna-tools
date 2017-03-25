@@ -17,7 +17,7 @@ def parse_logic(restraints_fn, verbose):
             if not l.startswith('#'):
                 txt += l.strip()
     if verbose:
-        print txt
+        print(txt)
     restraints = re.findall('\(d:(?P<start>.+?)-(?P<end>.+?)\s*(?P<operator>\>\=|\=|\<|\<\=)\s*(?P<distance>[\d\.]+)\s+(?P<weight>.+?)\)', txt)
     return restraints # [('A9', 'A41', '10.0', '1'), ('A10', 'A16', '10', '1')]
 
@@ -39,13 +39,13 @@ def parse_pdb(pdb_fn, selection):
                 curr_resi = int(line[22:26])
                 curr_atom_name = line[12:16].strip()
                 if selection:
-                    if selection.has_key(curr_chain_id):
+                    if curr_chain_id in selection:
                         if curr_resi in selection[curr_chain_id]:
                             x = line[30:38]
                             y = line[38:46]
                             z = line[46:54]
                             #V.append(np.asarray([x,y,z],dtype=float))
-                            if V.has_key(curr_chain_id + str(curr_resi)):
+                            if curr_chain_id + str(curr_resi) in V:
                                 V[curr_chain_id + str(curr_resi)][curr_atom_name] = np.asarray([x,y,z],dtype=float)
                             else:
                                 V[curr_chain_id + str(curr_resi)] = {}
@@ -74,13 +74,13 @@ def get_residues(pdb_fn, restraints, verbose):
 
     # get mb
     for r in residues:
-        if residues[r].has_key('N9'): # A,G
+        if 'N9' in residues[r]: # A,G
             residues[r]['mb'] = residues[r]['N9'] - ((residues[r]['N9'] - residues[r]['C6']) / 2 )
         else: # A,G
             residues[r]['mb'] = residues[r]['N1'] - ((residues[r]['N1'] - residues[r]['C4']) / 2 )
     for r in residues:
         #print 'mb for ' + str(r) + ' is ' + residues[r]['mb']
-        print ' mb for ', str(r), residues[r]['mb']
+        print((' mb for ', str(r), residues[r]['mb']))
     return residues
 
 # main
@@ -112,21 +112,21 @@ Format:
     #print ((True|True)|(False|False)), score
 
     restraints = parse_logic(restraints_fn, verbose)
-    print ' restraints', restraints
+    print((' restraints', restraints))
 
     # h = ('A1', 'A2', '<', '10.0', '1')
     if args.structures:
         for pdb_fn in pdb_files:
-            print '\n', pdb_fn
+            print(('\n', pdb_fn))
             residues = get_residues(pdb_fn, restraints, verbose)
             for h in restraints:
                 dist = get_distance(residues[h[0]]['mb'], residues[h[1]]['mb'])
                 if verbose:
-                    print '  d:' + h[0] + '-' + h[1] + ' ' + str(dist)
+                    print(('  d:' + h[0] + '-' + h[1] + ' ' + str(dist)))
 
     if args.trajectory:
-        print
-        f = (line for line in open(args.trajectory).xreadlines())
+        print()
+        f = (line for line in open(args.trajectory))
         c = 0
         while 1:
             try:
@@ -147,4 +147,4 @@ Format:
                 #print '  mb for A' + str(a+1), a_mb
                 #print '  mb for A' + str(b+1), b_mb
                 dist = get_distance(a_mb, b_mb)
-                print '   d:A' + str(a+1) + "-A" + str(b+1),  dist
+                print(('   d:A' + str(a+1) + "-A" + str(b+1),  dist))

@@ -12,7 +12,7 @@ def get_atom_num(line):
     Output:
       * atom number as an integer
     """
-    return int(''.join(filter(lambda x: x.isdigit(), line[6:10])))
+    return int(''.join([x for x in line[6:10] if x.isdigit()]))
 
 
 def get_res_num(line):
@@ -24,7 +24,7 @@ def get_res_num(line):
     Output:
       * residue number as an integer
     """
-    return int(''.join(filter(lambda x: x.isdigit(), line[22:27])))
+    return int(''.join([x for x in line[22:27] if x.isdigit()]))
 
 
 def get_res_code(line):

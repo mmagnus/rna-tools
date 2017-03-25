@@ -3,3 +3,4 @@ biopython
 sphinx-argparse
 forgi
 progressbar2
+sphinx-rtd-theme

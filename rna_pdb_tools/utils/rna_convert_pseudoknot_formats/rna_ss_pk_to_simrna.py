@@ -51,8 +51,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.file:
         ss = open(args.file).readline()
-        print ss
+        print(ss)
         if is_pk(ss):
-            print get_multiple_lines(ss)
+            print((get_multiple_lines(ss)))
         else:
-            print ss
+            print(ss)

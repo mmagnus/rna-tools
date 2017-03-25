@@ -31,7 +31,7 @@ def get_no_structures(file):
     p.wait()
     stderr = p.stderr.read().strip()
     if stderr:
-        print stderr
+        print(stderr)
     return int(p.stdout.read().strip()) - 1
 
 def get_selected(file, nc):
@@ -42,7 +42,7 @@ def get_selected(file, nc):
     p.wait()
     stderr = p.stderr.read().strip()
     if stderr:
-        print stderr
+        print(stderr)
 
 
 def cluster(radius=1):
@@ -91,16 +91,16 @@ def run():
 
     n = args.n #get_no_structures(args.file) # if you mini then # is the total number of structures
     nc = int(math.ceil(n * 0.005)) # nc no for clustring
-    print '# total:', n, ' # selected:', nc
+    print(('# total:', n, ' # selected:', nc))
     get_selected(args.file, nc)
     ns = get_no_structures('selected.out')
-    print '# selected:', ns
+    print(('# selected:', ns))
 
     ns = get_no_structures('selected.out')
 
     cluster_loop(ns) # loop over selected to get 1/6 in the biggest cluster
 
-    print "# of structures in the biggest cluster", get_no_structures('cluster.out')
+    print(("# of structures in the biggest cluster", get_no_structures('cluster.out')))
 
     extract()
 

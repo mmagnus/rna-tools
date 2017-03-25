@@ -13,7 +13,7 @@ RESS = ['A', 'C', 'G', 'U', 'ADE', 'CYT', 'GUA', 'URY', 'URI', 'U34', 'U31', 'C3
 #DNA = ['DA', 'DG', 'DT', 'DC']
 #RNA = ['A', 'G', 'U', 'C']
 IONS = ['NA', 'MG', 'MN']
-HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'", 
+HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'",
                           "2H5'", "HO2'", "1H4", "2H4", "1H2", "2H2", "H1", "H8", "H2", "1H6", "2H6",
                           "HO5'", "H21", "H22", "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1" , "HO'2", "HO'2",
                           "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2", "H3T"]
@@ -29,29 +29,30 @@ import tempfile
 import shutil
 import subprocess
 
-from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
-from rpt_config import QRNAS_PATH
+
+from .utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from .rpt_config import QRNAS_PATH
 
 # Don't fix OP3, ignore it
 ignore_op3 = False
 
 def get_version(currfn='', verbose=False): #dupa
     """Get version of the tool based on state of the git repository.
-    Return version. 
+    Return version.
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
     The version is not printed!
     https://github.com/m4rx9/curr_version/"""
-    from commands import getoutput
+    from subprocess import getoutput
 
     if currfn == '':
         path = '.'
     else:
         path = os.path.dirname(currfn)
-    if verbose: print ('get_version::path', path)
+    if verbose: print(('get_version::path', path))
     if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
         path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
     if not path: path = '.'
-    if verbose: print ('get_version::path2', path)
+    if verbose: print(('get_version::path2', path))
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
     version = getoutput('git describe --long --tags --dirty --always')
@@ -67,7 +68,7 @@ class StrucFile:
         self.fn = fn
 
         self.report = []
-        self.report.append('The RNAStrucFile report: %s ' % fn) 
+        self.report.append('The RNAStrucFile report: %s ' % fn)
 
         self.mol2_format = False
 
@@ -118,7 +119,7 @@ class StrucFile:
                     l = l.replace('HETATM', 'ATOM  ')
                 lines.append(l)
         self.lines = lines
-        
+
     def is_amber_like(self):
         """Use self.lines and check if there is XX line
         """
@@ -131,7 +132,7 @@ class StrucFile:
         return False
 
     def fix(self, outfn="", verbose=False):
-        """Add missing heavy atom. 
+        """Add missing heavy atom.
 
         A residue is recognized base on a residue names.
 
@@ -158,8 +159,8 @@ class StrucFile:
             f.write("WRITEFREQ   1\n")
             f.write("NSTEPS      1\n")
         # run qrnas
-        print 'QRNAS...'
-        
+        print('QRNAS...')
+
         if not outfn:
             cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn)
         else:
@@ -170,18 +171,18 @@ class StrucFile:
             out = o.stdout.read().strip()
             err = o.stderr.read().strip()
             if verbose:
-                print out
-                print err
+                print(out)
+                print(err)
                 shutil.rmtree(to_go + os.sep + "QRNAS")
         # post cleaning
         if outfn:
-            print 'Cleaning...'
+            print('Cleaning...')
             s = StrucFile(curr + os.sep + outfn)
             s.remove_hydrogen()
             s.fix_resn()
             s.write(curr + os.sep + outfn)
         os.chdir(curr)
-        
+
     def mol2toPDB(self, outfn=""):
         try:
             import pybel
@@ -196,7 +197,7 @@ class StrucFile:
         for mol in pybel.readfile("mol2", self.fn):
             mol.write("pdb", outfn, overwrite=True)
 
-        print ('outfn: ', outfn)
+        print(('outfn: ', outfn))
         self.report.append('  Converted from mol2 to PDB')
         return outfn
 
@@ -288,7 +289,7 @@ class StrucFile:
                     resi_prev = resi
                     chain_prev = chain_curr
 
-        for c in chains.keys():
+        for c in list(chains.keys()):
             header = c + ':' + str(chains[c]['resi'][0]) + '-' # add A:1-
             for i in range(1, len(chains[c]['resi'])): # start from second element
                 if chains[c]['resi'][i] - chains[c]['resi'][i - 1] > 1:
@@ -298,7 +299,7 @@ class StrucFile:
             chains[c]['header'] = header # add -163 (last element)
 
         txt = ''
-        for c in chains.keys():
+        for c in list(chains.keys()):
             txt += '> ' + os.path.basename(self.fn.replace('.pdb', '')) + ' ' + chains[c]['header'] + '\n'
             txt += ''.join(chains[c]['seq']) + '\n'
         return txt.strip()
@@ -335,11 +336,11 @@ class StrucFile:
 
                     # if distances between curr res and previevs is bigger than 1, then show it as a fragment
                     if resi - curri > 1 and resi - curri < 100000000000000000000000000000000: # ugly hack
-                        print (resi - curri)
+                        print((resi - curri))
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
                     if chain_prev != chain_curr and chain_prev:
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
-                    if chains.has_key(chaoin_curr):
+                    if chaoin_curr in chains:
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
@@ -350,7 +351,7 @@ class StrucFile:
                 curri = resi
         chains[chain_prev]['header'] += '-' + str(resi_prev)
         seq = ''
-        for c in chains.keys():
+        for c in list(chains.keys()):
             seq += '> ' + os.path.basename(self.fn) + ' ' + chains[c]['header'] + '\n'
             seq += chains[c]['seq'] + '\n'
         return seq.strip()
@@ -377,7 +378,7 @@ class StrucFile:
                     chain_curr = l[21]
                     if chain_prev != chain_curr and chain_prev:
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
-                    if chains.has_key(chain_curr):
+                    if chain_curr in chains:
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
@@ -388,7 +389,7 @@ class StrucFile:
                 curri = resi
         chains[chain_prev]['header'] += '-' + str(resi_prev)
         seq = ''
-        for c in chains.keys():
+        for c in list(chains.keys()):
             seq += chains[c]['header'] + ' '
         return seq.strip()
 
@@ -676,7 +677,7 @@ class StrucFile:
             f.write('END')
         f.close()
         if v:
-            print ('Write %s' % outfn)
+            print(('Write %s' % outfn))
 
     def get_atom_num(self,line):
         """Extract atom number from a line of PDB file
@@ -685,7 +686,7 @@ class StrucFile:
         Output:
           * atom number as an integer
         """
-        return int(''.join(filter(lambda x: x.isdigit(), line[6:11])))
+        return int(''.join([x for x in line[6:11] if x.isdigit()]))
 
     def get_res_num(self,line):
         """Extract residue number from a line of PDB file
@@ -694,7 +695,7 @@ class StrucFile:
         Output:
           * residue number as an integer
         """
-        return int(''.join(filter(lambda x: x.isdigit(), line[22:27])))
+        return int(''.join([x for x in line[22:27] if x.isdigit()]))
 
     def get_res_code(self,line):
         """Get residue code from a line of a PDB file
@@ -825,7 +826,7 @@ class StrucFile:
         fixed = []
 
         for chain in model.get_list():
-            if v: print ('chain:', chain)
+            if v: print(('chain:', chain))
             res = []
             for r in chain:
                 res.append(r)
@@ -884,7 +885,7 @@ class StrucFile:
                     for a in r:
                         if a.id == 'P':
                             p_missing = False
-                    if v: print ('p_missing', p_missing)
+                    if v: print(('p_missing', p_missing))
 
                     if p_missing and fix_missing_atoms:
                             currfn = __file__
@@ -929,7 +930,7 @@ class StrucFile:
                     for a in r:
                         if a.id == "O2'":
                             o2p_missing = False
-                    if v: print ('o2p_missing', o2p_missing)
+                    if v: print(('o2p_missing', o2p_missing))
 
                     if o2p_missing and fix_missing_atoms:
                             currfn = __file__
@@ -1185,12 +1186,12 @@ class StrucFile:
         if fixed:
             print ('REMARK 000 Fixed atoms/residues:')
             for i in fixed:
-                print ('REMARK 000 - ', i[0], 'in chain:', i[1], i[2], 'residue #', i[3])
+                print(('REMARK 000 - ', i[0], 'in chain:', i[1], i[2], 'residue #', i[3]))
 
         if missing:
             print ('REMARK 000 Missing atoms:')
             for i in missing:
-                print ('REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3])
+                print(('REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]))
             #raise Exception('Missing atoms in %s' % self.fn)
         #
         # fix ter 'TER' -> TER    1528        G A  71
@@ -1232,7 +1233,7 @@ class StrucFile:
            else:
                nlines.append(l)
         self.lines = nlines
-               
+
     def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
         """Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.
         Return False if error. True if OK
@@ -1253,16 +1254,16 @@ class StrucFile:
         for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
 
             if i in string.ascii_letters:
-                if v:print ('chain', i)
+                if v:print(('chain', i))
                 chain_curr = i
                 continue
 
             if i.find('-') > -1:
                 start, ends = i.split('-')
                 if start > ends:
-                    print('Error: range start > end ' + i) # >>sys.stderr
+                    print(('Error: range start > end ' + i)) # >>sys.stderr
                     return False
-                index = range(int(start), int(ends)+1)
+                index = list(range(int(start), int(ends)+1))
             else:
                 index=[int(i)]
 
@@ -1272,9 +1273,9 @@ class StrucFile:
                     atoms = struc[0][chain_curr][i]
                 except KeyError:
                     if i == chain_curr:
-                        print('Error: Chain ' + chain_curr + ' not found in the PDB structure')  #  >>sys.stderr,
+                        print(('Error: Chain ' + chain_curr + ' not found in the PDB structure'))  #  >>sys.stderr,
                     else:
-                        print('Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure')  #  >>sys.stderr,
+                        print(('Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure'))  #  >>sys.stderr,
                         return False
                 for a in atoms:
                     a.set_occupancy(0)
@@ -1282,7 +1283,7 @@ class StrucFile:
         io = PDBIO()
         io.set_structure(struc)
         io.save(pdb_out)
-        print( 'Saved ', pdb_out)
+        print(( 'Saved ', pdb_out))
         return True
 
     def view(self):
@@ -1316,7 +1317,7 @@ def edit_pdb(args):
     s = StrucFile(args.file)
     if not args.no_hr:
         add_header()
-        print( 'HEADER --edit ' + args.edit)
+        print(( 'HEADER --edit ' + args.edit))
 
     ## --edit 'A:3-21>A:1-19,B:22-32>B:20-30'
     if args.edit.find(',')>-1:
@@ -1348,13 +1349,13 @@ def edit_pdb(args):
                 # for selections
                 for select in selects:
                     selection_from, selection_to = select
-                    if selection_from.has_key(chain):
+                    if chain in selection_from:
                         if resi in selection_from[chain]:
                             # [1,2,3] mapping from [4,5,10], you want to know how to map 1
                             # 1 is [0] element of first list, so you have to index first list
                             # to get 0, with this 0 you can get 4 out of second list [4,5,10][0] -> 4
                             nl = list(l)
-                            chain_new = selection_to.keys()[0] # chain form second list
+                            chain_new = list(selection_to.keys())[0] # chain form second list
                             nl[21] =  chain_new # new chain
                             index = selection_from[chain].index(int(resi)) # get index of 1
                             resi_new = str(selection_to[chain_new][index]).rjust(4) # 'A' [1,2,3] -> '  1'
@@ -1400,7 +1401,7 @@ def fetch(pdb_id, path=""):
     txt = response.data
 
     npath = path + os.sep + pdb_id + '.pdb'
-    print('downloading...' + npath)
+    print(('downloading...' + npath))
     with open(npath, 'wb') as f:
         f.write(txt)
     print('ok')
@@ -1418,40 +1419,57 @@ def fetch_ba(pdb_id, path=""):
     txt = response.data
 
     npath = path + os.sep + pdb_id + '_ba.pdb'
-    print('downloading...' + npath)
+    print(('downloading...' + npath))
     with open(npath, 'wb') as f:
         f.write(txt)
     print('ok')
-    return npath
+    return pdb_id + '_ba.pdb'
+
+
+def fetch_cif_ba(cif_id, path=""):
+    """fetch biological assembly cif file from RCSB.org"""
+    http = urllib3.PoolManager()
+    #try:
+    response = http.request('GET', url='https://files.rcsb.org/download/' + cif_id.lower() + '-assembly1.cif')
+    #except urllib3.HTTPError:
+    #    raise Exception('The PDB does not exists: ' + pdb_id)
+    txt = response.data
+
+    npath = path + os.sep + cif_id + '_ba.cif'
+    print(('downloading...' + npath))
+    with open(npath, 'wb') as f:
+        f.write(txt)
+    print('ok')
+    return cif_id + '_ba.cif'
 
 
 # main
 if '__main__' == __name__:
     fn = 'input/image'
-    print('fn:', fn)
+    print(('fn:', fn))
     struc = StrucFile(fn)
-    print(' pdb?:', struc.is_it_pdb())
+    print((' pdb?:', struc.is_it_pdb()))
     # print( atoms:', struc.get_no_lines())
 
     fn = 'input/na.pdb'
     s = StrucFile(fn)
-    print (s.detect_molecule_type())
+    print((s.detect_molecule_type()))
     #res = get_all_res(na)
     #print 'what is?', what_is(res)
     #print res
-    print('non standard:', s.check_res_if_std_na())
-    print('is protein:', s.detect_molecule_type())
+    print(('non standard:', s.check_res_if_std_na()))
+    print(('is protein:', s.detect_molecule_type()))
 
     fn = 'input/prot.pdb'
     s = StrucFile(fn)
-    print('non standard:', s.check_res_if_std_prot())
-    print('is protein:',  s.detect_molecule_type())
+    print(('non standard:', s.check_res_if_std_prot()))
+    print(('is protein:',  s.detect_molecule_type()))
 
 
     fn = 'input/rna-ru.pdb'
     s = StrucFile(fn)
-    print('non standard:', s.check_res_if_supid_rna())
-    print('is protein:', s.detect_molecule_type())
+    print(('non standard:', s.check_res_if_supid_rna()))
+    print(('is protein:', s.detect_molecule_type()))
 
     fn = 'input/na_highAtomNum.pdb'
     print(fn)
@@ -1524,17 +1542,17 @@ if '__main__' == __name__:
     print(fn)
 
     r = StrucFile(fn)
-    print(r.is_mol2())
+    print((r.is_mol2()))
 
     if True:
         print('================================================')
         print ("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
         r = StrucFile("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
-        print (r.is_mol2())
+        print((r.is_mol2()))
         r.mol2toPDB('/tmp/x.pdb')
 
         r = StrucFile('/tmp/x.pdb')
-        print (r.get_report())
+        print((r.get_report()))
         r.fix_resn()
         r.remove_hydrogen()
         r.remove_ion()
@@ -1546,23 +1564,23 @@ if '__main__' == __name__:
 
     if True:
         r = StrucFile("input/2du3_prot_bound.mol2")
-        print (r.is_mol2())
+        print((r.is_mol2()))
         outfn = r.mol2toPDB()
-        print (r.get_report())
+        print((r.get_report()))
 
     print('================================================')
     fn = "input/3e5fA-nogtp_processed_zephyr.pdb"
     r = StrucFile(fn)
-    print (r.is_mol2())
+    print((r.is_mol2()))
     #outfn = r.mol2toPDB()
-    print (r.is_amber_like())
-    print (r.get_report())
+    print((r.is_amber_like()))
+    print((r.get_report()))
 
-    print (r.get_preview())
+    print((r.get_preview()))
 
     r.fix_resn()
 
-    print (r.get_preview())
+    print((r.get_preview()))
 
     r.remove_hydrogen()
     r.remove_ion()
@@ -1596,9 +1614,9 @@ if '__main__' == __name__:
     r.remove_ion()
     r.remove_water()
     r.fix_resn()
-    print (r.get_head())
-    print (r.get_tail())
-    print (r.get_preview())
+    print((r.get_head()))
+    print((r.get_tail()))
+    print((r.get_preview()))
     r.write("output/dna_fconvpdb_charmm22.pdb")
 
 

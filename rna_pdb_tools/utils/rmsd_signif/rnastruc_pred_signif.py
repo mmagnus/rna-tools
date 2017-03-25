@@ -18,7 +18,7 @@ def get_p_value(rmsd, length, verbose=False):
     stdout = out.stdout.read()
     outerr = out.stderr.read()
 
-    if verbose: print stdout
+    if verbose: print(stdout)
 
     pvalues = []
     for l in stdout.split('\n'):
@@ -32,7 +32,7 @@ def get_p_value(rmsd, length, verbose=False):
     return pvalues
 
 if __name__ == '__main__':
-    print get_p_value(1,1000)
-    print get_p_value(1,100)
-    print get_p_value(1,10)
-    print get_p_value(1,1)
+    print((get_p_value(1,1000)))
+    print((get_p_value(1,100)))
+    print((get_p_value(1,10)))
+    print((get_p_value(1,1)))

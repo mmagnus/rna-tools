@@ -29,6 +29,6 @@ if __name__ == '__main__':
     seq = f.readline()
     ss = f.readline()
     nseq, nss = clean_seq_and_ss(seq, ss)
-    print header
-    print nseq
-    print nss
+    print(header)
+    print(nseq)
+    print(nss)

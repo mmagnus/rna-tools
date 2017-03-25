@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""Seq and secondary structure prediction.
-"""
+"""Seq and secondary structure prediction."""
 
 import subprocess
 import tempfile
@@ -95,10 +94,4 @@ if __name__ == '__main__':
     seq.name = 'RNA02'
     print(seq.predict_ss("RNAsubopt", constraints="((((...............................................................))))"))
     #print seq.predict_ss(method="ipknot")
-    
-    seq = Seq("CCCCUUUUGGGG")
-    seq.name = 'RNA03'
-    print(seq.predict_ss("RNAfold", constraints="((((....))))"))
 
-    import doctest
-    doctest.testmod()

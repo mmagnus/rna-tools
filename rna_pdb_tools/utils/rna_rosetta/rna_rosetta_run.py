@@ -64,9 +64,9 @@ def prepare_folder(args,header,seq,ss,path):
     d = path
     try:
         os.mkdir(d)
-        print d, 'created'
+        print((d, 'created'))
     except OSError:
-        print d, 'created is already created'
+        print((d, 'created is already created'))
         pass
 
     with open(d + "seq.fa","w") as f:
@@ -75,7 +75,7 @@ def prepare_folder(args,header,seq,ss,path):
 
     with open(d + "ss.fa","w") as f:
         f.write(ss)
-    print 'Seq & ss created'
+    print('Seq & ss created')
     shutil.copyfile(args.file, d + 'input.fa')
 
 def prepare_helices():
@@ -86,7 +86,7 @@ def prepare_helices():
     #os.system(cmd)
     #
     helix_runs = glob.glob('*RUN')
-    print helix_runs
+    print(helix_runs)
 
     f = open('HRUNS', 'w')
     for h in helix_runs:
@@ -106,7 +106,7 @@ def prepare_helices():
     p.wait()
     stderr = p.stderr.read().strip()
     if stderr:
-        print stderr
+        print(stderr)
 
 def prepare_rosetta(header, cpus):
     """Repare ROSETTA using rna_denovo_setup.py
@@ -122,12 +122,12 @@ def prepare_rosetta(header, cpus):
     nstruct = int(math.floor(20000/cpus)) # 20000/500 -> 40
 
     cmd = 'rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct ' + str(nstruct) + ' ' + helices
-    print cmd
+    print(cmd)
     os.system(cmd)
     # change to 50 per job (!)
     # 50 * 100 = 10k ?
     cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:5]
-    print cmd
+    print(cmd)
     os.system(cmd)    
 
 def go():
@@ -145,10 +145,10 @@ def main():
         seq = f.readline().strip()
         ss = f.readline().strip()
         cpus = int(args.cpus)
-        print 'run rosetta for:'
-        print header
-        print seq
-        print ss
+        print('run rosetta for:')
+        print(header)
+        print(seq)
+        print(ss)
 
         path = ROOT_DIR_MODELING + os.sep + header + os.sep
         curr = os.getcwd()
@@ -157,7 +157,7 @@ def main():
         try:
             os.chdir(path)
         except OSError:
-            print 'You have to make a folder first! use --init'
+            print('You have to make a folder first! use --init')
 
         if args.helices:
             prepare_helices()

@@ -6,7 +6,7 @@ from pymol import cmd
 def color_by_text(txt):
   for t in txt.strip().split('\n'):
       color, resi = t.replace('color ', '').split(',')
-      print color, resi
+      print((color, resi))
       cmd.color(color.strip(), resi.strip())
 
 def rp():

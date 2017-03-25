@@ -79,7 +79,7 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
         import pymol  # import cmd, finish_launching
         pymol.finish_launching()
     except ImportError:
-        print 'calc_rmsd_pymol: you need to have installed PyMOL'
+        print('calc_rmsd_pymol: you need to have installed PyMOL')
         sys.exit(0) # no error
 
     pymol.cmd.reinitialize()
@@ -109,7 +109,7 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
 
     :return: rmsd, number of atoms
     """
-    if verbose: print 'in:', a
+    if verbose: print(('in:', a))
     atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True)
     atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
     
@@ -135,8 +135,8 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
 
 # main
 if __name__ == '__main__':
-    print 'rmsd_calc_rmsd_to_target'
-    print '-' * 80
+    print('rmsd_calc_rmsd_to_target')
+    print(('-' * 80))
     
     optparser=optparse.OptionParser(usage="%prog [<options>] <pdb files (test_data/*)>")
 
@@ -182,34 +182,34 @@ if __name__ == '__main__':
     (opts, args)=optparser.parse_args()
 
     if len(sys.argv) == 1:
-        print optparser.format_help() #prints help if no arguments
+        print((optparser.format_help())) #prints help if no arguments
         sys.exit(1)
 
     input_files = args[:] # opts.input_dir
     rmsds_fn = opts.rmsds_fn
     target_fn = opts.target_fn
     method = opts.method
-    print ' method:', method
+    print((' method:', method))
     target_selection = select_pdb_fragment(opts.target_selection)
     model_selection = select_pdb_fragment(opts.model_selection)
     if target_selection:
         if opts.verbose:
-            print '  target_selection: #', opts.target_selection, target_selection
+            print(('  target_selection: #', opts.target_selection, target_selection))
             ts = target_selection
-            print ts
+            print(ts)
             resides_in_total = 0
             for i in target_selection:
-                print i, len(ts[i]) # chain string, a list of residues
+                print((i, len(ts[i]))) # chain string, a list of residues
                 resides_in_total += len(ts[i])
-            print 'in total:', resides_in_total
+            print(('in total:', resides_in_total))
     if model_selection:
         if opts.verbose:
-            print '  model_selection:  ', len(model_selection), opts.model_selection, model_selection
+            print(('  model_selection:  ', len(model_selection), opts.model_selection, model_selection))
             resides_in_total = 0
             for i in model_selection:
-                print i, len(model_selection[i]) # chain string, a list of residues
+                print((i, len(model_selection[i]))) # chain string, a list of residues
                 resides_in_total += len(model_selection[i])
-            print 'in total:', resides_in_total
+            print(('in total:', resides_in_total))
     if opts.target_ignore_selection:
         target_ignore_selection = select_pdb_fragment_pymol_style(opts.target_ignore_selection)
     else:
@@ -221,13 +221,13 @@ if __name__ == '__main__':
         model_ignore_selection = None
 
     if  opts.target_ignore_selection:
-        if opts.verbose: print '  target_ignore_selection: ', opts.target_ignore_selection
+        if opts.verbose: print(('  target_ignore_selection: ', opts.target_ignore_selection))
     if  opts.model_ignore_selection:
-        if opts.verbose: print '  model_ignore_selection:  ', opts.model_ignore_selection
+        if opts.verbose: print(('  model_ignore_selection:  ', opts.model_ignore_selection))
 
     models = get_rna_models_from_dir(input_files)        
 
-    print '# of models:', len(models)
+    print(('# of models:', len(models)))
 
     f = open(rmsds_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
@@ -240,7 +240,7 @@ if __name__ == '__main__':
         else:
             rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, opts.verbose)
         r1_basename = os.path.basename(r1)
-        print r1_basename, rmsd_curr, atoms
+        print((r1_basename, rmsd_curr, atoms))
         t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '
         c += 1
         t += '\n'
@@ -250,6 +250,6 @@ if __name__ == '__main__':
 
     #print t.strip() # matrix
 
-    print '# of atoms used:', atoms
+    print(('# of atoms used:', atoms))
     if opts.rmsds_fn:
-        print 'csv was created! ', rmsds_fn
+        print(('csv was created! ', rmsds_fn))
