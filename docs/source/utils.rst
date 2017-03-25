@@ -12,6 +12,14 @@ RNA Sequence
 .. automodule:: rna_pdb_tools.Seq
    :members:
 
+BlastPDB
+------------------------------------------
+
+A super-simple wrapper around Blast on the PDB db (online).
+
+.. automodule:: rna_pdb_tools.BlastPDB
+   :members:
+
 RNA Alignment
 ------------------------------------------
 
