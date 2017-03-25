@@ -29,12 +29,15 @@ import tempfile
 import shutil
 import subprocess
 
-
-from .utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
-from .rpt_config import QRNAS_PATH
+from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rpt_config import QRNAS_PATH
 
 # Don't fix OP3, ignore it
 ignore_op3 = False
+
+class PDBFetchError(Exception):
+    pass
+
 
 def get_version(currfn='', verbose=False): #dupa
     """Get version of the tool based on state of the git repository.
@@ -42,20 +45,18 @@ def get_version(currfn='', verbose=False): #dupa
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
     The version is not printed!
     https://github.com/m4rx9/curr_version/"""
-    from subprocess import getoutput
-
     if currfn == '':
         path = '.'
     else:
         path = os.path.dirname(currfn)
-    if verbose: print(('get_version::path', path))
+    if verbose: print('get_version::path', path)
     if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
         path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
     if not path: path = '.'
-    if verbose: print(('get_version::path2', path))
+    if verbose: print('get_version::path2', path)
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
-    version = getoutput('git describe --long --tags --dirty --always')
+    version = subprocess.check_output('git describe --long --tags --dirty --always', shell=True)
     os.chdir(curr_path)
     if version.find('not found')>-1:
         return ' unknown' # > install git to get versioning based on git'
@@ -1396,6 +1397,8 @@ def fetch(pdb_id, path=""):
     http = urllib3.PoolManager()
     # try:
     response = http.request('GET', 'https://files.rcsb.org/download/' + pdb_id + '.pdb')
+    if not response.status == 200: raise PDBFetchError()
+
     # except urllib3.HTTPError:
     #    raise Exception('The PDB does not exists: ' + pdb_id)
     txt = response.data
@@ -1409,13 +1412,16 @@ def fetch(pdb_id, path=""):
 
 
 def fetch_ba(pdb_id, path=""):
-    """fetch biological assembly pdb file from RCSB.org"""
+    """fetch biological assembly pdb file from RCSB.org
+
+    >>> fetch_ba('1xjr')
+    
+    """
     import urllib3
     http = urllib3.PoolManager()
     #try:
     response = http.request('GET', url='https://files.rcsb.org/download/' + pdb_id.lower() + '.pdb1')
-    #except urllib3.HTTPError:
-    #    raise Exception('The PDB does not exists: ' + pdb_id)
+    if not response.status == 200: raise PDBFetchError()
     txt = response.data
 
     npath = path + os.sep + pdb_id + '_ba.pdb'
@@ -1431,8 +1437,7 @@ def fetch_cif_ba(cif_id, path=""):
     http = urllib3.PoolManager()
     #try:
     response = http.request('GET', url='https://files.rcsb.org/download/' + cif_id.lower() + '-assembly1.cif')
-    #except urllib3.HTTPError:
-    #    raise Exception('The PDB does not exists: ' + pdb_id)
+    if not response.status == 200: raise PDBFetchError()
     txt = response.data
 
     npath = path + os.sep + cif_id + '_ba.cif'
@@ -1626,3 +1631,7 @@ if '__main__' == __name__:
     r = StrucFile(fn)
     r.write("output/1a9l_NMR_1_2_models_lib.pdb")
     #r.get_text() # get #1 model
+
+
+    import doctest
+    doctest.testmod()

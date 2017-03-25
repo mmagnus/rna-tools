@@ -7,7 +7,7 @@ import argparse
 import os
 import time
 
-from .pdb_parser_lib import *
+from pdb_parser_lib import *
 
 def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
