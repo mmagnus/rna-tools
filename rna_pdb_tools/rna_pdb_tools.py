@@ -40,9 +40,6 @@ def get_parser():
     parser.add_argument('--renumber_residues', help='',
                         action='store_true')
 
-    parser.add_argument('--get_simrna_ready', help='',
-                        action='store_true')
-
     parser.add_argument('--collapsed_view', help='',
                         action='store_true')
 
@@ -144,26 +141,12 @@ if __name__ == '__main__':
         s.get_rnapuzzle_ready(args.renumber_residues)
         print(s.get_text())
 
-    if args.get_simrna_ready:
-        s = StrucFile(args.file)
-        s.decap_gtp()
-        s.fix_resn()
-        s.remove_hydrogen()
-        s.remove_ion()
-        s.remove_water()
-        s.fix_op_atoms()
-        s.renum_atoms()
-        if not args.no_hr:
-            add_header()
-        s.get_simrna_ready(args.renumber_residues)
-        print(s.get_text())
-
     if args.renumber_residues:
         s = StrucFile(args.file)
         s.remove_hydrogen()
         s.remove_ion()
         s.remove_water()
-        s.get_simrna_ready(args.renumber_residues)
+        s.get_rnapuzzle_ready(args.renumber_residues)
         s.renum_atoms()
         if not args.no_hr:
             add_header()
