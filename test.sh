@@ -26,7 +26,7 @@ cd rna_pdb_tools
 ## --get_rnapuzzle_ready
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/1xjr_onlyGTP.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/1xjr_onlyGTP.pdb > output/1xjr_onlyGTP_rnapuzzle_ready.pdb
-python rna_pdb_tools.py --get_rnapuzzle_ready input/1_das_1_rpr_fixed.pdb > output/1_das_1_rpr_fixed.pdb
+./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/1_das_1_rpr_fixed.pdb > output/1_das_1_rpr_fixed.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/4GXY_3firstNt.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/gtp.pdb  > output/gtp.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle input/377D.pdb # should finish with error
@@ -53,6 +53,14 @@ python rna_pdb_tools.py --get_rnapuzzle_ready input/1_das_1_rpr_fixed.pdb > outp
 ## --renumber_residues
 ./rna_pdb_tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
 
+./BlastPDB.py
+
+./RfamSearch.py
+
+./Seq.py
+
+./SecondaryStructure.py
+
 # ClashCalc
 cd ./utils/ClashCalc/
 ./ClashCalc.py
@@ -76,8 +84,8 @@ cd ../..
 
 # rna_pdb_rnapuzzle_ready.py
 echo 'rna_pdb_rnapuzzle_ready.py'
-./rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
-./rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/missing_o.pdb > output/missing_o_fixed.pdb
+./rna_pdb_rnapuzzle_ready.py --no_hr  --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
+./rna_pdb_rnapuzzle_ready.py --no_hr --fix_missing_atoms input/missing_o.pdb > output/missing_o_fixed.pdb
 
 cd ..
 codecov --token=e78310dd-7a28-4837-98ef-c93533a84c5b
