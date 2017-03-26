@@ -7,7 +7,7 @@ import os
 import tempfile
 import shutil
 import subprocess
-from .rpt_config import *
+from rpt_config import *
 
 def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
     """Draw Secondary Structure using VARNA (you need correct configuration for this).
@@ -28,7 +28,7 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
     out = p.stderr.read().strip()
     os.chdir(curr)
     if out.find('Exception') > -1:
-        return stderr
+        return out
     else:
         if verbose: print(t.name)
         shutil.move(t.name, img_out)
@@ -37,6 +37,6 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
 if __name__ == '__main__':
     seq = 'AAAAAAA'
     ss =  '((...))'
-    img_out = 'demo.png'
+    img_out = 'output/demo.png'
     draw_ss('rna', seq, ss, img_out)
     print('Made %s' % img_out)
