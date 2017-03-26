@@ -76,9 +76,9 @@ class RChie:
         # Execution halted
         if 'error' in err.lower():
             raise Exception('\n'.join([cmd, err]))
-        if verbose: print(('\n'.join([cmd, err])))
+        if verbose: print('\n'.join([cmd, err]))
         self.plotfn = plot.name + '.png'
-        if verbose: print((self.plotfn))
+        if verbose: print(self.plotfn)
         from IPython.display import Image
         return Image(filename=self.plotfn)
 
@@ -88,7 +88,7 @@ class RChie:
 
     def write(self, outfn):
         shutil.copyfile(self.plotfn, outfn)
-        print(('Write to %s' % outfn))
+        print('Write to %s' % outfn)
 
 class RNASeq(object):
     """RNASeq"""
@@ -280,7 +280,7 @@ class RNAalignment(object):
     @ss_cons_std.setter
     def ss_cons_std(self, ss):
         self._ss_cons_std = ss
-        print((self._ss_cons_std))
+        print(self._ss_cons_std)
 
     def subset(self, ids, verbose=False):
         """Get subset for ids::
@@ -307,7 +307,7 @@ class RNAalignment(object):
 
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf.name += '.stk'
-        print(('Saved to ', tf.name))
+        print('Saved to ', tf.name)
         if verbose:
             print(nalign)
         f = open(tf.name,'w')
@@ -318,7 +318,7 @@ class RNAalignment(object):
 
     def write(self, fn, verbose=True):
         """Write the alignment to a file"""
-        if verbose: print(('Save to ', fn))
+        if verbose: print('Save to ', fn)
         with open(fn, 'w') as f:
             f.write('# STOCKHOLM 1.0\n')
             shift = max([len(x) for x in [s.id for s in self.seqs] + ['#=GC=SS_cons']])
@@ -463,18 +463,18 @@ class RNAalignment(object):
         for s in self.io:
             if s.id.strip() == seq_id.strip():
                     for i in resis:
-                            print((s.seq[:i+1])) # UAU-A
+                            print(s.seq[:i+1]) # UAU-A
                             nresis.append(i + s.seq[:i].count('-'))
         print(nresis)
 
-        print((self.map_seq_on_align(seq_id_target, nresis)))
+        print(self.map_seq_on_align(seq_id_target, nresis))
         return
 
         resis_target = []
         for s in self.io:
             if s.id.strip() == seq_id_target.strip():
                 for i in nresis:
-                    if v:print((s.seq[:i]))
+                    if v:print(s.seq[:i])
                     if s.seq[i-1] == '-':
                         resis_target.append(None)
                     else:
@@ -500,7 +500,7 @@ class RNAalignment(object):
         for s in self.io:
             if s.id.strip() == seq_id.strip():
                 for i in resis:
-                    if v:print((s.seq[:i]))
+                    if v:print(s.seq[:i])
                     if s.seq[i-1] == '-':
                         nresis.append(None)
                     else:
@@ -611,7 +611,7 @@ class RNAalignment(object):
             if verbose:
                 print (seq_str)
             if seq_str.find(seq) > -1 or seq.find(seq_str) > -1 :
-                print(('Match:', s.id))
+                print('Match:', s.id)
                 print(s)
                 print(seq)
                 return s
@@ -730,7 +730,7 @@ class CMAlign():
         .. warning :: requires cmalign to be set in your shell
         """
         cmd = 'cmalign -g ' + cm + ' ' + seq # global
-        if verbose: print(('cmd', cmd))
+        if verbose: print('cmd' + cmd)
         o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout = o.stdout.read().strip()
         stderr = o.stderr.read().strip()
@@ -757,25 +757,25 @@ class CMAlign():
                     return l.split()[1].strip()
 
 def clean_seq_and_ss(seq,ss):
-        nseq = ''
-        nss = ''
-        for i,j in zip(seq,ss):
-            if i != '-': # gap
-                #print i,j
-                nseq += i
-                nss += get_rfam_ss_notat_to_dot_bracket_notat_per_char(j)
-        return nseq.strip(), nss.strip()
+    nseq = ''
+    nss = ''
+    for i,j in zip(seq, ss):
+        if i != '-': # gap
+            #print i,j
+            nseq += i
+            nss += get_rfam_ss_notat_to_dot_bracket_notat_per_char(j)
+    return nseq.strip(), nss.strip()
 
 def get_rfam_ss_notat_to_dot_bracket_notat(ss):
-        nss = ''
-        for s in ss:
-                ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
-                nss += ns
-        return nss.strip()
+    nss = ''
+    for s in ss:
+        ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
+        nss += ns
+    return nss.strip()
 
 def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
     """Take (c)haracter and standardize ss"""
-    if c in [',', '_',':']:
+    if c in [',', '_', ':']:
         return '.'
     if c == '<':
         return '('
@@ -860,7 +860,7 @@ def fetch_stokholm(rfam_acc, dpath=None):
         npath = rfam_acc + '.stk'
     else:
         npath = dpath + os.sep + rfam_acc + '.stk'
-    print(('downloading...' + npath))
+    print('downloading...' + npath)
     with open(npath, 'wb') as f:
         f.write(txt)
     print('ok')
@@ -931,10 +931,10 @@ if __name__ == '__main__':
     #a = fasta2stokholm('test_output/ade_gapped.fa')
     #print a
 
-    a = RNAalignment('test_data/RF0016ggxf7.stockholm.sto')
-    print((a.tail()))
-    print((a.ss_cons))
-    print((a.ss_cons_pk))
-    print((a.ss_cons_with_pk))
+    a = RNAalignment('test_data/RF00167.stockholm.sto')
+    print(a.tail())
+    print(a.ss_cons)
+    print(a.ss_cons_pk)
+    print(a.ss_cons_with_pk)
 
-    print((a[[1,2]]))
+    print(a[[1,2]])
