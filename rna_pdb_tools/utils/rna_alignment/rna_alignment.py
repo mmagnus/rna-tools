@@ -12,7 +12,6 @@ import subprocess
 import os
 import shutil
 import re
-import urllib3
 
 class RNAalignmentError(Exception):
     pass
@@ -848,7 +847,10 @@ def fetch_stokholm(rfam_acc, dpath=None):
 
     :param rfam_acc: str, Rfam accession number, eg. RF00028
     :param dpath: str or None, if None saves to current location, otherwise save to dpath folder
+
+    .. warning :: urllib3 is required, pip install urllib3
     """
+    import urllib3
     http = urllib3.PoolManager()
     #try:
     print(dpath)
