@@ -20,6 +20,14 @@ A super-simple wrapper around Blast on the PDB db (online).
 .. automodule:: rna_pdb_tools.BlastPDB
    :members:
 
+RfamSearch
+------------------------------------------
+
+A super-simple wrapper around cmscan (Infernal) on local RFAM.
+
+.. automodule:: rna_pdb_tools.RfamSearch
+   :members:
+
 RNA Alignment
 ------------------------------------------
 
