@@ -74,4 +74,4 @@ if __name__ == '__main__':
     c = RNAStructClans(n=len(ids)) # 200?
     c.add_ids(ids)
     c.dist_from_matrix(f)
-    print((c.txt))
+    print(c.txt)

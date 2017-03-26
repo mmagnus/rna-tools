@@ -85,7 +85,7 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
     use ``results.split()[4]`` to get inf_WC"""
 
     cmd = 'clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
-    if verbose: print(('clarna_app::cmd', cmd))
+    if verbose: print('clarna_app::cmd', cmd)
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std = o.stdout.read().strip()
     if not std:
@@ -116,7 +116,7 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     txt += 'chains:  A 1 ' + str(len(ss)) + '\n'
     for bp in v.toPairs():
         txt += '%s    %i   %s   %i          bp G C                  WW_cis   1 \n' % (chain, bp[0], chain, bp[1])
-    if verbose: print((txt.strip()))
+    if verbose: print(txt.strip())
 
     if temp:
         f = tempfile.NamedTemporaryFile()
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
     if len(sys.argv) == 1:
-        print((parser.print_help()))
+        print(parser.print_help())
         sys.exit(1)
         
     for f in args.files:

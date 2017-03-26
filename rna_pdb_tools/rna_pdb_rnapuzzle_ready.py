@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 
 """
 To add missing atom, run::
 
   $ python rna_pdb_rnapuzzle_ready.py --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
+
 """
 
 import argparse
 import os
 import time
 
-from .pdb_parser_lib import *
+from pdb_parser_lib import *
 
 version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
 version = version[1].strip()

@@ -6,7 +6,7 @@ import Bio.PDB.Superimposer
 from Bio.PDB.PDBIO import Select
 from Bio.PDB import PDBIO, Superimposer
 
-from .lib.rmsd.calculate_rmsd import *
+from lib.rmsd.calculate_rmsd import *
 
 import optparse
 import sys
