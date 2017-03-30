@@ -38,6 +38,12 @@ class RChie:
             install.packages('RColorBrewer')
 
     - Go to rna_pdb_tools/rpt_config_local.py and set RCHIE_PATH to the folder with RChie, e.g. ``"/home/magnus/work/opt/r-chie/"``.
+    
+    To test if Rchie works on your machine (from rna_align folder)::
+
+      <path to your rchie>/rchie.R --msafile test_data/rchie_test_files/fasta.txt test_data/rchie_test_files/helix.txt
+    
+    you should have rchie.png file in the folder.
 
     More at http://www.e-rna.org/r-chie/download.cgi
 
