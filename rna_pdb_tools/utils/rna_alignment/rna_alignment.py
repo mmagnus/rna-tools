@@ -79,7 +79,7 @@ class RChie:
         # Error in readFasta(opt$msafile, filter = TRUE) : no FASTA sequences found
         # Error: ERROR: Invalid FASTA file
         # Execution halted
-        if 'error' in err.lower():
+        if "error" in str(err).lower():
             raise Exception('\n'.join([cmd, err]))
         if verbose: print('\n'.join([cmd, err]))
         self.plotfn = plot.name + '.png'
