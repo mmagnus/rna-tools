@@ -32,17 +32,17 @@ class RChie:
     - Ensure R is installed already, or download it freely from http://www.r-project.org/
     - Download the R4RNA (https://github.com/jujubix/r-chie), open R and install the package::
 
-            install.packages(path_to_file, repos = NULL, type="source")
+            install.packages("<path_to_file>/R4RNA", repos = NULL, type="source")
             # Install the optparse and RColorBrewer
             install.packages('optparse')
             install.packages('RColorBrewer')
 
     - Go to rna_pdb_tools/rpt_config_local.py and set RCHIE_PATH to the folder with RChie, e.g. ``"/home/magnus/work/opt/r-chie/"``.
-    
+
     To test if Rchie works on your machine (from rna_align folder)::
 
       <path to your rchie>/rchie.R --msafile test_data/rchie_test_files/fasta.txt test_data/rchie_test_files/helix.txt
-    
+
     you should have rchie.png file in the folder.
 
     More at http://www.e-rna.org/r-chie/download.cgi
@@ -79,7 +79,7 @@ class RChie:
         # Error in readFasta(opt$msafile, filter = TRUE) : no FASTA sequences found
         # Error: ERROR: Invalid FASTA file
         # Execution halted
-        if 'error' in err.lower():
+        if "error" in str(err).lower():
             raise Exception('\n'.join([cmd, err]))
         if verbose: print('\n'.join([cmd, err]))
         self.plotfn = plot.name + '.png'
