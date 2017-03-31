@@ -11,6 +11,8 @@ pdb-mode (https://github.com/mmagnus/emacs-pdb-mode not authored by me, I'm a ma
     
    <iframe width="640" height="360" src="https://www.youtube.com/embed/o99YFbLSVRw?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 
+Youtube video: https://www.youtube.com/embed/o99YFbLSVRw
+
 .. image :: ../pngs/emacs-rna-pdb-tools.png
 
 .. warning :: Still a very proof of concept. More soon.
