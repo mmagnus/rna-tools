@@ -8,7 +8,7 @@ Options:
 
 """
 
-from .simrna_trajectory import *
+from simrna_trajectory import *
 import argparse
 import os
 

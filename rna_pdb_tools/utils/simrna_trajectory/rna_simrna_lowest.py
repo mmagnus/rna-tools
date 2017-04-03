@@ -2,7 +2,8 @@
 
 """Select lowest energy frames out of a SimRNA trajectory file. This code uses heavily the SimRNATrajectory class. Be default 100 lowest energy frames is exported."""
 
-from .simrna_trajectory import *
+from __future__ import print_function
+from simrna_trajectory import *
 import argparse
 
 def get_parser():
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     sorted_frames = s.sort()
 
     for c, f in enumerate(sorted_frames[:100]):
-        print((c+1,f))
+        print(c+1,f)
         #print f.header
         #print f.coords
 
