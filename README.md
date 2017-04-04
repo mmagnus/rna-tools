@@ -200,6 +200,8 @@ This packages uses other pieces of software, it would be impossible without them
 
 170331 rna-pdb-tools meets Emacs!
 
+![](docs/pngs/rpt_emacs.png)
+
 170325 Seq: secondary structure prediction with constraints
 
     >>> seq = Seq("CCCCUUUUGGGG")
