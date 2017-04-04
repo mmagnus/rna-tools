@@ -30,6 +30,7 @@ def get_parser():
     parser.add_argument('-t', '--template', help="template PDB file used for reconstruction to full atom models", required=True)
     parser.add_argument('-f', '--trafl', help="SimRNA trafl file", required=True)
     parser.add_argument('-c', '--cleanup', action='store_true', help="Keep only *_AA.pdb files, move *.ss_detected and *.pdb to _<traj name folder>")
+    parser.add_argument('-n', '--number_of_structures', help="", default=100)
     return parser
 
 def get_data():
@@ -39,9 +40,9 @@ def get_data():
     logger.info(cmd)
     os.system(cmd)
         
-def extract(template, trafl):
+def extract(template, trafl, number_of_structures=''):
     """Run SimRNA_trafl2pdb to extract all full atom structures in the trajectory."""
-    os.system('SimRNA_trafl2pdbs %s %s AA :' % (template, trafl))
+    os.system('SimRNA_trafl2pdbs %s %s AA :%s' % (template, trafl, number_of_structures))
 
 def cleanup(trafl):
     """Create _<trafl> with all CG structures and ss_detected and in current directory 
@@ -71,6 +72,6 @@ if __name__ == '__main__':
     args = parser.parse_args()    
 
     get_data()
-    extract(args.template, args.trafl)
+    extract(args.template, args.trafl, args.number_of_structures)
     if args.cleanup:
             cleanup(os.path.basename(args.trafl))
