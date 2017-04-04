@@ -23,6 +23,7 @@ class SimRNAwebError(Exception):
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('job_id', help='job_id')
+    parser.add_argument('-p', '--prefix', help='prefix to the name, withouth _')
     parser.add_argument('-t', '--trajectory', action='store_true', help='download also trajectory')
     return parser
 
@@ -57,10 +58,14 @@ if __name__ == '__main__':
             os.system(cmd)
 
     # trajectory link
-    # http://iimcb.genesilico.pl/SimRNAweb/media/jobs/rp12aawlpk-8713ed35/processing_results/rp12aawlpk-8713ed35_ALL.trafl
+    # http://iimcb.genesilico.pl/SimRNAweb/media/jobs/
+    # rp12aawlpk-8713ed35/processing_results/rp12aawlpk-8713ed35_ALL.trafl
 
     if args.trajectory:
-            # wget
-            cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/processing_results/" + job_id + "_ALL.trafl "#-O " + fn
-            os.system(cmd)
-        
+        cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
+          "/processing_results/" + job_id + "_ALL.trafl "#-O " + fn
+        os.system(cmd)
+
+    # d2b57aef_ALL-thrs8.40A_clust01X.pdb -> gba_pk_d2b57aef_ALL-thrs8.40A_clust01X.pdb
+    if args.prefix:
+        os.system("rename 's/^/" + args.prefix.strip() + "_/' *")
