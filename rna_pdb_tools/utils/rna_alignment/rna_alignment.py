@@ -1,11 +1,15 @@
 #!/usr/bin/env python
-"""RNAalignemt"""
+"""RNAalignment - a module to work with RNA sequence alignments.
+
+To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
+"""
 
 from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from rna_pdb_tools import SecondaryStructure
 from rna_pdb_tools.rpt_config import RCHIE_PATH
+from collections import OrderedDict
 
 import tempfile
 import subprocess
@@ -52,25 +56,24 @@ class RChie:
     def __init__(self):
         pass
 
-    def plot_cov(self, seqs, ss_cons, verbose=False):
+    def plot_cov(self, seqs, ss_cons, plot_fn='rchie.png', verbose=False):
         """Plot an RChie plot_conv.
 
         :param seqs: seqs in the fasta format
         :param ss_cons: a string of secondary structure consensus, use only ``().``. Works with pseuoknots.
         """
-
         fasta_alignment = tempfile.NamedTemporaryFile(delete=False)
         with open(fasta_alignment.name,'w') as f:
             f.write(seqs)
 
         plot = tempfile.NamedTemporaryFile(delete=False)
+        plot.name += '.png'
         ss = tempfile.NamedTemporaryFile(delete=False)
         with open(ss.name,'w') as f:
             f.write(ss_cons)
-
-        cmd = RCHIE_PATH + "rchie.R --msafile=" + fasta_alignment.name + \
-          " --format1 vienna " + ss.name + \
-          " --output " + plot.name + '.png'
+        if not RCHIE_PATH:
+            raise RChieError('RChie path not set up!')
+        cmd = RCHIE_PATH + "rchie.R --msafile='%s' --format1 vienna '%s' --output '%s'" % (fasta_alignment.name, ss.name, plot.name)
         if verbose: print(cmd)
         o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out = o.stdout.read().strip()
@@ -82,10 +85,13 @@ class RChie:
         if "error" in str(err).lower():
             raise Exception('\n'.join([cmd, err]))
         if verbose: print('\n'.join([cmd, err]))
-        self.plotfn = plot.name + '.png'
+        self.plotfn = plot.name
         if verbose: print(self.plotfn)
+        if plot_fn:
+            shutil.move(plot.name, plot_fn)
+            print('Rchie: plot saved to %s' % plot_fn)
         from IPython.display import Image
-        return Image(filename=self.plotfn)
+        return Image(filename=plot_fn)
 
     def show(self):
         from IPython.display import Image
@@ -201,7 +207,13 @@ class RNASeq(object):
         return bp
 
 class RNAalignment(object):
-    """RNA alignment - adapter class around BioPython to do RNA stuff
+    """RNA alignment - adapter class around BioPython to do RNA alignment stuff
+
+    Usage (for more see ipython notebook <>)
+
+    >>> a = RNAalignment('test_data/RF00167.stockholm.sto')
+    >>> print(a.tail())
+    >>> print(a.ss_cons)
 
     :var self.io: ``AlignIO.read(fn, "stockholm")``
 
@@ -221,11 +233,19 @@ class RNAalignment(object):
         self.rf = self.get_gc_rf()
         self.shift = self.get_shift_seq_in_align()
 
+        # get all lines not # nor //
+        # fix for blocked alignment
         seq_lines = [l for l in self.lines if (not l.startswith('#')) and (not l.startswith('//')) and (l)]
-        self.seqs = []
+        seqs_dict = OrderedDict()
         for seq in seq_lines:
             seq_id, seq_seq = seq.split()
-            self.seqs.append(RNASeq(seq_id, seq_seq, ss = self.ss_cons_with_pk_std))
+            if seq_id not in seqs_dict:
+                seqs_dict[seq_id] = seq_seq
+            else:
+                seqs_dict[seq_id] += seq_seq
+        self.seqs = []
+        for seq in seqs_dict:
+            self.seqs.append(RNASeq(seq, seqs_dict[seq], ss = self.ss_cons_with_pk_std))
 
         # this is sick!
         # I create a Cols object to be able to slice alignments
@@ -244,7 +264,7 @@ class RNAalignment(object):
                          n_seqs.append(new_seq)
 
                     # this is not very smart :(
-                    # save new seqs to a file
+                    # save new seqs to a file 
                     # and load it as RNAalignment
                     tf = tempfile.NamedTemporaryFile(delete=False)
                     tf.name += '.stk'
@@ -332,9 +352,13 @@ class RNAalignment(object):
             f.write('#=GC SS_cons'.ljust(shift + 2, ' ') + self.ss_cons + '\n')
             f.write('//')
 
-    def copy_ss_cons_to_all(self):
+    def copy_ss_cons_to_all(self, verbose=False):
         for s in self.io:
-            s.letter_annotations['secondary_structure'] = self.ss_cons
+            if verbose: self.ss_cons; self.io[0].seq
+            try:
+                s.letter_annotations['secondary_structure'] = self.ss_cons
+            except TypeError:
+                raise Exception('Please check if all your sequences and ss lines are of the same length!')
             s.ss = self.ss_cons
             s.ss_clean = self.get_clean_ss(s.ss)
             s.seq_nogaps = str(s.seq).replace('-', '')
@@ -369,13 +393,27 @@ class RNAalignment(object):
                 nss += j
         return nss
 
-    def plot(self):
-        return RChie().plot_cov(self.io.format("fasta"), self.ss_cons_std)
+    def plot(self, plot_fn='rchie.png'):
+        return RChie().plot_cov(self.io.format("fasta"), self.ss_cons_std, plot_fn)
+
+    def get_ss_cons_pk(self):
+        """
+        :return: SS_cons_pk line or None if there is now SS_cons_pk:"""
+        ss_cons_pk = ''        
+        for l in self.lines:
+            if l.startswith('#=GC SS_cons_pk'):
+                ss_cons_pk += l.replace('#=GC SS_cons_pk','').strip()
+        return ss_cons_pk
 
     def get_ss_cons(self):
+        """
+        :return: SS_cons_pk line or None if there is now SS_cons_pk.
+        """
+        ss_cons = ''
         for l in self.lines:
-            if l.startswith('#=GC SS_cons'):
-                return l.replace('#=GC SS_cons','').strip()
+            if '#=GC SS_cons' in l and '#=GC SS_cons_pk' not in l: 
+                ss_cons += l.replace('#=GC SS_cons','').strip()
+        return ss_cons
 
     @property
     def ss_cons_with_pk(self):
@@ -410,13 +448,6 @@ class RNAalignment(object):
         else:
             return self.ss_cons
 
-    def get_ss_cons_pk(self):
-        """
-        :return: SS_cons_pk line or None if there is now SS_cons_pk:"""
-        for l in self.lines:
-            if l.startswith('#=GC SS_cons_pk'):
-                return l.replace('#=GC SS_cons_pk','').strip()
-        return None
 
     def get_gc_rf(self):
         """#=GC RF
@@ -876,6 +907,16 @@ def fetch_stokholm(rfam_acc, dpath=None):
 
 
 #main
+#def test_seq_multilines_alignment()
+def test_alignment_with_pk():
+    a = RNAalignment('test_data/RF00167.stockholm.sto')
+    print(a.tail())
+    print(a.ss_cons)
+    print(a.ss_cons_pk)
+    print(a.ss_cons_with_pk)
+
+    print(a[[1,2]])
+    
 if __name__ == '__main__':
     ## a = RNAalignment('test_data/RF00167.stockholm.sto')
     ## #print a.get_shift_seq_in_align()
@@ -939,10 +980,7 @@ if __name__ == '__main__':
     #a = fasta2stokholm('test_output/ade_gapped.fa')
     #print a
 
-    a = RNAalignment('test_data/RF00167.stockholm.sto')
-    print(a.tail())
-    print(a.ss_cons)
-    print(a.ss_cons_pk)
-    print(a.ss_cons_with_pk)
-
-    print(a[[1,2]])
+    a = RNAalignment('test_data/RF00001.blocked.stk')
+    print a
+    print a.ss_cons
+    a.plot('rchie.png')

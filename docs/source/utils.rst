@@ -31,6 +31,8 @@ A super-simple wrapper around cmscan (Infernal) on local RFAM.
 RNA Alignment
 ------------------------------------------
 
+.. automodule:: rna_pdb_tools.utils.rna_alignment.rna_alignment
+
 RNASeq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
