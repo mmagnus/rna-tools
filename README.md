@@ -196,26 +196,37 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## History
 
-- 170325 Seq: secondary structure prediction with constraints
+170331 rna-pdb-tools meets Emacs!
 
-        >>> seq = Seq("CCCCUUUUGGGG")
-        >>> seq.name = 'RNA03'
-        >>> print(seq.predict_ss("RNAfold", constraints="((((....))))"))
-        >RNA03
-        CCCCUUUUGGGG
-        ((((....)))) ( -6.40)
+170325 Seq: secondary structure prediction with constraints
 
-- 170324 Starting converting to Python3, fetch_align by Pietro
-- 170320 `rna_cartoon` in PyMOL
+    >>> seq = Seq("CCCCUUUUGGGG")
+    >>> seq.name = 'RNA03'
+    >>> print(seq.predict_ss("RNAfold", constraints="((((....))))"))
+    >RNA03
+    CCCCUUUUGGGG
+    ((((....)))) ( -6.40)
+
+170324 Starting converting to Python3, fetch_align by Pietro
+
+170320 `rna_cartoon` in PyMOL
 
 ![](docs/pngs/rna_cartoon_small.png)
 
-- 170319 Add clanstix (move it from its own GitHub repository).
-- 170315 SimRNA_trajectory:
+170319 Add clanstix (move it from its own GitHub repository).
+
+170315 SimRNA_trajectory:
   - get len of frame, and trajectory
   - warn about broken frame
   - `only_first_frame` to get only the first frame
 
-- 170311 Get seq (v2) gets segments of chains with correct numbering
-- 170308 Add fixing missing atoms of bases, and O2'
-- ~2011 Prelimiary version as rnastruc, yapdb_parser etc.
+170311 Get seq (v2) gets segments of chains with correct numbering
+
+	> 6_solution_0 A:1-19 26-113 117-172
+	GGCGGCAGGUGCUCCCGACGUCGGGAGUUAAAAGGGA
+
+170308 Add fixing missing atoms of bases, and O2'
+
+... many things! :-)
+
+~2011 Prelimiary version as rnastruc, yapdb_parser etc.
