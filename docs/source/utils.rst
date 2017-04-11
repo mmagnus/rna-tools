@@ -197,6 +197,13 @@ ClaRNA (contacts detection)
 SimRNA
 -----------------------------------------
 
+Download files of a SimRNAweb run
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.rna_pdb_download_simrna_job.get_parser
+   :prog: rna_pdb_download_simrna_job.py
+
 Select low energy frames
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
