@@ -12,7 +12,26 @@ Usage::
     # download with a trajectory, and cluster #4 and #5, add to all pdb files
     # prefix: cp771_pk
 
-The names will be shorten: ``d86c07d9-9871-4454-bfc6-fb2e6edf13fc_ALL_thrs12.50A_clust01-000001_AA.pdb -> d86c07d9-thrs12.50A_clust01X.pdb``.
+Example::
+
+    rna_pdb_download_simrna_job.py -t -x -m 20569fa1 -p zmp_pk
+
+    [mm] zmp_pk ls
+    20569fa1_ALL_100low.trafl               
+    _20569fa1-thrs7.10A_clust04             
+    _20569fa1-thrs7.10A_clust05             
+    _20569fa1_ALL_100low                    
+    data                                    
+    rna_simrna_extract.log                  
+    subset.png                              
+    zmp_pk_20569fa1-thrs7.10A_clust01X.pdb  
+    zmp_pk_20569fa1-thrs7.10A_clust02X.pdb
+    zmp_pk_20569fa1-thrs7.10A_clust03X.pdb
+    zmp_pk_20569fa1-thrs7.10A_clust04X.pdb
+    zmp_pk_20569fa1-thrs7.10A_clust05X.pdb
+
+.. downloaded clusters from 1 to 5, all pdb files have added prefix `zmp_pk`.
+
 """
 # Ideas:  71707ff4-fe16-4b78-8340-78913312a547_ALL_thrs12.50A_clust01-000001_AA keep
 #                                              // 
