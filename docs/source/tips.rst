@@ -1,8 +1,9 @@
-Tips
-==================================================
+======
+ Tips
+======
 
 Run in batch
---------------------------------------------------
+============
 
 You can easily run a single tool in batch and rename new files::
   
@@ -19,7 +20,7 @@ You can also easily run a single tool parallel using parallel_::
 .. _parallel:: https://www.gnu.org/software/parallel/
 
 Using sed
--------------------------------------------------
+=========
 sed (stream editor) is a Unix utility that parses and transforms text, using a simple, compact programming language.
 
 You can used sed to find & replace parts of text files::
@@ -54,7 +55,7 @@ Read more about sed_.
 .. _sed: https://en.wikipedia.org/wiki/Sed
 
 In PyMOL
----------------------------------------------------
+========
 
 Rename a chain::
 
@@ -79,8 +80,22 @@ Read more_.
 
 .. _more: https://pymolwiki.org/index.php?title=Iterate&redirect=no
 
+The example of the pistol ribozyme editing.
+
+.. image:: ../pngs/rp17A.png
+
+Run::
+
+    PyMOL>alter (sele), chain="B"
+     Alter: modified 236 atoms.
+    PyMOL>alter (chain B), resv -= 51
+     Alter: modified 236 atoms.
+    PyMOL>sort
+
+.. image:: ../pngs/rp17_AB.png
+
 In Python
----------------------------------------------------
+=========
 
 To get residue index use::
 
@@ -111,7 +126,7 @@ Qucikref::
 (source: http://cupnet.net/pdb-file-atom-line-memo/)
 
 Working with cluster
----------------------------------------------------
+====================
 Tips::
 
   # get your pdb files
