@@ -5,3 +5,4 @@ forgi
 progressbar2
 sphinx-rtd-theme
 urllib3
+pymol
