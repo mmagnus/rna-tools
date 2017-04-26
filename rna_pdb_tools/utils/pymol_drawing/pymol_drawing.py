@@ -97,6 +97,12 @@ def draw_dist(x1,y1,z1,x2,y2,z2):
     cmd.pseudoatom('pt2', pos=[x2, y2, z2])
     cmd.distance('pt1-pt2', 'pt1','pt2')
 
+def draw_dists(interactions): # l=([1,2], [3,4])
+    for i in interactions:
+        a = "////" + str(i[0]) + "/C2"
+        b = "////" + str(i[1]) + "/C2"
+        print i[0],i[1], cmd.distance('d'+str(i[0])+'-'+str(i[1]),"(" + a + ")", "(" + b + ")") ## mode, 4))
+
 def draw_vector(x1,y1,z1,x2,y2,z2):
     """https://pymolwiki.org/index.php/CGOCylinder"""
     radius = 0.1
@@ -108,3 +114,4 @@ cmd.extend("draw_vector", draw_vector)
 cmd.extend("draw_dist", draw_dist)  
 cmd.extend("draw_circle", draw_circle )
 cmd.extend("draw_circle_selection", draw_circle_selection )
+cmd.extend('draw_dists', draw_dists)
