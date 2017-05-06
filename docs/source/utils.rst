@@ -188,7 +188,7 @@ Secondary structure (secstruc)
 .. automodule:: rna_pdb_tools.utils.secstruc.secstruc
    :members:
 
-ClaRNA (contacts detection)
+ClaRNA (contacts classification)
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
