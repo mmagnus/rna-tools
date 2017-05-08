@@ -106,7 +106,7 @@ class Frame:
 
     .. warning:: If there is an invalid frame, please use `repair_trafl.py` to fix the trajectory first.
     """
-    def __init__(self, id, header, coords, top_level=True):
+    def __init__(self, id, header, coords, top_level=False):
         self.id = id
         self.header = header
 
