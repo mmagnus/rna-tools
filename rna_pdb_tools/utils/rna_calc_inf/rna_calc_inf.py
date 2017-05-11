@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """A tool to calc inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC between two structures.
 
 ClaRNA_play required!
 https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server). Contact <magnus@genesilico.pl>.
 
 import progressbar (in version 2) is required! """
+from __future__ import print_function
 
 import progressbar
 import argparse
@@ -55,7 +55,7 @@ def get_parser():
                          default='inf.csv',
                          help="out csv file, be default `inf.csv`")
 
-    parser.add_argument('files', help="files", nargs='+')
+    parser.add_argument('files', help="files, .e.g folder_with_pdbs/*pdbs", nargs='+')
     return parser
 
 # Prepare the lock and the counter for MP
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     # Open output file
     csv_file = open(out_fn, 'w')
     csv_writer = csv.writer(csv_file, delimiter=',')
-    csv_writer.writerow('target,fn,inf_all,inf_stack,inf_WC,inf_nWC,SNS_WC,PPV_WC,SNS_nWC,PPV_nWC'.split(','))
+    csv_writer.writerow('target,fn,inf_all,inf_stack,inf_WC,inf_nWC,sns_WC,ppv_WC,sns_nWC,ppv_nWC'.split(','))
     csv_file.flush()
 
     # Init bar and to the job
@@ -131,4 +131,4 @@ if __name__ == '__main__':
     else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
             do_job(i)    
-    print(('csv was created! ', out_fn))
+    print('csv was created! ', out_fn)
