@@ -188,8 +188,10 @@ Secondary structure (secstruc)
 .. automodule:: rna_pdb_tools.utils.secstruc.secstruc
    :members:
 
-ClaRNA (contacts detection)
+ClaRNA (contacts classification)
 -----------------------------------------
+
+If you want to calculate "Interaction Network Fidelity (INF) and not only" see rna_calc_inf in the Utils.
 
 .. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
    :members:
