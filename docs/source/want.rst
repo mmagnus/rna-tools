@@ -93,6 +93,11 @@ or even::
 
    $ rna_pdb_tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
 
+or even, even::
+
+    for i in `ls *Chen*`; do rna_pdb_tools.py --edit 'X:1-125>A:1-125' $i > ${i}_temp; mv ${i}_temp ${i}; done
+    # do only edit for Chen's pdb structures, in place.
+    
 find missing atoms in my structure
 --------------------------------------------
 
