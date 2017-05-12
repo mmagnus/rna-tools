@@ -1393,7 +1393,7 @@ def collapsed_view(args):
         if l.startswith('TER') or l.startswith('MODEL') or l.startswith('END'):
             print(l)
 
-def fetch(pdb_id, path=""):
+def fetch(pdb_id, path="."):
     """fetch pdb file from RCSB.org
     https://files.rcsb.org/download/1Y26.pdb"""
     import urllib3
@@ -1414,7 +1414,7 @@ def fetch(pdb_id, path=""):
     return npath
 
 
-def fetch_ba(pdb_id, path=""):
+def fetch_ba(pdb_id, path="."):
     """fetch biological assembly pdb file from RCSB.org
 
     >>> fetch_ba('1xjr')
@@ -1435,7 +1435,7 @@ def fetch_ba(pdb_id, path=""):
     return pdb_id + '_ba.pdb'
 
 
-def fetch_cif_ba(cif_id, path=""):
+def fetch_cif_ba(cif_id, path="."):
     """fetch biological assembly cif file from RCSB.org"""
     http = urllib3.PoolManager()
     #try:
