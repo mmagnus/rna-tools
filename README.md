@@ -199,6 +199,8 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## History
 
+170515 Fix fixing missing O2'
+
 170404	`rna_simrna_extract.py -t template.pdb -f *05.trafl -c -n 1 # extract only the first model`
 
 170331 rna-pdb-tools meets Emacs!

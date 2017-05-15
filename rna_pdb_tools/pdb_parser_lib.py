@@ -33,6 +33,13 @@ import subprocess
 
 from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
+import logging
+logger = logging.getLogger('rna-pdb-tools')
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 # Don't fix OP3, ignore it
 ignore_op3 = False
 
@@ -759,7 +766,7 @@ class StrucFile:
     def set_chain_id(self,line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False):#:, ready_for="RNAPuzzle"):
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, verbose=True):#:, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
         Clean up a structure, get corrent order of atoms.
@@ -786,6 +793,9 @@ class StrucFile:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
+        if verbose:
+            logger.setLevel(logging.DEBUG)
+
         try:
             from Bio import PDB
             from Bio.PDB import PDBIO
@@ -797,10 +807,8 @@ class StrucFile:
 
         import copy
         # for debugging
-        #v = True
-        v = False
         #renumber_residues = True
-
+        v = True
         #if ready_for == "RNAPuzzle":
         G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
@@ -831,7 +839,8 @@ class StrucFile:
         fixed = []
 
         for chain in model.get_list():
-            if v: print('chain:', chain)
+            logger.debug('chain: %s' % chain)
+
             res = []
             for r in chain:
                 res.append(r)
@@ -873,7 +882,8 @@ class StrucFile:
                 if renumber_residues:
                     r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
                 #
-                # experimental: fixing missing OP3
+                # experimental: fixing missing OP3.
+                # Only for the first residues.
                 #
                 if c == 1:
                     # if p_missing
@@ -890,7 +900,7 @@ class StrucFile:
                     for a in r:
                         if a.id == 'P':
                             p_missing = False
-                    if v: print('p_missing', p_missing)
+                    logger.debug('p_missing %s' % p_missing)
 
                     if p_missing and fix_missing_atoms:
                             currfn = __file__
@@ -924,43 +934,48 @@ class StrucFile:
 
                     p_missing = False # off this function
 
+                
                     # save it
                     #io = PDB.PDBIO()
                     #io.set_structure( po3_struc )
                     #io.save("po3.pdb")
 
-                    # if o2p_missing
-                    o2p_missing = True
-                    #if p_missing:
-                    for a in r:
-                        if a.id == "O2'":
-                            o2p_missing = False
-                    if v: print('o2p_missing', o2p_missing)
+                # 
+                # fix missing O2'
+                #
+                o2p_missing = True
+                for a in r:
+                    logger.debug('o2p_missing: %s %s %s' % (r, o2p_missing, a.id))
+                    if a.id == "O2'":
+                        o2p_missing = False
+                logger.debug('o2p_missing: %s', o2p_missing)
 
-                    if o2p_missing and fix_missing_atoms:
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                if o2p_missing and fix_missing_atoms:
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
 
-                            o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
-                            o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
+                        o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
+                        o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
 
-                            r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
-                            o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
+                        r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
+                        o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, o2p_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, o2p_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( o2p_struc.get_atoms() ) # to all atoms of o2p
+                        sup.apply( o2p_struc.get_atoms() ) # to all atoms of o2p
 
-                            r.add( o2p["O2'"])
+                        r.add( o2p["O2'"])
+                        logger.debug('fixing o2p for ' % r)
+                        fixed.append(['add O2\' ', chain.id, r, c])
 
-                    o2p_missing = False # off this function
+                o2p_missing = False # off this function
 
                 #
                 # fix missing C (the whole base at the moment)

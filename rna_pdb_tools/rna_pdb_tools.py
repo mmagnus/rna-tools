@@ -46,6 +46,9 @@ def get_parser():
     parser.add_argument('--cv', help='alias to collapsed_view',
                         action='store_true')
 
+    parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
+                        action='store_true')
+
     parser.add_argument('--edit',
 			dest="edit",
                         default='',
@@ -139,7 +142,7 @@ if __name__ == '__main__':
         #s.write(args.outfile)
         if not args.no_hr:
             add_header(version)
-        s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True)
+        s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, verbose=args.verbose)
         print(s.get_text())
 
     if args.renumber_residues:
