@@ -5,6 +5,8 @@
 Installation:
 
 - ContextFold needs java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 
+
+Q: does it work for more than one chain??? Hmm.. I think it's not.
 """
 
 import subprocess
