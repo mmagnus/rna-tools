@@ -962,7 +962,9 @@ class StrucFile:
 
                     o2p_missing = False # off this function
 
-                    # fix C
+                #
+                # fix missing C (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "C" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -999,7 +1001,9 @@ class StrucFile:
 
                             fixed.append(['add the whole base C', chain.id, r, c])
 
-                # fix U
+                # 
+                # fix missing U (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "U" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -1035,7 +1039,9 @@ class StrucFile:
                             r.add( U["C6"])
 
                             fixed.append(['add the whole base U', chain.id, r, c])
-                # fix G
+                # 
+                # fix missing G (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "G" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -1074,7 +1080,9 @@ class StrucFile:
                             r.add( G["C4"])
 
                             fixed.append(['add the whole base G', chain.id, r, c])
-                # fix A
+                # 
+                # fix missing A (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "A" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -1113,6 +1121,9 @@ class StrucFile:
 
                             fixed.append(['add the whole base A', chain.id, r, c])
 
+                #
+                # strip residues of extra atoms, not in G_ATOMS in this case
+                #
                 if str(r.get_resname()).strip() == "G":
                     for an in G_ATOMS:
                         if c == 1 and ignore_op3:
