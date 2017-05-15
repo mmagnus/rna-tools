@@ -58,10 +58,11 @@ def get_parser():
     
     parser.add_argument('file', help='file')
     #parser.add_argument('outfile', help='outfile')
-    return parser
+    return parser, version
 
+# main
 if __name__ == '__main__':
-    parser = get_parser()
+    parser, version = get_parser()
     args = parser.parse_args()
 
     if args.report:
@@ -83,7 +84,7 @@ if __name__ == '__main__':
         #print s.get_preview()
         #s.write(args.outfile)
         if not args.no_hr:
-            add_header()
+            add_header(version)
         print(s.get_text())
 
     if args.get_seq:
@@ -122,7 +123,7 @@ if __name__ == '__main__':
         #print s.get_preview()
         #s.write(args.outfile)
         if not args.no_hr:
-            add_header()
+            add_header(version)
         print(s.get_text())
 
     if args.get_rnapuzzle_ready:
@@ -137,8 +138,8 @@ if __name__ == '__main__':
         #print s.get_preview()
         #s.write(args.outfile)
         if not args.no_hr:
-            add_header()
-        s.get_rnapuzzle_ready(args.renumber_residues)
+            add_header(version)
+        s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True)
         print(s.get_text())
 
     if args.renumber_residues:
@@ -149,14 +150,14 @@ if __name__ == '__main__':
         s.get_rnapuzzle_ready(args.renumber_residues)
         s.renum_atoms()
         if not args.no_hr:
-            add_header()
+            add_header(version)
         print(s.get_text())
 
     if args.delete:
         selection = select_pdb_fragment(args.delete)
         s = StrucFile(args.file)
         if not args.no_hr:
-            add_header()
+            add_header(version)
             print('HEADER --delete ' + args.delete) #' '.join(str(selection))
         for l in s.lines:
             if l.startswith('ATOM'):

@@ -58,7 +58,8 @@ def get_version(currfn='', verbose=False): #dupa
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
     version = subprocess.check_output('git describe --long --tags --dirty --always', shell=True)
-    os.chdir(curr_path)
+    if verbose: print(version, curr_path)
+    os.chdir(curr_path) # go path to original path
     if version.find('not found')>-1:
         return ' unknown' # > install git to get versioning based on git'
     else:
