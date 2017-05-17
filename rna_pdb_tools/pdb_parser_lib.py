@@ -217,6 +217,7 @@ class StrucFile:
         return len(self.lines)
 
     def get_text(self, add_end=True):
+        """works on self.lines."""
         txt = ''
         for l in self.lines:
             if l.startswith('END'):
@@ -1234,6 +1235,15 @@ class StrucFile:
         nlines = []
         no_ters = 0
         for l in self.lines:
+
+            ## align atoms to the left #######################################################
+            #ATOM   3937    P   C B 185      11.596  -7.045  26.165  1.00  0.00           P
+            #ATOM   3937  P     C B 185      11.596  -7.045  26.165  1.00  0.00           P
+            if l.startswith('ATOM'):
+                atom_code = self.get_atom_code(l)
+                l = self.set_atom_code(l, atom_code)
+            ##################################################################################
+            
             if l.startswith('TER'):
                 atom_l = self.lines[c-1]
                 #print 'TER    1528        G A  71 <<<'
