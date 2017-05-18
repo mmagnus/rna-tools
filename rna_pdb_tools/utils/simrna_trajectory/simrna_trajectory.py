@@ -26,7 +26,11 @@ class SimRNATrajectory:
 
         top_level = True, don't make a huge tree of objects (Residues/Atoms) == amazing speed up! 
         Useful if you need only frames, energies and coords as text.
-
+        You only get the info that is in header of each frame.
+        
+        top_level = False, makes huge tree of objects (Residues/Atoms) == slower
+        Important when you want to compute e.g. disdances between atoms, get the positions of specified atoms etc.
+        
         h(eader), l(line), f(ile).
         """
         self.frames = []
@@ -75,6 +79,8 @@ class SimRNATrajectory:
             
     def plot_energy(self, plotfn):
         """
+        Plots the SimRNA energy of the trajecory
+        
         .. image:: ../pngs/simrnatrajectory.png
         """
         
@@ -107,6 +113,13 @@ class Frame:
     .. warning:: If there is an invalid frame, please use `repair_trafl.py` to fix the trajectory first.
     """
     def __init__(self, id, header, coords, top_level=False):
+
+        """
+        top_level = False, makes huge tree of objects (Residues/Atoms) == slower
+        Important when you want to compute e.g. disdances between atoms, get the positions of specified atoms etc.
+        
+        """
+
         self.id = id
         self.header = header
 
@@ -115,6 +128,7 @@ class Frame:
         if len(l) != 5:
             raise Exception('Invalid frame, please use `repair_trafl.py` to fix it.')
         self.energy = float(l[3])
+
         
         self.coords = coords
         coords = deque(coords.split())
@@ -142,6 +156,14 @@ class Frame:
     
 class Residue:
     """Create Residue object.
+
+       Each residue in SimRNA coarse-grained represantation consists only 5 coarse-grained atoms:
+
+       backbone: p = phospate group, c4p = sugar moiety
+
+       nucletoide: n1n9 = N1 for pyrimidines, N9 for purines, b1 = C2 for purines and pyrimidines,
+                   b2 = C4 for pyrimidines, C6 for purines
+
     """
     def __init__(self, id, p, c4p, n1n9, b1, b2):
         self.id = id
@@ -207,29 +229,60 @@ class Atom:
 
 #main
 if __name__ == '__main__':
+
+    """
+    
+    s.load_from_file  == very slow meythod, loads up whole trafl file into memory (and often crashes...)
+                         Useful only when top_level=True
+                         
+    
+    """
     s = SimRNATrajectory()
     s.load_from_file('test_data/6c2ca958-d3aa-43b2-9f02-c42d07a6f7e9_ALL.trafl', top_level=True)
     s.plot_energy('plot.png')
 
     s = SimRNATrajectory()
-    s.load_from_file('test_data/8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl')
+    s.load_from_file('test_data/8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl', top_level=False )
     for f in s.frames:
-        #print f.header
-        #print f.coords
-        r = f.residues[0]
-        print((r.get_atoms()))
-        print((r.p))
-        print((r.c4p))
-        print((r.c4p.get_coord()))
-        print((r.c4p - r.p))
-        print((r.n1n9))
-        print((r.b2))
-        print((r.get_center()))
-        break
+        print f.header
+        """prints header of each frame"""
+        
+        print((f.header[3] - f.header[4]))
+        """prints out the energy of restraints (total_energy - energy_without_restraints)"""
+        
+        print f.coords
+        """prints coordinations of each coarse-grained atom"""
+
+
+
+    """
+    
+    s.load_from_string  == faster method, loads only one frame at a time to memory, and after computations 
+                           loads the next frame (memory efficient - no crashes)
+                           
+    
+    """
 
     s2 = SimRNATrajectory()
     traj = """1 1 1252.257530 1252.257530 0.950000
  53.570 23.268 39.971 55.119 24.697 43.283 55.145 27.966 42.270 55.258 29.321 42.618 54.313 29.909 40.572 57.246 41.229 41.492 57.056 39.572 45.104 55.672 36.799 43.722 55.491 33.284 44.069 55.013 33.922 41.769"""
+    
+ 
     s2.load_from_string(0, traj)
     for f in s2.frames:
         print(f)
+
+        #print f.coords
+        r = f.residues[0]
+        print((r.get_atoms()))        
+        print((r.p))
+        """prints the position of P group"""
+        
+        print((r.c4p))
+        print((r.c4p.get_coord()))
+        print((r.b1 - r.p))
+        """prints the distance between C4 and P coarse grained-atoms"""
+        
+        print((r.n1n9))
+        print((r.b2))
+        print((r.get_center()))
