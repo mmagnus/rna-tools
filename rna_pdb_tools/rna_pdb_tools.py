@@ -67,11 +67,16 @@ def get_parser():
     
     parser.add_argument('file', help='file')
     #parser.add_argument('outfile', help='outfile')
-    return parser, version
+    return parser
 
 # main
 if __name__ == '__main__':
-    parser, version = get_parser()
+    # get version
+    version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
+    version = version[1].strip()
+
+    # get parser and arguments
+    parser = get_parser()
     args = parser.parse_args()
 
     if args.report:
@@ -151,7 +156,7 @@ if __name__ == '__main__':
         if args.inplace:
             with open(args.file, 'w') as f:
                 if not args.no_hr:
-                    f.write(add_header(version))
+                    f.write(add_header(version) + '\n')
                 f.write(s.get_text())
         else:
             if not args.no_hr:

@@ -1,6 +1,6 @@
 numpy
 biopython
-sphinx-argparse==0.1.15
+sphinx-argparse==0.1.17
 forgi
 progressbar2
 sphinx-rtd-theme
