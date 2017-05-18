@@ -201,6 +201,8 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## History
 
+170518 Edit in place [experimental, only for `get_rnapuzzle_ready`]
+
 170517 Fix #37 mis-align atom names after rpr-ing bug
 
 170515 Fix fixing missing O2'

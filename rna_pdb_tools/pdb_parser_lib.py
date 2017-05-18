@@ -1333,9 +1333,9 @@ class StrucFile:
 
 def add_header(version=None):
     now = time.strftime("%c")
-    print('HEADER Generated with rna-pdb-tools')
-    print('HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now))
-
+    txt = 'HEADER Generated with rna-pdb-tools\n'
+    txt += 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s\n' % (version, now)
+    return txt
 
 def edit_pdb(args):
     """Edit your structure.
