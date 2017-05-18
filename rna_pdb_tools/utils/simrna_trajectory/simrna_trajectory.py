@@ -117,7 +117,7 @@ class Frame:
         """
         top_level = False, makes huge tree of objects (Residues/Atoms) == slower
         Important when you want to compute e.g. disdances between atoms, get the positions of specified atoms etc.
-        
+
         """
 
         self.id = id
@@ -163,7 +163,6 @@ class Residue:
 
        nucletoide: n1n9 = N1 for pyrimidines, N9 for purines, b1 = C2 for purines and pyrimidines,
                    b2 = C4 for pyrimidines, C6 for purines
-
     """
     def __init__(self, id, p, c4p, n1n9, b1, b2):
         self.id = id
@@ -231,11 +230,8 @@ class Atom:
 if __name__ == '__main__':
 
     """
-    
     s.load_from_file  == very slow meythod, loads up whole trafl file into memory (and often crashes...)
                          Useful only when top_level=True
-                         
-    
     """
     s = SimRNATrajectory()
     s.load_from_file('test_data/6c2ca958-d3aa-43b2-9f02-c42d07a6f7e9_ALL.trafl', top_level=True)
@@ -256,11 +252,8 @@ if __name__ == '__main__':
 
 
     """
-    
     s.load_from_string  == faster method, loads only one frame at a time to memory, and after computations 
                            loads the next frame (memory efficient - no crashes)
-                           
-    
     """
 
     s2 = SimRNATrajectory()
