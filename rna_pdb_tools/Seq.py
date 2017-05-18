@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
-"""Seq and secondary structure prediction."""
+"""Seq and secondary structure prediction.
+
+Installation:
+
+- ContextFold needs java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 
+
+Q: does it work for more than one chain??? Hmm.. I think it's not.
+"""
 
 import subprocess
 import tempfile
@@ -31,6 +38,23 @@ class Seq:
 
         It creates a seq fasta file and runs various methods for secondary structure
         prediction. You can provide also a constraints file for RNAfold and RNAsubopt.
+        
+        ContextFold::
+        
+            $ java -cp bin contextFold.app.Predict in:CCCCUUUGGGGG
+            CCCCUUUGGGGG
+            ((((....))))
+            
+        It seems that a seq has to be longer than 9. Otherwise::
+        
+            $ java -cp bin contextFold.app.Predict in:UUUUUUGGG
+            Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 10
+
+            # this is OK
+            $ java -cp bin contextFold.app.Predict in:CCCCUUUGGG
+            CCCCUUUGGG
+            .(((...)))
+            
         """
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf.name += '.fa'
@@ -71,6 +95,7 @@ class Seq:
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         if method == "contextfold":
+            ### !!! hardcoded path ### to fix ###
             cmd = "cd /home/magnus/work/opt/ContextFold_1_00 && java -cp bin contextFold.app.Predict in:" + self.seq
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.split('\n')[1:])
@@ -94,4 +119,3 @@ if __name__ == '__main__':
     seq.name = 'RNA02'
     print(seq.predict_ss("RNAsubopt", constraints="((((...............................................................))))"))
     #print seq.predict_ss(method="ipknot")
-

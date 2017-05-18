@@ -46,6 +46,12 @@ def get_parser():
     parser.add_argument('--cv', help='alias to collapsed_view',
                         action='store_true')
 
+    parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
+                        action='store_true')
+
+    parser.add_argument('--inplace', help='in place edit the file! [experimental, only for get_rnapuzzle_ready]',
+                        action='store_true')
+
     parser.add_argument('--edit',
 			dest="edit",
                         default='',
@@ -58,10 +64,11 @@ def get_parser():
     
     parser.add_argument('file', help='file')
     #parser.add_argument('outfile', help='outfile')
-    return parser
+    return parser, version
 
+# main
 if __name__ == '__main__':
-    parser = get_parser()
+    parser, version = get_parser()
     args = parser.parse_args()
 
     if args.report:
@@ -83,7 +90,7 @@ if __name__ == '__main__':
         #print s.get_preview()
         #s.write(args.outfile)
         if not args.no_hr:
-            add_header()
+            print(add_header(version))
         print(s.get_text())
 
     if args.get_seq:
@@ -122,7 +129,7 @@ if __name__ == '__main__':
         #print s.get_preview()
         #s.write(args.outfile)
         if not args.no_hr:
-            add_header()
+            print(add_header(version))
         print(s.get_text())
 
     if args.get_rnapuzzle_ready:
@@ -136,10 +143,17 @@ if __name__ == '__main__':
         s.renum_atoms()
         #print s.get_preview()
         #s.write(args.outfile)
-        if not args.no_hr:
-            add_header()
-        s.get_rnapuzzle_ready(args.renumber_residues)
-        print(s.get_text())
+        s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, verbose=args.verbose)
+
+        if args.inplace:
+            with open(args.file, 'w') as f:
+                if not args.no_hr:
+                    f.write(add_header(version))
+                f.write(s.get_text())
+        else:
+            if not args.no_hr:
+                print(add_header(version))
+            print(s.get_text())
 
     if args.renumber_residues:
         s = StrucFile(args.file)
@@ -149,14 +163,14 @@ if __name__ == '__main__':
         s.get_rnapuzzle_ready(args.renumber_residues)
         s.renum_atoms()
         if not args.no_hr:
-            add_header()
+            print(add_header(version))
         print(s.get_text())
 
     if args.delete:
         selection = select_pdb_fragment(args.delete)
         s = StrucFile(args.file)
         if not args.no_hr:
-            add_header()
+            print(add_header(version))
             print('HEADER --delete ' + args.delete) #' '.join(str(selection))
         for l in s.lines:
             if l.startswith('ATOM'):

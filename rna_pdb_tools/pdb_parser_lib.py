@@ -33,6 +33,13 @@ import subprocess
 
 from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
+import logging
+logger = logging.getLogger('rna-pdb-tools')
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 # Don't fix OP3, ignore it
 ignore_op3 = False
 
@@ -58,7 +65,8 @@ def get_version(currfn='', verbose=False): #dupa
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
     version = subprocess.check_output('git describe --long --tags --dirty --always', shell=True)
-    os.chdir(curr_path)
+    if verbose: print(version, curr_path)
+    os.chdir(curr_path) # go path to original path
     if version.find('not found')>-1:
         return ' unknown' # > install git to get versioning based on git'
     else:
@@ -209,6 +217,7 @@ class StrucFile:
         return len(self.lines)
 
     def get_text(self, add_end=True):
+        """works on self.lines."""
         txt = ''
         for l in self.lines:
             if l.startswith('END'):
@@ -758,7 +767,7 @@ class StrucFile:
     def set_chain_id(self,line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False):#:, ready_for="RNAPuzzle"):
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, verbose=True):#:, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
         Clean up a structure, get corrent order of atoms.
@@ -785,6 +794,9 @@ class StrucFile:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
+        if verbose:
+            logger.setLevel(logging.DEBUG)
+
         try:
             from Bio import PDB
             from Bio.PDB import PDBIO
@@ -796,10 +808,8 @@ class StrucFile:
 
         import copy
         # for debugging
-        #v = True
-        v = False
         #renumber_residues = True
-
+        v = True
         #if ready_for == "RNAPuzzle":
         G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
@@ -830,7 +840,8 @@ class StrucFile:
         fixed = []
 
         for chain in model.get_list():
-            if v: print('chain:', chain)
+            logger.debug('chain: %s' % chain)
+
             res = []
             for r in chain:
                 res.append(r)
@@ -872,7 +883,8 @@ class StrucFile:
                 if renumber_residues:
                     r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
                 #
-                # experimental: fixing missing OP3
+                # experimental: fixing missing OP3.
+                # Only for the first residues.
                 #
                 if c == 1:
                     # if p_missing
@@ -889,7 +901,7 @@ class StrucFile:
                     for a in r:
                         if a.id == 'P':
                             p_missing = False
-                    if v: print('p_missing', p_missing)
+                    logger.debug('p_missing %s' % p_missing)
 
                     if p_missing and fix_missing_atoms:
                             currfn = __file__
@@ -923,45 +935,52 @@ class StrucFile:
 
                     p_missing = False # off this function
 
+                
                     # save it
                     #io = PDB.PDBIO()
                     #io.set_structure( po3_struc )
                     #io.save("po3.pdb")
 
-                    # if o2p_missing
-                    o2p_missing = True
-                    #if p_missing:
-                    for a in r:
-                        if a.id == "O2'":
-                            o2p_missing = False
-                    if v: print('o2p_missing', o2p_missing)
+                # 
+                # fix missing O2'
+                #
+                o2p_missing = True
+                for a in r:
+                    logger.debug('o2p_missing: %s %s %s' % (r, o2p_missing, a.id))
+                    if a.id == "O2'":
+                        o2p_missing = False
+                logger.debug('o2p_missing: %s', o2p_missing)
 
-                    if o2p_missing and fix_missing_atoms:
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                if o2p_missing and fix_missing_atoms:
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
 
-                            o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
-                            o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
+                        o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
+                        o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
 
-                            r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
-                            o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
+                        r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
+                        o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, o2p_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, o2p_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( o2p_struc.get_atoms() ) # to all atoms of o2p
+                        sup.apply( o2p_struc.get_atoms() ) # to all atoms of o2p
 
-                            r.add( o2p["O2'"])
+                        r.add( o2p["O2'"])
+                        logger.debug('fixing o2p for ' % r)
+                        fixed.append(['add O2\' ', chain.id, r, c])
 
-                    o2p_missing = False # off this function
+                o2p_missing = False # off this function
 
-                    # fix C
+                #
+                # fix missing C (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "C" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -998,7 +1017,9 @@ class StrucFile:
 
                             fixed.append(['add the whole base C', chain.id, r, c])
 
-                # fix U
+                # 
+                # fix missing U (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "U" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -1034,7 +1055,9 @@ class StrucFile:
                             r.add( U["C6"])
 
                             fixed.append(['add the whole base U', chain.id, r, c])
-                # fix G
+                # 
+                # fix missing G (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "G" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -1073,7 +1096,9 @@ class StrucFile:
                             r.add( G["C4"])
 
                             fixed.append(['add the whole base G', chain.id, r, c])
-                # fix A
+                # 
+                # fix missing A (the whole base at the moment)
+                #
                 if str(r.get_resname()).strip() == "A" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
@@ -1112,6 +1137,9 @@ class StrucFile:
 
                             fixed.append(['add the whole base A', chain.id, r, c])
 
+                #
+                # strip residues of extra atoms, not in G_ATOMS in this case
+                #
                 if str(r.get_resname()).strip() == "G":
                     for an in G_ATOMS:
                         if c == 1 and ignore_op3:
@@ -1207,6 +1235,15 @@ class StrucFile:
         nlines = []
         no_ters = 0
         for l in self.lines:
+
+            ## align atoms to the left #######################################################
+            #ATOM   3937    P   C B 185      11.596  -7.045  26.165  1.00  0.00           P
+            #ATOM   3937  P     C B 185      11.596  -7.045  26.165  1.00  0.00           P
+            if l.startswith('ATOM'):
+                atom_code = self.get_atom_code(l)
+                l = self.set_atom_code(l, atom_code)
+            ##################################################################################
+            
             if l.startswith('TER'):
                 atom_l = self.lines[c-1]
                 #print 'TER    1528        G A  71 <<<'
@@ -1296,9 +1333,9 @@ class StrucFile:
 
 def add_header(version=None):
     now = time.strftime("%c")
-    print('HEADER Generated with rna-pdb-tools')
-    print('HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now))
-
+    txt = 'HEADER Generated with rna-pdb-tools\n'
+    txt += 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s\n' % (version, now)
+    return txt
 
 def edit_pdb(args):
     """Edit your structure.
@@ -1393,7 +1430,7 @@ def collapsed_view(args):
         if l.startswith('TER') or l.startswith('MODEL') or l.startswith('END'):
             print(l)
 
-def fetch(pdb_id, path=""):
+def fetch(pdb_id, path="."):
     """fetch pdb file from RCSB.org
     https://files.rcsb.org/download/1Y26.pdb"""
     import urllib3
@@ -1414,7 +1451,7 @@ def fetch(pdb_id, path=""):
     return npath
 
 
-def fetch_ba(pdb_id, path=""):
+def fetch_ba(pdb_id, path="."):
     """fetch biological assembly pdb file from RCSB.org
 
     >>> fetch_ba('1xjr')
@@ -1435,7 +1472,7 @@ def fetch_ba(pdb_id, path=""):
     return pdb_id + '_ba.pdb'
 
 
-def fetch_cif_ba(cif_id, path=""):
+def fetch_cif_ba(cif_id, path="."):
     """fetch biological assembly cif file from RCSB.org"""
     http = urllib3.PoolManager()
     #try:
