@@ -201,7 +201,7 @@ This packages uses other pieces of software, it would be impossible without them
 
 ## History
 
-170518 Edit in place [experimental, only for `get_rnapuzzle_ready`]
+170518 Edit in place [experimental, only for `get_rnapuzzle_ready`] `rna_pdb_tools.py --rpr 7_Das_7_rpr.pdb --inplace`. (2) get a structure in org-mode format <sick!>
 
 170517 Fix #37 mis-align atom names after rpr-ing bug
 

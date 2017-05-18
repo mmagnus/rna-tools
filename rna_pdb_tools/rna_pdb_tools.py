@@ -20,6 +20,9 @@ def get_parser():
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
+    parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
+                        action='store_true')
+
     parser.add_argument('--get_chain', help='get chain, .e.g A')
 
     parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db')
@@ -192,6 +195,63 @@ if __name__ == '__main__':
 
     if args.collapsed_view or args.cv:
         collapsed_view(args)
+
+    if args.orgmode:
+        if args.inplace:
+            shutil.copy(args.file, args.file + '~')
+        s = StrucFile(args.file)
+        s.decap_gtp()
+        s.fix_resn()
+        s.remove_hydrogen()
+        s.remove_ion()
+        s.remove_water()
+        s.fix_op_atoms()
+        s.renum_atoms()
+        s.shift_atom_names()
+        s.prune_elements()
+        #print s.get_preview()
+        #s.write(args.outfile)
+        #for l in s.lines:
+        #    print l
+
+        remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, rename_chains=True, verbose=args.verbose)
+
+        with open(args.file + '~', 'w') as f:
+            if not args.no_hr:
+                 f.write(add_header(version) + '\n')
+            f.write('\n'.join(remarks) + '\n')
+            f.write(s.get_text())
+
+        try:
+            from Bio import PDB
+            from Bio.PDB import PDBIO
+            import warnings
+            warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
+            warnings.filterwarnings('ignore', '.*with given element *',)
+        except:
+            sys.exit('Error: Install biopython to use this function (pip biopython)')
+
+        parser = PDB.PDBParser()
+        struct = parser.get_structure('', args.file + '~')
+        model = struct[0]
+
+        # chains [['A', 'seq', [residues]]]
+        chains = []
+        for c in model.get_list():
+            seq = ''
+            chain = []
+            for r in c:
+                chain.append(str(r.get_resname().strip()) + str(r.id[1]))
+                seq += r.get_resname().strip()
+            chains.append([c.id, seq, chain])
+
+        t = []
+        #[['A', 'CCGCCGCGCCAUGCCUGUGGCGG', ['C1', 'C2', 'G3', 'C4', 'C5', 'G6', 'C7', 'G8', 'C9', 'C10', 'A11', 'U12', 'G13', 'C14', 'C15', 'U16', 'G17', 'U18', 'G19', 'G20', 'C21', 'G22', 'G23']], ['B', 'CCGCCGCGCCAUGCCUGUGGCGG', ['C1', 'C2', 'G3', 'C4', 'C5', 'G6', 'C7', 'G8', 'C9', 'C10', 'A11', 'U12', 'G13', 'C14', 'C15', 'U16', 'G17', 'U18', 'G19', 'G20', 'C21', 'G22', 'G23']]]
+        for c in chains:
+            t.append('* ' + c[0] + ':' + c[2][0][1:] + '-' + c[2][-1][1:] + ' ' + c[1])
+            for r in c[2]:
+                t.append('** ' + c[0] + ':' + r)
+        print '\n'.join(t)
 
 if __name__ == '__main__':
     pass
