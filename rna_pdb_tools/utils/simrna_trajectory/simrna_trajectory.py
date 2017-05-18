@@ -32,7 +32,8 @@ class SimRNATrajectory:
         
         top_level = False, makes huge tree of objects (Residues/Atoms) == very slow for a huge trajectories
 
-        .. warning:: Loads up whole trafl file into memory, and get stuck. Use this if you want to compute e.g. distances between atoms, get the positions of specified atoms etc.
+        .. warning:: Loads up whole trafl file into memory, and get stuck. Use this if you want to compute e.g. distances between atoms, get the positions of specified atoms etc. If you can not process your trajectory
+        use top_level=True or look at load_from_string() to load a frame by frame from a file.
 
         h(eader), l(line), f(ile).
         """
@@ -162,10 +163,9 @@ class Residue:
 
        Each residue in SimRNA coarse-grained represantation consists only 5 coarse-grained atoms:
 
-       backbone: p = phospate group, c4p = sugar moiety
-
-       nucletoide: n1n9 = N1 for pyrimidines, N9 for purines, b1 = C2 for purines and pyrimidines,
-                   b2 = C4 for pyrimidines, C6 for purines
+       - backbone: p = phospate group, c4p = sugar moiety
+       - nucleotide: n1n9 = N1 for pyrimidines, N9 for purines, b1 = C2 for purines and pyrimidines, \
+       b2 = C4 for pyrimidines, C6 for purines
     """
     def __init__(self, id, p, c4p, n1n9, b1, b2):
         self.id = id
@@ -222,7 +222,6 @@ class Atom:
             >>> distance=atom1-atom2
 
         """
-
         diff = self.coord - other_atom.coord
         return np.sqrt(np.dot(diff, diff)) 
 
