@@ -34,6 +34,10 @@ cd rna_pdb_tools
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/7_Chen_2_rpr.pdb > output/7_Chen_2_rpr.pdb
 ./rna_pdb_tools.py --no_hr --rpr input/7_Chen_7_rpr.pdb > output/7_Chen_7_rpr.pdb
 
+# --rpr inplace fix
+cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
+./rna_pdb_tools.py --no_hr --rpr output/7_Chen_7_rpr_inplacefix.pdb --inplace
+
 ## --delete
 ./rna_pdb_tools.py --no_hr --delete A:10-60 input/rp17.out.1.pdb > output/rp17_rmA10-60.pdb
 ./rna_pdb_tools.py --no_hr --delete A:10-60 input/rp17.out.1.pdb > output/rp17_rmA10-60.pdb

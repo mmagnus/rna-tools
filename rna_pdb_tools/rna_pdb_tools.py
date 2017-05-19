@@ -168,7 +168,7 @@ if __name__ == '__main__':
                 if not args.no_hr:
                     f.write(add_header(version) + '\n')
                 if remarks:
-                    f.write('\n'.join(remarks))
+                    f.write('\n'.join(remarks) + '\n')
                 f.write(s.get_text())
 
         else:
@@ -176,7 +176,7 @@ if __name__ == '__main__':
             if not args.no_hr:
                 output += add_header(version) + '\n'
             if remarks:    
-                output += '\n'.join(remarks).strip()
+                output += '\n'.join(remarks) + '\n'
             output += s.get_text()
             try:
                 sys.stdout.write(output)
