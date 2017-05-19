@@ -445,7 +445,7 @@ class StrucFile:
         for l in self.lines:
             if l[77:79].strip() == 'H':
                 continue
-            if l[12:16].strip() in HYDROGEN_NAMES:
+            if l[13:17].strip() in HYDROGEN_NAMES:
             #if l[12:16].strip().startswith('H'):
                 continue
             else:
@@ -717,21 +717,38 @@ class StrucFile:
             return None
         return line[17:20]
 
-    def get_atom_code(self,line):
+    def shift_atom_names(self):
+        nlines = []
+        for l in self.lines:
+            if l.startswith('ATOM'):
+                atom_name = self.get_atom_code(l)
+                l = self.set_atom_code(l, atom_name)
+            nlines.append(l)
+        self.lines = nlines
+        
+    def prune_elements(self):
+        nlines = []
+        for l in self.lines:
+            if l.startswith('ATOM'):
+                l = l[:76] + ' ' + l[78:]
+            nlines.append(l)
+        self.lines = nlines
+
+    def get_atom_code(self, line):
         """Get atom code from a line of a PDB file
         """
         if not line.startswith('ATOM'):
             return None
-        return line[13:16].replace(' ', '')
+        return line[12:16].replace(' ', '').strip()
 
-    def get_atom_coords(self,line):
+    def get_atom_coords(self, line):
         """Get atom coordinates from a line of a PDB file
         """
         if not line.startswith('ATOM'):
             return None
         return tuple(map(float, line[31:54].split()))
 
-    def set_line_bfactor(self,line, bfactor):
+    def set_line_bfactor(self, line, bfactor):
         if not line.startswith('ATOM'):
             return None
         return line[:60] + (" %5.2f" % bfactor) + line[66:]
@@ -740,34 +757,34 @@ class StrucFile:
         """set occupancy for line"""
         return line[:54] + (" %5.2f" % occupancy) + line[60:]
 
-    def set_atom_code(self,line, code):
-        return line[:13] + code + ' ' * (3 - len(code)) + line[16:]
+    def set_atom_code(self, line, code):
+        return line[:12] + ' ' + code + ' ' * (3 - len(code)) + line[16:]
 
-    def set_res_code(self,line, code):
+    def set_res_code(self, line, code):
         return line[:17] + code.rjust(3) + line[21:]
 
-    def get_chain_id(self,line):
+    def get_chain_id(self, line):
         return line[21:22]
 
-    def get_atom_index(self,line):
+    def get_atom_index(self, line):
         try:
             return int(line[6:11])
         except:
             return None
 
-    def set_atom_index(self,line,index):
+    def set_atom_index(self, line, index):
         return line[:7] + str(index).rjust(4) + line[11:]
 
-    def get_res_index(self,line):
+    def get_res_index(self, line):
         return int(line[22:26])
 
-    def set_res_index(self,line, index):
+    def set_res_index(self, line, index):
         return line[:23] + str(index).rjust(3) + line[26:]
 
-    def set_chain_id(self,line, chain_id):
+    def set_chain_id(self, line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, verbose=True):#:, ready_for="RNAPuzzle"):
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, rename_chains=True, verbose=True):#:, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
         Clean up a structure, get corrent order of atoms.
@@ -809,7 +826,6 @@ class StrucFile:
         import copy
         # for debugging
         #renumber_residues = True
-        v = True
         #if ready_for == "RNAPuzzle":
         G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
@@ -839,6 +855,8 @@ class StrucFile:
         missing = []
         fixed = []
 
+        new_chains = list(string.ascii_uppercase)
+        
         for chain in model.get_list():
             logger.debug('chain: %s' % chain)
 
@@ -848,6 +866,10 @@ class StrucFile:
 
             res = copy.copy(res)
 
+            # start chains from A..BCD. etc
+            if rename_chains:
+                chain.id = new_chains.pop(0)
+            
             c2 = PDB.Chain.Chain(chain.id)
 
             c = 1  # new chain, goes from 1 !!! if renumber True
@@ -1215,15 +1237,16 @@ class StrucFile:
         fout = tf.name
         io.save(fout)
 
+        remarks = []
         if fixed:
-            print ('REMARK 000 Fixed atoms/residues:')
+            remarks.append('REMARK 000 Fixed atoms/residues:')
             for i in fixed:
-                print('REMARK 000 - ', i[0], 'in chain:', i[1], i[2], 'residue #', i[3])
+                remarks.append(' '.join(['REMARK 000 - ', str(i[0]), 'in chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
 
         if missing:
-            print ('REMARK 000 Missing atoms:')
+            remarks.append('REMARK 000 Missing atoms:')
             for i in missing:
-                print('REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3])
+                remarks.append(' '.join(['REMARK 000  +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
             #raise Exception('Missing atoms in %s' % self.fn)
         #
         # fix ter 'TER' -> TER    1528        G A  71
@@ -1261,7 +1284,8 @@ class StrucFile:
                 nlines.append(l)
             c += 1
         self.lines = nlines
-
+        return remarks
+        
     def set_occupancy_atoms(self, occupancy):
         """
         :param occupancy:
@@ -1334,7 +1358,7 @@ class StrucFile:
 def add_header(version=None):
     now = time.strftime("%c")
     txt = 'HEADER Generated with rna-pdb-tools\n'
-    txt += 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s\n' % (version, now)
+    txt += 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
     return txt
 
 def edit_pdb(args):

@@ -37,10 +37,13 @@ def get_parser():
     parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms, renumber residues)',
                         action='store_true')
 
+    parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
+                        action='store_true')
+
     parser.add_argument('--no_hr', help='do not insert the header into files',
                         action='store_true')
 
-    parser.add_argument('--renumber_residues', help='',
+    parser.add_argument('--renumber_residues', help='by defult is false',
                         action='store_true')
 
     parser.add_argument('--collapsed_view', help='',
@@ -140,7 +143,9 @@ if __name__ == '__main__':
             print(add_header(version))
         print(s.get_text())
 
-    if args.get_rnapuzzle_ready:
+    if args.get_rnapuzzle_ready or args.rpr:
+        if args.inplace:
+            shutil.copy(args.file, args.file + '~')
         s = StrucFile(args.file)
         s.decap_gtp()
         s.fix_resn()
@@ -149,19 +154,35 @@ if __name__ == '__main__':
         s.remove_water()
         s.fix_op_atoms()
         s.renum_atoms()
+        s.shift_atom_names()
+        s.prune_elements()
         #print s.get_preview()
         #s.write(args.outfile)
-        s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, verbose=args.verbose)
+        #for l in s.lines:
+        #    print l
+
+        remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, rename_chains=True, verbose=args.verbose)
 
         if args.inplace:
             with open(args.file, 'w') as f:
                 if not args.no_hr:
                     f.write(add_header(version) + '\n')
+                if remarks:
+                    f.write('\n'.join(remarks))
                 f.write(s.get_text())
+
         else:
+            output = ''
             if not args.no_hr:
-                print(add_header(version))
-            print(s.get_text())
+                output += add_header(version) + '\n'
+            if remarks:    
+                output += '\n'.join(remarks).strip()
+            output += s.get_text()
+            try:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+            except IOError:
+                pass
 
     if args.renumber_residues:
         s = StrucFile(args.file)
