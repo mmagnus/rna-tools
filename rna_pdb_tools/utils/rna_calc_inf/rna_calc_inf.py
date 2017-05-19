@@ -79,7 +79,11 @@ def do_job(i):
     
     # write csv
     lock.acquire()
-    csv_writer.writerow(output.split())
+    # take only filename of target
+    cells = output.split()
+    cells[0] = os.path.basename(cells[0])
+
+    csv_writer.writerow(cells)
     csv_file.flush()
     lock.release()
     
