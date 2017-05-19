@@ -55,8 +55,11 @@ def rp17():
 """
     color_by_text(txt)
 
-print '   PyMOL4RNA   '
-print '==============='
+print '   PyMOL4RNA (rna-pdb-tools)  '
+print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+print 'Quickref: '
+print '  alter (sele), chain="B" '
+print '  alter (chain B), resv -= 44 '
 print 'p - prepare seq for printing'    
 print 'rp - rna present, object names only click to get compact legend'
 print 'rp17'
