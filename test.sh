@@ -57,7 +57,7 @@ cd rna_pdb_tools
 ./rna_pdb_seq.py input/6_solution_0.pdb > output/6_solution_0.seq
 
 ## --orgmode
-./rna_pdb_tools.py --orgmode input/2_das_1_rpr.pdb > input/2_das_1_rpr.org
+./rna_pdb_tools.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org
 
 ## --renumber_residues
 ./rna_pdb_tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
