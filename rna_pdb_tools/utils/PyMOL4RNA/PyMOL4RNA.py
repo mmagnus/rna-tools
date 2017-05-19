@@ -26,6 +26,21 @@ def get_pdb():
     for l in s.lines:
       print l
 
+def ss():
+    subset = "*"
+    AllObj=cmd.get_names("all")
+    #print AllObj
+    for x in AllObj[:]:
+      #print(AllObj[0],x)
+      f = tempfile.NamedTemporaryFile(delete=True)
+      #print f.name
+      #f.write(XX)
+      cmd.save(f.name, x)
+      out = commands.getoutput('py3dna.py ' + f.name )
+      print x
+      print '\n'.join(out.split('\n')[1:]) # to remove first line of py3dna /tmp/xxx
+      f.close()
+      
 def p():
     cmd.set("seq_view_format", 4)
     cmd.set("seq_view", 1)
