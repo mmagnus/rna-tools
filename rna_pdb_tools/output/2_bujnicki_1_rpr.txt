@@ -1,0 +1,16 @@
+> 2_bujnicki_1_rpr A:1-15
+CCGGAGGAACUACUG
+> 2_bujnicki_1_rpr B:1-10
+CCGGCAGCCU
+> 2_bujnicki_1_rpr C:1-15
+CCGGAGGAACUACUG
+> 2_bujnicki_1_rpr D:1-10
+CCGGCAGCCU
+> 2_bujnicki_1_rpr E:1-15
+CCGGAGGAACUACUG
+> 2_bujnicki_1_rpr F:1-10
+CCGGCAGCCU
+> 2_bujnicki_1_rpr G:1-15
+CCGGAGGAACUACUG
+> 2_bujnicki_1_rpr H:1-10
+CCGGCAGCCU

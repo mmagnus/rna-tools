@@ -47,6 +47,10 @@ cd rna_pdb_tools
 ./rna_pdb_tools.py --no_hr --get_seq input/5k7c.pdb > output/get_seq.txt
 ./rna_pdb_tools.py --no_hr --get_seq input/tetraloop.pdb >> output/get_seq.txt
 ./rna_pdb_tools.py --get_seq input/1xjr.pdb > output/1xjr.seq
+
+./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr.pdb > output/2_bujnicki_1_rpr.txt
+./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr_BA_chain_swap.pdb > output/2_bujnicki_1_rpr_BA_chain_swap.txt
+
 ./rna_pdb_seq.py input/1ykq_clx.pdb > output/1ykq_clx.seq
 ./rna_pdb_seq.py input/1xjr.pdb > output/1xjr2.seq
 ./rna_pdb_seq.py input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb > output/5k7c_clean_onechain_renumber_as_puzzle_srr.seq

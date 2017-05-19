@@ -269,21 +269,20 @@ class StrucFile:
         Chains is ``{'A': {'header': 'A:1-19 26-113 117-172', 'resi': [1, 2, 3, ..., \
         19, 26, 27, ..., 172], 'seq': ['G', 'G', 'C', 'G', ... C', 'G', 'U', 'C']}}``
 
+        Chains are in other as the appear in the file.
+
         .. warning :: take only ATOM and HETATM lines.
         """
         seq = self.lines[0][19]
         chains = OrderedDict()
         resi_prev = None
         chain_prev = None
-
-        chains = {}
         for l in self.lines:
             if l.startswith('ATOM') or l.startswith('HETATM') :
                 resi = int(l[22:26])
                 if resi_prev != resi:
                     resname = l[17:20].strip()
                     chain_curr = l[21]
-
                     if len(resname) == 'GTP': # DG -> g GTP
                         resname = 'g'
                     if len(resname) > 1: # DG -> g GTP
