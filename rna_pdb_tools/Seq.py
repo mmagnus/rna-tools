@@ -12,6 +12,8 @@ Q: does it work for more than one chain??? Hmm.. I think it's not.
 import subprocess
 import tempfile
 
+from rpt_config import *
+
 class Seq:
     """Seq.
 
@@ -95,8 +97,7 @@ class Seq:
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         if method == "contextfold":
-            ### !!! hardcoded path ### to fix ###
-            cmd = "cd /home/magnus/work/opt/ContextFold_1_00 && java -cp bin contextFold.app.Predict in:" + self.seq
+            cmd = "cd " + CONTEXTFOLD_PATH + " + && java -cp bin contextFold.app.Predict in:" + self.seq
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.split('\n')[1:])
         
@@ -118,4 +119,6 @@ if __name__ == '__main__':
     seq = Seq("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA02'
     print(seq.predict_ss("RNAsubopt", constraints="((((...............................................................))))"))
+
+    print(seq.predict_ss("contextfold"))
     #print seq.predict_ss(method="ipknot")
