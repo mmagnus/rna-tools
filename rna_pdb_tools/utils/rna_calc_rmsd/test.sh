@@ -8,12 +8,12 @@ echo $cmd
 $cmd
 echo
 
-cmd="./rna_calc_rmsd.py -m align -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target.tsv test_data/*.pdb"
+cmd="./rna_calc_rmsd.py -m align -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target_align.tsv test_data/*.pdb"
 echo $cmd
 $cmd
 echo
 
-cmd="./rna_calc_rmsd.py -m fit -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target.tsv test_data/*.pdb"
+cmd="./rna_calc_rmsd.py -m fit -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target_fit.tsv test_data/*.pdb"
 echo $cmd
 $cmd
 echo

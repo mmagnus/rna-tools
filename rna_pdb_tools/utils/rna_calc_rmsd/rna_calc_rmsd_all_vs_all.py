@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
+from __future__ import print_function
 
 import Bio.PDB.PDBParser
 import Bio.PDB.Superimposer
@@ -61,7 +62,7 @@ def calc_rmsd(a,b):
 
 if __name__ == '__main__':
     print('calc_rmsd_dir')
-    print(('-' * 80))
+    print('-' * 80)
     
     optparser=optparse.OptionParser(usage="%prog [<options>]")
 
@@ -82,15 +83,15 @@ if __name__ == '__main__':
     (opts, args)=optparser.parse_args()
 
     if len(sys.argv) == 1:
-        print((optparser.format_help())) #prints help if no arguments
+        print(optparser.format_help()) #prints help if no arguments
         sys.exit(1)
 
     input_dir = opts.input_dir
     matrix_fn = opts.matrix_fn
-
-    models = get_rna_models_from_dir(input_dir)        
-
-    print((' # of models:', len(models)))
+    
+    models = get_rna_models_from_dir(input_dir)
+    
+    print(' # of models:', len(models))
 
     f = open(matrix_fn, 'w')
     t = '# '
@@ -102,19 +103,19 @@ if __name__ == '__main__':
 
     c = 1
     for r1 in models:
-            for r2 in models:
-                rmsd_curr = calc_rmsd(r1, r2)
-                t += str(round(rmsd_curr,3)) + ' '
-            print(('...', c, r1))
-            c += 1
-            t += '\n'
-            
+        for r2 in models:
+            rmsd_curr = calc_rmsd(r1, r2)
+            t += str(round(rmsd_curr, 3)) + ' '
+        print('...', c, r1)
+        c += 1
+        t += '\n'
+
     f.write(t)
     f.close()
 
-    print((t.strip())) # matrix
+    print(t.strip()) # matrix
 
     if True:
-        print(('matrix was created! ', matrix_fn))
+        print('matrix was created! ', matrix_fn)
     else:
         print('matrix NOT was created!')
