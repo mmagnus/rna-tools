@@ -48,17 +48,22 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ./rna_pdb_tools.py --no_hr --edit 'A:2672>A:1' input/1msy_A2672.pdb > output/1msy_A1.pdb
 
 ## --get_seq
-./rna_pdb_tools.py --no_hr --get_seq input/5k7c.pdb > output/get_seq.txt
-./rna_pdb_tools.py --no_hr --get_seq input/tetraloop.pdb >> output/get_seq.txt
+./rna_pdb_tools.py --get_seq input/5k7c.pdb > output/get_seq.txt
+./rna_pdb_tools.py --get_seq input/tetraloop.pdb >> output/get_seq.txt
 ./rna_pdb_tools.py --get_seq input/1xjr.pdb > output/1xjr.seq
 
 ./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr.pdb > output/2_bujnicki_1_rpr.txt
 ./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr_BA_chain_swap.pdb > output/2_bujnicki_1_rpr_BA_chain_swap.txt
 
-./rna_pdb_seq.py input/1ykq_clx.pdb > output/1ykq_clx.seq
-./rna_pdb_seq.py input/1xjr.pdb > output/1xjr2.seq
-./rna_pdb_seq.py input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb > output/5k7c_clean_onechain_renumber_as_puzzle_srr.seq
-./rna_pdb_seq.py input/6_solution_0.pdb > output/6_solution_0.seq
+# off for now
+#./rna_pdb_seq.py input/1ykq_clx.pdb > output/1ykq_clx.seq
+#./rna_pdb_seq.py input/1xjr.pdb > output/1xjr2.seq
+#./rna_pdb_seq.py input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb > output/5k7c_clean_onechain_renumber_as_puzzle_srr.seq
+#./rna_pdb_seq.py input/6_solution_0.pdb > output/6_solution_0.seq
+./rna_pdb_tools.py --get_seq input/1ykq_clx.pdb  > output/1ykq_clx.seq
+./rna_pdb_tools.py --get_seq input/1xjr.pdb > output/1xjr2.seq
+./rna_pdb_tools.py --get_seq input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb > output/5k7c_clean_onechain_renumber_as_puzzle_srr.seq
+./rna_pdb_tools.py --get_seq input/6_solution_0.pdb > output/6_solution_0.seq
 
 ## --orgmode
 ./rna_pdb_tools.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org

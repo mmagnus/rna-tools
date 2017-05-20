@@ -312,7 +312,7 @@ class StrucFile:
 
         txt = ''
         for c in list(chains.keys()):
-            txt += '> ' + os.path.basename(self.fn.replace('.pdb', '')) + ' ' + chains[c]['header'] + '\n'
+            txt += '> ' + chains[c]['header'] + '\n'
             txt += ''.join(chains[c]['seq']) + '\n'
         return txt.strip()
 

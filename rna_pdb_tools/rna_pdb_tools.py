@@ -6,6 +6,7 @@
 import argparse
 import os
 import time
+import progressbar
 
 from pdb_parser_lib import *
 
@@ -68,7 +69,7 @@ def get_parser():
 			default='',
 			help="delete the selected fragment, e.g. A:10-16")
     
-    parser.add_argument('file', help='file')
+    parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
 
@@ -82,6 +83,10 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
+    # quick fix for one files vs file-s
+    if list == type(args.file) and len(args.file) == 1:
+        args.file = args.file[0]
+        
     if args.report:
         s = StrucFile(args.file)
         print(s.get_report())
@@ -105,17 +110,29 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.get_seq:
-        s = StrucFile(args.file)
-        s.decap_gtp()
-        s.fix_resn()
-        s.remove_hydrogen()
-        s.remove_ion()
-        s.remove_water()
-        s.renum_atoms()
-        s.fix_O_in_UC()
-        s.fix_op_atoms()
-        #print s.get_preview()
-        print(s.get_seq())
+        ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            s = StrucFile(f)
+            s.decap_gtp()
+            s.fix_resn()
+            s.remove_hydrogen()
+            s.remove_ion()
+            s.remove_water()
+            s.renum_atoms()
+            s.fix_O_in_UC()
+            s.fix_op_atoms()
+
+            output = ''
+            output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n' # with # is easier to grep this out
+            output += s.get_seq()
+            try:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+            except IOError:
+                pass
 
     if args.get_chain:
         s = StrucFile(args.file)
@@ -144,45 +161,68 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.get_rnapuzzle_ready or args.rpr:
-        if args.inplace:
-            shutil.copy(args.file, args.file + '~')
-        s = StrucFile(args.file)
-        s.decap_gtp()
-        s.fix_resn()
-        s.remove_hydrogen()
-        s.remove_ion()
-        s.remove_water()
-        s.fix_op_atoms()
-        s.renum_atoms()
-        s.shift_atom_names()
-        s.prune_elements()
-        #print s.get_preview()
-        #s.write(args.outfile)
-        #for l in s.lines:
-        #    print l
+        ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
 
-        remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, rename_chains=True, verbose=args.verbose)
-
+        # progress bar only in --inplace mode!
         if args.inplace:
-            with open(args.file, 'w') as f:
+            bar = progressbar.ProgressBar(max_value=len(args.file))
+            bar.update(0)
+
+        for c, f in enumerate(args.file):
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            # keep previous edits
+            previous_edits = []
+            with open(f) as fx:
+                for l in fx:
+                    if l.startswith('HEADER --'):
+                        previous_edits.append(l.strip())
+            ######################
+
+            s = StrucFile(f)
+            s.decap_gtp()
+            s.fix_resn()
+            s.remove_hydrogen()
+            s.remove_ion()
+            s.remove_water()
+            s.fix_op_atoms()
+            s.renum_atoms()
+            s.shift_atom_names()
+            s.prune_elements()
+
+            remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True,
+                                                rename_chains=True, verbose=args.verbose)
+
+            if args.inplace:
+                with open(f, 'w') as f:
+                    if not args.no_hr:
+                        f.write(add_header(version) + '\n')
+                    if previous_edits:
+                        f.write('\n'.join(previous_edits) + '\n')
+                    if remarks:
+                        f.write('\n'.join(remarks) + '\n')
+                    f.write(s.get_text())
+
+                # progress bar only in --inplace mode!
+                bar.update(c)
+
+            else:
+                output = ''
                 if not args.no_hr:
-                    f.write(add_header(version) + '\n')
-                if remarks:
-                    f.write('\n'.join(remarks) + '\n')
-                f.write(s.get_text())
+                    output += add_header(version) + '\n'
+                if remarks:    
+                    output += '\n'.join(remarks) + '\n'
+                output += s.get_text()
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
 
-        else:
-            output = ''
-            if not args.no_hr:
-                output += add_header(version) + '\n'
-            if remarks:    
-                output += '\n'.join(remarks) + '\n'
-            output += s.get_text()
-            try:
-                sys.stdout.write(output)
-                sys.stdout.flush()
-            except IOError:
-                pass
 
     if args.renumber_residues:
         s = StrucFile(args.file)
@@ -196,35 +236,40 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.delete:
-        if args.inplace:
-            shutil.copy(args.file, args.file + '~')
+        ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
 
-        selection = select_pdb_fragment(args.delete)
-        s = StrucFile(args.file)
+            selection = select_pdb_fragment(args.delete)
+            s = StrucFile(f)
 
-        output = ''
-        if not args.no_hr:
-            output += add_header(version) + '\n'
-            output += 'HEADER --delete ' + args.delete + '\n' #' '.join(str(selection))
-        for l in s.lines:
-            if l.startswith('ATOM'):
-                chain = l[21]
-                resi = int(l[23:26].strip())
-                if chain in selection:
-                    if resi in selection[chain]:
-                        continue  # print chain, resi
-                output += l + '\n'
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+                output += 'HEADER --delete ' + args.delete + '\n' #' '.join(str(selection))
+            for l in s.lines:
+                if l.startswith('ATOM'):
+                    chain = l[21]
+                    resi = int(l[23:26].strip())
+                    if chain in selection:
+                        if resi in selection[chain]:
+                            continue  # print chain, resi
+                    output += l + '\n'
 
-        # write: inplace
-        if args.inplace:
-            with open(args.file, 'w') as f:
-                f.write(output)
-        else: # write: to stdout
-            try:
-                sys.stdout.write(output)
-                sys.stdout.flush()
-            except IOError:
-                pass
+            # write: inplace
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else: # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
                 
     if args.edit:
         edit_pdb(args)
