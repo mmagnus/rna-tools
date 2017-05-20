@@ -7,7 +7,7 @@ Look for other our projects at https://github.com/RNA-Puzzles
 
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_pdb_tools.svg?style=social&label=Follow)](https://twitter.com/rna_pdb_tools)
 
-[![tag](https://img.shields.io/github/tag/mmagnus/rna-pdb-tools.svg)](https://github.com/mmagnus/rna-pdb-tools/releases)
+[![release](https://img.shields.io/github/release/mmagnus/rna-pdb-tools.svg)](https://github.com/mmagnus/rna-pdb-tools/releases) 
 [![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools)
 [![Documentation Status](https://readthedocs.org/projects/rna-pdb-tools/badge/?version=latest)](http://rna-pdb-tools.readthedocs.io/en/latest/?badge=latest)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/?branch=master)
@@ -30,13 +30,15 @@ This project is a merge of various related projects such as `rnastruc`, `yapdb_p
 
 What is fun here?
 
-+ you see input & output -- this is what you want to get?
-+ it's tested via Travis! -- it (should) always works as you just want!
++ shell utils to work with pdb files and not only,
++ you see input & output -- this is what you want to get? moreover, it's tested via Travis! -- it (should) always works as you just want!
 + you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
 
 .. or you might want to use the lib in the program.
 
 Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
+
+<center><img src="docs/pngs/qKPVoPxDmq.gif"></center>
 
 Table of Contents
 -----------------
@@ -127,7 +129,7 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
     
 ## Utils
 
-See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
+See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tools.
 
 Read more http://rna-pdb-tools.readthedocs.io/en/latest/ 
 
@@ -187,6 +189,7 @@ and verify your file with the template provided by the organizers:
 + .. and more!
 
 ## Install
+
 Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
 
 ## Requirement
