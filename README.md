@@ -38,7 +38,9 @@ What is fun here?
 
 Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
 
-<center><img src="docs/pngs/qKPVoPxDmq.gif"></center>
+<p align="center">
+  <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
+</p>
 
 Table of Contents
 -----------------
