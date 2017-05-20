@@ -123,7 +123,6 @@ if __name__ == '__main__':
             s.renum_atoms()
             s.fix_O_in_UC()
             s.fix_op_atoms()
-            #print s.get_preview()
 
             output = ''
             output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n' # with # is easier to grep this out
@@ -213,7 +212,7 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.delete:
-         ## quick fix - make a list on the spot
+        ## quick fix - make a list on the spot
         if list != type(args.file):
             args.file = [args.file]
         ##################################
