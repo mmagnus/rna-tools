@@ -68,7 +68,7 @@ def get_parser():
 			default='',
 			help="delete the selected fragment, e.g. A:10-16")
     
-    parser.add_argument('file', help='file')
+    parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
 
@@ -82,6 +82,10 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
+    # quick fix for one files vs file-s
+    if list == type(args.file) and len(args.file) == 1:
+        args.file = args.file[0]
+        
     if args.report:
         s = StrucFile(args.file)
         print(s.get_report())
@@ -196,35 +200,40 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.delete:
-        if args.inplace:
-            shutil.copy(args.file, args.file + '~')
+         ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
 
-        selection = select_pdb_fragment(args.delete)
-        s = StrucFile(args.file)
+            selection = select_pdb_fragment(args.delete)
+            s = StrucFile(f)
 
-        output = ''
-        if not args.no_hr:
-            output += add_header(version) + '\n'
-            output += 'HEADER --delete ' + args.delete + '\n' #' '.join(str(selection))
-        for l in s.lines:
-            if l.startswith('ATOM'):
-                chain = l[21]
-                resi = int(l[23:26].strip())
-                if chain in selection:
-                    if resi in selection[chain]:
-                        continue  # print chain, resi
-                output += l + '\n'
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+                output += 'HEADER --delete ' + args.delete + '\n' #' '.join(str(selection))
+            for l in s.lines:
+                if l.startswith('ATOM'):
+                    chain = l[21]
+                    resi = int(l[23:26].strip())
+                    if chain in selection:
+                        if resi in selection[chain]:
+                            continue  # print chain, resi
+                    output += l + '\n'
 
-        # write: inplace
-        if args.inplace:
-            with open(args.file, 'w') as f:
-                f.write(output)
-        else: # write: to stdout
-            try:
-                sys.stdout.write(output)
-                sys.stdout.flush()
-            except IOError:
-                pass
+            # write: inplace
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else: # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
                 
     if args.edit:
         edit_pdb(args)
