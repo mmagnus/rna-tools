@@ -109,17 +109,30 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.get_seq:
-        s = StrucFile(args.file)
-        s.decap_gtp()
-        s.fix_resn()
-        s.remove_hydrogen()
-        s.remove_ion()
-        s.remove_water()
-        s.renum_atoms()
-        s.fix_O_in_UC()
-        s.fix_op_atoms()
-        #print s.get_preview()
-        print(s.get_seq())
+        ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            s = StrucFile(f)
+            s.decap_gtp()
+            s.fix_resn()
+            s.remove_hydrogen()
+            s.remove_ion()
+            s.remove_water()
+            s.renum_atoms()
+            s.fix_O_in_UC()
+            s.fix_op_atoms()
+            #print s.get_preview()
+
+            output = ''
+            output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n' # with # is easier to grep this out
+            output += s.get_seq()
+            try:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+            except IOError:
+                pass
 
     if args.get_chain:
         s = StrucFile(args.file)
