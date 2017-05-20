@@ -6,6 +6,7 @@
 import argparse
 import os
 import time
+import progressbar
 
 from pdb_parser_lib import *
 
@@ -160,45 +161,68 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.get_rnapuzzle_ready or args.rpr:
-        if args.inplace:
-            shutil.copy(args.file, args.file + '~')
-        s = StrucFile(args.file)
-        s.decap_gtp()
-        s.fix_resn()
-        s.remove_hydrogen()
-        s.remove_ion()
-        s.remove_water()
-        s.fix_op_atoms()
-        s.renum_atoms()
-        s.shift_atom_names()
-        s.prune_elements()
-        #print s.get_preview()
-        #s.write(args.outfile)
-        #for l in s.lines:
-        #    print l
+        ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
 
-        remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True, rename_chains=True, verbose=args.verbose)
-
+        # progress bar only in --inplace mode!
         if args.inplace:
-            with open(args.file, 'w') as f:
+            bar = progressbar.ProgressBar(max_value=len(args.file))
+            bar.update(0)
+
+        for c, f in enumerate(args.file):
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            # keep previous edits
+            previous_edits = []
+            with open(f) as fx:
+                for l in fx:
+                    if l.startswith('HEADER --'):
+                        previous_edits.append(l.strip())
+            ######################
+
+            s = StrucFile(f)
+            s.decap_gtp()
+            s.fix_resn()
+            s.remove_hydrogen()
+            s.remove_ion()
+            s.remove_water()
+            s.fix_op_atoms()
+            s.renum_atoms()
+            s.shift_atom_names()
+            s.prune_elements()
+
+            remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True,
+                                                rename_chains=True, verbose=args.verbose)
+
+            if args.inplace:
+                with open(f, 'w') as f:
+                    if not args.no_hr:
+                        f.write(add_header(version) + '\n')
+                    if previous_edits:
+                        f.write('\n'.join(previous_edits) + '\n')
+                    if remarks:
+                        f.write('\n'.join(remarks) + '\n')
+                    f.write(s.get_text())
+
+                # progress bar only in --inplace mode!
+                bar.update(c)
+
+            else:
+                output = ''
                 if not args.no_hr:
-                    f.write(add_header(version) + '\n')
-                if remarks:
-                    f.write('\n'.join(remarks) + '\n')
-                f.write(s.get_text())
+                    output += add_header(version) + '\n'
+                if remarks:    
+                    output += '\n'.join(remarks) + '\n'
+                output += s.get_text()
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
 
-        else:
-            output = ''
-            if not args.no_hr:
-                output += add_header(version) + '\n'
-            if remarks:    
-                output += '\n'.join(remarks) + '\n'
-            output += s.get_text()
-            try:
-                sys.stdout.write(output)
-                sys.stdout.flush()
-            except IOError:
-                pass
 
     if args.renumber_residues:
         s = StrucFile(args.file)
