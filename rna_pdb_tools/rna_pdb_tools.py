@@ -196,11 +196,16 @@ if __name__ == '__main__':
         print(s.get_text())
 
     if args.delete:
+        if args.inplace:
+            shutil.copy(args.file, args.file + '~')
+
         selection = select_pdb_fragment(args.delete)
         s = StrucFile(args.file)
+
+        output = ''
         if not args.no_hr:
-            print(add_header(version))
-            print('HEADER --delete ' + args.delete) #' '.join(str(selection))
+            output += add_header(version) + '\n'
+            output += 'HEADER --delete ' + args.delete + '\n' #' '.join(str(selection))
         for l in s.lines:
             if l.startswith('ATOM'):
                 chain = l[21]
@@ -208,8 +213,19 @@ if __name__ == '__main__':
                 if chain in selection:
                     if resi in selection[chain]:
                         continue  # print chain, resi
-                print(l)
+                output += l + '\n'
 
+        # write: inplace
+        if args.inplace:
+            with open(args.file, 'w') as f:
+                f.write(output)
+        else: # write: to stdout
+            try:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+            except IOError:
+                pass
+                
     if args.edit:
         edit_pdb(args)
         
