@@ -3,7 +3,7 @@
 
 Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.g. peyote ~1k"""
 import commands
-MAX_JOBS = 1000
+MAX_JOBS = 800
 
 print 'MAX_JOBS:', MAX_JOBS
 
