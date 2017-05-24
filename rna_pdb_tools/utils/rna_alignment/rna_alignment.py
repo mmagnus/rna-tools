@@ -2,6 +2,26 @@
 """RNAalignment - a module to work with RNA sequence alignments.
 
 To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
+
+    Load an alignment in the Stockholm or fasta format::
+    
+	import rna_alignment as ra
+	alignment = ra.fasta2stokholm(alignment.fasta)
+	alignment = ra.RNAalignment
+
+   Parameters of the aligmnent::
+   
+      	print alignment.describe()
+
+   Consensus SS::
+   
+   	print alignment.ss_cons_with_pk
+   
+   Get sequnce/s from teh aligment::
+   
+   	>>> seq = a.io[0]
+	
+
 """
 
 from Bio import AlignIO
