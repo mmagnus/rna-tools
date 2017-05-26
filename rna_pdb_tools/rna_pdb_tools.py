@@ -56,6 +56,9 @@ def get_parser():
     parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
                         action='store_true')
 
+    parser.add_argument('--replace_hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]" ,
+                            action="store_true")
+
     parser.add_argument('--inplace', help='in place edit the file! [experimental, only for get_rnapuzzle_ready]',
                         action='store_true')
 
@@ -184,6 +187,8 @@ if __name__ == '__main__':
             ######################
 
             s = StrucFile(f)
+            if args.replace_hetatm:
+                s.replace_hetatm()
             s.decap_gtp()
             s.fix_resn()
             s.remove_hydrogen()

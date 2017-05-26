@@ -33,6 +33,8 @@ cd rna_pdb_tools
 ./rna_pdb_tools.py --no_hr  --get_rnapuzzle_ready input/rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens.pdb > output/rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens_rpr.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle_ready input/7_Chen_2_rpr.pdb > output/7_Chen_2_rpr.pdb
 ./rna_pdb_tools.py --no_hr --rpr input/7_Chen_7_rpr.pdb > output/7_Chen_7_rpr.pdb
+./rna_pdb_tools.py --no_hr --get_rnapuzzle input/1I9V_YG_HETATM_ATOM.pdb > output/1I9V_YG_HETATM_ATOM_rpr.pdb
+./rna_pdb_tools.py --no_hr --get_rnapuzzle --replace_hetatm input/1I9V_A.pdb > output/1I9V_A_rpr.pdb
 
 # --rpr inplace fix
 cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb

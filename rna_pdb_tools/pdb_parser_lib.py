@@ -141,6 +141,13 @@ class StrucFile:
                     return True
         return False
 
+    def replace_hetatm(self):
+        nlines = []
+        for l in self.lines:
+            l = l.replace('HETATM', 'ATOM  ')
+            nlines.append(l)
+        self.lines = nlines
+        
     def fix(self, outfn="", verbose=False):
         """Add missing heavy atom.
 
@@ -899,6 +906,11 @@ class StrucFile:
                 if r.resname.strip() == 'RU': r.resname = 'U'
                 if r.resname.strip() == 'RG': r.resname = 'G'
                 if r.resname.strip() == 'RA': r.resname = 'A'
+
+                # unmodified rna 2MG -> G and take only G atoms
+                if (r.resname.strip() not in ['C', 'U', 'G', 'A']) and \
+                    (r.resname.strip()[-1] in ['C', 'U', 'G', 'A']):
+                     r.resname = r.resname.strip()[-1].strip()
 
                 r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
                 if renumber_residues:

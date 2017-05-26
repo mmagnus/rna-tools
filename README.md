@@ -68,41 +68,53 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 ## rna-pdb-tools
 
-	$ ./rna_pdb_tools.py -h
-	usage: rna-pdb-tools.py ver: a9e9c1b-dirty [-h] [-r] [-c]
-						   [--get_chain GET_CHAIN] [--fetch]
-						   [--fetch_ba] [--get_seq]
-						   [--rosetta2generic]
-						   [--get_rnapuzzle_ready] [--no_hr]
-						   [--renumber_residues]
-						   [--get_simrna_ready]
-						   [--collapsed_view] [--cv]
-						   [--edit EDIT] [--delete DELETE]
-						   file
+```
+$ ./rna_pdb_tools.py -h
+usage: rna-pdb-tools.py ver: v0.99-37-g65faa5b-dirty [-h] [-r] [-c]
+                                                     [--orgmode]
+                                                     [--get_chain GET_CHAIN]
+                                                     [--fetch] [--fetch_ba]
+                                                     [--get_seq]
+                                                     [--rosetta2generic]
+                                                     [--get_rnapuzzle_ready]
+                                                     [--rpr] [--no_hr]
+                                                     [--renumber_residues]
+                                                     [--collapsed_view] [--cv]
+                                                     [-v] [--replace_hetatm]
+                                                     [--inplace] [--edit EDIT]
+                                                     [--delete DELETE]
+                                                     file [file ...]
 
-	positional arguments:
-	  file                  file
+positional arguments:
+  file                  file
 
-	optional arguments:
-	  -h, --help            show this help message and exit
-	  -r, --report          get report
-	  -c, --clean           get clean structure
-	  --get_chain GET_CHAIN
-				get chain, .e.g A
-	  --fetch               fetch file from the PDB db
-	  --fetch_ba            fetch biological assembly from the PDB db
-	  --get_seq             get seq
-	  --rosetta2generic     convert ROSETTA-like format to a generic pdb
-	  --get_rnapuzzle_ready
-				get RNApuzzle ready (keep only standard atoms,
-				renumber residues)
-	  --no_hr               do not insert the header into files
-	  --renumber_residues
-	  --get_simrna_ready
-	  --collapsed_view
-	  --cv                  alias to collapsed_view
-	  --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
-	  --delete DELETE       delete the selected fragment, e.g. A:10-16
+optional arguments:
+  -h, --help            show this help message and exit
+  -r, --report          get report
+  -c, --clean           get clean structure
+  --orgmode             get a structure in org-mode format <sick!>
+  --get_chain GET_CHAIN
+                        get chain, .e.g A
+  --fetch               fetch file from the PDB db
+  --fetch_ba            fetch biological assembly from the PDB db
+  --get_seq             get seq
+  --rosetta2generic     convert ROSETTA-like format to a generic pdb
+  --get_rnapuzzle_ready
+                        get RNApuzzle ready (keep only standard atoms,
+                        renumber residues)
+  --rpr                 alias to get_rnapuzzle ready)
+  --no_hr               do not insert the header into files
+  --renumber_residues   by defult is false
+  --collapsed_view
+  --cv                  alias to collapsed_view
+  -v, --verbose         tell me more what you're doing, please!
+  --replace_hetatm      replace 'HETATM' with 'ATOM' [tested only with
+                        --get_rnapuzzle_ready]
+  --inplace             in place edit the file! [experimental, only for
+                        get_rnapuzzle_ready]
+  --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
+  --delete DELETE       delete the selected fragment, e.g. A:10-16
+```
 
 ## Tricks
 
