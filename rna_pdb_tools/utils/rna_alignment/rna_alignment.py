@@ -559,7 +559,9 @@ class RNAalignment(object):
         return str(self.io).split('\n')[0]
 
     def remove_empty_columns(self, verbose=False):
-        """go over all seq
+        """Remove empty columns in place.
+
+        go over all seq
         modifes self.nss_cons"""
         cols_to_rm = []
 
@@ -592,6 +594,9 @@ class RNAalignment(object):
         return self.shift * ' ' + t
     def find_core(self, ids=None):
         """Find common core for ids.
+        
+        .. image:: ../pngs/find_core.png
+        Fig. By core, we understand columns that have all homologous residues. The core is here marked by `x`.
 
         :param id: list, ids of seq in the alignment to use
         """
@@ -647,6 +652,24 @@ class RNAalignment(object):
             if verbose:
                 print (seq_str)
             if seq_str.find(seq) > -1 or seq.find(seq_str) > -1 :
+                print('Match:', s.id)
+                print(s)
+                print(seq)
+                return s
+        print('Not found')
+
+    def find_seq_exact(self, seq, verbose=False):
+        """Find seq (also subsequences) and reverse in the alignment.
+
+        :param seq: string, seq, seq is upper()
+        :param verbose: boolean, be verbose or not
+        """
+        seq = seq.replace('-','').upper()
+        for s in self.io:
+            seq_str = str(s.seq).replace('-','').upper()
+            if verbose:
+                print (seq_str)
+            if seq_str == seq:
                 print('Match:', s.id)
                 print(s)
                 print(seq)
@@ -748,7 +771,7 @@ class CMAlign():
     def run_cmalign(self, seq, cm, verbose=True):
         """Run cmalign and process the result.
 
-        :param seq: seq fn
+        :param seq: seq string
         :param cm: cm fn
 
         Run::
@@ -765,7 +788,14 @@ class CMAlign():
 
         .. warning :: requires cmalign to be set in your shell
         """
-        cmd = 'cmalign -g ' + cm + ' ' + seq # global
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        tf.name += '.seq'
+
+        with open(tf.name, 'w') as f:
+            f.write('>target\n')
+            f.write(seq + '\n')
+
+        cmd = 'cmalign -g ' + cm + ' ' + tf.name # global
         if verbose: print('cmd' + cmd)
         o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout = o.stdout.read().strip()
