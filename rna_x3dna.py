@@ -1,31 +1,32 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Parser to 3dna <http://x3dna.org/>
+"""Python parser to 3dna <http://x3dna.org/>.
 
 Installation::
 
-  BINARY_PATH = 'opt/x3dna-dssr-64bit' or  'opt/x3dna-dssr-32bit' 
-
-Basic functionality is given just by x3nda-dssr-X.
-
-[!] To use find_pair you have to install x3dna and set up X3DNA variable properly!
+  # install the code from http://forum.x3dna.org/downloads/3dna-download/
+  BINARY_PATH = <path to your x3dna-dssr file>
 
 Usage::
 
-    $ python py3dna.py
+    [mm] py3dna$ git:(master) ✗ ./rna_x3dna.py test_data/*
     test_data/1xjr.pdb
+    >1xjr nts=47 [1xjr] -- secondary structure derived by DSSR
     gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
     ..(((((((...((((.((((.....))..))..))).).)))))))
     test_data/6TNA.pdb
-    GCGGAUUUAgCUCAGuuGGGAGAGCgCCAGAcUgAAgAPcUGGAGgUCcUGUGuPCGaUCCACAGAAUUCGCACCA
+    >6TNA nts=76 [6TNA] -- secondary structure derived by DSSR
+    GCGGAUUUAgCUCAGuuGGGAGAGCgCCAGAcUgAAgAPcUGGAGgUCcUGUGtPCGaUCCACAGAAUUCGCACCA
     (((((((..((((.....[..)))).((((.........)))).....(((((..]....))))))))))))....
-
-.. warning:: it get_seq() and get_secstruc work only for 1 chain PDB file!
+    test_data/rp2_bujnicki_1_rpr.pdb
+    >rp2_bujnicki_1_rpr nts=100 [rp2_bujnicki_1_rpr] -- secondary structure derived by DSSR
+    CCGGAGGAACUACUG&CCGGCAGCCU&CCGGAGGAACUACUG&CCGGCAGCCU&CCGGAGGAACUACUG&CCGGCAGCCU&CCGGAGGAACUACUG&CCGGCAGCCU
+    [[[[(((.....(((&{{{{))))))&(((((((.....(.(&]]]]).))))&[[[[[[......[[[&))))]]].]]&}}}}(((.....(((&]]]]))))))
 
 """
-import sys
 import re
+import argparse
 
 from subprocess import Popen, PIPE
 from os import remove, path, readlink
@@ -36,18 +37,18 @@ if path.islink(PATH):
 else:
     PATH = path.dirname(path.abspath(__file__))
 
-from py3dna_config import PLATFORM
+from rna_x3dna_config import BINARY_PATH
 
-BINARY_PATH = PATH + '/opt/x3dna-dssr-' + PLATFORM
-BINARY_PATH_FP = PATH + '/opt/find_pair'
-
-
-class Py3DNAMissingFile(Exception):
-
+class x3DNAMissingFile(Exception):
     pass
 
+def get_parser():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('-c', '--compact',  action='store_true')
+    parser.add_argument('files', help='file', nargs='+')
+    return parser
 
-class Py3DNA(object):
+class x3DNA(object):
 
     """
     Atributes:
@@ -59,13 +60,12 @@ class Py3DNA(object):
 
     def __init__(self, pdbfn):
         """Set self.curr_fn based on pdbfn"""
-
         self.curr_fn = pdbfn
-        self.run_3dna()
+        self.run_x3dna()
         self.clean_up()
 
-    def get_report(self):
-        """Run find_pair
+    def __get_report(self):
+        """Off right now. Run find_pair
 
         ..warning:: To get modification use get_modifications()
         """
@@ -97,10 +97,9 @@ class Py3DNA(object):
                 text += l.replace('uncommon residue ', '') + '\n'
         return text.strip()
 
-    def run_3dna(self):
+    def run_x3dna(self):
         """
         """
-
         cmd = BINARY_PATH + ' -i=' + self.curr_fn
         out = Popen([cmd], stderr=PIPE, stdout=PIPE, shell=True)
 
@@ -119,7 +118,7 @@ class Py3DNA(object):
         rx = re.compile('no. of DNA/RNA chains:\s+(?P<no_DNARNAchains>\d+)\s').search(stdout)
         if rx:
             no_of_DNARNA_chains = int(rx.group('no_DNARNAchains'))
-            msg = 'py3dna::no_of_DNARNA_chains'
+            msg = 'py3dna::no of DNARNA chains'
             self.report = msg + '\n' + msg + '\n' # hack!
         else:
             raise Exception('no_of_DNARNA_chains not found')
@@ -146,6 +145,9 @@ File name: /tmp/tmp0pdNHS
             'dssr-multiplets.pdb',
             'dssr-stems.pdb',
             'dssr-Aminors.pdb',
+            'hel_regions.pdb',
+            'bp_order.dat',
+            'bestpairs.pdb',
             ]
 
         for f in files_to_remove:
@@ -166,25 +168,37 @@ File name: /tmp/tmp0pdNHS
     def get_secstruc(self):
         """Get secondary structure.
         """
+        return open('dssr-2ndstrs.dbn').read().strip() # self.report.split('\n')[-1]
 
-        return self.report.split('\n')[-1]
-
-
+#name
 if __name__ == '__main__':
     #directory = 'test_data'
     #pdbs = listdir(directory)
     #pdbs = ['1xjr.pdb']
-    pdbs = sys.argv[1:]
-    for f in pdbs:
-        #fn = directory + '/' + f
-        #print fn
-        fn = f
-        print f
 
-        p = Py3DNA(fn)
+    # get parser and arguments
+    parser = get_parser()
+    args = parser.parse_args()
+    
+    #try:
+    #    compact = sys.argv[2]
+    #    if compact == '-c':
+    #       compact = True
+    #
+    #except IndexError:
+    #    compact = False
 
-        s = p.get_seq()
-        print s
+    for f in args.files:
+        if args.compact:
+            p = x3DNA(f)
+            print f, p.get_secstruc()            
+        else:
+            print f
 
-        s = p.get_secstruc()
-        print s
+            p = x3DNA(f)
+
+            #s = p.get_seq()
+            #print s
+
+            s = p.get_secstruc()
+            print s
