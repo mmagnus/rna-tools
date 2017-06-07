@@ -61,6 +61,12 @@ Example::
 	> 10_BUJNICKI_4 B:1-96
 	UGCGAUGAGAAGAAGAGUAUUAAGGAUUUACUAUGAUUAGCGACUCUAGGAUAGUGAAAGCUAGAGGAUAGUAACCUUAAGAAGGCACUUCGAGCA
 
+get secondary structures of your PDB files
+--------------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rna_x3dna.rna_x3dna
+   :members:
+
 delete a part of of your structure
 --------------------------------------------
 

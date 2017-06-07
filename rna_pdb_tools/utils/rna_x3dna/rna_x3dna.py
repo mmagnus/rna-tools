@@ -8,7 +8,15 @@ Installation::
   # install the code from http://forum.x3dna.org/downloads/3dna-download/
   BINARY_PATH = <path to your x3dna-dssr file>
 
-Usage::
+For one structure you can run this script as::
+
+    ./rna_x3dna.py test_data/1xjr.pdb
+    test_data/1xjr.pdb
+    >1xjr nts=47 [1xjr] -- secondary structure derived by DSSR
+    gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+    ..(((((((...((((.((((.....))..))..))).).)))))))
+
+For multiple structures in the folder, run the script like this::
 
     [mm] py3dna$ git:(master) ✗ ./rna_x3dna.py test_data/*
     test_data/1xjr.pdb

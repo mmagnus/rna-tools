@@ -188,6 +188,12 @@ Secondary structure (secstruc)
 .. automodule:: rna_pdb_tools.utils.secstruc.secstruc
    :members:
 
+x3DNA (contacts classification & secondary structure detection)
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rna_x3dna.rna_x3dna
+   :members:
+
 ClaRNA (contacts classification)
 -----------------------------------------
 
