@@ -10,7 +10,7 @@ Installation::
 
 For one structure you can run this script as::
 
-    ./rna_x3dna.py test_data/1xjr.pdb
+    [mm] py3dna$ git:(master) ✗ ./rna_x3dna.py test_data/1xjr.pdb
     test_data/1xjr.pdb
     >1xjr nts=47 [1xjr] -- secondary structure derived by DSSR
     gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
