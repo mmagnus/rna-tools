@@ -180,9 +180,8 @@ File name: /tmp/tmp0pdNHS
 
 #name
 if __name__ == '__main__':
-    #directory = 'test_data'
-    #pdbs = listdir(directory)
-    #pdbs = ['1xjr.pdb']
+    if not BINARY_PATH:
+        raise Exception('Set up BINARY_PATH in rna_x3dna_config_local.py, .e.g "/Users/magnus/work/opt/x3dna/x3dna-dssr"')
 
     # get parser and arguments
     parser = get_parser()
