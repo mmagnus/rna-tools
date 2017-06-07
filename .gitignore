@@ -20,5 +20,5 @@ rpt_config_local.py
 *.ps
 *dssr*
 *log*
-*config_local*
+*config_local.py*
 
