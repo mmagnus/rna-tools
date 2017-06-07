@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
             output = ''
             output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n' # with # is easier to grep this out
-            output += s.get_seq()
+            output += s.get_seq() + '\n'
             try:
                 sys.stdout.write(output)
                 sys.stdout.flush()
