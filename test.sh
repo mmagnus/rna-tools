@@ -57,6 +57,8 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr.pdb > output/2_bujnicki_1_rpr.txt
 ./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr_BA_chain_swap.pdb > output/2_bujnicki_1_rpr_BA_chain_swap.txt
 
+## --get_ss
+./rna_pdb_tools.py --get_ss input/1xjr*.pdb > output/secondary_structures.txt
 # off for now
 #./rna_pdb_seq.py input/1ykq_clx.pdb > output/1ykq_clx.seq
 #./rna_pdb_seq.py input/1xjr.pdb > output/1xjr2.seq

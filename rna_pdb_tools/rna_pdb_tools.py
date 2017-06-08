@@ -9,6 +9,7 @@ import time
 import progressbar
 
 from pdb_parser_lib import *
+from utils.rna_x3dna.rna_x3dna import x3DNA
 
 def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
@@ -31,6 +32,8 @@ def get_parser():
     parser.add_argument('--fetch_ba', action='store_true', help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get_seq', help='get seq', action='store_true')
+
+    parser.add_argument('--get_ss', help='get secondary structure', action='store_true')
 
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
@@ -131,6 +134,21 @@ if __name__ == '__main__':
             output = ''
             output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n' # with # is easier to grep this out
             output += s.get_seq() + '\n'
+            try:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+            except IOError:
+                pass
+
+    if args.get_ss:
+        ## quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            output = f + '\n'
+            p = x3DNA(f)
+            output += p.get_secstruc() + '\n'
             try:
                 sys.stdout.write(output)
                 sys.stdout.flush()

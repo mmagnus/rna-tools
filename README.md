@@ -69,12 +69,12 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 ## rna-pdb-tools
 
 ```
-$ ./rna_pdb_tools.py -h
-usage: rna-pdb-tools.py ver: v0.99-37-g65faa5b-dirty [-h] [-r] [-c]
+[mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
+usage: rna-pdb-tools.py ver: v0.99-61-g6ce048f-dirty [-h] [-r] [-c]
                                                      [--orgmode]
                                                      [--get_chain GET_CHAIN]
                                                      [--fetch] [--fetch_ba]
-                                                     [--get_seq]
+                                                     [--get_seq] [--get_ss]
                                                      [--rosetta2generic]
                                                      [--get_rnapuzzle_ready]
                                                      [--rpr] [--no_hr]
@@ -98,6 +98,7 @@ optional arguments:
   --fetch               fetch file from the PDB db
   --fetch_ba            fetch biological assembly from the PDB db
   --get_seq             get seq
+  --get_ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
   --get_rnapuzzle_ready
                         get RNApuzzle ready (keep only standard atoms,
@@ -217,6 +218,8 @@ This packages uses other pieces of software, it would be impossible without them
 + forgi (http://www.tbi.univie.ac.at/%7Ethiel/forgi/graph_tutorial.html)
 
 ## History
+
+170608 Add `--get_ss` (secondary structure) using x3dna.
 
 170518 Edit in place [experimental, only for `get_rnapuzzle_ready`] `rna_pdb_tools.py --rpr 7_Das_7_rpr.pdb --inplace`. (2) get a structure in org-mode format <sick!>
 
