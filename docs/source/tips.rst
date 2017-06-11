@@ -65,7 +65,7 @@ Rename a chain::
 
 don't forget about `sort`.
 
-To renumber a fragment starting with 24 to 29, select the fragment and
+To renumber a fragment starting with 24 to 29, select the fragment and::
 
 	PyMOL>alter (sele), resv += 5
 	 Alter: modified 109 atoms.
