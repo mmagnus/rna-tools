@@ -4,7 +4,7 @@ import subprocess
 import os
 import tempfile
 from rpt_config import RFAM_DB_PATH
-from Seq import Seq
+from Seq import RNASequence
 
 class RfamSearchError(Exception):
     pass
@@ -51,7 +51,7 @@ class RfamSearch():
         return self.output
 #main
 if __name__ == '__main__':
-    seq = Seq("GGCGCGGCACCGUCCGCGGAACAAACGG")
+    seq = RNASequence("GGCGCGGCACCGUCCGCGGAACAAACGG")
     rs = RfamSearch()
     hit = rs.cmscan(seq)
     print hit

@@ -7,8 +7,6 @@ Class in the package (@todo).
 RNA Sequence
 ------------------------------------------
 
-@todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
-
 .. automodule:: rna_pdb_tools.Seq
    :members:
 

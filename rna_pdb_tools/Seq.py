@@ -1,12 +1,35 @@
 #!/usr/bin/env python
 
-"""Seq and secondary structure prediction.
+"""RNA Sequence with secondary structure prediction methods.
+
+This tool takes a given sequence and returns the secondary structure prediction provided by 5 different tools: RNAfold, RNAsubopt, ipknot, contextfold and centroid_fold. You must have these tools installed. You don't have to install all tools if you want to use only one of the methods.
+
+It's easy to add more methods of your choince to this class.
 
 Installation:
 
-- ContextFold needs java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 
+- ContextFold needs Java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 
 
-Q: does it work for more than one chain??? Hmm.. I think it's not.
+FAQ:
+
+- Does it work for more than one chain??? Hmm.. I think it's not. You have to check on your own. --magnus
+
+TIPS:
+
+Should you need to run it on a list of sequences, use the following script::
+
+    from rna_pdb_tools import Seq
+    f = open("listOfSequences.fasta")
+    for line in f:
+     if line.startswith('>'):
+       print line,
+     else:
+       print line,
+       s = Seq.Seq(line.strip()) # module first Seq and class second Seq #without strip this has two lines
+       print s.predict_ss(method="contextfold"),
+       #print s.predict_ss(method="centroid_fold")
+
+@todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
 """
 
 import subprocess
@@ -14,17 +37,18 @@ import tempfile
 
 from rpt_config import *
 
-class Seq:
-    """Seq.
+class RNASequence:
+    """RNASequence.
 
     Usage::
 
-        >>> seq = Seq("CCCCUUUUGGGG")
+        >>> seq = RNASequence("CCCCUUUUGGGG")
         >>> seq.name = 'RNA03'
         >>> print(seq.predict_ss("RNAfold", constraints="((((....))))"))
         >RNA03
         CCCCUUUUGGGG
         ((((....)))) ( -6.40)
+
     """
     def __init__(self, seq):
         self.seq = seq
@@ -110,13 +134,16 @@ class Seq:
             return self.ss
         else:
             return self.predict_ss()
-        
+
 #main
 if __name__ == '__main__':
-    seq = Seq("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
+    import doctest
+    doctest.testmod()
+    
+    seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA01'
     print(seq.predict_ss("RNAfold", constraints="((((...............................................................))))"))
-    seq = Seq("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
+    seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA02'
     print(seq.predict_ss("RNAsubopt", constraints="((((...............................................................))))"))
 
