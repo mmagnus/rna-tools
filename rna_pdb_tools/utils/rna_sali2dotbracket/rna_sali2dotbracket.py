@@ -16,7 +16,7 @@ dic_ss_elements = {'>':')', '<':'(', '[':'(', ']':')', '~':'-', '^':'.'}
 
 def repl(m):
   """This function will replace the length of a given string by the correspondent number of dashes.
-  The expression "qwerty" will be replaced by `"------"`.
+  The expression ``qwerty`` will be replaced by ``-----``.
   """
   return '-' * len(m.group())
 
