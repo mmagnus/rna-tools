@@ -12,11 +12,17 @@ class RfamSearchError(Exception):
 class RfamSearch():
     """RfamSearch (local).
 
-    Infernal cmscan is used to search the CM-format Rfam database.
+     Rfam is a collection of multiple sequence alignments and covariance models representing non-coding RNA families. Rfam is available on the web http://rfam.xfam.org/. The website allow the user to search a query sequence against a library of covariance models, and view multiple sequence alignments and family annotation. The database can also be downloaded in flatfile form and searched locally using the INFERNAL package (http://infernal.wustl.edu/). The first release of Rfam (1.0) contains 25 families, which annotate over 50 000 non-coding RNA genes in the taxonomic divisions of the EMBL nucleotide database.
 
-    Set up ``RFAM_DB_PATH``
+    Infernal ("INFERence of RNA ALignment") is for searching DNA sequence databases for RNA structure and sequence similarities. It is an implementation of a special case of profile stochastic context-free grammars called covariance models (CMs). A CM is like a sequence profile, but it scores a combination of sequence consensus and RNA secondary structure consensus, so in many cases, it is more capable of identifying RNA homologs that conserve their secondary structure more than their primary sequence.
 
-    Install http://eddylab.org/infernal/
+    Infernal `cmscan` is used to search the CM-format Rfam database.
+
+    Setup:
+
+    - download the database from ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT (file: Rfam.cm.gz, ~30mb)
+    - install http://eddylab.org/infernal/
+    - set up ``RFAM_DB_PATH`` in the config file of rna-pdb-tools.
 
     Cite: Nawrocki and S. R. Eddy, Infernal 1.1: 100-fold faster RNA homology searches, Bioinformatics 29:2933-2935 (2013). """
     def __init__(self):
@@ -25,11 +31,17 @@ class RfamSearch():
     def cmscan(self, seq):
         """Run cmscan on the seq.
 
+        Usage::
+
+           >>> seq = RNASequence("GGCGCGGCACCGUCCGCGGAACAAACGG")
+           >>> rs = RfamSearch()
+           >>> hit = rs.cmscan(seq)
+           >>> print(hit)  #doctest: +ELLIPSIS
+           # cmscan :: search sequence(s) against a CM database...
+
         :param seq: string
         :returns: result
         :rtype: string """
-        print(seq)
-
         # make tmp file
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf.name += '.fa'
@@ -55,3 +67,6 @@ if __name__ == '__main__':
     rs = RfamSearch()
     hit = rs.cmscan(seq)
     print hit
+
+    import doctest
+    doctest.testmod()
