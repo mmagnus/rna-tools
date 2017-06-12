@@ -1,8 +1,5 @@
 Utils
 =========================================
-Class in the package (@todo).
-
-.. inheritance-diagram:: rna_pdb_tools.Seq rna_pdb_tools.pdb_parser_lib rna_pdb_tools.utils.rna_alignment.rna_alignment.RNAalignment rna_pdb_tools.utils.rna_alignment.rna_alignment.CMAlign
 
 RNA Sequence
 ------------------------------------------
@@ -10,7 +7,7 @@ RNA Sequence
 .. automodule:: rna_pdb_tools.Seq
    :members:
 
-BlastPDB
+Blast PDB
 ------------------------------------------
 
 A super-simple wrapper around Blast on the PDB db (online).
@@ -18,7 +15,7 @@ A super-simple wrapper around Blast on the PDB db (online).
 .. automodule:: rna_pdb_tools.BlastPDB
    :members:
 
-RfamSearch
+Rfam Search
 ------------------------------------------
 
 A super-simple wrapper around cmscan (Infernal) on local RFAM.
@@ -123,7 +120,7 @@ diffpdb
 
 .. image:: ../../rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
 
-rna_filter
+RNA filter
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
