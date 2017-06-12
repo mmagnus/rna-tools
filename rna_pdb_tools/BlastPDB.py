@@ -3,7 +3,17 @@
 import urllib2
 
 class BlastPDB:
-    """BlastPDB
+    """BlastPDB - run Blast online on the PDB database.
+
+    This can be used in Jupiter based RNA notebooks, e.g. 
+    https://github.com/mmagnus/rna-pdb-tools/blob/master/rp18.ipynb
+    
+    Usage::
+
+       >>> p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
+       >>> p.search()
+       >>> p.result  #doctest: +ELLIPSIS
+       '<HTML>\\n<TITLE>BLAST Search Results</TITLE>...
 
     :param seq: string
     """
@@ -20,3 +30,6 @@ if __name__ == '__main__':
     p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
     p.search()
     print(p.result)
+
+    import doctest
+    doctest.testmod()
