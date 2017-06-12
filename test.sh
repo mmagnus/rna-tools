@@ -111,3 +111,6 @@ cd ../..
 
 cd ..
 codecov --token=e78310dd-7a28-4837-98ef-c93533a84c5b
+
+# clean up
+rm rchie.png
