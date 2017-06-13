@@ -225,6 +225,12 @@ SimRNATrajectory
    :members:
 
 
+RNAkb
+-----------------------------------------
+
+.. automodule:: rna_pdb_tools.utils.rnakb_utils.rnakb_utils
+   :members:
+
 ROSETTA
 -----------------------------------------
 
