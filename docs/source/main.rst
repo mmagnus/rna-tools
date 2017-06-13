@@ -7,13 +7,13 @@ rna-pdb-tools is the main code of this library.
    :ref: rna_pdb_tools.rna_pdb_tools.get_parser
    :prog: rna_pdb_tools.py
 
-Get RNAPuzzle ready
+get RNAPuzzle ready
 -----------------------------------------
 
 .. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
    :members: get_rnapuzzle_ready
 
-Get sequence
+get sequence
 -----------------------------------------
 
 Example::
@@ -25,7 +25,7 @@ Example::
 .. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
    :members: get_seq
 
-Fetch
+fetch
 -----------------------------------------
 
 Example::
@@ -35,7 +35,7 @@ Example::
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch
 
-Fetch Biological Assembly
+fetch Biological Assembly
 -----------------------------------------
 
 Example::
@@ -58,7 +58,7 @@ or over a list of pdb ids in a text file::
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch_ba
 
-Delete
+delete
 -----------------------------------------
 
 Examples::
@@ -67,12 +67,12 @@ Examples::
 
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
-Edit
+edit
 -----------------------------------------
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.edit_pdb
 
-The library
+the library
 -----------------------------------------
 
   .. automodule:: rna_pdb_tools.pdb_parser_lib
