@@ -13,8 +13,6 @@ Albert Bogdanowicz
 
 import re
 import os
-import PDBFile as pf
-import os
 
 LIB_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 VERBOSE = False
