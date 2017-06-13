@@ -1,0 +1,28 @@
+input/1xjr.pdb
+>1xjr nts=47 [1xjr] -- secondary structure derived by DSSR
+gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+input/1xjr_GTP.pdb
+>1xjr_GTP nts=1 [1xjr_GTP] -- secondary structure derived by DSSR
+g
+.
+input/1xjr_clx_charmm.pdb
+>1xjr_clx_charmm nts=46 [1xjr_clx_charmm] -- secondary structure derived by DSSR
+GAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+.(((((((...((((.((((.....))..))..))).).)))))))
+input/1xjr_missing_atom.pdb
+>1xjr_missing_atom nts=3 [1xjr_missing_atom] -- secondary structure derived by DSSR
+gGA
+...
+input/1xjr_no_op3.pdb
+>1xjr_no_op3 nts=2 [1xjr_no_op3] -- secondary structure derived by DSSR
+g&A
+.&.
+input/1xjr_no_op3_simrna_ready.pdb
+>1xjr_no_op3_simrna_ready nts=2 [1xjr_no_op3_simrna_ready] -- secondary structure derived by DSSR
+G&A
+.&.
+input/1xjr_onlyGTP.pdb
+>1xjr_onlyGTP nts=1 [1xjr_onlyGTP] -- secondary structure derived by DSSR
+g
+.
