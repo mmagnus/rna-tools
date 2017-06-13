@@ -116,7 +116,12 @@ RNA filter
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
-   :members:
+		
+as a cmd tool:
+   
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_filter.rna_filter.get_parser
+   :prog: rna_helix_vis
 
 Secondary structure format conversion
 -----------------------------------------

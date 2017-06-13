@@ -1,5 +1,31 @@
 #!/usr/bin/env python
-"""rna_filter"""
+"""rna_filter - a simple script to calculate distances based on given restrants on PDB files or SimRNA trajectories
+
+Usage::
+
+    $ python rna_filter.py -r restraints.txt -s test_data/CG.pdb -v
+    (d:A1-A2 <  10.0  1)|(d:A2-A1 <= 10 1)
+     restraints [('A1', 'A2', '<', '10.0', '1'), ('A2', 'A1', '<=', '10', '1')]
+
+    test_data/CG.pdb
+     mb for  A1 [ 54.729   28.9375  41.421 ]
+     mb for  A2 [ 55.3425  35.3605  42.7455]
+      d:A1-A2 6.58677550096
+      d:A2-A1 6.58677550096
+
+    $ python rna_filter.py -r restraints.txt -t test_data/CG.trafl -v
+    (d:A1-A2 <  10.0  1)|(d:A2-A1 <= 10 1)
+     restraints [('A1', 'A2', '<', '10.0', '1'), ('A2', 'A1', '<=', '10', '1')]
+
+    Frame #1 e:1252.26
+      mb for A1 [ 54.729   28.9375  41.421 ]
+      mb for A2 [ 55.3425  35.3605  42.7455]
+       d:A1-A2 6.58677550096
+      mb for A2 [ 55.3425  35.3605  42.7455]
+      mb for A1 [ 54.729   28.9375  41.421 ]
+       d:A2-A1 6.58677550096
+
+"""
 
 from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import get_coordinates
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
@@ -22,8 +48,6 @@ def parse_logic(restraints_fn, verbose):
     return restraints # [('A9', 'A41', '10.0', '1'), ('A10', 'A16', '10', '1')]
 
 def get_distance(a,b):
-    """
-    """
     diff = a - b
     return np.sqrt(np.dot(diff, diff)) 
 
@@ -83,9 +107,8 @@ def get_residues(pdb_fn, restraints, verbose):
         print((' mb for ', str(r), residues[r]['mb']))
     return residues
 
-# main
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(usage="prog [<options>] <pdb files: test_data/*>")
+def get_parser():
+    parser = argparse.ArgumentParser()#usage="prog [<options>] <pdb files: test_data/*>")
 
     parser.add_argument('-r',"--restraints_fn",
                         dest="restraints_fn",
@@ -102,7 +125,11 @@ Format:
     parser.add_argument('-s', dest="structures", help='structures', nargs='+')#, type=string)
 
     parser.add_argument('-t', dest="trajectory")#help='structures', nargs='+')#, type=string)
+    return parser
 
+# main
+if __name__ == '__main__':
+    parser = get_parser()
     args = parser.parse_args()
 
     pdb_files = args.structures
@@ -112,17 +139,17 @@ Format:
     #print ((True|True)|(False|False)), score
 
     restraints = parse_logic(restraints_fn, verbose)
-    print((' restraints', restraints))
+    print(' restraints', restraints)
 
     # h = ('A1', 'A2', '<', '10.0', '1')
     if args.structures:
         for pdb_fn in pdb_files:
-            print(('\n', pdb_fn))
+            print('\n', pdb_fn)
             residues = get_residues(pdb_fn, restraints, verbose)
             for h in restraints:
                 dist = get_distance(residues[h[0]]['mb'], residues[h[1]]['mb'])
                 if verbose:
-                    print(('  d:' + h[0] + '-' + h[1] + ' ' + str(dist)))
+                    print('  d:' + h[0] + '-' + h[1] + ' ' + str(dist))
 
     if args.trajectory:
         print()
@@ -147,4 +174,4 @@ Format:
                 #print '  mb for A' + str(a+1), a_mb
                 #print '  mb for A' + str(b+1), b_mb
                 dist = get_distance(a_mb, b_mb)
-                print(('   d:A' + str(a+1) + "-A" + str(b+1),  dist))
+                print('   d:A' + str(a+1) + "-A" + str(b+1),  dist)
