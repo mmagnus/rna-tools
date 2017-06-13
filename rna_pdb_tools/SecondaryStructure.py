@@ -14,6 +14,18 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
 
     If everything is OK, return None, if an error (=exception) return stderr.
 
+    Usage::
+
+       >>> seq = 'GGAAACC'
+       >>> ss =  '((...))'
+       >>> img_out = 'output/demo.png'
+       >>> draw_ss('rna', seq, ss, img_out)
+       >>> print('Made %s' % img_out)
+       Made output/demo.png
+
+    .. image:: ../../rna_pdb_tools/output/demo.png
+       :scale: 25 %
+
     Can be used with http://geekbook.readthedocs.io/en/latest/rna.html"""
     curr = os.getcwd()
     os.chdir(VARNA_PATH)#VARNAv3-93-src')
@@ -35,8 +47,5 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
 
     
 if __name__ == '__main__':
-    seq = 'AAAAAAA'
-    ss =  '((...))'
-    img_out = 'output/demo.png'
-    draw_ss('rna', seq, ss, img_out)
-    print('Made %s' % img_out)
+    import doctest
+    doctest.testmod()
