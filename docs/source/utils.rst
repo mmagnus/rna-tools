@@ -84,6 +84,15 @@ rna_calc_rmsd
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd
    :members:
 
+rna_calc_evo_rmsd
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_pdb_tools.utils.rna_calc_evo_rmsd.rna_calc_evo_rmsd
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_evo_rmsd.rna_calc_evo_rmsd.get_parser
+   :prog: rna_calc_evo_rmsd
+
 rna_calc_rmsd_all_vs_all
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
