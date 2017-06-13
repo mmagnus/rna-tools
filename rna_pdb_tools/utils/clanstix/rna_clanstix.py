@@ -1,10 +1,52 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""Clanstix - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans.
+
+We hacked Clans thus instead of BLAST-based distances between sequences, you can analyze distances between structures described as p-values of rmsd (based on the method from the Dokholyan lab.)
+
+Running Clans:
+To run CLANS you need to have Java 1.4 or better installed (java can be downloaded HERE). For full functionality you will also need the NCBI BLAST,PSI-BLAST and formatdb executables (NCBI). For command line parameters and basic help please refer to the README file.
+(source: http://www.eb.tuebingen.mpg.de/research/departments/protein-evolution/software/clans.html)
+
+.. image:: ../../rna_pdb_tools/utils/clanstix/doc/yndSrLTb7l.gif
+
+The RMSDs between structures are converted into p-values based on the method from the Dokholyan lab.
+
+How to use ClanstixRNA?
+
+1. Get a matrix of distances, save it as e.g. matrix.txt
+2. run ClanstixRNA on this matrix to get an input file to Clans (e.g. clans_rna.txt)::
+
+     clanstix.py test_data/matrix.txt > clans_run.txt
+
+3. open CLANS and click File -> Load run and load clans_run.txt
+4. You're done! :-)
+
+Hajdin, C. E., Ding, F., Dokholyan, N. V, & Weeks, K. M. (2010). On the significance of an RNA tertiary structure prediction. RNA (New York, N.Y.), 16(7), 1340–9. doi:10.1261/rna.1837410
+
+An output of this tool can be viewed using CLANS.
+
+Frickey, T., & Lupas, A. (2004). CLANS: a Java application for visualizing protein families based on pairwise similarity. Bioinformatics (Oxford, England), 20(18), 3702–4. doi:10.1093/bioinformatics/bth444
+"""
 
 import random
 import sys
 import rna_pdb_tools.utils.rmsd_signif.rnastruc_pred_signif as pv
 
 class RNAStructClans:
+    """
+
+    Usage::
+
+        >>> f = open('matrix.txt')
+        >>> ids = f.readline().replace('#','').split()
+        >>> c = RNAStructClans(n=len(ids)) # 200?
+        >>> c.add_ids(ids)
+        >>> c.dist_from_matrix(f)
+        >>> print(c.txt)
+    """
+
     def __init__(self, n=10):
         self.n = n
         self.txt = """sequences=%i
