@@ -106,7 +106,11 @@ rna_calc_inf
 diffpdb
 -----------------------------------------
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
+.. automodule:: rna_pdb_tools.utils.diffpdb.diffpdb
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.diffpdb.diffpdb.get_parser
+   :prog: rna_helix_vis
 
 RNA filter
 -----------------------------------------

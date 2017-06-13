@@ -1,8 +1,30 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""
-ATOM    561  O3'   C    27
+"""diffpdb - a simple tool to compare text-content of PDB files
+
+The method is quick-and-dirty, but works!
+
+The script takes first 31 characters of lines (or only atom names and residue names)
+starting with ``HETATM`` or ``ATOM`` and save these lines to a <filename>.out file.
+
+One file is created per pdb. In the final step DIFF_TOOL is executed 
+on these two output files. You get a diff output. That's it! Enjoy!
+
+Configuration:
+
+ * ``DIFF_TOOL="open -a diffmerge"`` or ``DIFF_TOOL="kompare"`` to set up what tool would you like to use to diff files in the file ``rna-pdb-tools/utils/diffpdb/diffpdb_conf.py`` (create it if needed)
+
+.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/screenshot.png
+
+``./diffpdb.py --names test_data/4/1duq.pdb test_data/4/1duq_decoy0171_amb_clx.pdb``
+
+.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/screenshot2.png
+
+and on the Mac (using ``diffmerge``):
+
+.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
+
 """
 import sys
 import os
@@ -51,8 +73,7 @@ def do_file(fn):
             text_new += l + '\n'
     open(fn + '.out', 'w').write(text_new)
 
-
-if __name__ == '__main__':
+def get_parser():
     parser = argparse.ArgumentParser('diffpdb.py')
     parser.add_argument('--names', help='take only atom residues names', action='store_true')
     parser.add_argument('--names_and_resi', help='take only atom residues names', action='store_true')
@@ -60,7 +81,10 @@ if __name__ == '__main__':
     parser.add_argument('--method', help='method e.g. `diff`')#, action='store_true')
     parser.add_argument('f1', help='file')     
     parser.add_argument('f2', help='file')     
+    return parser
 
+if __name__ == '__main__':
+    parser = get_parser()
     args = parser.parse_args()
     
     str1_fn = args.f1
