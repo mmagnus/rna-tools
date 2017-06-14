@@ -36,6 +36,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_find_core.py $curr_d
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_get_ss_from_alignment.py $curr_dir/bin/rna_align_get_ss_from_alignment.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/rna_refinement/rna_refinement.py $curr_dir/bin/rna_refinement.py
+
 ln -s $curr_dir/rna_pdb_tools/rna_pdb_download_simrna_job.py $curr_dir/bin/rna_pdb_download_simrna_job.py
 
 echo 'Installed in ./bin'
