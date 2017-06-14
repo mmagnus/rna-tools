@@ -25,6 +25,14 @@ and on the Mac (using ``diffmerge``):
 
 .. image:: ../../rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
 
+One of the difference that can be detected with the script is variants of atoms.
+
+.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/atom-variants.png
+
+or a detection of missing atom.
+
+.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/missing-atoms.png
+
 """
 import sys
 import os
