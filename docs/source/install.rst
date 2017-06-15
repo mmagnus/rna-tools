@@ -16,9 +16,9 @@ To install the full set of requirements, use ``pip``:
 
 and install the package itself in three steps:
 
-1. add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. ``PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/``
+1. add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. ``export PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/``
    
-2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  ``PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/``
+2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  ``export PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/``
    
 3. and run the install script::
 
