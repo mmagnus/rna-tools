@@ -125,13 +125,13 @@ optional arguments:
     10_rp17c.out.14_out.pdb
     [..]
     
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --c $i > ${i/.pdb/_clx.pdb}; done
+    $ for i in *.pdb; do rna_pdb_tools.py --c $i > ${i/.pdb/_clx.pdb}; done
     
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 
 .. keep original structures in original and use rpr:
 
-    ➜  bujnicki_server_ss for i in `ls original/*.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    ➜  bujnicki_server_ss for i in original/*.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
     ➜  bujnicki_server_ss ls
     17pz_withSS_all_thrs6.00A_clust01-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust06-000001_AA_rpr.pdb
     17pz_withSS_all_thrs6.00A_clust02-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust07-000001_AA_rpr.pdb
@@ -141,7 +141,7 @@ optional arguments:
 
 .. or to get SimRNAready structures:
 
-    $ for i in `ls *pdb`; do rna_pdb_tools.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
+    $ for i in *pdb; do rna_pdb_tools.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
     
 ## Utils
 

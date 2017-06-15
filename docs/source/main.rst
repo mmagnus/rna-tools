@@ -63,7 +63,7 @@ delete
 
 Examples::
 
-    $ for i in `ls *pdb`; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
@@ -77,4 +77,3 @@ the library
 
   .. automodule:: rna_pdb_tools.pdb_parser_lib
    :members:
-

@@ -7,11 +7,11 @@ Run in batch
 
 You can easily run a single tool in batch and rename new files::
   
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 
 or write new files in a different folder (`out`)::
 
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ../out/$i; done
+    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ../out/$i; done
 
 You can also easily run a single tool parallel using parallel_::
 

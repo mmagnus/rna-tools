@@ -71,7 +71,7 @@ delete a part of of your structure
 
 Examples::
 
-    $ for i in `ls *pdb`; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
@@ -100,7 +100,7 @@ or even::
 
 or even, even, do rename X chain to A only for Chen's pdb structures in the folder, in place (so don't create a new file)::
 
-    for i in `ls *Chen*`; do rna_pdb_tools.py --edit 'X:1-125>A:1-125' $i > ${i}_temp; mv ${i}_temp ${i}; done
+    for i in *Chen*; do rna_pdb_tools.py --edit 'X:1-125>A:1-125' $i > ${i}_temp; mv ${i}_temp ${i}; done
     # do only edit for Chen's pdb structures, in place.
     
 find missing atoms in my structure
