@@ -45,8 +45,10 @@ You have to renumber 1msy_clean.pdb to 1:27::
 Example #2
 -----------------------------------------------------------------------
 
-Listing::
+Listing:
   
+.. code-block:: console
+		
     $ rna_pdb_tools.py --get_seq 1nuj_rnakbmd_decoy1000_clx.pdb
     > 1nuj_rnakbmd_decoy1000_clx.pdb A:1-13
     CGGACCGAGCCAG
