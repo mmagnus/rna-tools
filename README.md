@@ -70,20 +70,21 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
-usage: rna-pdb-tools.py ver: v0.99-61-g6ce048f-dirty [-h] [-r] [-c]
-                                                     [--orgmode]
-                                                     [--get_chain GET_CHAIN]
-                                                     [--fetch] [--fetch_ba]
-                                                     [--get_seq] [--get_ss]
-                                                     [--rosetta2generic]
-                                                     [--get_rnapuzzle_ready]
-                                                     [--rpr] [--no_hr]
-                                                     [--renumber_residues]
-                                                     [--collapsed_view] [--cv]
-                                                     [-v] [--replace_hetatm]
-                                                     [--inplace] [--edit EDIT]
-                                                     [--delete DELETE]
-                                                     file [file ...]
+usage: rna_pdb_tools.py [-h] [-r] [-c] [--orgmode] [--get_chain GET_CHAIN]
+                        [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
+                        [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
+                        [--no_hr] [--renumber_residues] [--collapsed_view]
+                        [--cv] [-v] [--replace_hetatm] [--inplace]
+                        [--edit EDIT] [--delete DELETE]
+                        file [file ...]
+
+rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+
+Usage::
+
+   $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+
+v0.99-97-g9247350-dirty
 
 positional arguments:
   file                  file
@@ -112,7 +113,7 @@ optional arguments:
   --replace_hetatm      replace 'HETATM' with 'ATOM' [tested only with
                         --get_rnapuzzle_ready]
   --inplace             in place edit the file! [experimental, only for
-                        get_rnapuzzle_ready]
+                        get_rnapuzzle_ready, delete, get_ss, get_seq]
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
   --delete DELETE       delete the selected fragment, e.g. A:10-16
 ```

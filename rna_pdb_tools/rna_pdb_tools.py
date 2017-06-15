@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""rna_pdb_tools main parser code."""
+"""rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+
+Usage::
+
+   $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+
+"""
 
 import argparse
 import os
@@ -14,7 +20,8 @@ from utils.rna_x3dna.rna_x3dna import x3DNA
 def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
-    parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
+    parser = argparse.ArgumentParser(description=__doc__ + '\n' + version, formatter_class=argparse.RawDescriptionHelpFormatter)
+    #parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
 
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
@@ -62,7 +69,7 @@ def get_parser():
     parser.add_argument('--replace_hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]" ,
                             action="store_true")
 
-    parser.add_argument('--inplace', help='in place edit the file! [experimental, only for get_rnapuzzle_ready]',
+    parser.add_argument('--inplace', help='in place edit the file! [experimental, only for get_rnapuzzle_ready, delete, get_ss, get_seq]',
                         action='store_true')
 
     parser.add_argument('--edit',
