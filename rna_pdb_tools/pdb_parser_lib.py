@@ -779,7 +779,7 @@ class StrucFile:
             return None
 
     def set_atom_index(self, line, index):
-        return line[:7] + str(index).rjust(4) + line[11:]
+        return line[:6] + str(index).rjust(5) + line[11:]
 
     def get_res_index(self, line):
         return int(line[22:26])
