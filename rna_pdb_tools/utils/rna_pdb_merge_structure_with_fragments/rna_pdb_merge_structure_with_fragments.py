@@ -27,22 +27,22 @@ class Struc:
         fragments = fragments[1:] # to remoev first ;
         
         self.fragments = fragments
-        print 'fragments in pdb', self.fragments
+        print('fragments in pdb', self.fragments)
 
     def merge(self):
         v = self.v
         txt = self.fragments
         txt = txt.replace(' ','')
-        if v:print txt
+        if v:print(txt)
         l = re.split('[,:;]', txt)
-        if v:print l 
+        if v:print(l) 
         
         if v:
-            print 'ring', self.ring
+            print('ring', self.ring)
 
         for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
             if i in string.ascii_letters:
-                if v:print 'chain', i
+                if v:print('chain', i)
                 chain_curr = i
                 continue
 
@@ -50,7 +50,7 @@ class Struc:
                 start, ends = i.split('-')
                 if start > ends:
                     return 'Error: range start > end ' + i
-                index = range(int(start), int(ends)+1)
+                index = list(range(int(start), int(ends)+1))
             else:
                 index=[int(i)]
 
@@ -71,7 +71,7 @@ class Struc:
                         return 'Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure (seq)'
 
                 if residue_ring.get_resname() == residue_pdb.get_resname():
-                    if v:print i, residue_ring.get_resname(), residue_pdb.get_resname() ,' ...coping'
+                    if v:print(i, residue_ring.get_resname(), residue_pdb.get_resname() ,' ...coping')
                     to_remove = self.ring[0][chain_curr][i].copy()
                     for a in to_remove:
                         self.ring[0][chain_curr][i].detach_child(a.get_id()) # remove atoms
@@ -87,7 +87,7 @@ class Struc:
         io = PDBIO()
         io.set_structure(self.ring)
         io.save(self.pdb_out)
-        print 'Save as ', self.pdb_out
+        print('Save as ', self.pdb_out)
         return False
 
 if __name__ == '__main__':
@@ -99,4 +99,4 @@ if __name__ == '__main__':
     err = s.detect_what_is_in_pdb()
     err =  s.merge()
     if err:
-        print >>sys.stderr, err
+        print(err, file=sys.stderr)

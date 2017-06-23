@@ -34,7 +34,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.file:
         ss = open(args.file)
-        print ss.readline().strip()
+        print((ss.readline().strip()))
         lines = ss.readlines()
-        print get_one_line(lines)
+        print((get_one_line(lines)))
         

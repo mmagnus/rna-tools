@@ -1,5 +1,10 @@
 numpy
 biopython
-sphinx-argparse
+sphinx-argparse==0.1.17
 forgi
 progressbar2
+sphinx-rtd-theme
+urllib3
+#pymol
+pandas
+matplotlib

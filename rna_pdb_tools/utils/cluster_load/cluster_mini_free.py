@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-import commands
+import subprocess
 
 cmd="/home/oge/bin/lx24-amd64/qstat -u '*' | grep -v 'hqw' "
-out = commands.getoutput(cmd)
+out = subprocess.getoutput(cmd)
 cc = 0
 for l in out.split('\n'):
     if l:
@@ -12,4 +12,4 @@ for l in out.split('\n'):
             cc += int(c)
         except ValueError:
             pass
-print cc, cc/1000.0, -(1000 - cc)
+print((cc, cc/1000.0, -(1000 - cc)))

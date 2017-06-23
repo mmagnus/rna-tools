@@ -1,6 +1,8 @@
-> 5k7c.pdb A:1-47
+# 5k7c
+> A:1-47
 CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAU
-> 5k7c.pdb B:48-58
+> B:48-58
 AUCAGgUGCAA
-> tetraloop.pdb A:4-7
+# tetraloop
+> A:4-7
 GCAA

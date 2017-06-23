@@ -1,16 +1,17 @@
-Tips
-==================================================
+======
+ Tips
+======
 
 Run in batch
---------------------------------------------------
+============
 
 You can easily run a single tool in batch and rename new files::
   
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 
 or write new files in a different folder (`out`)::
 
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ../out/$i; done
+    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ../out/$i; done
 
 You can also easily run a single tool parallel using parallel_::
 
@@ -19,7 +20,7 @@ You can also easily run a single tool parallel using parallel_::
 .. _parallel:: https://www.gnu.org/software/parallel/
 
 Using sed
--------------------------------------------------
+=========
 sed (stream editor) is a Unix utility that parses and transforms text, using a simple, compact programming language.
 
 You can used sed to find & replace parts of text files::
@@ -54,7 +55,7 @@ Read more about sed_.
 .. _sed: https://en.wikipedia.org/wiki/Sed
 
 In PyMOL
----------------------------------------------------
+========
 
 Rename a chain::
 
@@ -64,7 +65,7 @@ Rename a chain::
 
 don't forget about `sort`.
 
-To renumber a fragment starting with 24 to 29, select the fragment and
+To renumber a fragment starting with 24 to 29, select the fragment and::
 
 	PyMOL>alter (sele), resv += 5
 	 Alter: modified 109 atoms.
@@ -79,8 +80,22 @@ Read more_.
 
 .. _more: https://pymolwiki.org/index.php?title=Iterate&redirect=no
 
+The example of the pistol ribozyme editing.
+
+.. image:: ../pngs/rp17A.png
+
+Run::
+
+    PyMOL>alter (sele), chain="B"
+     Alter: modified 236 atoms.
+    PyMOL>alter (chain B), resv -= 51
+     Alter: modified 236 atoms.
+    PyMOL>sort
+
+.. image:: ../pngs/rp17_AB.png
+
 In Python
----------------------------------------------------
+=========
 
 To get residue index use::
 
@@ -111,8 +126,17 @@ Qucikref::
 (source: http://cupnet.net/pdb-file-atom-line-memo/)
 
 Working with cluster
----------------------------------------------------
+====================
 Tips::
 
   # get your pdb files
   [mm] ade rsync -v peyote2:'~/ade/*.pdb' . # ' is required!
+
+Numbering line used in my flat-file notes
+======================
+
+Numbering::
+   
+   |1.......|10.......|20.......|30.......|40.......|50.......|60.......|70.......|80.......|90.......
+   123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789
+

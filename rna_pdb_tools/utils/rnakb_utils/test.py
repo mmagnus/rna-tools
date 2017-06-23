@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from rnakb_utils import *
+from .rnakb_utils import *
 
 def test_gromacs_ready(fn):
     """Test if gromacs ready

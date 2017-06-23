@@ -19,12 +19,12 @@ TEST_DIR_PATH = os.path.join(os.path.abspath('test_data'), 'CRW_00583.ct')
 
 from unittest import TestCase,  main
 
-from parsers import RNAStrandRecord, parse_hotknots, \
+from .parsers import RNAStrandRecord, parse_hotknots, \
 parse_afold, has_overlapping_basepairs, remove_pseudoknot, is_bp_a_pseudoknot,\
 parse_ct, parse_pknots, parse_multiple_vienna, parse_sfold, parse_bp, \
 parse_vienna, parse_rnashapes, make_dotbracket_from_bplist, \
 make_bplist_from_dotbracket, PseudoknotError, compose_ss_from_cmfinder_motives
-from secstruc import PseudoknotTokensError, BasePairs, ViennaStructure
+from .secstruc import PseudoknotTokensError, BasePairs, ViennaStructure
  
 class RNASecstrucParserTests(TestCase):
     
@@ -207,9 +207,9 @@ AAAGUUCCCAAAUUU
 -8.30   ...................((((((((.((.....))))))))))..............  []
 """.split('\n')
         result = parse_rnashapes(rnashapes_data)
-        self.assertEqual(result.next(), \
+        self.assertEqual(next(result), \
             (-8.5, '.(((......((....)).((((((((.((.....))))))))))....))).......', '[[][]]'))
-        self.assertEqual(result.next(), \
+        self.assertEqual(next(result), \
             (-8.3, '...................((((((((.((.....))))))))))..............', '[]'))
         
         rnashapes_data2 = """        GATCATATGACTGAAGAGGCATATATGACTGAAGAGGCATATATGACAAGATGACTGAA
@@ -230,8 +230,8 @@ UAUGACUAUA   -920    100
 (((....)))  -8.50
 """.split('\n')
         result = parse_multiple_vienna(multiple_vienna_data)
-        self.assertEqual(result.next(), (None, None, '.((....)).', -8.4))
-        self.assertEqual(result.next(), (None, None, '(((....)))', -8.5))
+        self.assertEqual(next(result), (None, None, '.((....)).', -8.4))
+        self.assertEqual(next(result), (None, None, '(((....)))', -8.5))
         
 ##    def test_get_nr_of_pseudoknots(self):
 ##        """Should return number of pseudoknots in a given bplist"""
@@ -516,97 +516,97 @@ class HotknotsParserTests(TestCase):
     def test_parser(self):
         """parse_hotknots should work correctly on structs without pseudkonts"""
         parser = parse_hotknots(open(self.path), 53)
-        res1 = parser.next()
+        res1 = next(parser)
         self.assertEqual(res1[0], \
                         '..(((((..(((((((.....(((........))))))))))..)).)))...')
         self.assertEqual(res1[1], -11.850000)
         
-        res2 = parser.next()
+        res2 = next(parser)
         self.assertEqual(res2[0], \
                         '..(((((.(((.(((........))))))...))))).(((((...)))))..')
         self.assertEqual(res2[1], -10.650000)
 
-        res3 = parser.next()
+        res3 = next(parser)
         self.assertEqual(res3[0], \
                         '..((((((((...........)))........))))).((((.....))))..')
         self.assertEqual(res3[1], -10.480000)
 
-        res4 = parser.next()
+        res4 = next(parser)
         self.assertEqual(res4[0], \
                         '...((..(((...........)))..))......(((((.....)))))....')
         self.assertEqual(res4[1], -9.640000)
         
-        res5 = parser.next()
+        res5 = next(parser)
         self.assertEqual(res5[0], \
                         '..(((((.(((...............)))...))))).(((((...)))))..')
         self.assertEqual(res5[1], -9.200000)
 
-        res6 = parser.next()
+        res6 = next(parser)
         self.assertEqual(res6[0], \
                         '.......(((((...................)))))..((((.....))))..')
         self.assertEqual(res6[1], -8.400000)
 
-        res7 = parser.next()
+        res7 = next(parser)
         self.assertEqual(res7[0], \
                         '..(((((...(((((............)))))))))).(((((...)))))..')
         self.assertEqual(res7[1], -8.290000)
 
-        res8 = parser.next()
+        res8 = next(parser)
         self.assertEqual(res8[0], \
                         '..(((....))).........(((........)))...(((((...)))))..')
         self.assertEqual(res8[1], -8.200000)
         
-        res9 = parser.next()
+        res9 = next(parser)
         self.assertEqual(res9[0], \
                         '.........(((((((.....(((........))))))))))...........')
         self.assertEqual(res9[1], -8.100000)
 
-        res10 = parser.next()
+        res10 = next(parser)
         self.assertEqual(res10[0], \
                         '......((((...........)))).(((....)))..((((.....))))..')
         self.assertEqual(res10[1], -7.990000)
 
-        res11 = parser.next()
+        res11 = next(parser)
         self.assertEqual(res11[0], \
                         '......((((...........)))).........(((((.....)))))....')
         self.assertEqual(res11[1], -7.890000)
         
-        self.assertRaises(StopIteration, parser.next)
+        self.assertRaises(StopIteration, parser.__next__)
         
     def test_parser_pseudoknot_easy(self):
         """parse_hotknots should work correctly on pseudoknotted structs, p.1"""
         parser = parse_hotknots(open(self.path_p_easy), 27)
-        res1 = parser.next()
+        res1 = next(parser)
         self.assertEqual(res1[0], '(((((......)))))...........')
         self.assertEqual(res1[1], -8.300000)
         
-        res2 = parser.next()
+        res2 = next(parser)
         self.assertEqual(res2[0], '(((((..[[[[))))).......]]]]')
         self.assertEqual(res2[1], -6.722000)
         
-        self.assertRaises(StopIteration, parser.next)
+        self.assertRaises(StopIteration, parser.__next__)
         
     def test_parser_pseudoknot_medium(self):
         """parse_hotknots should work correctly on pseudoknotted structs, p.2"""
         parser = parse_hotknots(open(self.path_p_medium), 40)
-        res1 = parser.next()
+        res1 = next(parser)
         self.assertEqual(res1[0], '(((((..[[..)))))..(((((((.]]))))))).....')
         self.assertEqual(res1[1], -8.300000)
 
-        res2 = parser.next()
+        res2 = next(parser)
         self.assertEqual(res2[0], '(((((..[[..)))))..(((((((.]])))))))((.))')
         self.assertEqual(res2[1], 999999)
         
-        self.assertRaises(StopIteration, parser.next)
+        self.assertRaises(StopIteration, parser.__next__)
         
     def test_parser_pseudoknot_hard(self):
         """parse_hotknots should work correctly on pseudoknotted structs, p.3"""
         parser = parse_hotknots(open(self.path_p_hard), 40)
-        res1 = parser.next()
+        res1 = next(parser)
         self.assertEqual(res1[0], '(((((..[[{{)))))..(((((((.]])))))))...}}')
         self.assertEqual(res1[1], -7.123456)
         
-        self.assertRaises(StopIteration, parser.next)
+        self.assertRaises(StopIteration, parser.__next__)
 
 
 class RNAStrandRecordTests(TestCase):

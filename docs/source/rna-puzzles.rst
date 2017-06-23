@@ -3,7 +3,7 @@ RNA Puzzle Submission
 
 Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`)::
 
-	$ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+	$ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 	
 merge them as one file in the order as you like (or use `*`)::
 

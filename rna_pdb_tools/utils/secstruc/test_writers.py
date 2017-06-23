@@ -16,9 +16,9 @@ __status__ = "Production"
 import tempfile, os
 from unittest import TestCase,  main
 
-from secstruc import BasePairs
-from parsers import parse_bp
-from writers import BpseqWriter, BpseqWriterError
+from .secstruc import BasePairs
+from .parsers import parse_bp
+from .writers import BpseqWriter, BpseqWriterError
 
 class BpseqWriterTests(TestCase):
     def setUp(self):

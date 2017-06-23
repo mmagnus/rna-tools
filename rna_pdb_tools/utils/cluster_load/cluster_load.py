@@ -8,13 +8,13 @@ Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.
 import commands
 MAX_JOBS = 700 
 
-print 'MAX_JOBS:', MAX_JOBS
+print('MAX_JOBS:', MAX_JOBS)
 
 def stats_for_cluster():
     """get stats (#jobs) per cluster"""
     
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
-    out = commands.getoutput(cmd).strip()
+    out = subprocess.check_output(cmd, shell=True).strip()
     cc = 0
     for l in out.split('\n'):
         if l.strip():
@@ -30,7 +30,7 @@ def stats_for_cluster():
 def stats_for_user():
     """get stats (#jobs) per user"""
     cmd="/home/oge/bin/lx24-amd64/qstat "# -u '*'"
-    out = commands.getoutput(cmd)
+    out = subprocess.check_output(cmd, shell=True)
     cc = 0
     for l in out.split('\n'):
         if l:
@@ -45,7 +45,7 @@ def per_user():
     """get stats (#cpus) per user"""
     # {'deepak': 160, 'azyla': 8, 'magnus': 755}
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
-    out = commands.getoutput(cmd).strip()
+    out = subprocess.check_output(cmd, shell=True).strip()
     per_user = {}
     for l in out.split('\n'):
         if l.startswith('job-ID') or l.startswith('---'):
@@ -54,7 +54,7 @@ def per_user():
             ll = l.split()
             user = ll[3]
             cpus = int(ll[-1])
-            if per_user.has_key(user):
+            if user in per_user:
                 per_user[user] += cpus
             else:
                 per_user[user] = cpus            
@@ -62,7 +62,7 @@ def per_user():
 
 if __name__ == '__main__':
     cc = stats_for_cluster()
-    print '#jobs cluster', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc
+    print(('#jobs cluster', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc))
     cc = stats_for_user()
-    print '#jobs you    ', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc
-    print per_user()
+    print(('#jobs you    ', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc))
+    print((per_user()))

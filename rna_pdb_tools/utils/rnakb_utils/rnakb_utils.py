@@ -13,8 +13,6 @@ Albert Bogdanowicz
 
 import re
 import os
-import PDBFile as pf
-import os
 
 LIB_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 VERBOSE = False
@@ -57,7 +55,7 @@ def get_res_num(line):
     Output:
       * residue number as an integer
     """
-    return int(''.join(filter(lambda x: x.isdigit(), line[22:27])))
+    return int(''.join([x for x in line[22:27] if x.isdigit()]))
 
 
 def get_res_code(line):
@@ -88,10 +86,10 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
     pdb_lines = pdb_string.split('\n')
 
     # find smallest residue number
-    min_res = min(map(get_res_num,
-        [l for l in pdb_lines if l.startswith('ATOM')]))
-    max_res = max(map(get_res_num,
-        [l for l in pdb_lines if l.startswith('ATOM')]))
+    min_res = min(list(map(get_res_num,
+        [l for l in pdb_lines if l.startswith('ATOM')])))
+    max_res = max(list(map(get_res_num,
+        [l for l in pdb_lines if l.startswith('ATOM')])))
 
 
     for l in pdb_lines:
@@ -99,7 +97,7 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
             res = get_res_code(l)        
             if res.startswith('R') and res.endswith('5') : # it's RX5 file so skip fixing
                 if verbose:
-                    print '-- already gromacs ready'
+                    print('-- already gromacs ready')
                 return pdb_string
 
             l = l.replace('*', '\'')
@@ -128,12 +126,12 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
                 if atom_type in GROMACS_ALLOWED_5:
                     result.append(l)
                 else:
-                    print 'Wrong start line: ', l, atom_type
+                    print(('Wrong start line: ', l, atom_type))
             else:
                 if atom_type in GROMACS_ALLOWED_MIDDLE:
                     result.append(l)
                 else:
-                    print 'Wrong middle line: ', l, atom_type
+                    print(('Wrong middle line: ', l, atom_type))
         else:
             result.append(l)
     return '\n'.join(result)
@@ -155,10 +153,10 @@ def make_rna_rnakb_ready(pdb_string, verbose=VERBOSE):
     pdb_lines = pdb_string.split('\n')
 
     # find smallest residue number
-    min_res = min(map(get_res_num,
-        [l for l in pdb_lines if l.startswith('ATOM')]))
-    max_res = max(map(get_res_num,
-        [l for l in pdb_lines if l.startswith('ATOM')]))
+    min_res = min(list(map(get_res_num,
+        [l for l in pdb_lines if l.startswith('ATOM')])))
+    max_res = max(list(map(get_res_num,
+        [l for l in pdb_lines if l.startswith('ATOM')])))
 
     for l in pdb_lines:
         if l.startswith('ATOM'):# and l[19] in ('A', 'U', 'C', 'G'):
@@ -193,12 +191,12 @@ def make_rna_rnakb_ready(pdb_string, verbose=VERBOSE):
                 if atom_type in GROMACS_ALLOWED_5:
                     result.append(l)
                 else:
-                    print 'Wrong start line: ', l, atom_type
+                    print(('Wrong start line: ', l, atom_type))
             else:
                 if atom_type in GROMACS_ALLOWED_MIDDLE:
                     result.append(l)
                 else:
-                    print 'Wrong middle line: ', l, atom_type
+                    print(('Wrong middle line: ', l, atom_type))
         else: # keep TER, etc.
             result.append(l)
     return '\n'.join(result)
@@ -254,7 +252,7 @@ def fix_gromacs_ndx(path):
             index.split('[ System ]')[1].split('[')[1:]]
     # remove duplicate numbers
     taken_atoms = []
-    for g in xrange(len(other_groups)):
+    for g in range(len(other_groups)):
         header = other_groups[g].split('\n')[0]
         group = other_groups[g].split('\n')[1].split()
         group = [a for a in group if a not in taken_atoms]
@@ -318,7 +316,7 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
     p = pf.PDBFile(pdb_path = fn) 
     seq = p.seq_from_amber_like_pdb().split()
     seq_uniq_sorted = set(seq)
-    if verbose: print 'seq:', seq, seq_uniq_sorted
+    if verbose: print(('seq:', seq, seq_uniq_sorted))
     seq_rnakb_order = []
     if 'RA' in seq_uniq_sorted:
         seq_rnakb_order.append('RA')
@@ -328,7 +326,7 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
         seq_rnakb_order.append('RG')
     if 'RC' in seq_uniq_sorted:
         seq_rnakb_order.append('RC')
-    if verbose:print 'seq_rnakb_order', seq_rnakb_order
+    if verbose:print(('seq_rnakb_order', seq_rnakb_order))
     
     gtxt = 'del 1\n'
     c = 1
@@ -347,7 +345,7 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
         cg_atoms = "C2',O2',O2P,O1P,C5',O5',C4,O2,C3',C2,O3',N4,N3,N1,P,C1',O4',C4',C5,C6".split(',')
         cg_atoms2 = ['c' + a.strip().replace("'", 's') for a in cg_atoms]
         #N1, N3, O4', C5', O3', C2', C4, C1', O5', O1P, C4', C6, C5, C2, C3', P, O2P, O2, O4, O2'
-        if verbose: print 'len-s:', len(rg_atoms), len(cg_atoms), len(ag_atoms), len(ug_atoms)
+        if verbose: print(('len-s:', len(rg_atoms), len(cg_atoms), len(ag_atoms), len(ug_atoms)))
     elif potential == '5pt':
         # rg
         rg_atoms = ["P", "C4'", "C2", "C4", "C6"]
@@ -397,12 +395,12 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
     gtxt += '\n0 & ! %i' % (c)
     gtxt += '\nname %i other' % (c + 1)
     gtxt += '\nq\n'
-    if verbose: print gtxt
+    if verbose: print(gtxt)
 
     with open(gr_fn, 'w') as f:
         f.write(gtxt)
 
-    if verbose: print 'energygrps', energygrps
+    if verbose: print(('energygrps', energygrps))
     return gtxt, energygrps, seq_rnakb_order
 
 
@@ -438,7 +436,7 @@ def format_score_mdp(mdp_out, energygrps, seq, verbose=False):
             nmdp += l
         else:
             nmdp += l
-    if verbose: print nmdp
+    if verbose: print(nmdp)
 
     with open(mdp_out, 'w') as f:
         f.write(nmdp)
@@ -449,18 +447,18 @@ if __name__ == '__main__':
     #fn = 'test_data/1duq.pdb'
     fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
     pdblines = make_rna_gromacs_ready(open(fn).read())
-    print pdblines
+    print(pdblines)
     with open('test_output/gromacs_ready.pdb', 'w') as f:
         f.write(pdblines)
 
     fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
     pdblines = make_rna_rnakb_ready(open(fn).read())
     fready = 'test_output/rnakb_ready.pdb'
-    print pdblines
+    print(pdblines)
     with open(fready, 'w') as f:
         f.write(pdblines)
 
     # prepare groups
     groups_txt, energygrps, seq_uniq = prepare_groups(fready, LIB_PATH + '/rnakb_utils/test_output/groups.txt', potential='5pt', verbose=True)
-    print groups_txt
+    print(groups_txt)
     fout = 'test_data/out.mdp'

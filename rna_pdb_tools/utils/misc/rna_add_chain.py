@@ -46,7 +46,7 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
     if len(sys.argv) == 1:
-        print parser.print_help()
+        print((parser.print_help()))
         sys.exit(1)
         
     s = StrucFile(args.file)
@@ -55,6 +55,6 @@ if __name__ == '__main__':
             nl = list(l)            
             nl[21] =  args.chain # new chain
             nl = ''.join(nl)
-            print nl
+            print(nl)
         else:
-            print l
+            print(l)

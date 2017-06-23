@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
+"""
+If you still have problem with various number of atoms, check out this issue: get_rnapuzzle_ready: how to deal with `Alternate location indicator (https://github.com/mmagnus/rna-pdb-tools/issues/30).
+"""
+from __future__ import print_function
 
 from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import *
 import sys
@@ -57,7 +61,21 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     Raw alignment score
     Number of residues aligned 
 
-    in this version of function, the function returns `RMSD before refinement`."""
+    in this version of function, the function returns `RMSD before refinement`.
+
+    Install on OSX: ``brew install homebrew/science/pymol`` and set ``PYTHONPATH`` to 
+    your PyMOL packages, .e.g ::
+  
+      PYTHONPATH=$PYTHONPATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages
+
+    If problem::
+
+      Match-Error: unable to open matrix file '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/data/pymol/matrices/BLOSUM62'.
+     
+    then define ``PYMOL_PATH`` in your .bashrc, e.g.::
+
+       export PYMOL_PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pymol/
+     """
 
     try:
         import __main__
@@ -65,7 +83,7 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
         import pymol  # import cmd, finish_launching
         pymol.finish_launching()
     except ImportError:
-        print 'calc_rmsd_pymol: you need to have installed PyMOL'
+        print('calc_rmsd_pymol: you need to have installed PyMOL')
         sys.exit(0) # no error
 
     pymol.cmd.reinitialize()
@@ -73,8 +91,15 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     pymol.cmd.load(pdb1, 's1')
     pymol.cmd.load(pdb2, 's2')
     if method == 'align':
-        return (pymol.cmd.align('s1', 's2')[3], pymol.cmd.align('s1',
-                's2')[4])
+        # experiments with align <https://pymolwiki.org/index.php/Align>
+        # quiet = 0/1: suppress output {default: 0 in command mode, 1 in API} 
+        return  (pymol.cmd.align('s1', 's2',quiet=1, object='aln')[3],0) #, pymol.cmd.align('s1','s2')[4])
+        #raw_aln = pymol.cmd.get_raw_alignment('aln')
+        #print raw_aln
+        #for idx1, idx2 in raw_aln:
+        #    print '%s`%d -> %s`%d' % tuple(idx1 + idx2)
+        #pymol.cmd.save('aln.aln', 'aln')
+
     if method == 'fit':
         return (pymol.cmd.fit('s1', 's2'), 'fit')
 
@@ -88,7 +113,7 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
 
     :return: rmsd, number of atoms
     """
-    if verbose: print 'in:', a
+    if verbose: print('in:', a)
     atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True)
     atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
     
@@ -110,12 +135,12 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
         write_coordinates(atomsP, V)
         quit()
     
-    return kabsch_rmsd(P, Q), atomsP
+    return round(kabsch_rmsd(P, Q),2), atomsP
 
 # main
 if __name__ == '__main__':
-    print 'rmsd_calc_rmsd_to_target'
-    print '-' * 80
+    print('rmsd_calc_rmsd_to_target')
+    print('-' * 80)
     
     optparser=optparse.OptionParser(usage="%prog [<options>] <pdb files (test_data/*)>")
 
@@ -146,8 +171,8 @@ if __name__ == '__main__':
     
     optparser.add_option('-m',"--method", type="string",
                          dest="method",
-                         default='',
-                         help="")
+                         default='all-atom-built-in',
+                         help="align, fit")
 
     optparser.add_option('-o',"--rmsds_fn", type="string",
                          dest="rmsds_fn",
@@ -161,34 +186,34 @@ if __name__ == '__main__':
     (opts, args)=optparser.parse_args()
 
     if len(sys.argv) == 1:
-        print optparser.format_help() #prints help if no arguments
+        print(optparser.format_help()) #prints help if no arguments
         sys.exit(1)
 
     input_files = args[:] # opts.input_dir
     rmsds_fn = opts.rmsds_fn
     target_fn = opts.target_fn
     method = opts.method
-    print ' method:', method
+    print('method:', method)
     target_selection = select_pdb_fragment(opts.target_selection)
     model_selection = select_pdb_fragment(opts.model_selection)
     if target_selection:
         if opts.verbose:
-            print '  target_selection: #', opts.target_selection, target_selection
+            print('  target_selection: #', opts.target_selection, target_selection)
             ts = target_selection
-            print ts
+            print(ts)
             resides_in_total = 0
             for i in target_selection:
-                print i, len(ts[i]) # chain string, a list of residues
+                print((i, len(ts[i]))) # chain string, a list of residues
                 resides_in_total += len(ts[i])
-            print 'in total:', resides_in_total
+            print('in total:', resides_in_total)
     if model_selection:
         if opts.verbose:
-            print '  model_selection:  ', len(model_selection), opts.model_selection, model_selection
+            print('  model_selection:  ', len(model_selection), opts.model_selection, model_selection)
             resides_in_total = 0
             for i in model_selection:
-                print i, len(model_selection[i]) # chain string, a list of residues
+                print(i, len(model_selection[i])) # chain string, a list of residues
                 resides_in_total += len(model_selection[i])
-            print 'in total:', resides_in_total
+            print('in total:', resides_in_total)
     if opts.target_ignore_selection:
         target_ignore_selection = select_pdb_fragment_pymol_style(opts.target_ignore_selection)
     else:
@@ -200,13 +225,13 @@ if __name__ == '__main__':
         model_ignore_selection = None
 
     if  opts.target_ignore_selection:
-        if opts.verbose: print '  target_ignore_selection: ', opts.target_ignore_selection
+        if opts.verbose: print('  target_ignore_selection: ', opts.target_ignore_selection)
     if  opts.model_ignore_selection:
-        if opts.verbose: print '  model_ignore_selection:  ', opts.model_ignore_selection
+        if opts.verbose: print('  model_ignore_selection:  ', opts.model_ignore_selection)
 
     models = get_rna_models_from_dir(input_files)        
 
-    print '# of models:', len(models)
+    print('# of models:', len(models))
 
     f = open(rmsds_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
@@ -219,7 +244,7 @@ if __name__ == '__main__':
         else:
             rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, opts.verbose)
         r1_basename = os.path.basename(r1)
-        print r1_basename, rmsd_curr, atoms
+        print(r1_basename, rmsd_curr, atoms)
         t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '
         c += 1
         t += '\n'
@@ -229,6 +254,6 @@ if __name__ == '__main__':
 
     #print t.strip() # matrix
 
-    print '# of atoms used:', atoms
+    print('# of atoms used:', atoms)
     if opts.rmsds_fn:
-        print 'csv was created! ', rmsds_fn
+        print('csv was created! ', rmsds_fn)

@@ -1,6 +1,8 @@
 *~
 *pyc
 bucket*
+*.pyc
+.ropeproject
 .Rhistory
 *#*
 moderna.log
@@ -13,3 +15,10 @@ diffpdb_conf.py
 bin
 *outCR
 rpt_config_local.py
+.ipynb_checkpoints
+*log
+*.ps
+*dssr*
+*log*
+*config_local.py*
+opt*

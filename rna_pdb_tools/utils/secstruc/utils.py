@@ -20,7 +20,7 @@ from math import sqrt
 #from wrappers.alignment_local import RCoffee, CMalign
 #from wrappers.paralign_rfamseq import ParalignRfamseq, \
 #ParalignTableParserRfamseqError
-from secstruc import BasePairs
+from .secstruc import BasePairs
 
 from cogent import LoadSeqs
 from cogent.struct.pairs_util import check_structures, extract_seqs, \
@@ -30,9 +30,9 @@ from cogent.core.alignment import Alignment, SequenceCollection
 from cogent.struct.pairs_util import ACCEPTED as ACCEPTED_STD
 # ACCEPTED_EXT contains possible base pairs from 'extended secondary structure'.
 # Basically, all possible base pairs are included in this list.
-ACCEPTED_EXT = dict.fromkeys(map(tuple, ["AA", "AC", "AG", "AU", "CA", "CC",
+ACCEPTED_EXT = dict.fromkeys(list(map(tuple, ["AA", "AC", "AG", "AU", "CA", "CC",
                                          "CG", "CU", "GA", "GC", "GG", "GU",
-                                         "UA", "UC", "UG", "UU"]))
+                                         "UA", "UC", "UG", "UU"])))
 
 def mcc_formula(counts):
     """Return correlation coefficient
@@ -77,8 +77,8 @@ def get_all_pairs(sequences, min_dist=1, accepted=ACCEPTED_STD):
         seq_str = str(seq).upper()
         seq_count = 0
         #print 'xrange', range(len(seq)-min_dist)
-        for x in xrange(len(seq)-min_dist):
-            for y in xrange(x+min_dist,len(seq)):
+        for x in range(len(seq)-min_dist):
+            for y in range(x+min_dist,len(seq)):
                 if (seq_str[x], seq_str[y]) in accepted:
                     #print x,y, seq_str[x], seq_str[y], 'Y'
                     seq_count += 1
@@ -103,7 +103,7 @@ def get_counts(ref, predicted, split_fp=True, sequences=None, min_dist=1,
     assert isinstance(ref, BasePairs), 'ref is not BasePairs instance'
     assert isinstance(predicted, BasePairs), 'predicted is not BasePairs instance'
     assert isinstance(split_fp, bool), 'split_fp is not bool'
-    assert type(sequences) in [list, tuple, types.NoneType],\
+    assert type(sequences) in [list, tuple, type(None)],\
         'sequences is not tuple or list'
     assert isinstance(min_dist, int), 'min_dist is not integer'
     assert isinstance(accepted, dict), 'accepted is not dict'
@@ -179,7 +179,7 @@ def mcc(ref, predicted, seqs, min_dist=1, accepted=ACCEPTED_STD):
     elif not predicted:
         return 0.0
     elif not seqs:
-        raise ValueError, 'No sequence provided!'
+        raise ValueError('No sequence provided!')
 
     sequences = extract_seqs(seqs)
     counts = get_counts(ref, predicted, sequences=sequences, split_fp=True,\
@@ -221,7 +221,7 @@ def make_sequence_alignment(collection, seq_db_path, cm=None,
             paralign = ParalignRfamseq(str(collection.Seqs[0]), seq_db_path)
             try:
                 results = paralign.run()
-            except ParalignTableParserRfamseqError, error:
+            except ParalignTableParserRfamseqError as error:
                 raise CannotMakeSequenceAlignmentError(str(error))
             counter = 0
             
@@ -231,7 +231,7 @@ def make_sequence_alignment(collection, seq_db_path, cm=None,
                 if hit.expect <= float(E_VALUE_CUTOFF):
                     try:
                         fasta += hit.fasta.replace('T','U')
-                    except ValueError, error:
+                    except ValueError as error:
                         msg = \
                         "Problem getting sequence for '%s': ValueError: %s" % \
                         (str(error), hit.seq_id)
@@ -288,7 +288,7 @@ def extract_query_seq_pred(result, sequence, name):
         
         try:
             seq_index  = seqs.index(sequence)
-        except ValueError, error:
+        except ValueError as error:
             raise ExtractQuerySeqPredError(str(error))
         else:
             if seq_names[seq_index].find(name) == -1:
@@ -360,7 +360,7 @@ def get_bps_for_aligned_seq(aligned_seq, bps, first_index=0):
     partners = bps.toPartners(len(aligned_seq) + first_index)
     new_base_pairs = set()
     
-    for i, nt, pos in zip(range(first_index, len(aligned_seq) + first_index),
+    for i, nt, pos in zip(list(range(first_index, len(aligned_seq) + first_index)),
                           aligned_seq, partners[first_index:]):
         if nt == '-' or pos is None:
             continue

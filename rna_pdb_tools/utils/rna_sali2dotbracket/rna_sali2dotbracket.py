@@ -15,8 +15,9 @@ import os
 dic_ss_elements = {'>':')', '<':'(', '[':'(', ']':')', '~':'-', '^':'.'}
 
 def repl(m):
-  """This function will substitute the length of a given string by the correspondent number of dashes.
-  The expression "qwerty" will be replaced by "------"."""
+  """This function will replace the length of a given string by the correspondent number of dashes.
+  The expression ``qwerty`` will be replaced by ``-----``.
+  """
   return '-' * len(m.group())
 
 def get_parser():
@@ -80,16 +81,16 @@ def convert_sali2dotbracket(fn):
 	  ssafter += x
       re.sub(r'(?P<smthBeautiful>\(\d+\))', repl, ssafter) #(951)
       re.sub(r'\d*\dnt', repl, ssafter) #1598nt
-      print ssafter
+      print(ssafter)
     elif line.startswith(' ') or line.startswith('#'):
       True
     else:
       nho = os.path.basename(fn).split('.')[0] # get the name of the file and add it to the identifier
-      print '>'+nho+'_'+line.split(" ")[0] # get the identifiers in fasta format
+      print('>'+nho+'_'+line.split(" ")[0]) # get the identifiers in fasta format
       # see pydoc # sequence #
       temp = line.split(' ')
       sequence = max(temp, key=len) # the longest element of the list will be the sequence
-      print re.sub(r'\d*\dnt|\d*\d|(?P<smthBeautiful>\(\d+\))', repl, sequence),
+      print(re.sub(r'\d*\dnt|\d*\d|(?P<smthBeautiful>\(\d+\))', repl, sequence, end=' '))
 
 if __name__ == '__main__':
    parser = get_parser()

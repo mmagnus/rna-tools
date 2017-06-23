@@ -2,7 +2,7 @@
 #-*-coding: utf-8-*-
 
 from unittest import TestCase, main
-from secstruc import Secstruc, BasePairs, Partners, Vienna, solve_conflicts, \
+from .secstruc import Secstruc, BasePairs, Partners, Vienna, solve_conflicts, \
 ViennaStructure, ConflictInBasePairsError
 
 class SecstrucTests(TestCase):
@@ -375,11 +375,11 @@ class ViennaStructureTests(TestCase):
         """ViennaStructure toPairs() should return Pairs object"""
         self.assertEqual(self.NoPairs.toPairs(), [])
         for item in self.OneHelix.toPairs():
-            self.assert_(item in  [(1,10),(2,9),(3,8),(4,7),(5,6)])
+            self.assertTrue(item in  [(1,10),(2,9),(3,8),(4,7),(5,6)])
         for item in self.TwoHelix.toPairs():
-            self.assert_(item in [(1,5),(2,4),(6,9),(7,8)])
+            self.assertTrue(item in [(1,5),(2,4),(6,9),(7,8)])
         for item in self.ThreeHelix.toPairs():
-            self.assert_(item in \
+            self.assertTrue(item in \
             [(1,24),(2,23),(3,22),(4,9),(5,8),(12,19),(13,18),(14,17)])
         self.assertEqual(self.Pseudoknots.toPairs(), [(1, 79), (3, 77), \
             (4, 76), (7, 73), (9, 71), (12, 27), (13, 26), (15, 24), (16,23),\
@@ -859,13 +859,13 @@ class BasePairsTests(TestCase):
         """BasePairs.symmetric should add (down,up) for each (up,down)"""
         self.assertEqual(BasePairs([]).symmetric(),[])
         for item in BasePairs([(1,2)]).symmetric():
-            self.assert_(item in [(2,1),(1,2)])
+            self.assertTrue(item in [(2,1),(1,2)])
         for item in BasePairs([(1,2),(1,2)]).symmetric():
-            self.assert_(item in [(1,2),(2,1)])
+            self.assertTrue(item in [(1,2),(2,1)])
         for item in BasePairs([(1,2),(3,4)]).symmetric():
-            self.assert_(item in [(1,2),(2,1),(3,4),(4,3)])
+            self.assertTrue(item in [(1,2),(2,1),(3,4),(4,3)])
         for item in BasePairs([(1,None)]).symmetric():
-            self.assert_(item in [])
+            self.assertTrue(item in [])
             
     def test_mismatches(self):
         """BasePairs.mismatches should return base pairs that can't be made"""

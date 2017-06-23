@@ -35,7 +35,7 @@ def get_no_structures(file):
     p.wait()
     stderr = p.stderr.read().strip()
     if stderr:
-        print stderr
+        print(stderr)
     return int(p.stdout.read().strip()) - 1
 
 def min(f, take_n, cpus, go):
@@ -60,13 +60,13 @@ def min(f, take_n, cpus, go):
 
     # parallel_min_setup
     cmd = "parallel_min_setup.py -silent " + f + " -tag " + f.replace('.out', '') + '_min  -proc ' + str(cpus) + ' -nstruct ' + str(take_n) +  ' -out_folder mo -out_script MINIMIZE "' + ' -ignore_zero_occupancy false "'
-    print cmd
+    print(cmd)
     logging.info(cmd)
     os.system(cmd)
 
     # rosetta_submit 
     cmd = "rosetta_submit.py MINIMIZE mo 1 100 m"
-    print cmd 
+    print(cmd) 
     logging.info(cmd)
     os.system(cmd)
 
@@ -99,7 +99,7 @@ def get_parser():
 def run():
     args = get_parser().parse_args()
     ns = get_no_structures(args.file)
-    print '# structures:', ns
+    print(('# structures:', ns))
     take_n = int(ns * 0.16) # 1/6
     min(args.file, take_n, int(args.cpus), args.go)
     

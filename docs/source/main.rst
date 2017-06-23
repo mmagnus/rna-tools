@@ -1,23 +1,31 @@
 rna-pdb-tools
 ========================================
 
+rna-pdb-tools is the main code of this library.
+
 .. argparse::
    :ref: rna_pdb_tools.rna_pdb_tools.get_parser
    :prog: rna_pdb_tools.py
 
-Get RNAPuzzle ready
+get RNAPuzzle ready
 -----------------------------------------
 
 .. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
    :members: get_rnapuzzle_ready
 
-Get SimRNA ready
+get sequence
 -----------------------------------------
 
-.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
-   :members: get_simrna_ready
+Example::
 
-Fetch
+      $ rna_pdb_tools.py --get_seq 5_solution_1.pdb
+      > 5_solution_1.pdb A:1-576
+      CAUCCGGUAUCCCAAGACAAUCUCGGGUUGGGUUGGGAAGUAUCAUGGCUAAUCACCAUGAUGCAAUCGGGUUGAACACUUAAUUGGGUUAAAACGGUGGGGGACGAUCCCGUAACAUCCGUCCUAACGGCGACAGACUGCACGGCCCUGCCUCAGGUGUGUCCAAUGAACAGUCGUUCCGAAAGGAAG
+
+.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
+   :members: get_seq
+
+fetch
 -----------------------------------------
 
 Example::
@@ -27,7 +35,7 @@ Example::
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch
 
-Fetch Biological Assembly
+fetch Biological Assembly
 -----------------------------------------
 
 Example::
@@ -50,36 +58,22 @@ or over a list of pdb ids in a text file::
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch_ba
 
-Selection
------------------------------------------
-
-.. automodule:: rna_pdb_tools.utils.extra_functions.select_fragment
-		:members:
-Delete
+delete
 -----------------------------------------
 
 Examples::
 
-    $ for i in `ls *pdb`; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
-Edit
+edit
 -----------------------------------------
 
 .. autofunction:: rna_pdb_tools.pdb_parser_lib.edit_pdb
 
-Examples::
-
-   $ rna_pdb_tools.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
-
-or even::
-
-   $ rna_pdb_tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
-
-The library
+the library
 -----------------------------------------
 
   .. automodule:: rna_pdb_tools.pdb_parser_lib
    :members:
-

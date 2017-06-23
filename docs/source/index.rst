@@ -6,7 +6,7 @@
 Welcome to rna-pdb-tools's documentation!
 =========================================
 
-rna-pdb-tools: a toolbox to analyze structures and simulations (SimRNA, ROSETTA/FARNA/FARFAR) of RNA
+**rna-pdb-tools: a toolbox to analyze structures and simulations of RNA**
 
 The code of the project can be found at GitHub (https://github.com/mmagnus/rna-pdb-tools).
 
@@ -17,19 +17,21 @@ If you find the tools helpful, you can cite the repo using the doi_::
 .. _doi: https://scholar.google.pl/citations?view_op=view_citation&hl=en&user=O2gLO2EAAAAJ&citation_for_view=O2gLO2EAAAAJ:mB3voiENLucC&gmla=AJsN-F5Nk3ZKqGryiFr6erWZFIFqc5Qp-8rh4hhHQIxfQ0P-iYqUFzKcoDQ4Fb378_tT-wXfW9kPqDe5gOm5XM2mUswZsdK3jsRW4_kCFmQUtT-btlrydJQ
 
 If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-pdb-tools/issues
-Contents:
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
 
+   want
    main
-   config
    utils
    selection
    workflows
    tips
    rna-puzzles
+   emacs
+   geekbook
    git
+   install
 
 Indices and tables
 ==================

@@ -14,7 +14,7 @@ __email__ = "t.puton@amu.edu.pl"
 __status__ = "Production"
 
 import re, copy
-from knotted2nested.rna2d import float_from_string
+from .knotted2nested.rna2d import float_from_string
 from itertools import cycle
 
 class SecstrucError(Exception): pass
@@ -32,7 +32,7 @@ class Secstruc:
     def __init__(self,secstr,indices=None):
         self.secstruc = secstr
         if indices == None:
-            indices = range(len(self))
+            indices = list(range(len(self)))
         if len(self.secstruc) != len(indices):
             raise SecstrucError("Cannot create Secstruc object (%s %s)"%(secstr,str(indices)))
         self.indices = indices
@@ -369,8 +369,7 @@ class StructureString(str):
         if a:
             for i in Structure:
                 if i not in a:
-                    raise ValueError,\
-                    "Tried to include unknown symbol '%s'" % i
+                    raise ValueError("Tried to include unknown symbol '%s'" % i)
         
         return str.__new__(cls,Structure)
 
@@ -421,10 +420,9 @@ class StructureString(str):
                
         #test whether there are any open pairs left unaccounted for        
         if stack:
-            raise IndexError, \
-            "Too many open pairs in structure:\n%s" % self
+            raise IndexError("Too many open pairs in structure:\n%s" % self)
         
-        result = map(lambda x: tuple(x) if x is not None else None, result)
+        result = [tuple(x) if x is not None else None for x in result]
         return Partners(result)
 
     def toPairs(self, offset=1):
@@ -444,9 +442,9 @@ class StructureString(str):
         end = self.EndSymbols
         for i, symbol in enumerate(self):
             i_offset = i + offset
-            if symbol in start.keys():       #open a pair
+            if symbol in list(start.keys()):       #open a pair
                 stack.append((i_offset, symbol))
-            if len(stack) > 0 and symbol in end.keys():
+            if len(stack) > 0 and symbol in list(end.keys()):
                 for item in reversed(stack):
                     if item[1] == end[symbol]:
                         stack.remove(item)
@@ -455,8 +453,7 @@ class StructureString(str):
                     
         #test whether there are any open pairs left unaccounted for        
         if stack:
-            raise IndexError, \
-            "Too many open pairs in structure:\n%s" % self
+            raise IndexError("Too many open pairs in structure:\n%s" % self)
         return BasePairs([(key, result[key]) for key in result]).directed()
 
 ##                                                                           ##
@@ -524,7 +521,7 @@ class BasePairs(list):
             if up > down:
                 up, down = down, up
             seen[(up, down)] = True
-        result = seen.keys()
+        result = list(seen.keys())
         result.sort(cmp=cmp_for_bplist)
         return BasePairs(result)
     
@@ -556,7 +553,7 @@ class BasePairs(list):
         sorted_bplist = self.directed()
         for base_pair in sorted_bplist:
             # base_pair is a tuple (thanks to .directed() method)
-            if len(nested.keys()) == 0:
+            if len(list(nested.keys())) == 0:
                 # this is why we encapsulate base_pair in list and then feed
                 # it to BasePairs
                 nested[BasePairs([base_pair])] = []
@@ -698,7 +695,7 @@ class BasePairs(list):
             else:
                 result[downstream] = [upstream]
             
-        result = map(lambda x: tuple(x) if x is not None else None, result)
+        result = [tuple(x) if x is not None else None for x in result]
                 
         return Partners(result)
         
@@ -707,7 +704,7 @@ class BasePairs(list):
         newlist = []
         visited = {}
         for a, b in self:
-            if not visited.has_key(a) and not visited.has_key(b):
+            if a not in visited and b not in visited:
                 newlist.append((a, b))
                 visited[a] = True
                 visited[b] = True
@@ -754,7 +751,7 @@ cannot be generated! '%s' contains conflicting base pairs!" % str(self))
         tokens_gen = cycle(pair for pair in pseudoknot_tokens)
         
         previous = None
-        tokens = tokens_gen.next()
+        tokens = next(tokens_gen)
         for pseudoknot in self.pseudoknots:
             
             if previous is not None and not\
@@ -765,7 +762,7 @@ cannot be generated! '%s' contains conflicting base pairs!" % str(self))
                 
                 between = result[pseudoknot[0] : pseudoknot[1]]
                 if between.count(tokens[0]) != between.count(tokens[1]):                    
-                    tokens = tokens_gen.next()
+                    tokens = next(tokens_gen)
 
             result[pseudoknot[0] + offset] = tokens[0]
             result[pseudoknot[1] + offset] = tokens[1]            

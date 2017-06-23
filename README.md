@@ -1,21 +1,26 @@
-🔧rna-pdb-tools
+rna-pdb-tools
 =================
 
 **This is still under development. We'll be adding features and possibly making breaking changes in future releases.**
 
+Look for other our projects at https://github.com/RNA-Puzzles
+
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_pdb_tools.svg?style=social&label=Follow)](https://twitter.com/rna_pdb_tools)
 
+[![release](https://img.shields.io/github/release/mmagnus/rna-pdb-tools.svg)](https://github.com/mmagnus/rna-pdb-tools/releases) 
 [![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools)
 [![Documentation Status](https://readthedocs.org/projects/rna-pdb-tools/badge/?version=latest)](http://rna-pdb-tools.readthedocs.io/en/latest/?badge=latest)
-[![Coverage Status](https://coveralls.io/repos/github/mmagnus/rna-pdb-tools/badge.svg?branch=master)](https://coveralls.io/github/mmagnus/rna-pdb-tools?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/?branch=master)
-[![codecov](https://codecov.io/gh/mmagnus/rna-pdb-tools/branch/master/graph/badge.svg)](https://codecov.io/gh/mmagnus/rna-pdb-tools)
-![http://www.gnu.org/licenses/gpl-3.0.html](http://img.shields.io/:license-gpl3-blue.svg)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60933.svg)](http://dx.doi.org/10.5281/zenodo.60933) 
+<span class="badge-paypal"><a href="https://www.paypal.me/MarcinMagnus" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span> 
+<span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
+<span class="badge-gratipay"><a href="https://www.gratipay.com/mmagnus" title="Donate weekly to this project using Gratipay"><img src="https://img.shields.io/badge/gratipay-donate-yellow.svg" alt="Gratipay donate button" /></a></span>
 
 > Magnus, Marcin. (2016). rna-pdb-tools. Zenodo. 10.5281/zenodo.60933 
 
-If you find the tools helpful, you can cite the repo using the DOI above :-)
+**If you find the tools helpful, you can cite the repo using the doi above :-), you can donate via PayPal, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.**
+
+![](docs/pngs/starit.png)
 
 A library and a program to run various Python functions related to work with PDB files of RNA structures.
 
@@ -25,33 +30,31 @@ This project is a merge of various related projects such as `rnastruc`, `yapdb_p
 
 What is fun here?
 
-+ you see input & output -- this is what you want to get?
-+ it's tested via Travis! -- it (should) always works as you just want!
++ shell utils to work with pdb files and not only,
++ you see input & output -- this is what you want to get? moreover, it's tested via Travis! -- it (should) always works as you just want!
 + you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
 
 .. or you might want to use the lib in the program.
 
 Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
 
+<p align="center">
+  <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
+</p>
+
 Table of Contents
 -----------------
 	
    * [Tour](#tour)
    * [Docs](#docs)
-   * [RNA Puzzle Submission](#rna-puzzle-submission)
    * [Tricks](#tricks)
-   * [Main program](#main-program)
+   * [rna-pdb-tools](#rna-pdb-tools)
    * [Utils](#utils)
-     * [diffpdb](#diffpdb)
-     * [rmsd_calc](#rmsd_calc)
-     * [rna\_convert\_pseudoknot\_formats](#rna_convert_pseudoknot_formats)
-     * [misc](#misc)
+   * [RNA Puzzle Submission](#rna-puzzle-submission)   
    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
    * [Install](#install)
    * [Requirement](#requirement)
-   * [Used libraries](#used-libraries)
-   * [Quick notes](#quick-notes)
-   * [Table of Contents](#table-of-contents)
+   * [History](#history)
 
 ## Tour
 
@@ -63,10 +66,93 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 <a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
+## rna-pdb-tools
+
+```
+[mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
+usage: rna_pdb_tools.py [-h] [-r] [-c] [--orgmode] [--get_chain GET_CHAIN]
+                        [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
+                        [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
+                        [--no_hr] [--renumber_residues] [--collapsed_view]
+                        [--cv] [-v] [--replace_hetatm] [--inplace]
+                        [--edit EDIT] [--delete DELETE]
+                        file [file ...]
+
+rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+
+Usage::
+
+   $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+
+v0.99-97-g9247350-dirty
+
+positional arguments:
+  file                  file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r, --report          get report
+  -c, --clean           get clean structure
+  --orgmode             get a structure in org-mode format <sick!>
+  --get_chain GET_CHAIN
+                        get chain, .e.g A
+  --fetch               fetch file from the PDB db
+  --fetch_ba            fetch biological assembly from the PDB db
+  --get_seq             get seq
+  --get_ss              get secondary structure
+  --rosetta2generic     convert ROSETTA-like format to a generic pdb
+  --get_rnapuzzle_ready
+                        get RNApuzzle ready (keep only standard atoms,
+                        renumber residues)
+  --rpr                 alias to get_rnapuzzle ready)
+  --no_hr               do not insert the header into files
+  --renumber_residues   by defult is false
+  --collapsed_view
+  --cv                  alias to collapsed_view
+  -v, --verbose         tell me more what you're doing, please!
+  --replace_hetatm      replace 'HETATM' with 'ATOM' [tested only with
+                        --get_rnapuzzle_ready]
+  --inplace             in place edit the file! [experimental, only for
+                        get_rnapuzzle_ready, delete, get_ss, get_seq]
+  --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
+  --delete DELETE       delete the selected fragment, e.g. A:10-16
+```
+
+## Tricks
+
+    $ for i in *; do echo $i; rna_pdb_tools.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
+    10_rp17c.out.14.pdb
+    10_rp17c.out.14_out.pdb
+    [..]
+    
+    $ for i in *.pdb; do rna_pdb_tools.py --c $i > ${i/.pdb/_clx.pdb}; done
+    
+    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+
+.. keep original structures in original and use rpr:
+
+    ➜  bujnicki_server_ss for i in original/*.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    ➜  bujnicki_server_ss ls
+    17pz_withSS_all_thrs6.00A_clust01-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust06-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust02-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust07-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust03-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust08-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust04-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust09-000001_AA_rpr.pdb
+    17pz_withSS_all_thrs6.00A_clust05-000001_AA_rpr.pdb original
+
+.. or to get SimRNAready structures:
+
+    $ for i in *pdb; do rna_pdb_tools.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
+    
+## Utils
+
+See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tools.
+
+Read more http://rna-pdb-tools.readthedocs.io/en/latest/ 
+
 ## RNA Puzzle Submission
 Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`):
 
-	$ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+	$ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 	
 .. merge them as one file in the order as you like (or use `*`):
 
@@ -109,92 +195,6 @@ and verify your file with the template provided by the organizers:
 	ENDMDL
 	END
 
-## Tricks
-
-    $ for i in *; do echo $i; rna_pdb_tools.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
-    10_rp17c.out.14.pdb
-    10_rp17c.out.14_out.pdb
-    [..]
-    
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --c $i > ${i/.pdb/_clx.pdb}; done
-    
-    $ for i in `ls *.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
-
-.. keep original structures in original and use rpr:
-
-    ➜  bujnicki_server_ss for i in `ls original/*.pdb`; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
-    ➜  bujnicki_server_ss ls
-    17pz_withSS_all_thrs6.00A_clust01-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust06-000001_AA_rpr.pdb
-    17pz_withSS_all_thrs6.00A_clust02-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust07-000001_AA_rpr.pdb
-    17pz_withSS_all_thrs6.00A_clust03-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust08-000001_AA_rpr.pdb
-    17pz_withSS_all_thrs6.00A_clust04-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust09-000001_AA_rpr.pdb
-    17pz_withSS_all_thrs6.00A_clust05-000001_AA_rpr.pdb original
-
-.. or to get SimRNAready structures:
-
-    $ for i in `ls *pdb`; do rna_pdb_tools.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
-
-## Main program
-
-	./rna_pdb_tools.py -h
-	usage: rna-pdb-tools.py ver: 58d5946-dirty [-h] [-r] [-c]
-	                                           [--get_chain GET_CHAIN] [--fetch]
-	                                           [--fetch_ba] [--get_seq]
-	                                           [--rosetta2generic]
-	                                           [--get_rnapuzzle_ready] [--no_hr]
-	                                           [--renumber_residues]
-	                                           [--get_simrna_ready]
-	                                           [--collapsed_view] [--cv]
-	                                           [--edit EDIT] [--delete DELETE]
-	                                           file
-	
-	positional arguments:
-	  file                  file
-	
-	optional arguments:
-	  -h, --help            show this help message and exit
-	  -r, --report          get report
-	  -c, --clean           get clean structure
-	  --get_chain GET_CHAIN
-	                        get chain, .e.g A
-	  --fetch               fetch file from the PDB db
-	  --fetch_ba            fetch biological assembly from the PDB db
-	  --get_seq             get seq
-	  --rosetta2generic     convert ROSETTA-like format to a generic pdb
-	  --get_rnapuzzle_ready
-	                        get RNApuzzle ready (keep only standard atoms,
-	                        renumber residues)
-	  --no_hr               do not insert the header into files
-	  --renumber_residues
-	  --get_simrna_ready
-	  --collapsed_view
-	  --cv                  alias to collapsed_view
-	  --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
-	  --delete DELETE       delete the selected fragment, e.g. A:10-16
-
-## Utils
-
-See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
-
-### diffpdb
-[diffpdb](rna_pdb_tools/utils/diffpdb/) - a simple tool to compare text-content of PDB files
-
-![diffpdb](rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png)
-
-### rmsd_calc
-[rna_calc_rmsd](rna_pdb_tools/utils/rna_calc_rmsd/) - various ways how to calc rmsd.
-
-### rna_convert_pseudoknot_formats
-
-[rna_convert_pseudoknot_formats](rna_pdb_tools/utils/rna_convert_pseudoknot_formats)
-
-![diffpdb](rna_pdb_tools/utils/rna_convert_pseudoknot_formats/doc/varna_2pk.png)
-
-### misc
-
-[rnashape2ascii](rna_pdb_tools/utils/rnashape2ascii/
-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▁▁▁▁▁▁▁▁▁▁`
-
 ## Inspiration (and alternatives):
 
 + https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
@@ -206,23 +206,11 @@ See [Utils](rna_pdb_tools/utils) for simple but useful rna pdb tools.
 
 ## Install
 
-Install requirements and do these three steps:
-
-1. add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. `PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/` 
-2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  `PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/`
-3. and run the install script:
-	
-	    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
-	    Installed in ./bin
-	    rmsd_calc_to_target.py
-
-should be OK now :-)
+Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
 
 ## Requirement
 
 Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
-
-## Used libraries
 
 This packages uses other pieces of software, it would be impossible without them to develop rna-pdb-tools, thanks!
 
@@ -230,8 +218,51 @@ This packages uses other pieces of software, it would be impossible without them
 + rmsd (https://github.com/charnley/rmsd)
 + forgi (http://www.tbi.univie.ac.at/%7Ethiel/forgi/graph_tutorial.html)
 
-## Quick notes
+## History
 
-    |1.......|10.......|20.......|30.......|40.......|50.......|60.......|70.......|80.......|90.......
-    123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789
-    .........10.....
+170608 Add `--get_ss` (secondary structure) using x3dna.
+
+170518 Edit in place [experimental, only for `get_rnapuzzle_ready`] `rna_pdb_tools.py --rpr 7_Das_7_rpr.pdb --inplace`. (2) get a structure in org-mode format <sick!>
+
+170517 Fix #37 mis-align atom names after rpr-ing bug
+
+170515 Fix fixing missing O2'
+
+170404	`rna_simrna_extract.py -t template.pdb -f *05.trafl -c -n 1 # extract only the first model`
+
+170331 rna-pdb-tools meets Emacs!
+
+![](docs/pngs/rpt_emacs.png)
+
+170325 Seq: secondary structure prediction with constraints
+
+    >>> seq = Seq("CCCCUUUUGGGG")
+    >>> seq.name = 'RNA03'
+    >>> print(seq.predict_ss("RNAfold", constraints="((((....))))"))
+    >RNA03
+    CCCCUUUUGGGG
+    ((((....)))) ( -6.40)
+
+170324 Starting converting to Python3, fetch_align by Pietro
+
+170320 `rna_cartoon` in PyMOL
+
+![](docs/pngs/rna_cartoon_small.png)
+
+170319 Add clanstix (move it from its own GitHub repository).
+
+170315 SimRNA_trajectory:
+  - get len of frame, and trajectory
+  - warn about broken frame
+  - `only_first_frame` to get only the first frame
+
+170311 Get seq (v2) gets segments of chains with correct numbering
+
+	> 6_solution_0 A:1-19 26-113 117-172
+	GGCGGCAGGUGCUCCCGACGUCGGGAGUUAAAAGGGA
+
+170308 Add fixing missing atoms of bases, and O2'
+
+... many things! :-)
+
+~2011 Prelimiary version as rnastruc, yapdb_parser etc.

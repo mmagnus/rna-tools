@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from SingleLineUtils import get_res_code, get_res_num, get_atom_code, \
+from .SingleLineUtils import get_res_code, get_res_num, get_atom_code, \
     set_atom_code, set_line_bfactor
 import re
 
@@ -73,8 +73,8 @@ class PDBFile(object):
         """
         self.verbose = verbose
 
-        if len(filter(lambda x: x is not None, [pdb_string, pdb_path, pdb_handle])) > 1:
-            print 'You should provide at most one source for PDB file'
+        if len([x for x in [pdb_string, pdb_path, pdb_handle] if x is not None]) > 1:
+            print('You should provide at most one source for PDB file')
             raise Exception
         input_string = ''
         if pdb_string is not None:
@@ -163,7 +163,7 @@ class PDBFile(object):
             seq = [self.RES3TO1[atoms[0][3]]]
         else:
             seq = [atoms[0][3][1]]
-        for a in xrange(1, len(atoms)):
+        for a in range(1, len(atoms)):
             # atom number is different than previous one
             if atoms[a][5] != atoms[a - 1][5]:
                 if atoms[a][3][0] != 'r':  # check for ROSETTA PDB
@@ -181,9 +181,9 @@ class PDBFile(object):
         atoms = [l.split() for l in self._get_atom_lines()]
         seq = []
         seq.append(atoms[0][3])
-        for a in xrange(1, len(atoms)):
+        for a in range(1, len(atoms)):
             # atom number is different than previous one
-            if self.verbose: print atoms[a][5], atoms[a - 1][5]
+            if self.verbose: print((atoms[a][5], atoms[a - 1][5]))
             if atoms[a][5] != atoms[a - 1][5]:
                 seq.append(atoms[a][3])
         return ' '.join(seq)
@@ -245,7 +245,7 @@ class PDBFile(object):
             try:
                 self._resname_3to1()
             except:
-                print 'Conversion to 1-letter residue names failed'
+                print('Conversion to 1-letter residue names failed')
     
     def terminate_chains(self):
         """Add 'TER' at the end of chain if none 'TER's are found in PDB.
@@ -359,10 +359,10 @@ class PDBFile(object):
         Arguments:
           * model_num = number of model to get, starts with 0
         """
-        model_borders = zip(
+        model_borders = list(zip(
                             [i[0] for i in enumerate(self.pdb_lines) if i[1].startswith('MODEL')],
                             [i[0] for i in enumerate(self.pdb_lines) if i[1].startswith('ENDMDL')]
-                            )
+                            ))
         result = self.pdb_lines[:model_borders[0][0]]
         result.extend(self.pdb_lines[model_borders[model_num][0]:model_borders[model_num][1]+1])
         result.extend(self.pdb_lines[model_borders[-1][1]+1:])
