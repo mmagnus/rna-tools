@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 """A super simple script to get some statistics of who is running at a cluster
 
-Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.g. peyote ~1k"""
+Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.g. peyote ~1k (rather 700, e.g. FARNA runs.).
+
+.. warning MAX_JOBS in hardcoded in the code. To fix at some point."""
+
 import commands
-MAX_JOBS = 800
+MAX_JOBS = 700 
 
 print 'MAX_JOBS:', MAX_JOBS
 
