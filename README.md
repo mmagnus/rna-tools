@@ -73,9 +73,9 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 usage: rna_pdb_tools.py [-h] [-r] [-c] [--orgmode] [--get_chain GET_CHAIN]
                         [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
                         [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
-                        [--no_hr] [--renumber_residues] [--collapsed_view]
-                        [--cv] [-v] [--replace_hetatm] [--inplace]
-                        [--edit EDIT] [--delete DELETE]
+                        [--no_hr] [--renumber_residues] [--dont_rename_chains]
+                        [--collapsed_view] [--cv] [-v] [--replace_hetatm]
+                        [--inplace] [--edit EDIT] [--delete DELETE]
                         file [file ...]
 
 rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
@@ -84,7 +84,7 @@ Usage::
 
    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
-v0.99-97-g9247350-dirty
+v0.99-106-gff59cdf-dirty
 
 positional arguments:
   file                  file
@@ -107,6 +107,9 @@ optional arguments:
   --rpr                 alias to get_rnapuzzle ready)
   --no_hr               do not insert the header into files
   --renumber_residues   by defult is false
+  --dont_rename_chains  used only with --get_rnapuzzle_ready. By defult
+                        --get_rnapuzzle_ready rename chains from ABC.. to stop
+                        behavior switch on this option
   --collapsed_view
   --cv                  alias to collapsed_view
   -v, --verbose         tell me more what you're doing, please!

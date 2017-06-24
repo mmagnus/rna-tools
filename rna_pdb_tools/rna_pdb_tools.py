@@ -57,6 +57,10 @@ def get_parser():
     parser.add_argument('--renumber_residues', help='by defult is false',
                         action='store_true')
 
+    parser.add_argument('--dont_rename_chains', help="""used only with --get_rnapuzzle_ready. By defult \
+                                                      --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option""",
+                        action='store_true')
+
     parser.add_argument('--collapsed_view', help='',
                         action='store_true')
 
@@ -224,8 +228,10 @@ if __name__ == '__main__':
             s.shift_atom_names()
             s.prune_elements()
 
+            rename_chains = False if args.dont_rename_chains else True
+            
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True,
-                                                rename_chains=True, verbose=args.verbose)
+                                                rename_chains=rename_chains, verbose=args.verbose)
 
             if args.inplace:
                 with open(f, 'w') as f:
@@ -246,7 +252,7 @@ if __name__ == '__main__':
                     output += add_header(version) + '\n'
                 if remarks:    
                     output += '\n'.join(remarks) + '\n'
-                output += s.get_text()
+                output += s.get_text() + '\n'
                 try:
                     sys.stdout.write(output)
                     sys.stdout.flush()
