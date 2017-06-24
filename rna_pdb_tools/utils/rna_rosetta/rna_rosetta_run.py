@@ -7,7 +7,28 @@ http://www.sciencedirect.com/science/article/pii/S0076687914000524
 
 The script makes (1) a folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder (2) make helices (3) prepare rosetta input files (4) sends jobs to the cluster.
 
-Mind that headers will be trimmed to 5 characters (``header[:5]``). The header is take from the fast file (``>/header/``) not from the filename of your Fasta file.
+Mind that headers will be trimmed to 5 characters (``header[:6]``). The header is take from the fast file (``>/header/``) not from the filename of your Fasta file.
+
+Run::
+
+    rna_rosetta_run.py -e -r -g -c 600 cp20.fa
+
+`-i`:: 
+
+    # prepare a folder for a run 
+    >cp20
+    AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
+    .(((((....(((((.....)))))(((..(((((..[[[[..)).))).)))......))))).((((......)))).......]]]].
+
+    [peyote2] ~ rna_rosetta_run.py -i cp20.fa
+    run rosetta for:
+    cp20
+    AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
+    .(((((....(((((.....)))))(((..(((((..[[[[..)).))).)))......))))).((((......)))).......]]]].
+    /home/magnus//cp20/ created
+    Seq & ss created
+
+Troubleshooting.
 
 If one of the helices is missing you will get::
 
@@ -45,7 +66,8 @@ import math
 ROOT_DIR_MODELING = '/home/magnus/'
 
 def get_parser():
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
+
     parser.add_argument('-i', '--init', help='prepare _folder with seq and ss',
                         action='store_true')
     parser.add_argument('-e', '--helices', help='produce h(E)lices',
@@ -82,9 +104,11 @@ def prepare_helices():
     """Make helices (wrapper around 'helix_preassemble_setup.py')
 
     .. warning:: I think multiprocessing of helixX.run does not work."""
+    # run helix_p..
     cmd = 'helix_preassemble_setup.py -secstruct ss.fa -fasta seq.fa'
-    #os.system(cmd)
-    #
+    os.system(cmd)
+
+    # find all helix
     helix_runs = glob.glob('*RUN')
     print(helix_runs)
 
@@ -98,15 +122,19 @@ def prepare_helices():
     #os.system('./CMDLINES')
     ## ./CMDLINES: 2: source: not found
     
-    ## runs multiprocessing, but does not wait for the rest of the program
-    ## hmm... it does not wait because I used & ???
-    #os.system('bash HRUNS') 
-    
-    p = subprocess.Popen(open('HRUNS').read(), shell=True, stderr=subprocess.PIPE)
-    p.wait()
-    stderr = p.stderr.read().strip()
-    if stderr:
-        print(stderr)
+    # os.system runs multiprocessing, but does not wait for the rest of the program
+    # hmm... it does not wait because I used & ???
+    # this works in multirpocessing mode but it does not wait for `-r` !!! so if your run -e only it's OK.
+    # don't combile -e with -r because making helices will not wait to run -r (!) and  you will get an error
+    # and only helices made and then the program will finish
+    if False: 
+        os.system('bash HRUNS') 
+    else:
+        p = subprocess.Popen(open('HRUNS').read(), shell=True, stderr=subprocess.PIPE)
+        p.wait()
+        stderr = p.stderr.read().strip()
+        if stderr:
+            print stderr
 
 def prepare_rosetta(header, cpus):
     """Repare ROSETTA using rna_denovo_setup.py
@@ -126,8 +154,8 @@ def prepare_rosetta(header, cpus):
     os.system(cmd)
     # change to 50 per job (!)
     # 50 * 100 = 10k ?
-    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:5]
-    print(cmd)
+    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6]
+    print cmd
     os.system(cmd)    
 
 def go():
