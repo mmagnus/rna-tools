@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function
+
 """A super simple script to get some statistics of who is running at a cluster
 
 Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.g. peyote ~1k (rather 700, e.g. FARNA runs.).
@@ -6,15 +8,19 @@ Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.
 .. warning MAX_JOBS in hardcoded in the code. To fix at some point."""
 
 import commands
-MAX_JOBS = 700 
+import subprocess
 
+MAX_JOBS = 700 
 print('MAX_JOBS:', MAX_JOBS)
 
 def stats_for_cluster():
     """get stats (#jobs) per cluster"""
     
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
-    out = subprocess.check_output(cmd, shell=True).strip()
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.wait()
+    out = p.stdout.read().strip()
+    
     cc = 0
     for l in out.split('\n'):
         if l.strip():
@@ -30,7 +36,11 @@ def stats_for_cluster():
 def stats_for_user():
     """get stats (#jobs) per user"""
     cmd="/home/oge/bin/lx24-amd64/qstat "# -u '*'"
-    out = subprocess.check_output(cmd, shell=True)
+
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.wait()
+    out = p.stdout.read().strip()
+
     cc = 0
     for l in out.split('\n'):
         if l:
@@ -45,7 +55,11 @@ def per_user():
     """get stats (#cpus) per user"""
     # {'deepak': 160, 'azyla': 8, 'magnus': 755}
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
-    out = subprocess.check_output(cmd, shell=True).strip()
+
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.wait()
+    out = p.stdout.read().strip()
+
     per_user = {}
     for l in out.split('\n'):
         if l.startswith('job-ID') or l.startswith('---'):
@@ -62,7 +76,7 @@ def per_user():
 
 if __name__ == '__main__':
     cc = stats_for_cluster()
-    print(('#jobs cluster', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc))
+    print('#jobs cluster', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc)
     cc = stats_for_user()
-    print(('#jobs you    ', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc))
-    print((per_user()))
+    print('#jobs you    ', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc)
+    print(per_user())
