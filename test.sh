@@ -38,6 +38,10 @@ python update_readme.py
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle input/1I9V_YG_HETATM_ATOM.pdb > output/1I9V_YG_HETATM_ATOM_rpr.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle --replace_hetatm input/1I9V_A.pdb > output/1I9V_A_rpr.pdb
 
+## --get_rnapuzzle_ready and --dont_rename_chains
+rna_pdb_tools.py --no_hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
+rna_pdb_tools.py --no_hr --rpr --dont_rename_chains input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_dontRenameChains.pdb
+
 # --rpr inplace fix
 cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ./rna_pdb_tools.py --no_hr --rpr output/7_Chen_7_rpr_inplacefix.pdb --inplace
