@@ -793,7 +793,7 @@ class StrucFile:
     def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, rename_chains=True, verbose=True):#:, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
-        Clean up a structure, get corrent order of atoms.
+        Clean up a structure, get current order of atoms.
 
         :param renumber_residues: boolean, from 1 to ..., second chain starts from 1 etc.
         :param fix_missing_atoms: boolean, superimpose motifs from the minilibrary and copy-paste missing atoms, this is super crude, so should be used with caution.
