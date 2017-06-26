@@ -28,6 +28,7 @@ If something does not work for you, please make an issue, using https://github.c
    workflows
    tips
    rna-puzzles
+   notebooks
    emacs
    geekbook
    git
