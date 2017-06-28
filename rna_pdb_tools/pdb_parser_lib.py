@@ -966,6 +966,8 @@ class StrucFile:
                                 del r["O5'"]
                                 r.add( po3["O5'"])
 
+                            fixed.append(['add OP3 at the beginning of the chain ', chain.id, r, c])
+
                     p_missing = False # off this function
 
                 
@@ -1250,14 +1252,14 @@ class StrucFile:
 
         remarks = []
         if fixed:
-            remarks.append('REMARK 000 Fixed atoms/residues:')
+            remarks.append('REMARK 250 Fixed atoms/residues:')
             for i in fixed:
-                remarks.append(' '.join(['REMARK 000 - ', str(i[0]), 'in chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
+                remarks.append(' '.join(['REMARK 250  -', str(i[0]), 'in chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
 
         if missing:
-            remarks.append('REMARK 000 Missing atoms:')
+            remarks.append('REMARK 250 Missing atoms:')
             for i in missing:
-                remarks.append(' '.join(['REMARK 000  +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
+                remarks.append(' '.join(['REMARK 250   +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
             #raise Exception('Missing atoms in %s' % self.fn)
         #
         # fix ter 'TER' -> TER    1528        G A  71
@@ -1368,8 +1370,8 @@ class StrucFile:
 
 def add_header(version=None):
     now = time.strftime("%c")
-    txt = 'HEADER Generated with rna-pdb-tools\n'
-    txt += 'HEADER ver %s \nHEADER https://github.com/mmagnus/rna-pdb-tools \nHEADER %s' % (version, now)
+    txt =  'REMARK 250 Model edited with rna-pdb-tools\n'
+    txt += 'REMARK 250  ver %s \nREMARK 250  https://github.com/mmagnus/rna-pdb-tools \nREMARK 250  %s' % (version, now)
     return txt
 
 def edit_pdb(args):
