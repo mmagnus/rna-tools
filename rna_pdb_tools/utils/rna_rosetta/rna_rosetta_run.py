@@ -9,13 +9,16 @@ The script makes (1) a folder for you job, with seq.fa, ss.fa, input file is cop
 
 Mind that headers will be trimmed to 5 characters (``header[:6]``). The header is take from the fast file (``>/header/``) not from the filename of your Fasta file.
 
+Helix
+-------------------------------------------------------
+
 Run::
 
     rna_rosetta_run.py -e -r -g -c 600 cp20.fa
 
 `-i`:: 
 
-    # prepare a folder for a run 
+    # prepare a folder for a run
     >cp20
     AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
     .(((((....(((((.....)))))(((..(((((..[[[[..)).))).)))......))))).((((......)))).......]]]].
@@ -53,7 +56,12 @@ My case with a modeling of rp12
     Secstruc:  (( ))
     Not complementary at positions 1 and 4!
 
-edit the secondary structure, run the program with -i (init, to overwrite seq.fa, ss.fa) and then it works."""
+edit the secondary structure, run the program with -i (init, to overwrite seq.fa, ss.fa) and then it works.
+
+Run Rosetta
+-------------------------------------------------------
+
+"""
 
 import argparse
 import textwrap
@@ -139,7 +147,7 @@ def prepare_helices():
             print stderr
 
 def prepare_rosetta(header, cpus):
-    """Repare ROSETTA using rna_denovo_setup.py
+    """Prepare ROSETTA using rna_denovo_setup.py
 
     cpus is used to calc nstruc per job to get 20k structures per full run::
 
@@ -149,14 +157,15 @@ def prepare_rosetta(header, cpus):
     # get list line
     helices = open('CMDLINES').readlines()[-1].replace('#','')
     njobs = cpus # 500
-    nstruct = int(math.floor(20000/cpus)) # 20000/500 -> 40
+    nstruct = int(math.floor(20000/cpus)) # 20000/500 -> 40 
 
     cmd = 'rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct ' + str(nstruct) + ' ' + helices
     print(cmd)
     os.system(cmd)
     # change to 50 per job (!)
     # 50 * 100 = 10k ?
-    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6]
+    # dont change this 100 (!) it might not run on peyote2 with values like 99999 !
+    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6] 
     print cmd
     os.system(cmd)    
 
@@ -166,7 +175,7 @@ def go():
     os.system('./qsubMINI')
     
 def main():
-    """Pipline for modeling RNA"""
+    """Pipeline for modeling RNA"""
     args = get_parser().parse_args()
     
     if args.file:
