@@ -169,7 +169,7 @@ def main():
     
     if args.file:
         f = open(args.file)
-        header = f.readline().strip().replace('>','')
+        header = f.readline().replace('>','').strip()
         seq = f.readline().strip()
         ss = f.readline().strip()
         cpus = int(args.cpus)
