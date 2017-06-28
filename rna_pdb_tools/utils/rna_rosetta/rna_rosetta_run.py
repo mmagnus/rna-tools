@@ -63,7 +63,9 @@ import subprocess
 import shutil
 import math
 
-ROOT_DIR_MODELING = '/home/magnus/'
+import os
+
+RNA_ROSETTA_RUN_ROOT_DIR_MODELING = os.environ['RNA_ROSETTA_RUN_ROOT_DIR_MODELING']
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -178,7 +180,7 @@ def main():
         print(seq)
         print(ss)
 
-        path = ROOT_DIR_MODELING + os.sep + header + os.sep
+        path = RNA_ROSETTA_RUN_ROOT_DIR_MODELING + os.sep + header + os.sep
         curr = os.getcwd()
         if args.init:
             prepare_folder(args,header, seq, ss, path)
