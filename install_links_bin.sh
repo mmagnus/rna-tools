@@ -40,6 +40,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_refinement/rna_refinement.py $curr_dir/b
 
 ln -s $curr_dir/rna_pdb_tools/rna_pdb_download_simrna_job.py $curr_dir/bin/rna_pdb_download_simrna_job.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/rna_x3dna/rna_x3dna.py $curr_dir/bin/rna_x3dna.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo
