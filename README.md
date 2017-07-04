@@ -84,7 +84,7 @@ Usage::
 
    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
-v0.99-106-gff59cdf-dirty
+v0.99-111-g948d446-dirty
 
 positional arguments:
   file                  file

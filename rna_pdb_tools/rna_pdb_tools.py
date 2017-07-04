@@ -7,6 +7,14 @@ Usage::
 
    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
+    $ rna_pdb_tools.py --get_seq *
+    # BujnickiLab_RNApuzzle14_n01bound
+    > A:1-61
+    # BujnickiLab_RNApuzzle14_n02bound
+    > A:1-61
+    CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
+    [...]
+
 """
 
 import argparse
