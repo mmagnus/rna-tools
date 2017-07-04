@@ -72,8 +72,12 @@ import shutil
 import math
 
 import os
+import sys
 
-RNA_ROSETTA_RUN_ROOT_DIR_MODELING = os.environ['RNA_ROSETTA_RUN_ROOT_DIR_MODELING']
+try:
+    RNA_ROSETTA_RUN_ROOT_DIR_MODELING = os.environ['RNA_ROSETTA_RUN_ROOT_DIR_MODELING']
+except:
+    print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in .bashrc')
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
