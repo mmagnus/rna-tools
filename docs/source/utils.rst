@@ -243,11 +243,6 @@ RNAkb
 RNA Refinement (QRNAS)
 -----------------------------------------
 
-.. automodule:: rna_pdb_tools.utils.rna_refinement.rna_refinement
-   :members:
-
-**rna_refinement.py**
-
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_refinement.rna_refinement.get_parser
    :prog: rna_refinement.py

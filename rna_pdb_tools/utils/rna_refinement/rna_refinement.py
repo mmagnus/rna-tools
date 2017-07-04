@@ -3,18 +3,38 @@
 
 """RNA refinement with QRNAS
 
+Models of RNA 3D structures obtained by modeling methods often suffer from local inaccuracies such as clashes or physically improbable bond lengths, backbone conformations, or sugar puckers. To ensure high quality of models, a procedure of re nement should be applied as a  nal step in the modeling pipeline. The software tool QRNAS was developed in our laboratory to perform local re nement of nucleic acid structures based on an extended version of the AMBER force field. The extensions consist of energy terms associated with introduction of explicit hydrogen bonds, idealization of base pair planarity and regularization of backbone conformation.
+
+Read more: Piatkowski, P., Kasprzak, J. M., Kumar, D., Magnus, M., Chojnowski, G., & Bujnicki, J. M. (2016). RNA 3D Structure Modeling by Combination of Template-Based Method ModeRNA, Template-Free Folding with SimRNA, and Refinement with QRNAS. Methods in Molecular Biology (Clifton, N.J.), 1490(Suppl), 217-235. http://doi.org/10.1007/978-1-4939-6433-8_14
+
 Right now, there is 20k steps of refinement.
 
-Installation of QRNAS
------------------------------------------
-Install (http://genesilico.pl/qrnas). Download the QRNAS package from http://genesilico.pl/qrnas/,
- unzip the archive, and compile it with the following command::
+.. image:: ../pngs/qrnas_0k.png
+
+The initial structure, ``179c48aa-c0d3-4bd6-8e06-12081da22998_ALL_thrs6.20A_clust01-000001_AA.pdb``.
+
+.. image:: ../pngs/qrnas_3k.png
+
+after 3k, ~10min
+
+.. image:: ../pngs/qrnas_10k.png
+
+after 10k steps, around 30min
+
+.. image:: ../pngs/qrnas_20k.png
+
+after 20k steps, around 1h.
+
+**Installation of QRNAS**
+
+Download the QRNAS package from http://genesilico.pl/qrnas/,
+unzip the archive, and compile it with the following command::
 
     ./qrnamake sequential
 
 This should create an executable version of QRNAS.
 
-Be default the script searches QRNAS in (rna-pdb-tools)/opt/qrnas/ .
+Be default the script searches QRNAS in <rna-pdb-tools>/opt/qrnas/ .
 
 Usage of QRNA::
 
@@ -26,8 +46,7 @@ Usage of QRNA::
     OR specify <input PDBfile>, <output PDBfile> and <restraintsfile> in <configfile> and type just:
       QRNA -c <configfile>
 
-Installation of this utils
------------------------------------------
+**Installation of this util**
 
 Set up in your bashrc::
 
@@ -56,7 +75,8 @@ try:
     PATH = os.environ['RNA_PDB_TOOLS']
 except:
     print ('Set up RNA_PDB_TOOLS, see Installation note')
-    sys.exit(0)
+    #sys.exit(0)
+    pass
     
 QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
