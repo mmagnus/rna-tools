@@ -3,7 +3,16 @@
 
 """RNA refinement with QRNAS
 
-Install (http://genesilico.pl/qrnas)
+Right now, there is 20k steps of refinement.
+
+Installation of QRNAS
+-----------------------------------------
+Install (http://genesilico.pl/qrnas). Download the QRNAS package from http://genesilico.pl/qrnas/,
+ unzip the archive, and compile it with the following command::
+
+    ./qrnamake sequential
+
+This should create an executable version of QRNAS.
 
 Be default the script searches QRNAS in (rna-pdb-tools)/opt/qrnas/ .
 
@@ -17,11 +26,18 @@ Usage of QRNA::
     OR specify <input PDBfile>, <output PDBfile> and <restraintsfile> in <configfile> and type just:
       QRNA -c <configfile>
 
-TODO:
+Installation of this utils
+-----------------------------------------
 
-- clean up the output structure
-- configuration should not be hardcoded
+Set up in your bashrc::
 
+   export QRNAS_PATH=<your path to qrnas> # e.g. /home/magnus/src/rna-pdb-tools/opt/qrnas
+
+but default rna-pdb-tools searches for qrnas in <rna-pdb-tools>/opt/qrnas.
+
+DONE:
+
+- [x] onfiguration should not be hardcoded
 """
 
 from __future__ import print_function
@@ -34,21 +50,21 @@ import string
 
 from shutil import copyfile
 
-PATH = "/Users/magnus/work/src/rna-pdb-tools/"
-QRNAS_PATH = PATH + '/opt/qrnas/'
+PATH = os.environ['RNA_PDB_TOOLS']
+QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
 class QRNAS:
     """QRNAS"""
     def run(self, inputfile, outputfile, steps = 10):
-        """pdb_txt - content of pdb file,
-        steps - nr of steps of simulation, 500 by default.
-
-        NSTEPS must be uncommented."""
+        """
+        :param inputfile: 
+        :param outputfile: 
+        :param steps: 
+        """
         cwd = os.getcwd()
         # get config
         conftxt = open(QRNAS_PATH + os.sep + 'configfile.txt').read()
-        conftxt_tmp = re.sub('NSTEPS.+\d+', 'NSTEPS   ' + str(steps), conftxt)
-
+        conftxt_tmp = re.sub('\#?\s?NSTEPS.+\d+', 'NSTEPS   ' + str(steps), conftxt)
         JOB_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20))
         JOB_PATH = QRNAS_PATH + os.sep + 'jobs/' + JOB_ID
         os.makedirs(JOB_PATH)
@@ -72,9 +88,10 @@ class QRNAS:
         copyfile(QRNAS_PATH + '/jobs/' + JOB_ID + os.sep + os.path.basename(inputfile).replace('.pdb', '.refi.pdb'), outputfile)
 
 def get_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('inputfile', help="input pdb file")     
-    parser.add_argument('outputfile', help="output pdb file")
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('-s', '--steps', help="# of steps, default: 20k ", default=20000)         
+    parser.add_argument('fn', help="input pdb file")     
+    #parser.add_argument('outputfile', help="output pdb file")
     return parser
 #main
 if __name__ == '__main__':
@@ -82,4 +99,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     q = QRNAS()
-    q.run(args.inputfile, args.outputfile)
+    q.run(args.fn, args.fn.replace('.pdb', '._refi.pdb'), steps = args.steps)
