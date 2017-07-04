@@ -37,7 +37,8 @@ but default rna-pdb-tools searches for qrnas in <rna-pdb-tools>/opt/qrnas.
 
 DONE:
 
-- [x] onfiguration should not be hardcoded
+- [x] clean up the output structure
+- [x] configuration should not be hardcoded
 """
 
 from __future__ import print_function
@@ -66,7 +67,8 @@ class QRNAS:
         conftxt = open(QRNAS_PATH + os.sep + 'configfile.txt').read()
         conftxt_tmp = re.sub('\#?\s?NSTEPS.+\d+', 'NSTEPS   ' + str(steps), conftxt)
         JOB_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20))
-        JOB_PATH = QRNAS_PATH + os.sep + 'jobs/' + JOB_ID
+
+        JOB_PATH = '/tmp/' + os.sep + JOB_ID + os.sep
         os.makedirs(JOB_PATH)
 
         # get temp config
@@ -74,24 +76,26 @@ class QRNAS:
             f.write(conftxt_tmp)
 
         # copy input to qrnas folder
-        qrnas_inputfile = QRNAS_PATH + os.sep + 'jobs/' + JOB_ID + os.sep + os.path.basename(inputfile)
+        qrnas_inputfile = JOB_PATH + os.path.basename(inputfile)
+        qrnas_outputfile = JOB_PATH + os.path.basename(inputfile).replace('.pdb', '.refx.pdb')
         copyfile(inputfile, qrnas_inputfile)
 
         os.chdir(QRNAS_PATH)
-        cmd = './QRNAS -i jobs/' + JOB_ID + os.sep + os.path.basename(inputfile) + \
-          ' -c jobs/' + JOB_ID + os.sep + 'configfile.txt ' + \
-          ' -o jobs/' + JOB_ID + os.sep + os.path.basename(inputfile).replace('.pdb', '.refi.pdb')
+        cmd = './QRNAS -i ' + qrnas_inputfile + \
+          ' -c ' + JOB_PATH + 'configfile.txt ' + \
+          ' -o ' + qrnas_outputfile
         print(cmd)
         subprocess.call(cmd, shell=True)
 
         os.chdir(cwd)
-        copyfile(QRNAS_PATH + '/jobs/' + JOB_ID + os.sep + os.path.basename(inputfile).replace('.pdb', '.refi.pdb'), outputfile)
+        print ("Save to %s" % outputfile)
+        copyfile(qrnas_outputfile, outputfile)
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-s', '--steps', help="# of steps, default: 20k ", default=20000)         
     parser.add_argument('fn', help="input pdb file")     
-    #parser.add_argument('outputfile', help="output pdb file")
+    parser.add_argument('-o', '--output_file', help="output pdb file")
     return parser
 #main
 if __name__ == '__main__':
@@ -99,4 +103,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     q = QRNAS()
-    q.run(args.fn, args.fn.replace('.pdb', '._refi.pdb'), steps = args.steps)
+    if not args.output_file:
+        output_file = args.fn.replace('.pdb', '_refx.pdb')
+    else:
+        output_file = args.output_file
+    q.run(args.fn, output_file, steps = args.steps)

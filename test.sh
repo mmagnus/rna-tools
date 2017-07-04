@@ -110,6 +110,10 @@ cd ./utils/rna_filter/
 ./test.sh
 cd ../..
 
+cd ./utils/rna_refinement/
+./test.sh
+cd ../..
+
 # rna_pdb_rnapuzzle_ready.py
 #echo 'rna_pdb_rnapuzzle_ready.py'
 #./rna_pdb_rnapuzzle_ready.py --no_hr  --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
