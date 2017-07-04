@@ -48,10 +48,16 @@ import os
 import subprocess
 import random
 import string
+import sys
 
 from shutil import copyfile
 
-PATH = os.environ['RNA_PDB_TOOLS']
+try:
+    PATH = os.environ['RNA_PDB_TOOLS']
+except:
+    print ('Set up RNA_PDB_TOOLS, see Installation note')
+    sys.exit(0)
+    
 QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
 class QRNAS:
