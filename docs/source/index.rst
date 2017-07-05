@@ -18,8 +18,16 @@ If you find the tools helpful, you can cite the repo using the doi_::
 
 If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-pdb-tools/issues
 
+The main documentation for the site is organized into sections:
+
+:ref:`user-docs`
+Information about development is also available:
+
+:ref:`dev-docs`
+
 .. toctree::
    :maxdepth: 4
+   :caption: User Documentation
 
    want
    main
@@ -34,6 +42,13 @@ If something does not work for you, please make an issue, using https://github.c
    git
    install
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Developer Documentation
+
+   development
+
+   
 Indices and tables
 ==================
 
