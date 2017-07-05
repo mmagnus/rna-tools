@@ -45,7 +45,7 @@ else:
     PATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 
 try:
-    from diffpdb_conf import DIFF_TOOL
+    from rna_pdb_tools.rpt_config import DIFF_TOOL
 except ImportError:
     DIFF_TOOL = 'diff' ## kompare
 
@@ -82,7 +82,7 @@ def do_file(fn):
     open(fn + '.out', 'w').write(text_new)
 
 def get_parser():
-    parser = argparse.ArgumentParser('diffpdb.py')
+    parser = argparse.ArgumentParser(description=__doc__ + '\n' + '  method: %s ' % DIFF_TOOL, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--names', help='take only atom residues names', action='store_true')
     parser.add_argument('--names_and_resi', help='take only atom residues names', action='store_true')
     parser.add_argument('--htmlout', help='take only atom residues names', action='store_true')

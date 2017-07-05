@@ -75,9 +75,10 @@ import os
 import sys
 
 try:
-    RNA_ROSETTA_RUN_ROOT_DIR_MODELING = os.environ['RNA_ROSETTA_RUN_ROOT_DIR_MODELING']
+    from rna_pdb_tools.rpt_config import rna_rosetta_run_root_dir_for_modeling
+    RNA_ROSETTA_RUN_ROOT_DIR_MODELING = rna_rosetta_run_root_dir_for_modeling
 except:
-    print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in .bashrc')
+    print ('Set up rna_rosetta_run_root_dir_for_modeling in rpt_config_local.py')
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)

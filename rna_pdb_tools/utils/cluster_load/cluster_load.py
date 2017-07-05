@@ -10,7 +10,7 @@ Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.
 import commands
 import subprocess
 
-from rpt_config import CPUS_CLUSTER
+from rna_pdb_tools.rpt_config import CPUS_CLUSTER
 
 MAX_JOBS = CPUS_CLUSTER
 print('MAX_JOBS:', MAX_JOBS)
