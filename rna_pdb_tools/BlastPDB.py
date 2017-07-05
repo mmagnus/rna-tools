@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-import urllib2
+try:
+    import urllib2
+except:
+    print('BlastPDB requires urllib2')
 
 class BlastPDB:
     """BlastPDB - run Blast online on the PDB database.

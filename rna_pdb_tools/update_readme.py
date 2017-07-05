@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Quick and ugly fix to update auto readme."""
-
+from __future__ import print_function
 import commands
 
 if __name__ == '__main__':
@@ -9,7 +9,7 @@ if __name__ == '__main__':
     end_tag="  --delete DELETE"
     #
     doc = commands.getoutput('python rna_pdb_tools.py -h')
-    print doc
+    print(doc)
     fn = ''
     f = open('../README.md', 'r')
     copy_line_flag = True

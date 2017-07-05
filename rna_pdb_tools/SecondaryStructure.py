@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """Seq and secondary structure prediction"""
 
+from __future__ import print_function
 import os
 import tempfile
 import shutil
