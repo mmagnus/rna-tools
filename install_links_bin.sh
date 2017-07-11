@@ -21,6 +21,9 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_run.py $curr_dir/bin
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_cluster.py $curr_dir/bin/rna_rosetta_cluster.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_min.py $curr_dir/bin/rna_rosetta_min.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_n.py $curr_dir/bin/rna_rosetta_n.py
+#ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_copy_job.py $curr_dir/bin/rna_rosetta_copy_job.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_check_progress.py $curr_dir/bin/rna_rosetta_check_progress.py
+
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_copy_job.py $curr_dir/bin/rna_rosetta_copy_job.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr_dir/bin/rna_simrna_lowest.py
