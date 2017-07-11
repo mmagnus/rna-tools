@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
+"""rna_rosetta_min.py
+
+The script takes the number of structures and the analyzed silence file and does the maths. 
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
 http://www.sciencedirect.com/science/article/pii/S0076687914000524 
@@ -14,6 +16,15 @@ The first number states how many processors to use for the run, while the second
 
 rosetta_submit.py min_cmdline min_out [1] [16] The first number states how many processors to use for each line in min_cmdline. Here, enter 1 for the first input so that the total number of processors used will be equal to the number of processors entered with the “-proc” flag in command line [12], above. The second number states the maximum time each job will be allowed to run (walltime). Start the run with the appropriate command listed by the out- put above (e.g., source qsubMPI for the Stampede cluster).
 
+E.g. for 20k silet file, 1/6 will be minimized = 3.3k::
+
+    parallel_min_setup.py -silent rp21cr62.out -tag rp21cr62_min  -proc 200 -nstruct 3200 -out_folder mo -out_script MINIMIZE " -ignore_zero_occupancy false "
+    rosetta_submit.py MINIMIZE mo 1 100 m
+
+    [peyote2] rp21 easy_cat.py mo
+    Catting into:  rp21_min.out ... from 200 primary files. Found 3200  decoys.
+
+    # on 200 cpus it took around ~30min
 """
 
 import logging
@@ -31,6 +42,7 @@ import shutil
 import re
 
 def get_no_structures(file):
+    """Get a number of structures in a silent file"""
     p = subprocess.Popen('cat ' + file + ' | grep SCORE | wc -l', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
     stderr = p.stderr.read().strip()
@@ -56,7 +68,6 @@ def min(f, take_n, cpus, go):
     #cmd = 'extract_pdbs.default.linuxgccrelease -in::file::silent cluster.out'
 
     logging.info('cpun %i' % cpus)
-
 
     # parallel_min_setup
     cmd = "parallel_min_setup.py -silent " + f + " -tag " + f.replace('.out', '') + '_min  -proc ' + str(cpus) + ' -nstruct ' + str(take_n) +  ' -out_folder mo -out_script MINIMIZE "' + ' -ignore_zero_occupancy false "'
@@ -90,7 +101,7 @@ def min(f, take_n, cpus, go):
         os.system('./qsubMINI')
 
 def get_parser():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('file', help='ade.out')
     parser.add_argument('-g', '--go', action='store_true')
     parser.add_argument('--cpus', help='default: 200', default=200)
