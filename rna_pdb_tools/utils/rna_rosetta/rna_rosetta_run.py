@@ -100,9 +100,9 @@ def prepare_folder(args,header,seq,ss,path):
     d = path
     try:
         os.mkdir(d)
-        print((d, 'created'))
+        print(d, 'created')
     except OSError:
-        print((d, 'created is already created'))
+        print(d, 'created is already created')
         pass
 
     with open(d + "seq.fa","w") as f:
@@ -193,6 +193,9 @@ def main():
         print(seq)
         print(ss)
 
+        if RNA_ROSETTA_RUN_ROOT_DIR_MODELING.strip() == '':
+            raise Exception('Set RNA_ROSETTA_RUN_ROOT_DIR_MODELING in your rpt_config file.')
+            
         path = RNA_ROSETTA_RUN_ROOT_DIR_MODELING + os.sep + header + os.sep
         curr = os.getcwd()
         if args.init:
