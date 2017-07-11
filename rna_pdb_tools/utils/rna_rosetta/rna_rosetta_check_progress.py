@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
         if no_decoys > limit:
             if v:print '# @cluster:', out, ' < ............... OK'
-            d['done'].append('[✔]')
+            d['done'].append('[x]')
             ## killing
             #cmd = 'kill '
             #print cmd
