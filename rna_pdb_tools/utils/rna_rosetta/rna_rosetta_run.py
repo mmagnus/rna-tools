@@ -58,8 +58,10 @@ My case with a modeling of rp12
 
 edit the secondary structure, run the program with -i (init, to overwrite seq.fa, ss.fa) and then it works.
 
-Run Rosetta
--------------------------------------------------------
+
+Notes::
+
+   rp17hc 6 charactes.
 
 """
 
@@ -73,6 +75,8 @@ import math
 
 import os
 import sys
+
+EXPECTED_STRUCTURES = 10000
 
 try:
     from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING
@@ -90,7 +94,7 @@ def get_parser():
                         action='store_true')
     parser.add_argument('-g', '--go', help= go.__doc__,
                         action='store_true')
-    parser.add_argument('-c', '--cpus', help='default: 200', default=200)
+    parser.add_argument('-c', '--cpus', help='default: 200\n# of structures is %i' % EXPECTED_STRUCTURES, default=200)
 
     parser.add_argument('file', help= textwrap.dedent("""file:\n>a04\nUAUAACAUAUAAUUUUGACAAUAUGGGUCAUAAGUUUCUACCGGAAUACCGUAAAUAUUCUGACUAUGUAUA\n((((.((((...((.((((.......)))).))........(.(((((.......))))).)..))))))))"""))
     return parser
@@ -153,15 +157,18 @@ def prepare_helices():
 def prepare_rosetta(header, cpus):
     """Prepare ROSETTA using rna_denovo_setup.py
 
-    cpus is used to calc nstruc per job to get 20k structures per full run::
+    cpus is used to calc nstruc per job to get 10k structures per full run::
 
+      EXPECTED_STRUCTURES = 10000
       nstruct = int(math.floor(20000/cpus))
-      e.g. 
-      40 (nstruc) = 20k / 500 (cpus) """
+      50 (nstruc) = 10k / 200 (cpus) 
+
+    """
     # get list line
+
     helices = open('CMDLINES').readlines()[-1].replace('#','')
     njobs = cpus # 500
-    nstruct = int(math.floor(20000/cpus)) # 20000/500 -> 40 
+    nstruct = int(math.floor(EXPECTED_STRUCTURES/cpus)) # 20000/500 -> 40 
 
     cmd = 'rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct ' + str(nstruct) + ' ' + helices
     print(cmd)
@@ -190,6 +197,7 @@ def main():
         cpus = int(args.cpus)
         print('run rosetta for:')
         print(header)
+
         print(seq)
         print(ss)
 
