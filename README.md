@@ -70,8 +70,9 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
-usage: rna_pdb_tools.py [-h] [-r] [-c] [--orgmode] [--get_chain GET_CHAIN]
-                        [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
+usage: rna_pdb_tools.py [-h] [-r] [-c] [--is_pdb] [--is_nmr] [--un_nmr]
+                        [--orgmode] [--get_chain GET_CHAIN] [--fetch]
+                        [--fetch_ba] [--get_seq] [--get_ss]
                         [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
                         [--no_hr] [--renumber_residues] [--dont_rename_chains]
                         [--collapsed_view] [--cv] [-v] [--replace_hetatm]
@@ -84,7 +85,40 @@ Usage::
 
    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
-v0.99-111-g948d446-dirty
+    $ rna_pdb_tools.py --get_seq *
+    # BujnickiLab_RNApuzzle14_n01bound
+    > A:1-61
+    # BujnickiLab_RNApuzzle14_n02bound
+    > A:1-61
+    CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
+    [...]
+
+``--is-pdb``::
+
+    [mm] rna_pdb_tools$ /rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
+    True
+    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --is_pdb input/image.png
+    False
+    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --is_pdb input/image.png.zip
+    False
+
+``--is_nmr``::
+
+    ./rna_pdb_tools.py --is_pdb --is_nmr input/image.png.zip
+    False
+    False
+
+    ./rna_pdb_tools.py --is_pdb --is_nmr input/1a9l_NMR_1_2_models.pdb
+    True
+    True
+
+``--un_nmr``::
+    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --un_nmr input/1a9l_NMR_1_2_models.pdb
+
+    [mm] rna_pdb_tools$ ls input/1a9l*
+    input/1a9l_NMR_1_2_models.pdb   input/1a9l_NMR_1_2_models_0.pdb input/1a9l_NMR_1_2_models_1.pdb
+
+v0.99-146-ge17e832-dirty
 
 positional arguments:
   file                  file
@@ -93,6 +127,10 @@ optional arguments:
   -h, --help            show this help message and exit
   -r, --report          get report
   -c, --clean           get clean structure
+  --is_pdb              check if a file is in the pdb format
+  --is_nmr              check if a file is NMR-style multiple model pdb
+  --un_nmr              Split NMR-style multiple model pdb files into
+                        individual models [biopython]
   --orgmode             get a structure in org-mode format <sick!>
   --get_chain GET_CHAIN
                         get chain, .e.g A
@@ -103,7 +141,7 @@ optional arguments:
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
   --get_rnapuzzle_ready
                         get RNApuzzle ready (keep only standard atoms,
-                        renumber residues)
+                        renumber residues) [biopython]
   --rpr                 alias to get_rnapuzzle ready)
   --no_hr               do not insert the header into files
   --renumber_residues   by defult is false
