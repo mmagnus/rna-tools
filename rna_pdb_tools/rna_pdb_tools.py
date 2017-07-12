@@ -15,6 +15,31 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
+``--is-pdb``::
+
+    [mm] rna_pdb_tools$ /rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
+    True
+    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --is_pdb input/image.png
+    False
+    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --is_pdb input/image.png.zip
+    False
+
+``--is_nmr``::
+
+    ./rna_pdb_tools.py --is_pdb --is_nmr input/image.png.zip
+    False
+    False
+
+    ./rna_pdb_tools.py --is_pdb --is_nmr input/1a9l_NMR_1_2_models.pdb
+    True
+    True
+
+``--un_nmr``::
+    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --un_nmr input/1a9l_NMR_1_2_models.pdb
+
+    [mm] rna_pdb_tools$ ls input/1a9l*
+    input/1a9l_NMR_1_2_models.pdb   input/1a9l_NMR_1_2_models_0.pdb input/1a9l_NMR_1_2_models_1.pdb
+
 """
 from __future__ import print_function
 
@@ -38,6 +63,15 @@ def get_parser():
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
+    parser.add_argument('--is_pdb', help='check if a file is in the pdb format',
+                        action='store_true')
+
+    parser.add_argument('--is_nmr', help='check if a file is NMR-style multiple model pdb',
+                        action='store_true')
+
+    parser.add_argument('--un_nmr', help='Split NMR-style multiple model pdb files into individual models [biopython]',
+                        action='store_true')
+
     parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
                         action='store_true')
 
@@ -54,7 +88,7 @@ def get_parser():
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms, renumber residues)',
+    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms, renumber residues) [biopython]',
                         action='store_true')
 
     parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
@@ -316,6 +350,23 @@ if __name__ == '__main__':
                 except IOError:
                     pass
                 
+    if args.un_nmr:
+        pass
+    
+    if args.is_pdb:
+        s = StrucFile(args.file)
+        output = str(s.is_pdb())
+        sys.stdout.write(output + '\n')
+        
+    if args.un_nmr:
+        s = StrucFile(args.file)
+        str(s.un_nmr())
+
+    if args.is_nmr:
+        s = StrucFile(args.file)
+        output = str(s.is_nmr(args.verbose))
+        sys.stdout.write(output + '\n')
+
     if args.edit:
         edit_pdb(args)
         
@@ -351,6 +402,7 @@ if __name__ == '__main__':
         with open(args.file + '~', 'w') as f:
             if not args.no_hr:
                  f.write(add_header(version) + '\n')
+
             f.write('\n'.join(remarks) + '\n')
             f.write(s.get_text())
 

@@ -78,6 +78,11 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ## --orgmode
 ./rna_pdb_tools.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org
 
+## --is_pdb
+./rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
+./rna_pdb_tools.py --is_pdb input/image.png
+./rna_pdb_tools.py --is_pdb input/image.png.zip
+
 ## --renumber_residues
 ./rna_pdb_tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
 

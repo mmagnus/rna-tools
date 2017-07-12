@@ -46,7 +46,11 @@ ignore_op3 = False
 class PDBFetchError(Exception):
     pass
 
-
+try:
+    from Bio.PDB import *
+except ImportError:
+    print("Biopython is not detected. It is required for some functions.")
+    
 def get_version(currfn='', verbose=False): #dupa
     """Get version of the tool based on state of the git repository.
     Return version.
@@ -84,16 +88,15 @@ class StrucFile:
 
         self.lines = []
         lines = open(fn).read().strip().split('\n')
-        has_many_models = False
+        self.has_many_models = False
         for l in lines:
             # multi-models pdb files
             if l.startswith('MODEL'):
-                has_many_models = True
+                self.has_many_models = True
             if l.startswith('ENDMDL'):
                 break
 
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER') or l.startswith('END'):
-
                 self.lines.append(l.strip())
             if l.startswith("@<TRIPOS>"):
                 self.mol2_format = True
@@ -101,13 +104,42 @@ class StrucFile:
 
         self.res = self.get_resn_uniq()
 
-    def is_it_pdb(self):
-        """Return True if the files is in PDB format."""
+    def is_pdb(self):
+        """Return True if the files is in PDB format.
+        
+        If self.lines is empty it means that nothing was parsed into the PDB format."""
         if len(self.lines):
             return True
         else:
             return False
 
+    def is_nmr(self):
+        """True if the file is an NMR-style multiple model pdb
+
+        :returns: True or Fo
+        :rtype: boolean
+        """
+        return self.has_many_models
+
+    def un_nmr(self, verbose=False):
+        """Un NMR - Split NMR-style multiple model pdb files into individual models.
+        
+        Take self.fn and create new files in the way::
+
+            input/1a9l_NMR_1_2_models.pdb
+               input/1a9l_NMR_1_2_models_0.pdb
+               input/1a9l_NMR_1_2_models_1.pdb
+
+        .. warning:: This function requires biopython.
+        """
+        parser = PDBParser()
+        structure=parser.get_structure('', self.fn)
+        for c, m in enumerate(structure):
+            if verbose: print(m)
+            io=PDBIO()
+            io.set_structure(m)
+            io.save(self.fn.replace('.pdb', '_%i.pdb' % c))
+        
     def is_mol2(self):
         """Return True if is_mol2 based on the presence of ```@<TRIPOS>```."""
         return self.mol2_format
@@ -1530,7 +1562,7 @@ if '__main__' == __name__:
     fn = 'input/image'
     print('fn:', fn)
     struc = StrucFile(fn)
-    print(' pdb?:', struc.is_it_pdb())
+    print(' pdb?:', struc.is_pdb())
     # print( atoms:', struc.get_no_lines())
 
     fn = 'input/na.pdb'
