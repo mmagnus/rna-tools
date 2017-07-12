@@ -29,6 +29,7 @@ def get_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('dir', help='', default=RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
     parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument('-k', '--kill', action='store_true')
     return parser
 
 if __name__ == '__main__':
@@ -43,7 +44,7 @@ if __name__ == '__main__':
     if v: print(jobs)
     
     curr_path = os.getcwd()
-    limit = 2000 # how many decouys you want
+    limit = 10000 # how many decouys you want
 
     d = {}
     d['#decoys'] = []
@@ -101,10 +102,10 @@ if __name__ == '__main__':
         if no_decoys > limit:
             if v:print '# @cluster:', out, ' < ............... OK'
             d['done'].append('[x]')
-            ## killing
-            #cmd = 'kill '
-            #print cmd
-            #os.system('
+            if args.kill:
+                cmd = 'qstat | grep ' + os.path.basename(j)[:6] + " | awk '{print $1}' | xargs qdel "
+                print(cmd)
+                os.system(cmd)
         else:
             d['done'].append('[ ]')
             if v:print '# @cluster:', out
