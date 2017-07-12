@@ -1400,6 +1400,11 @@ class StrucFile:
         os.system('pymol ' + self.fn)
 
 
+    def remove(self, verbose):
+        """Delete file, self.fn"""
+        os.remove(self.fn)
+        if verbose: 'File %s removed' % self.fn
+        
 def add_header(version=None):
     now = time.strftime("%c")
     txt =  'REMARK 250 Model edited with rna-pdb-tools\n'
