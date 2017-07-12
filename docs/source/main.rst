@@ -1,8 +1,6 @@
 rna-pdb-tools
 ========================================
 
-rna-pdb-tools is the main code of this library.
-
 .. argparse::
    :ref: rna_pdb_tools.rna_pdb_tools.get_parser
    :prog: rna_pdb_tools.py
