@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_rosetta_check_progress.py
+"""rna_rosetta_cluster.py - a script to cluster a silent file
 
-Usage::
+Example::
 
     [peyote2] rosetta_jobs rna_rosetta_check_progress.py .
              jobs  #curr  #todo  #decoys done
@@ -10,7 +10,6 @@ Usage::
     1   ./rp17hcf      0      0        0  [ ]
     #curr  232 #todo  0
 
-TODO: Check progress and kill!
 """
 
 import commands
@@ -21,15 +20,25 @@ import sys
 import argparse
 
 try:
-    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, EASY_CAT_PATH
+    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING
 except:
-    print ('Set up rna_rosetta_run_root_dir_for_modeling in rpt_config_local.py')
+    print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
+
+try:
+    from rna_pdb_tools.rpt_config import EASY_CAT_PATH
+except:
+    print ('Set up EASY_CAT_PATH in rpt_config_local.py')
+
+limit = 10000 # how many decouys you want
 
 def get_parser():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('dir', help='', default=RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
-    parser.add_argument('-v', '--verbose', action='store_true')
-    parser.add_argument('-k', '--kill', action='store_true')
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('dir', default=RNA_ROSETTA_RUN_ROOT_DIR_MODELING,
+                            help="""directory with rosetta runs, define by RNA_ROSETTA_RUN_ROOT_DIR_MODELING
+right now: \n""" + RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
+    parser.add_argument('-v', '--verbose', action='store_true', help="be verbose")
+    parser.add_argument('-k', '--kill', action='store_true', help="""kill (qdel) jobs if your reach 
+limit of structure that you want, right now is %i structures"""  % limit)
     return parser
 
 if __name__ == '__main__':
@@ -44,7 +53,6 @@ if __name__ == '__main__':
     if v: print(jobs)
     
     curr_path = os.getcwd()
-    limit = 10000 # how many decouys you want
 
     d = {}
     d['#decoys'] = []

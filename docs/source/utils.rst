@@ -182,7 +182,6 @@ and it works with VARNA:
 .. automodule:: rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
    :members:
 
-
 Secondary structure (secstruc)
 -----------------------------------------
 
@@ -247,6 +246,7 @@ RNA Refinement (QRNAS)
    :ref: rna_pdb_tools.utils.rna_refinement.rna_refinement.get_parser
    :prog: rna_refinement.py
 
+
 ROSETTA
 -----------------------------------------
 
@@ -257,28 +257,12 @@ Run (modeling)
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.get_parser
    :prog: rna_rosetta_run.py
 
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run
-   :members:
-
 Get a number of structures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n.get_parser
    :prog: rna_rosetta_n.py
-
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n
-   :members:
-
-Minimize
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.get_parser
-   :prog: rna_rosetta_min.py
-
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min
-   :members:
 
 Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -287,8 +271,12 @@ Cluster
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.get_parser
    :prog: rna_rosetta_cluster.py
 
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
-   :members:
+Minimize
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.get_parser
+   :prog: rna_rosetta_min.py
 
 Check progress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -296,9 +284,6 @@ Check progress
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_check_progress.get_parser
    :prog: rna_rosetta_cluster.py
-
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_check_progress
-   :members:
 
 PyMOL
 -----------------------------------------

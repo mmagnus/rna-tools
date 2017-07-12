@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-
-"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
+# -*- coding: utf-8 -*-
+"""run_rosetta - wrapper to ROSETTA tools for RNA modeling
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
 http://www.sciencedirect.com/science/article/pii/S0076687914000524
@@ -85,7 +85,6 @@ except:
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
-
     parser.add_argument('-i', '--init', help='prepare _folder with seq and ss',
                         action='store_true')
     parser.add_argument('-e', '--helices', help='produce h(E)lices',
