@@ -93,32 +93,7 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
-``--is-pdb``::
-
-    [mm] rna_pdb_tools$ /rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
-    True
-    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --is_pdb input/image.png
-    False
-    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --is_pdb input/image.png.zip
-    False
-
-``--is_nmr``::
-
-    ./rna_pdb_tools.py --is_pdb --is_nmr input/image.png.zip
-    False
-    False
-
-    ./rna_pdb_tools.py --is_pdb --is_nmr input/1a9l_NMR_1_2_models.pdb
-    True
-    True
-
-``--un_nmr``::
-    [mm] rna_pdb_tools$ ./rna_pdb_tools.py --un_nmr input/1a9l_NMR_1_2_models.pdb
-
-    [mm] rna_pdb_tools$ ls input/1a9l*
-    input/1a9l_NMR_1_2_models.pdb   input/1a9l_NMR_1_2_models_0.pdb input/1a9l_NMR_1_2_models_1.pdb
-
-v0.99-146-ge17e832-dirty
+v0.99-152-gf2e29f8
 
 positional arguments:
   file                  file
