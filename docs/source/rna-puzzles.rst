@@ -1,6 +1,8 @@
 RNA Puzzle Submission
 =============================================
 
+The RNA Puzzle organizers required ONE file with your submissions in the NMR-style multiple model PDB format. 
+			
 Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`)::
 
 	$ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
@@ -13,7 +15,7 @@ merge them as one file in the order as you like (or use `*`)::
 	d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust03-000001_AA_out_rpr.pdb \
 	05_19pz_v1_SimRNA4.xx_thrs6.60A_clust02-000001_AA_out_rpr.pdb  > rp19_bujnicki.pdb
 	
-and verify your file with the template provided by the organizers::
+and verify your file with the template provided by the organizers (if provided):::
 
 	$ diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
 	#<empty = no difference but xyz columns, OK!>
