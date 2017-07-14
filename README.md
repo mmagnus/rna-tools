@@ -67,7 +67,7 @@ Table of Contents
    * [Tour](#tour)
    * [Docs](#docs)
    * [Tricks](#tricks)
-   * [rna-pdb-tools](#rna-pdb-tools)
+   * [rna_pdb_tools.py ](#rna_pdb_tools.py)
    * [Utils](#utils)
    * [RNA Puzzle Submission](#rna-puzzle-submission)   
    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
@@ -85,7 +85,7 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 <a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
-## rna-pdb-tools
+## rna_pdb_tools.py
 
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
