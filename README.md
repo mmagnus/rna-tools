@@ -67,7 +67,7 @@ Table of Contents
    * [Tour](#tour)
    * [Docs](#docs)
    * [Tricks](#tricks)
-   * [rna_pdb_tools.py ](#rna_pdb_tools.py)
+   * [rna_pdb_tools.py](#rna_pdb_toolspy)
    * [Utils](#utils)
    * [RNA Puzzle Submission](#rna-puzzle-submission)   
    * [Inspiration (and alternatives):](#inspiration-and-alternatives)
