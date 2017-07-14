@@ -8,7 +8,7 @@ rna-pdb-tools
 get RNAPuzzle ready
 -----------------------------------------
 
-.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
+.. autoclass:: rna_pdb_tools.rna_pdb_tools_lib.StrucFile
    :members: get_rnapuzzle_ready
 
 get sequence
@@ -20,7 +20,7 @@ Example::
       > 5_solution_1.pdb A:1-576
       CAUCCGGUAUCCCAAGACAAUCUCGGGUUGGGUUGGGAAGUAUCAUGGCUAAUCACCAUGAUGCAAUCGGGUUGAACACUUAAUUGGGUUAAAACGGUGGGGGACGAUCCCGUAACAUCCGUCCUAACGGCGACAGACUGCACGGCCCUGCCUCAGGUGUGUCCAAUGAACAGUCGUUCCGAAAGGAAG
 
-.. autoclass:: rna_pdb_tools.pdb_parser_lib.StrucFile
+.. autoclass:: rna_pdb_tools.rna_pdb_tools_lib.StrucFile
    :members: get_seq
 
 fetch
@@ -31,7 +31,7 @@ Example::
   $ rna_pdb_tools.py --fetch 1xjr
   downloading...1xjr ok
 
-.. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch
+.. autofunction:: rna_pdb_tools.rna_pdb_tools_lib.fetch
 
 fetch Biological Assembly
 -----------------------------------------
@@ -54,7 +54,7 @@ or over a list of pdb ids in a text file::
   $ ls *.pdb
   1fir_ba.pdb 1y26_ba.pdb
 
-.. autofunction:: rna_pdb_tools.pdb_parser_lib.fetch_ba
+.. autofunction:: rna_pdb_tools.rna_pdb_tools_lib.fetch_ba
 
 delete
 -----------------------------------------
@@ -68,10 +68,10 @@ go over all files in the current directory, remove a fragment of chain A, residu
 edit
 -----------------------------------------
 
-.. autofunction:: rna_pdb_tools.pdb_parser_lib.edit_pdb
+.. autofunction:: rna_pdb_tools.rna_pdb_tools_lib.edit_pdb
 
 the library
 -----------------------------------------
 
-  .. automodule:: rna_pdb_tools.pdb_parser_lib
+  .. automodule:: rna_pdb_tools.rna_pdb_tools_lib
    :members:

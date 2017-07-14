@@ -6,7 +6,7 @@ cd rna_pdb_tools
 
 python update_readme.py
 
-./pdb_parser_lib.py
+./pdb_pdb_tools_lib.py
 
 ./rna_pdb_tools.py -h | tee rna_pdb_tools.out
 

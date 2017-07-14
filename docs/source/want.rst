@@ -126,11 +126,7 @@ Run::
 add missing atoms
 --------------------------------------------
 
-.. argparse::
-   :ref: rna_pdb_tools.rna_pdb_rnapuzzle_ready.get_parser
-   :prog: rna_pdb_rnapuzzle_ready.py
-
 The tool is using the function:
 
-.. automethod:: rna_pdb_tools.pdb_parser_lib.StrucFile.get_rnapuzzle_ready
+.. automethod:: rna_pdb_tools.rna_pdb_tools_lib.StrucFile.get_rnapuzzle_ready
 	  

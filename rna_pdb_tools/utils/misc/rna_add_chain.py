@@ -31,7 +31,7 @@ to::
     ATOM      8  C5    U X   1      46.025  30.676  46.763  1.00  0.00
     ATOM      9  C4    U X   1      45.720  32.110  46.702  1.00  0.00
     ATOM     10  O4    U X   1      46.444  32.975  46.256  1.00  0.00"""
-from rna_pdb_tools.pdb_parser_lib import *
+from rna_pdb_tools.rna_pdb_tools_lib import *
 import argparse
 
 def get_parser():

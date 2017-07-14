@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-from rna_pdb_tools.pdb_parser_lib import StrucFile
+from rna_pdb_tools.rna_pdb_tools_lib import StrucFile
 
 if __name__ == '__main__':
     files = sys.argv[1:]

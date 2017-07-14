@@ -22,7 +22,7 @@ import os
 import time
 import progressbar
 
-from pdb_parser_lib import *
+from rna_pdb_tools_lib import *
 from utils.rna_x3dna.rna_x3dna import x3DNA
 
 def get_parser():

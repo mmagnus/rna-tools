@@ -832,7 +832,7 @@ class StrucFile:
 
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
-        Run :func:`rna_pdb_tools.pdb_parser_lib.StrucFile.fix_resn` before this function to fix names.
+        Run :func:`rna_pdb_tools.rna_pdb_tools_lib.StrucFile.fix_resn` before this function to fix names.
 
         - 170305 Merged with get_simrna_ready and fixing OP3 terminal added
         - 170308 Fix missing atoms for bases, and O2'
@@ -1529,9 +1529,13 @@ def fetch_ba(pdb_id, path="."):
     """fetch biological assembly pdb file from RCSB.org
 
     >>> fetch_ba('1xjr')
-    
+    ...
     """
-    import urllib3
+    try:
+        import urllib3
+    except ImportError:
+        print('urllib3 is required')
+        return
     http = urllib3.PoolManager()
     #try:
     response = http.request('GET', url='https://files.rcsb.org/download/' + pdb_id.lower() + '.pdb1')
