@@ -38,13 +38,20 @@ True
 $ rna_pdb_tools.py --is_pdb input/image.png
 False
 ```
-or from a script.
+or from a script
+
 ```python
 >>> from rna_pdb_tools_lib import *
 >>> s = RNAStructure('input/1I9V_A.pdb')
 >>> s.is_pdb()
 True
 ```
+
+or from another script (fetch an alignment and plot it)
+
+![](docs/pngs/align.png)
+
+Fig. See more <https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb>
 
 Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
 

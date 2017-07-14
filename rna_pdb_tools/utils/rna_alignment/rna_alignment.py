@@ -36,11 +36,15 @@ import subprocess
 import os
 import shutil
 import re
+import gzip
 
 class RNAalignmentError(Exception):
     pass
 
 class RChieError(Exception):
+    pass
+
+class RFAMFetchError(Exception):
     pass
 
 class RChie:
@@ -242,7 +246,20 @@ class RNAalignment(object):
     - https://en.wikipedia.org/wiki/Stockholm_format
     - http://sonnhammer.sbc.su.se/Stockholm.html
     """
-    def __init__(self,fn):
+    def __init__(self,fn='', fetch=''):
+        if fetch:
+            import urllib3
+            http = urllib3.PoolManager()
+            response = http.request('GET', 'http://rfam.xfam.org/family/' + fetch + '/alignment/stockholm?gzip=1&download=1')
+            if not response.status == 200: raise RFAMFetchError()
+            with open(fetch + '.stk.gz', 'wb') as f:
+                f.write(response.data)
+            with gzip.open(fetch + '.stk.gz', 'rb') as f:
+                file_content = f.read()
+            with open(fetch + '.stk', 'wb') as f:
+                f.write(file_content)
+            fn = fetch + '.stk'
+            
         self.fn = fn
         self.lines = open(fn).read().split('\n')
         self.io = AlignIO.read(fn, "stockholm")
@@ -750,6 +767,15 @@ class RNAalignment(object):
     def __repr__(self):
         return (str(self.io))
 
+    def trimmed_rf_and_ss(self):
+        trf = ''
+        tss = ''
+        for r, s in zip(self.rf, self.ss_cons_std):
+            if r not in ['-', '.']:
+                trf += r
+                tss += s
+        return trf, tss
+        
 class CMAlign():
     """CMAalign class around cmalign (of Inferal).
 
@@ -861,7 +887,7 @@ def get_rfam_ss_notat_to_dot_bracket_notat(ss):
 
 def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
     """Take (c)haracter and standardize ss"""
-    if c in [',', '_', ':']:
+    if c in [',', '_', ':', '-']:
         return '.'
     if c == '<':
         return '('
@@ -956,7 +982,6 @@ def fetch_stokholm(rfam_acc, dpath=None):
     return rfam_acc + '.stk'
 
 
-#main
 #def test_seq_multilines_alignment()
 def test_alignment_with_pk():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
@@ -967,6 +992,7 @@ def test_alignment_with_pk():
 
     print(a[[1,2]])
     
+#main
 if __name__ == '__main__':
     ## a = RNAalignment('test_data/RF00167.stockholm.sto')
     ## #print a.get_shift_seq_in_align()
@@ -1030,7 +1056,9 @@ if __name__ == '__main__':
     #a = fasta2stokholm('test_output/ade_gapped.fa')
     #print a
 
-    a = RNAalignment('test_data/RF00001.blocked.stk')
-    print a
-    print a.ss_cons
-    a.plot('rchie.png')
+    #a = RNAalignment('test_data/RF00001.blocked.stk')
+    #print a
+    #print a.ss_cons
+    #a.plot('rchie.png')
+
+    a = RNAalignment(fetch="RF02746")
