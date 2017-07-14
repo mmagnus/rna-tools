@@ -18,7 +18,9 @@ Look for other our projects at https://github.com/RNA-Puzzles
 
 > Magnus, Marcin. (2016). rna-pdb-tools. Zenodo. 10.5281/zenodo.60933 
 
-**If you find the tools helpful, you can cite the repo using the doi above :-), you can donate via PayPal, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.**
+<p><small>
+If you find the tools helpful, you can cite the repo using the doi above :-), you can donate via PayPal, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.
+<p></small>
 
 ![](docs/pngs/starit.png)
 
@@ -26,21 +28,32 @@ A library and a program to run various Python functions related to work with PDB
 
 The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress). 
 
-This project is a merge of various related projects such as `rnastruc`, `yapdb_parser` started starting from 2011 :-)
+**What is fun here?**
 
-What is fun here?
+`rna-pdb-tools` is a packages of shell utils that are using the common core library. You can also access functions of the library from your scripts.
 
-+ shell utils to work with pdb files and not only,
-+ you see input & output -- this is what you want to get? moreover, it's tested via Travis! -- it (should) always works as you just want!
-+ you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
+A shell util:
 
-.. or you might want to use the lib in the program.
+```shell
+$ rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
+True
+$ rna_pdb_tools.py --is_pdb input/image.png
+False
+```
+or from a script.
+```python
+>>> from pdb_parser_lib import *
+>>> s = StrucFile('input/1I9V_A.pdb')
+>>> s.is_pdb()
+True
+```
 
 Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
 
 <p align="center">
   <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
 </p>
+Fig. `rna_pdb_tools.py --get_rnapuzzle_ready`
 
 Table of Contents
 -----------------
