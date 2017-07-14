@@ -122,13 +122,13 @@ if __name__ == '__main__':
         args.file = args.file[0]
         
     if args.report:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         print(s.get_report())
         print(s.get_preview())
         print(s.get_info_chains())
 
     if args.clean:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -149,7 +149,7 @@ if __name__ == '__main__':
             args.file = [args.file]
         ##################################
         for f in args.file:
-            s = StrucFile(f)
+            s = RNAStructure(f)
             s.decap_gtp()
             s.fix_resn()
             s.remove_hydrogen()
@@ -184,7 +184,7 @@ if __name__ == '__main__':
                 pass
 
     if args.get_chain:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -196,7 +196,7 @@ if __name__ == '__main__':
         print(s.get_chain(args.get_chain))
 
     if args.rosetta2generic:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -232,7 +232,7 @@ if __name__ == '__main__':
                         previous_edits.append(l.strip())
             ######################
 
-            s = StrucFile(f)
+            s = RNAStructure(f)
             if args.replace_hetatm:
                 s.replace_hetatm()
             s.decap_gtp()
@@ -278,7 +278,7 @@ if __name__ == '__main__':
 
 
     if args.renumber_residues:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.remove_hydrogen()
         s.remove_ion()
         s.remove_water()
@@ -298,7 +298,7 @@ if __name__ == '__main__':
                 shutil.copy(f, f + '~')
 
             selection = select_pdb_fragment(args.delete)
-            s = StrucFile(f)
+            s = RNAStructure(f)
 
             output = ''
             if not args.no_hr:
@@ -328,16 +328,16 @@ if __name__ == '__main__':
         pass
     
     if args.is_pdb:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         output = str(s.is_pdb())
         sys.stdout.write(output + '\n')
         
     if args.un_nmr:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         str(s.un_nmr())
 
     if args.is_nmr:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         output = str(s.is_nmr(args.verbose))
         sys.stdout.write(output + '\n')
 
@@ -356,7 +356,7 @@ if __name__ == '__main__':
     if args.orgmode:
         if args.inplace:
             shutil.copy(args.file, args.file + '~')
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()

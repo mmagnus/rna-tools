@@ -159,7 +159,7 @@ optional arguments:
 
 <section>
 <pre><code>if args.get_rnapuzzle_ready:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -175,7 +175,7 @@ optional arguments:
         print s.get_text()
 
     if args.renumber_residues:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.remove_hydrogen()
         s.remove_ion()
         s.remove_water()

@@ -76,13 +76,13 @@ def get_version(currfn='', verbose=False): #dupa
     else:
         return version
 
-class StrucFile:
-    """StrucFile"""
+class RNAStructure:
+    """RNAStructure"""
     def __init__(self, fn):
         self.fn = fn
 
         self.report = []
-        self.report.append('The RNAStrucFile report: %s ' % fn)
+        self.report.append('The RNARNAStructure report: %s ' % fn)
 
         self.mol2_format = False
 
@@ -196,7 +196,7 @@ class StrucFile:
         curr = os.getcwd()
 
         # set occupancy to 0
-        s = StrucFile(self.fn)
+        s = RNAStructure(self.fn)
         s.set_occupancy_atoms(0.00)
         s.write(self.fn)
 
@@ -228,7 +228,7 @@ class StrucFile:
         # post cleaning
         if outfn:
             print('Cleaning...')
-            s = StrucFile(curr + os.sep + outfn)
+            s = RNAStructure(curr + os.sep + outfn)
             s.remove_hydrogen()
             s.fix_resn()
             s.write(curr + os.sep + outfn)
@@ -832,7 +832,7 @@ class StrucFile:
 
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
-        Run :func:`rna_pdb_tools.rna_pdb_tools_lib.StrucFile.fix_resn` before this function to fix names.
+        Run :func:`rna_pdb_tools.rna_pdb_tools_lib.RNAStructure.fix_resn` before this function to fix names.
 
         - 170305 Merged with get_simrna_ready and fixing OP3 terminal added
         - 170308 Fix missing atoms for bases, and O2'
@@ -1296,7 +1296,7 @@ class StrucFile:
         #
         # fix ter 'TER' -> TER    1528        G A  71
         #
-        s = StrucFile(fout)
+        s = RNAStructure(fout)
         self.lines = s.lines
         c = 0
         #ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
@@ -1429,7 +1429,7 @@ def edit_pdb(args):
 
     """
     ## open a new file
-    s = StrucFile(args.file)
+    s = RNAStructure(args.file)
     if not args.no_hr:
         add_header()
         print('HEADER --edit ' + args.edit)
@@ -1496,7 +1496,7 @@ def collapsed_view(args):
         ATOM     86  C5'   U A   7      12.007   7.281  13.726  1.00 11.35           C
         ATOM    106  C5'   C A   8      12.087   6.601  18.999  1.00 12.74           C
         TER"""
-    r = StrucFile(args.file)
+    r = RNAStructure(args.file)
     for l in r.lines:
         at = r.get_atom_code(l)
         if  at == "C5'":
@@ -1570,12 +1570,12 @@ def fetch_cif_ba(cif_id, path="."):
 if '__main__' == __name__:
     fn = 'input/image'
     print('fn:', fn)
-    struc = StrucFile(fn)
+    struc = RNAStructure(fn)
     print(' pdb?:', struc.is_pdb())
     # print( atoms:', struc.get_no_lines())
 
     fn = 'input/na.pdb'
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     print(s.detect_molecule_type())
     #res = get_all_res(na)
     #print 'what is?', what_is(res)
@@ -1584,25 +1584,25 @@ if '__main__' == __name__:
     print('is protein:', s.detect_molecule_type())
 
     fn = 'input/prot.pdb'
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     print('non standard:', s.check_res_if_std_prot())
     print('is protein:',  s.detect_molecule_type())
 
 
     fn = 'input/rna-ru.pdb'
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     print('non standard:', s.check_res_if_supid_rna())
     print('is protein:', s.detect_molecule_type())
 
     fn = 'input/na_highAtomNum.pdb'
     print(fn)
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     s.renum_atoms()
     s.write('output/na_highAtomNum.pdb')
 
     fn = 'input/na_solvet_old_format.pdb'
     print(fn)
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     s.fix_op_atoms()
     s.remove_hydrogen()
     s.remove_ion()
@@ -1611,7 +1611,7 @@ if '__main__' == __name__:
 
     fn = 'input/na_solvet_old_format.pdb'
     print(fn)
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     s.fix_resn()
     s.remove_hydrogen()
     s.remove_ion()
@@ -1619,7 +1619,7 @@ if '__main__' == __name__:
     s.write('output/na_solvet_old_format.pdb')
 
     #fn = 'input/na_solvet_old_format__.pdb'
-    #s = StrucFile(fn)
+    #s = RNAStructure(fn)
     #s.fix_resn()
     #s.remove_hydrogen()
     #s.remove_ion()
@@ -1640,7 +1640,7 @@ if '__main__' == __name__:
 
     fn = 'input/decoy0165_amb.pdb'
     print(fn)
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     s.fix_resn()
     s.remove_hydrogen()
     s.remove_ion()
@@ -1652,7 +1652,7 @@ if '__main__' == __name__:
 
     fn = 'input/farna.pdb'
     print(fn)
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     s.fix_resn()
     s.remove_hydrogen()
     s.remove_ion()
@@ -1664,17 +1664,17 @@ if '__main__' == __name__:
     fn = 'input/farna.pdb'
     print(fn)
 
-    r = StrucFile(fn)
+    r = RNAStructure(fn)
     print(r.is_mol2())
 
     if True:
         print('================================================')
         print ("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
-        r = StrucFile("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
+        r = RNAStructure("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
         print(r.is_mol2())
         r.mol2toPDB('/tmp/x.pdb')
 
-        r = StrucFile('/tmp/x.pdb')
+        r = RNAStructure('/tmp/x.pdb')
         print(r.get_report())
         r.fix_resn()
         r.remove_hydrogen()
@@ -1686,14 +1686,14 @@ if '__main__' == __name__:
         r.write("output/1xjr_clx_fChimera_noIncludeNumbers.mol2")
 
     if True:
-        r = StrucFile("input/2du3_prot_bound.mol2")
+        r = RNAStructure("input/2du3_prot_bound.mol2")
         print(r.is_mol2())
         outfn = r.mol2toPDB()
         print(r.get_report())
 
     print('================================================')
     fn = "input/3e5fA-nogtp_processed_zephyr.pdb"
-    r = StrucFile(fn)
+    r = RNAStructure(fn)
     print(r.is_mol2())
     #outfn = r.mol2toPDB()
     print(r.is_amber_like())
@@ -1716,7 +1716,7 @@ if '__main__' == __name__:
     print()
     fn = "input/1xjr_clx_charmm.pdb"
     print(fn)
-    s = StrucFile(fn)
+    s = RNAStructure(fn)
     s.fix_resn()
     s.remove_hydrogen()
     s.remove_ion()
@@ -1730,7 +1730,7 @@ if '__main__' == __name__:
     print()
     fn = "input/dna_fconvpdb_charmm22.pdb"
     print(fn)
-    r = StrucFile(fn)
+    r = RNAStructure(fn)
     r.get_preview()
     r.resn_as_dna()
     r.remove_hydrogen()
@@ -1746,7 +1746,7 @@ if '__main__' == __name__:
     print()
     fn = "input/1a9l_NMR_1_2_models.pdb"
     print(fn)
-    r = StrucFile(fn)
+    r = RNAStructure(fn)
     r.write("output/1a9l_NMR_1_2_models_lib.pdb")
     #r.get_text() # get #1 model
 

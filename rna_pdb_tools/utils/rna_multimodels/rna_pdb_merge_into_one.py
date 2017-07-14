@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-from rna_pdb_tools.rna_pdb_tools_lib import StrucFile
+from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
 
 if __name__ == '__main__':
     files = sys.argv[1:]
@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     c = 1
     for f in files:
-        s = StrucFile(f)
+        s = RNAStructure(f)
         print(("MODEL        " + str(c)))
         print((s.get_text(add_end=False)))
         print ('ENDMDL')

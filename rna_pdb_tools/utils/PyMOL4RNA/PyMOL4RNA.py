@@ -22,7 +22,7 @@ def get_pdb():
     """ """
     tmpfn = '/tmp/pymol_get_pdb.pdb'
     cmd.save(tmpfn, '(sele)')
-    s = StrucFile(tmpfn)
+    s = RNAStructure(tmpfn)
     for l in s.lines:
       print l
 

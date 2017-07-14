@@ -128,5 +128,5 @@ add missing atoms
 
 The tool is using the function:
 
-.. automethod:: rna_pdb_tools.rna_pdb_tools_lib.StrucFile.get_rnapuzzle_ready
+.. automethod:: rna_pdb_tools.rna_pdb_tools_lib.RNAStructure.get_rnapuzzle_ready
 	  

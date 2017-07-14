@@ -8,7 +8,7 @@ rna-pdb-tools
 get RNAPuzzle ready
 -----------------------------------------
 
-.. autoclass:: rna_pdb_tools.rna_pdb_tools_lib.StrucFile
+.. autoclass:: rna_pdb_tools.rna_pdb_tools_lib.RNAStructure
    :members: get_rnapuzzle_ready
 
 get sequence
@@ -20,7 +20,7 @@ Example::
       > 5_solution_1.pdb A:1-576
       CAUCCGGUAUCCCAAGACAAUCUCGGGUUGGGUUGGGAAGUAUCAUGGCUAAUCACCAUGAUGCAAUCGGGUUGAACACUUAAUUGGGUUAAAACGGUGGGGGACGAUCCCGUAACAUCCGUCCUAACGGCGACAGACUGCACGGCCCUGCCUCAGGUGUGUCCAAUGAACAGUCGUUCCGAAAGGAAG
 
-.. autoclass:: rna_pdb_tools.rna_pdb_tools_lib.StrucFile
+.. autoclass:: rna_pdb_tools.rna_pdb_tools_lib.RNAStructure
    :members: get_seq
 
 fetch

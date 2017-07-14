@@ -49,7 +49,7 @@ if __name__ == '__main__':
         print((parser.print_help()))
         sys.exit(1)
         
-    s = StrucFile(args.file)
+    s = RNAStructure(args.file)
     for l in s.lines:
         if l.startswith('ATOM'):
             nl = list(l)            
