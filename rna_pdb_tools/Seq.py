@@ -34,6 +34,7 @@ Should you need to run it on a list of sequences, use the following script::
 
 import subprocess
 import tempfile
+import sys
 
 from rpt_config import *
 
@@ -121,7 +122,12 @@ class RNASequence:
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         if method == "contextfold":
+            if not CONTEXTFOLD_PATH:
+                print('Set up CONTEXTFOLD_PATH in configuration.')
+                sys.exit(0)
             cmd = "cd " + CONTEXTFOLD_PATH + " + && java -cp bin contextFold.app.Predict in:" + self.seq
+            if verbose:
+                print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.split('\n')[1:])
         
