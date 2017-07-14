@@ -51,6 +51,7 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
 <p align="center">
   <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
 </p>
+
 Fig. `rna_pdb_tools.py --get_rnapuzzle_ready`
 
 Table of Contents
