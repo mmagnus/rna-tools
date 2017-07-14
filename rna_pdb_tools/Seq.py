@@ -8,7 +8,11 @@ It's easy to add more methods of your choince to this class.
 
 Installation:
 
-- ContextFold needs Java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 
+ContextFold (https://www.cs.bgu.ac.il/~negevcb/contextfold/) needs Java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 Single chain only!
+
+ViennaRNA (https://www.tbi.univie.ac.at/RNA/)
+
+ipknot OSX (https://github.com/satoken/homebrew-rnatools)
 
 FAQ:
 
