@@ -70,9 +70,8 @@ Table of Contents
    * [rna_pdb_tools.py](#rna_pdb_toolspy)
    * [Utils](#utils)
    * [RNA Puzzle Submission](#rna-puzzle-submission)   
-   * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+   * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
-   * [Requirement](#requirement)
    * [History](#history)
 
 ## Tour
@@ -153,7 +152,7 @@ optional arguments:
   --delete DELETE       delete the selected fragment, e.g. A:10-16
 ```
 
-## Tricks
+Tricks:
 
     $ for i in *; do echo $i; rna_pdb_tools.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
     10_rp17c.out.14.pdb
@@ -233,7 +232,7 @@ and verify your file with the template provided by the organizers (if provided):
 	ENDMDL
 	END
 
-## Inspiration (and alternatives):
+## Inspiration (and alternatives)
 
 + https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
 + http://blue11.bch.msu.edu/mmtsb/convpdb.pl
@@ -245,16 +244,6 @@ and verify your file with the template provided by the organizers (if provided):
 ## Install
 
 Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
-
-## Requirement
-
-Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
-
-This packages uses other pieces of software, it would be impossible without them to develop rna-pdb-tools, thanks!
-
-+ biopython (https://github.com/biopython/biopython)
-+ rmsd (https://github.com/charnley/rmsd)
-+ forgi (http://www.tbi.univie.ac.at/%7Ethiel/forgi/graph_tutorial.html)
 
 ## History
 
