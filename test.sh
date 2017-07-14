@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -v
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 cd rna_pdb_tools
@@ -88,11 +88,15 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 
 ./BlastPDB.py
 
-./RfamSearch.py
-
+if [ "$1" == "--full" ]; then
+    ./RfamSearch.py
+fi
+	
 ./Seq.py
 
-./SecondaryStructure.py
+if [ "$1" == "--full" ]; then
+    ./SecondaryStructure.py
+fi
 
 # ClashCalc
 cd ./utils/ClashCalc/
@@ -115,11 +119,14 @@ cd ./utils/rna_filter/
 ./test.sh
 cd ../..
 
-cd ./utils/rna_refinement/
-./test.sh
-cd ../..
+if [ "$1" == "--full" ]; then
+    cd ./utils/rna_refinement/
+    ./test.sh
+    cd ../..
+fi
 
-# rna_pdb_rnapuzzle_ready.py
-#echo 'rna_pdb_rnapuzzle_ready.py'
-#./rna_pdb_rnapuzzle_ready.py --no_hr  --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
-#./rna_pdb_rnapuzzle_ready.py --no_hr --fix_missing_atoms input/missing_o.pdb > output/missing_o_fixed.pdb
+if [ "$1" == "--full" ]; then
+   cd ..
+   codecov --token=e78310dd-7a28-4837-98ef-c93533a84c5b
+fi
+
