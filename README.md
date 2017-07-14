@@ -22,7 +22,7 @@ Look for other our projects at https://github.com/RNA-Puzzles
 
 ![](docs/pngs/starit.png)
 
-A library and a program to run various Python functions related to work with PDB files of RNA structures.
+A core library and a set of programs to run various Python functions related to work with PDB files of RNA structures.
 
 The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress). 
 
