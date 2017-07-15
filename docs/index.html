@@ -229,14 +229,14 @@ diffpdb --names_and_resi 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb clusters
   <h2>Calc rmsd</h2>
   (clusters/pistol_thrs0.50A_clust01-000001_AA.pdb)
   <pre><code class="hljs" data-trim contenteditable>
-		$ rmsd_calc_to_target.py
-		-t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
-		--target_selection A:1-48+52-63
-		--model_selection A:1-48+52-63
-		--target_ignore_selection A/57/O2\'
-		clusters/pistol_thrs0.50A_clust01-000001_AA.pdb
+      time rna_calc_rmsd.py \
+      -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb \
+      --target_selection A:1-48+52-63 \
+      --model_selection A:1-48+52-63 \
+      --model_ignore_selection A/57/O2\' \
+      clusters/pistol_thrs0.50A_clust01-000001_AA.pdb
 
-rmsd_calc_rmsd_to_target
+rna_calc_rmsd
 --------------------------------------------------------------------------------
   target_selection:  A:1-48+52-63
   model_selection:   A:1-48+52-63
@@ -259,8 +259,6 @@ csv was created!  rmsds.csv
 <section>
 <section>
   <h2>Calculate RMSD</h2>
-    <p><a target="_blank" href="https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils/rmsd_calc">rna-pdb-tools/utils/rmsd_calc</a>
-
 </section>
 <section>
   <h2>Calc rmsd</h2>
@@ -302,7 +300,6 @@ rmsd_calc_to_target.py -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
 <section>
   <section>
     <h2>RNA filter</h2>
-    <p><a target="_blank" href="https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils/rna_filter">rna-pdb-tools/utils/rna_filter</a>
   </section>
   <section>
     <h3>$ rna_filter.py -r restraints_fn -s *.pdb -v</h3>
