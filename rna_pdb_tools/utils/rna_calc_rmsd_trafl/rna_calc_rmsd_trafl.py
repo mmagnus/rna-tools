@@ -47,8 +47,11 @@ class ExceptionRmsdCalcTrafl(Exception):
     pass
 
 ##  Settings
-# /home/magnus/opt/SimRNA_64bitIntel_Linux/calc_rmsd_to_1st_frame"
-from config_local import calc_rmsd_to_1st_frame_exec
+try:
+    from xconfig_local import calc_rmsd_to_1st_frame_exec
+except ImportError:
+    print("""Create config_local file in the folder of this tool, and set the path to calc_rmsd_to_1st_frame_exec
+e.g. calc_rmsd_to_1st_frame_exec="/Users/magnus/work/opt/simrna/SimRNA_64bitIntel_MacOSX_staticLibs/calc_rmsd_to_1st_frame""")
 
 
 def add_to_trafl(trafl, struc_trafl):
