@@ -93,6 +93,13 @@ rna_calc_evo_rmsd
    :ref: rna_pdb_tools.utils.rna_calc_evo_rmsd.rna_calc_evo_rmsd.get_parser
    :prog: rna_calc_evo_rmsd
 
+rna_calc_rmsd_trafl
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd_trafl.rna_calc_rmsd_trafl.get_parser
+   :prog: rna_calc_evo_rmsd
+
 rna_calc_rmsd_all_vs_all
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
