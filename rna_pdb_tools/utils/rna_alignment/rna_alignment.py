@@ -233,20 +233,32 @@ class RNASeq(object):
 class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA alignment stuff
 
-    Usage (for more see ipython notebook <>)
+    Usage (for more see IPython notebook https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
 
     >>> a = RNAalignment('test_data/RF00167.stockholm.sto')
     >>> print(a.tail())
     >>> print(a.ss_cons)
 
-    :var self.io: ``AlignIO.read(fn, "stockholm")``
+    Args:
+    
+      fn (str): Filename
+      io (Bio.AlignIO): AlignIO.read(fn, "stockholm")
+      lines (list): List of all lines of fn
+      seqs (list): List of all sequences as class:`RNASeq` objects
+      rf (str): ReFerence annotation, the consensus RNA sequence
+      
+    Read more: 
 
-    Read more: http://biopython.org/DIST/docs/api/Bio.AlignIO.StockholmIO-module.html
+    - http://biopython.org/DIST/docs/api/Bio.AlignIO.StockholmIO-module.html
+
     and on the format itself
+
     - https://en.wikipedia.org/wiki/Stockholm_format
     - http://sonnhammer.sbc.su.se/Stockholm.html
+
+    .. warning:: fetch requires urllib3
     """
-    def __init__(self,fn='', fetch=''):
+    def __init__(self, fn='', fetch=''):
         if fetch:
             import urllib3
             http = urllib3.PoolManager()
@@ -320,6 +332,7 @@ class RNAalignment(object):
         ## ^^^^ sick ^^^^^^^^^^^
 
     def __len__(self):
+        """Return length of all sequenes."""
         return len(self.seqs)
 
     def __getitem__(self, i):
@@ -487,7 +500,7 @@ class RNAalignment(object):
 
 
     def get_gc_rf(self):
-        """#=GC RF
+        """Return (str) ``#=GC RF`` or '' if this line is not in the alignment.
         """
         for l in self.lines:
             if l.startswith('#=GC RF'):
@@ -665,6 +678,13 @@ class RNAalignment(object):
     def find_seq(self, seq, verbose=False):
         """Find seq (also subsequences) and reverse in the alignment.
 
+        Args:
+
+          seq (str): seq is upper()
+          verbose (bool): be verbose
+
+        ::
+
             seq = "ggaucgcugaacccgaaaggggcgggggacccagaaauggggcgaaucucuuccgaaaggaagaguaggguuacuccuucgacccgagcccgucagcuaaccucgcaagcguccgaaggagaauc"
             hit = a.find_seq(seq, verbose=False)
             ggaucgcugaacccgaaaggggcgggggacccagaaauggggcgaaucucuuccgaaaggaagaguaggguuacuccuucgacccgagcccgucagcuaaccucgcaagcguccgaaggagaauc
@@ -680,8 +700,6 @@ class RNAalignment(object):
             Seq('CCAGGUAAGUCGCC-G-C--ACCG---------------GUCA-----------...GGA', SingleLetterAlphabet())
             GGAUCGCUGAACCCGAAAGGGGCGGGGGACCCAGAAAUGGGGCGAAUCUCUUCCGAAAGGAAGAGUAGGGUUACUCCUUCGACCCGAGCCCGUCAGCUAACCUCGCAAGCGUCCGAAGGAGAAUC
 
-        :param seq: string, seq, seq is upper()
-        :param verbose: boolean, be verbose or not
         """
         seq = seq.replace('-','').upper()
         for s in self.io:
@@ -745,10 +763,17 @@ class RNAalignment(object):
         raise Exception('Seq not found')
 
     def align_seq(self, seq):
-        """
-        :var self.rf: string, ``.g.gc.aGAGUAGggugccgugcGUuA............``
-        :param seq: string, ``-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUC...``
-        :return nseq: seq seq, seq that can be inserted into alignemnt, ``.-.GG.AGAGUA-GAUGAUUCGCGUUA`` ! . -> -
+        """Align seq to the alignment.
+
+        Using self.rf.
+
+        Args:
+          
+            seq (str): sequence, e.g. ``-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUC...``
+
+        Returns:
+          
+           str: seq that can be inserted into alignemnt, ``.-.GG.AGAGUA-GAUGAUUCGCGUUA`` ! . -> -
         """
         seq = list(seq)
         seq.reverse()
@@ -768,6 +793,13 @@ class RNAalignment(object):
         return (str(self.io))
 
     def trimmed_rf_and_ss(self):
+        """Remove from RF and SS gaps.
+
+        Returns:
+           
+          (str,str): trf, tss - new RF and SS
+
+        """
         trf = ''
         tss = ''
         for r, s in zip(self.rf, self.ss_cons_std):

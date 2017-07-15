@@ -33,7 +33,7 @@ RNA Alignment
 ------------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_alignment.rna_alignment
-
+   
 RNASeq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -45,6 +45,7 @@ RNAalignment
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNAalignment
    :members:
+   :undoc-members:
 
 
 CMAlign
@@ -52,6 +53,8 @@ CMAlign
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.CMAlign
    :members:
+   :undoc-members:
+
 
 RChie
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
