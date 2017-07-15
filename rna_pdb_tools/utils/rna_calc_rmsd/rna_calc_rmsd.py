@@ -2,6 +2,8 @@
 #-*- coding: utf-8 -*-
 """
 If you still have problem with various number of atoms, check out this issue: get_rnapuzzle_ready: how to deal with `Alternate location indicator (https://github.com/mmagnus/rna-pdb-tools/issues/30).
+
+The program is using (https://github.com/charnley/rmsd).
 """
 from __future__ import print_function
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
+"""
+The program is using (https://github.com/charnley/rmsd)
+"""
 from __future__ import print_function
 
 import Bio.PDB.PDBParser
