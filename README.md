@@ -1,7 +1,7 @@
 rna-pdb-tools
 =================
 
-**This is still under development. We'll be adding features and possibly making breaking changes in future releases.**
+**Beta: this is still under development. We'll be adding features and possibly making breaking changes in future releases.**
 
 Look for other our projects at https://github.com/RNA-Puzzles
 
