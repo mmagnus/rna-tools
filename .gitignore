@@ -27,3 +27,4 @@ opt*
 .coverage
 coverage.xml
 *bak
+*sandbox*
