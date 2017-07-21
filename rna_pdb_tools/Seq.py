@@ -14,6 +14,10 @@ ViennaRNA (https://www.tbi.univie.ac.at/RNA/)
 
 ipknot OSX (https://github.com/satoken/homebrew-rnatools)
 
+RNAStucture (http://rna.urmc.rochester.edu/)
+
+Download http://rna.urmc.rochester.edu/RNAstructureDownload.html and untar it in ``<RNA_PDB_TOOLS>/opt/RNAstructure/``; run make, the tools will be compiled in a folder ``exe``. Set up ``DATPATH`` in your bashrc to ``<RNA_PDB_TOOLS>/opt/RNAstructure/data_tables`` ``DATAPATH=/home/magnus/work/src/rna-pdb-tools/opt/RNAstructure/data_tables/`` (read more http://rna.urmc.rochester.edu/Text/Thermodynamics.html). RNAstructure can be run with SHAPE restraints, read more http://rna.urmc.rochester.edu/Text/File_Formats.html#Constraint about the format. The file format for SHAPE reactivity comprises two columns. The first column is the nucleotide number, and the second is the reactivity. Nucleotides for which there is no SHAPE data can either be left out of the file, or the reactivity can be entered as less than -500. Columns are separated by any white space.
+
 FAQ:
 
 - Does it work for more than one chain??? Hmm.. I think it's not. You have to check on your own. --magnus
@@ -35,6 +39,11 @@ Should you need to run it on a list of sequences, use the following script::
 
 @todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
 """
+import os
+try:
+    RPT_PATH = os.environ['RNA_PDB_TOOLS']
+except KeyError:
+    print ('Set up RNA_PDB_TOOLS, see Installation note')
 
 import subprocess
 import tempfile
@@ -64,20 +73,25 @@ class RNASequence:
     def __repr__(self):
         return self.seq
 
-    def predict_ss(self, method="RNAfold", constraints='', verbose=False):
+    def predict_ss(self, method="RNAfold", constraints='', shapefn='', verbose=0):
         """Predict secondary structure of the seq.
+
+        :param method: 
+        :param constraints: 
+        :param shapefn: path to a file with shape reactivites
+        :param verbose: 
 
         It creates a seq fasta file and runs various methods for secondary structure
         prediction. You can provide also a constraints file for RNAfold and RNAsubopt.
-        
+
         ContextFold::
-        
+
             $ java -cp bin contextFold.app.Predict in:CCCCUUUGGGGG
             CCCCUUUGGGGG
             ((((....))))
-            
+
         It seems that a seq has to be longer than 9. Otherwise::
-        
+
             $ java -cp bin contextFold.app.Predict in:UUUUUUGGG
             Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 10
 
@@ -85,7 +99,27 @@ class RNASequence:
             $ java -cp bin contextFold.app.Predict in:CCCCUUUGGG
             CCCCUUUGGG
             .(((...)))
-            
+
+        RNAstructure::
+
+            >  ENERGY = -4.4  rna_seq
+            GGGGUUUUCCC
+            ((((...))))
+
+        and with the shape data:
+
+            >  ENERGY = -0.2  rna_seq
+            GGGGUUUUCCC
+            .(((....)))
+        
+        the shape data:
+
+            1 10
+            2 1	
+            3 1
+        
+        You can easily see that the first G is unpaired right now! The reactivity of this G was
+        set to 10. Worked!
         """
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf.name += '.fa'
@@ -139,6 +173,27 @@ class RNASequence:
             self.ss_log = subprocess.check_output('centroid_fold ' + tf.name, shell=True)
             return '\n'.join(self.ss_log.split('\n')[2:])
 
+        if method == "rnastructure":
+            cmd = RPT_PATH + '/opt/RNAstructure/exe/fold ' + tf.name + ' ' + tf.name + '.out '
+            if shapefn:
+                cmd += ' -sh ' + shapefn
+            if verbose: print(cmd)
+            o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout = o.stdout.read().strip()
+            stderr = o.stderr.read().strip()
+            if stderr:
+                print(stderr)
+            
+            cmd = RPT_PATH + '/opt/RNAstructure/exe/ct2dot ' + tf.name + '.out 1 ' + tf.name + '.dot'
+            if verbose: print(cmd)
+            o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout = o.stdout.read().strip()
+            stderr = o.stderr.read().strip()
+            if not stderr:
+                with open(tf.name + '.dot') as f:
+                    return f.read().strip()
+                
+
     def get_ss():
         if self.ss:
             return self.ss
@@ -159,3 +214,9 @@ if __name__ == '__main__':
 
     print(seq.predict_ss("contextfold"))
     #print seq.predict_ss(method="ipknot")
+
+    verbose=False
+    seq = RNASequence("GGGGUUUUCCC")
+    print(seq.predict_ss("rnastructure", verbose=verbose))
+    print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
+
