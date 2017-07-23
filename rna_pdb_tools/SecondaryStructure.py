@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Seq and secondary structure prediction"""
 
 from __future__ import print_function
 import os
@@ -52,9 +51,13 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
     
        ss (str): secondary stucture in Vienna (dot-bracket notation) notation
        remove_gaps_in_ss (bool): remove - from ss or not, design for DCA (tpp case
-                                 ss = "(((((((((.((((.(((.....))))))......------)....."
-                                 works with pk of the first level, [[]]
+                                 ``ss = "(((((((((.((((.(((.....))))))......------)....."``
+                                 works with pk of the first level, ``[[]]``
                                  
+    Returns:
+    
+        list of two lists: (pairs, pairs_pk)
+
     Examples::
 
         >>> parse_vienna_to_pairs('((..))')
@@ -68,10 +71,6 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
 
         >>> parse_vienna_to_pairs('((--))', remove_gaps_in_ss=True)
         ([[1, 4], [2, 3]], [])
-
-    Returns:
-    
-        list of two lists: (pairs, pairs_pk)
 
     """
     if remove_gaps_in_ss:

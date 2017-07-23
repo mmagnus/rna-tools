@@ -7,7 +7,7 @@ RNA Sequence
 .. automodule:: rna_pdb_tools.Seq
    :members:
 
-RNA Secondary Structure Visualization
+RNA Secondary Structure
 ------------------------------------------
 
 .. automodule:: rna_pdb_tools.SecondaryStructure
