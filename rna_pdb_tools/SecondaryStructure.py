@@ -45,7 +45,54 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
         if verbose: print(t.name)
         shutil.move(t.name, img_out)
 
+def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
+    """Parse Vienna (dot-bracket notation) to get pairs.
+
+    Args:
     
+       ss (str): secondary stucture in Vienna (dot-bracket notation) notation
+       remove_gaps_in_ss (bool): remove - from ss or not, design for DCA (tpp case
+                                 ss = "(((((((((.((((.(((.....))))))......------)....."
+                                 works with pk of the first level, [[]]
+                                 
+    Examples::
+
+        >>> parse_vienna_to_pairs('((..))')
+        ([[1, 6], [2, 5]], [])
+
+        >>> parse_vienna_to_pairs('(([[))]]')
+        ([[1, 6], [2, 5]], [[3, 8], [4, 7]])
+
+        >>> parse_vienna_to_pairs('((--))')
+        ([[1, 6], [2, 5]], [])
+
+        >>> parse_vienna_to_pairs('((--))', remove_gaps_in_ss=True)
+        ([[1, 4], [2, 3]], [])
+
+    Returns:
+    
+        list of two lists: (pairs, pairs_pk)
+
+    """
+    if remove_gaps_in_ss:
+        ss = ss.replace('-','')
+    stack = []
+    pairs = []
+    pairs_pk = []
+    stack_pk = []
+    for c,s in enumerate(ss):
+        if s == '(':
+            stack.append(c+1)
+        if s == ')':
+            pairs.append([stack.pop(), c+1])
+        if s == '[':
+            stack_pk.append(c+1)
+        if s == ']':
+            pairs_pk.append([stack_pk.pop(), c+1])            
+    pairs.sort()
+    pairs_pk.sort()
+    return(pairs, pairs_pk)
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
