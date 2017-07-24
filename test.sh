@@ -38,6 +38,9 @@ python update_readme.py
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle input/1I9V_YG_HETATM_ATOM.pdb > output/1I9V_YG_HETATM_ATOM_rpr.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle --replace_hetatm input/1I9V_A.pdb > output/1I9V_A_rpr.pdb
 
+./rna_pdb_tools.py --no_hr --rpr input/A_YG_A.pdb --renumber_residues > output/A_YG_A_renumbered.pdb
+./rna_pdb_tools.py --no_hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pdb
+
 ## --get_rnapuzzle_ready and --dont_rename_chains
 rna_pdb_tools.py --no_hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
 rna_pdb_tools.py --no_hr --rpr --dont_rename_chains input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_dontRenameChains.pdb

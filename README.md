@@ -110,7 +110,7 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
-v0.99-152-gf2e29f8
+v0.99-189-g81f83dd-dirty
 
 positional arguments:
   file                  file
@@ -132,8 +132,9 @@ optional arguments:
   --get_ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
   --get_rnapuzzle_ready
-                        get RNApuzzle ready (keep only standard atoms,
-                        renumber residues) [biopython]
+                        get RNApuzzle ready (keep only standard atoms).Be
+                        default it does not renumber residues, use
+                        --renumber_residues [requires biopython]
   --rpr                 alias to get_rnapuzzle ready)
   --no_hr               do not insert the header into files
   --renumber_residues   by defult is false

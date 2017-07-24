@@ -62,8 +62,9 @@ def get_parser():
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms, renumber residues) [biopython]',
-                        action='store_true')
+    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms).'
+                                                      'Be default it does not renumber residues, use --renumber_residues '
+                                                      '[requires biopython]', action='store_true')
 
     parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
                         action='store_true')
@@ -275,7 +276,10 @@ if __name__ == '__main__':
                     sys.stdout.flush()
                 except IOError:
                     pass
-
+        # hmm... fix for problem with renumbering, i do renumbering
+        # and i stop here
+        # i'm not sure that this is perfect
+        sys.exit(0) 
 
     if args.renumber_residues:
         s = RNAStructure(args.file)
