@@ -87,9 +87,9 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
-usage: rna_pdb_tools.py [-h] [-r] [-c] [--is_pdb] [--is_nmr] [--un_nmr]
-                        [--orgmode] [--get_chain GET_CHAIN] [--fetch]
-                        [--fetch_ba] [--get_seq] [--get_ss]
+usage: rna_pdb_tools.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
+                        [--un_nmr] [--orgmode] [--get_chain GET_CHAIN]
+                        [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
                         [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
                         [--no_hr] [--renumber_residues] [--dont_rename_chains]
                         [--collapsed_view] [--cv] [-v] [--replace_hetatm]
@@ -110,13 +110,12 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
-v0.99-189-g81f83dd-dirty
-
 positional arguments:
   file                  file
 
 optional arguments:
   -h, --help            show this help message and exit
+  --version
   -r, --report          get report
   -c, --clean           get clean structure
   --is_pdb              check if a file is in the pdb format

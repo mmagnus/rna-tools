@@ -28,8 +28,10 @@ from utils.rna_x3dna.rna_x3dna import x3DNA
 def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
-    parser = argparse.ArgumentParser(description=__doc__ + '\n' + version, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     #parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
+    
+    parser.add_argument('--version', help='', action='version', version=version)
 
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
@@ -116,6 +118,7 @@ if __name__ == '__main__':
 
     # get parser and arguments
     parser = get_parser()
+
     args = parser.parse_args()
 
     # quick fix for one files vs file-s
