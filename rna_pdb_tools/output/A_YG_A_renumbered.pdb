@@ -1,3 +1,7 @@
+REMARK 250 Model edited with rna-pdb-tools
+REMARK 250  ver v0.99-189-g81f83dd-dirty 
+REMARK 250  https://github.com/mmagnus/rna-pdb-tools 
+REMARK 250  Mon Jul 24 19:42:49 2017
 ATOM      1  P     A A   1      10.724  11.298  35.820  1.00 63.28           P
 ATOM      2  OP1   A A   1       9.676  10.303  35.429  1.00 62.08           O
 ATOM      3  OP2   A A   1      12.005  10.825  36.416  1.00 61.61           O
