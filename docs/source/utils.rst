@@ -29,6 +29,13 @@ A super-simple wrapper around cmscan (Infernal) on local RFAM.
 .. automodule:: rna_pdb_tools.RfamSearch
    :members:
 
+PDB Edit Bfactor/Occupancy
+------------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.get_parser
+   :prog: rna_pdb_edit_occupancy_bfactor.py
+
 RNA Alignment
 ------------------------------------------
 
