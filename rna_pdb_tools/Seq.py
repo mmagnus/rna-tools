@@ -51,7 +51,10 @@ import sys
 
 from rpt_config import *
 
-class RNASequence:
+class MethodNotChosen(Exception):
+    pass
+
+class RNASequence(object):
     """RNASequence.
 
     Usage::
@@ -136,7 +139,7 @@ class RNASequence:
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.strip().split('\n')[:])
 
-        if method == "RNAsubopt" and constraints:
+        elif method == "RNAsubopt" and constraints:
             cmd = 'RNAsubopt -C < ' + tf.name
             if verbose: print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True)
@@ -155,11 +158,11 @@ class RNASequence:
         ##     self.ss_log = res['StdOut'].read()
         ##     return self.ss_log.strip().split('\n')[-1].split()[0]
 
-        if method == "ipknot":
+        elif method == "ipknot":
             self.ss_log = subprocess.check_output('ipknot ' + tf.name, shell=True)
             return '\n'.join(self.ss_log.split('\n')[2:])
 
-        if method == "contextfold":
+        elif method == "contextfold":
             if not CONTEXTFOLD_PATH:
                 print('Set up CONTEXTFOLD_PATH in configuration.')
                 sys.exit(0)
@@ -169,11 +172,11 @@ class RNASequence:
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.split('\n')[1:])
         
-        if method == "centroid_fold":
+        elif method == "centroid_fold":
             self.ss_log = subprocess.check_output('centroid_fold ' + tf.name, shell=True)
             return '\n'.join(self.ss_log.split('\n')[2:])
 
-        if method == "rnastructure":
+        elif method == "rnastructure":
             cmd = RPT_PATH + '/opt/RNAstructure/exe/fold ' + tf.name + ' ' + tf.name + '.out '
             if shapefn:
                 cmd += ' -sh ' + shapefn
@@ -192,7 +195,8 @@ class RNASequence:
             if not stderr:
                 with open(tf.name + '.dot') as f:
                     return f.read().strip()
-                
+        else:
+            raise MethodNotChosen('You have to define a correct method to use.')
 
     def get_ss():
         if self.ss:
@@ -220,3 +224,5 @@ if __name__ == '__main__':
     print(seq.predict_ss("rnastructure", verbose=verbose))
     print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
 
+    # test of MethodNotChose
+    #print(seq.predict_ss("test"))
