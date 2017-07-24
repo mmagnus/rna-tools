@@ -275,7 +275,10 @@ if __name__ == '__main__':
                     sys.stdout.flush()
                 except IOError:
                     pass
-
+        # hmm... fix for problem with renumbering, i do renumbering
+        # and i stop here
+        # i'm not sure that this is perfect
+        sys.exit(0) 
 
     if args.renumber_residues:
         s = RNAStructure(args.file)

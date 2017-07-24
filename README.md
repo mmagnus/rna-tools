@@ -110,7 +110,7 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
-v0.99-152-gf2e29f8
+v0.99-189-g81f83dd-dirty
 
 positional arguments:
   file                  file
