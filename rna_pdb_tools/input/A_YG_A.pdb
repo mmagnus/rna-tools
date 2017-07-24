@@ -1,0 +1,243 @@
+ATOM      1  P     A A  36      10.724  11.298  35.820  1.00 63.28           P  
+ATOM      2  C5'   A A  36       9.993  12.650  33.706  1.00 72.22           C  
+ATOM      3  O5'   A A  36      11.045  12.258  34.584  1.00 65.63           O  
+ATOM      4  C4'   A A  36      10.328  13.930  32.950  1.00 77.00           C  
+ATOM      5  O4'   A A  36      10.645  15.014  33.872  1.00 78.56           O  
+ATOM      6  C3'   A A  36      11.488  13.991  31.953  1.00 78.51           C  
+ATOM      7  O3'   A A  36      11.217  13.340  30.697  1.00 80.35           O  
+ATOM      8  C2'   A A  36      11.597  15.502  31.744  1.00 78.99           C  
+ATOM      9  O2'   A A  36      10.628  16.044  30.862  1.00 79.67           O  
+ATOM     10  C1'   A A  36      11.339  16.033  33.160  1.00 78.96           C  
+ATOM     11  N1    A A  36      15.540  18.973  33.105  1.00 78.41           N  
+ATOM     12  C2    A A  36      14.336  19.106  32.524  1.00 78.16           C  
+ATOM     13  N3    A A  36      13.251  18.331  32.636  1.00 78.48           N  
+ATOM     14  C4    A A  36      13.488  17.294  33.468  1.00 79.19           C  
+ATOM     15  C5    A A  36      14.663  17.029  34.150  1.00 79.40           C  
+ATOM     16  C6    A A  36      15.741  17.923  33.942  1.00 79.56           C  
+ATOM     17  N6    A A  36      16.941  17.783  34.524  1.00 80.55           N  
+ATOM     18  N7    A A  36      14.530  15.883  34.926  1.00 79.68           N  
+ATOM     19  C8    A A  36      13.305  15.476  34.684  1.00 79.47           C  
+ATOM     20  N9    A A  36      12.637  16.257  33.777  1.00 79.08           N  
+ATOM     21  OP1   A A  36       9.676  10.303  35.429  1.00 62.08           O  
+ATOM     22  OP2   A A  36      12.005  10.825  36.416  1.00 61.61           O1-
+HETATM   23  P    YG A  37      12.390  13.191  29.596  1.00 80.82           P  
+HETATM   24  C5'  YG A  37      11.459  15.313  28.230  1.00 80.80           C  
+HETATM   25  O5'  YG A  37      12.525  14.632  28.909  1.00 80.96           O  
+HETATM   26  C4'  YG A  37      12.076  16.654  27.705  1.00 80.82           C  
+HETATM   27  O4'  YG A  37      12.557  17.535  28.751  1.00 81.18           O  
+HETATM   28  C3'  YG A  37      13.327  16.370  26.891  1.00 80.70           C  
+HETATM   29  O3'  YG A  37      13.185  16.004  25.628  1.00 81.06           O  
+HETATM   30  C2'  YG A  37      14.381  17.316  27.155  1.00 80.65           C  
+HETATM   31  O2'  YG A  37      14.714  18.169  26.075  1.00 80.19           O  
+HETATM   32  C1'  YG A  37      13.997  17.909  28.481  1.00 80.54           C  
+HETATM   33  N1   YG A  37      18.940  18.246  30.348  1.00 80.22           N  
+HETATM   34  C2   YG A  37      18.381  19.089  29.456  1.00 79.92           C  
+HETATM   35  N2   YG A  37      19.187  20.085  29.020  1.00 80.83           N  
+HETATM   36  C3   YG A  37      16.562  19.999  27.982  1.00 79.10           C  
+HETATM   37  N3   YG A  37      17.064  18.997  28.971  1.00 79.69           N  
+HETATM   38  C4   YG A  37      16.331  17.863  29.539  1.00 79.56           C  
+HETATM   39  C5   YG A  37      17.008  17.018  30.487  1.00 79.48           C  
+HETATM   40  C6   YG A  37      18.321  17.227  30.884  1.00 79.65           C  
+HETATM   41  O6   YG A  37      18.805  16.448  31.699  1.00 80.18           O  
+HETATM   42  N7   YG A  37      16.175  16.021  30.901  1.00 79.23           N  
+HETATM   43  C8   YG A  37      14.983  16.205  30.243  1.00 79.75           C  
+HETATM   44  N9   YG A  37      15.057  17.351  29.389  1.00 79.53           N  
+HETATM   45  C10  YG A  37      21.568  20.838  29.435  1.00 80.53           C  
+HETATM   46  C11  YG A  37      20.401  19.863  29.702  1.00 80.86           C  
+HETATM   47  C12  YG A  37      20.276  18.711  30.545  1.00 80.97           C  
+HETATM   48  C13  YG A  37      21.362  18.103  31.472  1.00 81.90           C  
+HETATM   49  C14  YG A  37      21.334  18.839  32.811  1.00 84.00           C  
+HETATM   50  C15  YG A  37      22.561  19.722  33.113  1.00 85.51           C  
+HETATM   51  C16  YG A  37      22.295  20.375  34.497  1.00 85.49           C  
+HETATM   52  O17  YG A  37      21.252  21.118  34.564  1.00 84.90           O  
+HETATM   53  O18  YG A  37      23.114  20.127  35.446  1.00 85.82           O  
+HETATM   54  C19  YG A  37      22.751  20.794  36.677  1.00 85.64           C  
+HETATM   55  N20  YG A  37      22.777  20.851  32.139  1.00 86.26           N  
+HETATM   56  C21  YG A  37      23.817  21.752  32.172  1.00 86.90           C  
+HETATM   57  O22  YG A  37      24.969  21.352  32.554  1.00 87.62           O  
+HETATM   58  O23  YG A  37      23.543  22.945  31.795  1.00 87.18           O  
+HETATM   59  C24  YG A  37      24.656  23.892  31.822  1.00 86.00           C  
+HETATM   60  OP1  YG A  37      11.946  12.237  28.491  1.00 80.98           O1-
+HETATM   61  OP2  YG A  37      13.718  12.855  30.281  1.00 80.59           O  
+ATOM     62  P     A A  38      14.057  14.660  25.188  1.00 99.34           P  
+ATOM     63  C5'   A A  38      16.174  15.968  24.271  1.00 98.95           C  
+ATOM     64  O5'   A A  38      15.623  15.046  25.216  1.00 99.21           O  
+ATOM     65  C4'   A A  38      17.587  16.404  24.650  1.00 99.29           C  
+ATOM     66  O4'   A A  38      17.632  16.792  26.053  1.00 99.32           O  
+ATOM     67  C3'   A A  38      18.746  15.416  24.504  1.00 99.34           C  
+ATOM     68  O3'   A A  38      19.224  15.268  23.139  1.00 99.34           O  
+ATOM     69  C2'   A A  38      19.805  16.046  25.419  1.00 99.31           C  
+ATOM     70  O2'   A A  38      20.555  17.105  24.849  1.00 99.33           O  
+ATOM     71  C1'   A A  38      18.948  16.595  26.565  1.00 99.20           C  
+ATOM     72  N1    A A  38      21.636  14.375  30.366  1.00 97.55           N  
+ATOM     73  C2    A A  38      21.941  15.343  29.493  1.00 97.69           C  
+ATOM     74  N3    A A  38      21.180  15.907  28.551  1.00 97.83           N  
+ATOM     75  C4    A A  38      19.942  15.378  28.556  1.00 98.40           C  
+ATOM     76  C5    A A  38      19.471  14.388  29.406  1.00 98.32           C  
+ATOM     77  C6    A A  38      20.388  13.855  30.342  1.00 97.91           C  
+ATOM     78  N6    A A  38      20.094  12.859  31.180  1.00 97.55           N  
+ATOM     79  N7    A A  38      18.144  14.082  29.116  1.00 98.72           N  
+ATOM     80  C8    A A  38      17.851  14.866  28.104  1.00 98.66           C  
+ATOM     81  N9    A A  38      18.900  15.663  27.697  1.00 98.81           N  
+ATOM     82  OP1   A A  38      13.567  14.442  23.836  1.00 99.34           O  
+ATOM     83  OP2   A A  38      13.927  13.573  26.232  1.00 99.34           O1-
+CONECT    7   23
+CONECT   23    7   25   60
+CONECT   23   61
+CONECT   23   61
+CONECT   24   25   26
+CONECT   25   23   24
+CONECT   26   24   27   28
+CONECT   27   26   32
+CONECT   28   26   29   30
+CONECT   29   28   62
+CONECT   30   28   31   32
+CONECT   31   30
+CONECT   32   27   30   44
+CONECT   33   34
+CONECT   33   34
+CONECT   33   34
+CONECT   33   34
+CONECT   33   40
+CONECT   33   40
+CONECT   33   40
+CONECT   33   40
+CONECT   33   47
+CONECT   33   47
+CONECT   33   47
+CONECT   33   47
+CONECT   34   33
+CONECT   34   33
+CONECT   34   33
+CONECT   34   33
+CONECT   34   35
+CONECT   34   35
+CONECT   34   35
+CONECT   34   35
+CONECT   34   37
+CONECT   34   37
+CONECT   34   37
+CONECT   34   37
+CONECT   35   34
+CONECT   35   34
+CONECT   35   34
+CONECT   35   34
+CONECT   35   46
+CONECT   35   46
+CONECT   35   46
+CONECT   35   46
+CONECT   36   37
+CONECT   37   34
+CONECT   37   34
+CONECT   37   34
+CONECT   37   34
+CONECT   37   36
+CONECT   37   38
+CONECT   37   38
+CONECT   37   38
+CONECT   37   38
+CONECT   38   37
+CONECT   38   37
+CONECT   38   37
+CONECT   38   37
+CONECT   38   39
+CONECT   38   39
+CONECT   38   39
+CONECT   38   39
+CONECT   38   44
+CONECT   38   44
+CONECT   38   44
+CONECT   38   44
+CONECT   39   38
+CONECT   39   38
+CONECT   39   38
+CONECT   39   38
+CONECT   39   40
+CONECT   39   40
+CONECT   39   40
+CONECT   39   40
+CONECT   39   42
+CONECT   39   42
+CONECT   39   42
+CONECT   39   42
+CONECT   40   33
+CONECT   40   33
+CONECT   40   33
+CONECT   40   33
+CONECT   40   39
+CONECT   40   39
+CONECT   40   39
+CONECT   40   39
+CONECT   40   41
+CONECT   40   41
+CONECT   41   40
+CONECT   41   40
+CONECT   42   39
+CONECT   42   39
+CONECT   42   39
+CONECT   42   39
+CONECT   42   43
+CONECT   42   43
+CONECT   42   43
+CONECT   42   43
+CONECT   43   42
+CONECT   43   42
+CONECT   43   42
+CONECT   43   42
+CONECT   43   44
+CONECT   43   44
+CONECT   43   44
+CONECT   43   44
+CONECT   44   32
+CONECT   44   38
+CONECT   44   38
+CONECT   44   38
+CONECT   44   38
+CONECT   44   43
+CONECT   44   43
+CONECT   44   43
+CONECT   44   43
+CONECT   45   46
+CONECT   46   35
+CONECT   46   35
+CONECT   46   35
+CONECT   46   35
+CONECT   46   45
+CONECT   46   47
+CONECT   46   47
+CONECT   46   47
+CONECT   46   47
+CONECT   47   33
+CONECT   47   33
+CONECT   47   33
+CONECT   47   33
+CONECT   47   46
+CONECT   47   46
+CONECT   47   46
+CONECT   47   46
+CONECT   47   48
+CONECT   48   47   49
+CONECT   49   48   50
+CONECT   50   49   51   55
+CONECT   51   50
+CONECT   51   52
+CONECT   51   52
+CONECT   51   53
+CONECT   52   51
+CONECT   52   51
+CONECT   53   51   54
+CONECT   54   53
+CONECT   55   50   56
+CONECT   56   55
+CONECT   56   57
+CONECT   56   57
+CONECT   56   58
+CONECT   57   56
+CONECT   57   56
+CONECT   58   56   59
+CONECT   59   58
+CONECT   60   23
+CONECT   61   23
+CONECT   61   23
+CONECT   62   29
+END
