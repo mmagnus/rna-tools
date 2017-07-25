@@ -14,7 +14,7 @@ Helix
 
 Run::
 
-    rna_rosetta_run.py -e -r -g -c 600 cp20.fa
+    rna_rosetta_run.py -i -e -r -g -c 200 cp20.fa
 
 `-i`:: 
 
@@ -211,6 +211,7 @@ def main():
             os.chdir(path)
         except OSError:
             print('You have to make a folder first! use --init')
+            sys.exit(1)
 
         if args.helices:
             prepare_helices()
