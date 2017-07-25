@@ -112,6 +112,11 @@ rna_calc_rmsd_trafl
    :ref: rna_pdb_tools.utils.rna_calc_rmsd_trafl.rna_calc_rmsd_trafl.get_parser
    :prog: rna_calc_evo_rmsd
 
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd_trafl.rna_cal_rmsd_trafl_plot.get_parser
+   :prog: rna_cal_rmsd_trafl_plot
+
+
 rna_calc_rmsd_all_vs_all
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 """rmsd_calc_trafl - calculate RMSD of transition A->B based on a SimRNA trajectory
 
+After this script, run::
+
+    rna_cal_rmsd_trafl_plot.py rmsd.txt 
+
+to get a plot like this:
+
 .. image:: ../pngs/rmsd_transition.png
 
 Prepare structures::

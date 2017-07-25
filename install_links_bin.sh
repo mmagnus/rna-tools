@@ -49,6 +49,7 @@ ln -s $curr_dir/rna_pdb_tools/rna_pdb_download_simrna_job.py $curr_dir/bin/rna_p
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_evo_rmsd/rna_calc_evo_rmsd.py $curr_dir/bin/rna_calc_evo_rmsd.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd_trafl/rna_calc_rmsd_trafl.py $curr_dir/bin/rna_calc_rmsd_trafl.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd_trafl/rna_cal_rmsd_trafl_plot.py $curr_dir/bin/rna_cal_rmsd_trafl_plot.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_x3dna/rna_x3dna.py $curr_dir/bin/rna_x3dna.py
 
