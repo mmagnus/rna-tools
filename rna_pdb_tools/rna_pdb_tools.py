@@ -417,6 +417,3 @@ if __name__ == '__main__':
             for r in c[2]:
                 t.append('** ' + c[0] + ':' + r)
         print('\n'.join(t))
-
-if __name__ == '__main__':
-    pass
