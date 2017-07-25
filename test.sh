@@ -122,6 +122,10 @@ cd ./utils/simrna_trajectory
 ./test.sh
 cd ../..
 
+cd ./utils/rna_pdb_edit_occupancy_bfactor
+./test.sh
+cd ../..
+
 cd ./utils/rna_filter/
 ./test.sh
 cd ../..

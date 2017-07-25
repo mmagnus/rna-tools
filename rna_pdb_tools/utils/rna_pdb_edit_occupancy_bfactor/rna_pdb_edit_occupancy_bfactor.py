@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_pdb_edit_occupancy_bfactor.py
+r"""rna_pdb_edit_occupancy_bfactor.py - a script to edit occupancy or bfactor in a PDB file.
 
 Example::
 
@@ -21,43 +21,49 @@ warnings.simplefilter('ignore', PDBConstructionWarning)
 
 import re
 import string
-import os
 import argparse
 
-def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to, v=False):
+def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to, set_not_selected_to, v=False):
     """Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.
 
-    Return False if error. True if OK
+    Load the structure, and first set everything to be `set_not_selected_to`
+    and then  set selected to `sel_to`.
 
     Args:
 
        txt (str): A:1-10, selection, what to change
        pdb (str): file to read as an input
        pdb_out (str): file to save an output
-       set_to (float): occupancy
+       bfactor (bool): if edit bfactor
+       occupancy (bool): if edit occupancy
+       set_to (float): set to this value, if within selection
+       set_not_selected_to (float): set to this value, if not within selection
        v (bool): be verbose 
 
     Returns:
-    
+
        bool: if OK, save an output to pdb_out
 
     """
     struc = PDB.PDBParser().get_structure('struc', pdb)
 
-    txt = txt.replace(' ','')
-    if v: print(txt)
-    l = re.split('[,:;]', txt)
-    if v: print(l) 
-
+    # first loop to set everything to set_not_selected_to
     for s in struc:
          for c in s:
              for r in c:
                  for a in r:
                      if bfactor:
-                         a.set_bfactor(set_to)  
+                         a.set_bfactor(set_not_selected_to)  
                      if occupancy:
-                         a.set_occupancy(set_to)  # make it flaxi
+                         a.set_occupancy(set_not_selected_to)
 
+    # parser selected
+    txt = txt.replace(' ','')
+    if v: print(txt)
+    l = re.split('[,:;]', txt)
+    if v: print(l)
+
+    # second loop to set_to for selected
     for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
         if i in string.ascii_letters:
             if v: print('chain', i)
@@ -87,9 +93,9 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to, v=False
 
             for a in atoms:
                 if bfactor:
-                    a.set_bfactor(0)
+                    a.set_bfactor(set_to)
                 if occupancy:
-                    a.set_occupancy(0)
+                    a.set_occupancy(set_to)
 
     io = PDBIO()
     io.set_structure(struc)
@@ -98,6 +104,7 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to, v=False
     return True
 
 def get_parser():
+    """Get parser."""
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     
     group = parser.add_mutually_exclusive_group(required=True)
@@ -106,6 +113,7 @@ def get_parser():
 
     parser.add_argument('--select', help='get chain, e.g A:1-10, works also for multiple chains, e.g A:1-40,B:1-22')
     parser.add_argument('--set-to', help='set value to', default=1)
+    parser.add_argument('--set-not-selected-to', help='set value to', default=0)
     parser.add_argument('-o', '--output', help='file output')
     parser.add_argument('file', help='file')
     parser.add_argument('--verbose', action='store_true', help="be verbose")
@@ -117,4 +125,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if not args.output:
         args.output = args.file.replace('.pdb', '_out.pdb')
-    edit_occupancy_of_pdb(args.select, args.file, args.output, args.bfactor, args.occupancy, float(args.set_to), args.verbose)
+    edit_occupancy_of_pdb(args.select, args.file, args.output, args.bfactor, args.occupancy,
+                              float(args.set_to), float(args.set_not_selected_to), args.verbose)

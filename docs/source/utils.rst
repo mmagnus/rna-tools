@@ -36,6 +36,8 @@ PDB Edit Bfactor/Occupancy
    :ref: rna_pdb_tools.utils.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.get_parser
    :prog: rna_pdb_edit_occupancy_bfactor.py
 
+.. autofunction:: rna_pdb_tools.utils.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.edit_occupancy_of_pdb
+
 RNA Alignment
 ------------------------------------------
 
