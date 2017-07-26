@@ -4,8 +4,8 @@ r"""rna_pdb_edit_occupancy_bfactor.py - edit occupancy or bfactor in PDB file.
 
 Example::
 
-   rna_pdb_edit_occupancy_bfactor.py --occupancy --select A:1-40,B:1-22 \\
-                                    --set-to 0 \\
+   rna_pdb_edit_occupancy_bfactor.py --occupancy --select A:1-40,B:1-22 \
+                                    --set-to 0 \
                                     19_Bujnicki_Human_4_rpr_n0-000001.pdb
 
 
