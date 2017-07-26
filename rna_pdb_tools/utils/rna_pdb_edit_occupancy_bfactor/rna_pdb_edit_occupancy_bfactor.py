@@ -86,7 +86,7 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to,
             chain_curr = i
             continue
 
-        if i.find('-') > -1:
+        if '-' in i:
             start, ends = i.split('-')
             if v:
                 print(start, ends)
@@ -120,7 +120,7 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to,
                     if occupancy:
                         a.set_occupancy(set_to)
                 else:  # if select_atoms
-                    if select_atoms.find('+') > -1:
+                    if '+' in select_atoms:
                             # only for striping atom names
                             select_atoms_list = [x.strip() for x in
                                                  select_atoms.split('+')]
