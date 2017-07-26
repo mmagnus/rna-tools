@@ -328,6 +328,17 @@ and type::
 
 .. image:: ../pngs/pymol_dists.png    
 
+Plotting
+------------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.plotting.rna_plot_hist.get_parser
+   :prog: rna_plot_hist
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.plotting.rna_plot_density.get_parser
+   :prog: rna_plot_density
+
 Misc
 ------------------------------------------
 

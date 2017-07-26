@@ -27,6 +27,9 @@ ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_extract.py $curr_dir/bin/rna_simrna_extract.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_cluster.py $curr_dir/bin/rna_simrna_cluster.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/plotting/rna_plot_hist.py $curr_dir/bin/rna_plot_hist.py
+ln -s $curr_dir/rna_pdb_tools/utils/plotting/rna_plot_density.py $curr_dir/bin/rna_plot_density.py
+
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr_dir/bin/rna_simrna_lowest.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_extract.py $curr_dir/bin/rna_simrna_extract.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_cluster.py $curr_dir/bin/rna_simrna_cluster.py
