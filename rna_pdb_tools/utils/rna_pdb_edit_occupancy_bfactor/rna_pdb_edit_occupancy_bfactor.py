@@ -155,7 +155,8 @@ def get_parser():
     p.add_argument('-o', '--output', help='file output')
     p.add_argument('--verbose', action='store_true', help="be verbose")
     p.add_argument('--select-atoms', help="select only given atoms"
-                                          "can be only one atom, e.g. P or more, use \\' for prims, e.g. P+C4\\'")
+                                          "can be only one atom, e.g. P"
+                                          "or more, use \\' for prims, e.g. P+C4\\'")
     p.add_argument('file', help='file')
     return p
 
