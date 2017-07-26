@@ -9,11 +9,11 @@ Example::
                                     19_Bujnicki_Human_4_rpr_n0-000001.pdb
 
 
-   rna_pdb_edit_occupancy_bfactor.py --occupancy \\
-                                     --select A:1-2 \\
-                                     --select-atoms P+C4\\' \\
-                                     --set-to 10 \\
-                                     -o test_data/3w3s_homologymodel_out.pdb
+   rna_pdb_edit_occupancy_bfactor.py --occupancy \
+                                     --select A:1-2 \
+                                     --select-atoms P+C4\' \
+                                     --set-to 10 \
+                                     -o test_data/3w3s_homologymodel_out.PD
                                      --set-not-selected-to 8
                                      test_data/3w3s_homologymodel.pdb
 
