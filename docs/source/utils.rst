@@ -93,6 +93,10 @@ Calculate Root Mean Square Deviation (RMSD)
 rna_calc_rmsd
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd.get_parser
+   :prog: rna_calc_rmsd
+
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd
    :members:
 
@@ -119,6 +123,10 @@ rna_calc_rmsd_trafl
 
 rna_calc_rmsd_all_vs_all
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd_all_vs_all.get_parser
+   :prog: rna_calc_rmsd_all_vs_all
 
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd_all_vs_all
    :members:

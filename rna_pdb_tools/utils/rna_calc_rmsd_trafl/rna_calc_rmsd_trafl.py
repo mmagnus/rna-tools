@@ -63,17 +63,24 @@ e.g. calc_rmsd_to_1st_frame_exec="/Users/magnus/work/opt/simrna/SimRNA_64bitInte
 def add_to_trafl(trafl, struc_trafl):
     """Take trafl and struc_trafl and merge it into trafl (out_trafl).
 
-    :param trafl: trafl filename
-    :param struc_trafl: struc_trafl filename (SimRNA trafl file of one structure)
-    :returns: out_trafl
-    :rtype: string
+    Args:
+    
+         trafl: trafl filename
+         struc_trafl: struc_trafl filename (SimRNA trafl file of one structure)
+         
+    Returns:
+
+         str: out_trafl, a path to an output file
     """
+    print('\nadd_to_trafl')
     struc = open(struc_trafl).read().strip()
     #print struc
     #print struc
-    print(' > struc:', struc_trafl, len(struc.split('\n')))
+    nr_of_files_structure = len(struc.split('\n'))
+    assert(nr_of_files_structure == 2, 'Structure should be in SimRNA trajectory format (with only one frame)')
+    print(' input struc: and # of frames (should be only 2!)', struc_trafl, nr_of_files_structure)
     trafl_txt = open(trafl).read().strip()
-    print(' > trafl:', trafl, len(trafl_txt.split('\n')))
+    print(' add the structure to this trafl: and # of frames', trafl, len(trafl_txt.split('\n')))
 
     #if len(struc.split('\n')) != len(trafl_txt.split('\n')):
     #    raise Exception('# of atoms in structure != # of atoms in trafl')
@@ -85,7 +92,7 @@ def add_to_trafl(trafl, struc_trafl):
     f.write(struc + '\n' + trafl_txt)
     f.close()
     
-    print(' % saved:', out_trafl)
+    print(' saved:', out_trafl)
     return out_trafl
 
 def calc_rmsd_to_1st_frame(trafl):
@@ -93,19 +100,19 @@ def calc_rmsd_to_1st_frame(trafl):
 
     :param trafl: trafl filename, string
     """
-    
+    print('\ncalc_rmsd_to_1st_frame')
     rmsd_out = trafl.replace('.trafl', '_rmsd_e')
     cmd = calc_rmsd_to_1st_frame_exec + ' ' + trafl + ' ' + rmsd_out
-    print(' > calc_rmsd_to_1st_frame')
+    print(' calc_rmsd_to_1st_frame')
     print('  ', cmd)
 
-    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=sys.stdout.flush())#subprocess.PIPE)
     out = o.stdout.read().strip()
-    err = o.stderr.read().strip()
-    #if err:
-        #print >> sys.stderr, ' !!! error in reading a trafl', err, out
-    #    sys.exit(1)
-    print(' < rmsd_out:', rmsd_out)
+    #err = o.stderr.read().strip()
+    #if 'warning' in err:
+    #    print('!!! error in reading a trafl', err, out)
+    #    sys.exit(0)
+    print(' rmsd_out:', rmsd_out)
     return rmsd_out
 
 def head_trafl(trafl, n):
