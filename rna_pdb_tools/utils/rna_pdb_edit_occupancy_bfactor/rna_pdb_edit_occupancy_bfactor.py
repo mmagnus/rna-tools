@@ -91,7 +91,7 @@ def edit_occupancy_of_pdb(txt, pdb, pdb_out, bfactor, occupancy, set_to,
             if v:
                 print(start, ends)
 
-            if start > ends:
+            if int(start) > int(ends):
                 print('Error: range start > end ' + i, file=sys.stderr)
                 return False
             index = list(range(int(start), int(ends)+1))
