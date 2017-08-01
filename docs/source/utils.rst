@@ -71,6 +71,15 @@ RChie
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RChie
    :members:
 
+Renumber a pdb file according to alignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. argparse::
+   :ref: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
+   :prog: renum_pdb_to_aln
+
+.. automodule:: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln
+   :members:
+
 RNA clustering with CLANS (clanstix)
 ------------------------------------------
 

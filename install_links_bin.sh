@@ -53,6 +53,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd_trafl/rna_cal_rmsd_trafl_plot.
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_x3dna/rna_x3dna.py $curr_dir/bin/rna_x3dna.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/renum_pdb_to_aln/renum_pdb_to_aln.py $curr_dir/bin/rna_renum_pdb_to_aln.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo

@@ -130,6 +130,10 @@ cd ./utils/rna_filter/
 ./test.sh
 cd ../..
 
+cd ./utils/renum_pdb_to_aln/
+./test.sh
+cd ../..
+
 if [ "$1" == "--full" ]; then
     cd ./utils/rna_refinement/
     ./test.sh
