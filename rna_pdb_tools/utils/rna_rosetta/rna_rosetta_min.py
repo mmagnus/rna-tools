@@ -110,7 +110,7 @@ def get_parser():
 def run():
     args = get_parser().parse_args()
     ns = get_no_structures(args.file)
-    print(('# structures:', ns))
+    print('# structures:', ns)
     take_n = int(ns * 0.16) # 1/6
     min(args.file, take_n, int(args.cpus), args.go)
     
