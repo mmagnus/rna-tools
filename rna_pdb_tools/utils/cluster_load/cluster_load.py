@@ -20,7 +20,6 @@ def stats_for_cluster():
     
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
     out = p.stdout.read().strip()
     
     cc = 0
@@ -40,7 +39,6 @@ def stats_for_user():
     cmd="/home/oge/bin/lx24-amd64/qstat "# -u '*'"
 
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
     out = p.stdout.read().strip()
 
     cc = 0
@@ -59,7 +57,6 @@ def per_user():
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
 
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
     out = p.stdout.read().strip()
 
     per_user = {}
