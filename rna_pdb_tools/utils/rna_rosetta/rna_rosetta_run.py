@@ -1,11 +1,6 @@
 #!/usr/bin/env python
-<< << << < HEAD
-
-r"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
-=======
 # -*- coding: utf-8 -*-
-"""run_rosetta - wrapper to ROSETTA tools for RNA modeling
->>>>>> > 4fdfab13cebfc2604f41b7a1e3323476cabd5fc1
+r"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
 http: // www.sciencedirect.com / science / article / pii / S0076687914000524
