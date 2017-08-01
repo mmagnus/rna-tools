@@ -1,0 +1,4 @@
+# cmdlines:
+source helix0.RUN
+# cmdlines args for FARFAR:
+# -silent helix0.out  -input_silent_res 1-2 7-8 
