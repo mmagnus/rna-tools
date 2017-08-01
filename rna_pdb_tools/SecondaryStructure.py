@@ -48,14 +48,14 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
     """Parse Vienna (dot-bracket notation) to get pairs.
 
     Args:
-    
+
        ss (str): secondary stucture in Vienna (dot-bracket notation) notation
        remove_gaps_in_ss (bool): remove - from ss or not, design for DCA (tpp case
                                  ``ss = "(((((((((.((((.(((.....))))))......------)....."``
                                  works with pk of the first level, ``[[]]``
-                                 
+
     Returns:
-    
+
         list of two lists: (pairs, pairs_pk)
 
     Examples::
@@ -87,7 +87,7 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
         if s == '[':
             stack_pk.append(c+1)
         if s == ']':
-            pairs_pk.append([stack_pk.pop(), c+1])            
+            pairs_pk.append([stack_pk.pop(), c+1])
     pairs.sort()
     pairs_pk.sort()
     return(pairs, pairs_pk)

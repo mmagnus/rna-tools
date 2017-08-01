@@ -17,14 +17,14 @@ Example::
     rna_pdb_download_simrna_job.py -t -x -m 20569fa1 -p zmp_pk
 
     [mm] zmp_pk ls
-    20569fa1_ALL_100low.trafl               
-    _20569fa1-thrs7.10A_clust04             
-    _20569fa1-thrs7.10A_clust05             
-    _20569fa1_ALL_100low                    
-    data                                    
-    rna_simrna_extract.log                  
-    subset.png                              
-    zmp_pk_20569fa1-thrs7.10A_clust01X.pdb  
+    20569fa1_ALL_100low.trafl
+    _20569fa1-thrs7.10A_clust04
+    _20569fa1-thrs7.10A_clust05
+    _20569fa1_ALL_100low
+    data
+    rna_simrna_extract.log
+    subset.png
+    zmp_pk_20569fa1-thrs7.10A_clust01X.pdb
     zmp_pk_20569fa1-thrs7.10A_clust02X.pdb
     zmp_pk_20569fa1-thrs7.10A_clust03X.pdb
     zmp_pk_20569fa1-thrs7.10A_clust04X.pdb
@@ -34,7 +34,7 @@ Example::
 
 """
 # Ideas:  71707ff4-fe16-4b78-8340-78913312a547_ALL_thrs12.50A_clust01-000001_AA keep
-#                                              // 
+#                                              //
 
 
 import argparse
@@ -44,8 +44,10 @@ import sys
 import shutil
 sys.tracebacklimit = 0
 
+
 class SimRNAwebError(Exception):
     pass
+
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -60,7 +62,7 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
     job_id = args.job_id
-    
+
     job_id = job_id.replace('genesilico.pl/SimRNAweb/jobs/', '').replace('http://','').replace('/', '') # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
 
     # download models, get propare names of pdb files
@@ -99,7 +101,7 @@ if __name__ == '__main__':
         os.system('rna_simrna_lowest.py *_ALL.trafl')
         os.system('rm *_ALL.trafl*')
         os.system('rna_simrna_extract.py -t *01X.pdb -f *low.trafl -c')
-        
+
     if args.more_clusters:
         print 'more clusters'
         url = "http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/processing_results/"
@@ -111,7 +113,7 @@ if __name__ == '__main__':
             if 'clust04.trafl' in l or 'clust05.trafl' in l:
                 fn = l.split('"')[1]
                 print fn
-                
+
                 # shorten names
                 nfn = fn.replace("-000001", '').replace('_AA','X').replace('_ALL_','-')
                 parts = nfn.split('-')
@@ -125,13 +127,15 @@ if __name__ == '__main__':
                 if 'clust04.trafl' in l:
                     os.system('rna_simrna_extract.py -t *01X.pdb -f *04.trafl -c -n 1')
                     os.remove(nfn)
-                    shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'), nfn.replace('.trafl', 'X.pdb'))
+                    shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'),
+                                nfn.replace('.trafl', 'X.pdb'))
                 if 'clust05.trafl' in l:
                     os.system('rna_simrna_extract.py -t *01X.pdb -f *05.trafl -c -n 1')
                     os.remove(nfn)
                     # 27b5093d-thrs6.20A_clust05-000001_AA.pdb -> 27b5093d-thrs6.20A_clust05X.pdb
-                    shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'), nfn.replace('.trafl', 'X.pdb'))
-        
+                    shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'),
+                                nfn.replace('.trafl', 'X.pdb'))
+
     # d2b57aef_ALL-thrs8.40A_clust01X.pdb -> gba_pk_d2b57aef_ALL-thrs8.40A_clust01X.pdb
     # hmm.. i bit risky
     if args.prefix:

@@ -38,7 +38,7 @@ Should you need to run it on a list of sequences, use the following script::
        #print s.predict_ss(method="centroid_fold")
 
 @todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
-"""
+""" # noqa
 import os
 try:
     RPT_PATH = os.environ['RNA_PDB_TOOLS']
@@ -49,10 +49,13 @@ import subprocess
 import tempfile
 import sys
 
-from rpt_config import *
+
+from rpt_config import CONTEXTFOLD_PATH
+
 
 class MethodNotChosen(Exception):
     pass
+
 
 class RNASequence(object):
     """RNASequence.
@@ -72,17 +75,17 @@ class RNASequence(object):
         self.ss = ''
         self.ss_log = ''
         self.name = 'rna_seq'
-        
+
     def __repr__(self):
         return self.seq
 
     def predict_ss(self, method="RNAfold", constraints='', shapefn='', verbose=0):
         """Predict secondary structure of the seq.
 
-        :param method: 
-        :param constraints: 
+        :param method:
+        :param constraints:
         :param shapefn: path to a file with shape reactivites
-        :param verbose: 
+        :param verbose:
 
         It creates a seq fasta file and runs various methods for secondary structure
         prediction. You can provide also a constraints file for RNAfold and RNAsubopt.
@@ -114,49 +117,51 @@ class RNASequence(object):
             >  ENERGY = -0.2  rna_seq
             GGGGUUUUCCC
             .(((....)))
-        
+
         the shape data:
 
             1 10
-            2 1	
+            2 1
             3 1
-        
+
         You can easily see that the first G is unpaired right now! The reactivity of this G was
         set to 10. Worked!
         """
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf.name += '.fa'
-        with open(tf.name,'w') as f:
+        with open(tf.name, 'w') as f:
             f.write('>' + self.name + '\n')
             f.write(self.seq + '\n')
             if constraints:
-                f.write(constraints)    
-            
+                f.write(constraints)
+
         # run prediction
         if method == "RNAfold" and constraints:
             cmd = 'RNAfold -C < ' + tf.name
-            if verbose: print(cmd)
+            if verbose:
+                print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.strip().split('\n')[:])
 
         elif method == "RNAsubopt" and constraints:
             cmd = 'RNAsubopt -C < ' + tf.name
-            if verbose: print(cmd)
+            if verbose:
+                print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.split('\n')[:])
 
-        ## if method == "RNAsubopt":
-        ##     from cogent.app.vienna_package import RNAfold, RNAsubopt
-        ##     r = RNAsubopt(WorkingDir="/tmp")
-        ##     res = r([self.seq])
-        ##     return str(res['StdOut'].read()).strip()
+        # if method == "RNAsubopt":
+        #     from cogent.app.vienna_package import RNAfold, RNAsubopt
+        #     r = RNAsubopt(WorkingDir="/tmp")
+        #     res = r([self.seq])
+        #     return str(res['StdOut'].read()).strip()
 
-        ## if method == 'RNAfold':
-        ##     from cogent.app.vienna_package import RNAfold, RNAsubopt
-        ##     r = RNAfold(WorkingDir="/tmp")
-        ##     res = r([self.seq])
-        ##     self.ss_log = res['StdOut'].read()
-        ##     return self.ss_log.strip().split('\n')[-1].split()[0]
+        # if method == 'RNAfold':
+        #     from cogent.app.vienna_package import RNAfold, RNAsubopt
+        #     r = RNAfold(WorkingDir="/tmp")
+        #     res = r([self.seq])
+        #     self.ss_log = res['StdOut'].read()
+        #     return self.ss_log.strip().split('\n')[-1].split()[0]
 
         elif method == "ipknot":
             self.ss_log = subprocess.check_output('ipknot ' + tf.name, shell=True)
@@ -166,12 +171,13 @@ class RNASequence(object):
             if not CONTEXTFOLD_PATH:
                 print('Set up CONTEXTFOLD_PATH in configuration.')
                 sys.exit(0)
-            cmd = "cd " + CONTEXTFOLD_PATH + " + && java -cp bin contextFold.app.Predict in:" + self.seq
+            cmd = "cd " + CONTEXTFOLD_PATH + \
+                  " + && java -cp bin contextFold.app.Predict in:" + self.seq
             if verbose:
                 print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True)
             return '\n'.join(self.ss_log.split('\n')[1:])
-        
+
         elif method == "centroid_fold":
             self.ss_log = subprocess.check_output('centroid_fold ' + tf.name, shell=True)
             return '\n'.join(self.ss_log.split('\n')[2:])
@@ -180,17 +186,18 @@ class RNASequence(object):
             cmd = RPT_PATH + '/opt/RNAstructure/exe/fold ' + tf.name + ' ' + tf.name + '.out '
             if shapefn:
                 cmd += ' -sh ' + shapefn
-            if verbose: print(cmd)
+            if verbose:
+                print(cmd)
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout = o.stdout.read().strip()
             stderr = o.stderr.read().strip()
             if stderr:
                 print(stderr)
-            
-            cmd = RPT_PATH + '/opt/RNAstructure/exe/ct2dot ' + tf.name + '.out 1 ' + tf.name + '.dot'
-            if verbose: print(cmd)
+
+            cmd = RPT_PATH + '/opt/RNAstructure/exe/ct2dot ' + tf.name + '.out 1 ' + \
+                             tf.name + '.dot'
+            if verbose:
+                print(cmd)
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout = o.stdout.read().strip()
             stderr = o.stderr.read().strip()
             if not stderr:
                 with open(tf.name + '.dot') as f:
@@ -198,31 +205,28 @@ class RNASequence(object):
         else:
             raise MethodNotChosen('You have to define a correct method to use.')
 
-    def get_ss():
-        if self.ss:
-            return self.ss
-        else:
-            return self.predict_ss()
 
-#main
+# main
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-    
+
     seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA01'
-    print(seq.predict_ss("RNAfold", constraints="((((...............................................................))))"))
+    print(seq.predict_ss("RNAfold",
+                          constraints="((((...............................................................))))"))  # noqa
     seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA02'
-    print(seq.predict_ss("RNAsubopt", constraints="((((...............................................................))))"))
+    print(seq.predict_ss("RNAsubopt",
+                         constraints="((((...............................................................))))"))  # noqa
 
     print(seq.predict_ss("contextfold"))
-    #print seq.predict_ss(method="ipknot")
+    # print seq.predict_ss(method="ipknot")
 
-    verbose=False
+    verbose = False
     seq = RNASequence("GGGGUUUUCCC")
     print(seq.predict_ss("rnastructure", verbose=verbose))
     print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
 
     # test of MethodNotChose
-    #print(seq.predict_ss("test"))
+    # print(seq.predict_ss("test"))
