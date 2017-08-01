@@ -9,16 +9,30 @@ Set MAX_JOBS to calc % of usage, it's an approximation of max number of jobs, e.
 
 import commands
 import subprocess
+import logging
+import argparse
+import inspect
 
 from rna_pdb_tools.rpt_config import CPUS_CLUSTER
 
 MAX_JOBS = CPUS_CLUSTER
 print('MAX_JOBS:', MAX_JOBS)
 
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+logger.addHandler(handler)
+formatter = logging.Formatter("[ %(filename)s:%(lineno)s - %(funcName)20s() %(message)s]")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+
 def stats_for_cluster():
     """get stats (#jobs) per cluster"""
     
     cmd="/home/oge/bin/lx24-amd64/qstat -u '*'"
+
+    logger.info(cmd)
+
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out = p.stdout.read().strip()
     
@@ -73,7 +87,20 @@ def per_user():
                 per_user[user] = cpus            
     return per_user
 
+def get_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--verbose", help="increase output verbosity",
+                        action="store_true")
+    return parser
+
+
+# main
 if __name__ == '__main__':
+    args = get_parser().parse_args()
+
+    if args.verbose:
+        logger.setLevel(logging.INFO)
+        
     cc = stats_for_cluster()
     print('#jobs cluster', cc, 'load: ', cc/float(MAX_JOBS), ' to use:', MAX_JOBS - cc)
     cc = stats_for_user()
