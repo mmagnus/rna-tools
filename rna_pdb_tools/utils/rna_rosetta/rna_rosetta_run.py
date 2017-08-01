@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
+r"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
 http://www.sciencedirect.com/science/article/pii/S0076687914000524
@@ -16,7 +16,7 @@ Run::
 
     rna_rosetta_run.py -e -r -g -c 600 cp20.fa
 
-`-i`:: 
+`-i`::
 
     # prepare a folder for a run
     >cp20
@@ -76,15 +76,19 @@ import math
 import os
 import sys
 
-EXPECTED_STRUCTURES = 10000
-
 try:
     from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING
 except:
     print ('Set up rna_rosetta_run_root_dir_for_modeling in rpt_config_local.py')
 
+
+class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter, argparse.RawTextHelpFormatter):
+    pass
+
+
 def get_parser():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=CustomFormatter)
 
     parser.add_argument('-i', '--init', help='prepare _folder with seq and ss',
                         action='store_true')
@@ -92,14 +96,24 @@ def get_parser():
                         action='store_true')
     parser.add_argument('-r', '--rosetta', help='prepare rosetta files (still you need `go` to send jobs to a cluster)',
                         action='store_true')
-    parser.add_argument('-g', '--go', help= go.__doc__,
+    parser.add_argument('-g', '--go', help=go.__doc__,
                         action='store_true')
-    parser.add_argument('-c', '--cpus', help='default: 200\n# of structures is %i' % EXPECTED_STRUCTURES, default=200)
 
-    parser.add_argument('file', help= textwrap.dedent("""file:\n>a04\nUAUAACAUAUAAUUUUGACAAUAUGGGUCAUAAGUUUCUACCGGAAUACCGUAAAUAUUCUGACUAUGUAUA\n((((.((((...((.((((.......)))).))........(.(((((.......))))).)..))))))))"""))
+    parser.add_argument('-n', '--nstruc', help="# of structures you want to get",
+                        default=10000, type=int)
+
+    parser.add_argument('-c', '--cpus', help='# of cpus to be used', default=200,
+                        type=int)
+
+    parser.add_argument('--sandbox', help="where to run it (default: RNA_ROSETTA_RUN_ROOT_DIR_MODELING",
+                        default=RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
+
+    parser.add_argument('file', help=textwrap.dedent(
+        """file:\n>a04\nUAUAACAUAUAAUUUUGACAAUAUGGGUCAUAAGUUUCUACCGGAAUACCGUAAAUAUUCUGACUAUGUAUA\n((((.((((...((.((((.......)))).))........(.(((((.......))))).)..))))))))"""))
     return parser
 
-def prepare_folder(args,header,seq,ss,path):
+
+def prepare_folder(args, header, seq, ss, path):
     """Make folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder"""
     d = path
     try:
@@ -109,14 +123,15 @@ def prepare_folder(args,header,seq,ss,path):
         print(d, 'created is already created')
         pass
 
-    with open(d + "seq.fa","w") as f:
-        f.write(header +'\n')
+    with open(d + "seq.fa", "w") as f:
+        f.write(header + '\n')
         f.write(seq)
 
-    with open(d + "ss.fa","w") as f:
+    with open(d + "ss.fa", "w") as f:
         f.write(ss)
     print('Seq & ss created')
     shutil.copyfile(args.file, d + 'input.fa')
+
 
 def prepare_helices():
     """Make helices (wrapper around 'helix_preassemble_setup.py')
@@ -134,19 +149,19 @@ def prepare_helices():
     for h in helix_runs:
         f.write(open(h).read().strip() + ' & \n')
     f.close()
-    
-    ## does not work (!) 
+
+    # does not work (!)
     #os.system('chmod +x CMDLINES')
-    #os.system('./CMDLINES')
-    ## ./CMDLINES: 2: source: not found
-    
+    # os.system('./CMDLINES')
+    # ./CMDLINES: 2: source: not found
+
     # os.system runs multiprocessing, but does not wait for the rest of the program
     # hmm... it does not wait because I used & ???
     # this works in multirpocessing mode but it does not wait for `-r` !!! so if your run -e only it's OK.
     # don't combile -e with -r because making helices will not wait to run -r (!) and  you will get an error
     # and only helices made and then the program will finish
-    if False: 
-        os.system('bash HRUNS') 
+    if False:
+        os.system('bash HRUNS')
     else:
         p = subprocess.Popen(open('HRUNS').read(), shell=True, stderr=subprocess.PIPE)
         p.wait()
@@ -154,44 +169,50 @@ def prepare_helices():
         if stderr:
             print stderr
 
-def prepare_rosetta(header, cpus):
+
+def prepare_rosetta(header, cpus, nstruc):
     """Prepare ROSETTA using rna_denovo_setup.py
 
     cpus is used to calc nstruc per job to get 10k structures per full run::
 
-      EXPECTED_STRUCTURES = 10000
+    Args:
+
+      nstruc (int): how many structures you want to obtain
       nstruct = int(math.floor(20000/cpus))
-      50 (nstruc) = 10k / 200 (cpus) 
+      50 (nstruc) = 10k / 200 (cpus)
 
     """
     # get list line
 
-    helices = open('CMDLINES').readlines()[-1].replace('#','')
-    njobs = cpus # 500
-    nstruct = int(math.floor(EXPECTED_STRUCTURES/cpus)) # 20000/500 -> 40 
+    helices = open('CMDLINES').readlines()[-1].replace('#', '')
+    njobs = cpus  # 500
+    nstruct = int(math.floor(nstruc / cpus))  # 20000/500 -> 40
 
-    cmd = 'rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct ' + str(nstruct) + ' ' + helices
+    cmd = 'rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct ' + \
+        str(nstruct) + ' ' + helices
     print(cmd)
     os.system(cmd)
     # change to 50 per job (!)
     # 50 * 100 = 10k ?
     # dont change this 100 (!) it might not run on peyote2 with values like 99999 !
-    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6] 
+    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6]
     print cmd
-    os.system(cmd)    
+    os.system(cmd)
+
 
 def go():
     """send jobs to a cluster (run qsubMINI)"""
     os.system('chmod +x ./qsubMINI')
     os.system('./qsubMINI')
-    
+
+
 def main():
     """Pipeline for modeling RNA"""
     args = get_parser().parse_args()
-    
+
     if args.file:
         f = open(args.file)
-        header = f.readline().replace('>','').strip()
+        header = f.readline().replace('>', '').strip()
         seq = f.readline().strip()
         ss = f.readline().strip()
         cpus = int(args.cpus)
@@ -203,11 +224,11 @@ def main():
 
         if RNA_ROSETTA_RUN_ROOT_DIR_MODELING.strip() == '':
             raise Exception('Set RNA_ROSETTA_RUN_ROOT_DIR_MODELING in your rpt_config file.')
-            
-        path = RNA_ROSETTA_RUN_ROOT_DIR_MODELING + os.sep + header + os.sep
+
+        path = args.sandbox + os.sep + header + os.sep  # RNA_ROSETTA_RUN_ROOT_DIR_MODELING
         curr = os.getcwd()
         if args.init:
-            prepare_folder(args,header, seq, ss, path)
+            prepare_folder(args, header, seq, ss, path)
         try:
             os.chdir(path)
         except OSError:
@@ -216,11 +237,13 @@ def main():
         if args.helices:
             prepare_helices()
         if args.rosetta:
-            prepare_rosetta(header, cpus)
+            prepare_rosetta(header, cpus, args.nstruc)
         if args.go:
             go()
 
         os.chdir(curr)
-#main
+
+
+# main
 if __name__ == '__main__':
     main()
