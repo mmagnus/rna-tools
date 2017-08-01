@@ -36,11 +36,15 @@ import subprocess
 import os
 import shutil
 import re
+import gzip
 
 class RNAalignmentError(Exception):
     pass
 
 class RChieError(Exception):
+    pass
+
+class RFAMFetchError(Exception):
     pass
 
 class RChie:
@@ -229,20 +233,45 @@ class RNASeq(object):
 class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA alignment stuff
 
-    Usage (for more see ipython notebook <>)
+    Usage (for more see IPython notebook https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
 
     >>> a = RNAalignment('test_data/RF00167.stockholm.sto')
     >>> print(a.tail())
     >>> print(a.ss_cons)
 
-    :var self.io: ``AlignIO.read(fn, "stockholm")``
+    Args:
+    
+      fn (str): Filename
+      io (Bio.AlignIO): AlignIO.read(fn, "stockholm")
+      lines (list): List of all lines of fn
+      seqs (list): List of all sequences as class:`RNASeq` objects
+      rf (str): ReFerence annotation, the consensus RNA sequence
+      
+    Read more: 
 
-    Read more: http://biopython.org/DIST/docs/api/Bio.AlignIO.StockholmIO-module.html
+    - http://biopython.org/DIST/docs/api/Bio.AlignIO.StockholmIO-module.html
+
     and on the format itself
+
     - https://en.wikipedia.org/wiki/Stockholm_format
     - http://sonnhammer.sbc.su.se/Stockholm.html
+
+    .. warning:: fetch requires urllib3
     """
-    def __init__(self,fn):
+    def __init__(self, fn='', fetch=''):
+        if fetch:
+            import urllib3
+            http = urllib3.PoolManager()
+            response = http.request('GET', 'http://rfam.xfam.org/family/' + fetch + '/alignment/stockholm?gzip=1&download=1')
+            if not response.status == 200: raise RFAMFetchError()
+            with open(fetch + '.stk.gz', 'wb') as f:
+                f.write(response.data)
+            with gzip.open(fetch + '.stk.gz', 'rb') as f:
+                file_content = f.read()
+            with open(fetch + '.stk', 'wb') as f:
+                f.write(file_content)
+            fn = fetch + '.stk'
+            
         self.fn = fn
         self.lines = open(fn).read().split('\n')
         self.io = AlignIO.read(fn, "stockholm")
@@ -303,6 +332,7 @@ class RNAalignment(object):
         ## ^^^^ sick ^^^^^^^^^^^
 
     def __len__(self):
+        """Return length of all sequenes."""
         return len(self.seqs)
 
     def __getitem__(self, i):
@@ -470,7 +500,7 @@ class RNAalignment(object):
 
 
     def get_gc_rf(self):
-        """#=GC RF
+        """Return (str) ``#=GC RF`` or '' if this line is not in the alignment.
         """
         for l in self.lines:
             if l.startswith('#=GC RF'):
@@ -648,6 +678,13 @@ class RNAalignment(object):
     def find_seq(self, seq, verbose=False):
         """Find seq (also subsequences) and reverse in the alignment.
 
+        Args:
+
+          seq (str): seq is upper()
+          verbose (bool): be verbose
+
+        ::
+
             seq = "ggaucgcugaacccgaaaggggcgggggacccagaaauggggcgaaucucuuccgaaaggaagaguaggguuacuccuucgacccgagcccgucagcuaaccucgcaagcguccgaaggagaauc"
             hit = a.find_seq(seq, verbose=False)
             ggaucgcugaacccgaaaggggcgggggacccagaaauggggcgaaucucuuccgaaaggaagaguaggguuacuccuucgacccgagcccgucagcuaaccucgcaagcguccgaaggagaauc
@@ -663,8 +700,6 @@ class RNAalignment(object):
             Seq('CCAGGUAAGUCGCC-G-C--ACCG---------------GUCA-----------...GGA', SingleLetterAlphabet())
             GGAUCGCUGAACCCGAAAGGGGCGGGGGACCCAGAAAUGGGGCGAAUCUCUUCCGAAAGGAAGAGUAGGGUUACUCCUUCGACCCGAGCCCGUCAGCUAACCUCGCAAGCGUCCGAAGGAGAAUC
 
-        :param seq: string, seq, seq is upper()
-        :param verbose: boolean, be verbose or not
         """
         seq = seq.replace('-','').upper()
         for s in self.io:
@@ -728,10 +763,17 @@ class RNAalignment(object):
         raise Exception('Seq not found')
 
     def align_seq(self, seq):
-        """
-        :var self.rf: string, ``.g.gc.aGAGUAGggugccgugcGUuA............``
-        :param seq: string, ``-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUC...``
-        :return nseq: seq seq, seq that can be inserted into alignemnt, ``.-.GG.AGAGUA-GAUGAUUCGCGUUA`` ! . -> -
+        """Align seq to the alignment.
+
+        Using self.rf.
+
+        Args:
+          
+            seq (str): sequence, e.g. ``-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUC...``
+
+        Returns:
+          
+           str: seq that can be inserted into alignemnt, ``.-.GG.AGAGUA-GAUGAUUCGCGUUA`` ! . -> -
         """
         seq = list(seq)
         seq.reverse()
@@ -750,6 +792,22 @@ class RNAalignment(object):
     def __repr__(self):
         return (str(self.io))
 
+    def trimmed_rf_and_ss(self):
+        """Remove from RF and SS gaps.
+
+        Returns:
+           
+          (str,str): trf, tss - new RF and SS
+
+        """
+        trf = ''
+        tss = ''
+        for r, s in zip(self.rf, self.ss_cons_std):
+            if r not in ['-', '.']:
+                trf += r
+                tss += s
+        return trf, tss
+        
 class CMAlign():
     """CMAalign class around cmalign (of Inferal).
 
@@ -861,7 +919,7 @@ def get_rfam_ss_notat_to_dot_bracket_notat(ss):
 
 def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
     """Take (c)haracter and standardize ss"""
-    if c in [',', '_', ':']:
+    if c in [',', '_', ':', '-']:
         return '.'
     if c == '<':
         return '('
@@ -956,7 +1014,6 @@ def fetch_stokholm(rfam_acc, dpath=None):
     return rfam_acc + '.stk'
 
 
-#main
 #def test_seq_multilines_alignment()
 def test_alignment_with_pk():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
@@ -967,6 +1024,7 @@ def test_alignment_with_pk():
 
     print(a[[1,2]])
     
+#main
 if __name__ == '__main__':
     ## a = RNAalignment('test_data/RF00167.stockholm.sto')
     ## #print a.get_shift_seq_in_align()
@@ -1030,7 +1088,9 @@ if __name__ == '__main__':
     #a = fasta2stokholm('test_output/ade_gapped.fa')
     #print a
 
-    a = RNAalignment('test_data/RF00001.blocked.stk')
-    print a
-    print a.ss_cons
-    a.plot('rchie.png')
+    #a = RNAalignment('test_data/RF00001.blocked.stk')
+    #print a
+    #print a.ss_cons
+    #a.plot('rchie.png')
+
+    a = RNAalignment(fetch="RF02746")

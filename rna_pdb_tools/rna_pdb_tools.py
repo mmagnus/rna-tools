@@ -14,7 +14,6 @@ Usage::
     > A:1-61
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
-
 """
 from __future__ import print_function
 
@@ -23,19 +22,30 @@ import os
 import time
 import progressbar
 
-from pdb_parser_lib import *
+from rna_pdb_tools_lib import *
 from utils.rna_x3dna.rna_x3dna import x3DNA
 
 def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
-    parser = argparse.ArgumentParser(description=__doc__ + '\n' + version, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     #parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
+    
+    parser.add_argument('--version', help='', action='version', version=version)
 
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
 
     parser.add_argument('-c', '--clean', help='get clean structure',
+                        action='store_true')
+
+    parser.add_argument('--is_pdb', help='check if a file is in the pdb format',
+                        action='store_true')
+
+    parser.add_argument('--is_nmr', help='check if a file is NMR-style multiple model pdb',
+                        action='store_true')
+
+    parser.add_argument('--un_nmr', help='Split NMR-style multiple model pdb files into individual models [biopython]',
                         action='store_true')
 
     parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
@@ -54,8 +64,9 @@ def get_parser():
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms, renumber residues)',
-                        action='store_true')
+    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms).'
+                                                      'Be default it does not renumber residues, use --renumber_residues '
+                                                      '[requires biopython]', action='store_true')
 
     parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
                         action='store_true')
@@ -107,6 +118,7 @@ if __name__ == '__main__':
 
     # get parser and arguments
     parser = get_parser()
+
     args = parser.parse_args()
 
     # quick fix for one files vs file-s
@@ -114,13 +126,13 @@ if __name__ == '__main__':
         args.file = args.file[0]
         
     if args.report:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         print(s.get_report())
         print(s.get_preview())
         print(s.get_info_chains())
 
     if args.clean:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -141,7 +153,7 @@ if __name__ == '__main__':
             args.file = [args.file]
         ##################################
         for f in args.file:
-            s = StrucFile(f)
+            s = RNAStructure(f)
             s.decap_gtp()
             s.fix_resn()
             s.remove_hydrogen()
@@ -176,7 +188,7 @@ if __name__ == '__main__':
                 pass
 
     if args.get_chain:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -188,7 +200,7 @@ if __name__ == '__main__':
         print(s.get_chain(args.get_chain))
 
     if args.rosetta2generic:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.fix_resn()
         s.remove_hydrogen()
         s.remove_ion()
@@ -224,7 +236,7 @@ if __name__ == '__main__':
                         previous_edits.append(l.strip())
             ######################
 
-            s = StrucFile(f)
+            s = RNAStructure(f)
             if args.replace_hetatm:
                 s.replace_hetatm()
             s.decap_gtp()
@@ -267,10 +279,13 @@ if __name__ == '__main__':
                     sys.stdout.flush()
                 except IOError:
                     pass
-
+        # hmm... fix for problem with renumbering, i do renumbering
+        # and i stop here
+        # i'm not sure that this is perfect
+        sys.exit(0) 
 
     if args.renumber_residues:
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.remove_hydrogen()
         s.remove_ion()
         s.remove_water()
@@ -290,7 +305,7 @@ if __name__ == '__main__':
                 shutil.copy(f, f + '~')
 
             selection = select_pdb_fragment(args.delete)
-            s = StrucFile(f)
+            s = RNAStructure(f)
 
             output = ''
             if not args.no_hr:
@@ -316,6 +331,23 @@ if __name__ == '__main__':
                 except IOError:
                     pass
                 
+    if args.un_nmr:
+        pass
+    
+    if args.is_pdb:
+        s = RNAStructure(args.file)
+        output = str(s.is_pdb())
+        sys.stdout.write(output + '\n')
+        
+    if args.un_nmr:
+        s = RNAStructure(args.file)
+        str(s.un_nmr())
+
+    if args.is_nmr:
+        s = RNAStructure(args.file)
+        output = str(s.is_nmr(args.verbose))
+        sys.stdout.write(output + '\n')
+
     if args.edit:
         edit_pdb(args)
         
@@ -331,7 +363,7 @@ if __name__ == '__main__':
     if args.orgmode:
         if args.inplace:
             shutil.copy(args.file, args.file + '~')
-        s = StrucFile(args.file)
+        s = RNAStructure(args.file)
         s.decap_gtp()
         s.fix_resn()
         s.remove_hydrogen()
@@ -351,6 +383,7 @@ if __name__ == '__main__':
         with open(args.file + '~', 'w') as f:
             if not args.no_hr:
                  f.write(add_header(version) + '\n')
+
             f.write('\n'.join(remarks) + '\n')
             f.write(s.get_text())
 
@@ -384,6 +417,3 @@ if __name__ == '__main__':
             for r in c[2]:
                 t.append('** ' + c[0] + ':' + r)
         print('\n'.join(t))
-
-if __name__ == '__main__':
-    pass

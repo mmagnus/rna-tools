@@ -1,20 +1,25 @@
 #!/usr/bin/env python
+<< << << < HEAD
 
 r"""**run_rosetta** - wrapper to ROSETTA tools for RNA modeling
+=======
+# -*- coding: utf-8 -*-
+"""run_rosetta - wrapper to ROSETTA tools for RNA modeling
+>>>>>> > 4fdfab13cebfc2604f41b7a1e3323476cabd5fc1
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
-http://www.sciencedirect.com/science/article/pii/S0076687914000524
+http: // www.sciencedirect.com / science / article / pii / S0076687914000524
 
-The script makes (1) a folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder (2) make helices (3) prepare rosetta input files (4) sends jobs to the cluster.
+The script makes(1) a folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder(2) make helices(3) prepare rosetta input files(4) sends jobs to the cluster.
 
-Mind that headers will be trimmed to 5 characters (``header[:6]``). The header is take from the fast file (``>/header/``) not from the filename of your Fasta file.
+Mind that headers will be trimmed to 5 characters(``header[:6]``). The header is take from the fast file(`` > /header / ``) not from the filename of your Fasta file.
 
 Helix
 -------------------------------------------------------
 
 Run::
 
-    rna_rosetta_run.py -e -r -g -c 600 cp20.fa
+    rna_rosetta_run.py - i - e - r - g - c 200 cp20.fa
 
 `-i`::
 
@@ -23,12 +28,12 @@ Run::
     AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
     .(((((....(((((.....)))))(((..(((((..[[[[..)).))).)))......))))).((((......)))).......]]]].
 
-    [peyote2] ~ rna_rosetta_run.py -i cp20.fa
+    [peyote2] ~ rna_rosetta_run.py - i cp20.fa
     run rosetta for:
     cp20
     AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
     .(((((....(((((.....)))))(((..(((((..[[[[..)).))).)))......))))).((((......)))).......]]]].
-    /home/magnus//cp20/ created
+    /home / magnus // cp20 / created
     Seq & ss created
 
 Troubleshooting.
@@ -41,22 +46,22 @@ If one of the helices is missing you will get::
 
 and the problem was a1 and g8 pairing::
 
-    outputting command line to:  helix0.RUN # previous helix #0
+    outputting command line to:  helix0.RUN  # previous helix #0
     Sequence:  AUGG CCGG
-    Secstruc:  (((( ))))
+    Secstruc:  (((())))
     Not complementary at positions a1 and g8!
     Sequence:  GUGGG CCCAU
-    Secstruc:  ((((( )))))
+    Secstruc:  ((((()))))
 
-    Writing to fasta file:  helix2.fasta # next helix #2
+    Writing to fasta file:  helix2.fasta  # next helix #2
 
 My case with a modeling of rp12
 
     Sequence:  cc gc
-    Secstruc:  (( ))
+    Secstruc:  (())
     Not complementary at positions 1 and 4!
 
-edit the secondary structure, run the program with -i (init, to overwrite seq.fa, ss.fa) and then it works.
+edit the secondary structure, run the program with -i(init, to overwrite seq.fa, ss.fa) and then it works.
 
 
 Notes::
@@ -109,7 +114,7 @@ def get_parser():
                         default=RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
 
     parser.add_argument('file', help=textwrap.dedent(
-        """file:\n>a04\nUAUAACAUAUAAUUUUGACAAUAUGGGUCAUAAGUUUCUACCGGAAUACCGUAAAUAUUCUGACUAUGUAUA\n((((.((((...((.((((.......)))).))........(.(((((.......))))).)..))))))))"""))
+        """file: \n > a04\nUAUAACAUAUAAUUUUGACAAUAUGGGUCAUAAGUUUCUACCGGAAUACCGUAAAUAUUCUGACUAUGUAUA\n((((.((((...((.((((.......)))).))........(.(((((.......))))).)..))))))))"""))
     return parser
 
 
@@ -134,7 +139,7 @@ def prepare_folder(args, header, seq, ss, path):
 
 
 def prepare_helices():
-    """Make helices (wrapper around 'helix_preassemble_setup.py')
+    """Make helices(wrapper around 'helix_preassemble_setup.py')
 
     .. warning:: I think multiprocessing of helixX.run does not work."""
     # run helix_p..
@@ -151,7 +156,7 @@ def prepare_helices():
     f.close()
 
     # does not work (!)
-    #os.system('chmod +x CMDLINES')
+    # os.system('chmod +x CMDLINES')
     # os.system('./CMDLINES')
     # ./CMDLINES: 2: source: not found
 
@@ -177,8 +182,8 @@ def prepare_rosetta(header, cpus, nstruc):
 
     Args:
 
-      nstruc (int): how many structures you want to obtain
-      nstruct = int(math.floor(20000/cpus))
+      nstruc(int): how many structures you want to obtain
+      nstruct = int(math.floor(20000 / cpus))
       50 (nstruc) = 10k / 200 (cpus)
 
     """
@@ -201,7 +206,7 @@ def prepare_rosetta(header, cpus, nstruc):
 
 
 def go():
-    """send jobs to a cluster (run qsubMINI)"""
+    """send jobs to a cluster(run qsubMINI)"""
     os.system('chmod +x ./qsubMINI')
     os.system('./qsubMINI')
 
@@ -233,6 +238,7 @@ def main():
             os.chdir(path)
         except OSError:
             print('You have to make a folder first! use --init')
+            sys.exit(1)
 
         if args.helices:
             prepare_helices()

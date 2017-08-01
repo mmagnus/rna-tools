@@ -22,3 +22,9 @@ rpt_config_local.py
 *log*
 *config_local.py*
 opt*
+.idea
+*ipynb
+.coverage
+coverage.xml
+*bak
+*sandbox*

@@ -7,7 +7,7 @@ RNA Sequence
 .. automodule:: rna_pdb_tools.Seq
    :members:
 
-RNA Secondary Structure Visualization
+RNA Secondary Structure
 ------------------------------------------
 
 .. automodule:: rna_pdb_tools.SecondaryStructure
@@ -29,11 +29,20 @@ A super-simple wrapper around cmscan (Infernal) on local RFAM.
 .. automodule:: rna_pdb_tools.RfamSearch
    :members:
 
+PDB Edit Bfactor/Occupancy
+------------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.get_parser
+   :prog: rna_pdb_edit_occupancy_bfactor.py
+
+.. autofunction:: rna_pdb_tools.utils.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.edit_occupancy_of_pdb
+
 RNA Alignment
 ------------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_alignment.rna_alignment
-
+   
 RNASeq
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -45,6 +54,7 @@ RNAalignment
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNAalignment
    :members:
+   :undoc-members:
 
 
 CMAlign
@@ -52,11 +62,22 @@ CMAlign
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.CMAlign
    :members:
+   :undoc-members:
+
 
 RChie
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RChie
+   :members:
+
+Renumber a pdb file according to alignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. argparse::
+   :ref: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
+   :prog: renum_pdb_to_aln
+
+.. automodule:: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln
    :members:
 
 RNA clustering with CLANS (clanstix)
@@ -81,6 +102,10 @@ Calculate Root Mean Square Deviation (RMSD)
 rna_calc_rmsd
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd.get_parser
+   :prog: rna_calc_rmsd
+
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd
    :members:
 
@@ -93,8 +118,24 @@ rna_calc_evo_rmsd
    :ref: rna_pdb_tools.utils.rna_calc_evo_rmsd.rna_calc_evo_rmsd.get_parser
    :prog: rna_calc_evo_rmsd
 
+rna_calc_rmsd_trafl
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd_trafl.rna_calc_rmsd_trafl.get_parser
+   :prog: rna_calc_evo_rmsd
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd_trafl.rna_cal_rmsd_trafl_plot.get_parser
+   :prog: rna_cal_rmsd_trafl_plot
+
+
 rna_calc_rmsd_all_vs_all
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd_all_vs_all.get_parser
+   :prog: rna_calc_rmsd_all_vs_all
 
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd_all_vs_all
    :members:
@@ -182,7 +223,6 @@ and it works with VARNA:
 .. automodule:: rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
    :members:
 
-
 Secondary structure (secstruc)
 -----------------------------------------
 
@@ -247,6 +287,7 @@ RNA Refinement (QRNAS)
    :ref: rna_pdb_tools.utils.rna_refinement.rna_refinement.get_parser
    :prog: rna_refinement.py
 
+
 ROSETTA
 -----------------------------------------
 
@@ -257,28 +298,12 @@ Run (modeling)
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.get_parser
    :prog: rna_rosetta_run.py
 
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run
-   :members:
-
 Get a number of structures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n.get_parser
    :prog: rna_rosetta_n.py
-
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n
-   :members:
-
-Minimize
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.get_parser
-   :prog: rna_rosetta_min.py
-
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min
-   :members:
 
 Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -287,8 +312,12 @@ Cluster
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.get_parser
    :prog: rna_rosetta_cluster.py
 
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
-   :members:
+Minimize
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.get_parser
+   :prog: rna_rosetta_min.py
 
 Check progress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -296,9 +325,6 @@ Check progress
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_check_progress.get_parser
    :prog: rna_rosetta_cluster.py
-
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_check_progress
-   :members:
 
 PyMOL
 -----------------------------------------
@@ -318,6 +344,17 @@ and type::
     draw_dists([[29, 41], [7, 66], [28, 42], [51, 63], [50, 64], [2, 71], [5, 68], [3, 70], [31, 39], [4, 69], [6, 67], [12, 23], [52, 62], [30, 40], [49, 65], [27, 43], [11, 24], [1, 72], [10, 25], [15, 48], [53, 61], [19, 56], [13, 22], [36, 37], [18, 19], [22, 46], [35, 73], [32, 38], [9, 13], [19, 20], [18, 20], [54, 60], [9, 23], [34, 35], [36, 38], [53, 54], [20, 56], [9, 12], [26, 44], [18, 55], [54, 61], [32, 36]])
 
 .. image:: ../pngs/pymol_dists.png    
+
+Plotting
+------------------------------------------
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.plotting.rna_plot_hist.get_parser
+   :prog: rna_plot_hist
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.plotting.rna_plot_density.get_parser
+   :prog: rna_plot_density
 
 Misc
 ------------------------------------------

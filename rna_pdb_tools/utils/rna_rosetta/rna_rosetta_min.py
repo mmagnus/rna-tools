@@ -1,20 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""The script takes the number of structures and the analyzed silence file and does the maths. 
 
-"""rna_rosetta_min.py
-
-The script takes the number of structures and the analyzed silence file and does the maths. 
-
-Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
-http://www.sciencedirect.com/science/article/pii/S0076687914000524 
+http://www.sciencedirect.com/science/article/pii/S0076687914000524 ::
 
     ade$ rna_rosetta_cluster.py ade.out
 
-The first number states how many processors to use for the run, while the second number is 1/6 the total number of previously generated FARNA models. If you are running on a supercomputer that only allows specific multiples of processors, use an appropriate number for the first input.
+The first number states how many processors to use for the run, while the second number is 1/6 the total number of previously generated FARNA models. If you are running on a supercomputer that only allows specific multiples of processors, use an appropriate number for the first input.::
 
     rosetta_submit.py min_cmdline min_out 1 24
 
-rosetta_submit.py min_cmdline min_out [1] [16] The first number states how many processors to use for each line in min_cmdline. Here, enter 1 for the first input so that the total number of processors used will be equal to the number of processors entered with the “-proc” flag in command line [12], above. The second number states the maximum time each job will be allowed to run (walltime). Start the run with the appropriate command listed by the out- put above (e.g., source qsubMPI for the Stampede cluster).
+rosetta_submit.py min_cmdline min_out [1] [16] The first number states how many processors to use for each line in min_cmdline. Here, enter 1 for the first input so that the total number of processors used will be equal to the number of processors entered with the "-proc" flag in command line [12], above. The second number states the maximum time each job will be allowed to run (walltime). Start the run with the appropriate command listed by the out- put above (e.g., source qsubMPI for the Stampede cluster).
 
 E.g. for 20k silet file, 1/6 will be minimized = 3.3k::
 

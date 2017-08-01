@@ -82,3 +82,98 @@ Starting structure doesn't have chain id:
   $ parallel "rna_pdb_gtools.py --edit 'A:14-27>B:14-27' {} > out/{}" ::: *.pdb
 
 .. image:: ../pngs/1duq.png
+
+Example #4 Calculate RMSDs of unstandardized structures (RNA Puzzle #1)
+------------------------------------------------------------------------
+
+You try to calculate RMSDs for RNA Puzzles #1::
+
+    rna_calc_rmsd.py -t 1_solution_0_rpr.pdb *.pdb
+    method: all-atom-built-in
+    # of models: 15
+    1_bujnicki_1_rpr.pdb 5.71 978
+    1_bujnicki_2_rpr.pdb 6.16 978
+    1_bujnicki_3_rpr.pdb 5.3 978
+    1_bujnicki_4_rpr.pdb 4.95 978
+    1_bujnicki_5_rpr.pdb 5.1 978
+    Error: # of atoms is not equal target (1_solution_0_rpr.pdb):978 vs model (1_chen_1_rpr.pdb):975
+
+you can see that there is a different number of atoms in `1_solution_0_rpr.pdb` and `1_chen_1_rpr.pdb`.
+
+To see more you can run `diffpdb`.
+
+.. image:: ../pngs/rp01_diffpdb.png
+
+you see that something is wrong. To fix it, run::
+
+   rna_pdb_tools.py --rpr --inplace *.pdb
+   93% (15 of 16) |########################################################################################################################         | Elapsed Time: 0:00:03 ETA: 0:00:00
+
+
+you can tail the files::
+
+    tail *.pdb
+    ==> 1_bujnicki_1_rpr.pdb <==
+    ATOM    971  N7    G B  23     -16.558  -3.375  78.345  1.00  0.00           N
+    ATOM    972  C5    G B  23     -17.169  -2.575  77.384  1.00  0.00           C
+    ATOM    973  C6    G B  23     -17.589  -2.874  76.053  1.00  0.00           C
+    ATOM    974  O6    G B  23     -17.497  -3.930  75.430  1.00  0.00           O
+    ATOM    975  N1    G B  23     -18.234  -1.800  75.459  1.00  0.00           N
+    ATOM    976  C2    G B  23     -18.441  -0.576  76.049  1.00  0.00           C
+    ATOM    977  N2    G B  23     -19.127   0.345  75.382  1.00  0.00           N
+    ATOM    978  N3    G B  23     -18.053  -0.282  77.292  1.00  0.00           N
+    ATOM    979  C4    G B  23     -17.419  -1.324  77.898  1.00  0.00           C
+
+    ...
+
+    ==> 1_chen_1_rpr.pdb <==
+    ATOM    971  N7    G B  23     -14.462  -1.101  79.998  1.00  0.00           N
+    ATOM    972  C5    G B  23     -14.952  -0.485  78.839  1.00  0.00           C
+    ATOM    973  C6    G B  23     -15.577  -1.020  77.655  1.00  0.00           C
+    ATOM    974  O6    G B  23     -15.822  -2.189  77.351  1.00  0.00           O
+    ATOM    975  N1    G B  23     -15.972  -0.051  76.763  1.00  0.00           N
+    ATOM    976  C2    G B  23     -15.787   1.274  76.944  1.00  0.00           C
+    ATOM    977  N2    G B  23     -16.269   2.059  76.021  1.00  0.00           N
+    ATOM    978  N3    G B  23     -15.224   1.822  78.022  1.00  0.00           N
+    ATOM    979  C4    G B  23     -14.818   0.884  78.935  1.00  0.00           C
+    TER     980        G B  23
+
+    ==> 1_solution_0_rpr.pdb <==
+    ATOM    971  N7    G B  23      22.256  -1.292  27.403  1.00 34.10           N
+    ATOM    972  C5    G B  23      22.625  -0.176  28.135  1.00 31.12           C
+    ATOM    973  C6    G B  23      23.470  -0.096  29.260  1.00 28.80           C
+    ATOM    974  O6    G B  23      24.062  -1.036  29.804  1.00 28.26           O
+    ATOM    975  N1    G B  23      23.616   1.224  29.705  1.00 27.28           N
+    ATOM    976  C2    G B  23      22.971   2.318  29.112  1.00 28.31           C
+    ATOM    977  N2    G B  23      23.179   3.538  29.655  1.00 27.03           N
+    ATOM    978  N3    G B  23      22.170   2.245  28.047  1.00 28.85           N
+    ATOM    979  C4    G B  23      22.041   0.961  27.632  1.00 28.58           C
+    TER     980        G B  23%
+
+so now you can see that the files look the same. Let's try to calculate RMSDs again::
+
+    rna_calc_rmsd.py -t 1_solution_0_rpr.pdb *.pdb
+    method: all-atom-built-in
+    # of models: 16
+    1_bujnicki_1_rpr.pdb 5.71 978
+    1_bujnicki_2_rpr.pdb 6.16 978
+    1_bujnicki_3_rpr.pdb 5.3 978
+    1_bujnicki_4_rpr.pdb 4.95 978
+    1_bujnicki_5_rpr.pdb 5.1 978
+    1_chen_1_rpr.pdb 4.35 978
+    1_chen_1_rpr_v2.pdb 4.35 978
+    1_das_1_rpr.pdb 3.97 978
+    1_das_2_rpr.pdb 4.48 978
+    1_das_3_rpr.pdb 3.43 978
+    1_das_4_rpr.pdb 3.92 978
+    1_das_5_rpr.pdb 4.57 978
+    1_dokholyan_1_rpr.pdb 7.25 978
+    1_major_1_rpr.pdb 4.34 978
+    1_santalucia_1_rpr.pdb 5.76 978
+    1_solution_0_rpr.pdb 0.0 978
+    # of atoms used: 978
+    csv was created!  rmsds.csv
+
+worked! :-)
+
+This is a real-life case, https://github.com/mmagnus/RNA-Puzzles-Normalized-submissions/tree/master/rp01.

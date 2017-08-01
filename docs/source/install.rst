@@ -20,7 +20,9 @@ and install the package itself in three steps:
    
 2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  ``export PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/``
    
-3. and run the install script::
+3. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  ``export RNA_PDB_TOOLS=/home/magnus/src/rna-pdb-tools/``
+
+4. and run the install script::
 
     ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
     Installed in ./bin

@@ -1,9 +1,10 @@
 numpy
 biopython
-sphinx-argparse==0.1.17
 forgi
 progressbar2
+sphinx-argparse==0.1.17
 sphinx-rtd-theme
+sphinxcontrib-napoleon
 urllib3
 #pymol
 pandas

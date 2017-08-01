@@ -1,20 +1,27 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+"""rna_calc_rmsd_all_vs_all.py - calculate RMSDs all vs all.
+
+Examples::
+
+    rna_calc_rmsd_all_vs_all.py -i test_data -o test_output/rmsd_calc_dir.tsv
+     # of models: 4
+    ... 1 test_data/struc1.pdb
+    ... 2 test_data/struc2.pdb
+    ... 3 test_data/struc3.pdb
+    ... 4 test_data/struc4.pdb
+
+The program is using (https://github.com/charnley/rmsd)
+"""
 from __future__ import print_function
 
-import Bio.PDB.PDBParser
-import Bio.PDB.Superimposer
-from Bio.PDB.PDBIO import Select
-from Bio.PDB import PDBIO, Superimposer
+from lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
 
-from lib.rmsd.calculate_rmsd import *
-
-import optparse
-import sys
-import math
+import argparse
 import glob
 import re
 import os
+
 
 def get_rna_models_from_dir(directory):
     models = []
@@ -26,23 +33,24 @@ def get_rna_models_from_dir(directory):
         models.append(f)
     return models
 
-def sort_nicely( l ):
-   """ Sort the given list in the way that humans expect.
 
-   http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
-   """
-   convert = lambda text: int(text) if text.isdigit() else text
-   alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
-   l.sort( key=alphanum_key )
-   return l
+def sort_nicely(l):
+    """Sort the given list in the way that humans expect.
+    http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
+    """
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    l.sort(key=alphanum_key)
+    return l
 
-def calc_rmsd(a,b):
-    """empty selection"""
+
+def calc_rmsd(a, b):
+    """Calc rmsd."""
     atomsP, P = get_coordinates(a, None, None, 'pdb', True)
     atomsQ, Q = get_coordinates(b, None, None, 'pdb', True)
 
     # Calculate 'dumb' RMSD
-    normal_rmsd = rmsd(P, Q)
+    # gnormal_rmsd = rmsd(P, Q)
 
     # Create the centroid of P and Q which is the geometric center of a
     # N-dimensional region and translate P and Q onto that center.
@@ -52,42 +60,38 @@ def calc_rmsd(a,b):
     P -= Pc
     Q -= Qc
 
-    if False:
-        V = rotate(P, Q)
-        V += Qc
-        write_coordinates(atomsP, V)
-        quit()
+    # if False:
+    #    V = rotate(P, Q)
+    #    V += Qc
+    #    write_coordinates(atomsP, V)
+    #    quit()
 
-    return kabsch_rmsd(P, Q)    
+    return kabsch_rmsd(P, Q)   
+
+
+def get_parser():
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('-i',"--input_dir",
+                        default='',
+                        help="input folder with structures")
+
+    parser.add_argument('-o', "--matrix_fn",
+                        default='matrix.txt',
+                        help="ouput, matrix")
+
+    # parser.add_argument("-s", "--save",
+    #                    action="store_true", help="")
+
+    return parser
+
 
 if __name__ == '__main__':
-    print('calc_rmsd_dir')
-    print('-' * 80)
-    
-    optparser=optparse.OptionParser(usage="%prog [<options>]")
+    parser = get_parser()
+    args = parser.parse_args()
 
-    optparser.add_option('-i',"--input_dir", type="string",
-                         dest="input_dir",
-                         default='',
-                         help="")
-
-    optparser.add_option('-o',"--matrix_fn", type="string",
-                         dest="matrix_fn",
-                         default='matrix.txt',
-                         help="ouput, matrix")
-
-    optparser.add_option("-s", "--save",
-                     action="store_true", default=False, dest="save", help="")
-
-    
-    (opts, args)=optparser.parse_args()
-
-    if len(sys.argv) == 1:
-        print(optparser.format_help()) #prints help if no arguments
-        sys.exit(1)
-
-    input_dir = opts.input_dir
-    matrix_fn = opts.matrix_fn
+    input_dir = args.input_dir
+    matrix_fn = args.matrix_fn
     
     models = get_rna_models_from_dir(input_dir)
     
@@ -96,9 +100,9 @@ if __name__ == '__main__':
     f = open(matrix_fn, 'w')
     t = '# '
     for r1 in models:
-        #print r1,
+        # print r1,
         t += str(r1) + ' '
-    #print
+    # print
     t += '\n'
 
     c = 1
@@ -113,7 +117,7 @@ if __name__ == '__main__':
     f.write(t)
     f.close()
 
-    print(t.strip()) # matrix
+    print(t.strip())  # matrix
 
     if True:
         print('matrix was created! ', matrix_fn)

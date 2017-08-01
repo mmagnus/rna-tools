@@ -1,12 +1,12 @@
 #!/bin/bash
-
+set -v
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 cd rna_pdb_tools
 
 python update_readme.py
 
-./pdb_parser_lib.py
+./pdb_pdb_tools_lib.py
 
 ./rna_pdb_tools.py -h | tee rna_pdb_tools.out
 
@@ -37,6 +37,10 @@ python update_readme.py
 ./rna_pdb_tools.py --no_hr --rpr input/7_Chen_7_rpr.pdb > output/7_Chen_7_rpr.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle input/1I9V_YG_HETATM_ATOM.pdb > output/1I9V_YG_HETATM_ATOM_rpr.pdb
 ./rna_pdb_tools.py --no_hr --get_rnapuzzle --replace_hetatm input/1I9V_A.pdb > output/1I9V_A_rpr.pdb
+./rna_pdb_tools.py --no_hr --rpr input/A_YG_A.pdb --renumber_residues > output/A_YG_A_renumbered.pdb
+
+./rna_pdb_tools.py --no_hr --rpr input/A_YG_A.pdb --renumber_residues > output/A_YG_A_renumbered.pdb
+./rna_pdb_tools.py --no_hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pdb
 
 ## --get_rnapuzzle_ready and --dont_rename_chains
 rna_pdb_tools.py --no_hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
@@ -63,6 +67,9 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr.pdb > output/2_bujnicki_1_rpr.txt
 ./rna_pdb_tools.py --get_seq input/2_bujnicki_1_rpr_BA_chain_swap.pdb > output/2_bujnicki_1_rpr_BA_chain_swap.txt
 
+## --replace_hetatm
+./rna_pdb_tools.py --no_hr --rpr input/A_YG_A.pdb --replace_hetatm  > output/A_YG_A.pdb
+
 ## --get_ss
 ./rna_pdb_tools.py --get_ss input/1xjr*.pdb > output/secondary_structures.txt
 # off for now
@@ -78,16 +85,25 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ## --orgmode
 ./rna_pdb_tools.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org
 
+## --is_pdb
+./rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
+./rna_pdb_tools.py --is_pdb input/image.png
+./rna_pdb_tools.py --is_pdb input/image.png.zip
+
 ## --renumber_residues
 ./rna_pdb_tools.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
 
 ./BlastPDB.py
 
-./RfamSearch.py
-
+if [ "$1" == "--full" ]; then
+    ./RfamSearch.py
+fi
+	
 ./Seq.py
 
-./SecondaryStructure.py
+if [ "$1" == "--full" ]; then
+    ./SecondaryStructure.py
+fi
 
 # ClashCalc
 cd ./utils/ClashCalc/
@@ -106,15 +122,26 @@ cd ./utils/simrna_trajectory
 ./test.sh
 cd ../..
 
+cd ./utils/rna_pdb_edit_occupancy_bfactor
+./test.sh
+cd ../..
+
 cd ./utils/rna_filter/
 ./test.sh
 cd ../..
 
-cd ./utils/rna_refinement/
+cd ./utils/renum_pdb_to_aln/
 ./test.sh
 cd ../..
 
-# rna_pdb_rnapuzzle_ready.py
-#echo 'rna_pdb_rnapuzzle_ready.py'
-#./rna_pdb_rnapuzzle_ready.py --no_hr  --fix_missing_atoms input/ACGU_no_bases.pdb > output/ACGU_no_bases_fixed.pdb
-#./rna_pdb_rnapuzzle_ready.py --no_hr --fix_missing_atoms input/missing_o.pdb > output/missing_o_fixed.pdb
+if [ "$1" == "--full" ]; then
+    cd ./utils/rna_refinement/
+    ./test.sh
+    cd ../..
+fi
+
+if [ "$1" == "--full" ]; then
+   cd ..
+   codecov --token=e78310dd-7a28-4837-98ef-c93533a84c5b
+fi
+

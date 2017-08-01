@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 """
-Usage::
+Example::
 
   $ rna_rosetta_n.py ade.out
   21594
@@ -12,7 +12,7 @@ import subprocess
 import argparse
 
 def get_parser():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('file', help='ade.out')
     return parser
 

@@ -1,14 +1,39 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-"""
+"""rna_calc_rmsd.py - calculate RMSDs of structures to the target
+
 If you still have problem with various number of atoms, check out this issue: get_rnapuzzle_ready: how to deal with `Alternate location indicator (https://github.com/mmagnus/rna-pdb-tools/issues/30).
+
+The program is using (https://github.com/charnley/rmsd).
+
+Examples::
+
+    $ rna_calc_rmsd.py -t 6_0_solution_4GXY_rpr.pdb --model_selection=A:1-17+24-110+115-168 *.pdb
+    rmsd_calc_rmsd_to_target
+    --------------------------------------------------------------------------------
+    method: all-atom-built-in
+    # of models: 35
+    6_0_solution_4GXY_rpr.pdb 0.0 3409
+    6_Blanchet_1_rpr.pdb 22.31 3409
+    6_Blanchet_2_rpr.pdb 21.76 3409
+    6_Blanchet_3_rpr.pdb 21.32 3409
+    6_Blanchet_4_rpr.pdb 22.22 3409
+    6_Blanchet_5_rpr.pdb 24.17 3409
+    6_Blanchet_6_rpr.pdb 23.28 3409
+    6_Blanchet_7_rpr.pdb 22.26 3409
+    6_Bujnicki_1_rpr.pdb 36.95 3409
+    6_Bujnicki_2_rpr.pdb 30.9 3409
+    6_Bujnicki_3_rpr.pdb 32.1 3409
+    6_Bujnicki_4_rpr.pdb 32.04 3409
+    ...
+
 """
 from __future__ import print_function
 
 from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import *
 import sys
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
-import optparse
+import argparse
 import sys
 import math
 import glob
@@ -137,68 +162,58 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
     
     return round(kabsch_rmsd(P, Q),2), atomsP
 
-# main
-if __name__ == '__main__':
-    print('rmsd_calc_rmsd_to_target')
-    print('-' * 80)
-    
-    optparser=optparse.OptionParser(usage="%prog [<options>] <pdb files (test_data/*)>")
+def get_parser():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    optparser.add_option('-t',"--target_fn", type="string",
-                         dest="target_fn",
-                         default='',
+    parser.add_argument('-t',"--target_fn",
+                            default='',
                          help="pdb file")
 
-    optparser.add_option('',"--target_selection", type="string",
-                         dest="target_selection",
-                         default='',
+    parser.add_argument("--target_selection",
+                            default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
-    optparser.add_option('',"--target_ignore_selection", type="string",
-                         dest="target_ignore_selection",
-                         default='',
+    parser.add_argument("--target_ignore_selection",
+                            default='',
                          help="A/10/O2\'")
-    
-    optparser.add_option('',"--model_selection", type="string",
-                         dest="model_selection",
-                         default='',
+
+    parser.add_argument("--model_selection",
+                            default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
-    optparser.add_option('',"--model_ignore_selection", type="string",
-                         dest="model_ignore_selection",
-                         default='',
+    parser.add_argument("--model_ignore_selection",
+                            default='',
                          help="A/10/O2\'")
-    
-    optparser.add_option('-m',"--method", type="string",
-                         dest="method",
+
+    parser.add_argument('-m', "--method",
                          default='all-atom-built-in',
                          help="align, fit")
 
-    optparser.add_option('-o',"--rmsds_fn", type="string",
-                         dest="rmsds_fn",
+    parser.add_argument('-o', "--rmsds_fn",
                          default='rmsds.csv',
                          help="ouput, matrix")
-    
-    optparser.add_option("-v", "--verbose",
-                      action="store_true", dest="verbose", default=False,
-                      help="verbose")
 
-    (opts, args)=optparser.parse_args()
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="verbose")
 
-    if len(sys.argv) == 1:
-        print(optparser.format_help()) #prints help if no arguments
-        sys.exit(1)
+    parser.add_argument('files', help='files', nargs='+')
 
-    input_files = args[:] # opts.input_dir
-    rmsds_fn = opts.rmsds_fn
-    target_fn = opts.target_fn
-    method = opts.method
+    return parser
+# main
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+
+    input_files = args.files  # opts.input_dir
+    rmsds_fn = args.rmsds_fn
+    target_fn = args.target_fn
+    method = args.method
     print('method:', method)
-    target_selection = select_pdb_fragment(opts.target_selection)
-    model_selection = select_pdb_fragment(opts.model_selection)
+    target_selection = select_pdb_fragment(args.target_selection)
+    model_selection = select_pdb_fragment(args.model_selection)
     if target_selection:
-        if opts.verbose:
-            print('  target_selection: #', opts.target_selection, target_selection)
+        if args.verbose:
+            print('  target_selection: #', args.target_selection, target_selection)
             ts = target_selection
             print(ts)
             resides_in_total = 0
@@ -207,27 +222,27 @@ if __name__ == '__main__':
                 resides_in_total += len(ts[i])
             print('in total:', resides_in_total)
     if model_selection:
-        if opts.verbose:
-            print('  model_selection:  ', len(model_selection), opts.model_selection, model_selection)
+        if args.verbose:
+            print('  model_selection:  ', len(model_selection), args.model_selection, model_selection)
             resides_in_total = 0
             for i in model_selection:
                 print(i, len(model_selection[i])) # chain string, a list of residues
                 resides_in_total += len(model_selection[i])
             print('in total:', resides_in_total)
-    if opts.target_ignore_selection:
-        target_ignore_selection = select_pdb_fragment_pymol_style(opts.target_ignore_selection)
+    if args.target_ignore_selection:
+        target_ignore_selection = select_pdb_fragment_pymol_style(args.target_ignore_selection)
     else:
         target_ignore_selection = None
         
-    if opts.model_ignore_selection:
-        model_ignore_selection = select_pdb_fragment_pymol_style(opts.model_ignore_selection)
+    if args.model_ignore_selection:
+        model_ignore_selection = select_pdb_fragment_pymol_style(args.model_ignore_selection)
     else:
         model_ignore_selection = None
 
-    if  opts.target_ignore_selection:
-        if opts.verbose: print('  target_ignore_selection: ', opts.target_ignore_selection)
-    if  opts.model_ignore_selection:
-        if opts.verbose: print('  model_ignore_selection:  ', opts.model_ignore_selection)
+    if  args.target_ignore_selection:
+        if args.verbose: print('  target_ignore_selection: ', args.target_ignore_selection)
+    if  args.model_ignore_selection:
+        if args.verbose: print('  model_ignore_selection:  ', args.model_ignore_selection)
 
     models = get_rna_models_from_dir(input_files)        
 
@@ -242,7 +257,7 @@ if __name__ == '__main__':
         if method == 'align' or method == 'fit':
             rmsd_curr, atoms = calc_rmsd_pymol(r1, target_fn, method)
         else:
-            rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, opts.verbose)
+            rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, args.verbose)
         r1_basename = os.path.basename(r1)
         print(r1_basename, rmsd_curr, atoms)
         t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '
@@ -255,5 +270,5 @@ if __name__ == '__main__':
     #print t.strip() # matrix
 
     print('# of atoms used:', atoms)
-    if opts.rmsds_fn:
+    if args.rmsds_fn:
         print('csv was created! ', rmsds_fn)

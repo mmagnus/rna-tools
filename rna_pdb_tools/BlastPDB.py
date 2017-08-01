@@ -5,12 +5,13 @@ try:
 except:
     print('BlastPDB requires urllib2')
 
+
 class BlastPDB:
     """BlastPDB - run Blast online on the PDB database.
 
-    This can be used in Jupiter based RNA notebooks, e.g. 
+    This can be used in Jupiter based RNA notebooks, e.g.
     https://github.com/mmagnus/rna-pdb-tools/blob/master/rp18.ipynb
-    
+
     Usage::
 
        >>> p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
@@ -26,9 +27,12 @@ class BlastPDB:
 
     def search(self):
         """Search online the seq."""
-        p = urllib2.urlopen('http://www.rcsb.org/pdb/rest/getBlastPDB1?sequence=' + self.seq + '&eCutOff=10.0&matrix=BLOSUM62&outputFormat=HTML')
+        p = urllib2.urlopen('http://www.rcsb.org/pdb/rest/getBlastPDB1?sequence=' + self.seq +
+                            '&eCutOff=10.0&matrix=BLOSUM62&outputFormat=HTML')
         self.result = p.read()
 
+
+# main
 if __name__ == '__main__':
     p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
     p.search()

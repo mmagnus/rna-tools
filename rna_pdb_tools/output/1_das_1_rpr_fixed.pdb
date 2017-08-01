@@ -1,3 +1,5 @@
+REMARK 250 Fixed atoms/residues:
+REMARK 250  - add OP3 at the beginning of the chain  in chain: B <Residue C het=  resseq=1 icode= > residue # 1
 ATOM      1  P     C A   1     -16.936  -3.789  68.770  1.00 11.89           P
 ATOM      2  OP1   C A   1     -17.105  -3.675  67.302  1.00 14.35           O
 ATOM      3  OP2   C A   1     -15.666  -4.265  69.342  1.00 12.68           O

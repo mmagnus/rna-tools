@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from rna_pdb_tools.pdb_parser_lib import *
+from rna_pdb_tools.rna_pdb_tools_lib import *
 from pymol import cmd
 
 def color_by_text(txt):
@@ -22,7 +22,7 @@ def get_pdb():
     """ """
     tmpfn = '/tmp/pymol_get_pdb.pdb'
     cmd.save(tmpfn, '(sele)')
-    s = StrucFile(tmpfn)
+    s = RNAStructure(tmpfn)
     for l in s.lines:
       print l
 

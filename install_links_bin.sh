@@ -21,14 +21,14 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_run.py $curr_dir/bin
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_cluster.py $curr_dir/bin/rna_rosetta_cluster.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_min.py $curr_dir/bin/rna_rosetta_min.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_n.py $curr_dir/bin/rna_rosetta_n.py
-#ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_copy_job.py $curr_dir/bin/rna_rosetta_copy_job.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_check_progress.py $curr_dir/bin/rna_rosetta_check_progress.py
-
-ln -s $curr_dir/rna_pdb_tools/utils/rna_rosetta/rna_rosetta_copy_job.py $curr_dir/bin/rna_rosetta_copy_job.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr_dir/bin/rna_simrna_lowest.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_extract.py $curr_dir/bin/rna_simrna_extract.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_cluster.py $curr_dir/bin/rna_simrna_cluster.py
+
+ln -s $curr_dir/rna_pdb_tools/utils/plotting/rna_plot_hist.py $curr_dir/bin/rna_plot_hist.py
+ln -s $curr_dir/rna_pdb_tools/utils/plotting/rna_plot_density.py $curr_dir/bin/rna_plot_density.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr_dir/bin/rna_simrna_lowest.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_extract.py $curr_dir/bin/rna_simrna_extract.py
@@ -40,13 +40,20 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_find_core.py $curr_d
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_get_ss_from_alignment.py $curr_dir/bin/rna_align_get_ss_from_alignment.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
 
+
+ln -s $curr_dir/rna_pdb_tools/utils/rna_pdb_edit_occupancy_bfactor/rna_pdb_edit_occupancy_bfactor.py $curr_dir/bin/rna_pdb_edit_occupancy_bfactor.py
+
 ln -s $curr_dir/rna_pdb_tools/utils/rna_refinement/rna_refinement.py $curr_dir/bin/rna_refinement.py
 
 ln -s $curr_dir/rna_pdb_tools/rna_pdb_download_simrna_job.py $curr_dir/bin/rna_pdb_download_simrna_job.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_evo_rmsd/rna_calc_evo_rmsd.py $curr_dir/bin/rna_calc_evo_rmsd.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd_trafl/rna_calc_rmsd_trafl.py $curr_dir/bin/rna_calc_rmsd_trafl.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd_trafl/rna_cal_rmsd_trafl_plot.py $curr_dir/bin/rna_cal_rmsd_trafl_plot.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_x3dna/rna_x3dna.py $curr_dir/bin/rna_x3dna.py
+
+ln -s $curr_dir/rna_pdb_tools/utils/renum_pdb_to_aln/renum_pdb_to_aln.py $curr_dir/bin/rna_renum_pdb_to_aln.py
 
 echo 'Installed in ./bin'
 ls -l bin

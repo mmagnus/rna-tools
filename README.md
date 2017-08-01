@@ -1,7 +1,7 @@
 rna-pdb-tools
 =================
 
-**This is still under development. We'll be adding features and possibly making breaking changes in future releases.**
+**Beta: this is still under development. We'll be adding features and possibly making breaking changes in future releases.**
 
 Look for other our projects at https://github.com/RNA-Puzzles
 
@@ -18,23 +18,40 @@ Look for other our projects at https://github.com/RNA-Puzzles
 
 > Magnus, Marcin. (2016). rna-pdb-tools. Zenodo. 10.5281/zenodo.60933 
 
-**If you find the tools helpful, you can cite the repo using the doi above :-), you can donate via PayPal, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.**
+*If you find the tools helpful, you can cite the repo using the doi above :-), you can donate via PayPal, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.*
 
 ![](docs/pngs/starit.png)
 
-A library and a program to run various Python functions related to work with PDB files of RNA structures.
+A core library and a set of programs to run various Python functions related to work with PDB files of RNA structures.
 
 The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress). 
 
-This project is a merge of various related projects such as `rnastruc`, `yapdb_parser` started starting from 2011 :-)
+**What is fun here?**
 
-What is fun here?
+`rna-pdb-tools` is a packages of shell utils that are using the common core library. You can also access functions of the library from your scripts.
 
-+ shell utils to work with pdb files and not only,
-+ you see input & output -- this is what you want to get? moreover, it's tested via Travis! -- it (should) always works as you just want!
-+ you lack a converter you would like to have one? *Just Do It Yourself* - compose your converter/parser from LEGO brick-like functions, see for example `--rosetta2generic`)
+A shell util:
 
-.. or you might want to use the lib in the program.
+```shell
+$ rna_pdb_tools.py --is_pdb input/1I9V_A.pdb
+True
+$ rna_pdb_tools.py --is_pdb input/image.png
+False
+```
+or from a script
+
+```python
+>>> from rna_pdb_tools_lib import *
+>>> s = RNAStructure('input/1I9V_A.pdb')
+>>> s.is_pdb()
+True
+```
+
+or from another script (fetch an alignment and plot it)
+
+![](docs/pngs/align.png)
+
+Fig. See more <https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb>
 
 Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
 
@@ -42,18 +59,18 @@ Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io
   <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
 </p>
 
+Fig. `rna_pdb_tools.py --get_rnapuzzle_ready`
+
 Table of Contents
 -----------------
 	
    * [Tour](#tour)
    * [Docs](#docs)
-   * [Tricks](#tricks)
-   * [rna-pdb-tools](#rna-pdb-tools)
+   * [rna_pdb_tools.py](#rna_pdb_toolspy)
    * [Utils](#utils)
    * [RNA Puzzle Submission](#rna-puzzle-submission)   
-   * [Inspiration (and alternatives):](#inspiration-and-alternatives)
+   * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
-   * [Requirement](#requirement)
    * [History](#history)
 
 ## Tour
@@ -66,11 +83,12 @@ Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-too
 
 <a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
-## rna-pdb-tools
+## rna_pdb_tools.py
 
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h
-usage: rna_pdb_tools.py [-h] [-r] [-c] [--orgmode] [--get_chain GET_CHAIN]
+usage: rna_pdb_tools.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
+                        [--un_nmr] [--orgmode] [--get_chain GET_CHAIN]
                         [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
                         [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
                         [--no_hr] [--renumber_residues] [--dont_rename_chains]
@@ -84,15 +102,26 @@ Usage::
 
    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
-v0.99-111-g948d446-dirty
+    $ rna_pdb_tools.py --get_seq *
+    # BujnickiLab_RNApuzzle14_n01bound
+    > A:1-61
+    # BujnickiLab_RNApuzzle14_n02bound
+    > A:1-61
+    CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
+    [...]
 
 positional arguments:
   file                  file
 
 optional arguments:
   -h, --help            show this help message and exit
+  --version
   -r, --report          get report
   -c, --clean           get clean structure
+  --is_pdb              check if a file is in the pdb format
+  --is_nmr              check if a file is NMR-style multiple model pdb
+  --un_nmr              Split NMR-style multiple model pdb files into
+                        individual models [biopython]
   --orgmode             get a structure in org-mode format <sick!>
   --get_chain GET_CHAIN
                         get chain, .e.g A
@@ -102,8 +131,9 @@ optional arguments:
   --get_ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
   --get_rnapuzzle_ready
-                        get RNApuzzle ready (keep only standard atoms,
-                        renumber residues)
+                        get RNApuzzle ready (keep only standard atoms).Be
+                        default it does not renumber residues, use
+                        --renumber_residues [requires biopython]
   --rpr                 alias to get_rnapuzzle ready)
   --no_hr               do not insert the header into files
   --renumber_residues   by defult is false
@@ -121,7 +151,7 @@ optional arguments:
   --delete DELETE       delete the selected fragment, e.g. A:10-16
 ```
 
-## Tricks
+Tricks:
 
     $ for i in *; do echo $i; rna_pdb_tools.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
     10_rp17c.out.14.pdb
@@ -153,7 +183,10 @@ See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tool
 Read more http://rna-pdb-tools.readthedocs.io/en/latest/ 
 
 ## RNA Puzzle Submission
-Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`):
+
+The RNA Puzzle organizers required ONE file with your submissions in the NMR-style multiple model PDB format. 
+			
+First, prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`):
 
 	$ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 	
@@ -161,7 +194,7 @@ Prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr
 
 	$ rna_pdb_merge_into_one.py 02_19pz_v1_SimRNA3.22_thrs6.60A_clust02-000001_AA_out_rpr.pdb 09_19pz_v2_SimRNA3.22_thrs6.60A_clust03-000001_AA_out_rpr.pdb d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust01-000001_AA_out_rpr.pdb d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust03-000001_AA_out_rpr.pdb 05_19pz_v1_SimRNA4.xx_thrs6.60A_clust02-000001_AA_out_rpr.pdb  > rp19_bujnicki.pdb
 	
-and verify your file with the template provided by the organizers:
+and verify your file with the template provided by the organizers (if provided):
 
 	$ diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
 	#<empty = no difference but xyz columns, OK!>
@@ -198,7 +231,7 @@ and verify your file with the template provided by the organizers:
 	ENDMDL
 	END
 
-## Inspiration (and alternatives):
+## Inspiration (and alternatives)
 
 + https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
 + http://blue11.bch.msu.edu/mmtsb/convpdb.pl
@@ -210,16 +243,6 @@ and verify your file with the template provided by the organizers:
 ## Install
 
 Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
-
-## Requirement
-
-Some functions e.g. `.get_rnapuzzle_ready()` needs Biopython, rmsd calculations need numpy, `.is_mol2()` needs OpenBabel. Basically you should be asked to install anything extra only if you need a given function.
-
-This packages uses other pieces of software, it would be impossible without them to develop rna-pdb-tools, thanks!
-
-+ biopython (https://github.com/biopython/biopython)
-+ rmsd (https://github.com/charnley/rmsd)
-+ forgi (http://www.tbi.univie.ac.at/%7Ethiel/forgi/graph_tutorial.html)
 
 ## History
 
