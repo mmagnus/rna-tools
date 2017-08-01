@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """renum_pdb_to_aln.py - renumber a pdb file based on the alignment.
 
-author: A. Zyla
+author: A. Zyla under supervision of mmagnus
 
 .. warning:: works only for single chain! and requires Biopython (tested with v1.68)
 """
@@ -108,9 +108,9 @@ def get_parser():
                         action="store_true")
 
     parser.add_argument("--residue_index_start",
-                        help="renumber starting number, default=1",
+                        help="renumber starting number (default: 1)",
                         default=1, type=int)
-    parser.add_argument("--outfn", help="output pdb file")
+    parser.add_argument("--outfn", help="output pdb file (default: pdbfn .pdb -> _out.pdb)")
     parser.add_argument("seqid", help="seq id in the alignemnt")
     parser.add_argument("alignfn", help="alignemnt in the Fasta format")
     parser.add_argument("pdbfn", help="pdb file")
