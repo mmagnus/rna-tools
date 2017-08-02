@@ -8,7 +8,9 @@ CPUS_CLUSTER = 1000
 DIFF_TOOL="diff"
 
 RNA_ROSETTA_RUN_ROOT_DIR_MODELING = "/home/magnus/rosetta-runs"
-EASY_CAT_PATH=""
+RNA_ROSETTA_NSTRUC = 10000
+
+EASY_CAT_PATH = ""
 
 import os
 try:

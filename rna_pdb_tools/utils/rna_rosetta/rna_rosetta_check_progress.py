@@ -20,7 +20,7 @@ import sys
 import argparse
 
 try:
-    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING
+    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
 except:
     print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
 
@@ -29,7 +29,6 @@ try:
 except:
     print ('Set up EASY_CAT_PATH in rpt_config_local.py')
 
-limit = 10000 # how many decouys you want
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -37,8 +36,8 @@ def get_parser():
                             help="""directory with rosetta runs, define by RNA_ROSETTA_RUN_ROOT_DIR_MODELING
 right now: \n""" + RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
     parser.add_argument('-v', '--verbose', action='store_true', help="be verbose")
-    parser.add_argument('-k', '--kill', action='store_true', help="""kill (qdel) jobs if your reach 
-limit of structure that you want, right now is %i structures"""  % limit)
+    parser.add_argument('-k', '--kill', action='store_true', help="""kill (qdel) jobs if your reach
+limit (nstruc) of structure that you want, right now is %i structures""" % RNA_ROSETTA_NSTRUC)
     return parser
 
 if __name__ == '__main__':
@@ -107,8 +106,8 @@ if __name__ == '__main__':
 
         d['#decoys'].append(no_decoys)
 
-        if no_decoys > limit:
-            if v:print '# @cluster:', out, ' < ............... OK'
+        if no_decoys >= RNA_ROSETTA_NSTRUC:
+            if v:
             d['done'].append('[x]')
             if args.kill:
                 cmd = 'qstat | grep ' + os.path.basename(j)[:6] + " | awk '{print $1}' | xargs qdel "
