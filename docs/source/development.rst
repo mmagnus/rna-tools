@@ -64,7 +64,11 @@ Run this script to see if there is any error, ``./install_links_bin.sh``.
       .. automodule:: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln
         :members:
 
-and run ``make html`` in the folder to check if the documenatation is compiled without any errors. You can open the documentation compiled locally under a link link file://<path to rna-pdb>/rna-pdb-tools/docs/build/html/index.html, e.g. file:///Users/magnus/work/src/rna-pdb-tools/docs/build/html/index.html.
+and run ``make html`` in the folder to check if the documenatation is compiled without any errors.
+
+If you are using any external library such us ``scipy``, please make sure that they are listed in ``rna-pdb-tools/docs/requirements.txt``. If the library is not there, please add it. This file is read by the Read The Docs to compile the documentation and also by Travis for continuous testing.
+
+You can open the documentation compiled locally under a link link file://<path to rna-pdb>/rna-pdb-tools/docs/build/html/index.html, e.g. file:///Users/magnus/work/src/rna-pdb-tools/docs/build/html/index.html.
 
 5. The very last step is to add your util ``test.sh`` to the main testing script. Edit ``rna-pdb-tools/test.sh`` and add ::
 
