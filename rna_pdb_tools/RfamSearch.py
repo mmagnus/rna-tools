@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 from __future__ import print_function
+
 import subprocess
 import tempfile
-from rpt_config import RFAM_DB_PATH
+
 from Seq import RNASequence
+from rpt_config import RFAM_DB_PATH
 
 
 class RfamSearchError(Exception):
@@ -26,6 +28,7 @@ class RfamSearch():
     - set up ``RFAM_DB_PATH`` in the config file of rna-pdb-tools.
 
     Cite: Nawrocki and S. R. Eddy, Infernal 1.1: 100-fold faster RNA homology searches, Bioinformatics 29:2933-2935 (2013). """  # noqa
+
     def __init__(self):
         pass
 
@@ -55,7 +58,8 @@ class RfamSearch():
 
         # run cmscan
         cmd = 'cmscan -E 1 ' + RFAM_DB_PATH + ' ' + tf.name + '  > ' + of.name
-        o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        o = subprocess.Popen(
+            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         # out = o.stdout.read().strip()
         err = o.stderr.read().strip()
         if err:
