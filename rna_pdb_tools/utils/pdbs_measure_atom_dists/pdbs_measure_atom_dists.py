@@ -3,7 +3,11 @@
 
 """This is a quick and dirty method of comparison two RNA structures (stored in pdb files).
 It measures the distance between the relevan atoms (C4') for nucleotides defined as "x" in the
-sequence alignment."""
+sequence alignment.
+
+author: F. Stefaniak, modified by A. Zyla,  supervision of mmagnus
+
+"""
 
 
 from Bio.PDB import PDBParser
