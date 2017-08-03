@@ -26,7 +26,7 @@ Add a new util
 2. Make sure that there is a simple test as ``test.sh``::
 
     #!/bin/bash
-    python renum_pdb_to_aln.py - -residue_index_start 1 obj1 test_data / ALN_OBJ1_OBJ2.fa test_data / obj01.pdb
+    python renum_pdb_to_aln.py --residue_index_start 1 obj1 test_data/ALN_OBJ1_OBJ2.fa test_data/obj01.pdb
 
 and there is a ``test_data`` folder with some test inputs and outputs. See the example.
 
@@ -42,7 +42,7 @@ This will "install" you script in bin directory of the project so it can be used
 
 Run this script to see if there is any error, ``./install_links_bin.sh``.
 
-4.  Add your util to the documentation. Go to ``rna-pdb-tools/docs/source`` and edit ``utils.rst``. Add - wherever you think your tool will fit - lines like::
+4.  Add your util to the documentation. The util has to be "importable", so don't forget to create ``__init__.py`` inside your util directory. Next, go to ``rna-pdb-tools/docs/source`` and edit ``utils.rst``. Add - wherever you think your tool will fit - lines like::
 
      Renumber a pdb file according to alignment
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
