@@ -55,6 +55,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_x3dna/rna_x3dna.py $curr_dir/bin/rna_x3d
 
 ln -s $curr_dir/rna_pdb_tools/utils/renum_pdb_to_aln/renum_pdb_to_aln.py $curr_dir/bin/rna_renum_pdb_to_aln.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/pdbs_measure_atom_dists/pdbs_measure_atom_dists.py $curr_dir/bin/pdbs_measure_atom_dists.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo

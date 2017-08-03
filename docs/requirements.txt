@@ -9,3 +9,4 @@ urllib3
 #pymol
 pandas
 matplotlib
+scipy

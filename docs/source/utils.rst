@@ -153,6 +153,15 @@ rna_calc_inf
 .. automodule:: rna_pdb_tools.utils.rna_calc_inf.rna_calc_inf
    :members:
 
+Measure distance between atoms
+-----------------------------------------
+.. argparse::
+   :ref: rna_pdb_tools.utils.pdbs_measure_atom_dists.pdbs_measure_atom_dists.get_parser
+   :prog: pdbs_measure_atom_dists
+
+.. automodule:: rna_pdb_tools.utils.pdbs_measure_atom_dists.pdbs_measure_atom_dists
+   :members:
+
 diffpdb
 -----------------------------------------
 

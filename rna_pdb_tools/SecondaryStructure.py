@@ -6,7 +6,8 @@ import os
 import tempfile
 import shutil
 import subprocess
-from rpt_config import *
+from rpt_config import VARNA_JAR_NAME, VARNA_PATH
+
 
 def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
     """Draw Secondary Structure using VARNA (you need correct configuration for this).
@@ -27,13 +28,17 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
 
     Can be used with http://geekbook.readthedocs.io/en/latest/rna.html"""
     curr = os.getcwd()
-    os.chdir(VARNA_PATH)#VARNAv3-93-src')
-    if verbose: print(VARNA_PATH)
+    os.chdir(VARNA_PATH)  # VARNAv3-93-src')
+    if verbose:
+        print(VARNA_PATH)
     t = tempfile.NamedTemporaryFile(delete=False)
     t.name += '.png'
 
-    cmd = 'java -cp ' + VARNA_JAR_NAME + ' fr.orsay.lri.varna.applications.VARNAcmd -sequenceDBN ' + seq + " -structureDBN '" + ss + "' -o " + t.name + " -title '" + title + "' -resolution '" + str(resolution) + "'"
-    if verbose: print(cmd)
+    cmd = 'java -cp ' + VARNA_JAR_NAME + ' fr.orsay.lri.varna.applications.VARNAcmd -sequenceDBN ' + seq + \
+        " -structureDBN '" + ss + "' -o " + t.name + " -title '" + \
+        title + "' -resolution '" + str(resolution) + "'"
+    if verbose:
+        print(cmd)
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
     out = p.stderr.read().strip()
@@ -41,8 +46,10 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
     if out.find('Exception') > -1:
         return out
     else:
-        if verbose: print(t.name)
+        if verbose:
+            print(t.name)
         shutil.move(t.name, img_out)
+
 
 def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
     """Parse Vienna (dot-bracket notation) to get pairs.
@@ -74,23 +81,24 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
 
     """
     if remove_gaps_in_ss:
-        ss = ss.replace('-','')
+        ss = ss.replace('-', '')
     stack = []
     pairs = []
     pairs_pk = []
     stack_pk = []
-    for c,s in enumerate(ss):
+    for c, s in enumerate(ss):
         if s == '(':
-            stack.append(c+1)
+            stack.append(c + 1)
         if s == ')':
-            pairs.append([stack.pop(), c+1])
+            pairs.append([stack.pop(), c + 1])
         if s == '[':
-            stack_pk.append(c+1)
+            stack_pk.append(c + 1)
         if s == ']':
-            pairs_pk.append([stack_pk.pop(), c+1])
+            pairs_pk.append([stack_pk.pop(), c + 1])
     pairs.sort()
     pairs_pk.sort()
     return(pairs, pairs_pk)
+
 
 if __name__ == '__main__':
     import doctest

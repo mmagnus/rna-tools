@@ -21,6 +21,7 @@ class BlastPDB:
 
     :param seq: string
     """
+
     def __init__(self, seq):
         self.seq = seq
         self.result = ''
@@ -34,9 +35,5 @@ class BlastPDB:
 
 # main
 if __name__ == '__main__':
-    p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
-    p.search()
-    print(p.result)
-
     import doctest
     doctest.testmod()
