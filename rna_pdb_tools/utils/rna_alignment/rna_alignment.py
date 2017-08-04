@@ -137,13 +137,35 @@ class RChie:
 
 
 class RNASeq(object):
-    """RNASeq"""
+    """RNASeq.
+
+    Args:
+
+       id (str)    : id of a sequence
+       seq (str)   : seq, it be uppercased.
+       ss (str)    : secondary structure, default None
+
+    Attributes:
+
+       seq_no_gaps(str) : seq.replace('-', '')
+       ss_no_gaps(str)  : ss.replace('-', '')
+
+    """
 
     def __init__(self, id, seq, ss=None):
         self.id = id
-        self.seq = seq
-        self.ss = ss
+        self.seq = seq.upper()
+        self.ss = ss.upper()
+
         self.seq_no_gaps = seq.replace('-', '')
+        self.ss_no_gaps = ss.replace('-', '')
+
+    @property
+    def ss_std(self):
+        nss = ''
+        for s in self.ss:
+            nss += get_rfam_ss_notat_to_dot_bracket_notat(s)
+        return nss
 
     def __repr__(self):
         return self.id
@@ -217,11 +239,30 @@ class RNASeq(object):
         If ``allow_gu`` is False (be default is True) then GU pair is also possible.
 
         .. image :: ../pngs/ss_no_gu.png
-        """
-        nseq = ''
-        nss = list()
 
-        bps = self.ss_to_bp()
+        If you provide seq and secondary structure such as::
+
+             GgCcGGggG.GcggG.cc.u.aAUACAAuACCC.GaAA.GGGGAAUAaggCc.gGCc.gu......CU.......uugugcgGUuUUcaAgCccCCgGcCaCCcuuuu
+             (((((((((....((.((............(((......)))......))))..(((.(.....................)))).......)))))))))........
+
+        gaps will be remove as well.
+        """
+        GAPS = ['-', '.']
+
+        nseq = ''
+        nss = ''
+        for (nt, nt_ss) in zip(self.seq, self.ss):
+            if nt in GAPS and nt_ss in GAPS:
+                pass
+            else:
+                nseq += nt
+                nss += nt_ss
+        self.seq = nseq
+        self.ss = nss
+        #
+
+        nss = list()
+        bps = self.ss_to_bps()
 
         if check_bps:
             nss = list(self.ss)
@@ -255,7 +296,7 @@ class RNASeq(object):
                     nss[bp[1]] = '.'
             self.ss = ''.join(nss)
 
-        # two
+        # two?????? what is "two"?
         nss = []
         nseq = ''
         for i, (c, s) in enumerate(zip(self.seq, self.ss)):
@@ -266,19 +307,25 @@ class RNASeq(object):
         self.seq = nseq
         self.ss = ''.join(nss)
 
-    def ss_to_bp(self):
+    def ss_to_bps(self):
+        """Convert secondary structure into a list of basepairs.
+
+        Returns:
+
+            bps (list): a list of base pairs, e.g. [[0, 80], [1, 79], [2, 78], [4, 77], [6, 75], [7, 74], ...]
+        """
         j = []
-        bp = []
+        bps = []
         for i, s in enumerate(self.ss):
             if s == '(':
                 j.append(i)
             if s == ')':
-                bp.append([j.pop(), i])
+                bps.append([j.pop(), i])
         if len(j):
             # if something left, this is a problem (!!!)
             raise Exception('Mis-paired secondary structure')
-        bp.sort()
-        return bp
+        bps.sort()
+        return bps
 
 
 class RNAalignment(object):
@@ -1170,6 +1217,6 @@ if __name__ == '__main__':
     #a = RNAalignment(fetch="RF02746")
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     s = a[0]  # take first sequence
-    s.remove_gaps(check_bps=True)
+    s.remove_gaps()
     print s.seq
     print s.ss
