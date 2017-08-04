@@ -4,23 +4,23 @@
 To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
 
 Load an alignment in the Stockholm or fasta format::
-    
+
      import rna_alignment as ra
      alignment = ra.fasta2stokholm(alignment.fasta)
      alignment = ra.RNAalignment
 
 Parameters of the aligmnent::
-   
+
      print alignment.describe()
 
 Consensus SS::
-   
+
     print alignment.ss_cons_with_pk
-   
+
 Get sequnce/s from teh aligment::
-   
+
     >>> seq = a.io[0]
-	
+
 
 """
 
@@ -38,14 +38,18 @@ import shutil
 import re
 import gzip
 
+
 class RNAalignmentError(Exception):
     pass
+
 
 class RChieError(Exception):
     pass
 
+
 class RFAMFetchError(Exception):
     pass
+
 
 class RChie:
     """RChie - plotting arc diagrams of RNA secondary structures.
@@ -77,6 +81,7 @@ class RChie:
 
     Cite: Daniel Lai, Jeff R. Proctor, Jing Yun A. Zhu, and Irmtraud M. Meyer (2012) R-chie: a web server and R package for visualizing RNA secondary structures. Nucleic Acids Research, first published online March 19, 2012. doi:10.1093/nar/gks241
     """
+
     def __init__(self):
         pass
 
@@ -87,18 +92,21 @@ class RChie:
         :param ss_cons: a string of secondary structure consensus, use only ``().``. Works with pseuoknots.
         """
         fasta_alignment = tempfile.NamedTemporaryFile(delete=False)
-        with open(fasta_alignment.name,'w') as f:
+        with open(fasta_alignment.name, 'w') as f:
             f.write(seqs)
 
         plot = tempfile.NamedTemporaryFile(delete=False)
         plot.name += '.png'
         ss = tempfile.NamedTemporaryFile(delete=False)
-        with open(ss.name,'w') as f:
+        with open(ss.name, 'w') as f:
             f.write(ss_cons)
         if not RCHIE_PATH:
             raise RChieError('RChie path not set up!')
-        cmd = RCHIE_PATH + "rchie.R --msafile='%s' --format1 vienna '%s' --output '%s'" % (fasta_alignment.name, ss.name, plot.name)
-        if verbose: print(cmd)
+        cmd = RCHIE_PATH + \
+            "rchie.R --msafile='%s' --format1 vienna '%s' --output '%s'" % (
+                fasta_alignment.name, ss.name, plot.name)
+        if verbose:
+            print(cmd)
         o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out = o.stdout.read().strip()
         err = o.stderr.read().strip()
@@ -108,9 +116,11 @@ class RChie:
         # Execution halted
         if "error" in str(err).lower():
             raise Exception('\n'.join([cmd, err]))
-        if verbose: print('\n'.join([cmd, err]))
+        if verbose:
+            print('\n'.join([cmd, err]))
         self.plotfn = plot.name
-        if verbose: print(self.plotfn)
+        if verbose:
+            print(self.plotfn)
         if plot_fn:
             shutil.move(plot.name, plot_fn)
             print('Rchie: plot saved to %s' % plot_fn)
@@ -125,8 +135,10 @@ class RChie:
         shutil.copyfile(self.plotfn, outfn)
         print('Write to %s' % outfn)
 
+
 class RNASeq(object):
     """RNASeq"""
+
     def __init__(self, id, seq, ss=None):
         self.id = id
         self.seq = seq
@@ -172,13 +184,18 @@ class RNASeq(object):
 
         http://varna.lri.fr/"""
         drawfn = tempfile.NamedTemporaryFile(delete=False).name + '.png'
-        SecondaryStructure.draw_ss(title, self.seq, self.ss, drawfn, resolution)#, verbose=True)
+        SecondaryStructure.draw_ss(title, self.seq, self.ss, drawfn, resolution)  # , verbose=True)
         from IPython.display import Image
         return Image(filename=drawfn)
 
-    def remove_gaps(self, check_bps=True):
-        """
-        check_bps fix mistakes as
+    def remove_gaps(self, check_bps=True, only_canonical=True, allow_gu=True):
+        """Remove gaps from seq and secondary structure of the seq.
+
+        Args:
+
+            check_bps (bool)      : fix mistakes as
+            only_canonical (bool) : keep in ss only pairs GC, AU
+            allow_gu (bool)       : keep in ss also GU pair
 
         .. image :: ../pngs/ss_misgap.png
 
@@ -191,6 +208,15 @@ class RNASeq(object):
 
         .. image :: ../pngs/ss_misgap_ok.png
 
+        if ``only_canonical`` (by default) is True then only GC, AU can be paired.
+
+
+        .. image :: ../pngs/ss_only_canonical.png
+
+
+        If ``allow_gu`` is False (be default is True) then GU pair is also possible.
+
+        .. image :: ../pngs/ss_no_gu.png
         """
         nseq = ''
         nss = list()
@@ -200,15 +226,38 @@ class RNASeq(object):
         if check_bps:
             nss = list(self.ss)
             # remove wierd base pairs
-            for i, (c,s) in enumerate(zip(self.seq, self.ss)):
+            for i, (c, s) in enumerate(zip(self.seq, self.ss)):
                 if c == '-':
                     for bp in bps:
                         if i in bp:
                             nss[bp[0]] = '.'
                             nss[bp[1]] = '.'
             self.ss = ''.join(nss)
+
+        if only_canonical:
+            nseq = list(self.seq)
+            nss = list(self.ss)
+            for bp in bps:
+                nt_left = nseq[bp[0]]
+                nt_right = nseq[bp[1]]
+                if (nt_left == 'A' and nt_right == 'U') or (nt_left == 'U' and nt_right == 'A'):
+                    pass
+                elif (nt_left == 'G' and nt_right == 'C') or (nt_left == 'C' and nt_right == 'G'):
+                    pass
+                elif (nt_left == 'G' and nt_right == 'U') or (nt_left == 'U' and nt_right == 'G'):
+                    if allow_gu:
+                        pass
+                    else:
+                        nss[bp[0]] = '.'
+                        nss[bp[1]] = '.'
+                else:
+                    nss[bp[0]] = '.'
+                    nss[bp[1]] = '.'
+            self.ss = ''.join(nss)
+
         # two
         nss = []
+        nseq = ''
         for i, (c, s) in enumerate(zip(self.seq, self.ss)):
             if c != '-':
                 nseq += c
@@ -224,11 +273,13 @@ class RNASeq(object):
             if s == '(':
                 j.append(i)
             if s == ')':
-                bp.append([j.pop(),i])
+                bp.append([j.pop(), i])
         if len(j):
-            raise Exception('Mis-paired secondary structure') # if something left, this is a problem (!!!)
+            # if something left, this is a problem (!!!)
+            raise Exception('Mis-paired secondary structure')
         bp.sort()
         return bp
+
 
 class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA alignment stuff
@@ -240,14 +291,14 @@ class RNAalignment(object):
     >>> print(a.ss_cons)
 
     Args:
-    
+
       fn (str): Filename
       io (Bio.AlignIO): AlignIO.read(fn, "stockholm")
       lines (list): List of all lines of fn
       seqs (list): List of all sequences as class:`RNASeq` objects
       rf (str): ReFerence annotation, the consensus RNA sequence
-      
-    Read more: 
+
+    Read more:
 
     - http://biopython.org/DIST/docs/api/Bio.AlignIO.StockholmIO-module.html
 
@@ -258,12 +309,15 @@ class RNAalignment(object):
 
     .. warning:: fetch requires urllib3
     """
+
     def __init__(self, fn='', fetch=''):
         if fetch:
             import urllib3
             http = urllib3.PoolManager()
-            response = http.request('GET', 'http://rfam.xfam.org/family/' + fetch + '/alignment/stockholm?gzip=1&download=1')
-            if not response.status == 200: raise RFAMFetchError()
+            response = http.request('GET', 'http://rfam.xfam.org/family/' +
+                                    fetch + '/alignment/stockholm?gzip=1&download=1')
+            if not response.status == 200:
+                raise RFAMFetchError()
             with open(fetch + '.stk.gz', 'wb') as f:
                 f.write(response.data)
             with gzip.open(fetch + '.stk.gz', 'rb') as f:
@@ -271,7 +325,7 @@ class RNAalignment(object):
             with open(fetch + '.stk', 'wb') as f:
                 f.write(file_content)
             fn = fetch + '.stk'
-            
+
         self.fn = fn
         self.lines = open(fn).read().split('\n')
         self.io = AlignIO.read(fn, "stockholm")
@@ -284,7 +338,8 @@ class RNAalignment(object):
 
         # get all lines not # nor //
         # fix for blocked alignment
-        seq_lines = [l for l in self.lines if (not l.startswith('#')) and (not l.startswith('//')) and (l)]
+        seq_lines = [l for l in self.lines if (
+            not l.startswith('#')) and (not l.startswith('//')) and (l)]
         seqs_dict = OrderedDict()
         for seq in seq_lines:
             seq_id, seq_seq = seq.split()
@@ -294,13 +349,14 @@ class RNAalignment(object):
                 seqs_dict[seq_id] += seq_seq
         self.seqs = []
         for seq in seqs_dict:
-            self.seqs.append(RNASeq(seq, seqs_dict[seq], ss = self.ss_cons_with_pk_std))
+            self.seqs.append(RNASeq(seq, seqs_dict[seq], ss=self.ss_cons_with_pk_std))
 
         # this is sick!
         # I create a Cols object to be able to slice alignments
         class Cols:
             def __init__(self, alignment):
                 self.alignment = alignment
+
             def __getitem__(self, i):
                 """Return new alignment"""
                 if type(i) is list:
@@ -309,11 +365,11 @@ class RNAalignment(object):
                     # collect "new" sequences
                     n_seqs = []
                     for s in self.alignment:
-                         new_seq = RNASeq(s.id, s.seq[i], s.ss[i])
-                         n_seqs.append(new_seq)
+                        new_seq = RNASeq(s.id, s.seq[i], s.ss[i])
+                        n_seqs.append(new_seq)
 
                     # this is not very smart :(
-                    # save new seqs to a file 
+                    # save new seqs to a file
                     # and load it as RNAalignment
                     tf = tempfile.NamedTemporaryFile(delete=False)
                     tf.name += '.stk'
@@ -329,7 +385,7 @@ class RNAalignment(object):
                         f.write('//\n')
                     return RNAalignment(tf.name)
         self.cols = Cols(self)
-        ## ^^^^ sick ^^^^^^^^^^^
+        # ^^^^ sick ^^^^^^^^^^^
 
     def __len__(self):
         """Return length of all sequenes."""
@@ -385,7 +441,7 @@ class RNAalignment(object):
         print('Saved to ', tf.name)
         if verbose:
             print(nalign)
-        f = open(tf.name,'w')
+        f = open(tf.name, 'w')
         f.write(nalign)
         #f.write(self.rf + '\n')
         f.close()
@@ -393,7 +449,8 @@ class RNAalignment(object):
 
     def write(self, fn, verbose=True):
         """Write the alignment to a file"""
-        if verbose: print('Save to ', fn)
+        if verbose:
+            print('Save to ', fn)
         with open(fn, 'w') as f:
             f.write('# STOCKHOLM 1.0\n')
             shift = max([len(x) for x in [s.id for s in self.seqs] + ['#=GC=SS_cons']])
@@ -404,17 +461,20 @@ class RNAalignment(object):
 
     def copy_ss_cons_to_all(self, verbose=False):
         for s in self.io:
-            if verbose: self.ss_cons; self.io[0].seq
+            if verbose:
+                self.ss_cons
+                self.io[0].seq
             try:
                 s.letter_annotations['secondary_structure'] = self.ss_cons
             except TypeError:
-                raise Exception('Please check if all your sequences and ss lines are of the same length!')
+                raise Exception(
+                    'Please check if all your sequences and ss lines are of the same length!')
             s.ss = self.ss_cons
             s.ss_clean = self.get_clean_ss(s.ss)
             s.seq_nogaps = str(s.seq).replace('-', '')
             s.ss_nogaps = self.get_ss_remove_gaps(s.seq, s.ss_clean)
 
-    def copy_ss_cons_to_all_editing_sequence(self,seq_id, before, after):
+    def copy_ss_cons_to_all_editing_sequence(self, seq_id, before, after):
         """Change a sequence's sec structure.
 
         :param seq_id: string, sequence id to change, eg: ``AE009948.1/1094322-1094400``
@@ -438,7 +498,7 @@ class RNAalignment(object):
         (((.(.((((,,,(((((((_______.))))))).,,,,,,,,(((((((__.._____))))))...),,)))).)))).
         """
         nss = ''
-        for i,j in zip(seq,ss):
+        for i, j in zip(seq, ss):
             if i != '-':
                 nss += j
         return nss
@@ -449,10 +509,10 @@ class RNAalignment(object):
     def get_ss_cons_pk(self):
         """
         :return: SS_cons_pk line or None if there is now SS_cons_pk:"""
-        ss_cons_pk = ''        
+        ss_cons_pk = ''
         for l in self.lines:
             if l.startswith('#=GC SS_cons_pk'):
-                ss_cons_pk += l.replace('#=GC SS_cons_pk','').strip()
+                ss_cons_pk += l.replace('#=GC SS_cons_pk', '').strip()
         return ss_cons_pk
 
     def get_ss_cons(self):
@@ -461,8 +521,8 @@ class RNAalignment(object):
         """
         ss_cons = ''
         for l in self.lines:
-            if '#=GC SS_cons' in l and '#=GC SS_cons_pk' not in l: 
-                ss_cons += l.replace('#=GC SS_cons','').strip()
+            if '#=GC SS_cons' in l and '#=GC SS_cons_pk' not in l:
+                ss_cons += l.replace('#=GC SS_cons', '').strip()
         return ss_cons
 
     @property
@@ -498,27 +558,26 @@ class RNAalignment(object):
         else:
             return self.ss_cons
 
-
     def get_gc_rf(self):
         """Return (str) ``#=GC RF`` or '' if this line is not in the alignment.
         """
         for l in self.lines:
             if l.startswith('#=GC RF'):
-                return l.replace('#=GC RF','').replace('_cons','').strip()
+                return l.replace('#=GC RF', '').replace('_cons', '').strip()
         else:
             return ''
-            #raise RNAalignmentError('There is on #=GC RF in the alignment!')
+            # raise RNAalignmentError('There is on #=GC RF in the alignment!')
 
     def get_shift_seq_in_align(self):
         """RF_cons vs '#=GC RF' ???"""
         for l in self.lines:
             if l.startswith('#=GC RF'):
                 # #=GC RF                        .g.gc.a
-                l = l.replace('#=GC RF','')
-                c = 7 #12 # len of '#=GC RF'
+                l = l.replace('#=GC RF', '')
+                c = 7  # 12 # len of '#=GC RF'
                 #                         .g.gc.a
                 for i in l:
-                    #print i
+                    # print i
                     if i == ' ':
                         c += 1
                 self.shift = c
@@ -548,9 +607,9 @@ class RNAalignment(object):
         nresis = []
         for s in self.io:
             if s.id.strip() == seq_id.strip():
-                    for i in resis:
-                            print(s.seq[:i+1]) # UAU-A
-                            nresis.append(i + s.seq[:i].count('-'))
+                for i in resis:
+                    print(s.seq[:i + 1])  # UAU-A
+                    nresis.append(i + s.seq[:i].count('-'))
         print(nresis)
 
         print(self.map_seq_on_align(seq_id_target, nresis))
@@ -560,14 +619,15 @@ class RNAalignment(object):
         for s in self.io:
             if s.id.strip() == seq_id_target.strip():
                 for i in nresis:
-                    if v:print(s.seq[:i])
-                    if s.seq[i-1] == '-':
+                    if v:
+                        print(s.seq[:i])
+                    if s.seq[i - 1] == '-':
                         resis_target.append(None)
                     else:
                         resis_target.append(i - s.seq[:i].count('-'))
         return resis_target
 
-    def map_seq_on_align(self, seq_id, resis,v=True):
+    def map_seq_on_align(self, seq_id, resis, v=True):
         """
         :param seqid: seq_id, 'CP000721.1/2204691-2204775'
         :param resis: list resis, [5,6]
@@ -581,13 +641,15 @@ class RNAalignment(object):
             [4, None, 6]
 
         """
-        if v: print(resis)
+        if v:
+            print(resis)
         nresis = []
         for s in self.io:
             if s.id.strip() == seq_id.strip():
                 for i in resis:
-                    if v:print(s.seq[:i])
-                    if s.seq[i-1] == '-':
+                    if v:
+                        print(s.seq[:i])
+                    if s.seq[i - 1] == '-':
                         nresis.append(None)
                     else:
                         nresis.append(i - s.seq[:i].count('-'))
@@ -640,11 +702,12 @@ class RNAalignment(object):
                 nss_cons += s
         self.ss_cons = nss_cons
 
-    def format_annotation(self,t):
+    def format_annotation(self, t):
         return self.shift * ' ' + t
+
     def find_core(self, ids=None):
         """Find common core for ids.
-        
+
         .. image:: ../pngs/find_core.png
         Fig. By core, we understand columns that have all homologous residues. The core is here marked by `x`.
 
@@ -655,10 +718,10 @@ class RNAalignment(object):
             for s in self.io:
                 ids.append(s.id)
 
-        xx = list(range(0,len(self.io[0])))
-        for i in range(0,len(self.io[0])): # if . don't use it
+        xx = list(range(0, len(self.io[0])))
+        for i in range(0, len(self.io[0])):  # if . don't use it
             for s in self.io:
-                #print s.id
+                # print s.id
                 if s.id in ids:
                     if s.seq[i] == '-':
                         xx[i] = '-'
@@ -671,7 +734,7 @@ class RNAalignment(object):
 
         fnlist = open(self.fn).read().strip().split('\n')
         fnlist.insert(-2, 'x' + ' ' * (shift - 1) + ''.join(xx))
-        #print fnlist
+        # print fnlist
         for l in fnlist:
             print(l)
 
@@ -701,12 +764,12 @@ class RNAalignment(object):
             GGAUCGCUGAACCCGAAAGGGGCGGGGGACCCAGAAAUGGGGCGAAUCUCUUCCGAAAGGAAGAGUAGGGUUACUCCUUCGACCCGAGCCCGUCAGCUAACCUCGCAAGCGUCCGAAGGAGAAUC
 
         """
-        seq = seq.replace('-','').upper()
+        seq = seq.replace('-', '').upper()
         for s in self.io:
-            seq_str = str(s.seq).replace('-','').upper()
+            seq_str = str(s.seq).replace('-', '').upper()
             if verbose:
                 print (seq_str)
-            if seq_str.find(seq) > -1 or seq.find(seq_str) > -1 :
+            if seq_str.find(seq) > -1 or seq.find(seq_str) > -1:
                 print('Match:', s.id)
                 print(s)
                 print(seq)
@@ -719,9 +782,9 @@ class RNAalignment(object):
         :param seq: string, seq, seq is upper()
         :param verbose: boolean, be verbose or not
         """
-        seq = seq.replace('-','').upper()
+        seq = seq.replace('-', '').upper()
         for s in self.io:
-            seq_str = str(s.seq).replace('-','').upper()
+            seq_str = str(s.seq).replace('-', '').upper()
             if verbose:
                 print (seq_str)
             if seq_str == seq:
@@ -737,15 +800,15 @@ class RNAalignment(object):
             nss += get_rfam_ss_notat_to_dot_bracket_notat(s)
         return nss
 
-    def get_seq_ss(self, seq_id):#seq,ss):
+    def get_seq_ss(self, seq_id):  # seq,ss):
         s = self.get_seq(seq_id).seq
-        #print seq, ss
+        # print seq, ss
         # new
         nseq = ''
         nss = ''
-        for i,j in zip(seq,ss):
-            if i != '-': # gap
-                #print i,j
+        for i, j in zip(seq, ss):
+            if i != '-':  # gap
+                # print i,j
                 nseq += i
                 nss += get_rfam_ss_notat_to_dot_bracket_notat(j)
         return nseq.strip(), nss.strip()
@@ -768,17 +831,17 @@ class RNAalignment(object):
         Using self.rf.
 
         Args:
-          
+
             seq (str): sequence, e.g. ``-GGAGAGUA-GAUGAUUCGCGUUAAGUGUGUGUGA-AUGGGAUGUC...``
 
         Returns:
-          
+
            str: seq that can be inserted into alignemnt, ``.-.GG.AGAGUA-GAUGAUUCGCGUUA`` ! . -> -
         """
         seq = list(seq)
         seq.reverse()
         nseq = ''
-        for n in self.rf: # n nuclotide
+        for n in self.rf:  # n nuclotide
             if n != '.':
                 try:
                     j = seq.pop()
@@ -786,7 +849,7 @@ class RNAalignment(object):
                     j = '.'
                 nseq += j
             if n == '.':
-                nseq += '.'# + j
+                nseq += '.'  # + j
         return nseq.replace('.', '-')
 
     def __repr__(self):
@@ -796,7 +859,7 @@ class RNAalignment(object):
         """Remove from RF and SS gaps.
 
         Returns:
-           
+
           (str,str): trf, tss - new RF and SS
 
         """
@@ -807,7 +870,8 @@ class RNAalignment(object):
                 trf += r
                 tss += s
         return trf, tss
-        
+
+
 class CMAlign():
     """CMAalign class around cmalign (of Inferal).
 
@@ -841,6 +905,7 @@ class CMAlign():
     Install http://eddylab.org/infernal/
 
     Cite: Nawrocki and S. R. Eddy, Infernal 1.1: 100-fold faster RNA homology searches, Bioinformatics 29:2933-2935 (2013). """
+
     def __init__(self, outputfn=None):
         """Use run_cmalign or load cmalign output from a file"""
         if outputfn:
@@ -873,12 +938,14 @@ class CMAlign():
             f.write('>target\n')
             f.write(seq + '\n')
 
-        cmd = 'cmalign -g ' + cm + ' ' + tf.name # global
-        if verbose: print('cmd' + cmd)
+        cmd = 'cmalign -g ' + cm + ' ' + tf.name  # global
+        if verbose:
+            print('cmd' + cmd)
         o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout = o.stdout.read().strip()
         stderr = o.stderr.read().strip()
-        if verbose: print(stdout)
+        if verbose:
+            print(stdout)
         self.output = stdout.split('\n')
 
     def get_gc_rf(self):
@@ -888,7 +955,7 @@ class CMAlign():
         """
         for l in self.output:
             if l.startswith('#=GC RF'):
-                return l.replace('#=GC RF','').strip()
+                return l.replace('#=GC RF', '').strip()
 
     def get_seq(self):
         """
@@ -900,15 +967,17 @@ class CMAlign():
                     #  4lvv         -GGAGAGUA-GAUGAU
                     return l.split()[1].strip()
 
-def clean_seq_and_ss(seq,ss):
+
+def clean_seq_and_ss(seq, ss):
     nseq = ''
     nss = ''
-    for i,j in zip(seq, ss):
-        if i != '-': # gap
-            #print i,j
+    for i, j in zip(seq, ss):
+        if i != '-':  # gap
+            # print i,j
             nseq += i
             nss += get_rfam_ss_notat_to_dot_bracket_notat_per_char(j)
     return nseq.strip(), nss.strip()
+
 
 def get_rfam_ss_notat_to_dot_bracket_notat(ss):
     nss = ''
@@ -916,6 +985,7 @@ def get_rfam_ss_notat_to_dot_bracket_notat(ss):
         ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
         nss += ns
     return nss.strip()
+
 
 def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
     """Take (c)haracter and standardize ss"""
@@ -935,7 +1005,9 @@ def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
         return ')'
     return c
 
-    ## load from fasta
+    # load from fasta
+
+
 def fasta2stokholm(fn):
     """Take a gapped fasta file and return an RNAalignment object.
 
@@ -963,7 +1035,7 @@ def fasta2stokholm(fn):
         if l.startswith('>'):
             if s:
                 seqs.append(s)
-            s = RNASeq(l.replace('>','').strip(), '')
+            s = RNASeq(l.replace('>', '').strip(), '')
         else:
             s.seq += l.strip()
 
@@ -976,7 +1048,7 @@ def fasta2stokholm(fn):
             txt += id
         else:
             txt += l.strip()
-    txt = txt.strip() + '\n' # clean upfront \n and add tailing \n
+    txt = txt.strip() + '\n'  # clean upfront \n and add tailing \n
 
     tf = tempfile.NamedTemporaryFile(delete=False)
     tf.name += '.stk'
@@ -997,10 +1069,11 @@ def fetch_stokholm(rfam_acc, dpath=None):
     """
     import urllib3
     http = urllib3.PoolManager()
-    #try:
+    # try:
     print(dpath)
-    response = http.request('GET', url='http://rfam.xfam.org/family/' + rfam_acc.lower() + '/alignment?acc=' + rfam_acc.lower() + '&format=stockholm&download=1')
-    #except urllib3.HTTPError:
+    response = http.request('GET', url='http://rfam.xfam.org/family/' + rfam_acc.lower() +
+                            '/alignment?acc=' + rfam_acc.lower() + '&format=stockholm&download=1')
+    # except urllib3.HTTPError:
     #    raise Exception('The PDB does not exists: ' + pdb_id)
     txt = response.data
     if dpath is None:
@@ -1014,7 +1087,7 @@ def fetch_stokholm(rfam_acc, dpath=None):
     return rfam_acc + '.stk'
 
 
-#def test_seq_multilines_alignment()
+# def test_seq_multilines_alignment()
 def test_alignment_with_pk():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     print(a.tail())
@@ -1022,75 +1095,81 @@ def test_alignment_with_pk():
     print(a.ss_cons_pk)
     print(a.ss_cons_with_pk)
 
-    print(a[[1,2]])
-    
-#main
+    print(a[[1, 2]])
+
+
+# main
 if __name__ == '__main__':
     ## a = RNAalignment('test_data/RF00167.stockholm.sto')
-    ## #print a.get_shift_seq_in_align()
-    ## #print a.map_seq_on_align('CP000721.1/2204691-2204778', [5,6,8])
-    ## print a.map_seq_on_seq('AAML04000013.1/228868-228953', 'CP000721.1/2204691-2204778', [4,5,6])
+    # print a.get_shift_seq_in_align()
+    # print a.map_seq_on_align('CP000721.1/2204691-2204778', [5,6,8])
+    # print a.map_seq_on_seq('AAML04000013.1/228868-228953', 'CP000721.1/2204691-2204778', [4,5,6])
 
-    ## #print(record.letter_annotations['secondary_structure'])
+    # print(record.letter_annotations['secondary_structure'])
     ## seq = a.get_seq('AAML04000013.1/228868-228953')
-    ## print seq.seq
-    ## print seq.ss
-    ## print a.ss_cons
+    # print seq.seq
+    # print seq.ss
+    # print a.ss_cons
 
-    ## print 'x'
-    ## for s in a.io:
-    ##     print s.seq
-    ##     print s.ss_clean #letter_annotations['secondary_structure']
+    # print 'x'
+    # for s in a.io:
+    # print s.seq
+    # print s.ss_clean #letter_annotations['secondary_structure']
 
-    ## for s in a.io:
-    ##     print s.seq_nogaps
-    ##     print s.ss_nogaps
+    # for s in a.io:
+    # print s.seq_nogaps
+    # print s.ss_nogaps
 
-    ## a.write('test_output/out.sto')
+    # a.write('test_output/out.sto')
 
-    ## a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
-    ## #print a.get_seq_ss("AL939120.1/174742-174619")
-    ## subset = a.subset(["AL939120.1/174742-174619",
-    ##       "rp12bsubtilis",
-    ##       "AAWL01000001.1/57092-56953",
-    ##       "CP000612.1/87012-87130",
-    ##          "BA000028.3/1706087-1706245"])
-    ##          #% cat /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpTzPenx
-    ## for s in subset:
-    ##     print s.seq
-    ## subset.remove_empty_columns()
-    ## subset.write('/home/magnus/out2.stk')
-    ## for s in subset:
-    ##     print s.seq
+    # a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
+    # print a.get_seq_ss("AL939120.1/174742-174619")
+    # subset = a.subset(["AL939120.1/174742-174619",
+    # "rp12bsubtilis",
+    # "AAWL01000001.1/57092-56953",
+    # "CP000612.1/87012-87130",
+    # "BA000028.3/1706087-1706245"])
+    # % cat /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpTzPenx
+    # for s in subset:
+    # print s.seq
+    # subset.remove_empty_columns()
+    # subset.write('/home/magnus/out2.stk')
+    # for s in subset:
+    # print s.seq
 
-    ## print 'subset.ss_cons_std:', subset.ss_cons_std
+    # print 'subset.ss_cons_std:', subset.ss_cons_std
 
-    ## a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
-    ## #a.ss_cons = "::::::::::{{{{,,,<<<_..."
-    ## print a.ss_cons
-    ## print a.ss_cons_std
-    ## #print get_rfam_ss_notat_to_dot_bracket_notat(subset.ss_cons)
+    # a = RNAalignment("/home/magnus/work/rna-evo/rp12/seq/RF00379.stockholm.stk")##_rm85.stk')
+    # a.ss_cons = "::::::::::{{{{,,,<<<_..."
+    # print a.ss_cons
+    # print a.ss_cons_std
+    # print get_rfam_ss_notat_to_dot_bracket_notat(subset.ss_cons)
 
     ## a.ss_cons_std = 'test of setter'
-    ## print a._ss_cons_std
+    # print a._ss_cons_std
 
-    ## pass
+    # pass
     # slice
 
     ## slices = a.cols[0:10]
-    ## for s in a:
-    ##     print s.seq
-    ## # add pk
+    # for s in a:
+    # print s.seq
+    # add pk
 
-    ## for s in slices:
-    ##     print s, s.seq, s.ss
+    # for s in slices:
+    # print s, s.seq, s.ss
 
     #a = fasta2stokholm('test_output/ade_gapped.fa')
-    #print a
+    # print a
 
     #a = RNAalignment('test_data/RF00001.blocked.stk')
-    #print a
-    #print a.ss_cons
-    #a.plot('rchie.png')
+    # print a
+    # print a.ss_cons
+    # a.plot('rchie.png')
 
-    a = RNAalignment(fetch="RF02746")
+    #a = RNAalignment(fetch="RF02746")
+    a = RNAalignment('test_data/RF00167.stockholm.sto')
+    s = a[0]  # take first sequence
+    s.remove_gaps(check_bps=True)
+    print s.seq
+    print s.ss
