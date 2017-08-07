@@ -67,23 +67,16 @@ Table of Contents
 -----------------
 	
    * [Tour](#tour)
-   * [Docs](#docs)
    * [rna_pdb_tools.py](#rna_pdb_toolspy)
    * [Utils](#utils)
+   * [Docs](#docs)
    * [RNA Puzzle Submission](#rna-puzzle-submission)   
    * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
-   * [History](#history)
 
 ## Tour
 
 Take a tour http://mmagnus.github.io/rna-pdb-tools/#/ 
-
-## Docs
-
-Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
-
-<a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
 ## rna_pdb_tools.py
 
@@ -183,6 +176,12 @@ Tricks:
 See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tools.
 
 Read more http://rna-pdb-tools.readthedocs.io/en/latest/ 
+
+## Docs
+
+Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
+
+<a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
 ## RNA Puzzle Submission
 
