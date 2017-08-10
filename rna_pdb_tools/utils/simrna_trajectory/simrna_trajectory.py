@@ -81,7 +81,7 @@ class SimRNATrajectory:
         """Save the trajectory to file."""
         with open(fn, 'w') as fi:
             for f in self.frames:
-                fi.write(f.header + '\n')
+                fi.write(' '.join([str(x) for x in f.header]) + '\n')  #  [295.0, 5.0, -1428.683789, -1435.583554, 0.9]
                 fi.write(f.coords + '\n')
         if verbose: print('Saved to ' + fn)
             
