@@ -67,23 +67,16 @@ Table of Contents
 -----------------
 	
    * [Tour](#tour)
-   * [Docs](#docs)
    * [rna_pdb_tools.py](#rna_pdb_toolspy)
    * [Utils](#utils)
+   * [Docs](#docs)
    * [RNA Puzzle Submission](#rna-puzzle-submission)   
    * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
-   * [History](#history)
 
 ## Tour
 
 Take a tour http://mmagnus.github.io/rna-pdb-tools/#/ 
-
-## Docs
-
-Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
-
-<a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
 ## rna_pdb_tools.py
 
@@ -184,54 +177,15 @@ See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tool
 
 Read more http://rna-pdb-tools.readthedocs.io/en/latest/ 
 
+## Docs
+
+Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
+
+<a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
+
 ## RNA Puzzle Submission
 
-The RNA Puzzle organizers required ONE file with your submissions in the NMR-style multiple model PDB format. 
-			
-First, prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`):
-
-	$ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
-	
-.. merge them as one file in the order as you like (or use `*`):
-
-	$ rna_pdb_merge_into_one.py 02_19pz_v1_SimRNA3.22_thrs6.60A_clust02-000001_AA_out_rpr.pdb 09_19pz_v2_SimRNA3.22_thrs6.60A_clust03-000001_AA_out_rpr.pdb d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust01-000001_AA_out_rpr.pdb d311d821-a075-4df0-bd7d-1dcf7669dad9_ALL_thrs6.20A_clust03-000001_AA_out_rpr.pdb 05_19pz_v1_SimRNA4.xx_thrs6.60A_clust02-000001_AA_out_rpr.pdb  > rp19_bujnicki.pdb
-	
-and verify your file with the template provided by the organizers (if provided):
-
-	$ diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
-	#<empty = no difference but xyz columns, OK!>
-	
-[diffpdb](rna_pdb_tools/utils/diffpdb/) is a part of the rna-pdb-tools package.
-
-![diffpdb](docs/pngs/rp19.png)
-
-	$ head -n 5 Reference_19.pdb rp19_bujnicki.pdb
-	==> Reference_19.pdb <==
-	MODEL        1
-	ATOM      1  P     G A   1       0.000   0.000   0.000  1.00  0.00           P
-	ATOM      2  OP1   G A   1       0.000   0.000   0.000  1.00  0.00           O
-	ATOM      3  OP2   G A   1       0.000   0.000   0.000  1.00  0.00           O
-	ATOM      4  O5'   G A   1       0.000   0.000   0.000  1.00  0.00           O
-	==> rp19_bujnicki.pdb <==
-	MODEL        1
-	ATOM      1  P     G A   1      31.463  14.180  -0.676  1.00  0.00           P
-	ATOM      2  OP1   G A   1      31.412  12.806  -1.223  1.00  0.00           O
-	ATOM      3  OP2   G A   1      30.646  15.083  -1.517  1.00  0.00           O
-	ATOM      4  O5'   G A   1      30.955  14.212   0.842  1.00  0.00           O
-
-	$ tail -n 5 Reference_19.pdb rp19_bujnicki.pdb
-	==> Reference_19.pdb <==
-	ATOM   1325  C5    C B  22       0.000   0.000   0.000  1.00  0.00           C
-	ATOM   1326  C6    C B  22       0.000   0.000   0.000  1.00  0.00           C
-	TER    1327        C B  22
-	ENDMDL
-	END
-	==> rp19_bujnicki.pdb <==
-	ATOM   1325  C5    C B  22      29.927  21.506  -6.542  1.00  0.00           C
-	ATOM   1326  C6    C B  22      29.822  22.338  -5.500  1.00  0.00           C
-	TER    1327        C B  22
-	ENDMDL
-	END
+Read at https://rna-pdb-tools.readthedocs.io/en/latest/rna-puzzles.html
 
 ## Inspiration (and alternatives)
 
@@ -245,52 +199,3 @@ and verify your file with the template provided by the organizers (if provided):
 ## Install
 
 Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
-
-## History
-
-170608 Add `--get_ss` (secondary structure) using x3dna.
-
-170518 Edit in place [experimental, only for `get_rnapuzzle_ready`] `rna_pdb_tools.py --rpr 7_Das_7_rpr.pdb --inplace`. (2) get a structure in org-mode format <sick!>
-
-170517 Fix #37 mis-align atom names after rpr-ing bug
-
-170515 Fix fixing missing O2'
-
-170404	`rna_simrna_extract.py -t template.pdb -f *05.trafl -c -n 1 # extract only the first model`
-
-170331 rna-pdb-tools meets Emacs!
-
-![](docs/pngs/rpt_emacs.png)
-
-170325 Seq: secondary structure prediction with constraints
-
-    >>> seq = Seq("CCCCUUUUGGGG")
-    >>> seq.name = 'RNA03'
-    >>> print(seq.predict_ss("RNAfold", constraints="((((....))))"))
-    >RNA03
-    CCCCUUUUGGGG
-    ((((....)))) ( -6.40)
-
-170324 Starting converting to Python3, fetch_align by Pietro
-
-170320 `rna_cartoon` in PyMOL
-
-![](docs/pngs/rna_cartoon_small.png)
-
-170319 Add clanstix (move it from its own GitHub repository).
-
-170315 SimRNA_trajectory:
-  - get len of frame, and trajectory
-  - warn about broken frame
-  - `only_first_frame` to get only the first frame
-
-170311 Get seq (v2) gets segments of chains with correct numbering
-
-	> 6_solution_0 A:1-19 26-113 117-172
-	GGCGGCAGGUGCUCCCGACGUCGGGAGUUAAAAGGGA
-
-170308 Add fixing missing atoms of bases, and O2'
-
-... many things! :-)
-
-~2011 Prelimiary version as rnastruc, yapdb_parser etc.
