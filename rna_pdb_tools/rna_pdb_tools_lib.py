@@ -849,6 +849,9 @@ class RNAStructure:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
+
+        fix_missing_atoms=False
+
         if verbose:
             logger.setLevel(logging.DEBUG)
 
@@ -892,11 +895,21 @@ class RNAStructure:
 
         missing = []
         fixed = []
+        protein_chains_remmoved = []
 
         new_chains = list(string.ascii_uppercase)
-        
+
         for chain in model.get_list():
             logger.debug('chain: %s' % chain)
+
+            # is it RNA? ############################
+            protein_like = 0
+            for c,r in enumerate(chain, 1):
+                if r.resname in AMINOACID_CODES:
+                    protein_like += 1
+            if (protein_like / float(c+1)) > .8 : # 90%
+                protein_chains_remmoved.append(chain.get_id())
+            # ######################################
 
             res = []
             for r in chain:
@@ -1293,7 +1306,11 @@ class RNAStructure:
             for i in missing:
                 remarks.append(' '.join(['REMARK 250   +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
             #raise Exception('Missing atoms in %s' % self.fn)
+
+        if protein_chains_remmoved:
+            remarks.append('REMARK 250 Chains that seem to be proteins removed and : ' + ' '.join(protein_chains_remmoved))
         #
+
         # fix ter 'TER' -> TER    1528        G A  71
         #
         s = RNAStructure(fout)
@@ -1311,16 +1328,14 @@ class RNAStructure:
                 atom_code = self.get_atom_code(l)
                 l = self.set_atom_code(l, atom_code)
             ##################################################################################
-            
+
             if l.startswith('TER'):
                 atom_l = self.lines[c-1]
-                #print 'TER    1528        G A  71 <<<'
-                new_l = 'TER'.ljust(80)
+                new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
                 new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
                 new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
                 new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
                 new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
-                #print new_l
                 nlines.append(new_l)
                 no_ters += 1
             else:
