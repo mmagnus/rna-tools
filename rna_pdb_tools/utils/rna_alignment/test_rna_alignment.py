@@ -76,3 +76,10 @@ def test_mtRNA():
     seq.remove_gaps()
     assert seq.seq == "GGGCUUCCGCUACCGAAAAUCGCCCCUAUAUUUGCAGUGCCAGUGCGCUGGCUAUGACAAUAAACCGCCGUCGCAAUAAACCAUUCGGACCCGGGGGCAGUACCCGGCGCCUCCACCAAAGUCCGCGAAAUCCGCGGGCUUCGGCGGGGGCGAAACAGGAUCGACGAGGGCGUAAAGGGCGAGCUUUUGUCCGGAAUGGUUCCGCCGUGAUCGGGCCAUGCAAUAGUUGCCAACGACAACUAUGCUCCGGUUGCUCAGGCAGCGUAACGCUGCUUGAAAGACCACAUGAAAGUCCUGGCGGGUUAAGCGCCGCCAGGCGGGGUUCGGAGGCGCCUGGCAACAGAAGCCUCCACU"
     assert seq.ss == "......................................(((((....)))))...(((((......((((((........((..(((...(((((.......)))))(((((((...............................)))))))............))).)).......)))).))..)))))[[[..<<<..<<.]]].....>>.>>>.....................................................................................................{{{{..<<<<<<}}}}..........>>>>>>..."
+
+
+def test_append():
+    a = RNAalignment('test_data/RF01831.short.stk')
+    assert a.describe() == "SingleLetterAlphabet() alignment with 14 rows and 179 columns"
+    a + RNASeq('rna', '-A-GU-AGAGUA-GGUCUUAUACGUAA-----------------AGUG-UCAUCGGA-U-GGGGAGACUUCCGGUGAACGAA-G-G-----------------------------GUUA---------------------------CCGCGUUAUAUGAC-C-GCUUCCG-CUA-C-U-','')
+    assert a.describe() == "SingleLetterAlphabet() alignment with 15 rows and 179 columns"

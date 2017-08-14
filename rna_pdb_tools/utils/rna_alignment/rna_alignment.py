@@ -21,12 +21,12 @@ Get sequnce/s from teh aligment::
 
     >>> seq = a.io[0]
 
-
 """
 
 from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from Bio.Phylo.TreeConstruction import DistanceCalculator
 from rna_pdb_tools import SecondaryStructure
 from rna_pdb_tools.rpt_config import RCHIE_PATH
 from collections import OrderedDict
@@ -316,11 +316,11 @@ class RNASeq(object):
         Returns:
 
             bps (list): a list of base pairs, e.g. [[0, 80], [1, 79], [2, 78], [4, 77], [6, 75], [7, 74], ...]
+
         """
         j = []
         bps = []
         pair_types = ['()', '[]', '<>', '{}']
-        print(self.ss)
         for pair_type in pair_types:
             for i, s in enumerate(self.ss):
                 if s == pair_type[0]:
@@ -440,6 +440,11 @@ class RNAalignment(object):
         self.cols = Cols(self)
         # ^^^^ sick ^^^^^^^^^^^
 
+    def reload_alignment(self):
+        tmpfn = tempfile.NamedTemporaryFile(delete=False).name
+        self.write(tmpfn)
+        self.io = AlignIO.read(tmpfn, "stockholm")
+
     def __len__(self):
         """Return length of all sequenes."""
         return len(self.seqs)
@@ -500,7 +505,11 @@ class RNAalignment(object):
         f.close()
         return RNAalignment(tf.name)
 
-    def write(self, fn, verbose=True):
+    def __add__(self, rna_seq):
+        self.seqs.append(rna_seq)
+        self.reload_alignment()
+
+    def write(self, fn, verbose=False):
         """Write the alignment to a file"""
         if verbose:
             print('Save to ', fn)
@@ -924,6 +933,41 @@ class RNAalignment(object):
         return trf, tss
 
 
+    def get_distances(self):
+        """Get distances (seq identity) all-vs-all.
+
+        With BioPython.
+
+        blastn: ``Bad alphabet 'U' in sequence 'AE008922.1/409481-409568' at position '7'`` only for DNA?
+
+        read more (also about matrix at <http://biopython.org/wiki/Phylo> and
+        HTTP://biopython.org/DIST/docs/api/Bio.Phylo.TreeConstruction.DistanceCalculator-class.html
+        """
+        calculator = DistanceCalculator('identity')
+        dm = calculator.get_distance(self.io)
+        return dm
+
+    def get_the_closest_seq_to_ref_seq(self, verbose=False):
+        """
+
+        Example::
+
+            >>> a = RNAalignment("test_data/RF02221.stockholm.sto")
+            >>> a.get_the_closest_seq_to_ref_seq()
+            AF421314.1/431-344
+
+        """
+        self + RNASeq('ConSeq', self.rf, '')
+        dist = self.get_distances()
+        distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
+        minimal = min(distConSeq)
+        index = dist['ConSeq'].index(minimal)
+        #id = dist.names[index]
+        if verbose:
+            print('dist:', str(dist))
+            print('distConSeq:', dist['ConSeq'])
+        return self[index]
+
 class CMAlign():
     """CMAalign class around cmalign (of Inferal).
 
@@ -1242,10 +1286,25 @@ if __name__ == '__main__':
     # print a.ss_cons
     # a.plot('rchie.png')
 
-    ## a = RNAalignment("test_data/RF02221.stockholm.sto")
-    ## #a = RNAalignment('test_data/RF00002.stockholm.stk')
-    ## s = a[0]  # take first sequence
+    # a = RNAalignment("test_data/RF02221.stockholm.sto")
+    ## a = RNAalignment('test_data/test_data/RF02221.stockholm.sto')
+    ## a + RNASeq('ConSeq', '-A-GU-AGAGUA-GGUCUUAUACGUAA-----------------AGUG-UCAUCGGA-U-GGGGAGACUUCCGGUGAACGAA-G-G-----------------------------GUUA---------------------------CCGCGUUAUAUGAC-C-GCUUCCG-CUA-C-U-','')
+    ## dist = a.get_distances()
+    ## distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
+    ## minimal = min(distConSeq)
+    ## index = dist['ConSeq'].index(minimal)
+    ## print(dist.names[index])
+
+    a = RNAalignment("test_data/RF02221.stockholm.sto")
+    rep = a.get_the_closest_seq_to_ref_seq()
+    rep.remove_gaps()
+    print(rep)
+    print(rep.ss)
+    print(rep.seq)
+
+    #a.write('tmp.stk')
     ## s.remove_gaps()
     ## print(s.seq)
     ## print(s.ss)
-    pass
+    import doctest
+    doctest.testmod()
