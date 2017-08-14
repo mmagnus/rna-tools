@@ -77,9 +77,17 @@ def get_parser():
     parser.add_argument('--renumber_residues', help='by defult is false',
                         action='store_true')
 
-    parser.add_argument('--dont_rename_chains', help="""used only with --get_rnapuzzle_ready. By defult \
+    parser.add_argument('--dont_rename_chains', help="""used only with --get_rnapuzzle_ready. By default \
                                                       --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option""",
                         action='store_true')
+
+    parser.add_argument('--dont_fix_missing_atoms',
+                            help="""used only with --get_rnapuzzle_ready""",
+                            action='store_true')
+
+    parser.add_argument('--dont_report_missing_atoms',
+                            help="""used only with --get_rnapuzzle_ready""",
+                            action='store_true')
 
     parser.add_argument('--collapsed_view', help='',
                         action='store_true')
@@ -251,8 +259,13 @@ if __name__ == '__main__':
 
             rename_chains = False if args.dont_rename_chains else True
 
-            remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True,
-                                                rename_chains=rename_chains, verbose=args.verbose)
+            report_missing_atoms = not args.dont_report_missing_atoms
+            fix_missing_atom = not args.dont_fix_missing_atoms
+
+            remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
+                                                rename_chains=rename_chains,
+                                                report_missing_atoms=report_missing_atoms,
+                                                verbose=args.verbose)
 
             if args.inplace:
                 with open(f, 'w') as f:

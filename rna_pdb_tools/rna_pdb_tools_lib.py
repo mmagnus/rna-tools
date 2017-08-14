@@ -822,7 +822,10 @@ class RNAStructure:
     def set_chain_id(self, line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, rename_chains=True, verbose=True):#:, ready_for="RNAPuzzle"):
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False,
+                                rename_chains=True,
+                                report_missing_atoms=True,
+                                verbose=True):#:, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
         Clean up a structure, get current order of atoms.
@@ -1298,7 +1301,7 @@ class RNAStructure:
             for i in fixed:
                 remarks.append(' '.join(['REMARK 250  -', str(i[0]), 'in chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
 
-        if missing:
+        if missing and report_missing_atoms:
             remarks.append('REMARK 250 Missing atoms:')
             for i in missing:
                 remarks.append(' '.join(['REMARK 250   +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
@@ -1317,7 +1320,6 @@ class RNAStructure:
         nlines = []
         no_ters = 0
         for l in self.lines:
-
             ## align atoms to the left #######################################################
             #ATOM   3937    P   C B 185      11.596  -7.045  26.165  1.00  0.00           P
             #ATOM   3937  P     C B 185      11.596  -7.045  26.165  1.00  0.00           P
@@ -1329,12 +1331,12 @@ class RNAStructure:
             if l.startswith('TER'):
                 atom_l = self.lines[c-1]
                 new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
-                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
-                new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
-                new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
-                new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
-                nlines.append(new_l)
-                no_ters += 1
+                #new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
+                #new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
+                #new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
+                #new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
+                #nlines.append(new_l)
+                #no_ters += 1
             else:
                 if self.get_atom_index(l):
                     l = self.set_atom_index(l, self.get_atom_index(l) + no_ters) # 1 ter +1 2 ters +2 etc
