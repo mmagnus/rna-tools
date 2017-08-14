@@ -852,6 +852,9 @@ class RNAStructure:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
+
+        fix_missing_atoms=False
+
         if verbose:
             logger.setLevel(logging.DEBUG)
 
