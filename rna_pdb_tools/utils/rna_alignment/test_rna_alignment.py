@@ -57,3 +57,22 @@ def test_trna():
     rna_seq.remove_gaps()
     assert rna_seq.seq == "AACCCUAGGCAGGGGAUCACUCGGCUCAUGGAUCGAUGAAGACCGCAGCUAAAUGCGCGUCAGAAUGUGAACUGCAGGACACAUGAACACCGACACGUUGAACGAUAUUGCGCAUUGCACGACUCAGUGCGAUGUACACAUUUUUGAGUGCCC"
     assert rna_seq.ss == "........................................(((((((......))))........((.....(....).........)).......)))....((...).)(((((((((......))))))))).................."
+
+
+def test_AdoCblvariant():
+    ra = RNAalignment(fetch="RF01689")
+    seq = ra[0]
+    assert seq.seq == "CAUACUACAGGAGUAG-UGGGAAA-UAAUGUGUA-----AAUCAUUGGCUGUACUCGCAACGGU----------AAAAAAA----------------GCCCGGAAACCACAUAAAGU-AUACCACUGUUGGAUGAAGACCGAGAAAAGUC--A-C--G-UUCCAC-AAUUUUCAU"
+    assert seq.ss == "((((((........((.(((.....(((((............)))))[[(((.<<<))).(((..................................]])))....)))))))))))............((((..((((.>>>....)))..)....).)))............."
+    seq.remove_gaps()
+    seq.ss == "..(............((((....(((((.......)))))[[(((.<<<))).(((........]])))....))))....).............((((...(((.>>>....)))..))))............"
+    seq.seq == "CAUACUACAGGAGUAGUGGGAAAUAAUGUGUAAAUCAUUGGCUGUACUCGCAACGGUAAAAAAAGCCCGGAAACCACAUAAAGUAUACCACUGUUGGAUGAAGACCGAGAAAAGUCACGUUCCACAAUUUUCAU"
+
+def test_mtRNA():
+    ra = RNAalignment(fetch="RF01849")
+    seq = ra[0]
+    assert seq.seq == "GGGCUUCCGC-UACCGAAAAUCGCCCCUAUAUU-UGCAGUGCCAG-----UGCG----CUGGCUAUGACAAUAAA-CCGC-CGUCGCAAUAAACCAUUCGGACCCGGG-GGCAGUA-CCCGGCGCCUCCACCAAAGUCCG------------------------------CGAAAUCCGCGGGC-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------UUCGGCGGGGGCG-AAACAGGAUCGACGA-GGGC-GUAAAGGGCG-AGCU--UUUGUCCGGAAUGGU-UCC--GCCGUG----------------------------------AUCGG-GCCAUGC---AAUAGUUGCCAACGACAACUAUGCUCCG---------------------------GUUGCUCAGGCAGCGUAA--CGCUGCUUGAAA-GACC-ACA-UGAAAGUCCUGGCGGG-UUAAGCGCCGCCAGGCGGGGUUC-----GGAGGC-GCCUGGCAACAGAA--GCCUCC--ACU"
+    assert seq.ss == "........................................(((((.............)))))...(((((......(((.((((........(((.(((...(((((.........)))))(((((((......................................................................................................................................................................................................................................................................................................))))))).............))).)))........))))..)))...)))))[[[[.<<<..<<<..]]]].......................................>>>.>>>.........................................................................................................................................{{{{.......<<<<<<<}}}}...........>>>>>>>....."
+    seq.remove_gaps()
+    assert seq.seq == "GGGCUUCCGCUACCGAAAAUCGCCCCUAUAUUUGCAGUGCCAGUGCGCUGGCUAUGACAAUAAACCGCCGUCGCAAUAAACCAUUCGGACCCGGGGGCAGUACCCGGCGCCUCCACCAAAGUCCGCGAAAUCCGCGGGCUUCGGCGGGGGCGAAACAGGAUCGACGAGGGCGUAAAGGGCGAGCUUUUGUCCGGAAUGGUUCCGCCGUGAUCGGGCCAUGCAAUAGUUGCCAACGACAACUAUGCUCCGGUUGCUCAGGCAGCGUAACGCUGCUUGAAAGACCACAUGAAAGUCCUGGCGGGUUAAGCGCCGCCAGGCGGGGUUCGGAGGCGCCUGGCAACAGAAGCCUCCACU"
+    assert seq.ss == "......................................(((((....)))))...(((((......((((((........((..(((...(((((.......)))))(((((((...............................)))))))............))).)).......)))).))..)))))[[[..<<<..<<.]]].....>>.>>>.....................................................................................................{{{{..<<<<<<}}}}..........>>>>>>..."

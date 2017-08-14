@@ -159,14 +159,14 @@ class RNASeq(object):
 
         # self.ss_raw = ss  # this will not be changed after remove_gaps.
         # so maybe don't use ss_raw at call
-        self.ss = ss.upper()
-        self.ss = self.ss_std
+        self.ss = ss
+        self.ss = self.get_ss_std()
 
         self.seq_no_gaps = seq.replace('-', '')
         self.ss_no_gaps = ss.replace('-', '')
 
-    @property
-    def ss_std(self):
+    #@property
+    def get_ss_std(self):
         nss = ''
         for s in self.ss:
             nss += get_rfam_ss_notat_to_dot_bracket_notat(s)
@@ -319,14 +319,17 @@ class RNASeq(object):
         """
         j = []
         bps = []
-        for i, s in enumerate(self.ss):
-            if s == '(':
-                j.append(i)
-            if s == ')':
-                bps.append([j.pop(), i])
-        if len(j):
-            # if something left, this is a problem (!!!)
-            raise Exception('Mis-paired secondary structure')
+        pair_types = ['()', '[]', '<>', '{}']
+        print(self.ss)
+        for pair_type in pair_types:
+            for i, s in enumerate(self.ss):
+                if s == pair_type[0]:
+                    j.append(i)
+                if s == pair_type[1]:
+                    bps.append([j.pop(), i])
+            if len(j):
+                # if something left, this is a problem (!!!)
+                raise Exception('Mis-paired secondary structure')
         bps.sort()
         return bps
 
@@ -1028,16 +1031,10 @@ def clean_seq_and_ss(seq, ss):
     return nseq.strip(), nss.strip()
 
 
-def get_rfam_ss_notat_to_dot_bracket_notat(ss):
-    nss = ''
-    for s in ss:
-        ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
-        nss += ns
-    return nss.strip()
-
-
 def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
-    """Take (c)haracter and standardize ss"""
+    """Take (c)haracter and standardize ss (including pks in letter (AAaa) notation).
+
+    .. warning:: DD DD will be treated as BB BB (<< >>) (it might be wrong!)"""
     if c in [',', '_', ':', '-']:
         return '.'
     if c == '<':
@@ -1052,9 +1049,38 @@ def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
         return '('
     if c == '>':
         return ')'
+    if c == '>':
+        return ')'
+    if c == 'A':
+        return '['
+    if c == 'a':
+        return ']'
+    if c == 'B':
+        return '<'
+    if c == 'b':
+        return '>'
+    if c == 'C':
+        return '{'
+    if c == 'c':
+        return '}'
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!
+    if c == 'D':
+        return '<'
+    if c == 'd':
+        return '>'
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!
     return c
 
-    # load from fasta
+
+def get_rfam_ss_notat_to_dot_bracket_notat(ss):
+    """Change all <<>> to "standard" dot bracket notation.
+
+    Works also with pseudknots AA BB CC etc."""
+    nss = ''
+    for s in ss:
+        ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
+        nss += ns
+    return nss
 
 
 def fasta2stokholm(fn):
@@ -1216,9 +1242,10 @@ if __name__ == '__main__':
     # print a.ss_cons
     # a.plot('rchie.png')
 
-    a = RNAalignment("test_data/RF02221.stockholm.sto")
-    #a = RNAalignment('test_data/RF00002.stockholm.stk')
-    s = a[0]  # take first sequence
-    s.remove_gaps()
-    print(s.seq)
-    print(s.ss)
+    ## a = RNAalignment("test_data/RF02221.stockholm.sto")
+    ## #a = RNAalignment('test_data/RF00002.stockholm.stk')
+    ## s = a[0]  # take first sequence
+    ## s.remove_gaps()
+    ## print(s.seq)
+    ## print(s.ss)
+    pass
