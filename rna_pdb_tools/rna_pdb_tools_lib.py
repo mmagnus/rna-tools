@@ -68,7 +68,7 @@ def get_version(currfn='', verbose=False): #dupa
     if verbose: print('get_version::path2', path)
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
-    version = subprocess.check_output('git describe --long --tags --dirty --always', shell=True)
+    version = str(subprocess.check_output('git describe --long --tags --dirty --always', shell=True))
     if verbose: print(version, curr_path)
     os.chdir(curr_path) # go path to original path
     if version.find('not found')>-1:
