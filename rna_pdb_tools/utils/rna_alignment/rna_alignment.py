@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """RNAalignment - a module to work with RNA sequence alignments.
 
 To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
@@ -11,11 +11,11 @@ Load an alignment in the Stockholm or fasta format::
 
 Parameters of the aligmnent::
 
-     print alignment.describe()
+     print(alignment.describe())
 
 Consensus SS::
 
-    print alignment.ss_cons_with_pk
+    print(alignment.ss_cons_with_pk)
 
 Get sequnce/s from teh aligment::
 
@@ -37,6 +37,7 @@ import os
 import shutil
 import re
 import gzip
+import copy
 
 
 class RNAalignmentError(Exception):
@@ -155,7 +156,11 @@ class RNASeq(object):
     def __init__(self, id, seq, ss=None):
         self.id = id
         self.seq = seq.upper()
+
+        # self.ss_raw = ss  # this will not be changed after remove_gaps.
+        # so maybe don't use ss_raw at call
         self.ss = ss.upper()
+        self.ss = self.ss_std
 
         self.seq_no_gaps = seq.replace('-', '')
         self.ss_no_gaps = ss.replace('-', '')
@@ -259,20 +264,18 @@ class RNASeq(object):
                 nss += nt_ss
         self.seq = nseq
         self.ss = nss
-        #
 
         nss = list()
         bps = self.ss_to_bps()
 
         if check_bps:
             nss = list(self.ss)
-            # remove wierd base pairs
-            for i, (c, s) in enumerate(zip(self.seq, self.ss)):
-                if c == '-':
-                    for bp in bps:
-                        if i in bp:
-                            nss[bp[0]] = '.'
-                            nss[bp[1]] = '.'
+            for bp in bps:
+                nt_left = self.seq[bp[0]]
+                nt_right = self.seq[bp[1]]
+                if nt_left == '-' or nt_right == '-':
+                    nss[bp[0]] = '.'
+                    nss[bp[1]] = '.'
             self.ss = ''.join(nss)
 
         if only_canonical:
@@ -364,7 +367,7 @@ class RNAalignment(object):
             response = http.request('GET', 'http://rfam.xfam.org/family/' +
                                     fetch + '/alignment/stockholm?gzip=1&download=1')
             if not response.status == 200:
-                raise RFAMFetchError()
+                raise RFAMFetchError("The alignment could not be downloaded. Please check the RFAM id that you requested! (don't put .stk etc in the id)")
             with open(fetch + '.stk.gz', 'wb') as f:
                 f.write(response.data)
             with gzip.open(fetch + '.stk.gz', 'rb') as f:
@@ -624,7 +627,6 @@ class RNAalignment(object):
                 c = 7  # 12 # len of '#=GC RF'
                 #                         .g.gc.a
                 for i in l:
-                    # print i
                     if i == ' ':
                         c += 1
                 self.shift = c
@@ -711,7 +713,7 @@ class RNAalignment(object):
     def describe(self):
         """Describe the alignment.
 
-           >>> print a.describe()
+           >>> print(a.describe())
            SingleLetterAlphabet() alignment with 13 rows and 82 columns
 
         """
@@ -815,7 +817,7 @@ class RNAalignment(object):
         for s in self.io:
             seq_str = str(s.seq).replace('-', '').upper()
             if verbose:
-                print (seq_str)
+                print(seq_str)
             if seq_str.find(seq) > -1 or seq.find(seq_str) > -1:
                 print('Match:', s.id)
                 print(s)
@@ -833,7 +835,7 @@ class RNAalignment(object):
         for s in self.io:
             seq_str = str(s.seq).replace('-', '').upper()
             if verbose:
-                print (seq_str)
+                print(seq_str)
             if seq_str == seq:
                 print('Match:', s.id)
                 print(s)
@@ -1214,9 +1216,9 @@ if __name__ == '__main__':
     # print a.ss_cons
     # a.plot('rchie.png')
 
-    #a = RNAalignment(fetch="RF02746")
-    a = RNAalignment('test_data/RF00167.stockholm.sto')
+    a = RNAalignment("test_data/RF02221.stockholm.sto")
+    #a = RNAalignment('test_data/RF00002.stockholm.stk')
     s = a[0]  # take first sequence
     s.remove_gaps()
-    print s.seq
-    print s.ss
+    print(s.seq)
+    print(s.ss)

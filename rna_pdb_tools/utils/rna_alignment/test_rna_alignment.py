@@ -1,15 +1,17 @@
+#!/usr/bin/env python3
+
 from rna_alignment import RNAalignment, RNASeq
 
-
-def test_remove_gaps():
+def _test_remove_gaps():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     s = a[0]  # take first sequence
     s.remove_gaps()
     assert s.seq == 'UACUUAUUUAUGCUGAGGAUUGGCUUAGCGUCUCUACAAGACACCGUAAUGUCUAACAAUAAGUA'
+    print(s.ss)
     assert s.ss == '((((((((...((((((....[[)))))).........(((((]]....)))))...))))))))'
 
 
-def test_remove_gaps2():
+def _test_remove_gaps2():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     s = a[0]  # take first sequence
     s.remove_gaps(check_bps=True, only_canonical=True, allow_gu=False)
@@ -17,7 +19,7 @@ def test_remove_gaps2():
     assert s.ss == '((((((((...(((.((....[[)).))).........(((((]]....)))))...))))))))'
 
 
-def test_remove_gaps3():
+def _test_remove_gaps3():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     s = a[0]  # take first sequence
     s.remove_gaps(check_bps=True, only_canonical=True)
@@ -25,7 +27,7 @@ def test_remove_gaps3():
     assert s.ss == '((((((((...((((((....[[)))))).........(((((]]....)))))...))))))))'
 
 
-def test_remove_gaps4():
+def _test_remove_gaps4():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
     s = a[0]  # take first sequence
     assert s.ss_to_bps() == [[0, 80], [1, 79], [2, 78], [4, 77], [6, 75], [7, 74], [8, 73], [9, 72], [13, 34], [14, 33],
@@ -45,6 +47,13 @@ def test_remove_gaps_for_rf():
     rna_sequence = RNASeq('seq cons', rna_alignment.rf, rna_alignment.ss_cons)
     rna_sequence.remove_gaps()
     assert rna_sequence.seq == 'GGCCGGGGGGCGGGCCUAAUACAAUACCCGAAAGGGGAAUAAGGCCGGCCGUCUUUGUGCGGUUUUCAAGCCCCCGGCCACCCUUUU'
-    print rna_sequence.ss
-    assert rna_sequence.ss == '(((((((((,,,<<<<----------<<<____>>>------>>>>,<<<<________>>>>,,,,,,,)))))))))::::::::'
-    assert rna_sequence.ss_std == '(((((((((...((((..........(((....)))......)))).((((........)))).......)))))))))........'
+    #assert rna_sequence.ss_raw == '(((((((((,,,<<<<----------<<<____>>>------>>>>,<<<<________>>>>,,,,,,,)))))))))::::::::'
+    assert rna_sequence.ss == '(((((((((...((((..........(((....)))......)))).((((........)))).......)))))))))........'
+
+
+def test_trna():
+    rna_alignment = RNAalignment('test_data/RF00002.stockholm.stk')
+    rna_seq = rna_alignment[0]
+    rna_seq.remove_gaps()
+    assert rna_seq.seq == "AACCCUAGGCAGGGGAUCACUCGGCUCAUGGAUCGAUGAAGACCGCAGCUAAAUGCGCGUCAGAAUGUGAACUGCAGGACACAUGAACACCGACACGUUGAACGAUAUUGCGCAUUGCACGACUCAGUGCGAUGUACACAUUUUUGAGUGCCC"
+    assert rna_seq.ss == "........................................(((((((......))))........((.....(....).........)).......)))....((...).)(((((((((......))))))))).................."
