@@ -6,10 +6,11 @@ import os
 import tempfile
 import shutil
 import subprocess
-from rpt_config import VARNA_JAR_NAME, VARNA_PATH
+
+from .rpt_config import VARNA_JAR_NAME, VARNA_PATH
 
 
-def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
+def draw_ss(title, seq, ss, img_out, resolution=4, verbose=False):
     """Draw Secondary Structure using VARNA (you need correct configuration for this).
 
     If everything is OK, return None, if an error (=exception) return stderr.
