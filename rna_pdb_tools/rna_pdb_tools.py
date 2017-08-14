@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
@@ -30,7 +30,7 @@ def get_parser():
     version = version[1].strip()
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     #parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
-    
+
     parser.add_argument('--version', help='', action='version', version=version)
 
     parser.add_argument('-r', '--report', help='get report',
@@ -105,7 +105,7 @@ def get_parser():
 			dest="delete",
 			default='',
 			help="delete the selected fragment, e.g. A:10-16")
-    
+
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     # quick fix for one files vs file-s
     if list == type(args.file) and len(args.file) == 1:
         args.file = args.file[0]
-        
+
     if args.report:
         s = RNAStructure(args.file)
         print(s.get_report())
@@ -250,7 +250,7 @@ if __name__ == '__main__':
             s.prune_elements()
 
             rename_chains = False if args.dont_rename_chains else True
-            
+
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=True,
                                                 rename_chains=rename_chains, verbose=args.verbose)
 
@@ -271,7 +271,7 @@ if __name__ == '__main__':
                 output = ''
                 if not args.no_hr:
                     output += add_header(version) + '\n'
-                if remarks:    
+                if remarks:
                     output += '\n'.join(remarks) + '\n'
                 output += s.get_text() + '\n'
                 try:
@@ -282,7 +282,7 @@ if __name__ == '__main__':
         # hmm... fix for problem with renumbering, i do renumbering
         # and i stop here
         # i'm not sure that this is perfect
-        sys.exit(0) 
+        sys.exit(0)
 
     if args.renumber_residues:
         s = RNAStructure(args.file)
@@ -330,15 +330,15 @@ if __name__ == '__main__':
                     sys.stdout.flush()
                 except IOError:
                     pass
-                
+
     if args.un_nmr:
         pass
-    
+
     if args.is_pdb:
         s = RNAStructure(args.file)
         output = str(s.is_pdb())
         sys.stdout.write(output + '\n')
-        
+
     if args.un_nmr:
         s = RNAStructure(args.file)
         str(s.un_nmr())
@@ -350,7 +350,7 @@ if __name__ == '__main__':
 
     if args.edit:
         edit_pdb(args)
-        
+
     if args.fetch:
         fetch(args.file)
 

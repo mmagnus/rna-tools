@@ -50,7 +50,7 @@ try:
     from Bio.PDB import *
 except ImportError:
     print("Biopython is not detected. It is required for some functions.")
-    
+
 def get_version(currfn='', verbose=False): #dupa
     """Get version of the tool based on state of the git repository.
     Return version.
@@ -106,7 +106,7 @@ class RNAStructure:
 
     def is_pdb(self):
         """Return True if the files is in PDB format.
-        
+
         If self.lines is empty it means that nothing was parsed into the PDB format."""
         if len(self.lines):
             return True
@@ -123,7 +123,7 @@ class RNAStructure:
 
     def un_nmr(self, verbose=False):
         """Un NMR - Split NMR-style multiple model pdb files into individual models.
-        
+
         Take self.fn and create new files in the way::
 
             input/1a9l_NMR_1_2_models.pdb
@@ -139,7 +139,7 @@ class RNAStructure:
             io=PDBIO()
             io.set_structure(m)
             io.save(self.fn.replace('.pdb', '_%i.pdb' % c))
-        
+
     def is_mol2(self):
         """Return True if is_mol2 based on the presence of ```@<TRIPOS>```."""
         return self.mol2_format
@@ -179,7 +179,7 @@ class RNAStructure:
             l = l.replace('HETATM', 'ATOM  ')
             nlines.append(l)
         self.lines = nlines
-        
+
     def fix(self, outfn="", verbose=False):
         """Add missing heavy atom.
 
@@ -763,7 +763,7 @@ class RNAStructure:
                 l = self.set_atom_code(l, atom_name)
             nlines.append(l)
         self.lines = nlines
-        
+
     def prune_elements(self):
         nlines = []
         for l in self.lines:
@@ -892,11 +892,21 @@ class RNAStructure:
 
         missing = []
         fixed = []
+        protein_chains_remmoved = []
 
         new_chains = list(string.ascii_uppercase)
-        
+
         for chain in model.get_list():
             logger.debug('chain: %s' % chain)
+
+            # is it RNA? ############################
+            protein_like = 0
+            for c,r in enumerate(chain, 1):
+                if r.resname in AMINOACID_CODES:
+                    protein_like += 1
+            if (protein_like / float(c+1)) > .8 : # 90%
+                protein_chains_remmoved.append(chain.get_id())
+            # ######################################
 
             res = []
             for r in chain:
@@ -907,7 +917,7 @@ class RNAStructure:
             # start chains from A..BCD. etc
             if rename_chains:
                 chain.id = new_chains.pop(0)
-            
+
             c2 = PDB.Chain.Chain(chain.id)
 
             c = 1  # new chain, goes from 1 !!! if renumber True
@@ -1002,13 +1012,13 @@ class RNAStructure:
 
                     p_missing = False # off this function
 
-                
+
                     # save it
                     #io = PDB.PDBIO()
                     #io.set_structure( po3_struc )
                     #io.save("po3.pdb")
 
-                # 
+                #
                 # fix missing O2'
                 #
                 o2p_missing = True
@@ -1084,7 +1094,7 @@ class RNAStructure:
 
                             fixed.append(['add the whole base C', chain.id, r, c])
 
-                # 
+                #
                 # fix missing U (the whole base at the moment)
                 #
                 if str(r.get_resname()).strip() == "U" and fix_missing_atoms:
@@ -1122,7 +1132,7 @@ class RNAStructure:
                             r.add( U["C6"])
 
                             fixed.append(['add the whole base U', chain.id, r, c])
-                # 
+                #
                 # fix missing G (the whole base at the moment)
                 #
                 if str(r.get_resname()).strip() == "G" and fix_missing_atoms:
@@ -1163,7 +1173,7 @@ class RNAStructure:
                             r.add( G["C4"])
 
                             fixed.append(['add the whole base G', chain.id, r, c])
-                # 
+                #
                 # fix missing A (the whole base at the moment)
                 #
                 if str(r.get_resname()).strip() == "A" and fix_missing_atoms:
@@ -1293,7 +1303,11 @@ class RNAStructure:
             for i in missing:
                 remarks.append(' '.join(['REMARK 250   +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
             #raise Exception('Missing atoms in %s' % self.fn)
+
+        if protein_chains_remmoved:
+            remarks.append('REMARK 250 Chains that seem to be proteins removed and : ' + ' '.join(protein_chains_remmoved))
         #
+
         # fix ter 'TER' -> TER    1528        G A  71
         #
         s = RNAStructure(fout)
@@ -1311,16 +1325,14 @@ class RNAStructure:
                 atom_code = self.get_atom_code(l)
                 l = self.set_atom_code(l, atom_code)
             ##################################################################################
-            
+
             if l.startswith('TER'):
                 atom_l = self.lines[c-1]
-                #print 'TER    1528        G A  71 <<<'
-                new_l = 'TER'.ljust(80)
+                new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
                 new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
                 new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
                 new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
                 new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
-                #print new_l
                 nlines.append(new_l)
                 no_ters += 1
             else:
@@ -1330,7 +1342,7 @@ class RNAStructure:
             c += 1
         self.lines = nlines
         return remarks
-        
+
     def set_occupancy_atoms(self, occupancy):
         """
         :param occupancy:
@@ -1404,7 +1416,7 @@ class RNAStructure:
         """Delete file, self.fn"""
         os.remove(self.fn)
         if verbose: 'File %s removed' % self.fn
-        
+
 def add_header(version=None):
     now = time.strftime("%c")
     txt =  'REMARK 250 Model edited with rna-pdb-tools\n'
