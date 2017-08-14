@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 try:
-    import urllib2
+    import urllib3
 except:
-    print('BlastPDB requires urllib2')
+    print('BlastPDB requires urllib3')
 
 
 class BlastPDB:
@@ -17,7 +18,7 @@ class BlastPDB:
        >>> p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
        >>> p.search()
        >>> p.result  #doctest: +ELLIPSIS
-       '<HTML>\\n<TITLE>BLAST Search Results</TITLE>...
+       u'<HTML>\\n<TITLE>BLAST Search Results</TITLE>...
 
     :param seq: string
     """
@@ -28,9 +29,12 @@ class BlastPDB:
 
     def search(self):
         """Search online the seq."""
-        p = urllib2.urlopen('http://www.rcsb.org/pdb/rest/getBlastPDB1?sequence=' + self.seq +
-                            '&eCutOff=10.0&matrix=BLOSUM62&outputFormat=HTML')
-        self.result = p.read()
+        http = urllib3.PoolManager()
+        response = http.request('GET', 'http://www.rcsb.org/pdb/rest/getBlastPDB1?sequence=' +
+                                self.seq +
+                                '&eCutOff=10.0&matrix=BLOSUM62&outputFormat=HTML')
+        if response.status == 200:
+            self.result = response.data.decode()
 
 
 # main
