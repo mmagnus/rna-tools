@@ -1,6 +1,8 @@
 
 ## History
 
+170814 Python3 everywhere (at least it should be)
+
 170608 Add `--get_ss` (secondary structure) using x3dna.
 
 170518 Edit in place [experimental, only for `get_rnapuzzle_ready`] `rna_pdb_tools.py --rpr 7_Das_7_rpr.pdb --inplace`. (2) get a structure in org-mode format <sick!>
