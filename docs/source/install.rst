@@ -12,7 +12,7 @@ The first step is "zero" because not all requirments are needed to start working
 
 To install the full set of requirements, use ``pip``:
 
-0. ``pip install -r docs/requirements.txt``
+0. ``pip3 install -r docs/requirements.txt``
 
 and install the package itself in three steps:
 
