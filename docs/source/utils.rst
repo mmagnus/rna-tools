@@ -232,12 +232,6 @@ and it works with VARNA:
 .. automodule:: rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
    :members:
 
-Secondary structure (secstruc)
------------------------------------------
-
-.. automodule:: rna_pdb_tools.utils.secstruc.secstruc
-   :members:
-
 x3DNA (contacts classification & secondary structure detection)
 -----------------------------------------
 
