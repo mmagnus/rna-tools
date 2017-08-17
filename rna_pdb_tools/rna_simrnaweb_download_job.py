@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 
 """Download model files, trajectory for a given SimRNAweb job::
 
@@ -48,6 +48,7 @@ sys.tracebacklimit = 0
 class SimRNAwebError(Exception):
     pass
 
+
 def extract100(args):
     if args.extract100:
         os.system('rna_simrna_lowest.py *_ALL.trafl')
@@ -73,7 +74,7 @@ def add_prefix(args):
 
 def more_clusters(args):
     if args.more_clusters:
-        print 'more clusters'
+        print('more clusters')
         url = "http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/processing_results/"
         response = http.request('GET', url)
         if not response.status == 200:
@@ -83,7 +84,7 @@ def more_clusters(args):
         for l in html.split('\n'):
             if 'clust04.trafl' in l or 'clust05.trafl' in l:
                 fn = l.split('"')[1]
-                print fn
+                print(fn)
 
                 # shorten names
                 nfn = fn.replace("-000001", '').replace('_AA',

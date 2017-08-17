@@ -129,7 +129,7 @@ if __name__ == '__main__':
         else:
             d['done'].append('[ ]')
             if v:
-                print '# @cluster:', out
+                print('# @cluster:', out)
             ##cmd = 'kill '
             # print cmd
 

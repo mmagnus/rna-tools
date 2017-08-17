@@ -1,10 +1,8 @@
-#!/usr/bin/env python
-from __future__ import print_function
-
+#!/usr/bin/env python3
 import subprocess
 import tempfile
 
-from Seq import RNASequence
+from .Seq import RNASequence
 from rpt_config import RFAM_DB_PATH
 
 

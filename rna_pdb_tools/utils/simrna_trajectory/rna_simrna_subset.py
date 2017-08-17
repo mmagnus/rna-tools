@@ -1,4 +1,4 @@
-from simrna_trajectory import SimRNATrajectory
+from .simrna_trajectory import SimRNATrajectory
 
 if __name__ == '__main__':
     fn_trafl = 'test_data/mini.trafl'

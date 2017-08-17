@@ -5,7 +5,7 @@ By default: cluster 1% and give 5 clusters
 
 .. warning :: clustering has to be visiable in your shell by the script!"""
 
-from simrna_trajectory import SimRNATrajectory
+from .simrna_trajectory import SimRNATrajectory
 import argparse
 import os
 

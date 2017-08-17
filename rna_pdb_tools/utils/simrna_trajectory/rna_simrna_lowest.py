@@ -4,7 +4,7 @@
 Select lowest energy frames out of a SimRNA trajectory file.
 This code uses heavily the SimRNATrajectory class. Be default 100 lowest energy frames is exported."""
 
-from simrna_trajectory import SimRNATrajectory
+from .simrna_trajectory import SimRNATrajectory
 import argparse
 
 

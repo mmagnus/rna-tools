@@ -1,4 +1,4 @@
-from simrna_trajectory import SimRNATrajectory
+from .simrna_trajectory import SimRNATrajectory
 
 
 def test():
