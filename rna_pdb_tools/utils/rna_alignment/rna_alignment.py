@@ -370,7 +370,8 @@ class RNAalignment(object):
             response = http.request('GET', 'http://rfam.xfam.org/family/' +
                                     fetch + '/alignment/stockholm?gzip=1&download=1')
             if not response.status == 200:
-                raise RFAMFetchError("The alignment could not be downloaded. Please check the RFAM id that you requested! (don't put .stk etc in the id)")
+                raise RFAMFetchError(
+                    "The alignment could not be downloaded. Please check the RFAM id that you requested! (don't put .stk etc in the id)")
             with open(fetch + '.stk.gz', 'wb') as f:
                 f.write(response.data)
             with gzip.open(fetch + '.stk.gz', 'rb') as f:
@@ -725,7 +726,7 @@ class RNAalignment(object):
     def describe(self):
         """Describe the alignment.
 
-           >>> print(a.describe())
+           > print(a.describe())
            SingleLetterAlphabet() alignment with 13 rows and 82 columns
 
         """
@@ -733,6 +734,27 @@ class RNAalignment(object):
 
     def remove_empty_columns(self, verbose=False):
         """Remove empty columns in place.
+
+        Example::
+
+            >>> a = RNAalignment("test_data/zmp.stk")
+            >>> print(a)
+            SingleLetterAlphabet() alignment with 6 rows and 319 columns
+            ---ACCUUGCGCGACUGGCGAAUCC-------------------...AAU CP001644.1/756294-756165
+            --GCUCUCGCGCGACUGGCGACUUUG------------------...GAA CU234118.1/352539-352459
+            UGAGUUUUCUGCGACUGACGGAUUAU------------------...CUG BAAV01000055.1/2897-2982
+            GCCCGUUCGCGUGACUGGCGCUAGU-------------------...CGA CP000927.1/5164264-5164343
+            -----GGGUCGUGACUGGCGAACA--------------------...--- zmp
+            UCACCCCUGCGUGACUGGCGAUA---------------------...GUU AP009385.1/718103-718202
+            >>> a.remove_empty_columns()
+            >>> print(a)
+            SingleLetterAlphabet() alignment with 6 rows and 138 columns
+            ---ACCUUGCGCGACUGGCGAAUCC-UGAAGCUGCUUUG-AGCG...AAU CP001644.1/756294-756165
+            --GCUCUCGCGCGACUGGCGACUUUG------------------...GAA CU234118.1/352539-352459
+            UGAGUUUUCUGCGACUGACGGAUUAU------------------...CUG BAAV01000055.1/2897-2982
+            GCCCGUUCGCGUGACUGGCGCUAGU-------------------...CGA CP000927.1/5164264-5164343
+            -----GGGUCGUGACUGGCGAACA--------G-----------...--- zmp
+            UCACCCCUGCGUGACUGGCGAUA--------GAACCCUCGGGUU...GUU AP009385.1/718103-718202
 
         go over all seq
         modifes self.nss_cons"""
@@ -932,7 +954,6 @@ class RNAalignment(object):
                 tss += s
         return trf, tss
 
-
     def get_distances(self):
         """Get distances (seq identity) all-vs-all.
 
@@ -961,12 +982,14 @@ class RNAalignment(object):
         dist = self.get_distances()
         distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
         minimal = min(distConSeq)
+
         index = dist['ConSeq'].index(minimal)
         #id = dist.names[index]
         if verbose:
-            print('dist:', str(dist))
+            print('dist:\n', str(dist))
             print('distConSeq:', dist['ConSeq'])
         return self[index]
+
 
 class CMAlign():
     """CMAalign class around cmalign (of Inferal).
@@ -1290,21 +1313,22 @@ if __name__ == '__main__':
     ## a = RNAalignment('test_data/test_data/RF02221.stockholm.sto')
     ## a + RNASeq('ConSeq', '-A-GU-AGAGUA-GGUCUUAUACGUAA-----------------AGUG-UCAUCGGA-U-GGGGAGACUUCCGGUGAACGAA-G-G-----------------------------GUUA---------------------------CCGCGUUAUAUGAC-C-GCUUCCG-CUA-C-U-','')
     ## dist = a.get_distances()
-    ## distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
+    # distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
     ## minimal = min(distConSeq)
     ## index = dist['ConSeq'].index(minimal)
-    ## print(dist.names[index])
+    # print(dist.names[index])
 
-    a = RNAalignment("test_data/RF02221.stockholm.sto")
+    a = RNAalignment("test_data/dist_test2.stk")
     rep = a.get_the_closest_seq_to_ref_seq()
     rep.remove_gaps()
     print(rep)
     print(rep.ss)
     print(rep.seq)
 
-    #a.write('tmp.stk')
-    ## s.remove_gaps()
-    ## print(s.seq)
-    ## print(s.ss)
+    # a.write('tmp.stk')
+    # s.remove_gaps()
+    # print(s.seq)
+    # print(s.ss)
+
     import doctest
     doctest.testmod()
