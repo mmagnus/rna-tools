@@ -120,10 +120,6 @@ cd ./utils/rnashape2ascii/
 ./test.sh
 cd ../..
 
-cd ./utils/simrna_trajectory
-./test.sh
-cd ../..
-
 cd ./utils/rna_pdb_edit_occupancy_bfactor
 ./test.sh
 cd ../..
