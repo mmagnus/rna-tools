@@ -4,7 +4,7 @@
 
 After this script, run::
 
-    rna_cal_rmsd_trafl_plot.py rmsd.txt 
+    rna_cal_rmsd_trafl_plot.py rmsd.txt
 
 to get a plot like this:
 
@@ -44,15 +44,16 @@ and run::
 from __future__ import print_function
 import argparse
 import sys
-import commands
 import os
 import itertools
 import subprocess
 
+
 class ExceptionRmsdCalcTrafl(Exception):
     pass
 
-##  Settings
+
+# Settings
 try:
     from config_local import calc_rmsd_to_1st_frame_exec
 except ImportError:
@@ -64,36 +65,38 @@ def add_to_trafl(trafl, struc_trafl):
     """Take trafl and struc_trafl and merge it into trafl (out_trafl).
 
     Args:
-    
+
          trafl: trafl filename
          struc_trafl: struc_trafl filename (SimRNA trafl file of one structure)
-         
+
     Returns:
 
          str: out_trafl, a path to an output file
     """
     print('\nadd_to_trafl')
     struc = open(struc_trafl).read().strip()
-    #print struc
-    #print struc
+    # print struc
+    # print struc
     nr_of_files_structure = len(struc.split('\n'))
-    assert(nr_of_files_structure == 2, 'Structure should be in SimRNA trajectory format (with only one frame)')
+    assert(nr_of_files_structure == 2,
+           'Structure should be in SimRNA trajectory format (with only one frame)')
     print(' input struc: and # of frames (should be only 2!)', struc_trafl, nr_of_files_structure)
     trafl_txt = open(trafl).read().strip()
     print(' add the structure to this trafl: and # of frames', trafl, len(trafl_txt.split('\n')))
 
-    #if len(struc.split('\n')) != len(trafl_txt.split('\n')):
+    # if len(struc.split('\n')) != len(trafl_txt.split('\n')):
     #    raise Exception('# of atoms in structure != # of atoms in trafl')
-               
-    #out_trafl = '/archive/magnus/rmsd_calc_trafl_tmp/' + os.path.basename(trafl) + "_" + os.path.basename(struc_trafl) # temp hack
-    #out_trafl = '/archive/magnus/rmsd_calc_trafl_tmp/' + os.path.basename(trafl) + "_" + os.path.basename(struc_trafl) # temp hack
+
+    # out_trafl = '/archive/magnus/rmsd_calc_trafl_tmp/' + os.path.basename(trafl) + "_" + os.path.basename(struc_trafl) # temp hack
+    # out_trafl = '/archive/magnus/rmsd_calc_trafl_tmp/' + os.path.basename(trafl) + "_" + os.path.basename(struc_trafl) # temp hack
     out_trafl = trafl + "_" + os.path.basename(struc_trafl)
     f = open(out_trafl, 'w')
     f.write(struc + '\n' + trafl_txt)
     f.close()
-    
+
     print(' saved:', out_trafl)
     return out_trafl
+
 
 def calc_rmsd_to_1st_frame(trafl):
     """Calc rmsd to the 1st frame of a trafl.
@@ -106,14 +109,16 @@ def calc_rmsd_to_1st_frame(trafl):
     print(' calc_rmsd_to_1st_frame')
     print('  ', cmd)
 
-    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=sys.stdout.flush())#subprocess.PIPE)
+    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
+                         stderr=sys.stdout.flush())  # subprocess.PIPE)
     out = o.stdout.read().strip()
     #err = o.stderr.read().strip()
-    #if 'warning' in err:
+    # if 'warning' in err:
     #    print('!!! error in reading a trafl', err, out)
     #    sys.exit(0)
     print(' rmsd_out:', rmsd_out)
     return rmsd_out
+
 
 def head_trafl(trafl, n):
     """ n number of structures, so an output file will have n x 2 lines"""
@@ -133,14 +138,16 @@ def head_trafl(trafl, n):
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('trafl', help="trafil")
     parser.add_argument('struc1', help="structure A")
     parser.add_argument('struc2', help="structure B")
     parser.add_argument('rmsds_fn', help="output file")
     return parser
 
-#main
+
+# main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
@@ -175,20 +182,20 @@ if __name__ == '__main__':
     fo = open(rmsds_fn, 'w')
 
     # header
-    fo.write(os.path.basename(struc1) + '\t' + os.path.basename(struc2) + '\n') #fo.write('smk_ready_samsoaked_chainB' + '\t' + 'smk_ready_samsoaked_chainA+SAM' + '\n') #th.basename(struc1).replace(' + '\t' + os.path.basename(struc2) + '\n')    
+    # fo.write('smk_ready_samsoaked_chainB' + '\t' + 'smk_ready_samsoaked_chainA+SAM' + '\n') #th.basename(struc1).replace(' + '\t' + os.path.basename(struc2) + '\n')
+    fo.write(os.path.basename(struc1) + '\t' + os.path.basename(struc2) + '\n')
 
     for item in itertools.izip(rmsd1, rmsd2):
-        x = str(item).split() # ('  0.000 -502.973', '  0.000 -496.943')
-        #print x #["('", '0.000', "-502.973',", "'", '0.000', "-496.943')"]
+        x = str(item).split()  # ('  0.000 -502.973', '  0.000 -496.943')
+        # print x #["('", '0.000', "-502.973',", "'", '0.000', "-496.943')"]
         if x[0] == "('',":
-            break;
+            break
         r1 = float(x[1])
         r2 = float(x[4])
-        #print r1, r2
-        if r1 == 0 and r2 == 0: # skip 0 0
+        # print r1, r2
+        if r1 == 0 and r2 == 0:  # skip 0 0
             continue
         fo.write(str(r1) + '\t' + str(r2) + '\n')
         c += 1
     fo.close()
     print(' < out:', rmsds_fn)
-     

@@ -5,7 +5,7 @@ rm bin/*
 curr_dir=$(pwd)
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd/rna_calc_rmsd.py $curr_dir/bin/rna_calc_rmsd.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py $curr_dir/bin/rna_calc_rmsd_all_vs_all.py
-ln -s $curr_dir/rna_pdb_tools/rna_pdb_tools.py $curr_dir/bin/rna_pdb_tools.py
+ln -s $curr_dir/rna_pdb_tools/rna_pdb_toolsx.py $curr_dir/bin/rna_pdb_toolsx.py
 ln -s $curr_dir/rna_pdb_tools/utils/diffpdb/diffpdb.py $curr_dir/bin/diffpdb
 ln -s $curr_dir/rna_pdb_tools/utils/clanstix/rna_clanstix.py $curr_dir/bin/rna_clastix.py
 

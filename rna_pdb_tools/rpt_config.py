@@ -23,6 +23,6 @@ else:
     QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
 try:
-    from rpt_config_local import *
+    from rna_pdb_tools.rpt_config_local import *
 except ImportError:
     pass

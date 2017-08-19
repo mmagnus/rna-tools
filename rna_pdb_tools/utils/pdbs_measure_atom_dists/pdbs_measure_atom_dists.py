@@ -6,10 +6,8 @@ It measures the distance between the relevan atoms (C4') for nucleotides defined
 sequence alignment.
 
 author: F. Stefaniak, modified by A. Zyla,  supervision of mmagnus
-
 """
-
-
+from __future__ import print_function
 from Bio.PDB import PDBParser
 from scipy.spatial import distance
 from Bio.SeqRecord import SeqRecord
@@ -168,4 +166,4 @@ if __name__ == '__main__':
     # struc = renumber(seq_with_gaps, pdb, args.residue_index_start)
     # write_struc(struc, args.outfn)
     for i in stats:
-        print sep.join(i)
+        print(sep.join(i))

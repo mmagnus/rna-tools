@@ -64,7 +64,7 @@ Notes::
    rp17hc 6 charactes.
 
 """
-
+from __future__ import print_function
 import argparse
 import textwrap
 import os
@@ -167,7 +167,7 @@ def prepare_helices():
         p.wait()
         stderr = p.stderr.read().strip()
         if stderr:
-            print stderr
+            print(stderr)
 
 
 def prepare_rosetta(header, cpus, nstruc):
@@ -196,7 +196,7 @@ def prepare_rosetta(header, cpus, nstruc):
     # 50 * 100 = 10k ?
     # dont change this 100 (!) it might not run on peyote2 with values like 99999 !
     cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6]
-    print cmd
+    print(cmd)
     os.system(cmd)
 
 
