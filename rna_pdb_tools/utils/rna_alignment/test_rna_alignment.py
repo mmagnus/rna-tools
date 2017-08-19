@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-from rna_alignment import RNAalignment, RNASeq
+from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment, RNASeq
+
 
 def _test_remove_gaps():
     a = RNAalignment('test_data/RF00167.stockholm.sto')
@@ -68,6 +69,7 @@ def test_AdoCblvariant():
     seq.ss == "..(............((((....(((((.......)))))[[(((.<<<))).(((........]])))....))))....).............((((...(((.>>>....)))..))))............"
     seq.seq == "CAUACUACAGGAGUAGUGGGAAAUAAUGUGUAAAUCAUUGGCUGUACUCGCAACGGUAAAAAAAGCCCGGAAACCACAUAAAGUAUACCACUGUUGGAUGAAGACCGAGAAAAGUCACGUUCCACAAUUUUCAU"
 
+
 def test_mtRNA():
     ra = RNAalignment(fetch="RF01849")
     seq = ra[0]
@@ -81,5 +83,5 @@ def test_mtRNA():
 def test_append():
     a = RNAalignment('test_data/RF01831.short.stk')
     assert a.describe() == "SingleLetterAlphabet() alignment with 14 rows and 179 columns"
-    a + RNASeq('rna', '-A-GU-AGAGUA-GGUCUUAUACGUAA-----------------AGUG-UCAUCGGA-U-GGGGAGACUUCCGGUGAACGAA-G-G-----------------------------GUUA---------------------------CCGCGUUAUAUGAC-C-GCUUCCG-CUA-C-U-','')
+    a + RNASeq('rna', '-A-GU-AGAGUA-GGUCUUAUACGUAA-----------------AGUG-UCAUCGGA-U-GGGGAGACUUCCGGUGAACGAA-G-G-----------------------------GUUA---------------------------CCGCGUUAUAUGAC-C-GCUUCCG-CUA-C-U-', '')
     assert a.describe() == "SingleLetterAlphabet() alignment with 15 rows and 179 columns"

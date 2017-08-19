@@ -15,7 +15,7 @@ import tempfile
 import shutil
 import subprocess
 
-from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 import logging
 logger = logging.getLogger('rna-pdb-tools')
