@@ -5,10 +5,10 @@ from __future__ import print_function
 import commands
 
 if __name__ == '__main__':
-    start_tag= "[mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_tools.py -h"
-    end_tag="  --delete DELETE"
+    start_tag = "[mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_toolsx.py -h"
+    end_tag = "  --delete DELETE"
     #
-    doc = commands.getoutput('python rna_pdb_tools.py -h')
+    doc = commands.getoutput('python rna_pdb_toolsx.py -h')
     print(doc)
     fn = ''
     f = open('../README.md', 'r')

@@ -8,7 +8,7 @@
 		<meta name="author" content="Hakim El Hattab">
 
 		<link rel="shortcut icon" href="tour-icon.png" type="image/x-icon" />
-		
+
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -40,7 +40,7 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-			
+
 			  <section>
 			    <h1><code>rna-pdb-tools</code></h1>
 			    <h3>Why do you need this?</h3>
@@ -51,7 +51,7 @@
 
 <section>
   <section>
-    <h2>rna_pdb_tools.py</h2>
+    <h2>rna_pdb_toolsx.py</h2>
     <p>Too many PDB "formats"?</p>
     <pre><code>ATOM      1  P     C A   1     -29.720 -19.750   3.190  1.00183.16           P
 ATOM      2  OP1   C A   1     -28.490 -20.280   2.531  1.00180.35           O
@@ -67,7 +67,7 @@ ATOM      9  O3'   C A   1     -30.025 -23.403   0.309  1.00171.18           O
   </section>
 
   <section>
-    <h2>rna_pdb_tools.py</h2>
+    <h2>rna_pdb_toolsx.py</h2>
     <p>get info on missing atoms</p>
     <pre><code>$ rna-pdb-tools.py --get_rnapuzzle_ready 5k7c_clean_onechain_renumber_as_puzzle_rpr.pdb
 
@@ -83,10 +83,10 @@ ATOM      3  OP2   C A   1     -29.638 -18.728   4.275  1.00185.39           O
 ATOM      4  O5'   C A   1     -30.685 -20.928   3.695  1.00186.30           O
 ATOM      5  C5'   C A   1     -30.499 -22.286   3.303  1.00184.69           C
     </code></pre>
-</section>    
+</section>
 
 <section>
-    <h2>rna_pdb_tools.py</h2>
+    <h2>rna_pdb_toolsx.py</h2>
 <pre><code>$ struc for i in `ls *.pdb`;
         do rna-pdb-tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb};
 done
@@ -122,8 +122,8 @@ ATOM      6  C4'   C A   1      21.346  12.915  62.095  1.00  0.00           C
 </section>
 
 <section>
-    <h2>rna_pdb_tools.py</h2>
-<pre><code>$ 
+    <h2>rna_pdb_toolsx.py</h2>
+<pre><code>$
 
 rna-pdb-tools.py -h
 usage: rna-pdb-tools.py ver: 37c5b4e-dirty [-h] [-r] [-c]
@@ -222,9 +222,9 @@ diffpdb --names_and_resi 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb clusters
 
 <section>
   <h2># of atoms</h2>
-  <img style="height:60%" src="pngs/rp17_atoms.png">  
+  <img style="height:60%" src="pngs/rp17_atoms.png">
 </section>
-   
+
 <section>
   <h2>Calc rmsd</h2>
   (clusters/pistol_thrs0.50A_clust01-000001_AA.pdb)
@@ -273,7 +273,7 @@ csv was created!  rmsds.csv
       --model_selection A:1-48+52-63
       --target_ignore_selection A/57/O2\'
       clusters/*_AA.pdb
-      
+
 rmsd_calc_rmsd_to_target
 --------------------------------------------------------------------------------
   target_selection:  A:1-48+52-63
@@ -353,7 +353,7 @@ Frame #1 e:1252.26
   mb for A1 [ 54.729   28.9375  41.421 ]
    d:A2-A1 6.58677550096
       </code>
-    </pre>      
+    </pre>
 
   </section>
 
@@ -380,14 +380,14 @@ Frame #1 e:1252.26
   <section>
     <h3>example: the Pistol ribozyme</h3>
     <p>(RNA Puzzle #17)</p>
-    <img src="pngs/rna1.png">    
+    <img src="pngs/rna1.png">
   </section>
   <section>
     <p><pre><code>PyMOL rp</code></pre></p>
     <img src="pngs/rna2.png">
   </section>
   <section>
-    <p><pre><code>PyMOL rp17</code></pre></p>    
+    <p><pre><code>PyMOL rp17</code></pre></p>
     <img src="pngs/rna3.png">
   </section>
   <section>
@@ -399,10 +399,10 @@ def rp17():
  color grey, resi 17-24
  ..."""
 color_by_text(txt)
-</code></pre></p>    
+</code></pre></p>
   </section>
 </section>
-     
+
 <section>
   <section>
     <h2>PyMOL drawing</h2>
@@ -422,7 +422,7 @@ x2, y2,z2 = 55.342, 35.3605, 42.745
 draw_vector(x1,y1,z1,x2,y2,z2) # colored from blue to red
 </code></pre>
 <img src="pngs/draw_vector.png">
-  </section>       
+  </section>
 
   <section>
     <pre><code>x, y,z = 55.342, 35.3605, 42.745
@@ -430,7 +430,7 @@ radius = .1
 draw_circle(x,y,z,radius)
 </code></pre>
 <img src="pngs/draw_circle.png">
-  </section>       
+  </section>
 </section>
 
 
@@ -441,7 +441,7 @@ draw_circle(x,y,z,radius)
 </li>
 <li>
   <a href="https://github.com/mmagnus/rna-pdb-tools">https://github.com/mmagnus/rna-pdb-tools</a>
-</li>  
+</li>
 </section>
 
 </div>

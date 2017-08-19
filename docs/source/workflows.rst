@@ -35,10 +35,10 @@ but analyzed structres are like::
 	 10       19          bp U A                 WH_tran   0.7279
 	 11       18          bp A G                 HS_tran   0.8810
 	 12       17          bp C G                  WW_cis   0.9115
-	
+
 You have to renumber 1msy_clean.pdb to 1:27::
 
-    $ rna_pdb_tools.py --edit 'A:2647-2673>A:1:17' 1msy_clean.pdb > 1msy_clean_renumb.pdb
+    $ rna_pdb_toolsx.py --edit 'A:2647-2673>A:1:17' 1msy_clean.pdb > 1msy_clean_renumb.pdb
 
 .. image:: ../pngs/edit.png
 
@@ -46,24 +46,24 @@ Example #2
 -----------------------------------------------------------------------
 
 Listing:
-  
+
 .. code-block:: console
-		
-    $ rna_pdb_tools.py --get_seq 1nuj_rnakbmd_decoy1000_clx.pdb
+
+    $ rna_pdb_toolsx.py --get_seq 1nuj_rnakbmd_decoy1000_clx.pdb
     > 1nuj_rnakbmd_decoy1000_clx.pdb A:1-13
     CGGACCGAGCCAG
     > 1nuj_rnakbmd_decoy1000_clx.pdb B:14-24
     GCUGGGAGUCC
 
-    $ rna_pdb_tools.py --get_seq 1nuj_clean.pdb
+    $ rna_pdb_toolsx.py --get_seq 1nuj_clean.pdb
     > 1nuj_clean.pdb A:18-30
     CGGACCGAGCCAG
     > 1nuj_clean.pdb B:39-49
     GCUGGGAGUCC
 
-    $ rna_pdb_tools.py --edit 'A:18-30>A:1-13,B:39-49>B:14-24' 1nuj_clean.pdb > 1nuj_clean_renumber.pdb
+    $ rna_pdb_toolsx.py --edit 'A:18-30>A:1-13,B:39-49>B:14-24' 1nuj_clean.pdb > 1nuj_clean_renumber.pdb
 
-    $ rna_pdb_tools.py --get_seq 1nuj_clean_renumber.pdb
+    $ rna_pdb_toolsx.py --get_seq 1nuj_clean_renumber.pdb
     > 1nuj_clean_renumber.pdb A:1-13
     CGGACCGAGCCAG
     > 1nuj_clean_renumber.pdb B:14-24
@@ -73,9 +73,9 @@ Example #3
 ------------------------------------------------------------------------
 
 Starting structure doesn't have chain id:
- 
+
 .. code-block:: console
-		  
+
   # add chain A
   $ parallel "rna_add_chain.py -c A {} > ../struc_with_chain/{}" ::: *.pdb
   # edit the second part of the new chain A as B
@@ -106,7 +106,7 @@ To see more you can run `diffpdb`.
 
 you see that something is wrong. To fix it, run::
 
-   rna_pdb_tools.py --rpr --inplace *.pdb
+   rna_pdb_toolsx.py --rpr --inplace *.pdb
    93% (15 of 16) |########################################################################################################################         | Elapsed Time: 0:00:03 ETA: 0:00:00
 
 

@@ -6,12 +6,12 @@ Run in batch
 ============
 
 You can easily run a single tool in batch and rename new files::
-  
-    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+
+    $ for i in *.pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
 
 or write new files in a different folder (`out`)::
 
-    $ for i in *.pdb; do rna_pdb_tools.py --get_rnapuzzle_ready $i > ../out/$i; done
+    $ for i in *.pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i > ../out/$i; done
 
 You can also easily run a single tool parallel using parallel_::
 
@@ -24,7 +24,7 @@ Using sed
 sed (stream editor) is a Unix utility that parses and transforms text, using a simple, compact programming language.
 
 You can used sed to find & replace parts of text files::
-  
+
     $ head 1msy_rnakbmd_decoy1661_clx.pdb.outCR
     Classifier: Clarna
     chains:  1 27
@@ -36,7 +36,7 @@ You can used sed to find & replace parts of text files::
          9       10          bp G U                  SH_cis   0.8563
         10       19          bp U A                 WH_tran   0.7826
         11       18          bp A G                 HS_tran   0.7620
-        
+
     $ sed 's/chains: /chains: A/' 1msy_rnakbmd_decoy1661_clx.pdb.outCR
     Classifier: Clarna
     chains: A 1 27
@@ -69,7 +69,7 @@ To renumber a fragment starting with 24 to 29, select the fragment and::
 
 	PyMOL>alter (sele), resv += 5
 	 Alter: modified 109 atoms.
- 
+
 To renumber residues::
 
 	PyMOL>alter (chain B), resv -= 44
@@ -136,7 +136,6 @@ Numbering line used in my flat-file notes
 ======================
 
 Numbering::
-   
+
    |1.......|10.......|20.......|30.......|40.......|50.......|60.......|70.......|80.......|90.......
    123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789
-
