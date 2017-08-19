@@ -50,7 +50,7 @@ import tempfile
 import sys
 
 
-from rpt_config import CONTEXTFOLD_PATH
+from rna_pdb_tools.rpt_config import CONTEXTFOLD_PATH
 
 
 class MethodNotChosen(Exception):
@@ -107,19 +107,23 @@ class RNASequence(object):
             CCCCUUUGGG
             .(((...)))
 
+
         RNAstructure::
 
+            >>> seq = RNASequence("GGGGUUUUCCC")
+            >>> print(seq.predict_ss("rnastructure"))
             >  ENERGY = -4.4  rna_seq
             GGGGUUUUCCC
             ((((...))))
 
-        and with the shape data:
+        and with the shape data::
 
+            >>> print(seq.predict_ss("rnastructure", shapefn="data/shape.txt"))
             >  ENERGY = -0.2  rna_seq
             GGGGUUUUCCC
             .(((....)))
 
-        the shape data:
+        the shape data::
 
             1 10
             2 1
