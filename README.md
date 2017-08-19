@@ -1,9 +1,7 @@
 rna-pdb-tools
 =================
 
-<p style="text-center">
-Beta: this is still under development, at the moment, because of our new db http://genesilico.pl/RNArchitecture we are in stage of mixed Python2 and Python3. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.
-</p>
+<p align="center"><b>Beta: this is still under development, at the moment, because of our new db http://genesilico.pl/RNArchitecture we are in stage of mixed Python2 and Python3. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.</b></p>
 
 Look for other our projects at https://github.com/RNA-Puzzles
 
