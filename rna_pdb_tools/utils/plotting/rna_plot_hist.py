@@ -18,7 +18,7 @@ Example::
 .. image:: ../../rna_pdb_tools/utils/plotting/test_data/rmsds_hist.png
 
 """
-
+from __future__ import print_function
 import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     fn = args.file
     df = pd.read_csv(args.file, sep=args.sep)
-    print df.head()
+    print(df.head())
 
     if not args.column:
         print('Set column')

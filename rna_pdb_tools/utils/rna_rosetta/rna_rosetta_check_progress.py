@@ -12,7 +12,10 @@ Example::
 
 """
 from __future__ import print_function
-import commands
+import subprocess
+from future import standard_library
+standard_library.install_aliases()
+
 import os
 import pandas as pd
 import glob
@@ -74,14 +77,15 @@ if __name__ == '__main__':
 
         dirs = []
         # Uff.. this is crazy.
-        for c in ['_', '__', '___', 'x', 'y', 'z', 'X', 'Y', 'Z', 'o', 'out'] + ['r' + str(i) for i in range(0, 1000)]:
+        for c in ['_', '__', '___', 'x', 'y', 'z', 'X', 'Y', 'Z', 'o', 'out'] + \
+                ['r' + str(i) for i in range(0, 1000)]:
             if os.path.exists(c):
                 dirs.append(c)
         # print ' ', j, '', dirs
         cmd = EASY_CAT_PATH + ' ' + ' '.join(dirs)
         if v:
             print(cmd)
-        out = commands.getoutput(cmd)
+        out = subprocess.getoutput(cmd)
         if out.strip():
             if len(j) <= 5:
                 if v:
@@ -101,15 +105,15 @@ if __name__ == '__main__':
         cmd = 'qstat | grep ' + os.path.basename(j)[:6] + ' | grep "  r  " | wc -l '
         if v:
             print(cmd)
-        out = commands.getoutput(cmd)  # aacy97r <- r
+        out = subprocess.getoutput(cmd)  # aacy97r <- r
         if v:
             print('@cluster #curr ', out, end="")
         curr = int(out)
         d['#curr'].append(curr)
 
         # check todo
-        out = commands.getoutput('qstat | grep ' + os.path.basename(j)
-                                 [:6] + ' | grep "  qw  " | wc -l ')
+        out = subprocess.getoutput('qstat | grep ' + os.path.basename(j)
+                                   [:6] + ' | grep "  qw  " | wc -l ')
         if v:
             print('#todo ', out, end="")
         todo = int(out)
@@ -130,7 +134,7 @@ if __name__ == '__main__':
             d['done'].append('[ ]')
             if v:
                 print('# @cluster:', out)
-            ##cmd = 'kill '
+            # cmd = 'kill '
             # print cmd
 
         os.chdir(curr_path)
@@ -138,7 +142,7 @@ if __name__ == '__main__':
     df = pd.DataFrame(d, columns=['jobs', '#curr', '#todo', '#decoys', 'done'])
     print(df)
 
-    out = commands.getoutput('qstat | grep magnus  | grep "  r  " | wc -l ')
+    out = subprocess.getoutput('qstat | grep magnus  | grep "  r  " | wc -l ')
     print('#curr ', out, end="")
-    out = commands.getoutput('qstat | grep magnus | grep "  qw  " | wc -l ')
+    out = subprocess.getoutput('qstat | grep magnus | grep "  qw  " | wc -l ')
     print('#todo ', out, end="")
