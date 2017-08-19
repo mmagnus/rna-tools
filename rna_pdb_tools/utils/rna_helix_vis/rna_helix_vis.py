@@ -6,7 +6,7 @@ Example::
     ./rna_helix_vis.py -p test_data/rp14_farna_eloop.out.1.pdb -s test_data/rp14.ss
     (((((.(((((....)))))..[.....((((((..........))))))....)))))].
 
-    >>>> copy below to pymol <<<<
+    /// copy below to pymol ///
     from pymol.cgo import *
     from pymol import cmd
     color red, resi 1+2+3+4+5+55+56+57+58+59
@@ -14,7 +14,7 @@ Example::
     color red, resi 29+30+31+32+33+34+45+46+47+48+49+50
     obj = [ CYLINDER, -4.89364,-21.9653,-24.0907,10.3337,-22.0812,-28.8867, 9, 1, 0, 0, 1,0,0, CYLINDER, 9.52677,-27.707,-35.113,4.12388,-23.5705,-48.3105, 9, 1, 0, 0, 1,0,0, CYLINDER, 3.48367,-49.4752,-18.6601,-12.6687,-57.1961,-17.8483, 9, 1, 0, 0, 1,0,0,]
     cmd.load_cgo(obj,'cgo01')
-    >>>> copy above to pymol <<<<
+    /// copy above to pymol ///
 
 .. image:: ../../rna_pdb_tools/utils/rna_helix_vis/doc/rna_helix_vis.png
 
@@ -26,15 +26,15 @@ required: forgi (https://github.com/pkerpedjiev/forgi)
 """
 import argparse
 import sys
+import six
 
 from rna_pdb_tools.utils.rna_bp.base_pair import *
-try:
-    import forgi.graph.bulge_graph as fgb
-except:
-    print('Run under Python 2')
-    sys.exit(0)
 
-bg = fgb.BulgeGraph()
+if six.PY2:
+    import forgi.graph.bulge_graph as fgb
+    bg = fgb.BulgeGraph()
+else:
+    print('Run under Python 2')
 
 
 class Helix:
@@ -122,7 +122,6 @@ def get_parser():
 
 
 if __name__ == '__main__':
-
     parser = get_parser()
     args = parser.parse_args()
 
@@ -135,7 +134,6 @@ if __name__ == '__main__':
     ss = open(args.ss).read().strip()
 
     print(ss)
-    print()
-    print('>>>> copy below to pymol <<<<')
+    print('/// copy below to pymol ///')
     show_cyliders(ss)
-    print('>>>> copy above to pymol <<<<')
+    print('/// copy above to pymol ///')
