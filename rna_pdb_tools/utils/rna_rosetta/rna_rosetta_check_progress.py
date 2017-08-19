@@ -11,7 +11,7 @@ Example::
     #curr  232 #todo  0
 
 """
-
+from __future__ import print_function
 import commands
 import os
 import pandas as pd
@@ -22,12 +22,12 @@ import argparse
 try:
     from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
 except:
-    print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
+    print('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
 
 try:
     from rna_pdb_tools.rpt_config import EASY_CAT_PATH
 except:
-    print ('Set up EASY_CAT_PATH in rpt_config_local.py')
+    print('Set up EASY_CAT_PATH in rpt_config_local.py')
 
 
 def get_parser():
@@ -85,16 +85,16 @@ if __name__ == '__main__':
         if out.strip():
             if len(j) <= 5:
                 if v:
-                    print out + '\t\t',
+                    print(out + '\t\t', end="")
             else:
                 if v:
-                    print out + '\t',
+                    print(out + '\t', end="")
             no_decoys = int(out.split()[-2])
         else:
             no_decoys = 0
 
         if v:
-            print '#', no_decoys
+            print('#', no_decoys)
 
         # check current running, only 6 char are taken from dir name
         # /home/magnus/rosetta_jobs/rp17s223 -> rp17s2199, rp17s2185
@@ -103,7 +103,7 @@ if __name__ == '__main__':
             print(cmd)
         out = commands.getoutput(cmd)  # aacy97r <- r
         if v:
-            print '@cluster #curr ', out,
+            print('@cluster #curr ', out, end="")
         curr = int(out)
         d['#curr'].append(curr)
 
@@ -111,7 +111,7 @@ if __name__ == '__main__':
         out = commands.getoutput('qstat | grep ' + os.path.basename(j)
                                  [:6] + ' | grep "  qw  " | wc -l ')
         if v:
-            print '#todo ', out,
+            print('#todo ', out, end="")
         todo = int(out)
         d['#todo'].append(todo)
 
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
         if no_decoys >= RNA_ROSETTA_NSTRUC:
             if v:
-                print '# @cluster:', out, ' < ............... OK'
+                print('# @cluster:', out, ' < ............... OK')
             d['done'].append('[x]')
             if args.kill:
                 cmd = 'qstat | grep ' + \
@@ -139,6 +139,6 @@ if __name__ == '__main__':
     print(df)
 
     out = commands.getoutput('qstat | grep magnus  | grep "  r  " | wc -l ')
-    print '#curr ', out,
+    print('#curr ', out, end="")
     out = commands.getoutput('qstat | grep magnus | grep "  qw  " | wc -l ')
-    print '#todo ', out,
+    print('#todo ', out, end="")
