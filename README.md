@@ -83,15 +83,15 @@ Take a tour http://mmagnus.github.io/rna-pdb-tools/#/
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_toolsx.py -h
 usage: rna_pdb_toolsx.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
-                        [--un_nmr] [--orgmode] [--get_chain GET_CHAIN]
-                        [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
-                        [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
-                        [--no_hr] [--renumber_residues] [--dont_rename_chains]
-                        [--dont_fix_missing_atoms]
-                        [--dont_report_missing_atoms] [--collapsed_view]
-                        [--cv] [-v] [--replace_hetatm] [--inplace]
-                        [--edit EDIT] [--delete DELETE]
-                        file [file ...]
+                         [--un_nmr] [--orgmode] [--get_chain GET_CHAIN]
+                         [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
+                         [--rosetta2generic] [--get_rnapuzzle_ready] [--rpr]
+                         [--no_hr] [--renumber_residues]
+                         [--dont_rename_chains] [--dont_fix_missing_atoms]
+                         [--dont_report_missing_atoms] [--collapsed_view]
+                         [--cv] [-v] [--replace_hetatm] [--inplace]
+                         [--edit EDIT] [--delete DELETE]
+                         file [file ...]
 
 rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
 
