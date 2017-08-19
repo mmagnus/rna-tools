@@ -1,7 +1,7 @@
 rna-pdb-tools
 =================
 
-**Beta: this is still under development**
+**Beta: this is still under development, at the moment, because of our new db http://genesilico.pl/RNArchitecture we are in stage of mixed Python2 and Python3. Contact me if you need help.**
 
 **We'll be adding features and possibly making breaking changes in future releases.**
 
