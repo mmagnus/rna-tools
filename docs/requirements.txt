@@ -10,3 +10,5 @@ urllib3
 pandas
 matplotlib
 scipy
+future
+six
