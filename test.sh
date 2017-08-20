@@ -1,4 +1,3 @@
-
 #!/bin/bash
 set -v
 export PYTHONPATH=$PYTHONPATH:$(pwd)

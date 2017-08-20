@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 
 """Download model files, trajectory for a given SimRNAweb job::

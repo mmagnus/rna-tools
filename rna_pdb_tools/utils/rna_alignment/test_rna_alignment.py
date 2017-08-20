@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment, RNASeq
 

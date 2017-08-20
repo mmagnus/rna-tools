@@ -1,10 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """SimRNATrajectory module.
 
-SimRNATrajectory / Frame / Residue / Atom"""
+SimRNATrajectory / Frame / Residue / Atom
+"""
 
-
+from __future__ import print_function
 from collections import deque
 import numpy as np
 import gc

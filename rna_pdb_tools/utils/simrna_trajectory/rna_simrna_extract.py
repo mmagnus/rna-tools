@@ -1,14 +1,13 @@
-#!/usr/bin/env python3
-
-"""Extract full atom structures from a SimRNA trajectory file.
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""rna_simrna_extra.py - extract full atom structures from a SimRNA trajectory file.
 
 Options:
 
   SIMRNA_DATA_PATH has to be properly defined in ``rpt_config_local``.
 
 """
-
-from .simrna_trajectory import SimRNATrajectory
+from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 import argparse
 import os
 

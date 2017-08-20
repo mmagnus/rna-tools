@@ -1,10 +1,13 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """rna_simrna_lowest.py
 
 Select lowest energy frames out of a SimRNA trajectory file.
-This code uses heavily the SimRNATrajectory class. Be default 100 lowest energy frames is exported."""
+This code uses heavily the SimRNATrajectory class. Be default 100 lowest energy frames is exported.
+"""
 
-from .simrna_trajectory import SimRNATrajectory
+from __future__ import print_function
+from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 import argparse
 
 
