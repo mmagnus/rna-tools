@@ -37,6 +37,7 @@ def get_parser():
                         help="""directory with rosetta runs, define by RNA_ROSETTA_RUN_ROOT_DIR_MODELING
 right now: \n""" + RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
     parser.add_argument('-v', '--verbose', action='store_true', help="be verbose")
+    parser.add_argument('-m', '--min-only', action='store_true', help="check only for mo folder")
     parser.add_argument('-k', '--kill', action='store_true', help="""kill (qdel) jobs if your reach
 limit (nstruc) of structure that you want, right now is %i structures""" % RNA_ROSETTA_NSTRUC)
     return parser
@@ -50,7 +51,8 @@ if __name__ == '__main__':
     # sys.argv[1] +
     # print jobs
 
-    jobs = [x for x in glob.glob(sys.argv[1] + '/*')]
+    jobs = [x for x in glob.glob(args.dir + '/*')]
+    print jobs
     if v:
         print(jobs)
 
@@ -73,28 +75,54 @@ if __name__ == '__main__':
             pass  # OSError: [Errno 20] Not a directory:
 
         dirs = []
-        # Uff.. this is crazy.
-        for c in ['_', '__', '___', 'x', 'y', 'z', 'X', 'Y', 'Z', 'o', 'out'] + ['r' + str(i) for i in range(0, 1000)]:
-            if os.path.exists(c):
-                dirs.append(c)
-        # print ' ', j, '', dirs
-        cmd = EASY_CAT_PATH + ' ' + ' '.join(dirs)
-        if v:
-            print(cmd)
-        out = commands.getoutput(cmd)
-        if out.strip():
-            if len(j) <= 5:
-                if v:
-                    print out + '\t\t',
-            else:
-                if v:
-                    print out + '\t',
-            no_decoys = int(out.split()[-2])
-        else:
-            no_decoys = 0
 
-        if v:
-            print '#', no_decoys
+        if not args.min_only:
+            # Uff.. this is crazy.
+            for c in ['_', '__', '___', 'x', 'y', 'z', 'X', 'Y', 'Z', 'o', 'out'] + ['r' + str(i) for i in range(0, 1000)]:
+                if os.path.exists(c):
+                    dirs.append(c)
+            # print ' ', j, '', dirs
+            cmd = EASY_CAT_PATH + ' ' + ' '.join(dirs)
+            if v:
+                print(cmd)
+            out = commands.getoutput(cmd)
+            if out.strip():
+                if len(j) <= 5:
+                    if v:
+                        print out + '\t\t',
+                else:
+                    if v:
+                        print out + '\t',
+                no_decoys = int(out.split()[-2])
+            else:
+                no_decoys = 0
+
+            if v:
+                print '#', no_decoys
+        else:
+            # # of minimized
+            RNA_ROSETTA_NSTRUC = 1600  # change expected !!!! pretty ugly
+            for c in ['mo']:
+                if os.path.exists(c):
+                    dirs.append(c)
+            # print ' ', j, '', dirs
+            cmd = EASY_CAT_PATH + ' ' + ' '.join(dirs)
+            if v:
+                print(cmd)
+            out = commands.getoutput(cmd)
+            if out.strip():
+                if len(j) <= 5:
+                    if v:
+                        print out + '\t\t',
+                else:
+                    if v:
+                        print out + '\t',
+                no_decoys = int(out.split()[-2])
+            else:
+                no_decoys = 0
+
+            if v:
+                print '#', no_decoys
 
         # check current running, only 6 char are taken from dir name
         # /home/magnus/rosetta_jobs/rp17s223 -> rp17s2199, rp17s2185
