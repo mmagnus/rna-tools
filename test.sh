@@ -1,3 +1,4 @@
+
 #!/bin/bash
 set -v
 export PYTHONPATH=$PYTHONPATH:$(pwd)
@@ -6,7 +7,7 @@ cd rna_pdb_tools
 
 python update_readme.py
 
-./pdb_pdb_tools_lib.py
+./rna_pdb_tools_lib.py
 
 ./rna_pdb_toolsx.py -h | tee rna_pdb_tools.out
 
@@ -19,6 +20,7 @@ python update_readme.py
 
 ## --get_chain
 ./rna_pdb_toolsx.py --get_chain A input/1xjr.pdb > output/1xjr_A_clx.pdb
+
 
 ## --clean
 ./rna_pdb_toolsx.py --no_hr --clean input/1a9l_NMR_1_2_models.pdb > output/1a9l_NMR_1_2_models_tool.pdb
@@ -42,7 +44,7 @@ python update_readme.py
 ./rna_pdb_toolsx.py --no_hr --rpr input/A_YG_A.pdb --renumber_residues > output/A_YG_A_renumbered.pdb
 ./rna_pdb_toolsx.py --no_hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pdb
 
-./rna_pdb_toolsx.py --no_hr --rpr input/4W90_protein_rna.pdb > output/4W90_protein_rna_onlyRNA.pdb
+#./rna_pdb_toolsx.py --no_hr --rpr input/4W90_protein_rna.pdb > output/4W90_protein_rna_onlyRNA.pdb
 
 ## --get_rnapuzzle_ready and --dont_rename_chains
 rna_pdb_toolsx.py --no_hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
