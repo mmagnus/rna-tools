@@ -30,6 +30,11 @@ def get_seq(alignfn, seqid):
        alignfn (str): a path to an alignment
        seqid   (str): seq id in an alignment
 
+    Usage::
+
+         >>> get_seq('file', 'seq')
+         dupa
+
     Returns:
          SeqRecord
     """
@@ -114,6 +119,9 @@ def get_parser():
 
 # main
 if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+
     args = get_parser().parse_args()
 
     if args.verbose:
