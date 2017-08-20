@@ -32,8 +32,8 @@ def get_seq(alignfn, seqid):
 
     Usage::
 
-         >>> get_seq('file', 'seq')
-         dupa
+        >>> get_seq('test_data/ALN_OBJ1_OBJ2.fa', 'obj1')
+        SeqRecord(seq=SeqRecord(seq=Seq('GUUCAG-------------------UGAC-', SingleLetterAlphabet()), id='obj1', name='obj1', description='obj1', dbxrefs=[]), id='<unknown id>', name='<unknown name>', description='<unknown description>', dbxrefs=[])
 
     Returns:
          SeqRecord
