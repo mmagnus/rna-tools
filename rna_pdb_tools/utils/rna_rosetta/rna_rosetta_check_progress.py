@@ -8,11 +8,14 @@ Example::
              jobs  #curr  #todo  #decoys done
     0  ./rp17s223    200      0      407  [ ]
     1   ./rp17hcf      0      0        0  [ ]
-    #curr  232 #todo  0
+    # curr  232 #todo  0
 
 """
+from __future__ import print_function
+import subprocess
+from future import standard_library
+standard_library.install_aliases()
 
-import commands
 import os
 import pandas as pd
 import glob
@@ -22,12 +25,12 @@ import argparse
 try:
     from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
 except:
-    print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
+    print('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
 
 try:
     from rna_pdb_tools.rpt_config import EASY_CAT_PATH
 except:
-    print ('Set up EASY_CAT_PATH in rpt_config_local.py')
+    print('Set up EASY_CAT_PATH in rpt_config_local.py')
 
 
 def get_parser():
@@ -75,6 +78,7 @@ if __name__ == '__main__':
             pass  # OSError: [Errno 20] Not a directory:
 
         dirs = []
+<< << << < HEAD
 
         if not args.min_only:
             # Uff.. this is crazy.
@@ -99,6 +103,26 @@ if __name__ == '__main__':
 
             if v:
                 print '#', no_decoys
+== == == =
+        # Uff.. this is crazy.
+        for c in ['_', '__', '___', 'x', 'y', 'z', 'X', 'Y', 'Z', 'o', 'out'] + \
+                ['r' + str(i) for i in range(0, 1000)]:
+            if os.path.exists(c):
+                dirs.append(c)
+        # print ' ', j, '', dirs
+        cmd = EASY_CAT_PATH + ' ' + ' '.join(dirs)
+        if v:
+            print(cmd)
+        out = subprocess.getoutput(cmd)
+        if out.strip():
+            if len(j) <= 5:
+                if v:
+                    print(out + '\t\t', end="")
+            else:
+                if v:
+                    print(out + '\t', end="")
+            no_decoys = int(out.split()[-2])
+>>>>>> > 59cefcdf9cd74c8c1ab1bd00832f6d88d44d5e1d
         else:
             # # of minimized
             RNA_ROSETTA_NSTRUC = 1600  # change expected !!!! pretty ugly
@@ -121,25 +145,25 @@ if __name__ == '__main__':
             else:
                 no_decoys = 0
 
-            if v:
-                print '#', no_decoys
+        if v:
+            print('#', no_decoys)
 
         # check current running, only 6 char are taken from dir name
         # /home/magnus/rosetta_jobs/rp17s223 -> rp17s2199, rp17s2185
         cmd = 'qstat | grep ' + os.path.basename(j)[:6] + ' | grep "  r  " | wc -l '
         if v:
             print(cmd)
-        out = commands.getoutput(cmd)  # aacy97r <- r
+        out = subprocess.getoutput(cmd)  # aacy97r <- r
         if v:
-            print '@cluster #curr ', out,
+            print('@cluster #curr ', out, end="")
         curr = int(out)
         d['#curr'].append(curr)
 
         # check todo
-        out = commands.getoutput('qstat | grep ' + os.path.basename(j)
-                                 [:6] + ' | grep "  qw  " | wc -l ')
+        out = subprocess.getoutput('qstat | grep ' + os.path.basename(j)
+                                   [:6] + ' | grep "  qw  " | wc -l ')
         if v:
-            print '#todo ', out,
+            print('#todo ', out, end="")
         todo = int(out)
         d['#todo'].append(todo)
 
@@ -147,7 +171,7 @@ if __name__ == '__main__':
 
         if no_decoys >= RNA_ROSETTA_NSTRUC:
             if v:
-                print '# @cluster:', out, ' < ............... OK'
+                print('# @cluster:', out, ' < ............... OK')
             d['done'].append('[x]')
             if args.kill:
                 cmd = 'qstat | grep ' + \
@@ -157,8 +181,8 @@ if __name__ == '__main__':
         else:
             d['done'].append('[ ]')
             if v:
-                print '# @cluster:', out
-            ##cmd = 'kill '
+                print('# @cluster:', out)
+            # cmd = 'kill '
             # print cmd
 
         os.chdir(curr_path)
@@ -166,7 +190,7 @@ if __name__ == '__main__':
     df = pd.DataFrame(d, columns=['jobs', '#curr', '#todo', '#decoys', 'done'])
     print(df)
 
-    out = commands.getoutput('qstat | grep magnus  | grep "  r  " | wc -l ')
-    print '#curr ', out,
-    out = commands.getoutput('qstat | grep magnus | grep "  qw  " | wc -l ')
-    print '#todo ', out,
+    out = subprocess.getoutput('qstat | grep magnus  | grep "  r  " | wc -l ')
+    print('#curr ', out, end="")
+    out = subprocess.getoutput('qstat | grep magnus | grep "  qw  " | wc -l ')
+    print('#todo ', out, end="")

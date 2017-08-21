@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """RNAalignment - a module to work with RNA sequence alignments.
 
 To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
@@ -11,22 +11,22 @@ Load an alignment in the Stockholm or fasta format::
 
 Parameters of the aligmnent::
 
-     print alignment.describe()
+     print(alignment.describe())
 
 Consensus SS::
 
-    print alignment.ss_cons_with_pk
+    print(alignment.ss_cons_with_pk)
 
 Get sequnce/s from teh aligment::
 
     >>> seq = a.io[0]
-
 
 """
 
 from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
+from Bio.Phylo.TreeConstruction import DistanceCalculator
 from rna_pdb_tools import SecondaryStructure
 from rna_pdb_tools.rpt_config import RCHIE_PATH
 from collections import OrderedDict
@@ -37,6 +37,7 @@ import os
 import shutil
 import re
 import gzip
+import copy
 
 
 class RNAalignmentError(Exception):
@@ -155,13 +156,17 @@ class RNASeq(object):
     def __init__(self, id, seq, ss=None):
         self.id = id
         self.seq = seq.upper()
-        self.ss = ss.upper()
+
+        # self.ss_raw = ss  # this will not be changed after remove_gaps.
+        # so maybe don't use ss_raw at call
+        self.ss = ss
+        self.ss = self.get_ss_std()
 
         self.seq_no_gaps = seq.replace('-', '')
         self.ss_no_gaps = ss.replace('-', '')
 
-    @property
-    def ss_std(self):
+    #@property
+    def get_ss_std(self):
         nss = ''
         for s in self.ss:
             nss += get_rfam_ss_notat_to_dot_bracket_notat(s)
@@ -259,20 +264,18 @@ class RNASeq(object):
                 nss += nt_ss
         self.seq = nseq
         self.ss = nss
-        #
 
         nss = list()
         bps = self.ss_to_bps()
 
         if check_bps:
             nss = list(self.ss)
-            # remove wierd base pairs
-            for i, (c, s) in enumerate(zip(self.seq, self.ss)):
-                if c == '-':
-                    for bp in bps:
-                        if i in bp:
-                            nss[bp[0]] = '.'
-                            nss[bp[1]] = '.'
+            for bp in bps:
+                nt_left = self.seq[bp[0]]
+                nt_right = self.seq[bp[1]]
+                if nt_left == '-' or nt_right == '-':
+                    nss[bp[0]] = '.'
+                    nss[bp[1]] = '.'
             self.ss = ''.join(nss)
 
         if only_canonical:
@@ -313,17 +316,20 @@ class RNASeq(object):
         Returns:
 
             bps (list): a list of base pairs, e.g. [[0, 80], [1, 79], [2, 78], [4, 77], [6, 75], [7, 74], ...]
+
         """
         j = []
         bps = []
-        for i, s in enumerate(self.ss):
-            if s == '(':
-                j.append(i)
-            if s == ')':
-                bps.append([j.pop(), i])
-        if len(j):
-            # if something left, this is a problem (!!!)
-            raise Exception('Mis-paired secondary structure')
+        pair_types = ['()', '[]', '<>', '{}']
+        for pair_type in pair_types:
+            for i, s in enumerate(self.ss):
+                if s == pair_type[0]:
+                    j.append(i)
+                if s == pair_type[1]:
+                    bps.append([j.pop(), i])
+            if len(j):
+                # if something left, this is a problem (!!!)
+                raise Exception('Mis-paired secondary structure')
         bps.sort()
         return bps
 
@@ -364,7 +370,8 @@ class RNAalignment(object):
             response = http.request('GET', 'http://rfam.xfam.org/family/' +
                                     fetch + '/alignment/stockholm?gzip=1&download=1')
             if not response.status == 200:
-                raise RFAMFetchError()
+                raise RFAMFetchError(
+                    "The alignment could not be downloaded. Please check the RFAM id that you requested! (don't put .stk etc in the id)")
             with open(fetch + '.stk.gz', 'wb') as f:
                 f.write(response.data)
             with gzip.open(fetch + '.stk.gz', 'rb') as f:
@@ -434,6 +441,11 @@ class RNAalignment(object):
         self.cols = Cols(self)
         # ^^^^ sick ^^^^^^^^^^^
 
+    def reload_alignment(self):
+        tmpfn = tempfile.NamedTemporaryFile(delete=False).name
+        self.write(tmpfn)
+        self.io = AlignIO.read(tmpfn, "stockholm")
+
     def __len__(self):
         """Return length of all sequenes."""
         return len(self.seqs)
@@ -494,7 +506,11 @@ class RNAalignment(object):
         f.close()
         return RNAalignment(tf.name)
 
-    def write(self, fn, verbose=True):
+    def __add__(self, rna_seq):
+        self.seqs.append(rna_seq)
+        self.reload_alignment()
+
+    def write(self, fn, verbose=False):
         """Write the alignment to a file"""
         if verbose:
             print('Save to ', fn)
@@ -624,7 +640,6 @@ class RNAalignment(object):
                 c = 7  # 12 # len of '#=GC RF'
                 #                         .g.gc.a
                 for i in l:
-                    # print i
                     if i == ' ':
                         c += 1
                 self.shift = c
@@ -711,7 +726,7 @@ class RNAalignment(object):
     def describe(self):
         """Describe the alignment.
 
-           >>> print a.describe()
+           > print(a.describe())
            SingleLetterAlphabet() alignment with 13 rows and 82 columns
 
         """
@@ -719,6 +734,27 @@ class RNAalignment(object):
 
     def remove_empty_columns(self, verbose=False):
         """Remove empty columns in place.
+
+        Example::
+
+            >>> a = RNAalignment("test_data/zmp.stk")
+            >>> print(a)
+            SingleLetterAlphabet() alignment with 6 rows and 319 columns
+            ---ACCUUGCGCGACUGGCGAAUCC-------------------...AAU CP001644.1/756294-756165
+            --GCUCUCGCGCGACUGGCGACUUUG------------------...GAA CU234118.1/352539-352459
+            UGAGUUUUCUGCGACUGACGGAUUAU------------------...CUG BAAV01000055.1/2897-2982
+            GCCCGUUCGCGUGACUGGCGCUAGU-------------------...CGA CP000927.1/5164264-5164343
+            -----GGGUCGUGACUGGCGAACA--------------------...--- zmp
+            UCACCCCUGCGUGACUGGCGAUA---------------------...GUU AP009385.1/718103-718202
+            >>> a.remove_empty_columns()
+            >>> print(a)
+            SingleLetterAlphabet() alignment with 6 rows and 138 columns
+            ---ACCUUGCGCGACUGGCGAAUCC-UGAAGCUGCUUUG-AGCG...AAU CP001644.1/756294-756165
+            --GCUCUCGCGCGACUGGCGACUUUG------------------...GAA CU234118.1/352539-352459
+            UGAGUUUUCUGCGACUGACGGAUUAU------------------...CUG BAAV01000055.1/2897-2982
+            GCCCGUUCGCGUGACUGGCGCUAGU-------------------...CGA CP000927.1/5164264-5164343
+            -----GGGUCGUGACUGGCGAACA--------G-----------...--- zmp
+            UCACCCCUGCGUGACUGGCGAUA--------GAACCCUCGGGUU...GUU AP009385.1/718103-718202
 
         go over all seq
         modifes self.nss_cons"""
@@ -815,7 +851,7 @@ class RNAalignment(object):
         for s in self.io:
             seq_str = str(s.seq).replace('-', '').upper()
             if verbose:
-                print (seq_str)
+                print(seq_str)
             if seq_str.find(seq) > -1 or seq.find(seq_str) > -1:
                 print('Match:', s.id)
                 print(s)
@@ -833,7 +869,7 @@ class RNAalignment(object):
         for s in self.io:
             seq_str = str(s.seq).replace('-', '').upper()
             if verbose:
-                print (seq_str)
+                print(seq_str)
             if seq_str == seq:
                 print('Match:', s.id)
                 print(s)
@@ -917,6 +953,42 @@ class RNAalignment(object):
                 trf += r
                 tss += s
         return trf, tss
+
+    def get_distances(self):
+        """Get distances (seq identity) all-vs-all.
+
+        With BioPython.
+
+        blastn: ``Bad alphabet 'U' in sequence 'AE008922.1/409481-409568' at position '7'`` only for DNA?
+
+        read more (also about matrix at <http://biopython.org/wiki/Phylo> and
+        HTTP://biopython.org/DIST/docs/api/Bio.Phylo.TreeConstruction.DistanceCalculator-class.html
+        """
+        calculator = DistanceCalculator('identity')
+        dm = calculator.get_distance(self.io)
+        return dm
+
+    def get_the_closest_seq_to_ref_seq(self, verbose=False):
+        """
+
+        Example::
+
+            >>> a = RNAalignment("test_data/RF02221.stockholm.sto")
+            >>> a.get_the_closest_seq_to_ref_seq()
+            AF421314.1/431-344
+
+        """
+        self + RNASeq('ConSeq', self.rf, '')
+        dist = self.get_distances()
+        distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
+        minimal = min(distConSeq)
+
+        index = dist['ConSeq'].index(minimal)
+        #id = dist.names[index]
+        if verbose:
+            print('dist:\n', str(dist))
+            print('distConSeq:', dist['ConSeq'])
+        return self[index]
 
 
 class CMAlign():
@@ -1026,16 +1098,10 @@ def clean_seq_and_ss(seq, ss):
     return nseq.strip(), nss.strip()
 
 
-def get_rfam_ss_notat_to_dot_bracket_notat(ss):
-    nss = ''
-    for s in ss:
-        ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
-        nss += ns
-    return nss.strip()
-
-
 def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
-    """Take (c)haracter and standardize ss"""
+    """Take (c)haracter and standardize ss (including pks in letter (AAaa) notation).
+
+    .. warning:: DD DD will be treated as BB BB (<< >>) (it might be wrong!)"""
     if c in [',', '_', ':', '-']:
         return '.'
     if c == '<':
@@ -1050,9 +1116,38 @@ def get_rfam_ss_notat_to_dot_bracket_notat_per_char(c):
         return '('
     if c == '>':
         return ')'
+    if c == '>':
+        return ')'
+    if c == 'A':
+        return '['
+    if c == 'a':
+        return ']'
+    if c == 'B':
+        return '<'
+    if c == 'b':
+        return '>'
+    if c == 'C':
+        return '{'
+    if c == 'c':
+        return '}'
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!
+    if c == 'D':
+        return '<'
+    if c == 'd':
+        return '>'
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!
     return c
 
-    # load from fasta
+
+def get_rfam_ss_notat_to_dot_bracket_notat(ss):
+    """Change all <<>> to "standard" dot bracket notation.
+
+    Works also with pseudknots AA BB CC etc."""
+    nss = ''
+    for s in ss:
+        ns = get_rfam_ss_notat_to_dot_bracket_notat_per_char(s)
+        nss += ns
+    return nss
 
 
 def fasta2stokholm(fn):
@@ -1214,9 +1309,26 @@ if __name__ == '__main__':
     # print a.ss_cons
     # a.plot('rchie.png')
 
-    #a = RNAalignment(fetch="RF02746")
-    a = RNAalignment('test_data/RF00167.stockholm.sto')
-    s = a[0]  # take first sequence
-    s.remove_gaps()
-    print s.seq
-    print s.ss
+    # a = RNAalignment("test_data/RF02221.stockholm.sto")
+    ## a = RNAalignment('test_data/test_data/RF02221.stockholm.sto')
+    ## a + RNASeq('ConSeq', '-A-GU-AGAGUA-GGUCUUAUACGUAA-----------------AGUG-UCAUCGGA-U-GGGGAGACUUCCGGUGAACGAA-G-G-----------------------------GUUA---------------------------CCGCGUUAUAUGAC-C-GCUUCCG-CUA-C-U-','')
+    ## dist = a.get_distances()
+    # distConSeq = dist['ConSeq'][:-1]  # to remove ending 0, bc of distance to itself
+    ## minimal = min(distConSeq)
+    ## index = dist['ConSeq'].index(minimal)
+    # print(dist.names[index])
+
+    a = RNAalignment("test_data/dist_test2.stk")
+    rep = a.get_the_closest_seq_to_ref_seq()
+    rep.remove_gaps()
+    print(rep)
+    print(rep.ss)
+    print(rep.seq)
+
+    # a.write('tmp.stk')
+    # s.remove_gaps()
+    # print(s.seq)
+    # print(s.ss)
+
+    import doctest
+    doctest.testmod()

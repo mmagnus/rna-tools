@@ -1,7 +1,6 @@
 language: python
 python:
-- 2.7
-- 3.6.1
+- 3.6
 
 install:
  - sudo apt-get install python-biopython pymol
@@ -12,7 +11,7 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  
+
 notifications:
    email:
      - magnus@genesilico.pl

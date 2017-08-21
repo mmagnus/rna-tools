@@ -17,7 +17,7 @@ Example::
 
 .. image:: ../../rna_pdb_tools/utils/plotting/test_data/rmsds_dens.png
 """
-
+from __future__ import print_function
 import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
@@ -42,9 +42,9 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
-    fn = args.file 
+    fn = args.file
     df = pd.read_csv(args.file, sep=args.sep)
-    print df.head()
+    print(df.head())
 
     if not args.column:
         print('Set column')
@@ -54,5 +54,5 @@ if __name__ == '__main__':
 
     if not args.output:
         outfn = args.file.replace('.txt', '').replace('.csv', '') + '_dens.png'
-        print ('Save plot %s' % outfn)
+        print('Save plot %s' % outfn)
         plt.savefig(outfn)

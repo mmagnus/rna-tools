@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
 import os
 import tempfile
 import shutil
 import subprocess
-from rpt_config import VARNA_JAR_NAME, VARNA_PATH
+
+from rna_pdb_tools.rpt_config import VARNA_JAR_NAME, VARNA_PATH
 
 
-def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
+def draw_ss(title, seq, ss, img_out, resolution=4, verbose=False):
     """Draw Secondary Structure using VARNA (you need correct configuration for this).
 
     If everything is OK, return None, if an error (=exception) return stderr.
@@ -41,7 +41,7 @@ def draw_ss(title, seq, ss, img_out, resolution=2, verbose=False):
         print(cmd)
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
-    out = p.stderr.read().strip()
+    out = p.stderr.read().decode().strip()
     os.chdir(curr)
     if out.find('Exception') > -1:
         return out

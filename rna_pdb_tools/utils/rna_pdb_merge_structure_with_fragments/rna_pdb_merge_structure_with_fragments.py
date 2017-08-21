@@ -1,3 +1,5 @@
+#!/usr/bin/evn python
+
 from Bio import PDB
 from Bio.PDB import PDBIO
 from Bio.PDB.Atom import PDBConstructionWarning
@@ -9,11 +11,12 @@ import re
 import sys
 import copy
 
+
 class Struc:
-    def __init__(self, ring, pdb, fragments, pdb_out,v):
+    def __init__(self, ring, pdb, fragments, pdb_out, v):
         self.fragments = fragments
-        self.ring  = PDB.PDBParser().get_structure('ring', ring)
-        self.pdb  =  PDB.PDBParser().get_structure('pdb', pdb)
+        self.ring = PDB.PDBParser().get_structure('ring', ring)
+        self.pdb = PDB.PDBParser().get_structure('pdb', pdb)
         self.pdb_out = pdb_out
         self.v = v
 
@@ -24,25 +27,28 @@ class Struc:
             for r in c:
                 fragments += str(r.get_id()[1]) + ','
             fragments = fragments[:-1]
-        fragments = fragments[1:] # to remoev first ;
-        
+        fragments = fragments[1:]  # to remoev first ;
+
         self.fragments = fragments
         print('fragments in pdb', self.fragments)
 
     def merge(self):
         v = self.v
         txt = self.fragments
-        txt = txt.replace(' ','')
-        if v:print(txt)
+        txt = txt.replace(' ', '')
+        if v:
+            print(txt)
         l = re.split('[,:;]', txt)
-        if v:print(l) 
-        
+        if v:
+            print(l)
+
         if v:
             print('ring', self.ring)
 
-        for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
+        for i in l:  # ['A', '1-10', '15', '25-30', 'B', '1-10']
             if i in string.ascii_letters:
-                if v:print('chain', i)
+                if v:
+                    print('chain', i)
                 chain_curr = i
                 continue
 
@@ -50,9 +56,9 @@ class Struc:
                 start, ends = i.split('-')
                 if start > ends:
                     return 'Error: range start > end ' + i
-                index = list(range(int(start), int(ends)+1))
+                index = list(range(int(start), int(ends) + 1))
             else:
-                index=[int(i)]
+                index = [int(i)]
 
             for i in index:
                 try:
@@ -71,10 +77,11 @@ class Struc:
                         return 'Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure (seq)'
 
                 if residue_ring.get_resname() == residue_pdb.get_resname():
-                    if v:print(i, residue_ring.get_resname(), residue_pdb.get_resname() ,' ...coping')
+                    if v:
+                        print(i, residue_ring.get_resname(), residue_pdb.get_resname(), ' ...coping')
                     to_remove = self.ring[0][chain_curr][i].copy()
                     for a in to_remove:
-                        self.ring[0][chain_curr][i].detach_child(a.get_id()) # remove atoms
+                        self.ring[0][chain_curr][i].detach_child(a.get_id())  # remove atoms
 
                     for a in self.pdb[0][chain_curr][i]:
                         try:
@@ -82,7 +89,7 @@ class Struc:
                         except PDB.PDBExceptions.PDBConstructionException:
                             return 'Error: duplicated atoms in ' + chain_curr + ':' + str(i)
                 else:
-                        return 'Error: Residue ' + chain_curr + ':' + str(i) + ' not the same as in the sequence'
+                    return 'Error: Residue ' + chain_curr + ':' + str(i) + ' not the same as in the sequence'
 
         io = PDBIO()
         io.set_structure(self.ring)
@@ -90,13 +97,15 @@ class Struc:
         print('Save as ', self.pdb_out)
         return False
 
-if __name__ == '__main__':
-    s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb',pdb='test_data/rna_sq_renumber.pdb', fragments='', pdb_out='tmp.pdb', v=True)
-    s.detect_what_is_in_pdb()
-    
 
-    s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb',pdb='test_data/1xjr_root.pdb', fragments='A:1-14,37-45', pdb_out='tmp.pdb', v=True)
+if __name__ == '__main__':
+    s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb',
+              pdb='test_data/rna_sq_renumber.pdb', fragments='', pdb_out='tmp.pdb', v=True)
+    s.detect_what_is_in_pdb()
+
+    s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb', pdb='test_data/1xjr_root.pdb',
+              fragments='A:1-14,37-45', pdb_out='tmp.pdb', v=True)
     err = s.detect_what_is_in_pdb()
-    err =  s.merge()
+    err = s.merge()
     if err:
-        print(err, file=sys.stderr)
+        print(err)

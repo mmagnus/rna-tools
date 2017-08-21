@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+
 
 """Download model files, trajectory for a given SimRNAweb job::
 
@@ -49,72 +49,32 @@ class SimRNAwebError(Exception):
     pass
 
 
-def get_parser():
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('job_id', help='job_id')
-    parser.add_argument(
-        '-p', '--prefix', help='prefix to the name, withouth _')
-    parser.add_argument('-x', '--extract100',
-                        action='store_true', help='extract 100 the lowest')
-    parser.add_argument('-t', '--trajectory',
-                        action='store_true', help='download also trajectory')
-    parser.add_argument('-m', '--more_clusters',
-                        action='store_true', help='download also cluster 4 and 5')
-    return parser
-
-
-if __name__ == '__main__':
-    parser = get_parser()
-    args = parser.parse_args()
-    job_id = args.job_id
-
-    job_id = job_id.replace('genesilico.pl/SimRNAweb/jobs/', '').replace(
-        'http://', '').replace('/', '')  # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
-
-    # download models, get propare names of pdb files
-    # http://genesilico.pl/SimRNAweb/media/jobs/d86c07d9-9871-4454-bfc6-fb2e6edf13fc/output_PDBS/d86c07d9-9871-4454-bfc6-fb2e6edf13fc_ALL_thrs12.50A_clust01-000001_AA.pdb
-    http = urllib3.PoolManager()
-    url = "http://genesilico.pl/SimRNAweb/media/jobs/" + \
-        job_id + "/output_PDBS/"
-    response = http.request('GET', url)
-    if not response.status == 200:
-        raise SimRNAwebError('Job not found on the server: %s' % job_id)
-    html = response.data
-
-    for l in html.split('\n'):
-        if l.find('AA.pdb') > -1 and l.find('clust') > -1:
-            # find fn
-            fn = l.split('"')[1]
-
-            # shorten names
-            nfn = fn.replace("-000001", '').replace('_AA',
-                                                    'X').replace('_ALL_', '-')
-            parts = nfn.split('-')
-            print(parts)
-            # nfn = '-'.join([fn[:12], ''.join(parts[-1])]) ### ? nfn
-
-            # wget
-            cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/output_PDBS/" + \
-                  fn + " -O " + nfn
-            os.system(cmd)
-
-    # trajectory link
-    # http://iimcb.genesilico.pl/SimRNAweb/media/jobs/
-    # rp12aawlpk-8713ed35/processing_results/rp12aawlpk-8713ed35_ALL.trafl
-
-    if args.trajectory:
-        cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
-            "/processing_results/" + job_id + "_ALL.trafl "  # -O " + fn
-        os.system(cmd)
-
+def extract100(args):
     if args.extract100:
         os.system('rna_simrna_lowest.py *_ALL.trafl')
         os.system('rm *_ALL.trafl*')
         os.system('rna_simrna_extract.py -t *01X.pdb -f *low.trafl -c')
 
+
+def download_trajectory(args):
+    if args.trajectory:
+        cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
+            "/processing_results/" + job_id + "_ALL.trafl "  # -O " + fn
+        os.system(cmd)
+
+
+def add_prefix(args):
+    # d2b57aef_ALL-thrs8.40A_clust01X.pdb -> gba_pk_d2b57aef_ALL-thrs8.40A_clust01X.pdb
+    # hmm.. i bit risky
+    if args.prefix:
+        # print('disable right now')
+        os.system("rename 's/^/" + args.prefix.strip() + "_/' *pdb")
+        # os.system("rename 's/^/" + args.prefix.strip() + "_/' *_ALL.tarfl*")
+
+
+def more_clusters(args):
     if args.more_clusters:
-        print 'more clusters'
+        print('more clusters')
         url = "http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/processing_results/"
         response = http.request('GET', url)
         if not response.status == 200:
@@ -124,7 +84,7 @@ if __name__ == '__main__':
         for l in html.split('\n'):
             if 'clust04.trafl' in l or 'clust05.trafl' in l:
                 fn = l.split('"')[1]
-                print fn
+                print(fn)
 
                 # shorten names
                 nfn = fn.replace("-000001", '').replace('_AA',
@@ -152,9 +112,62 @@ if __name__ == '__main__':
                     shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'),
                                 nfn.replace('.trafl', 'X.pdb'))
 
-    # d2b57aef_ALL-thrs8.40A_clust01X.pdb -> gba_pk_d2b57aef_ALL-thrs8.40A_clust01X.pdb
-    # hmm.. i bit risky
-    if args.prefix:
-        # print('disable right now')
-        os.system("rename 's/^/" + args.prefix.strip() + "_/' *pdb")
-        # os.system("rename 's/^/" + args.prefix.strip() + "_/' *_ALL.tarfl*")
+
+def download_models(args):
+    # download models, get propare names of pdb files
+    # http://genesilico.pl/SimRNAweb/media/jobs/d86c07d9-9871-4454-bfc6-fb2e6edf13fc/output_PDBS/d86c07d9-9871-4454-bfc6-fb2e6edf13fc_ALL_thrs12.50A_clust01-000001_AA.pdb
+    http = urllib3.PoolManager()
+    url = "http://genesilico.pl/SimRNAweb/media/jobs/" + \
+        job_id + "/output_PDBS/"
+    response = http.request('GET', url)
+    if not response.status == 200:
+        raise SimRNAwebError('Job not found on the server: %s' % job_id)
+    html = response.data
+
+    for l in html.split('\n'):
+        if l.find('AA.pdb') > -1 and l.find('clust') > -1:
+            # find fn
+            fn = l.split('"')[1]
+
+            # shorten names
+            nfn = fn.replace("-000001", '').replace('_AA',
+                                                    'X').replace('_ALL_', '-')
+            parts = nfn.split('-')
+            print(parts)
+            # nfn = '-'.join([fn[:12], ''.join(parts[-1])]) ### ? nfn
+
+            # wget
+            cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/output_PDBS/" + \
+                  fn + " -O " + nfn
+            os.system(cmd)
+
+
+def get_parser():
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('job_id', help='job_id')
+    parser.add_argument(
+        '-p', '--prefix', help='prefix to the name, withouth _')
+    parser.add_argument('-x', '--extract100',
+                        action='store_true', help='extract 100 the lowest')
+    parser.add_argument('-t', '--trajectory',
+                        action='store_true', help='download also trajectory')
+    parser.add_argument('-m', '--more_clusters',
+                        action='store_true', help='download also cluster 4 and 5')
+    return parser
+
+
+# main
+if __name__ == '__main__':
+    # trajectory link
+    # http://iimcb.genesilico.pl/SimRNAweb/media/jobs/
+    # rp12aawlpk-8713ed35/processing_results/rp12aawlpk-8713ed35_ALL.trafl
+    parser = get_parser()
+    args = parser.parse_args()
+    job_id = args.job_id
+    job_id = job_id.replace('genesilico.pl/SimRNAweb/jobs/', '').replace(
+        'http://', '').replace('/', '')  # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
+    download_models()
+    extract100(args)
+    download_trajectory(args)
+    add_prefix(args)

@@ -1,24 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""Main lib file"""
+"""rna_pdb_tools_lib.py - main lib file, many tools in this lib is using this file."""
 
 from __future__ import print_function
-
-AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
-            "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
-            "TRP", "TYR", "VAL"]
-RES = ['DA', 'DG', 'DT', 'DC']
-RES += ['A', 'G', 'U', 'C']
-
-RESS = ['A', 'C', 'G', 'U', 'ADE', 'CYT', 'GUA', 'URY', 'URI', 'U34', 'U31', 'C31', '4SU', 'H2U', 'QUO', 'G7M', '5MU', '5MC', 'PSU', '2MG', '1MG', '1MA', 'M2G', '5BU', 'FHU', 'FMU', 'IU', 'OMG', 'OMC', 'OMU', 'A2M', 'A23', 'CCC', 'I'] + ['RC', 'RU', 'RA', 'RG', 'RT']
-#DNA = ['DA', 'DG', 'DT', 'DC']
-#RNA = ['A', 'G', 'U', 'C']
-IONS = ['NA', 'MG', 'MN']
-HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'",
-                          "2H5'", "HO2'", "1H4", "2H4", "1H2", "2H2", "H1", "H8", "H2", "1H6", "2H6",
-                          "HO5'", "H21", "H22", "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1" , "HO'2", "HO'2",
-                          "H2", "H2'1", "H1", "H2", "1H5*","2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1", "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2", "H3T"]
 
 import os
 import sys
@@ -31,7 +15,7 @@ import tempfile
 import shutil
 import subprocess
 
-from utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 import logging
 logger = logging.getLogger('rna-pdb-tools')
@@ -43,15 +27,37 @@ logger.addHandler(handler)
 # Don't fix OP3, ignore it
 ignore_op3 = False
 
+# Settings: what is what in a PDB file
+AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
+                   "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
+                   "TRP", "TYR", "VAL"]
+RES = ['DA', 'DG', 'DT', 'DC']
+RES += ['A', 'G', 'U', 'C']
+
+RESS = ['A', 'C', 'G', 'U', 'ADE', 'CYT', 'GUA', 'URY', 'URI', 'U34', 'U31', 'C31', '4SU', 'H2U', 'QUO', 'G7M', '5MU',
+        '5MC', 'PSU', '2MG', '1MG', '1MA', 'M2G', '5BU', 'FHU', 'FMU', 'IU', 'OMG', 'OMC', 'OMU', 'A2M', 'A23', 'CCC',
+        'I'] + ['RC', 'RU', 'RA', 'RG', 'RT']
+DNA = ['DA', 'DG', 'DT', 'DC']
+RNA = ['A', 'G', 'U', 'C']
+IONS = ['NA', 'MG', 'MN']
+HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'",
+                  "2H5'", "HO2'", "1H4", "2H4", "1H2", "2H2", "H1", "H8", "H2", "1H6", "2H6", "HO5'", "H21", "H22",
+                  "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1", "HO'2", "HO'2", "H2", "H2'1", "H1", "H2",
+                  "1H5*", "2H5*", "H4*", "H3*", "H1*", "1H2*", "2HO*", "1H2", "2H2", "1H4", "2H4", "1H6", "2H6", "H1",
+                  "H2", "H3", "H5", "H6", "H8", "H5'1", "H5'2", "H3T"]
+
+
 class PDBFetchError(Exception):
     pass
+
 
 try:
     from Bio.PDB import *
 except ImportError:
     print("Biopython is not detected. It is required for some functions.")
-    
-def get_version(currfn='', verbose=False): #dupa
+
+
+def get_version(currfn='', verbose=False):  # dupa
     """Get version of the tool based on state of the git repository.
     Return version.
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
@@ -61,34 +67,49 @@ def get_version(currfn='', verbose=False): #dupa
         path = '.'
     else:
         path = os.path.dirname(currfn)
-    if verbose: print('get_version::path', path)
-    if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
+    if verbose:
+        print('get_version::path', path)
+    if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
         path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
-    if not path: path = '.'
-    if verbose: print('get_version::path2', path)
+    if not path:
+        path = '.'
+    if verbose:
+        print('get_version::path2', path)
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
-    version = subprocess.check_output('git describe --long --tags --dirty --always', shell=True)
-    if verbose: print(version, curr_path)
-    os.chdir(curr_path) # go path to original path
-    if version.find('not found')>-1:
-        return ' unknown' # > install git to get versioning based on git'
+    version = str(subprocess.check_output(
+        'git describe --long --tags --dirty --always', shell=True))
+    if verbose:
+        print(version, curr_path)
+    os.chdir(curr_path)  # go path to original path
+    if version.find('not found') > -1:
+        return ' unknown'  # > install git to get versioning based on git'
     else:
         return version
 
+
 class RNAStructure:
-    """RNAStructure"""
+    """RNAStructure - handles an RNA pdb file.
+
+    Atributes:
+
+        fn (string)  : filename of the pdb file
+        lines (list) : the PDB file is loaded and ATOM/HETATM/TER/END go to self.lines
+
+    """
+
     def __init__(self, fn):
         self.fn = fn
 
         self.report = []
-        self.report.append('The RNARNAStructure report: %s ' % fn)
+        self.report.append('The RNARNAStructure report: %s ' % self.fn)
 
         self.mol2_format = False
 
         self.lines = []
         lines = open(fn).read().strip().split('\n')
         self.has_many_models = False
+
         for l in lines:
             # multi-models pdb files
             if l.startswith('MODEL'):
@@ -106,7 +127,7 @@ class RNAStructure:
 
     def is_pdb(self):
         """Return True if the files is in PDB format.
-        
+
         If self.lines is empty it means that nothing was parsed into the PDB format."""
         if len(self.lines):
             return True
@@ -123,7 +144,7 @@ class RNAStructure:
 
     def un_nmr(self, verbose=False):
         """Un NMR - Split NMR-style multiple model pdb files into individual models.
-        
+
         Take self.fn and create new files in the way::
 
             input/1a9l_NMR_1_2_models.pdb
@@ -133,13 +154,14 @@ class RNAStructure:
         .. warning:: This function requires biopython.
         """
         parser = PDBParser()
-        structure=parser.get_structure('', self.fn)
+        structure = parser.get_structure('', self.fn)
         for c, m in enumerate(structure):
-            if verbose: print(m)
-            io=PDBIO()
+            if verbose:
+                print(m)
+            io = PDBIO()
             io.set_structure(m)
             io.save(self.fn.replace('.pdb', '_%i.pdb' % c))
-        
+
     def is_mol2(self):
         """Return True if is_mol2 based on the presence of ```@<TRIPOS>```."""
         return self.mol2_format
@@ -147,8 +169,8 @@ class RNAStructure:
     def decap_gtp(self):
         lines = []
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
-                if l[12:16].strip() in ['PG', 'O1G', 'O2G', 'O3G', 'O3B', 'PB','O1B','O2B', 'O3A']:
+            if l.startswith('ATOM') or l.startswith('HETATM'):
+                if l[12:16].strip() in ['PG', 'O1G', 'O2G', 'O3G', 'O3B', 'PB', 'O1B', 'O2B', 'O3A']:
                     continue
                 if l[12:16].strip() == 'PA':
                     l = l.replace('PA', 'P ')
@@ -166,7 +188,7 @@ class RNAStructure:
         """Use self.lines and check if there is XX line
         """
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 rn = l[17:20]
                 if rn in ['RU5', 'RC5', 'RA5', 'RT5', 'RG5']:
                     self.report.append('This is amber-like format')
@@ -179,8 +201,8 @@ class RNAStructure:
             l = l.replace('HETATM', 'ATOM  ')
             nlines.append(l)
         self.lines = nlines
-        
-    def fix(self, outfn="", verbose=False):
+
+    def fix_with_qrnas(self, outfn="", verbose=False):
         """Add missing heavy atom.
 
         A residue is recognized base on a residue names.
@@ -215,7 +237,8 @@ class RNAStructure:
         if not outfn:
             cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn)
         else:
-            cmd = "QRNAS -c qrna_config.txt -i " + os.path.basename(self.fn) + " -o " + curr + os.sep + outfn
+            cmd = "QRNAS -c qrna_config.txt -i " + \
+                os.path.basename(self.fn) + " -o " + curr + os.sep + outfn
         #o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         os.system(cmd)
         if False:
@@ -230,7 +253,7 @@ class RNAStructure:
             print('Cleaning...')
             s = RNAStructure(curr + os.sep + outfn)
             s.remove_hydrogen()
-            s.fix_resn()
+            s.std_resn()
             s.write(curr + os.sep + outfn)
         os.chdir(curr)
 
@@ -239,7 +262,7 @@ class RNAStructure:
             import pybel
         except ImportError:
             print ('pybel is needed for mol2 to pdb convertion')
-            #sys.exit(1)
+            # sys.exit(1)
             sys.exit(0)
 
         if not outfn:
@@ -260,7 +283,7 @@ class RNAStructure:
         txt = ''
         for l in self.lines:
             if l.startswith('END'):
-                continue # skip end
+                continue  # skip end
             txt += l.strip() + '\n'
         if add_end:
             if not l.startswith('END'):
@@ -270,7 +293,7 @@ class RNAStructure:
     def get_chain(self, chain_id='A'):
         txt = ''
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 if l[21] == chain_id:
                     txt += l.strip() + '\n'
         txt += 'TER'
@@ -317,14 +340,14 @@ class RNAStructure:
         resi_prev = None
         chain_prev = None
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 resi = int(l[22:26])
                 if resi_prev != resi:
                     resname = l[17:20].strip()
                     chain_curr = l[21]
-                    if len(resname) == 'GTP': # DG -> g GTP
+                    if len(resname) == 'GTP':  # DG -> g GTP
                         resname = 'g'
-                    if len(resname) > 1: # DG -> g GTP
+                    if len(resname) > 1:  # DG -> g GTP
                         resname = resname[-1].lower()
 
                     try:
@@ -341,20 +364,19 @@ class RNAStructure:
                     chain_prev = chain_curr
 
         for c in list(chains.keys()):
-            header = c + ':' + str(chains[c]['resi'][0]) + '-' # add A:1-
-            for i in range(1, len(chains[c]['resi'])): # start from second element
+            header = c + ':' + str(chains[c]['resi'][0]) + '-'  # add A:1-
+            for i in range(1, len(chains[c]['resi'])):  # start from second element
                 if chains[c]['resi'][i] - chains[c]['resi'][i - 1] > 1:
                     header += '' + str(chains[c]['resi'][i - 1]) + ' '
                     header += '' + str(chains[c]['resi'][i]) + '-'
             header += '' + str(chains[c]['resi'][-1])
-            chains[c]['header'] = header # add -163 (last element)
+            chains[c]['header'] = header  # add -163 (last element)
 
         txt = ''
         for c in list(chains.keys()):
             txt += '> ' + chains[c]['header'] + '\n'
             txt += ''.join(chains[c]['seq']) + '\n'
         return txt.strip()
-
 
     def __get_seq(self):
         """get_seq DEPRECATED
@@ -368,25 +390,25 @@ class RNAStructure:
         curri = int(self.lines[0][22:26])
         seq = self.lines[0][19]
         chains = OrderedDict()
-        curri = -100000000000000000000000000000000 #ugly
+        curri = -100000000000000000000000000000000  # ugly
         chain_prev = None
 
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 resi = int(l[22:26])
                 if curri != resi:
                     print(l)
                     resname = l[17:20].strip()
-                    if len(resname) == 'GTP': # DG -> g GTP
+                    if len(resname) == 'GTP':  # DG -> g GTP
                         resname = 'g'
-                    if len(resname) > 1: # DG -> g GTP
+                    if len(resname) > 1:  # DG -> g GTP
                         resname = resname[-1].lower()
 
                     seq += resname
                     chain_curr = l[21]
 
                     # if distances between curr res and previevs is bigger than 1, then show it as a fragment
-                    if resi - curri > 1 and resi - curri < 100000000000000000000000000000000: # ugly hack
+                    if resi - curri > 1 and resi - curri < 100000000000000000000000000000000:  # ugly hack
                         print(resi - curri)
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
                     if chain_prev != chain_curr and chain_prev:
@@ -395,7 +417,7 @@ class RNAStructure:
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
-                        chains[chain_curr]['header'] = chain_curr + ':' + str(resi)#resi_prev)
+                        chains[chain_curr]['header'] = chain_curr + ':' + str(resi)  # resi_prev)
                         chains[chain_curr]['seq'] = resname
                     resi_prev = resi
                     chain_prev = chain_curr
@@ -414,16 +436,16 @@ class RNAStructure:
         curri = int(self.lines[0][22:26])
         seq = self.lines[0][19]
         chains = OrderedDict()
-        curri = -100000000000000 #ugly
+        curri = -100000000000000  # ugly
         chain_prev = None
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 resi = int(l[22:26])
                 if curri != resi:
                     resname = l[17:20].strip()
-                    if len(resname) == 'GTP': # DG -> g GTP
+                    if len(resname) == 'GTP':  # DG -> g GTP
                         resname = 'g'
-                    if len(resname) > 1: # DG -> g GTP
+                    if len(resname) > 1:  # DG -> g GTP
                         resname = resname[-1].lower()
                     seq += resname
                     chain_curr = l[21]
@@ -433,7 +455,7 @@ class RNAStructure:
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
-                        chains[chain_curr]['header'] = chain_curr + ':' + str(resi)#resi_prev)
+                        chains[chain_curr]['header'] = chain_curr + ':' + str(resi)  # resi_prev)
                         chains[chain_curr]['seq'] = resname
                     resi_prev = resi
                     chain_prev = chain_curr
@@ -484,16 +506,16 @@ class RNAStructure:
             if l[77:79].strip() == 'H':
                 continue
             if l[13:17].strip() in HYDROGEN_NAMES:
-            #if l[12:16].strip().startswith('H'):
+                # if l[12:16].strip().startswith('H'):
                 continue
             else:
-                #print l[12:16]
+                # print l[12:16]
                 lines.append(l)
         self.lines = lines
 
     def remove_water(self):
         """Remove HOH and TIP3"""
-        lines  = []
+        lines = []
         for l in self.lines:
             if l[17:21].strip() in ['HOH', 'TIP3', 'WAT']:
                 continue
@@ -506,6 +528,7 @@ class RNAStructure:
     TER    1025        U A  47
     HETATM 1026 MG    MG A 101      42.664  34.395  50.249  1.00 70.99          MG
     HETATM 1027 MG    MG A 201      47.865  33.919  48.090  1.00 67.09          MG
+        :rtype: object
         """
         lines = []
         for l in self.lines:
@@ -522,15 +545,15 @@ class RNAStructure:
     def fixU__to__U(self):
         lines = []
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 rn = l[17:20]
                 rn = rn.replace('G  ', '  G')
                 rn = rn.replace('U  ', '  U')
                 rn = rn.replace('C  ', '  C')
                 rn = rn.replace('A  ', '  A')
                 l = l[:16] + ' ' + rn + ' ' + l[21:]
-            #print l.strip()
-            #print l2
+            # print l.strip()
+            # print l2
             #l = l.replace(' U   ', '   U ')
             #l = l.replace(' G   ', '   G ')
             #l = l.replace(' A   ', '   A ')
@@ -543,9 +566,9 @@ class RNAStructure:
     def resn_as_dna(self):
         lines = []
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') :
-                #print l
-                nl = l.replace( 'DA5', ' DA') # RA should be the last!!!!
+            if l.startswith('ATOM') or l.startswith('HETATM'):
+                # print l
+                nl = l.replace('DA5', ' DA')  # RA should be the last!!!!
                 nl = nl.replace('DA3', ' DA')
                 nl = nl.replace(' DA', ' DA')
                 nl = nl.replace(' rA', ' DA')
@@ -599,15 +622,14 @@ class RNAStructure:
         """.. warning: remove RU names before using this function"""
         lines = []
         for l in self.lines:
-            #if l[12:16].strip() in
-            #if l[12:16].strip().startswith('H'):
+            # if l[12:16].strip() in
+            # if l[12:16].strip().startswith('H'):
             nl = l.replace('O     U',
                            'O2    U')
-            nl =nl.replace('O     C',
-                           'O2    C')
+            nl = nl.replace('O     C',
+                            'O2    C')
             lines.append(nl)
         self.lines = lines
-
 
     def fix_op_atoms(self):
         """Replace OXP' to OPX1, e.g ('O1P' -> 'OP1')"""
@@ -622,7 +644,8 @@ class RNAStructure:
 
     def get_report(self):
         """
-        :return report: string
+        Returns:
+            string: report, messages collected on the way of parsing this file
         """
         return '\n'.join(self.report)
 
@@ -667,16 +690,20 @@ class RNAStructure:
             lines.append(l)
         self.lines = lines
 
-    def fix_resn(self):
-        """
-        fix::
+    def std_resn(self):
+        """'Fix' residue names which means to change them to standard, e.g. RA5 -> A
 
-         # URI -> U, URA -> U
-         1xjr_clx_charmm.pdb:ATOM    101  P   URA A   5      58.180  39.153  30.336  1.00 70.94
-         rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens.pdb:ATOM  82  P   URI A   4     501.633 506.561 506.256  1.00  0.00           P"""
+        Works on self.lines, and returns the result to self.lines.
+
+        Will change things like::
+
+            # URI -> U, URA -> U
+            1xjr_clx_charmm.pdb:ATOM    101  P   URA A   5      58.180  39.153  30.336  1.00 70.94
+            rp13_Dokholyan_1_URI_CYT_ADE_GUA_hydrogens.pdb:ATOM  82  P   URI A   4     501.633 506.561 506.256  1.00  0.00         P
+        """
         lines = []
         for l in self.lines:
-            nl = l.replace( 'RA5', '  A') # RA should be the last!!!!
+            nl = l.replace('RA5', '  A')  # RA should be the last!!!!
             nl = nl.replace('RA3', '  A')
             nl = nl.replace('ADE', '  A')
             nl = nl.replace(' RA', '  A')
@@ -719,7 +746,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def write(self, outfn,v=True):
+    def write(self, outfn, v=True):
         """Write ```self.lines``` to a file (and END file")"""
         f = open(outfn, 'w')
         for l in self.lines:
@@ -730,7 +757,7 @@ class RNAStructure:
         if v:
             print('Write %s' % outfn)
 
-    def get_atom_num(self,line):
+    def get_atom_num(self, line):
         """Extract atom number from a line of PDB file
         Arguments:
           * line = ATOM line from a PDB file
@@ -739,7 +766,7 @@ class RNAStructure:
         """
         return int(''.join([x for x in line[6:11] if x.isdigit()]))
 
-    def get_res_num(self,line):
+    def get_res_num(self, line):
         """Extract residue number from a line of PDB file
         Arguments:
           * line = ATOM line from a PDB file
@@ -748,7 +775,7 @@ class RNAStructure:
         """
         return int(''.join([x for x in line[22:27] if x.isdigit()]))
 
-    def get_res_code(self,line):
+    def get_res_code(self, line):
         """Get residue code from a line of a PDB file
         """
         if not line.startswith('ATOM'):
@@ -763,7 +790,7 @@ class RNAStructure:
                 l = self.set_atom_code(l, atom_name)
             nlines.append(l)
         self.lines = nlines
-        
+
     def prune_elements(self):
         nlines = []
         for l in self.lines:
@@ -822,7 +849,10 @@ class RNAStructure:
     def set_chain_id(self, line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False, rename_chains=True, verbose=True):#:, ready_for="RNAPuzzle"):
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False,
+                            rename_chains=True,
+                            report_missing_atoms=True,
+                            verbose=True):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
         Clean up a structure, get current order of atoms.
@@ -832,7 +862,7 @@ class RNAStructure:
 
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
-        Run :func:`rna_pdb_tools.rna_pdb_tools_lib.RNAStructure.fix_resn` before this function to fix names.
+        Run :func:`rna_pdb_tools.rna_pdb_tools_lib.RNAStructure.std_resn` before this function to fix names.
 
         - 170305 Merged with get_simrna_ready and fixing OP3 terminal added
         - 170308 Fix missing atoms for bases, and O2'
@@ -849,6 +879,9 @@ class RNAStructure:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
+
+        fix_missing_atoms = False
+
         if verbose:
             logger.setLevel(logging.DEBUG)
 
@@ -864,14 +897,14 @@ class RNAStructure:
         import copy
         # for debugging
         #renumber_residues = True
-        #if ready_for == "RNAPuzzle":
+        # if ready_for == "RNAPuzzle":
         G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
         U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
         C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
 
         # hmm.. is it the same as RNApuzzle???
-        #if ready_for == "SimRNA":
+        # if ready_for == "SimRNA":
         #    G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         #    A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
         #    U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
@@ -892,11 +925,21 @@ class RNAStructure:
 
         missing = []
         fixed = []
+        protein_chains_remmoved = []
 
         new_chains = list(string.ascii_uppercase)
-        
+
         for chain in model.get_list():
             logger.debug('chain: %s' % chain)
+
+            # is it RNA? ############################
+            protein_like = 0
+            for c, r in enumerate(chain, 1):
+                if r.resname in AMINOACID_CODES:
+                    protein_like += 1
+            if (protein_like / float(c + 1)) > .8:  # 90%
+                protein_chains_remmoved.append(chain.get_id())
+            # ######################################
 
             res = []
             for r in chain:
@@ -907,46 +950,66 @@ class RNAStructure:
             # start chains from A..BCD. etc
             if rename_chains:
                 chain.id = new_chains.pop(0)
-            
+
             c2 = PDB.Chain.Chain(chain.id)
 
             c = 1  # new chain, goes from 1 !!! if renumber True
             for r in res:
                 # hack for amber/qrna
                 r.resname = r.resname.strip()
-                if r.resname == 'RC3': r.resname = 'C'
-                if r.resname == 'RU3': r.resname = 'U'
-                if r.resname == 'RG3': r.resname = 'G'
-                if r.resname == 'RA3': r.resname = 'A'
+                if r.resname == 'RC3':
+                    r.resname = 'C'
+                if r.resname == 'RU3':
+                    r.resname = 'U'
+                if r.resname == 'RG3':
+                    r.resname = 'G'
+                if r.resname == 'RA3':
+                    r.resname = 'A'
 
-                if r.resname == 'C3': r.resname = 'C'
-                if r.resname == 'U3': r.resname = 'U'
-                if r.resname == 'G3': r.resname = 'G'
-                if r.resname == 'A3': r.resname = 'A'
+                if r.resname == 'C3':
+                    r.resname = 'C'
+                if r.resname == 'U3':
+                    r.resname = 'U'
+                if r.resname == 'G3':
+                    r.resname = 'G'
+                if r.resname == 'A3':
+                    r.resname = 'A'
 
-                if r.resname == 'RC5': r.resname = 'C'
-                if r.resname == 'RU5': r.resname = 'U'
-                if r.resname == 'RG5': r.resname = 'G'
-                if r.resname == 'RA5': r.resname = 'A'
+                if r.resname == 'RC5':
+                    r.resname = 'C'
+                if r.resname == 'RU5':
+                    r.resname = 'U'
+                if r.resname == 'RG5':
+                    r.resname = 'G'
+                if r.resname == 'RA5':
+                    r.resname = 'A'
 
-                if r.resname == 'C5': r.resname = 'C'
-                if r.resname == 'U5': r.resname = 'U'
-                if r.resname == 'G5': r.resname = 'G'
-                if r.resname == 'A5': r.resname = 'A'
+                if r.resname == 'C5':
+                    r.resname = 'C'
+                if r.resname == 'U5':
+                    r.resname = 'U'
+                if r.resname == 'G5':
+                    r.resname = 'G'
+                if r.resname == 'A5':
+                    r.resname = 'A'
 
-                if r.resname.strip() == 'RC': r.resname = 'C'
-                if r.resname.strip() == 'RU': r.resname = 'U'
-                if r.resname.strip() == 'RG': r.resname = 'G'
-                if r.resname.strip() == 'RA': r.resname = 'A'
+                if r.resname.strip() == 'RC':
+                    r.resname = 'C'
+                if r.resname.strip() == 'RU':
+                    r.resname = 'U'
+                if r.resname.strip() == 'RG':
+                    r.resname = 'G'
+                if r.resname.strip() == 'RA':
+                    r.resname = 'A'
 
                 # unmodified rna 2MG -> G and take only G atoms
                 if (r.resname.strip() not in ['C', 'U', 'G', 'A']) and \
-                    (r.resname.strip()[-1] in ['C', 'U', 'G', 'A']):
-                     r.resname = r.resname.strip()[-1].strip()
+                        (r.resname.strip()[-1] in ['C', 'U', 'G', 'A']):
+                    r.resname = r.resname.strip()[-1].strip()
 
                 r2 = PDB.Residue.Residue(r.id, r.resname.strip(), r.segid)
                 if renumber_residues:
-                    r2.id = (r2.id[0], c, r2.id[2]) ## renumber residues
+                    r2.id = (r2.id[0], c, r2.id[2])  # renumber residues
                 #
                 # experimental: fixing missing OP3.
                 # Only for the first residues.
@@ -954,7 +1017,7 @@ class RNAStructure:
                 if c == 1:
                     # if p_missing
                     p_missing = True
-                    #if p_missing:
+                    # if p_missing:
                     #    try:
                     #        x = r["O5'"]
                     #        x.id =       ' P'
@@ -969,46 +1032,46 @@ class RNAStructure:
                     logger.debug('p_missing %s' % p_missing)
 
                     if p_missing and fix_missing_atoms:
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(
+                                path + os.sep + os.path.basename(currfn)))
 
-                            po3_struc = PDB.PDBParser().get_structure('', path + '/data/PO3_inner.pdb')
-                            po3 = [po3_atom for po3_atom in po3_struc[0].get_residues()][0]
+                        po3_struc = PDB.PDBParser().get_structure('', path + '/data/PO3_inner.pdb')
+                        po3 = [po3_atom for po3_atom in po3_struc[0].get_residues()][0]
 
-                            r_atoms = [r["O4'"], r["C4'"], r["C3'"]]
-                            po3_atoms = [po3["O4'"], po3["C4'"], po3["C3'"]]
+                        r_atoms = [r["O4'"], r["C4'"], r["C3'"]]
+                        po3_atoms = [po3["O4'"], po3["C4'"], po3["C3'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, po3_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, po3_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( po3_struc.get_atoms() ) # to all atoms of po3
+                        sup.apply(po3_struc.get_atoms())  # to all atoms of po3
 
-                            r.add( po3['P'])
-                            r.add( po3['OP1'])
-                            r.add( po3['OP2'])
-                            try:
-                                r.add( po3["O5'"])
-                            except:
-                                del r["O5'"]
-                                r.add( po3["O5'"])
+                        r.add(po3['P'])
+                        r.add(po3['OP1'])
+                        r.add(po3['OP2'])
+                        try:
+                            r.add(po3["O5'"])
+                        except:
+                            del r["O5'"]
+                            r.add(po3["O5'"])
 
-                            fixed.append(['add OP3 at the beginning of the chain ', chain.id, r, c])
+                        fixed.append(['add OP3 at the beginning of the chain ', chain.id, r, c])
 
-                    p_missing = False # off this function
+                    p_missing = False  # off this function
 
-                
                     # save it
                     #io = PDB.PDBIO()
                     #io.set_structure( po3_struc )
-                    #io.save("po3.pdb")
+                    # io.save("po3.pdb")
 
-                # 
+                #
                 # fix missing O2'
                 #
                 o2p_missing = True
@@ -1019,31 +1082,32 @@ class RNAStructure:
                 logger.debug('o2p_missing: %s', o2p_missing)
 
                 if o2p_missing and fix_missing_atoms:
-                        currfn = __file__
-                        if currfn == '':
-                            path = '.'
-                        else:
-                            path = os.path.dirname(currfn)
-                        if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                            path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                    currfn = __file__
+                    if currfn == '':
+                        path = '.'
+                    else:
+                        path = os.path.dirname(currfn)
+                    if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                        path = os.path.dirname(os.readlink(
+                            path + os.sep + os.path.basename(currfn)))
 
-                        o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
-                        o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
+                    o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
+                    o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
 
-                        r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
-                        o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
+                    r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
+                    o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
 
-                        sup = PDB.Superimposer()
-                        sup.set_atoms(r_atoms, o2p_atoms)
-                        rms = round(sup.rms, 3)
+                    sup = PDB.Superimposer()
+                    sup.set_atoms(r_atoms, o2p_atoms)
+                    rms = round(sup.rms, 3)
 
-                        sup.apply( o2p_struc.get_atoms() ) # to all atoms of o2p
+                    sup.apply(o2p_struc.get_atoms())  # to all atoms of o2p
 
-                        r.add( o2p["O2'"])
-                        logger.debug('fixing o2p for ' % r)
-                        fixed.append(['add O2\' ', chain.id, r, c])
+                    r.add(o2p["O2'"])
+                    logger.debug('fixing o2p for ' % r)
+                    fixed.append(['add O2\' ', chain.id, r, c])
 
-                o2p_missing = False # off this function
+                o2p_missing = False  # off this function
 
                 #
                 # fix missing C (the whole base at the moment)
@@ -1052,157 +1116,161 @@ class RNAStructure:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else: # fix
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                    else:  # fix
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(
+                                path + os.sep + os.path.basename(currfn)))
 
-                            C_struc = PDB.PDBParser().get_structure('', path + '/data/C.pdb')
-                            C = [C_atom for C_atom in C_struc[0].get_residues()][0]
+                        C_struc = PDB.PDBParser().get_structure('', path + '/data/C.pdb')
+                        C = [C_atom for C_atom in C_struc[0].get_residues()][0]
 
-                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
-                            C_atoms = [C["O4'"], C["C2'"], C["C1'"]]
+                        r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                        C_atoms = [C["O4'"], C["C2'"], C["C1'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, C_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, C_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( C_struc.get_atoms() ) # to all atoms of C
+                        sup.apply(C_struc.get_atoms())  # to all atoms of C
 
-                            r.add( C["N1"])
-                            r.add( C["C2"])
-                            r.add( C["O2"])
-                            r.add( C["N3"])
-                            r.add( C["C4"])
-                            r.add( C["N4"])
-                            r.add( C["C5"])
-                            r.add( C["C6"])
+                        r.add(C["N1"])
+                        r.add(C["C2"])
+                        r.add(C["O2"])
+                        r.add(C["N3"])
+                        r.add(C["C4"])
+                        r.add(C["N4"])
+                        r.add(C["C5"])
+                        r.add(C["C6"])
 
-                            fixed.append(['add the whole base C', chain.id, r, c])
+                        fixed.append(['add the whole base C', chain.id, r, c])
 
-                # 
+                #
                 # fix missing U (the whole base at the moment)
                 #
                 if str(r.get_resname()).strip() == "U" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else: # fix
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                    else:  # fix
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(
+                                path + os.sep + os.path.basename(currfn)))
 
-                            U_struc = PDB.PDBParser().get_structure('', path + '/data/U.pdb')
-                            U = [U_atom for U_atom in U_struc[0].get_residues()][0]
+                        U_struc = PDB.PDBParser().get_structure('', path + '/data/U.pdb')
+                        U = [U_atom for U_atom in U_struc[0].get_residues()][0]
 
-                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
-                            U_atoms = [U["O4'"], U["C2'"], U["C1'"]]
+                        r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                        U_atoms = [U["O4'"], U["C2'"], U["C1'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, U_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, U_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( U_struc.get_atoms() ) # to all atoms of U
+                        sup.apply(U_struc.get_atoms())  # to all atoms of U
 
-                            r.add( U["N1"])
-                            r.add( U["C2"])
-                            r.add( U["O2"])
-                            r.add( U["N3"])
-                            r.add( U["C4"])
-                            r.add( U["O4"])
-                            r.add( U["C5"])
-                            r.add( U["C6"])
+                        r.add(U["N1"])
+                        r.add(U["C2"])
+                        r.add(U["O2"])
+                        r.add(U["N3"])
+                        r.add(U["C4"])
+                        r.add(U["O4"])
+                        r.add(U["C5"])
+                        r.add(U["C6"])
 
-                            fixed.append(['add the whole base U', chain.id, r, c])
-                # 
+                        fixed.append(['add the whole base U', chain.id, r, c])
+                #
                 # fix missing G (the whole base at the moment)
                 #
                 if str(r.get_resname()).strip() == "G" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else: # fix
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                    else:  # fix
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(
+                                path + os.sep + os.path.basename(currfn)))
 
-                            G_struc = PDB.PDBParser().get_structure('', path + '/data/G.pdb')
-                            G = [G_atom for G_atom in G_struc[0].get_residues()][0]
+                        G_struc = PDB.PDBParser().get_structure('', path + '/data/G.pdb')
+                        G = [G_atom for G_atom in G_struc[0].get_residues()][0]
 
-                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
-                            G_atoms = [G["O4'"], G["C2'"], G["C1'"]]
+                        r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                        G_atoms = [G["O4'"], G["C2'"], G["C1'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, G_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, G_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( G_struc.get_atoms() ) # to all atoms of G
+                        sup.apply(G_struc.get_atoms())  # to all atoms of G
 
-                            r.add( G["N9"])
-                            r.add( G["C8"])
-                            r.add( G["N7"])
-                            r.add( G["C5"])
-                            r.add( G["C6"])
-                            r.add( G["O6"])
-                            r.add( G["N1"])
-                            r.add( G["C2"])
-                            r.add( G["N2"])
-                            r.add( G["N3"])
-                            r.add( G["C4"])
+                        r.add(G["N9"])
+                        r.add(G["C8"])
+                        r.add(G["N7"])
+                        r.add(G["C5"])
+                        r.add(G["C6"])
+                        r.add(G["O6"])
+                        r.add(G["N1"])
+                        r.add(G["C2"])
+                        r.add(G["N2"])
+                        r.add(G["N3"])
+                        r.add(G["C4"])
 
-                            fixed.append(['add the whole base G', chain.id, r, c])
-                # 
+                        fixed.append(['add the whole base G', chain.id, r, c])
+                #
                 # fix missing A (the whole base at the moment)
                 #
                 if str(r.get_resname()).strip() == "A" and fix_missing_atoms:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else: # fix
-                            currfn = __file__
-                            if currfn == '':
-                                path = '.'
-                            else:
-                                path = os.path.dirname(currfn)
-                            if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
-                                path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
+                    else:  # fix
+                        currfn = __file__
+                        if currfn == '':
+                            path = '.'
+                        else:
+                            path = os.path.dirname(currfn)
+                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                            path = os.path.dirname(os.readlink(
+                                path + os.sep + os.path.basename(currfn)))
 
-                            A_struc = PDB.PDBParser().get_structure('', path + '/data/A.pdb')
-                            A = [A_atom for A_atom in A_struc[0].get_residues()][0]
+                        A_struc = PDB.PDBParser().get_structure('', path + '/data/A.pdb')
+                        A = [A_atom for A_atom in A_struc[0].get_residues()][0]
 
-                            r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
-                            A_atoms = [A["O4'"], A["C2'"], A["C1'"]]
+                        r_atoms = [r["O4'"], r["C2'"], r["C1'"]]
+                        A_atoms = [A["O4'"], A["C2'"], A["C1'"]]
 
-                            sup = PDB.Superimposer()
-                            sup.set_atoms(r_atoms, A_atoms)
-                            rms = round(sup.rms, 3)
+                        sup = PDB.Superimposer()
+                        sup.set_atoms(r_atoms, A_atoms)
+                        rms = round(sup.rms, 3)
 
-                            sup.apply( A_struc.get_atoms() ) # to all atoms of A
+                        sup.apply(A_struc.get_atoms())  # to all atoms of A
 
-                            r.add( A["N9"])
-                            r.add( A["C8"])
-                            r.add( A["N7"])
-                            r.add( A["C5"])
-                            r.add( A["C6"])
-                            r.add( A["N6"])
-                            r.add( A["N1"])
-                            r.add( A["C2"])
-                            r.add( A["N3"])
-                            r.add( A["C4"])
+                        r.add(A["N9"])
+                        r.add(A["C8"])
+                        r.add(A["N7"])
+                        r.add(A["C5"])
+                        r.add(A["C6"])
+                        r.add(A["N6"])
+                        r.add(A["N1"])
+                        r.add(A["C2"])
+                        r.add(A["N3"])
+                        r.add(A["C4"])
 
-                            fixed.append(['add the whole base A', chain.id, r, c])
+                        fixed.append(['add the whole base A', chain.id, r, c])
 
                 #
                 # strip residues of extra atoms, not in G_ATOMS in this case
@@ -1218,7 +1286,7 @@ class RNAStructure:
                             else:
                                 r2.add(r[an])
                         except KeyError:
-                            #print 'Missing:', an, r, ' new resi', c
+                            # print 'Missing:', an, r, ' new resi', c
                             missing.append([an, chain.id, r, c])
                     c2.add(r2)
 
@@ -1233,7 +1301,7 @@ class RNAStructure:
                             else:
                                 r2.add(r[an])
                         except KeyError:
-                            #print 'Missing:', an, r, ' new resi', c
+                            # print 'Missing:', an, r, ' new resi', c
                             missing.append([an, chain.id, r, c])
                     c2.add(r2)
 
@@ -1248,7 +1316,7 @@ class RNAStructure:
                             else:
                                 r2.add(r[an])
                         except:
-                            #print 'Missing:', an, r, ' new resi', c
+                            # print 'Missing:', an, r, ' new resi', c
                             missing.append([an, chain.id, r, c])
                     c2.add(r2)
 
@@ -1263,7 +1331,7 @@ class RNAStructure:
                             else:
                                 r2.add(r[an])
                         except KeyError:
-                            #print 'Missing:', an, r,' new resi', c
+                            # print 'Missing:', an, r,' new resi', c
                             missing.append([an, chain.id, r, c])
                     c2.add(r2)
 
@@ -1274,8 +1342,8 @@ class RNAStructure:
         s2.add(m2)
         for chain2 in chains2:
             m2.add(chain2)
-        #print c2
-        #print m2
+        # print c2
+        # print m2
         io.set_structure(s2)
 
         tf = tempfile.NamedTemporaryFile(delete=False)
@@ -1286,74 +1354,81 @@ class RNAStructure:
         if fixed:
             remarks.append('REMARK 250 Fixed atoms/residues:')
             for i in fixed:
-                remarks.append(' '.join(['REMARK 250  -', str(i[0]), 'in chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
+                remarks.append(
+                    ' '.join(['REMARK 250  -', str(i[0]), 'in chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
 
-        if missing:
+        if missing and report_missing_atoms:
             remarks.append('REMARK 250 Missing atoms:')
             for i in missing:
-                remarks.append(' '.join(['REMARK 250   +', str(i[0]), str(i[1]), str(i[2]), 'residue #', str(i[3])]))
+                remarks.append(' '.join(['REMARK 250   +', str(i[0]),
+                                         str(i[1]), str(i[2]), 'residue #', str(i[3])]))
             #raise Exception('Missing atoms in %s' % self.fn)
+
+        if protein_chains_remmoved:
+            remarks.append('REMARK 250 Chains that seem to be proteins removed and : ' +
+                           ' '.join(protein_chains_remmoved))
         #
+
         # fix ter 'TER' -> TER    1528        G A  71
         #
         s = RNAStructure(fout)
         self.lines = s.lines
         c = 0
-        #ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
+        # ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
         nlines = []
         no_ters = 0
         for l in self.lines:
-
             ## align atoms to the left #######################################################
-            #ATOM   3937    P   C B 185      11.596  -7.045  26.165  1.00  0.00           P
-            #ATOM   3937  P     C B 185      11.596  -7.045  26.165  1.00  0.00           P
+            # ATOM   3937    P   C B 185      11.596  -7.045  26.165  1.00  0.00           P
+            # ATOM   3937  P     C B 185      11.596  -7.045  26.165  1.00  0.00           P
             if l.startswith('ATOM'):
                 atom_code = self.get_atom_code(l)
                 l = self.set_atom_code(l, atom_code)
             ##################################################################################
-            
+
             if l.startswith('TER'):
-                atom_l = self.lines[c-1]
-                #print 'TER    1528        G A  71 <<<'
-                new_l = 'TER'.ljust(80)
-                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l)+1 + no_ters))
+                atom_l = self.lines[c - 1]
+                new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
+                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l) + 1 + no_ters))
                 new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
                 new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
                 new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
-                #print new_l
                 nlines.append(new_l)
                 no_ters += 1
             else:
                 if self.get_atom_index(l):
-                    l = self.set_atom_index(l, self.get_atom_index(l) + no_ters) # 1 ter +1 2 ters +2 etc
+                    l = self.set_atom_index(l, self.get_atom_index(
+                        l) + no_ters)  # 1 ter +1 2 ters +2 etc
                 nlines.append(l)
             c += 1
         self.lines = nlines
         return remarks
-        
+
     def set_occupancy_atoms(self, occupancy):
         """
         :param occupancy:
         """
         nlines = []
         for l in self.lines:
-           if l.startswith('ATOM'):
-               l = self.set_atom_occupancy(l, 0.00)
-               nlines.append(l)
-           else:
-               nlines.append(l)
+            if l.startswith('ATOM'):
+                l = self.set_atom_occupancy(l, 0.00)
+                nlines.append(l)
+            else:
+                nlines.append(l)
         self.lines = nlines
 
-    def edit_occupancy_of_pdb(txt, pdb, pdb_out,v=False):
+    def edit_occupancy_of_pdb(txt, pdb, pdb_out, v=False):
         """Make all atoms 1 (flexi) and then set occupancy 0 for seletected atoms.
         Return False if error. True if OK
         """
         struc = PDB.PDBParser().get_structure('struc', pdb)
 
-        txt = txt.replace(' ','')
-        if v:print (txt)
+        txt = txt.replace(' ', '')
+        if v:
+            print (txt)
         l = re.split('[,:;]', txt)
-        if v:print (l)
+        if v:
+            print (l)
 
         for s in struc:
             for c in s:
@@ -1361,21 +1436,22 @@ class RNAStructure:
                     for a in r:
                         a.set_occupancy(1)  # make it flaxi
 
-        for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
+        for i in l:  # ['A', '1-10', '15', '25-30', 'B', '1-10']
 
             if i in string.ascii_letters:
-                if v:print('chain', i)
+                if v:
+                    print('chain', i)
                 chain_curr = i
                 continue
 
             if i.find('-') > -1:
                 start, ends = i.split('-')
                 if start > ends:
-                    print('Error: range start > end ' + i) # >>sys.stderr
+                    print('Error: range start > end ' + i)  # >>sys.stderr
                     return False
-                index = list(range(int(start), int(ends)+1))
+                index = list(range(int(start), int(ends) + 1))
             else:
-                index=[int(i)]
+                index = [int(i)]
 
             for i in index:
                 # change b_factor
@@ -1383,9 +1459,11 @@ class RNAStructure:
                     atoms = struc[0][chain_curr][i]
                 except KeyError:
                     if i == chain_curr:
-                        print('Error: Chain ' + chain_curr + ' not found in the PDB structure')  #  >>sys.stderr,
+                        print('Error: Chain ' + chain_curr +
+                              ' not found in the PDB structure')  # >>sys.stderr,
                     else:
-                        print('Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure')  #  >>sys.stderr,
+                        print('Error: Residue ' + chain_curr + ':' + str(i) +
+                              ' found in the PDB structure')  # >>sys.stderr,
                         return False
                 for a in atoms:
                     a.set_occupancy(0)
@@ -1399,17 +1477,23 @@ class RNAStructure:
     def view(self):
         os.system('pymol ' + self.fn)
 
-
     def remove(self, verbose):
         """Delete file, self.fn"""
         os.remove(self.fn)
-        if verbose: 'File %s removed' % self.fn
-        
+        if verbose:
+            'File %s removed' % self.fn
+
+    def __repr__(self):
+        return 'RNAStructure %s' % self.fn
+
+
 def add_header(version=None):
     now = time.strftime("%c")
-    txt =  'REMARK 250 Model edited with rna-pdb-tools\n'
-    txt += 'REMARK 250  ver %s \nREMARK 250  https://github.com/mmagnus/rna-pdb-tools \nREMARK 250  %s' % (version, now)
+    txt = 'REMARK 250 Model edited with rna-pdb-tools\n'
+    txt += 'REMARK 250  ver %s \nREMARK 250  https://github.com/mmagnus/rna-pdb-tools \nREMARK 250  %s' % (
+        version, now)
     return txt
+
 
 def edit_pdb(args):
     """Edit your structure.
@@ -1421,67 +1505,71 @@ def edit_pdb(args):
 
     Examples::
 
-      $ rna_pdb_tools.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
+        $ rna_pdb_toolsx.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
 
     or even::
 
-      $ rna_pdb_tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
+        $ rna_pdb_toolsx.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
 
     """
-    ## open a new file
+    # open a new file
     s = RNAStructure(args.file)
     if not args.no_hr:
         add_header()
         print('HEADER --edit ' + args.edit)
 
-    ## --edit 'A:3-21>A:1-19,B:22-32>B:20-30'
-    if args.edit.find(',')>-1:
+    # --edit 'A:3-21>A:1-19,B:22-32>B:20-30'
+    if args.edit.find(',') > -1:
         # more than one edits
-        edits = args.edit.split(',') # ['A:3-21>A:1-19', 'B:22-32>B:20-30']
+        edits = args.edit.split(',')  # ['A:3-21>A:1-19', 'B:22-32>B:20-30']
         selects = []
         for e in edits:
-            selection_from, selection_to = select_pdb_fragment(e.split('>')[0]), select_pdb_fragment(e.split('>')[1])
+            selection_from, selection_to = select_pdb_fragment(
+                e.split('>')[0]), select_pdb_fragment(e.split('>')[1])
             if len(selection_to) != len(selection_from):
                 raise Exception('len(selection_to) != len(selection_from)')
             selects.append([selection_from, selection_to])
-        print( edits)
+        print(edits)
     else:
         # one edit
         e = args.edit
-        selection_from, selection_to = select_pdb_fragment(e.split('>')[0]), select_pdb_fragment(e.split('>')[1])
+        selection_from, selection_to = select_pdb_fragment(
+            e.split('>')[0]), select_pdb_fragment(e.split('>')[1])
         if len(selection_to) != len(selection_from):
             raise Exception('len(selection_to) != len(selection_from)')
         selects = [[selection_from, selection_to]]
 
-    ## go ever all edits: ['A:3-21>A:1-19','B:22-32>B:20-30']
+    # go ever all edits: ['A:3-21>A:1-19','B:22-32>B:20-30']
     for l in s.lines:
-            if l.startswith('ATOM'):
+        if l.startswith('ATOM'):
                 # get chain and resi
-                chain = l[21:22].strip()
-                resi = int(l[22:26].strip())
+            chain = l[21:22].strip()
+            resi = int(l[22:26].strip())
 
-                if_selected_dont_print = False
-                # for selections
-                for select in selects:
-                    selection_from, selection_to = select
-                    if chain in selection_from:
-                        if resi in selection_from[chain]:
+            if_selected_dont_print = False
+            # for selections
+            for select in selects:
+                selection_from, selection_to = select
+                if chain in selection_from:
+                    if resi in selection_from[chain]:
                             # [1,2,3] mapping from [4,5,10], you want to know how to map 1
                             # 1 is [0] element of first list, so you have to index first list
                             # to get 0, with this 0 you can get 4 out of second list [4,5,10][0] -> 4
-                            nl = list(l)
-                            chain_new = list(selection_to.keys())[0] # chain form second list
-                            nl[21] =  chain_new # new chain
-                            index = selection_from[chain].index(int(resi)) # get index of 1
-                            resi_new = str(selection_to[chain_new][index]).rjust(4) # 'A' [1,2,3] -> '  1'
-                            nl[22:26] = resi_new
-                            nl = ''.join(nl)
-                            if_selected_dont_print = True
-                            print(nl)
-                if not if_selected_dont_print:
-                    print(l)
-            else: # if not atom
+                        nl = list(l)
+                        chain_new = list(selection_to.keys())[0]  # chain form second list
+                        nl[21] = chain_new  # new chain
+                        index = selection_from[chain].index(int(resi))  # get index of 1
+                        resi_new = str(selection_to[chain_new][index]).rjust(
+                            4)  # 'A' [1,2,3] -> '  1'
+                        nl[22:26] = resi_new
+                        nl = ''.join(nl)
+                        if_selected_dont_print = True
+                        print(nl)
+            if not if_selected_dont_print:
                 print(l)
+        else:  # if not atom
+            print(l)
+
 
 def collapsed_view(args):
     """Collapsed view of pdb file. Only lines with C5' atoms are shown and TER, MODEL, END.
@@ -1499,10 +1587,11 @@ def collapsed_view(args):
     r = RNAStructure(args.file)
     for l in r.lines:
         at = r.get_atom_code(l)
-        if  at == "C5'":
+        if at == "C5'":
             print(l)
         if l.startswith('TER') or l.startswith('MODEL') or l.startswith('END'):
             print(l)
+
 
 def fetch(pdb_id, path="."):
     """fetch pdb file from RCSB.org
@@ -1511,7 +1600,8 @@ def fetch(pdb_id, path="."):
     http = urllib3.PoolManager()
     # try:
     response = http.request('GET', 'https://files.rcsb.org/download/' + pdb_id + '.pdb')
-    if not response.status == 200: raise PDBFetchError()
+    if not response.status == 200:
+        raise PDBFetchError()
 
     # except urllib3.HTTPError:
     #    raise Exception('The PDB does not exists: ' + pdb_id)
@@ -1537,9 +1627,11 @@ def fetch_ba(pdb_id, path="."):
         print('urllib3 is required')
         return
     http = urllib3.PoolManager()
-    #try:
-    response = http.request('GET', url='https://files.rcsb.org/download/' + pdb_id.lower() + '.pdb1')
-    if not response.status == 200: raise PDBFetchError()
+    # try:
+    response = http.request('GET', url='https://files.rcsb.org/download/' +
+                            pdb_id.lower() + '.pdb1')
+    if not response.status == 200:
+        raise PDBFetchError()
     txt = response.data
 
     npath = path + os.sep + pdb_id + '_ba.pdb'
@@ -1552,10 +1644,13 @@ def fetch_ba(pdb_id, path="."):
 
 def fetch_cif_ba(cif_id, path="."):
     """fetch biological assembly cif file from RCSB.org"""
+    import urrlib3
     http = urllib3.PoolManager()
-    #try:
-    response = http.request('GET', url='https://files.rcsb.org/download/' + cif_id.lower() + '-assembly1.cif')
-    if not response.status == 200: raise PDBFetchError()
+    # try:
+    response = http.request('GET', url='https://files.rcsb.org/download/' +
+                            cif_id.lower() + '-assembly1.cif')
+    if not response.status == 200:
+        raise PDBFetchError()
     txt = response.data
 
     npath = path + os.sep + cif_id + '_ba.cif'
@@ -1578,8 +1673,8 @@ if '__main__' == __name__:
     s = RNAStructure(fn)
     print(s.detect_molecule_type())
     #res = get_all_res(na)
-    #print 'what is?', what_is(res)
-    #print res
+    # print 'what is?', what_is(res)
+    # print res
     print('non standard:', s.check_res_if_std_na())
     print('is protein:', s.detect_molecule_type())
 
@@ -1587,7 +1682,6 @@ if '__main__' == __name__:
     s = RNAStructure(fn)
     print('non standard:', s.check_res_if_std_prot())
     print('is protein:',  s.detect_molecule_type())
-
 
     fn = 'input/rna-ru.pdb'
     s = RNAStructure(fn)
@@ -1612,7 +1706,7 @@ if '__main__' == __name__:
     fn = 'input/na_solvet_old_format.pdb'
     print(fn)
     s = RNAStructure(fn)
-    s.fix_resn()
+    s.std_resn()
     s.remove_hydrogen()
     s.remove_ion()
     s.remove_water()
@@ -1620,17 +1714,16 @@ if '__main__' == __name__:
 
     #fn = 'input/na_solvet_old_format__.pdb'
     #s = RNAStructure(fn)
-    #s.fix_resn()
-    #s.remove_hydrogen()
-    #s.remove_ion()
-    #s.remove_water()
-    #s.renum_atoms()
-    #s.fix_op_atoms()
-    #s.write('output/na_solvet_old_format__.pdb')
-
+    # s.std_resn()
+    # s.remove_hydrogen()
+    # s.remove_ion()
+    # s.remove_water()
+    # s.renum_atoms()
+    # s.fix_op_atoms()
+    # s.write('output/na_solvet_old_format__.pdb')
 
     fn = 'input/1xjr.pdb'
-    s.fix_resn()
+    s.std_resn()
     s.remove_hydrogen()
     s.remove_ion()
     s.remove_water()
@@ -1641,7 +1734,7 @@ if '__main__' == __name__:
     fn = 'input/decoy0165_amb.pdb'
     print(fn)
     s = RNAStructure(fn)
-    s.fix_resn()
+    s.std_resn()
     s.remove_hydrogen()
     s.remove_ion()
     s.remove_water()
@@ -1653,7 +1746,7 @@ if '__main__' == __name__:
     fn = 'input/farna.pdb'
     print(fn)
     s = RNAStructure(fn)
-    s.fix_resn()
+    s.std_resn()
     s.remove_hydrogen()
     s.remove_ion()
     s.remove_water()
@@ -1675,8 +1768,8 @@ if '__main__' == __name__:
         r.mol2toPDB('/tmp/x.pdb')
 
         r = RNAStructure('/tmp/x.pdb')
-        print(r.get_report())
-        r.fix_resn()
+        print(r.get_report)
+        r.std_resn()
         r.remove_hydrogen()
         r.remove_ion()
         r.remove_water()
@@ -1689,7 +1782,7 @@ if '__main__' == __name__:
         r = RNAStructure("input/2du3_prot_bound.mol2")
         print(r.is_mol2())
         outfn = r.mol2toPDB()
-        print(r.get_report())
+        print(r.get_report)
 
     print('================================================')
     fn = "input/3e5fA-nogtp_processed_zephyr.pdb"
@@ -1697,11 +1790,11 @@ if '__main__' == __name__:
     print(r.is_mol2())
     #outfn = r.mol2toPDB()
     print(r.is_amber_like())
-    print(r.get_report())
+    print(r.get_report)
 
     print(r.get_preview())
 
-    r.fix_resn()
+    r.std_resn()
 
     print(r.get_preview())
 
@@ -1717,7 +1810,7 @@ if '__main__' == __name__:
     fn = "input/1xjr_clx_charmm.pdb"
     print(fn)
     s = RNAStructure(fn)
-    s.fix_resn()
+    s.std_resn()
     s.remove_hydrogen()
     s.remove_ion()
     s.remove_water()
@@ -1736,19 +1829,18 @@ if '__main__' == __name__:
     r.remove_hydrogen()
     r.remove_ion()
     r.remove_water()
-    r.fix_resn()
+    r.std_resn()
     print(r.get_head())
     print(r.get_tail())
     print(r.get_preview())
     r.write("output/dna_fconvpdb_charmm22.pdb")
-
 
     print()
     fn = "input/1a9l_NMR_1_2_models.pdb"
     print(fn)
     r = RNAStructure(fn)
     r.write("output/1a9l_NMR_1_2_models_lib.pdb")
-    #r.get_text() # get #1 model
+    # r.get_text() # get #1 model
 
     import doctest
     doctest.testmod()

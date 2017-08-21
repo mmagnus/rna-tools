@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """RNA Sequence with secondary structure prediction methods.
 
@@ -38,7 +38,7 @@ Should you need to run it on a list of sequences, use the following script::
        #print s.predict_ss(method="centroid_fold")
 
 @todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
-""" # noqa
+"""  # noqa
 import os
 try:
     RPT_PATH = os.environ['RNA_PDB_TOOLS']
@@ -50,7 +50,7 @@ import tempfile
 import sys
 
 
-from rpt_config import CONTEXTFOLD_PATH
+from rna_pdb_tools.rpt_config import CONTEXTFOLD_PATH
 
 
 class MethodNotChosen(Exception):
@@ -70,6 +70,7 @@ class RNASequence(object):
         ((((....)))) ( -6.40)
 
     """
+
     def __init__(self, seq):
         self.seq = seq
         self.ss = ''
@@ -106,19 +107,23 @@ class RNASequence(object):
             CCCCUUUGGG
             .(((...)))
 
+
         RNAstructure::
 
+            >>> seq = RNASequence("GGGGUUUUCCC")
+            >>> print(seq.predict_ss("rnastructure"))
             >  ENERGY = -4.4  rna_seq
             GGGGUUUUCCC
             ((((...))))
 
-        and with the shape data:
+        and with the shape data::
 
+            >>> print(seq.predict_ss("rnastructure", shapefn="data/shape.txt"))
             >  ENERGY = -0.2  rna_seq
             GGGGUUUUCCC
             .(((....)))
 
-        the shape data:
+        the shape data::
 
             1 10
             2 1
@@ -140,14 +145,14 @@ class RNASequence(object):
             cmd = 'RNAfold -C < ' + tf.name
             if verbose:
                 print(cmd)
-            self.ss_log = subprocess.check_output(cmd, shell=True)
+            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
             return '\n'.join(self.ss_log.strip().split('\n')[:])
 
         elif method == "RNAsubopt" and constraints:
             cmd = 'RNAsubopt -C < ' + tf.name
             if verbose:
                 print(cmd)
-            self.ss_log = subprocess.check_output(cmd, shell=True)
+            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
             return '\n'.join(self.ss_log.split('\n')[:])
 
         # if method == "RNAsubopt":
@@ -175,7 +180,7 @@ class RNASequence(object):
                   " + && java -cp bin contextFold.app.Predict in:" + self.seq
             if verbose:
                 print(cmd)
-            self.ss_log = subprocess.check_output(cmd, shell=True)
+            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
             return '\n'.join(self.ss_log.split('\n')[1:])
 
         elif method == "centroid_fold":

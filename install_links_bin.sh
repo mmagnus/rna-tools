@@ -5,7 +5,7 @@ rm bin/*
 curr_dir=$(pwd)
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd/rna_calc_rmsd.py $curr_dir/bin/rna_calc_rmsd.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py $curr_dir/bin/rna_calc_rmsd_all_vs_all.py
-ln -s $curr_dir/rna_pdb_tools/rna_pdb_tools.py $curr_dir/bin/rna_pdb_tools.py
+ln -s $curr_dir/rna_pdb_tools/rna_pdb_toolsx.py $curr_dir/bin/rna_pdb_toolsx.py
 ln -s $curr_dir/rna_pdb_tools/utils/diffpdb/diffpdb.py $curr_dir/bin/diffpdb
 ln -s $curr_dir/rna_pdb_tools/utils/clanstix/rna_clanstix.py $curr_dir/bin/rna_clastix.py
 
@@ -46,7 +46,7 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_pdb_edit_occupancy_bfactor/rna_pdb_edit_
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_refinement/rna_refinement.py $curr_dir/bin/rna_refinement.py
 
-ln -s $curr_dir/rna_pdb_tools/rna_pdb_download_simrna_job.py $curr_dir/bin/rna_pdb_download_simrna_job.py
+ln -s $curr_dir/rna_pdb_tools/rna_simrnaweb_download_job.py $curr_dir/bin/rna_simrnaweb_download_job.py
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_evo_rmsd/rna_calc_evo_rmsd.py $curr_dir/bin/rna_calc_evo_rmsd.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_calc_rmsd_trafl/rna_calc_rmsd_trafl.py $curr_dir/bin/rna_calc_rmsd_trafl.py

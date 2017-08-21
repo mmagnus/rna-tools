@@ -232,12 +232,6 @@ and it works with VARNA:
 .. automodule:: rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
    :members:
 
-Secondary structure (secstruc)
------------------------------------------
-
-.. automodule:: rna_pdb_tools.utils.secstruc.secstruc
-   :members:
-
 x3DNA (contacts classification & secondary structure detection)
 -----------------------------------------
 
@@ -255,13 +249,6 @@ If you want to calculate "Interaction Network Fidelity (INF) and not only" see r
 SimRNA
 -----------------------------------------
 
-Download files of a SimRNAweb run
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_pdb_tools.rna_pdb_download_simrna_job.get_parser
-   :prog: rna_pdb_download_simrna_job.py
-
 Select low energy frames
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -275,6 +262,16 @@ Extract
 .. argparse::
    :ref: rna_pdb_tools.utils.simrna_trajectory.rna_simrna_extract.get_parser
    :prog: rna_simrna_extract.py
+
+SimRNAweb
+-----------------------------------------
+
+Download files of a SimRNAweb run
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.rna_simrnaweb_download_job.rna_simrnaweb_download_job.get_parser
+   :prog: rna_simrnaweb_download_job.py
 
 SimRNATrajectory
 -----------------------------------------

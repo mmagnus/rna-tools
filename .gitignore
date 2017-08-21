@@ -30,3 +30,8 @@ coverage.xml
 *sandbox*
 *,cover
 *htmlcov/
+build/*
+.settings
+.project
+.pydevproject
+lastfailed

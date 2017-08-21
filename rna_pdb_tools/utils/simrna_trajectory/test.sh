@@ -1,1 +1,0 @@
-./simrna_trajectory.py

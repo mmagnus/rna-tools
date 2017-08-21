@@ -1,0 +1,43 @@
+# STOCKHOLM 1.0
+
+#=GF AC   RF01831
+#=GF ID   THF
+#=GF DE   THF riboswitch
+#=GF AU   Weinberg Z, Ames T
+#=GF SE   Published; PMID:20659680
+#=GF SS   Published; PMID:20659680
+#=GF GA   36.00
+#=GF TC   36.70
+#=GF NC   35.30
+#=GF TP   Cis-reg; riboswitch;
+#=GF BM   cmbuild -F CM SEED
+#=GF CB   cmcalibrate --mpi CM
+#=GF SM   cmsearch --cpu 4 --verbose --nohmmonly -T 24.60 -Z 549862.597050 CM SEQDB
+#=GF DR   SO; 0000035; riboswitch;
+#=GF DR   GO; 0046653; tetrahydrofolate metabolic process;
+#=GF RN   [1]
+#=GF RM   20659680
+#=GF RT   A eubacterial riboswitch class that senses the coenzyme tetrahydrofolate.
+#=GF RA   Ames TD, Rodionov DA, Weinberg Z, Breaker RR
+#=GF RL   Chem Biol. 2010;17:681-685.
+#=GF WK   Tetrahydrofolate_riboswitch
+#=GF SQ   97
+
+
+BABA01009937.1/46-141          ---UC-AGAGUAGAAAACGAUGCGUUA-----------------AGUG-UCCAGCAGAC-GGGGAGUUGCUGCCGGAACGAA-A-AGC---------------------------AAA--------------------------GCUUGCGGUAUCGUUU-UCGCAUCCCGCUG-A---
+BABB01000157.1/63-158          ---GC-AGAGUAGACACAUGUGCGUUA-----------------AGUG-CCGGAUGAAC-AGGGAGUUGUCACCCGGACGAA-A-AG----------------------------AAAA------------------------U-CUUGCGGUACAUGAG-UCGCAUCCCGCUG-C---
+BABF01004573.1/52-147          ---GC-AGAGUAGGUUUGUGUGCGUUA-----------------AGUG-CUGGUUGAAC-AGGGAGUUGUCAGCCGGACGAA-A-AG----------------------------AUUU------------------------U-CUUGCGGUACACGAA-UCGCAUCCCGCUG-C---
+BABE01004909.1/284-381         -A-GC-AGAGUAGGUCAGGAAGCGUUA-----------------AGUA-CCAUCUGAAC-GGGGAGUUGUCAGACGGGCGAA-A-AG----------------------------UUUA------------------------U-CUUGCGGUUUCCUGG-UCGCAUCCCGCUG-U-U-
+BAAU01016335.1/416-525         ---GC-AGAGUAGGUAUAUGUGCGUUA-----------------AGUG-CCGGAUGAAC-AGGGAGUAGUCAACCAGACGAA-A-GGGG------------------------CAAGAUAUGA---------------AACUGUUCCUGCGGUACAUGAG-CCGCAUCCCGCUG-C---
+BAAV01010818.1/618-715         -A-GC-AGAGUAAGUGCCUACGCGUUA-----------------AGUG-CCGGA-GUAC-GGGGAGUUGACAUCUGGACGAA-A-GCC---------------------------UUCG-------------------------GGCUGCGGUGUAAGCA-UUGCAUCCCGCUG-C-U-
+BABG01026644.1/586-688         ---GC-AGAGUAGGAAUACAGGCGUUA-----------------AGUG-CUGGUUGAAC-AGGGAGUUGUCAGCCGGACGAA-G-AGAC------------------------CCUCCGG----------------------GGUUUCGCGGUCAGUAUU-CCGCAUCCCGCUG-C---
+BAAX01022545.1/141-43          CAA-C-AGAGUAAGACCCUGCGCGUUA-----------------AGUG-CCGCAUCAAC-GGGGAGUUGUGCUGCGGACGAA-G-GU----------------------------AUUA--------------------------GCCGCGGUGCAGGGU-CUGCAUCCCGCUG--CUG
+BABG01004557.1/3-100           CAA-C-AGAGUAAGGCCAUGUGCGUUA-----------------AGUG-CCGCAUCAAC-GGGGAGUUGUGCUGUGGACGAA-G-G-----------------------------UGUA------------------------C--CCGCGGUGCAUGGU-CUGCAUCCCGCUG--CUG
+BAAX01002679.1/2103-2006       CAA-C-AGAGUAAGGCUAUGCGCGUCA-----------------AGUG-CCGCAUCAAC-GGGGAGUUGUGCUGCGGACGAA-G-GG----------------------------AGA---------------------------CCCGCGGUGCAUGGC-CUGCAUCCCGCUG--CUG
+BAAU01000940.1/627-724         CAA-C-AGAGUAAGGCUAUGCGCAUCA-----------------AGUG-CCGCAUCAAC-GGGGAGUUGUGCUGCGGACGAA-G-GG----------------------------AGA---------------------------CCCGCGGUGCAUGGC-CUGCAUCCCGCUG--CUG
+BABE01017430.1/618-522         -U-GC-AAAAUAGGAUUUUAUGCGUCA-----------------AGUG-UUCGGUGAAU-GGGGAGUUGUCACUGAAACGAA-A-AG----------------------------UGCG------------------------U-CUUACGGUAUAUUAU-CCGCACCCG-UUG-C-A-
+BABE01001528.1/194-88          UA-GC-GAAGUAGGAUUUUAUGCGUCA-----------------AGUG-UUCACAGGCU-GGGGAGUCGCC-GUGAAACGAA-A-AGCA------------------------GAAAGCGU--------------------GCUGCUUACGAUAUAAUUU-CCGCACCCG-UUG-C-UA
+XX                             .-.GG.AGAGUA-GAUGAUUCGCGUUA.................AGUG.UGUGUGA-AU.GGGAUGUCG-UCACACAACGAA.G.C--..........................-GAGA........................---GCGCGGUGAAUCAU.U-GCAUCCG.CUC.C.A.
+#=GC SS_cons                   .(.((.((----(((((((((((,,,,.................,<<-.<<<<<<<<__._________>>>>>>>>>>,,,.<.<<<.........................._____........................_>>>>,,,))))))))).))-------.))).).).
+#=GC RF                        .g.gc.aGAGUAGggugccgugcGUuA.................AGUG.ccggcgggAc.GGGgaGUUGcccgccggACGAA.g.ggc..........................aaaau........................ugcccGCGguacggcac.cCGCAUcCg.Cug.c.c.
+//

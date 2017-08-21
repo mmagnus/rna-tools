@@ -15,7 +15,7 @@ The program is using (https://github.com/charnley/rmsd)
 """
 from __future__ import print_function
 
-from lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
+from .lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
 
 import argparse
 import glob
@@ -38,8 +38,9 @@ def sort_nicely(l):
     """Sort the given list in the way that humans expect.
     http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
     """
-    convert = lambda text: int(text) if text.isdigit() else text
-    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    def convert(text): return int(text) if text.isdigit() else text
+
+    def alphanum_key(key): return [convert(c) for c in re.split('([0-9]+)', key)]
     l.sort(key=alphanum_key)
     return l
 
@@ -66,13 +67,13 @@ def calc_rmsd(a, b):
     #    write_coordinates(atomsP, V)
     #    quit()
 
-    return kabsch_rmsd(P, Q)   
+    return kabsch_rmsd(P, Q)
 
 
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-i',"--input_dir",
+    parser.add_argument('-i', "--input_dir",
                         default='',
                         help="input folder with structures")
 
@@ -92,9 +93,9 @@ if __name__ == '__main__':
 
     input_dir = args.input_dir
     matrix_fn = args.matrix_fn
-    
+
     models = get_rna_models_from_dir(input_dir)
-    
+
     print(' # of models:', len(models))
 
     f = open(matrix_fn, 'w')
