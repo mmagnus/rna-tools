@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import subprocess
 import tempfile
 
-from .Seq import RNASequence
-from rpt_config import RFAM_DB_PATH
+from rna_pdb_tools.Seq import RNASequence
+from rna_pdb_tools.rpt_config import RFAM_DB_PATH
 
 
 class RfamSearchError(Exception):

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """SimRNA cluster - a simple wrapper around clustering of SimRNA.
 
 By default: cluster 1% and give 5 clusters
 
 .. warning :: clustering has to be visiable in your shell by the script!"""
 
-from .simrna_trajectory import SimRNATrajectory
+from __future__ import print_function
+from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 import argparse
 import os
 
