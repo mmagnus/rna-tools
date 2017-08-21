@@ -7,7 +7,14 @@ http: // www.sciencedirect.com / science / article / pii / S0076687914000524
 
 The script makes(1) a folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder(2) make helices(3) prepare rosetta input files(4) sends jobs to the cluster.
 
-Mind that headers will be trimmed to 5 characters(``header[:6]``). The header is take from the fast file(`` > /header / ``) not from the filename of your Fasta file.
+The header is take from the fast file(`` > /header / ``) not from the filename of your Fasta file.
+
+I discovered this::
+
+     qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g' \
+>   | sed 's#<[^>]*>##g' | grep " " | column -t
+
+(https://stackoverflow.com/questions/26104116/qstat-and-long-job-names) so there is now need to shorted my job ids.
 
 Helix
 -------------------------------------------------------
@@ -163,7 +170,8 @@ def prepare_helices():
     if False:
         os.system('bash HRUNS')
     else:
-        p = subprocess.Popen(open('HRUNS').read(), shell=True, stderr=subprocess.PIPE)
+        p = subprocess.Popen(open('HRUNS').read(),
+                             shell=True, stderr=subprocess.PIPE)
         p.wait()
         stderr = p.stderr.read().strip()
         if stderr:
@@ -183,7 +191,6 @@ def prepare_rosetta(header, cpus, nstruc):
 
     """
     # get list line
-
     helices = open('CMDLINES').readlines()[-1].replace('#', '')
     njobs = cpus  # 500
     nstruct = int(math.floor(nstruc / cpus))  # 20000/500 -> 40
@@ -195,7 +202,8 @@ def prepare_rosetta(header, cpus, nstruc):
     # change to 50 per job (!)
     # 50 * 100 = 10k ?
     # dont change this 100 (!) it might not run on peyote2 with values like 99999 !
-    cmd = 'rosetta_submit.py README_FARFAR o ' + str(njobs) + ' 100 ' + header[:6]
+    cmd = 'rosetta_submit.py README_FARFAR o ' + \
+        str(njobs) + ' 100 ' + header + '_'
     print(cmd)
     os.system(cmd)
 
@@ -212,7 +220,7 @@ def main():
 
     if args.file:
         f = open(args.file)
-        header = f.readline().replace('>', '').strip()
+        header = f.readline().replace('>', '').replace(' ', '').strip()
         seq = f.readline().strip()
         ss = f.readline().strip()
         cpus = int(args.cpus)
@@ -223,9 +231,11 @@ def main():
         print(ss)
 
         if RNA_ROSETTA_RUN_ROOT_DIR_MODELING.strip() == '':
-            raise Exception('Set RNA_ROSETTA_RUN_ROOT_DIR_MODELING in your rpt_config file.')
+            raise Exception(
+                'Set RNA_ROSETTA_RUN_ROOT_DIR_MODELING in your rpt_config file.')
 
-        path = args.sandbox + os.sep + header + os.sep  # RNA_ROSETTA_RUN_ROOT_DIR_MODELING
+        path = args.sandbox + os.sep + header + \
+            os.sep  # RNA_ROSETTA_RUN_ROOT_DIR_MODELING
         curr = os.getcwd()
         if args.init:
             prepare_folder(args, header, seq, ss, path)
