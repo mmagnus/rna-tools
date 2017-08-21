@@ -30,11 +30,11 @@ from rna_pdb_tools.rpt_config import EASY_CAT_PATH
 print(EASY_CAT_PATH)
 
 
-def run(cmd):
+def run_cmd(cmd):
     o = subprocess.Popen(
         cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out = o.stdout.read().strip()
-    err = o.stderr.read().strip()
+    out = o.stdout.read().strip().decode()
+    err = o.stderr.read().strip().decode()
     return out, err
 
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
             if v:
                 print('cmd: %s' % cmd)
 
-            out, err = run(cmd)
+            out, err = run_cmd(cmd)
 
             if out.strip():
                 if len(j) <= 5:
@@ -122,7 +122,7 @@ if __name__ == '__main__':
             if v:
                 print(cmd)
 
-            out, err = run(cmd)
+            out, err = run_cmd(cmd)
 
             if out.strip():
                 if len(j) <= 5:
@@ -145,7 +145,7 @@ if __name__ == '__main__':
         if v:
             print(cmd)
 
-        out, err = run(cmd)
+        out, err = run_cmd(cmd)
 
         if v:
             print('@cluster #curr ', out, end="")
@@ -153,8 +153,8 @@ if __name__ == '__main__':
         d['#curr'].append(curr)
 
         # check todo
-        out, err = run('qstat | grep ' + os.path.basename(j)
-                       [:6] + ' | grep "  qw  " | wc -l ')
+        out, err = run_cmd('qstat | grep ' + os.path.basename(j)
+                           [:6] + ' | grep "  qw  " | wc -l ')
         if v:
             print('#todo ', out, end="")
 
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     df = pd.DataFrame(d, columns=['jobs', '#curr', '#todo', '#decoys', 'done'])
     print(df)
 
-    out, err = run('qstat | grep magnus  | grep "  r  " | wc -l ')
+    out, err = run_cmd('qstat | grep magnus  | grep "  r  " | wc -l ')
     print('#curr ', out, end="")
-    out, err = run('qstat | grep magnus | grep "  qw  " | wc -l ')
+    out, err = run_cmd('qstat | grep magnus | grep "  qw  " | wc -l ')
     print('#todo ', out)
