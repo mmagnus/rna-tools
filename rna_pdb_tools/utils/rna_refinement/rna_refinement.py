@@ -34,6 +34,8 @@ unzip the archive, and compile it with the following command::
 
 This should create an executable version of QRNAS.
 
+.. warning:: Please, change the name of the binary file from QRNA to QRNAS!
+
 Be default the script searches QRNAS in <rna-pdb-tools>/opt/qrnas/ .
 
 Usage of QRNA::
@@ -53,6 +55,10 @@ Set up in your bashrc::
    export QRNAS_PATH=<your path to qrnas> # e.g. /home/magnus/src/rna-pdb-tools/opt/qrnas
 
 but default rna-pdb-tools searches for qrnas in <rna-pdb-tools>/opt/qrnas.
+
+**QRNAS at Peyote2**
+
+There is no problem to run QRNAS at our Genesilico cluster, `peyote2`. Tested by mmagnus --170822. Copy files of QRNAS to peyote and run ``./qrnamake sequential``.
 
 DONE:
 
