@@ -132,7 +132,7 @@ Tips::
   # get your pdb files
   [mm] ade rsync -v peyote2:'~/ade/*.pdb' . # ' is required!
 
-See long name with ``qstat``:
+See long name with ``qstat``::
 
 	.. code-block:: shell
 	magnus@peyote2:~$ qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g' \
