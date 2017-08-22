@@ -6,13 +6,15 @@ RNA Sequence
 
 .. automodule:: rna_pdb_tools.Seq
    :members:
-
+   :undoc-members:
+      
 RNA Secondary Structure
 ------------------------------------------
 
 .. automodule:: rna_pdb_tools.SecondaryStructure
    :members:
-
+   :undoc-members:
+      
 Blast PDB
 ------------------------------------------
 
@@ -20,7 +22,8 @@ A super-simple wrapper around Blast on the PDB db (online).
 
 .. automodule:: rna_pdb_tools.BlastPDB
    :members:
-
+   :undoc-members:
+      
 Rfam Search
 ------------------------------------------
 
@@ -28,7 +31,8 @@ A super-simple wrapper around cmscan (Infernal) on local RFAM.
 
 .. automodule:: rna_pdb_tools.RfamSearch
    :members:
-
+   :undoc-members:
+      
 PDB Edit Bfactor/Occupancy
 ------------------------------------------
 
@@ -48,6 +52,7 @@ RNASeq
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RNASeq
    :members:
+   :undoc-members:
 
 RNAalignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,7 +75,8 @@ RChie
 
 .. autoclass:: rna_pdb_tools.utils.rna_alignment.rna_alignment.RChie
    :members:
-
+   :undoc-members:
+      
 Renumber a pdb file according to alignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. argparse::
@@ -79,13 +85,15 @@ Renumber a pdb file according to alignment
 
 .. automodule:: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln
    :members:
-
+   :undoc-members:
+      
 RNA clustering with CLANS (clanstix)
 ------------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.clanstix.rna_clanstix
    :members:
-
+   :undoc-members:
+      
 RNA Helix Vis (draw helices using PyMOL)
 -----------------------------------------
 
@@ -95,7 +103,8 @@ RNA Helix Vis (draw helices using PyMOL)
 
 .. automodule:: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis
    :members:
-
+   :undoc-members:
+      
 Calculate Root Mean Square Deviation (RMSD)
 ---------------------------------------------
 
@@ -108,12 +117,14 @@ rna_calc_rmsd
 
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd
    :members:
-
+   :undoc-members:
+      
 rna_calc_evo_rmsd
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: rna_pdb_tools.utils.rna_calc_evo_rmsd.rna_calc_evo_rmsd
-
+   :undoc-members:
+      
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_calc_evo_rmsd.rna_calc_evo_rmsd.get_parser
    :prog: rna_calc_evo_rmsd
@@ -139,7 +150,8 @@ rna_calc_rmsd_all_vs_all
 
 .. automodule:: rna_pdb_tools.utils.rna_calc_rmsd.rna_calc_rmsd_all_vs_all
    :members:
-
+   :undoc-members:
+      
 Calculate Interaction Network Fidelity (INF) and not only
 ----------------------------------------------------------
 
@@ -152,7 +164,8 @@ rna_calc_inf
 
 .. automodule:: rna_pdb_tools.utils.rna_calc_inf.rna_calc_inf
    :members:
-
+   :undoc-members:
+      
 Measure distance between atoms
 -----------------------------------------
 .. argparse::
@@ -161,12 +174,14 @@ Measure distance between atoms
 
 .. automodule:: rna_pdb_tools.utils.pdbs_measure_atom_dists.pdbs_measure_atom_dists
    :members:
-
+   :undoc-members:
+      
 diffpdb
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.diffpdb.diffpdb
-
+   :undoc-members:
+      
 .. argparse::
    :ref: rna_pdb_tools.utils.diffpdb.diffpdb.get_parser
    :prog: rna_helix_vis
@@ -175,7 +190,8 @@ RNA filter
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
-
+   :undoc-members:
+      
 as a cmd tool:
 
 .. argparse::
@@ -231,13 +247,15 @@ and it works with VARNA:
 
 .. automodule:: rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
    :members:
-
+   :undoc-members:
+      
 x3DNA (contacts classification & secondary structure detection)
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rna_x3dna.rna_x3dna
    :members:
-
+   :undoc-members:
+      
 ClaRNA (contacts classification)
 -----------------------------------------
 
@@ -245,7 +263,8 @@ If you want to calculate "Interaction Network Fidelity (INF) and not only" see r
 
 .. automodule:: rna_pdb_tools.utils.clarna_app.clarna_app
    :members:
-
+   :undoc-members:
+      
 SimRNA
 -----------------------------------------
 
@@ -278,14 +297,15 @@ SimRNATrajectory
 
 .. automodule:: rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory
    :members:
-
+   :undoc-members:
 
 RNAkb
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.rnakb_utils.rnakb_utils
    :members:
-
+   :undoc-members:
+   
 RNA Refinement (QRNAS)
 -----------------------------------------
 
@@ -308,7 +328,8 @@ Run (modeling)
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_run.py
    :members:
-
+   :undoc-members:
+      
 Get a number of structures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -318,7 +339,8 @@ Get a number of structures
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_n.py
    :members:
-
+   :undoc-members:
+      
 Get a head of a Rosetta silent file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -328,7 +350,8 @@ Get a head of a Rosetta silent file
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_head.py
    :members:
-
+   :undoc-members:
+      
 Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -338,7 +361,8 @@ Cluster
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.py
    :members:
-
+   :undoc-members:
+      
 Minimize
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -348,7 +372,8 @@ Minimize
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_min.py
    :members:
-
+   :undoc-members:
+      
 Check progress
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -358,16 +383,19 @@ Check progress
 
 .. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_check_progress.py
    :members:
-
+   :undoc-members:
+      
 PyMOL
 -----------------------------------------
 
 .. automodule:: rna_pdb_tools.utils.PyMOL4RNA.PyMOL4RNA
    :members:
-
+   :undoc-members:
+      
 .. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
    :members:
-
+   :undoc-members:
+      
 Install PyMOL plugin to view the interactions with PyMOL::
 
     run <path>rna-pdb-tools/utils/pymol_drawing/pymol_dists.py
@@ -401,12 +429,14 @@ rna_sali2dotbracket
 
 .. automodule:: rna_pdb_tools.utils.rna_sali2dotbracket.rna_sali2dotbracket
    :members:
+   :undoc-members:
 
 rna_add_chain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: rna_pdb_tools.utils.misc.rna_add_chain
    :members:
+   :undoc-members:
 
 .. argparse::
    :ref: rna_pdb_tools.utils.misc.rna_add_chain.get_parser
@@ -429,3 +459,4 @@ A very simple tool to see your cluster load per user::
 
 .. automodule:: rna_pdb_tools.utils.cluster_load.cluster_load
    :members:
+   :undoc-members:
