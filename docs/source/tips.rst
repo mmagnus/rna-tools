@@ -134,7 +134,6 @@ Tips::
 
 See long name with ``qstat``::
 
-	.. code-block:: shell
 	magnus@peyote2:~$ qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g' \
 	>   | sed 's#<[^>]*>##g' | grep " " | column -t
 	4752204  5.54737  r_6bd26658_run_04                magnus  dr  2017-02-20T22:09:04  all.q@c6.cluster3.genesilico.pl   10
