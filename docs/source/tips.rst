@@ -132,6 +132,26 @@ Tips::
   # get your pdb files
   [mm] ade rsync -v peyote2:'~/ade/*.pdb' . # ' is required!
 
+See long name with ``qstat``:
+
+	.. code-block:: shell
+	magnus@peyote2:~$ qstat -xml | tr '\n' ' ' | sed 's#<job_list[^>]*>#\n#g' \
+	>   | sed 's#<[^>]*>##g' | grep " " | column -t
+	4752204  5.54737  r_6bd26658_run_04                magnus  dr  2017-02-20T22:09:04  all.q@c6.cluster3.genesilico.pl   10
+	4752201  5.54737  r_6bd26658_run_01                magnus  dr  2017-02-20T22:09:04  all.q@c6.cluster3.genesilico.pl   10
+	4752203  5.54737  r_6bd26658_run_03                magnus  dr  2017-02-20T22:09:04  all.q@c6.cluster3.genesilico.pl   10
+	4752202  5.54737  r_6bd26658_run_02                magnus  dr  2017-02-20T22:09:04  all.q@c6.cluster3.genesilico.pl   10
+	4805710  5.54737  r_hTERC_251-451-85d4ac69_run_01  magnus  r   2017-08-20T17:04:15  all.q@c11.cluster3.genesilico.pl  10
+	4805711  5.54737  r_hTERC_251-451-85d4ac69_run_02  magnus  r   2017-08-20T17:04:15  all.q@c11.cluster3.genesilico.pl  10
+	4805712  5.54737  r_hTERC_251-451-85d4ac69_run_03  magnus  r   2017-08-20T17:04:15  all.q@c8.cluster3.genesilico.pl   10
+	4805713  5.54737  r_hTERC_251-451-85d4ac69_run_04  magnus  r   2017-08-20T17:04:15  all.q@c8.cluster3.genesilico.pl   10
+	4805714  5.54737  r_hTERC_251-451-85d4ac69_run_05  magnus  r   2017-08-20T17:04:15  all.q@c8.cluster3.genesilico.pl   10
+	4805715  5.54737  r_hTERC_251-451-85d4ac69_run_06  magnus  r   2017-08-20T17:04:15  all.q@c8.cluster3.genesilico.pl   10
+	4805716  5.54737  r_hTERC_251-451-85d4ac69_run_07  magnus  r   2017-08-20T17:04:15  all.q@c8.cluster3.genesilico.pl   10
+	4805728  5.54737  r_mCherry_sub3-3c970489_run_03   magnus  r   2017-08-20T17:21:15  all.q@c15.cluster3.genesilico.pl  10
+
+https://stackoverflow.com/questions/26104116/qstat-and-long-job-names 
+
 Numbering line used in my flat-file notes
 ======================
 
