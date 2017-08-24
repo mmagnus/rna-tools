@@ -39,8 +39,10 @@ import argparse
 import os
 import urllib3
 import shutil
-sys.tracebacklimit = 0
 import subprocess
+import sys
+
+sys.tracebacklimit = 0
 
 
 class SimRNAwebError(Exception):
@@ -96,14 +98,14 @@ def more_clusters(args):
             os.system(cmd)
 
             if 'clust04.trafl' in l:
-                os.system(
-                    'rna_simrna_extract.py -t *01X.pdb -f *04.trafl -c -n 1')
+                cmd = 'rna_simrna_extract.py -t *01X.pdb -f *04.trafl -c -n 1'
+                subprocess.check_call(cmd, shell=True)
                 os.remove(nfn)
                 shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'),
                             nfn.replace('.trafl', 'X.pdb'))
             if 'clust05.trafl' in l:
-                os.system(
-                    'rna_simrna_extract.py -t *01X.pdb -f *05.trafl -c -n 1')
+                cmd = 'rna_simrna_extract.py -t *01X.pdb -f *05.trafl -c -n 1'
+                subprocess.check_call(cmd, shell=True)
                 os.remove(nfn)
                 # 27b5093d-thrs6.20A_clust05-000001_AA.pdb -> 27b5093d-thrs6.20A_clust05X.pdb
                 shutil.move(nfn.replace('.trafl', '-000001_AA.pdb'),
@@ -144,7 +146,9 @@ def get_parser():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('job_id', help='job_id')
     parser.add_argument(
-        '-p', '--prefix', help='prefix to the name, withouth _, be careful with this')
+        '-p', '--prefix', help='prefix to the name, withouth _, be careful with this.'
+        'If you have already some files with the given folder, their names might'
+        'be changed.')
     parser.add_argument('-x', '--extract100',
                         action='store_true', help='extract 100 the lowest')
     parser.add_argument('-t', '--trajectory',
