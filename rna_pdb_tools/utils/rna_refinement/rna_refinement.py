@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""RNA refinement with QRNAS
+"""rna_refinement - RNA refinement with QRNAS.
 
 Models of RNA 3D structures obtained by modeling methods often suffer from local inaccuracies such as clashes or physically improbable bond lengths, backbone conformations, or sugar puckers. To ensure high quality of models, a procedure of re nement should be applied as a  nal step in the modeling pipeline. The software tool QRNAS was developed in our laboratory to perform local re nement of nucleic acid structures based on an extended version of the AMBER force field. The extensions consist of energy terms associated with introduction of explicit hydrogen bonds, idealization of base pair planarity and regularization of backbone conformation.
 
@@ -59,6 +59,10 @@ but default rna-pdb-tools searches for qrnas in <rna-pdb-tools>/opt/qrnas.
 **QRNAS at Peyote2**
 
 There is no problem to run QRNAS at our Genesilico cluster, `peyote2`. Tested by mmagnus --170822. Copy files of QRNAS to peyote and run ``./qrnamake sequential``.
+
+To run it at a cluster with the Sun Grid Engine queuing system (this one with qusb ;-)):
+
+     for p in *.pdb; do echo "rna_refinement.py $p >& ${p}.log" | qsub -cwd -V -pe mpi 1 -N "r_$p" ; done
 
 DONE:
 
@@ -128,11 +132,12 @@ def get_parser():
     parser.add_argument('fn', help="input pdb file")     
     parser.add_argument('-o', '--output_file', help="output pdb file")
     return parser
+
 #main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-
+    
     q = QRNAS()
     if not args.output_file:
         output_file = args.fn.replace('.pdb', '_refx.pdb')
