@@ -66,6 +66,12 @@ def find_core(seq_with_gaps1, seq_with_gaps2):
         seq_with_gaps1 (str): a sequence 1 from the alignment
         seq_with_gaps1 (str): a sequence 2 from the alignment
 
+    Usage::
+
+        >>> find_core('GUUCAG-------------------UGAC-', 'CUUCGCAGCCAUUGCACUCCGGCUGCGAUG')
+        'xxxxxx-------------------xxxx-'
+
+
     Returns:
         core="xxxxxx-------------------xxxx-"
 
