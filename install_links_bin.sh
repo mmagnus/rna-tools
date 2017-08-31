@@ -35,6 +35,9 @@ ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_lowest.py $curr
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_extract.py $curr_dir/bin/rna_simrna_extract.py
 ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_cluster.py $curr_dir/bin/rna_simrna_cluster.py
 
+# rna_filter
+ln -s $curr_dir/rna_pdb_tools/utils/rna_filter/rna_filter.py $curr_dir/bin/rna_filter.py
+
 # rna_alignment
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_find_core.py $curr_dir/bin/rna_align_find_core.py
