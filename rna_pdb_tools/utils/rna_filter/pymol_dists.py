@@ -1,4 +1,5 @@
 """show_dists - show distances in PyMOL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: ../pngs/getdists.png
 

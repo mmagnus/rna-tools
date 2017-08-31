@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
+"""rna_ex2x.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 `--pairs``::
 
     $ rna_csv2restrs.py RF00167.EC.interaction_LbyN.csv --pairs

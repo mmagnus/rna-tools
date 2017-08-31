@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """rna_filter - a simple script to calculate distances based on given restrants on PDB files or SimRNA trajectories.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The format of restraints::
 
