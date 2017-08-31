@@ -190,7 +190,8 @@ def get_residues(pdb_fn, restraints, verbose):
 
 
 def get_parser():
-    parser = argparse.ArgumentParser()  # usage="prog [<options>] <pdb files: test_data/*>")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument('-r', "--restraints_fn",
                         dest="restraints_fn",

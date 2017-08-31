@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-r"""rna_seq_get_bps - get a list of base pairs for a given "fasta ss" file.
+"""rna_seq_get_bps - get a list of base pairs for a given "fasta ss" file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Input file::

@@ -31,7 +31,9 @@ import argparse
 
 
 def get_parser():
-    parser = argparse.ArgumentParser()  # usage="prog [<options>] <pdb files: test_data/*>")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+
     parser.add_argument("--sep", default=r",")
     parser.add_argument("--chain", default="A")
     # parser.add_argument("--offset", default=0)

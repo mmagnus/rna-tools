@@ -19,7 +19,9 @@ import argparse
 
 
 def get_parser():
-    parser = argparse.ArgumentParser()  # usage="prog [<options>] <pdb files: test_data/*>")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+
     parser.add_argument('pairs', help="a file with [[2, 172], [3, 169], [12, 32], [13, 31]]")
     parser.add_argument("--offset", help="can be -10", default=0, type=int)
     parser.add_argument("--weight", help="", default=1, type=float)
