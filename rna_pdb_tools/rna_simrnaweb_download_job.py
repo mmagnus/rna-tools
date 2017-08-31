@@ -49,11 +49,10 @@ class SimRNAwebError(Exception):
     pass
 
 
-def extract100(args):
-    if args.extract100:
-        os.system('rna_simrna_lowest.py *_ALL.trafl')
-        os.system('rm *_ALL.trafl*')
-        os.system('rna_simrna_extract.py -t *01X.pdb -f *low.trafl -c')
+def extract100():
+    os.system('rna_simrna_lowest.py *_ALL.trafl')
+    os.system('rm *_ALL.trafl*')
+    os.system('rna_simrna_extract.py -t *01X.pdb -f *low.trafl -c')
 
 
 def download_trajectory(args):
@@ -170,6 +169,8 @@ if __name__ == '__main__':
         'http://', '').replace('/', '')  # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
     download_models(args)
     download_trajectory(args)
-    more_clusters(args.more_clusters)
-    extract100(args)
+    if args.more_clusters:
+        more_clusters()
+    if args.extract100:
+        extract100()
     add_prefix(args)
