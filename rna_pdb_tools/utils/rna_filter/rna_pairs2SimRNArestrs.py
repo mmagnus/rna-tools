@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""rna_pairs2SimRNArestrs.py - convert pairs to SimRNA restrs
+
+Example::
+
+    rna_pairs2SimRNArestrs.py rp06_pairs_delta.txt -v
+    # of pairs: 42
+    SLOPE A/2/MB A/172/MB 0 6 1
+    SLOPE A/2/MB A/172/MB 0 7 -1
+    SLOPE A/3/MB A/169/MB 0 6 1
+    SLOPE A/3/MB A/169/MB 0 7 -1
+    SLOPE A/12/MB A/32/MB 0 6 1
+
+"""
+from __future__ import print_function
+import argparse
+
+
+def get_parser():
+    parser = argparse.ArgumentParser()  # usage="prog [<options>] <pdb files: test_data/*>")
+    parser.add_argument('pairs', help="a file with [[2, 172], [3, 169], [12, 32], [13, 31]]")
+    parser.add_argument("--offset", help="can be -10", default=0, type=int)
+    parser.add_argument("--weight", help="", default=1, type=float)
+    parser.add_argument("-v", "--verbose",
+                        action="store_true", help="be verbose")
+    return parser
+
+
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+
+    pairs = eval(open(args.pairs).read().strip())
+    if args.verbose:
+        print('# of pairs:', len(pairs))
+
+    for pair in pairs:
+
+        a, b = pair
+        a += args.offset
+        b += args.offset
+
+        a = str(a)
+        b = str(b)
+
+        print('SLOPE A/' + a + '/MB A/' + b + '/MB 0 6 ' + str(args.weight))
+        print('SLOPE A/' + a + '/MB A/' + b + '/MB 0 7 -' + str(args.weight))
