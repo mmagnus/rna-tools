@@ -78,7 +78,7 @@ def parse_logic(restraints_fn, verbose):
     return restraints
 
 
-def parse_logic_newlines(restraints_fn, verbose):
+def parse_logic_newlines(restraints_fn, offset=0, verbose=False):
     """Parse logic of restraints.
 
     Args:
@@ -111,7 +111,9 @@ def parse_logic_newlines(restraints_fn, verbose):
                     if restraint:
                         # without [0] it is restraints [[('Y23', 'Y69', '<', '25.0', '1')], [('Y22', 'Y69', '<', '25.0', '1')]]
                         # why? to convert 'Y23', 'Y69', '<', '25.0', '1' -> 'Y23', 'Y69', '<', 25.0, 1
-                        restraints.append([restraint[0][0], restraint[0][1], restraint[0][2],
+                        start = restraint[0][0][0] + str(int(restraint[0][0][1:]) + offset)
+                        end = restraint[0][1][0] + str(int(restraint[0][1][1:]) + offset)
+                        restraints.append([start, end, restraint[0][1], restraint[0][2],
                                            float(restraint[0][3]), float(restraint[0][4])])
 
     if len(restraints) == 0:
@@ -134,14 +136,14 @@ def parse_pdb(pdb_fn, selection):
         for line in f:
             if line.startswith("ATOM"):
                 curr_chain_id = line[21]
-                curr_resi = int(line[22:26])
-                curr_atom_name = line[12:16].strip()
+                curr_resi = int(line[22: 26])
+                curr_atom_name = line[12: 16].strip()
                 if selection:
                     if curr_chain_id in selection:
                         if curr_resi in selection[curr_chain_id]:
-                            x = line[30:38]
-                            y = line[38:46]
-                            z = line[46:54]
+                            x = line[30: 38]
+                            y = line[38: 46]
+                            z = line[46: 54]
                             # V.append(np.asarray([x,y,z],dtype=float))
                             if curr_chain_id + str(curr_resi) in V:
                                 V[curr_chain_id +
@@ -200,25 +202,34 @@ Format:
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
 
-    parser.add_argument('-s', dest="structures", help='structures', nargs='+')  # , type=string)
-
+    parser.add_argument('-s', dest="structures", help='structures',
+                        nargs='+')  # , type=string)
+    parser.add_argument(
+        '--offset', help='use offset to adjust your restraints to numbering in PDB files, ade (1y26)'
+        'pdb starts with 13, so offset is -12)', default=0, type=int)
     parser.add_argument('-t', dest="trajectory")  # help='structures', nargs='+')#, type=string)
     return parser
 
 
-def filter_structures(pdb_files, restraints, verbose):
+def calc_scores_for_pdbs(pdb_files, restraints, verbose):
+    """
+    """
     # h = ('A1', 'A2', '<', '10.0', '1')
     for pdb_fn in pdb_files:
         # logger.info(pdb_fn)
         score = 0
         residues = get_residues(pdb_fn, restraints, verbose)
+        good_dists = 0
         for h in restraints:
             dist = get_distance(residues[h[0]]['mb'], residues[h[1]]['mb'])
             # change distance
-            if dist < h[3]:
-                score += h[4]
-            print(' '.join([' d:' + h[0] + '-' + h[1] + ' ' + str(dist), 'measured:', str(dist)]))
-        print(pdb_fn, score / float(len(restraints)))
+            ok = '[ ]'
+            if dist < h[4]:
+                score += h[5]
+                ok = '[x]'
+                good_dists += 1
+            print(' '.join([' d:' + h[0] + '-' + h[1] + ' ' + str(h[4]), 'measured:', str(dist), ok]))
+        print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
 
 
 def __filter_simrna_trajectory():
@@ -254,12 +265,12 @@ if __name__ == '__main__':
     # score = 1
     # print ((True|True)|(False|False)), score
 
-    restraints = parse_logic_newlines(args.restraints_fn, args.verbose)
+    restraints = parse_logic_newlines(args.restraints_fn, args.offset, args.verbose)
     if args.verbose:
         logger.info('restraints' + str(restraints))
 
     if args.structures:
-        filter_structures(args.structures, restraints, args.verbose)
+        calc_scores_for_pdbs(args.structures, restraints, args.verbose)
 
     # if args.trajectory:
     # __filter_simrna_trajectory()
