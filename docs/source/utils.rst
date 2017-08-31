@@ -198,31 +198,29 @@ as a cmd tool:
    :ref: rna_pdb_tools.utils.rna_filter.rna_filter.get_parser
    :prog: rna_filter.py
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.pymol_dists.py
+.. automodule:: rna_pdb_tools.utils.rna_filter.pymol_dists
    :undoc-members:
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_ec2x.py
+.. automodule:: rna_pdb_tools.utils.rna_filter.rna_ec2x
    :undoc-members:
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_ec2x.get_parser
    :prog: rna_ec2x.py
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_pairs2SimRNArestrs.py
+.. automodule:: rna_pdb_tools.utils.rna_filter.rna_pairs2SimRNArestrs
    :undoc-members:
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_pairs2SimRNArestrs.get_parser
    :prog: rna_pairs2SimRNArestrs.py
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_seq_get_bps.py
+.. automodule:: rna_pdb_tools.utils.rna_filter.rna_seq_get_bps
    :undoc-members:
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_seq_get_bps.get_parser
    :prog: rna_seq_get_bps.py
-
-
 
 Secondary structure format conversion
 -----------------------------------------
