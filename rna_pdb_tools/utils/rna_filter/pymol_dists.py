@@ -1,5 +1,7 @@
 """show_dists - show distances in PyMOL
 
+.. image:: ../pngs/getdists.png
+
 Usage::
 
     PyMOL>show_dists([[1,2]])
