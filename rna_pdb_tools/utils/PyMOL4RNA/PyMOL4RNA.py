@@ -90,6 +90,7 @@ else:
     print('  alter (sele), chain="B" ')
     print('  alter (sele), resv -= 4')
     print('  alter (chain B), resv -= 44 ')
+    print('set dash_color, red; set dash_width, 4')
     print('p - prepare seq for printing')
     print('rp - rna present, object names only click to get compact legend')
     print('rp17')
@@ -101,3 +102,7 @@ else:
     cmd.extend('p', p)
     cmd.extend('get_pdb', get_pdb)
     cmd.extend('rna_cartoon', rna_cartoon)
+
+    # set dash lines
+    cmd.set('dash_color', 'red')
+    cmd.set('dash_width', 4)
