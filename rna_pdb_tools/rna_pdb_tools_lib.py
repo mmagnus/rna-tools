@@ -1387,14 +1387,16 @@ class RNAStructure:
             ##################################################################################
 
             if l.startswith('TER'):
-                atom_l = self.lines[c - 1]
-                new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
-                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l) + 1 + no_ters))
-                new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
-                new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
-                new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
-                nlines.append(new_l)
-                no_ters += 1
+                pass  # leave it for now this
+                # atom_l = self.lines[c - 1]
+                # new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
+                # new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l) + 1 + no_ters))
+                # new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
+                # new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
+                # new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
+                # nlines.append(new_l)
+                nlines.append(l)
+                ## no_ters += 1
             else:
                 if self.get_atom_index(l):
                     l = self.set_atom_index(l, self.get_atom_index(
