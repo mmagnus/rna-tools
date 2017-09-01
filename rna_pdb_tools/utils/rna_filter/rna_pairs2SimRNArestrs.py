@@ -24,7 +24,7 @@ def get_parser():
 
     parser.add_argument('pairs', help="a file with [[2, 172], [3, 169], [12, 32], [13, 31]]")
     parser.add_argument("--offset", help="can be -10", default=0, type=int)
-    parser.add_argument("--weight", help="", default=1, type=float)
+    parser.add_argument("--weight", help="", default=3, type=float)
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     return parser
