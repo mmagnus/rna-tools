@@ -222,6 +222,10 @@ as a cmd tool:
    :ref: rna_pdb_tools.utils.rna_filter.rna_seq_get_bps.get_parser
    :prog: rna_seq_get_bps.py
 
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_filter.rna_pairs_diff.get_parser
+   :prog: rna_pairs_diff.py
+
 Secondary structure format conversion
 -----------------------------------------
 
