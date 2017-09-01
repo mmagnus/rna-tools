@@ -209,7 +209,7 @@ Format:
     parser.add_argument(
         '--offset', help='use offset to adjust your restraints to numbering in PDB files, ade (1y26)'
         'pdb starts with 13, so offset is -12)', default=0, type=int)
-    parser.add_argument('-t', dest="trajectory", help="SimRNA trajectory)
+    parser.add_argument('-t', dest="trajectory", help="SimRNA trajectory")
     return parser
 
 

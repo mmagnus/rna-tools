@@ -1,0 +1,2 @@
+ d:A1-A2 10.0 measured: 6.58677550096 [x]
+test_data/CG.pdb 1.0 1 out of 1
