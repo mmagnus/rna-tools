@@ -1,26 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_ex2x.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""rna_ex2x.py - analyze an evolutionary coupling file.
 
-`--pairs``::
+Files can be downloaded from https://marks.hms.harvard.edu/ev_rna/, e.g. RF00167.EC.interaction.csv
 
-    $ rna_csv2restrs.py RF00167.EC.interaction_LbyN.csv --pairs
+``--pairs``::
+
+    $ rna_ex2x.py RF00167.EC.interaction_LbyN.csv --pairs
     [18, 78],[31, 39],[21, 75],[30, 40],[28, 42],[27, 43],[59, 67],[54, 72],[57, 69],[25, 45],[29, 41],[17, 79],[26, 44],[16, 80],[14, 82],[19, 77],[55, 71],[
         15, 81],[34, 63],[56, 70],[58, 68],[35, 63],[26, 45],[35, 64],[32, 39],[54, 73],[24, 74],[16, 82],[24, 45],[24, 43],[32, 36],[25, 48],[48, 82],[36, 48],
-
-old print::
-
-    rna_EC2restrs.py RF00167.EC.interaction_LbyN.csv --pairs
-    [18, 78],[31, 39],[21, 75],[30, 40],[28, 42],[27, 43],[59, 67],[54, 72],[57, 69],[25, 45],[29, 41],[17, 79],[26, 44],[16, 80],[14, 82],[19, 77],[55, 71],[
-        15, 81],[34, 63],[56, 70],[58, 68],[35, 63],[26, 45],[35, 64],[32, 39],[54, 73],[24, 74],[16, 82],[24, 45],[24, 43],[32, 36],[25, 48],[48, 82],[36, 48],
-
-vs new list (thanks to list, it's sorted now!)::
-
-    rna_EC2restrs.py RF00167.EC.interaction_LbyN.csv --pairs
-    [[14, 82], [15, 81], [16, 80], [16, 82], [17, 79], [18, 78], [19, 77], [21, 75], [24, 43], [24, 45], [24, 74], [25, 45], [25, 48], [26, 44], [26, 45], [27, 43], [28, 42], [
-        29, 41], [30, 40], [31, 39], [32, 36], [32, 39], [34, 63], [35, 63], [35, 64], [36, 48], [48, 82], [54, 72], [54, 73], [55, 71], [56, 70], [57, 69], [58, 68], [59, 67]]
-
 """
 from __future__ import print_function
 
@@ -31,13 +19,14 @@ import argparse
 
 
 def get_parser():
+    """Get parser."""
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument("--sep", default=r",")
-    parser.add_argument("--chain", default="A")
+    parser.add_argument("--sep", default=r",", help="separator")
+    parser.add_argument("--chain", default="A", help="chain")
     # parser.add_argument("--offset", default=0)
-    parser.add_argument('interaction_fn')
+    parser.add_argument('interaction_fn', help='interaction file')
     parser.add_argument('--ec-pairs',  action='store_true')
     parser.add_argument('--ss-pairs',  help="file with secondary structure base pairs")
     parser.add_argument('--pairs-delta', help="delta: ec-bp - ss-paris", action="store_true")

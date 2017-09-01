@@ -189,38 +189,42 @@ diffpdb
 RNA filter
 -----------------------------------------
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_filter
-   :undoc-members:
-
-as a cmd tool:
+rna_filter.py - calculate distances based on given restrants on PDB files or SimRNA trajectories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_filter.get_parser
    :prog: rna_filter.py
 
+show_dists - show distances in PyMOL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. automodule:: rna_pdb_tools.utils.rna_filter.pymol_dists
    :undoc-members:
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_ec2x
-   :undoc-members:
+rna_ex2x.py - analyze an evolutionary coupling file.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_ec2x.get_parser
    :prog: rna_ec2x.py
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_pairs2SimRNArestrs
-   :undoc-members:
+rna_pairs2SimRNArestrs.py - convert pairs to SimRNA restraints
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_pairs2SimRNArestrs.get_parser
    :prog: rna_pairs2SimRNArestrs.py
 
-.. automodule:: rna_pdb_tools.utils.rna_filter.rna_seq_get_bps
-   :undoc-members:
+rna_ss_get_bps.py - get a list of base pairs for a given "fasta ss" file.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
-   :ref: rna_pdb_tools.utils.rna_filter.rna_seq_get_bps.get_parser
-   :prog: rna_seq_get_bps.py
+   :ref: rna_pdb_tools.utils.rna_filter.rna_ss_get_bps.get_parser
+   :prog: rna_ss_get_bps
+
+rna_pairs_diff.py - get a diff of pairs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_pdb_tools.utils.rna_filter.rna_pairs_diff.get_parser

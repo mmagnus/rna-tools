@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-"""rna_filter - a simple script to calculate distances based on given restrants on PDB files or SimRNA trajectories.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+"""rna_filter.py - calculate distances based on given restrants on PDB files or SimRNA trajectories.
 
 The format of restraints::
 
@@ -209,7 +209,7 @@ Format:
     parser.add_argument(
         '--offset', help='use offset to adjust your restraints to numbering in PDB files, ade (1y26)'
         'pdb starts with 13, so offset is -12)', default=0, type=int)
-    parser.add_argument('-t', dest="trajectory")  # help='structures', nargs='+')#, type=string)
+    parser.add_argument('-t', dest="trajectory", help="SimRNA trajectory)
     return parser
 
 

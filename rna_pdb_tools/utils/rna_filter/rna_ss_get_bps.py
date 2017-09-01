@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_seq_get_bps - get a list of base pairs for a given "fasta ss" file.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""rna_ss_get_bps.py - get a list of base pairs for a given "fasta ss" file.
 
 Input file::
 
@@ -12,7 +11,7 @@ Input file::
 
 Usage::
 
-    $ rna_seq_get_bps.py ade_ss.fa --offset 12
+    $ rna_ss_get_bps.py ade_ss.fa --offset 12
     [[13, 83], [14, 82], [15, 81], [16, 80], [17, 79], [18, 78], [19, 77], [20, 76], [21, 75], [25, 45], [26, 44], [27, 43], [28, 42], [29, 41], [30, 40], [54, 72], [55, 71], [56, 70], [57, 69], [58, 68], [59, 67]]
 
 Now it also work with pseudoknots.

@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_pairs2SimRNArestrs.py - convert pairs to SimRNA restrs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""rna_pairs2SimRNArestrs.py - convert pairs to SimRNA restraints
 
 Example::
 
-    rna_pairs2SimRNArestrs.py rp06_pairs_delta.txt -v
+    $ rna_pairs2SimRNArestrs.py rp06_pairs_delta.txt -v
     # of pairs: 42
     SLOPE A/2/MB A/172/MB 0 6 1
     SLOPE A/2/MB A/172/MB 0 7 -1
@@ -24,7 +23,7 @@ def get_parser():
 
     parser.add_argument('pairs', help="a file with [[2, 172], [3, 169], [12, 32], [13, 31]]")
     parser.add_argument("--offset", help="can be -10", default=0, type=int)
-    parser.add_argument("--weight", help="", default=3, type=float)
+    parser.add_argument("--weight", help="", default=3, type=float, help="weight")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     return parser
