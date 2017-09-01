@@ -30,6 +30,11 @@ def get_seq(alignfn, seqid):
        alignfn (str): a path to an alignment
        seqid   (str): seq id in an alignment
 
+    Usage::
+
+        >>> get_seq('test_data/ALN_OBJ1_OBJ2.fa', 'obj1')
+        SeqRecord(seq=SeqRecord(seq=Seq('GUUCAG-------------------UGAC-', SingleLetterAlphabet()), id='obj1', name='obj1', description='obj1', dbxrefs=[]), id='<unknown id>', name='<unknown name>', description='<unknown description>', dbxrefs=[])
+
     Returns:
          SeqRecord
     """

@@ -39,6 +39,7 @@ def get_parser():
     parser.add_argument('--column', help="column of file to plot")
     parser.add_argument('--sep', help="separator, be default \t", default=",")
     parser.add_argument('-o', '--output')
+    parser.add_argument('--bins', default=10)
     return parser
 
 
@@ -54,7 +55,7 @@ if __name__ == '__main__':
         print('Set column')
         sys.exit(0)
 
-    ax = df.plot.hist(args.column, grid=True, bins=20)
+    ax = df.plot.hist(args.column, grid=True, bins=int(args.bins))
 
     if not args.output:
         outfn = args.file.replace('.txt', '').replace('.csv', '') + '_hist.png'
