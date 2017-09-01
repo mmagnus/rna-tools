@@ -97,7 +97,7 @@ def min(silent_file, take_n, cpus, go):
 
         # fix naming of my jobs
         txt = txt.replace('#$ -N mm0', '#$ -N ~' +
-                          silent_file.replace('.out', '')[:4].strip() + str(c))
+                          silent_file.replace('.out', '').strip() + '_' + str(c))  # to get ~rp06bx571_186
 
         f.close()
 
