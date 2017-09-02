@@ -37,6 +37,10 @@ ln -s $curr_dir/rna_pdb_tools/utils/simrna_trajectory/rna_simrna_cluster.py $cur
 
 # rna_filter
 ln -s $curr_dir/rna_pdb_tools/utils/rna_filter/rna_filter.py $curr_dir/bin/rna_filter.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_filter/rna_ec2x.py $curr_dir/bin/rna_ex2x.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_filter/rna_pairs2SimRNArestrs.py $curr_dir/bin/rna_pairs2SimRNArestrs.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_filter/rna_ss_get_bps.py $curr_dir/bin/rna_ss_get_bps.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_filter/rna_pairs_diff.py $curr_dir/bin/rna_pairs_diff.py
 
 # rna_alignment
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
