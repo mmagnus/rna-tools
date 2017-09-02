@@ -60,7 +60,7 @@ but default rna-pdb-tools searches for qrnas in <rna-pdb-tools>/opt/qrnas.
 
 There is no problem to run QRNAS at our Genesilico cluster, `peyote2`. Tested by mmagnus --170822. Copy files of QRNAS to peyote and run ``./qrnamake sequential``.
 
-To run it at a cluster with the Sun Grid Engine queuing system (this one with qusb ;-)):
+To run it at a cluster with the Sun Grid Engine queuing system (this one with qusb ;-))::
 
      for p in *.pdb; do echo "rna_refinement.py $p >& ${p}.log" | qsub -cwd -V -pe mpi 1 -N "r_$p" ; done
 
@@ -69,7 +69,6 @@ DONE:
 - [x] clean up the output structure
 - [x] configuration should not be hardcoded
 """
-
 from __future__ import print_function
 import argparse
 import re
@@ -77,7 +76,6 @@ import os
 import subprocess
 import random
 import string
-import sys
 
 from shutil import copyfile
 
@@ -89,13 +87,20 @@ except:
 else:
     QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
+
 class QRNAS:
     """QRNAS"""
-    def run(self, inputfile, outputfile, steps = 10):
-        """
-        :param inputfile: 
-        :param outputfile: 
-        :param steps: 
+    def run(self, inputfile, outputfile, steps=10):
+        """Run QRNAS.
+
+        Args:
+           inputfile    (str): path to a input file
+           outputfile   (str): path to on output file
+           steps      (int): # of steps
+
+        Returns:
+           none: works on input/output files
+
         """
         cwd = os.getcwd()
         # get config
@@ -126,21 +131,24 @@ class QRNAS:
         print ("Save to %s" % outputfile)
         copyfile(qrnas_outputfile, outputfile)
 
+
 def get_parser():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-s', '--steps', help="# of steps, default: 20k ", default=20000)         
-    parser.add_argument('fn', help="input pdb file")     
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('-s', '--steps', help="# of steps, default: 20k ", default=20000)
+    parser.add_argument('fn', help="input pdb file")
     parser.add_argument('-o', '--output_file', help="output pdb file")
     return parser
 
-#main
+
+# main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-    
+
     q = QRNAS()
     if not args.output_file:
         output_file = args.fn.replace('.pdb', '_refx.pdb')
     else:
         output_file = args.output_file
-    q.run(args.fn, output_file, steps = args.steps)
+    q.run(args.fn, output_file, steps=args.steps)
