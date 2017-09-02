@@ -34,3 +34,6 @@ def test_rna_filter():
 
 def test_rna_filter_cmd():
     assert doctest_cmds.is_ok('rna_filter.py') is True
+
+def test_rna_pairs_diff():
+    assert doctest_cmds.is_ok('rna_pairs_diff.py') is True
