@@ -90,14 +90,18 @@ else:
 
 class QRNAS:
     """QRNAS"""
-    def run(self, inputfile, outputfile, run_in_tmp=False, steps=10):
+    def run(self, inputfile, outputfile, run_in_tmp=False, job_id_random=False, steps=10):
         """Run QRNAS.
 
         Args:
-           inputfile    (str): path to a input file
-           outputfile   (str): path to on output file
-           run_in_tmp  (bool): if yes, run in /tmp otherwise run in currect-directory/tmp/THEjHxilN3nLx2Aj8REg/input
-           steps        (int): # of steps
+           inputfile     (str) : path to a input file, use .pdb extensions
+           outputfile    (str) : path to on output file
+           run_in_tmp    (bool): if yes, run in /tmp otherwise run in currect-directory/tmp/THEjHxilN3nLx2Aj8REg/input
+           job_id_random (bool): if yes, then job id will be like, e.g. tmp/gOIFfSdo9tnelFtvs3A7/output.pdb, if now
+                                 tmp/output/output.pdb; output, not input because then you can run the same input
+                                 a view times and get different outputs (and name of outputs will give
+                                 folder names
+           steps         (int) : # of steps
 
         Returns:
            none: works on input/output files
@@ -107,7 +111,11 @@ class QRNAS:
         # get config
         conftxt = open(QRNAS_PATH + os.sep + 'configfile.txt').read()
         conftxt_tmp = re.sub('\#?\s?NSTEPS.+\d+', 'NSTEPS   ' + str(steps), conftxt)
-        JOB_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20))
+
+        if job_id_random:
+            JOB_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20))
+        else:
+            JOB_ID = os.path.basename(outputfile.replace('.pdb', ''))
 
         if run_in_tmp:
             JOB_PATH = '/tmp/' + os.sep + JOB_ID + os.sep
