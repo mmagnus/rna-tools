@@ -135,10 +135,13 @@ class QRNAS:
 
         os.chdir(QRNAS_PATH)
         cmd = './QRNAS -i ' + qrnas_inputfile + \
-          ' -c ' + JOB_PATH + 'configfile.txt ' + \
-          ' -o ' + qrnas_outputfile
+              ' -c ' + JOB_PATH + 'configfile.txt ' + \
+              ' -o ' + qrnas_outputfile
         print(cmd)
-        subprocess.call(cmd, shell=True)
+
+        stdout = open(JOB_PATH + 'stdout.txt', 'w')
+        stderr = open(JOB_PATH + 'stderr.txt', 'w')
+        subprocess.call(cmd, shell=True, stdout=stdout, stderr=stderr)
 
         os.chdir(cwd)
         print ("Save to %s" % outputfile)
