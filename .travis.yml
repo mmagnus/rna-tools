@@ -6,7 +6,6 @@ python:
 install:
  - sudo apt-get install python-biopython pymol
  - pip install -r docs/requirements.txt
- - pip install git+git://github.com/mmagnus/doctest-cmds
 
 script:
  - bash test.sh
