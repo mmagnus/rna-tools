@@ -231,11 +231,8 @@ def calc_scores_for_pdbs(pdb_files, restraints, verbose):
     """
     """
     # h = ('A1', 'A2', '<', '10.0', '1')
-    print('fn, score')
     for pdb_fn in pdb_files:
         # logger.info(pdb_fn)
-        if verbose:
-            print(pdb_fn, end=",")
         score = 0
         residues = get_residues(pdb_fn, restraints, verbose)
         good_dists = 0
@@ -247,12 +244,8 @@ def calc_scores_for_pdbs(pdb_files, restraints, verbose):
                 score += h[5]
                 ok = '[x]'
                 good_dists += 1
-            if verbose:
-                print(' '.join([' d:' + h[0] + '-' + h[1] + ' ' + str(h[4]), 'measured:', str(dist), ok]))
-        if verbose:
-            print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
-        #print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
-        print('%s,%f' % (fn, score / float(len(restraints))))  #  , good_dists, 'out of', len(restraints))
+            print(' '.join([' d:' + h[0] + '-' + h[1] + ' ' + str(h[4]), 'measured:', str(dist), ok]))
+        print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
 
 
 def __filter_simrna_trajectory():
