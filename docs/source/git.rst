@@ -3,7 +3,7 @@ Git Quickref
 
 .. image:: ../pngs/Git-Logo-1788C.png
 	  
-For Git in a scientific environemtn, please read:
+For Git in a scientific environment, please read:
 
 	Perez-Riverol, Y. et al., 2016. Ten Simple Rules for Taking Advantage of Git and GitHub S. Markel, ed. PLoS computational biology, 12(7), p.e1004947.
 
