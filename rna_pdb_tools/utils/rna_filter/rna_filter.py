@@ -2,6 +2,10 @@
 
 """rna_filter.py - calculate distances based on given restrants on PDB files or SimRNA trajectories.
 
+Changes: weight is always 1 (at least for now). ,>,=,>=,<= .
+
+[PREVIOUS DOCUMENTATION - TO BE REMOVED]
+
     rna_filter.py -s 4gxy_rpr.pdb -r rp06_MohPairs.rfrestrs
     d:A5-A42 100.0 measured: 26.7465763417 [x]
     d:A11-A26 100.0 measured: 19.2863696104 [x]
@@ -18,8 +22,6 @@
     KeyError: 'A24'
 
 correct, there is no A24 in this structure:
-
-[PREVIOUS DOCUMENTATION - TO BE REMOVED]
 
 The format of restraints::
 
@@ -46,8 +48,7 @@ Usage::
 """
 
 from __future__ import print_function
-import logging
-from rna_pdb_tools.rpt_logging import logger
+
 from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import get_coordinates
 from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
@@ -55,9 +56,17 @@ from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajec
 import argparse
 import re
 import numpy as np
+import os
 
-logger.setLevel(logging.DEBUG)
-logger.propagate = False
+import logging
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+logger.addHandler(handler)
+formatter = logging.Formatter(
+    '%(asctime)-15s %(filename)s::%(funcName)s::%(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 
 class RNAFilterErrorInRestraints(Exception):
@@ -122,14 +131,16 @@ def parse_logic_newlines(restraints_fn, offset=0, verbose=False):
                     if verbose:
                         logger.info(l)
                     restraint = re.findall(
-                        'd:(?P<start>.+?)-(?P<end>.+?)\s*(?P<operator>\>\=|\=|\<|\<\=)\s*(?P<distance>[\d\.]+)\s+(?P<weight>.+?)', l)
+                        'd:(?P<start>.+?)-(?P<end>.+?)\s*(?P<operator>\>\=|\=|\>|\<|\<\=)\s*(?P<distance>[\d\.]+)\s+', l)  # (?P<weight>.+?)', l)
                     if restraint:
                         # without [0] it is restraints [[('Y23', 'Y69', '<', '25.0', '1')], [('Y22', 'Y69', '<', '25.0', '1')]]
                         # why? to convert 'Y23', 'Y69', '<', '25.0', '1' -> 'Y23', 'Y69', '<', 25.0, 1
                         start = restraint[0][0][0] + str(int(restraint[0][0][1:]) + offset)
                         end = restraint[0][1][0] + str(int(restraint[0][1][1:]) + offset)
                         restraints.append([start, end, restraint[0][1], restraint[0][2],
-                                           float(restraint[0][3]), float(restraint[0][4])])
+                                           float(restraint[0][3]), 1])  #float(restraint[0][4])])
+                    else:
+                        raise RNAFilterErrorInRestraints('Please check the format of your restraints!')
 
     if len(restraints) == 0:
         raise RNAFilterErrorInRestraints('Please check the format of your restraints!')
@@ -243,7 +254,7 @@ def calc_scores_for_pdbs(pdb_files, restraints, verbose):
             dist = get_distance(residues[h[0]]['mb'], residues[h[1]]['mb'])
             # change distance
             ok = '[ ]'
-            if dist < h[4]:
+            if eval('dist ' + h[3] + ' h[4]'):
                 score += h[5]
                 ok = '[x]'
                 good_dists += 1
@@ -251,8 +262,8 @@ def calc_scores_for_pdbs(pdb_files, restraints, verbose):
                 print(' '.join([' d:' + h[0] + '-' + h[1] + ' ' + str(h[4]), 'measured:', str(dist), ok]))
         if verbose:
             print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
-        #print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
-        print('%s,%f' % (fn, score / float(len(restraints))))  #  , good_dists, 'out of', len(restraints))
+        # print(pdb_fn, score / float(len(restraints)), good_dists, 'out of', len(restraints))
+        print('%s,%f' % (os.path.basename(pdb_fn), score / float(len(restraints))))  #  , good_dists, 'out of', len(restraints))
 
 
 def __filter_simrna_trajectory():

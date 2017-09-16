@@ -33,5 +33,5 @@ if __name__ == '__main__':
 
     merged = pd.merge(df1, df2, on=args.mergeon)
     print(merged)
-    merged.to_csv(args.output)
+    merged.to_csv(args.output, index=False)
     print('Saved to %s' % args.output)

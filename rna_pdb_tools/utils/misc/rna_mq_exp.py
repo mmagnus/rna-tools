@@ -25,6 +25,7 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
+    print('fn,mqapRNA,rst,mqapRNArst')
     for l in open(args.csv):
         if l.startswith('fn'):
             pass
