@@ -21,6 +21,9 @@ python update_readme.py
 ./rna_pdb_toolsx.py --get_chain A input/1xjr.pdb > output/1xjr_A_clx.pdb
 
 
+## extract
+./rna_pdb_toolsx.py --no_hr --extract A:1-2 input/pistol_thrs0.50A_clust99-000001_AA.pdb > output/pistol_thrs0.50A_clust99-000001_AA_A-2.pdb
+
 ## --clean
 ./rna_pdb_toolsx.py --no_hr --clean input/1a9l_NMR_1_2_models.pdb > output/1a9l_NMR_1_2_models_tool.pdb
 ./rna_pdb_toolsx.py --no_hr --clean input/1xjr_GTP.pdb > output/1xjr_GTP.pdb

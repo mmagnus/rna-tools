@@ -118,6 +118,11 @@ def get_parser():
                         default='',
                         help="delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'")
 
+    parser.add_argument('--extract',  # type="string",
+                        dest="extract",
+                        default='',
+                        help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
+
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -349,6 +354,43 @@ if __name__ == '__main__':
                     sys.stdout.flush()
                 except IOError:
                     pass
+
+    if args.extract:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            selection = select_pdb_fragment(args.extract)
+            s = RNAStructure(f)
+
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+                output += 'HEADER extract ' + args.extract + '\n'  # ' '.join(str(selection))
+            for l in s.lines:
+                if l.startswith('ATOM'):
+                    chain = l[21]
+                    resi = int(l[23:26].strip())
+                    if chain in selection:
+                        if resi in selection[chain]:
+                            # continue  # print chain, resi
+                            output += l + '\n'
+
+            # write: inplace
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
+
 
     if args.un_nmr:
         pass

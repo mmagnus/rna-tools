@@ -88,7 +88,7 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
                          [--dont_rename_chains] [--dont_fix_missing_atoms]
                          [--dont_report_missing_atoms] [--collapsed_view]
                          [--cv] [-v] [--replace_hetatm] [--inplace]
-                         [--edit EDIT] [--delete DELETE]
+                         [--edit EDIT] [--delete DELETE] [--extract EXTRACT]
                          file [file ...]
 
 rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
@@ -148,6 +148,9 @@ optional arguments:
                         get_rnapuzzle_ready, delete, get_ss, get_seq]
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
   --delete DELETE       delete the selected fragment, e.g. A:10-16, or for
+                        more than one fragment --delete 'A:1-25+30-57'
+  --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for
+                        more than one fragment --extract 'A:1-25+30-57'
                         more than one fragment --delete 'A:1-25+30-57'
 ```
 
