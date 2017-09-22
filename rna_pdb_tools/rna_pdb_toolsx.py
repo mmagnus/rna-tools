@@ -116,7 +116,7 @@ def get_parser():
     parser.add_argument('--delete',  # type="string",
                         dest="delete",
                         default='',
-                        help="delete the selected fragment, e.g. A:10-16")
+                        help="delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'")
 
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')

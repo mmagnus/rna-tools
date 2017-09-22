@@ -147,7 +147,8 @@ optional arguments:
   --inplace             in place edit the file! [experimental, only for
                         get_rnapuzzle_ready, delete, get_ss, get_seq]
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
-  --delete DELETE       delete the selected fragment, e.g. A:10-16
+  --delete DELETE       delete the selected fragment, e.g. A:10-16, or for
+                        more than one fragment --delete 'A:1-25+30-57'
 ```
 
 Tricks:
