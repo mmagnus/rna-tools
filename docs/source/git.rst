@@ -2,7 +2,13 @@ Git Quickref
 =========================================
 
 .. image:: ../pngs/Git-Logo-1788C.png
-	   
+	  
+For Git in a scientific environment, please read:
+
+	Perez-Riverol, Y. et al., 2016. Ten Simple Rules for Taking Advantage of Git and GitHub S. Markel, ed. PLoS computational biology, 12(7), p.e1004947.
+
+	Blischak, J.D., Davenport, E.R. & Wilson, G., 2016. A Quick Introduction to Version Control with Git and GitHub F. Ouellette, ed. PLoS computational biology, 12(1), pp.e1004668–18.
+
 Git is a version control system that is used for software development that helps you to keep track of versions of your program. To start using git you have to know only these two commands below. If you want to contribute to the package you need a few more, but it's not important right now :-)
 
 To get the package for the first time on your computer go to the selected package and on the top left corner select clone or download. Copy the link and run it on console with git clone::

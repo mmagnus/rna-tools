@@ -5,6 +5,7 @@
 Example::
 
      $ rna_rosetta_head.py -n 10000 thf.out
+     # a new file will be created, thf_10000.out
 
 Silent file::
 

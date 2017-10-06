@@ -243,7 +243,7 @@ def calc_scores_for_pdbs(pdb_files, restraints, verbose):
     """
     """
     # h = ('A1', 'A2', '<', '10.0', '1')
-    print('fn, score')
+    print('fn, rst_score')
     for pdb_fn in pdb_files:
         # logger.info(pdb_fn)
         if verbose:
