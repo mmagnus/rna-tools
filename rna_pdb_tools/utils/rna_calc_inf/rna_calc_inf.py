@@ -64,7 +64,7 @@ lock = Lock()
 counter = Value(c_int)
 DEBUG = False
 def do_job(i):
-    """Run ClaRNA & Compare, add 1 to the counter, write output 
+    """Run ClaRNA & Compare, add 1 to the counter, write output
     to csv file (keeping it locked)"""
     # run clarna & compare
     i_cl_fn = clarna_app.clarna_run(i, args.force)
@@ -76,7 +76,7 @@ def do_job(i):
     global counter
     counter.value += 1
     bar.update(counter.value)
-    
+
     # write csv
     lock.acquire()
     # take only filename of target
@@ -86,7 +86,7 @@ def do_job(i):
     csv_writer.writerow(cells)
     csv_file.flush()
     lock.release()
-    
+
 #main
 if __name__ == '__main__':
     parser = get_parser()
@@ -101,9 +101,10 @@ if __name__ == '__main__':
     ss = args.ss
     if ss:
         # generate target_fn
-        target_cl_fn = clarna_app.get_ClaRNA_output_from_dot_bracket(ss, temp=False)
+        ss_txt = open(ss).read().split('\n')[2]
+        target_cl_fn = clarna_app.get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
     else:
-        target_cl_fn = clarna_app.clarna_run(target_fn, args.force)    
+        target_cl_fn = clarna_app.clarna_run(target_fn, args.force)
 
     # keep target save, don't overwrite it when force and
     # target is in the folder that you are running ClaRNA on
@@ -113,7 +114,7 @@ if __name__ == '__main__':
     shutil.copyfile(target_cl_fn, tmp_target_cl_fn)
     target_cl_fn = tmp_target_cl_fn
     ##
-    
+
     out_fn = args.out_fn
 
     # Open output file
@@ -134,5 +135,5 @@ if __name__ == '__main__':
         p.map(do_job, input_files)
     else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
-            do_job(i)    
+            do_job(i)
     print('csv was created! ', out_fn)
