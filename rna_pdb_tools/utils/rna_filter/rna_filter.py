@@ -82,9 +82,6 @@ def parse_logic(restraints_fn, verbose):
 
     Format::
 
-        # ignore comments
-        (d:A1-A2 <  10.0  1)|(d:A2-A1 <= 10 1)
-
     Returns:
        list: parse restraints into a list of lists, e.g. [('A9', 'A41', '10.0', '1'), ('A10', 'A16', '10', '1')]
 
@@ -131,14 +128,16 @@ def parse_logic_newlines(restraints_fn, offset=0, verbose=False):
                     if verbose:
                         logger.info(l)
                     restraint = re.findall(
-                        'd:(?P<start>.+?)-(?P<end>.+?)\s*(?P<operator>\>\=|\=|\>|\<|\<\=)\s*(?P<distance>[\d\.]+)\s+', l)  # (?P<weight>.+?)', l)
+                        'd:(?P<start>.+?)-(?P<end>.+?)\s*(?P<operator>\>\=|\=|\>|\<|\<\=)\s*(?P<distance>[\d\.]+)', l)  # (?P<weight>.+?)', l)
                     if restraint:
                         # without [0] it is restraints [[('Y23', 'Y69', '<', '25.0', '1')], [('Y22', 'Y69', '<', '25.0', '1')]]
                         # why? to convert 'Y23', 'Y69', '<', '25.0', '1' -> 'Y23', 'Y69', '<', 25.0, 1
                         start = restraint[0][0][0] + str(int(restraint[0][0][1:]) + offset)
                         end = restraint[0][1][0] + str(int(restraint[0][1][1:]) + offset)
-                        restraints.append([start, end, restraint[0][1], restraint[0][2],
-                                           float(restraint[0][3]), 1])  #float(restraint[0][4])])
+                        operator = restraint[0][2]
+                        distance = float(restraint[0][3])
+                        weight = 1  # fix for now  #float(restraint[0][4])])
+                        restraints.append([start, end, operator, distance, weight])
                     else:
                         raise RNAFilterErrorInRestraints('Please check the format of your restraints!')
 
@@ -187,6 +186,8 @@ def check_condition(condition, wight):
 
 
 def get_residues(pdb_fn, restraints, verbose):
+    """
+    """
     residues = set()
     for h in restraints:
         a = h[0]
@@ -254,8 +255,9 @@ def calc_scores_for_pdbs(pdb_files, restraints, verbose):
             dist = get_distance(residues[h[0]]['mb'], residues[h[1]]['mb'])
             # change distance
             ok = '[ ]'
-            if eval('dist ' + h[3] + ' h[4]'):
-                score += h[5]
+            is_fulfiled = eval('dist ' + h[2] + ' h[3]')
+            if is_fulfiled:  # dist is calculated above
+                score += h[4]
                 ok = '[x]'
                 good_dists += 1
             if verbose:
