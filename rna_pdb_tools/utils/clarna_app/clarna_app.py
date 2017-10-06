@@ -60,7 +60,7 @@ def get_dot_bracket_from_ClaRNAoutput(inCR, verbose=False):
     std = o.stdout.read().strip()
     if verbose: std
     return std
-    
+
 def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
     """Run ClaRNA compare.
 
@@ -70,7 +70,7 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
 
         inf_all      0.706
         inf_stack -999.999 -> NA
-        inf_WC       0.865 
+        inf_WC       0.865
         inf_nWC   -999.999 -> NA
         SNS_WC       0.842
         PPV_WC       0.889
@@ -96,13 +96,18 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
     #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
     #1i6uD_M1.pdb.outCR                         1i6uD_M425.pdb.outCR      0.707      0.000      0.756      0.500      0.571      1.000      0.250      1.000
     return std.split('\n')[-1] # solution for this ^, keep the clarna_compare quite
-    
+
 def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     """
     Get dummy ClaRNA output out of dat bracket secondary structure (ss)
 
-    :return: a filename to ClaRNA output"""
-    from rna_pdb_tools.utils.secstruc.secstruc import ViennaStructure
+    Args:
+        ss (string): secondary structure
+
+    Return:
+
+        a filename to ClaRNA output"""
+    from rna_pdb_tools.SecondaryStructure import parse_vienna_to_pairs
 
     if ss.find(':') > -1:
         chain,ss = ss.split(':')
@@ -110,11 +115,12 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
         chain = 'A'
         ss = ss
 
-    v = ViennaStructure(ss)
-    
+    pairs, pairs_pk = parse_vienna_to_pairs(ss, remove_gaps_in_ss=False)
+    pairs += pairs_pk
+
     txt = 'Classifier: Clarna\n'
     txt += 'chains:  A 1 ' + str(len(ss)) + '\n'
-    for bp in v.toPairs():
+    for bp in pairs:
         txt += '%s    %i   %s   %i          bp G C                  WW_cis   1 \n' % (chain, bp[0], chain, bp[1])
     if verbose: print(txt.strip())
 
@@ -122,7 +128,7 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
         f = tempfile.NamedTemporaryFile()
         name = f.name
     else:
-        name = '/tmp/target'
+        name = 'target'
 
     foutCR = name + '.pdb.outCR'
     if verbose: print(foutCR)
@@ -130,7 +136,7 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     ft.write(txt)
     ft.close()
     return foutCR
-    
+
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
     parser.add_argument('files', help="files", nargs='+')
@@ -151,7 +157,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         print(parser.print_help())
         sys.exit(1)
-        
+
     for f in args.files:
         print(f)
         fn_out = clarna_run(f, args.force)
