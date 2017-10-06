@@ -9,6 +9,10 @@ import subprocess
 from rna_pdb_tools.rpt_config import VARNA_JAR_NAME, VARNA_PATH
 
 
+class ExceptionOpenPairsProblem(Exception):
+    pass
+
+
 def draw_ss(title, seq, ss, img_out, resolution=4, verbose=False):
     """Draw Secondary Structure using VARNA (you need correct configuration for this).
 
@@ -79,6 +83,16 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
         >>> parse_vienna_to_pairs('((--))', remove_gaps_in_ss=True)
         ([[1, 4], [2, 3]], [])
 
+        >>> parse_vienna_to_pairs('((((......')
+        Traceback (most recent call last):
+          File "/usr/lib/python2.7/doctest.py", line 1315, in __run
+            compileflags, 1) in test.globs
+          File "<doctest __main__.parse_vienna_to_pairs[4]>", line 1, in <module>
+            parse_vienna_to_pairs('((((......')
+          File "./SecondaryStructure.py", line 106, in parse_vienna_to_pairs
+            raise ExceptionOpenPairsProblem('Too many open pairs (()) in structure')
+        ExceptionOpenPairsProblem: Too many open pairs (()) in structure
+
     """
     if remove_gaps_in_ss:
         ss = ss.replace('-', '')
@@ -95,11 +109,18 @@ def parse_vienna_to_pairs(ss, remove_gaps_in_ss=False):
             stack_pk.append(c + 1)
         if s == ']':
             pairs_pk.append([stack_pk.pop(), c + 1])
+
+    if stack:
+        raise ExceptionOpenPairsProblem('Too many open pairs (()) in structure')
+    if stack_pk:
+        raise ExceptionOpenPairsProblem('Too many open pairs [[]] in structure')
+
     pairs.sort()
     pairs_pk.sort()
     return(pairs, pairs_pk)
 
 
+# main
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
