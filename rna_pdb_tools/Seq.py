@@ -42,6 +42,7 @@ Should you need to run it on a list of sequences, use the following script::
 @todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
 """  # noqa
 import os
+
 try:
     RPT_PATH = os.environ['RNA_PDB_TOOLS']
 except KeyError:
@@ -52,7 +53,7 @@ import tempfile
 import sys
 
 
-from rna_pdb_tools.rpt_config import CONTEXTFOLD_PATH
+from rna_pdb_tools.rpt_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH
 
 
 class MethodNotChosen(Exception):
@@ -190,7 +191,7 @@ class RNASequence(object):
             return '\n'.join(self.ss_log.split('\n')[2:])
 
         elif method == "rnastructure":
-            cmd = RPT_PATH + '/opt/RNAstructure/exe/fold ' + tf.name + ' ' + tf.name + '.out '
+            cmd = RNASTRUCTURE_PATH + '/exe/Fold ' + tf.name + ' ' + tf.name + '.out '
             if shapefn:
                 cmd += ' -sh ' + shapefn
             if verbose:
@@ -200,7 +201,7 @@ class RNASequence(object):
             if stderr:
                 print(stderr)
 
-            cmd = RPT_PATH + '/opt/RNAstructure/exe/ct2dot ' + tf.name + '.out 1 ' + \
+            cmd = RNASTRUCTURE_PATH + '/exe/ct2dot ' + tf.name + '.out 1 ' + \
                              tf.name + '.dot'
             if verbose:
                 print(cmd)
@@ -234,6 +235,10 @@ if __name__ == '__main__':
     seq = RNASequence("GGGGUUUUCCC")
     print(seq.predict_ss("rnastructure", verbose=verbose))
     print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
+
+    seq = RNASequence("CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGgUGCAA")
+    print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
+
 
     # test of MethodNotChose
     # print(seq.predict_ss("test"))

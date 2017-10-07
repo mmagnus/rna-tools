@@ -12,6 +12,7 @@ RNA_ROSETTA_RUN_ROOT_DIR_MODELING = "/home/magnus/rosetta-runs"
 RNA_ROSETTA_NSTRUC = 10000
 
 EASY_CAT_PATH = ""
+RNASTRUCTURE_PATH = ""
 
 import os
 try:
