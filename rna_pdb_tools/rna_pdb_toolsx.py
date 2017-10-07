@@ -3,6 +3,10 @@
 
 """rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
 
+Tricks:
+
+   for i in *pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i >  ${i/.pdb/_rpr.pdb}; done
+
 Usage::
 
    $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
