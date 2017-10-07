@@ -14,7 +14,9 @@ ViennaRNA (https://www.tbi.univie.ac.at/RNA/)
 
 ipknot OSX (https://github.com/satoken/homebrew-rnatools)
 
-RNAStucture (http://rna.urmc.rochester.edu/)
+RNAStructure (http://rna.urmc.rochester.edu/)
+
+Works with 5.8.1; Jun 16, 2016.
 
 Download http://rna.urmc.rochester.edu/RNAstructureDownload.html and untar it in ``<RNA_PDB_TOOLS>/opt/RNAstructure/``; run make, the tools will be compiled in a folder ``exe``. Set up ``DATPATH`` in your bashrc to ``<RNA_PDB_TOOLS>/opt/RNAstructure/data_tables`` ``DATAPATH=/home/magnus/work/src/rna-pdb-tools/opt/RNAstructure/data_tables/`` (read more http://rna.urmc.rochester.edu/Text/Thermodynamics.html). RNAstructure can be run with SHAPE restraints, read more http://rna.urmc.rochester.edu/Text/File_Formats.html#Constraint about the format. The file format for SHAPE reactivity comprises two columns. The first column is the nucleotide number, and the second is the reactivity. Nucleotides for which there is no SHAPE data can either be left out of the file, or the reactivity can be entered as less than -500. Columns are separated by any white space.
 
