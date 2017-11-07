@@ -16,7 +16,7 @@ vs::
 Documentation
 ------------------------------------
 
-We are using(at least we are moving towards) the Google style docstrings via Napoleon. Napoleon is a Sphinx Extensions that enables Sphinx to parse both NumPy and Google style docstrings - the style recommended by Khan Academy. http://www.sphinx-doc.org/en/stable/ext/napoleon.html#type-annotations
+We are using(at least we are moving towards)the Google style docstrings via Napoleon. Napoleon is a Sphinx Extensions that enables Sphinx to parse both NumPy and Google style docstrings - the style recommended by Khan Academy. http://www.sphinx-doc.org/en/stable/ext/napoleon.html#type-annotations
 
 Add a new util
 ------------------------------------
