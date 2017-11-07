@@ -8,7 +8,7 @@ The method is quick-and-dirty, but works!
 The script takes first 31 characters of lines (or only atom names and residue names)
 starting with ``HETATM`` or ``ATOM`` and save these lines to a <filename>.out file.
 
-One file is created per pdb. In the final step DIFF_TOOL is executed 
+One file is created per pdb. In the final step DIFF_TOOL is executed
 on these two output files. You get a diff output. That's it! Enjoy!
 
 Configuration:
@@ -33,6 +33,10 @@ or a detection of missing atom.
 
 .. image:: ../../rna_pdb_tools/utils/diffpdb/doc/missing-atoms.png
 
+or a detection of missing OP3 at the beginning.
+
+.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/missing-op3.png
+
 """
 import sys
 import os
@@ -50,7 +54,7 @@ except ImportError:
     DIFF_TOOL = 'diff' ## kompare
 
 def do_file_atom_res(fn):
-    """Take a file path, open the file, for each line take 
+    """Take a file path, open the file, for each line take
     first 31 characters, saves these lines to a new file."""
 
     text_new = ''
@@ -60,7 +64,7 @@ def do_file_atom_res(fn):
     open(fn + '.out', 'w').write(text_new)
 
 def do_file_atom_res_and_resi(fn):
-    """Take a file path, open the file, for each line take 
+    """Take a file path, open the file, for each line take
     first 31 characters, saves these lines to a new file."""
 
     text_new = ''
@@ -71,7 +75,7 @@ def do_file_atom_res_and_resi(fn):
 #ATOM   1002  P     A A  48
 
 def do_file(fn):
-    """Take a file path, open the file, for each line take 
+    """Take a file path, open the file, for each line take
     first 31 characters, saves these lines to a new file."""
 
     text_new = ''
@@ -87,14 +91,14 @@ def get_parser():
     parser.add_argument('--names_and_resi', help='take only atom residues names', action='store_true')
     parser.add_argument('--htmlout', help='take only atom residues names', action='store_true')
     parser.add_argument('--method', help='method e.g. `diff`')#, action='store_true')
-    parser.add_argument('f1', help='file')     
-    parser.add_argument('f2', help='file')     
+    parser.add_argument('f1', help='file')
+    parser.add_argument('f2', help='file')
     return parser
 
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-    
+
     str1_fn = args.f1
     str2_fn = args.f2
 
