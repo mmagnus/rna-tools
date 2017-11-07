@@ -1,7 +1,7 @@
 rna-pdb-tools
 =================
 
-<p align="center"><b>Beta: this is still under development, at the moment, because of our new db http://genesilico.pl/RNArchitecture we are in stage of mixed Python2 and Python3. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.</b></p>
+<p align="center"><b>Beta: this is still under development. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.</b></p>
 
 Look for other our projects at https://github.com/RNA-Puzzles
 
@@ -24,7 +24,7 @@ Look for other our projects at https://github.com/RNA-Puzzles
 
 A core library and a set of programs to run various Python functions related to work with PDB files of RNA structures.
 
-The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/, in progress).
+The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/).
 
 **What is fun here?**
 
