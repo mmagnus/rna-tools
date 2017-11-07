@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """Python parser to 3dna <http://x3dna.org/>.
 
@@ -48,7 +48,7 @@ if path.islink(PATH):
 else:
     PATH = path.dirname(path.abspath(__file__))
 
-from .rna_x3dna_config import BINARY_PATH
+from rna_x3dna_config import BINARY_PATH
 
 
 class x3DNAMissingFile(Exception):
