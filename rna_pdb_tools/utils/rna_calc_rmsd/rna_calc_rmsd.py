@@ -27,6 +27,33 @@ Examples::
     6_Bujnicki_4_rpr.pdb 32.04 3409
     ...
 
+time rmsd_calc_to_target.py
+      -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+      --target_selection A:1-48+52-63
+      --model_selection A:1-48+52-63
+      --target_ignore_selection A/57/O2\'
+      clusters/*_AA.pdb
+
+    rmsd_calc_rmsd_to_target
+    --------------------------------------------------------------------------------
+      target_selection:  A:1-48+52-63
+      model_selection:   A:1-48+52-63
+      target_ignore_selection:  A/57/O2'
+      model_ignore_selection:
+    # of models: 801
+    fn,rmsd_all
+    pistol_thrs0.50A_clust01-000001_AA.pdb,7.596
+    pistol_thrs0.50A_clust02-000001_AA.pdb,7.766
+    pistol_thrs0.50A_clust03-000001_AA.pdb,18.171
+    [..]
+    pistol_thrs0.50A_clust799-000001_AA.pdb,5.356
+    pistol_thrs0.50A_clust800-000001_AA.pdb,15.282
+    pistol_thrs0.50A_clust801-000001_AA.pdb,16.339
+    # of atoms used: 1237
+    csv was created!  rmsds.csv
+    rmsd_calc_to_target.py -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+    37.93s user 1.07s system 87% cpu 44.650 total
+
 """
 from __future__ import print_function
 
@@ -42,11 +69,11 @@ import os
 
 def get_rna_models_from_dir(files):
     """
-    :param models: a list of filenames 
+    :param models: a list of filenames
 
     Example of the list::
 
-       ['test_data/rp17/2_restr1_Michal1.pdb_clean.pdb', 'test_data/rp17/2a_nonrestr2_Michal1.pdb_clean.pdb', 
+       ['test_data/rp17/2_restr1_Michal1.pdb_clean.pdb', 'test_data/rp17/2a_nonrestr2_Michal1.pdb_clean.pdb',
        'test_data/rp17/3_nonrestr1_Michal1.pdb_clean.pdb', 'test_data/rp17/5_restr1_Michal3.pdb_clean.pdb']"""
 
     models = []
@@ -74,7 +101,7 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     See:
 
     -  Align: http://www.pymolwiki.org/index.php/Align
-    -  Fit:   http://www.pymolwiki.org/index.php/Fit 
+    -  Fit:   http://www.pymolwiki.org/index.php/Fit
 
     Align can return a list with 7 items:
 
@@ -84,19 +111,19 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     RMSD before refinement
     Number of aligned atoms before refinement
     Raw alignment score
-    Number of residues aligned 
+    Number of residues aligned
 
     in this version of function, the function returns `RMSD before refinement`.
 
-    Install on OSX: ``brew install homebrew/science/pymol`` and set ``PYTHONPATH`` to 
+    Install on OSX: ``brew install homebrew/science/pymol`` and set ``PYTHONPATH`` to
     your PyMOL packages, .e.g ::
-  
+
       PYTHONPATH=$PYTHONPATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages
 
     If problem::
 
       Match-Error: unable to open matrix file '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/data/pymol/matrices/BLOSUM62'.
-     
+
     then define ``PYMOL_PATH`` in your .bashrc, e.g.::
 
        export PYMOL_PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pymol/
@@ -117,7 +144,7 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     pymol.cmd.load(pdb2, 's2')
     if method == 'align':
         # experiments with align <https://pymolwiki.org/index.php/Align>
-        # quiet = 0/1: suppress output {default: 0 in command mode, 1 in API} 
+        # quiet = 0/1: suppress output {default: 0 in command mode, 1 in API}
         return  (pymol.cmd.align('s1', 's2',quiet=1, object='aln')[3],0) #, pymol.cmd.align('s1','s2')[4])
         #raw_aln = pymol.cmd.get_raw_alignment('aln')
         #print raw_aln
@@ -141,7 +168,7 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
     if verbose: print('in:', a)
     atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True)
     atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
-    
+
     if atomsQ != atomsP:
         sys.exit('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
     # Calculate 'dumb' RMSD
@@ -159,7 +186,7 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
         V += Qc
         write_coordinates(atomsP, V)
         quit()
-    
+
     return round(kabsch_rmsd(P, Q),2), atomsP
 
 def get_parser():
@@ -233,7 +260,7 @@ if __name__ == '__main__':
         target_ignore_selection = select_pdb_fragment_pymol_style(args.target_ignore_selection)
     else:
         target_ignore_selection = None
-        
+
     if args.model_ignore_selection:
         model_ignore_selection = select_pdb_fragment_pymol_style(args.model_ignore_selection)
     else:
@@ -244,7 +271,7 @@ if __name__ == '__main__':
     if  args.model_ignore_selection:
         if args.verbose: print('  model_ignore_selection:  ', args.model_ignore_selection)
 
-    models = get_rna_models_from_dir(input_files)        
+    models = get_rna_models_from_dir(input_files)
 
     print('# of models:', len(models))
 
@@ -263,7 +290,7 @@ if __name__ == '__main__':
         t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '
         c += 1
         t += '\n'
-            
+
     f.write(t)
     f.close()
 
