@@ -6,7 +6,7 @@ If you still have problem with various number of atoms, check out this issue: ge
 
 The program is using (https://github.com/charnley/rmsd).
 
-Examples::
+Example #1::
 
     $ rna_calc_rmsd.py -t 6_0_solution_4GXY_rpr.pdb --model_selection=A:1-17+24-110+115-168 *.pdb
     rmsd_calc_rmsd_to_target
@@ -27,7 +27,9 @@ Examples::
     6_Bujnicki_4_rpr.pdb 32.04 3409
     ...
 
-time rmsd_calc_to_target.py
+Example #2::
+
+    time rmsd_calc_to_target.py
       -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
       --target_selection A:1-48+52-63
       --model_selection A:1-48+52-63
