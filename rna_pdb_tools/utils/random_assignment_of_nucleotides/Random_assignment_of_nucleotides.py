@@ -25,9 +25,7 @@ from Bio import AlignIO
 from Bio.SeqRecord import SeqRecord
 from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio.PDB.Atom import PDBConstructionWarning
 import warnings
-warnings.simplefilter('ignore', PDBConstructionWarning)
 
 # logger
 logger = logging.getLogger()
@@ -53,12 +51,12 @@ obj1', description='obj1', dbxrefs=[]), id='<unknown id>', name='<unknown name>'
 
 
 def write_align(align, outfn):
-    """Write renumbered pdb with Biopython.
+    """Write cleaned alignment with Biopython.
     Args:
-        struc (pdb): a renumbered structure
-        outfn (str): a path to a new, renumbered pdb file
+        align (obj): a cleaned alignment
+        outfn (str): a path to a new alignment file
     Returns:
-        none: writes to a file
+        none: writes to a file in fasta format
     """
     io = AlignIO
     io.write(alignment, outfn, 'fasta')
@@ -184,7 +182,7 @@ if __name__ == '__main__':
                 nseq += i
             else:
                 nseq += i
-            seq = nseq
+            seq = nseq #cleaned sequence
             #
         # print seq, "XXX"
         #print type(record.seq)
