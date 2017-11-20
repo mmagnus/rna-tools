@@ -61,6 +61,12 @@ RNAalignment
    :members:
    :undoc-members:
 
+Random assignment of nucleotides
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: rna_pdb_tools.utils.rna_alignment.random_assignment_of_nucleotides
+   :members:
+   :undoc-members:
 
 CMAlign
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

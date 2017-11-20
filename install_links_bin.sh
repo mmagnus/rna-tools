@@ -65,6 +65,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/renum_pdb_to_aln/renum_pdb_to_aln.py $curr_d
 
 ln -s $curr_dir/rna_pdb_tools/utils/pdbs_measure_atom_dists/pdbs_measure_atom_dists.py $curr_dir/bin/pdbs_measure_atom_dists.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/random_assignment_of_nucleotides.py $curr_dir/bin/random_assignment_of_nucleotides.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo
