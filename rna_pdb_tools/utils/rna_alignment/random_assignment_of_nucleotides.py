@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """renum_pdb_to_aln.py - Random assignment of nucleotides for non-typical characters in the sequence alignment
 
+::
 
     R = G A (purine)
     Y = U C (pyrimidine)
@@ -15,6 +16,7 @@
     N = A G C U (any)
 
 author: A. Zyla - azyla
+
 .. warning:: Tested only on fasta files! and requires Biopython (tested with v1.68)
 """
 
