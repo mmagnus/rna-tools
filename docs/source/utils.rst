@@ -388,12 +388,15 @@ Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
+   :nodescription:
+   :nosubcommands:
    :ref: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.get_parser
    :prog: rna_rosetta_cluster.py
 
-.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster.py
+.. automodule:: rna_pdb_tools.utils.rna_rosetta.rna_rosetta_cluster
    :members:
    :undoc-members:
+
 
 Minimize
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
