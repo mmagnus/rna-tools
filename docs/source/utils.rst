@@ -64,7 +64,11 @@ RNAalignment
 Random assignment of nucleotides
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: rna_pdb_tools.utils.rna_alignment.random_assignment_of_nucleotides
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_alignment.random_assignment_of_nucleotides.get_parser
+   :prog: random_assignment_of_nucleotides
+
+.. automodule:: rna_pdb_tools.utils.rna_alignment.random_assignment_of_nucleotides
    :members:
    :undoc-members:
 
