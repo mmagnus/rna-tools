@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""renum_pdb_to_aln.py - Random assignment of nucleotides for non-typical characters in the sequence alignment
+"""random_assignment_of_nucleotides.py - Random assignment of nucleotides for non-typical characters in the sequence alignment
 
 
     R = G A (purine)
