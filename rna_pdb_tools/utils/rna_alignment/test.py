@@ -49,6 +49,12 @@ class MyTest(unittest.TestCase):
         print(cmd)
         code = os.system(cmd)
         self.assertEqual(code, 0)
+    def test_random_assignment_of_nucleotides(self):
+        print('----------------------------------------------------------------------')
+        cmd = "python random_assignment_of_nucleotides.py test_data/aln1.fasta"
+        print(cmd)
+        code = os.system(cmd)
+        self.assertEqual(code, 0)
 
 
 if __name__ == '__main__':
