@@ -68,13 +68,26 @@ def rna_cartoon():
 
 def rp17():
     txt = """color forest, resi 1-5+12-16; # p1
+ color magenta, resi 6-11+34-39;
+ color grey, resi 17-24;
+ color marine, resi 25-28+59-62;
+ color deepblue, resi 29-33+40-42;
+ color orange, resi 44-47+48-56;
+ color yellow, resi 57-58;
+ color red, resi 19+20+21;
+"""
+    color_by_text(txt)
+
+
+def rp172():
+    txt = """color forest, resi 1-5+12-16; # p1
  color magenta, resi 6-11+34-39
  color grey, resi 17-24
  color marine, resi 25-28+55-58
- color deepblue, resi 29-33+40-42
- color orange, resi 42-47+48-52;
+ color deepblue, resi 29-33+40-42;
+ color orange, resi 43-47+48-52;
  color yellow, resi 53-54;
-
+ color red, resi 19+20+21;
 """
     color_by_text(txt)
 
