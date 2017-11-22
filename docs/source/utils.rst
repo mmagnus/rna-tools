@@ -207,6 +207,14 @@ rna_filter.py - calculate distances based on given restrants on PDB files or Sim
    :ref: rna_pdb_tools.utils.rna_filter.rna_filter.get_parser
    :prog: rna_filter.py
 
+rna_dca_mapping.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_filter.rna_dca_mapping.get_parser
+   :prog: rna_dca_mapping.py
+
+
 show_dists - show distances in PyMOL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
