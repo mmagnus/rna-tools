@@ -292,6 +292,9 @@ def color_rbw(rainbow=0):
                  i = 0
 def rgyration(selection='(all)', quiet=1):
     '''
+
+Re: [PyMOL] RES: radius of gyration
+From: Tsjerk Wassenaar <tsjerkw@gm...> - 2011-03-31 14:07:03
 DESCRIPTION
 
     Calculate radius of gyration
