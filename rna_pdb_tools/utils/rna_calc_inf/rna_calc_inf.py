@@ -128,7 +128,7 @@ if __name__ == '__main__':
         bar = progressbar.ProgressBar(max_value=len(input_files))
         bar.update(0)
     except TypeError:
-        print 'Please install progressbar2, e.g. pip install progressbar2'
+        print('Please install progressbar2 (not progressbar), e.g. pip install progressbar2')
         sys.exit(1)
 
     # Main meat
