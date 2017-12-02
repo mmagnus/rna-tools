@@ -876,7 +876,7 @@ class RNAalignment(object):
                 print('Match:', s.id)
                 print(s)
                 print(seq)
-                return s
+        return s
         print('Not found')
 
     def find_seq_exact(self, seq, verbose=False):
