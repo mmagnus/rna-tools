@@ -124,8 +124,12 @@ if __name__ == '__main__':
     csv_file.flush()
 
     # Init bar and to the job
-    bar = progressbar.ProgressBar(max_value=len(input_files))
-    bar.update(0)
+    try:
+        bar = progressbar.ProgressBar(max_value=len(input_files))
+        bar.update(0)
+    except TypeError:
+        print 'Please install progressbar2, e.g. pip install progressbar2'
+        sys.exit(1)
 
     # Main meat
     number_processes = int(args.nt)
