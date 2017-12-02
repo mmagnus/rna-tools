@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 
 import tempfile
+from pymol import cmd
+from itertools import izip
+import math
 
-from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
+
+from rna_pdb_tools.rna_pdb_tools.rna_pdb_tools import RNAStructure
+
 
 
 def color_by_text(txt):
@@ -285,7 +290,35 @@ def color_rbw(rainbow=0):
               i = i+1
               if(i == ncolours):
                  i = 0
-    
+def rgyration(selection='(all)', quiet=1):
+    '''
+
+[PyMOL] RES: radius of gyration
+From: Tsjerk Wassenaar <tsjerkw@gm...> - 2011-03-31 14:07:03
+https://sourceforge.net/p/pymol/mailman/message/27288491/
+DESCRIPTION
+
+    Calculate radius of gyration
+
+USAGE
+
+    rgyrate [ selection ]
+ :::warning:::
+ if nothing is selected  function is calculating radius of gyration for all pdbs in current Pymol session
+    '''
+    quiet = int(quiet)
+    model = cmd.get_model(selection).atom
+    x = [i.coord for i in model]
+    mass = [i.get_mass() for i in model]
+    xm = [(m*i,m*j,m*k) for (i,j,k),m in izip(x,mass)]
+    tmass = sum(mass)
+    rr = sum(mi*i+mj*j+mk*k for (i,j,k),(mi,mj,mk) in izip(x,xm))
+    mm = sum((sum(i)/tmass)**2 for i in izip(*xm))
+    rg = math.sqrt(rr/tmass - mm)
+    if not quiet:
+        print "Radius of gyration: %.2f" % (rg)
+    return rg
+
 
 try:
     from pymol import cmd
@@ -320,6 +353,7 @@ else:
     cmd.extend('color_obj', color_obj)
     cmd.extend('color_rbw', color_rbw)
     cmd.extend('aa', align_all)
+    cmd.extend("rgyration", rgyration)
     
     # set dash lines
     cmd.set('dash_color', 'red')

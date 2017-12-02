@@ -65,6 +65,8 @@ Rename a chain::
 
 don't forget about `sort`.
 
+To select all, use `PyMOL>alter all, resv -= 12`.
+
 To renumber a fragment starting with 24 to 29, select the fragment and::
 
 	PyMOL>alter (sele), resv += 5
