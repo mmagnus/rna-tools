@@ -333,6 +333,26 @@ class RNASeq(object):
         bps.sort()
         return bps
 
+    def get_conserved(self, consensus, start=0, to_pymol=True, offset=0):
+        """Start
+        UCGGGGUGCCCUUCUGCGUG--------------------------------------------------AAGGC-UGAGAAAUACCCGU-------------------------------------------------AUCACCUG-AUCUGGAU-AAUGC
+        XXXXXXXXXXXXGXGXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX----------------------------XXXXX-XCUGAGAXXXXXXXXXXXXXXXXXXXXXX----------------------------------XXXXXXXX-XXXXXXXX-ACXUG
+        """
+        c = start + offset
+        index = []
+        print self.seq
+        print consensus
+        for nt_seq, nt_consensus in zip(self.seq, consensus):
+            if nt_consensus in ['-', 'X']:
+                pass
+            else:
+                index.append(c)
+            if nt_seq != '-':
+                c += 1
+        if to_pymol:
+            return("color red, " + str(index).replace(', ', '+').replace('[','').replace(']',''))
+        else:
+            return index
 
 class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA alignment stuff
