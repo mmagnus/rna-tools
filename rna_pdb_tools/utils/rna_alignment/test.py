@@ -51,7 +51,7 @@ class MyTest(unittest.TestCase):
         self.assertEqual(code, 0)
     def test_random_assignment_of_nucleotides(self):
         print('----------------------------------------------------------------------')
-        cmd = "python random_assignment_of_nucleotides.py test_data/aln1.fasta"
+        cmd = "python random_assignment_of_nucleotides.py --alignfn test_data/aln1.fasta"
         print(cmd)
         code = os.system(cmd)
         self.assertEqual(code, 0)
