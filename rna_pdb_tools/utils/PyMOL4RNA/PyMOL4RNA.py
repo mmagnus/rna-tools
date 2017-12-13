@@ -4,11 +4,7 @@ import tempfile
 from pymol import cmd
 from itertools import izip
 import math
-
-
-from rna_pdb_tools.rna_pdb_tools.rna_pdb_tools import RNAStructure
-
-
+from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
 
 def color_by_text(txt):
     for t in txt.strip().split('\n'):
@@ -26,13 +22,13 @@ def rp():
     cmd.set("cartoon_ring_finder", 2)
     cmd.set("cartoon_ladder_mode", 1)
 
-    
+
 def rs():
-    """RNA like in papers ;-)  - even better :D 
-    
+    """RNA like in papers ;-)  - even better :D
+
     Creates supercool cartoon-like RNA and colors each (and every) structure as a rainbow.
     Good to view aligned structures in a grid.
-    
+
     """
     cmd.hide("sticks", "all")
     cmd.hide("lines", "all")
@@ -57,13 +53,13 @@ def rs():
         if(i == ncolours):
            i = 0
 
-        
+
 def rcomp():
     """RNA like in papers ;-)
-    
+
     Similar to rc() but this time it colors each (and every) structure in different colour.
     Great on viewing-comparing superimposed structures.
-    
+
     """
     cmd.hide("sticks", "all")
     cmd.hide("lines", "all")
@@ -90,7 +86,7 @@ def rcomp():
         if(i == ncolours):
            i = 0
 
-    
+
 def align_all( subset = [] ):
   """
   Superimpose all open models onto the first one.
@@ -121,7 +117,7 @@ def align_all( subset = [] ):
     print AllObj[0], x, ' '.join([str(v) for v in values]), '-- RMSD', values[3], ' of ', values[6], 'residues'
     cmd.zoom()
 
-    
+
 def get_pdb():
     """ """
     tmpfn = '/tmp/pymol_get_pdb.pdb'
@@ -191,17 +187,17 @@ def rp172():
 """
     color_by_text(txt)
 
-    
+
 def color_obj(rainbow=0):
- 
+
         """
-        stolen from :) 
-AUTHOR 
+        stolen from :)
+AUTHOR
         Gareth Stockwell
- 
+
 USAGE
         color_obj(rainbow=0)
- 
+
         This function colours each object currently in the PyMOL heirarchy
         with a different colour.  Colours used are either the 22 named
         colours used by PyMOL (in which case the 23rd object, if it exists,
@@ -211,16 +207,16 @@ USAGE
 
         # Process arguments
         rainbow = int(rainbow)
- 
+
         # Get names of all PyMOL objects
         obj_list = cmd.get_names('objects')
- 
+
         if rainbow:
- 
+
            print "\nColouring objects as rainbow\n"
- 
+
            nobj = len(obj_list)
- 
+
            # Create colours starting at blue(240) to red(0), using intervals
            # of 240/(nobj-1)
            for j in range(nobj):
@@ -232,7 +228,7 @@ USAGE
               print obj_list[j], rgb
               # Colour the object
               cmd.color("col" + str(j), obj_list[j])
-                
+
         else:
            # List of available colours
            colours = ['red', 'green', 'blue', 'yellow', 'violet', 'cyan',    \
@@ -240,7 +236,7 @@ USAGE
            'olive', 'purple', 'teal', 'forest', 'firebrick', 'chocolate',    \
            'wheat', 'white', 'grey' ]
            ncolours = len(colours)
- 
+
            # Loop over objects
            i = 0
            for obj in obj_list:
@@ -250,22 +246,22 @@ USAGE
               if(i == ncolours):
                  i = 0
 
-                
+
 def color_rbw(rainbow=0):
         """
         similar to color_obj() but this time colors every obect as rainbow
         """
         rainbow = int(rainbow)
- 
+
         # Get names of all PyMOL objects
         obj_list = cmd.get_names('objects')
- 
+
         if rainbow:
- 
+
            print "\nColouring objects as rainbow\n"
- 
+
            nobj = len(obj_list)
- 
+
            # Create colours starting at blue(240) to red(0), using intervals
            # of 240/(nobj-1)
            for j in range(nobj):
@@ -280,7 +276,7 @@ def color_rbw(rainbow=0):
         else:
            colours = ['rainbow']
            ncolours = len(colours)
- 
+
            # Loop over objects
            i = 0
            for obj in obj_list:
@@ -354,7 +350,7 @@ else:
     cmd.extend('color_rbw', color_rbw)
     cmd.extend('aa', align_all)
     cmd.extend("rgyration", rgyration)
-    
+
     # set dash lines
     cmd.set('dash_color', 'red')
     cmd.set('dash_width', 4)
