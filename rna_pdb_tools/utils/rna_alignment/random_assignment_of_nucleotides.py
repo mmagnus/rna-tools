@@ -125,7 +125,7 @@ if __name__ == '__main__':
     if args.alignfn:
         alignment=get_align(args.alignfn)
         for record in alignment:
-            # print(record.seq)
+            #print(record.seq)
             s = ''
             nseq = ''
 
@@ -184,6 +184,11 @@ if __name__ == '__main__':
             N = ['G', 'A', 'C', 'U']
             new_N = random.choice(N)
 
+            # replace M
+            MM = ['M']
+            # replace T
+            TT = ['T']
+
             for i in record.seq:
                 if str(i) in RR:
                     i = i.replace('R', new_R)
@@ -215,6 +220,12 @@ if __name__ == '__main__':
                 elif str(i) in NN:
                     i = i.replace('N', new_N)
                     nseq += i
+                elif str(i) in MM:
+                    i = i.replace('M', '-')
+                    nseq += i
+                elif str(i) in TT:
+                    i = i.replace('T', 'U')
+                    nseq += i
                 else:
                     nseq += i
                 seq = nseq  # cleaned sequence
@@ -222,11 +233,12 @@ if __name__ == '__main__':
             # print seq, "XXX"
             # print type(record.seq)
             record.seq = Seq(seq)
+
     if args.seqfn:
         alignment=get_sequences(args.seqfn)
-        #print alignment
+
         for seq_record in alignment:
-            #print(record.seq)
+            #print seq_record.seq
             s = ''
             nseq = ''
 
@@ -286,8 +298,13 @@ if __name__ == '__main__':
             N = ['G', 'A', 'C', 'U']
             new_N = random.choice(N)
 
+            # replace M
+            MM = ['M']
+            # replace T
+            TT=['T']
 
-            for i in seq_record:
+            for i in seq_record.seq:
+
                 if str(i) in RR:
                     i = i.replace('R', new_R)
                     nseq += i
@@ -318,14 +335,20 @@ if __name__ == '__main__':
                 elif str(i) in NN:
                     i = i.replace('N', new_N)
                     nseq += i
+                elif str(i) in MM:
+                    i = i.replace('M', '')
+                    nseq += i
+                elif str(i) in TT:
+                    i = i.replace('T', 'U')
+                    nseq += i
                 else:
                     nseq += i
-                seq = nseq #cleaned sequence
+                seq = nseq  # cleaned sequence
+                #print nseq
                 #
             # print seq, "XXX"
-            #print type(record.seq)
-            record = Seq(seq)
-    #print alignment
+            # print type(record.seq)
+            seq_record.seq = Seq(seq)
 
 
     #print type(record.seq)
