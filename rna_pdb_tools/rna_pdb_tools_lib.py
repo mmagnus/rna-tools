@@ -849,7 +849,7 @@ class RNAStructure:
     def set_chain_id(self, line, chain_id):
         return line[:21] + chain_id + line[22:]
 
-    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=False,
+    def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=True,
                             rename_chains=True,
                             report_missing_atoms=True,
                             verbose=True):  # :, ready_for="RNAPuzzle"):
@@ -879,8 +879,6 @@ class RNAStructure:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
-
-        fix_missing_atoms = False
 
         if verbose:
             logger.setLevel(logging.DEBUG)
