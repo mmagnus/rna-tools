@@ -177,6 +177,18 @@ rna_calc_inf
    :members:
    :undoc-members:
 
+rna_calc_dinf
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_calc_inf.rna_calc_dinf.get_parser
+   :prog: rna_calc_inf
+
+.. automodule:: rna_pdb_tools.utils.rna_calc_dinf.rna_calc_dinf
+   :members:
+   :undoc-members:
+
+
 Measure distance between atoms
 -----------------------------------------
 .. argparse::
