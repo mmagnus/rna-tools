@@ -946,8 +946,15 @@ class RNAStructure:
             res = copy.copy(res)
 
             # start chains from A..BCD. etc
+
             if rename_chains:
-                chain.id = new_chains.pop(0)
+                try:
+                    chain.id = new_chains.pop(0)
+                except ValueError:
+                    # ValueError: Cannot change id from `A` to `A`.
+                    # The id `A` is already used for a sibling of this entity.
+                    # so keep it as it was
+                    pass
 
             c2 = PDB.Chain.Chain(chain.id)
 
