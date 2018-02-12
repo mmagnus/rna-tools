@@ -2,6 +2,18 @@ input/1xjr.pdb
 >1xjr nts=47 [1xjr] -- secondary structure derived by DSSR
 gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
 ..(((((((...((((.((((.....))..))..))).).)))))))
+input/1xjr_A1-4.pdb
+>1xjr_A1-4 nts=4 [1xjr_A1-4] -- secondary structure derived by DSSR
+GGAG
+....
+input/1xjr_A3-4.pdb
+>1xjr_A3-4 nts=2 [1xjr_A3-4] -- secondary structure derived by DSSR
+AG
+..
+input/1xjr_C10-11.pdb
+>1xjr_C10-11 nts=2 [1xjr_C10-11] -- secondary structure derived by DSSR
+AG
+..
 input/1xjr_GTP.pdb
 >1xjr_GTP nts=1 [1xjr_GTP] -- secondary structure derived by DSSR
 g
@@ -26,3 +38,7 @@ input/1xjr_onlyGTP.pdb
 >1xjr_onlyGTP nts=1 [1xjr_onlyGTP] -- secondary structure derived by DSSR
 g
 .
+input/1xjr_rpr.pdb
+>1xjr_rpr nts=47 [1xjr_rpr] -- secondary structure derived by DSSR
+GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
