@@ -1,0 +1,2 @@
+WRITEFREQ   1
+NSTEPS      1
