@@ -66,7 +66,8 @@ class Pair:
         self.bid = bchain + str(b)  # A10
 
     def __repr__(self):
-        return ("%s    %i   %s   %i          bp %s %s                  WW_cis   1" % (self.achain, self.a, self.bchain, self.b, self.aname, self.bname))
+        # return ("%s    %i   %s   %i          bp %s %s                  WW_cis   1" % (self.achain, self.a, self.bchain, self.b, self.aname, self.bname))
+        return ("%s    %i   %s   %i          bp G C                   WW_cis   1" % (self.achain, self.a, self.bchain, self.b))   #  , self.aname, self.bname))
 
     def get_indexes(self):
         """ get_dists([[62, 71], """
