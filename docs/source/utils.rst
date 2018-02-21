@@ -24,6 +24,20 @@ A super-simple wrapper around Blast on the PDB db (online).
    :members:
    :undoc-members:
 
+Blastn - select sequences from teh database matched by BLASTn 
+------------------------------------------
+
+A super-simple wrapper to parse by headers a BLASTn output (outfmt - 6) sequences in fasta from the database of sequences.
+
+.. argparse::
+   :ref: rna_pdb_tools.utils.rna_seq_search_BLASTn_outfmt-6.get_parser
+   :prog: select_seq_fromBLAStn_6outfm.py
+
+.. automodule:: rna_pdb_tools.utils.rna_seq_search_BLASTn_outfmt-6
+   :members:
+   :undoc-members:
+
+
 Rfam Search
 ------------------------------------------
 
