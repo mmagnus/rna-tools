@@ -67,6 +67,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/pdbs_measure_atom_dists/pdbs_measure_atom_di
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/random_assignment_of_nucleotides.py $curr_dir/bin/random_assignment_of_nucleotides.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/rna_seq_search_BLASTn_outfmt-6/select_seq_fromBLAStn_6outfm.py $curr_dir/bin/select_seq_fromBLAStn_6outfm.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo
