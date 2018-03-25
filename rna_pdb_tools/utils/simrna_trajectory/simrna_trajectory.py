@@ -91,7 +91,7 @@ class SimRNATrajectory:
         if verbose:
             print('Saved to ' + fn)
 
-    def plot_energy(self, plotfn):
+    def plot_energy(self, plotfn='plot.png'):
         """Plots the SimRNA energy of the trajetory.
 
         .. image:: ../pngs/simrnatrajectory.png
