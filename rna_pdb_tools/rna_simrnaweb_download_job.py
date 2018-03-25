@@ -49,10 +49,11 @@ class SimRNAwebError(Exception):
     pass
 
 
-def extract100():
-    os.system('rna_simrna_lowest.py *_ALL.trafl')
-    os.system('rm *_ALL.trafl*')
-    os.system('rna_simrna_extract.py -t *01X.pdb -f *low.trafl -c')
+def extract(nstruc, remove_trajectory):
+    os.system('rna_simrna_lowest.py -n ' + str(nstruc) + ' *_ALL.trafl')
+    if remove_trajectory:
+        os.system('rm *_ALL.trafl*')
+    os.system('rna_simrna_extract.py -t *01X.pdb -f *top' + str(nstruc) + '.trafl -c')
 
 
 def download_trajectory(args):
@@ -60,6 +61,30 @@ def download_trajectory(args):
         cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
             "/processing_results/" + job_id + "_ALL.trafl "  # -O " + fn
         os.system(cmd)
+
+def run_cmd(cmd):
+    o = subprocess.Popen(
+        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = o.stdout.read().strip().decode()
+    err = o.stderr.read().strip().decode()
+    return out, err
+
+def copy_trajectory(args):
+    "Using xfind https://github.com/mmagnus/Xfind"""
+
+    ## clustername = "malibu"
+    ## cmd = "ssh " + clustername + " xfind.sh " + args.job_id + " | grep .ALL.trafl"
+    ## out, err = run_cmd(cmd)
+    ## if out:
+    ##     path_to_trafl = out.split('\n')[0]
+    ##     os.system('scp ' + clustername + ':' + path_to_trafl + " " + job_id + "_ALL.trafl ")
+
+    clustername = "malibu"
+    cmd = "ssh " + clustername + " xfind.sh " + args.job_id + " | grep clust01-000001.pdb"
+    out, err = run_cmd(cmd)
+    if out:
+        path_to_trafl = out.split('\n')[0]
+        os.system('scp ' + clustername + ':' + path_to_trafl + " " + job_id + "-01X.pdb")
 
 
 def add_prefix(args):
@@ -148,12 +173,16 @@ def get_parser():
         '-p', '--prefix', help='prefix to the name, withouth _, be careful with this.'
         'If you have already some files with the given folder, their names might'
         'be changed.')
-    parser.add_argument('-x', '--extract100',
-                        action='store_true', help='extract 100 the lowest')
+    parser.add_argument('-n', '--nstruc',
+                       help='extract nstruc the lowest energy', type=int, default=100)
     parser.add_argument('-t', '--trajectory',
                         action='store_true', help='download also trajectory')
     parser.add_argument('-m', '--more_clusters',
                         action='store_true', help='download also cluster 4 and 5')
+    parser.add_argument('-r', '--remove-trajectory',
+                        action='store_true', help='remove trajectory after analysis', default=False)
+    parser.add_argument('-c', '--cluster',
+                        action='store_true', help='get trajectory from cluster', default=False)
     return parser
 
 
@@ -167,10 +196,15 @@ if __name__ == '__main__':
     job_id = args.job_id
     job_id = job_id.replace('genesilico.pl/SimRNAweb/jobs/', '').replace(
         'http://', '').replace('/', '')  # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
-    download_models(args)
-    download_trajectory(args)
-    if args.more_clusters:
-        more_clusters()
-    if args.extract100:
-        extract100()
-    add_prefix(args)
+    if args.cluster:
+        copy_trajectory(args)
+    else:
+        download_trajectory(args)
+
+    if not args.cluster:
+        download_models(args)  # models are needed if you want to extract anything from the trajectory
+    ## if args.more_clusters:
+    ##     more_clusters()
+    if args.nstruc:
+        extract(args.nstruc, args.remove_trajectory)
+    ## add_prefix(args)

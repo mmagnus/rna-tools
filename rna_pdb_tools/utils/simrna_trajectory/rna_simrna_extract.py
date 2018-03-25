@@ -74,7 +74,7 @@ def cleanup(trafl):
         pass
     os.system('mv %s*.pdb _%s' % (traflfn, traflfn))
     os.system('mv %s*.ss_detected _%s' % (traflfn, traflfn))
-    os.system('mv _%s/*AA.pdb .' % traflfn)
+    os.system('mv %s/*AA.pdb .' % traflfn)
 
 
 if __name__ == '__main__':
