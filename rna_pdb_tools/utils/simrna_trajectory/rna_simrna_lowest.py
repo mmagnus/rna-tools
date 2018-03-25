@@ -14,6 +14,7 @@ import argparse
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('-n', '--nstruc', help="SimRNA trafl file", type=int, default=100)
     parser.add_argument('trafl', help="SimRNA trafl file")
     return parser
 
@@ -32,12 +33,12 @@ if __name__ == '__main__':
 
     sorted_frames = s.sort()
 
-    for c, f in enumerate(sorted_frames[:100]):
+    for c, f in enumerate(sorted_frames[:args.nstruc]):
         print(c + 1, f)
         # print f.header
         # print f.coords
 
     s2 = SimRNATrajectory()
-    s2.load_from_list(sorted_frames[:100])
-    s2.plot_energy('subset.png')
-    s2.save(fn.replace('.trafl', '') + '_100low.trafl')
+    s2.load_from_list(sorted_frames[:args.nstruc])
+    s2.plot_energy(fn.replace('.trafl', '.png'))
+    s2.save(fn.replace('.trafl', '') + '_top' + str(args.nstruc) + '.trafl')
