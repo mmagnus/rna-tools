@@ -83,6 +83,46 @@ class RNASequence(object):
     def __repr__(self):
         return self.seq
 
+    def eval(self, no_dangling_end_energies=True, verbose=False):
+        """Evaluate energy of RNA sequence.
+
+        Args:
+            no_dangling_end_energies (Boolean)
+            verbose (Boolean)
+
+        Returns:
+            Energy (flaot)
+
+        The RNAeval web server calculates the energy of a RNA sequence on a given secondary structure. You can use it
+ to get a detailed thermodynamic description (loop free-energy decomposition) of your RNA structures.
+
+        Simply paste or upload your sequence below and click Proceed. To get more information on the meaning of the options click the help symbols. You can test the server using this sample sequence/structure pair.
+
+        An equivalent RNAeval command line call would have been
+
+        RNAeval -v -d0 < input.txt
+
+        Read more: http://rna.tbi.univie.ac.at//cgi-bin/RNAWebSuite/RNAeval.cgi
+        """
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        tf.name += '.fa'
+        with open(tf.name, 'w') as f:
+            f.write('>' + self.name + '\n')
+            f.write(self.seq + '\n')
+            f.write(self.ss + '\n')
+
+        dopt = ''
+        if no_dangling_end_energies:
+            dopt = ' -d0 '
+
+        cmd = 'RNAeval ' + dopt + ' < ' + tf.name
+        if verbose:
+            print(cmd)
+        self.ss_log = subprocess.check_output(cmd, shell=True).decode()
+        # [u'>rna_seq\nGGCAGGGGCGCUUCGGCCCCCUAUGCC\n((((((((.((....)).)))).))))', u'(-13.50)']
+        return float(self.ss_log.strip().split(' ')[-1].replace('(','').replace(')', ''))
+
+
     def predict_ss(self, method="RNAfold", constraints='', shapefn='', verbose=0):
         """Predict secondary structure of the seq.
 
@@ -238,7 +278,6 @@ if __name__ == '__main__':
 
     seq = RNASequence("CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGgUGCAA")
     print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
-
 
     # test of MethodNotChose
     # print(seq.predict_ss("test"))
