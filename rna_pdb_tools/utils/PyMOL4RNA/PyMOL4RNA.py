@@ -286,6 +286,13 @@ def color_rbw(rainbow=0):
               i = i+1
               if(i == ncolours):
                  i = 0
+
+def ino():
+    """Sphare and yellow inorganic, such us Mg"""
+    cmd.show("spheres", "inorganic")
+    cmd.color("yellow", "inorganic")
+
+
 def rgyration(selection='(all)', quiet=1):
     '''
 
@@ -345,6 +352,7 @@ else:
     cmd.extend('get_pdb', get_pdb)
     cmd.extend('rna_cartoon', rna_cartoon)
     cmd.extend('rs', rs)
+    cmd.extend('ino', ino)
     cmd.extend('rcomp', rcomp)
     cmd.extend('color_obj', color_obj)
     cmd.extend('color_rbw', color_rbw)
