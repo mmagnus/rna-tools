@@ -14,7 +14,8 @@ from Bio.SeqRecord import SeqRecord
 from Bio import SeqIO
 import logging
 import argparse
-
+import numpy as np
+import matplotlib.pyplot as plt
 
 # logger
 logger = logging.getLogger()
@@ -179,5 +180,37 @@ if __name__ == '__main__':
 
     # struc = renumber(seq_with_gaps, pdb, args.residue_index_start)
     # write_struc(struc, args.outfn)
+    list_res=[]
     for i in stats:
         print(sep.join(i))
+        table=(sep.join(i))
+        list_res.append(i)
+    #print (list_res)
+    res_matrix = np.array(list_res[1:])
+
+''' 
+Creating a plot
+
+'''
+
+new_resi = list_res[1:]
+new_resis = []
+
+for i in new_resi:
+    #print (j)
+    new_resis.append(str(i[0]) + '/' + str(i[1]))
+
+
+#print (new_resis)
+
+list2_matrix= new_resis
+
+list2_matrix1 = map(float, list(res_matrix[:,2]))
+#print (list2_matrix1)
+
+plt.bar(list2_matrix,list2_matrix1,facecolor='pink' )
+
+plt.suptitle('Distance between C4 atoms of residues')
+plt.ylabel("distance [A]")
+plt.xlabel('Nr of residue')
+plt.show()
