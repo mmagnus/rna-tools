@@ -13,7 +13,7 @@ The code of the project can be found at GitHub (https://github.com/mmagnus/rna-p
 If you find the tools helpful, you can cite the repo using the doi_::
 
     Magnus, Marcin. (2016). rna-pdb-tools. Zenodo. 10.5281/zenodo.60933
-    
+
 .. _doi: https://scholar.google.pl/citations?view_op=view_citation&hl=en&user=O2gLO2EAAAAJ&citation_for_view=O2gLO2EAAAAJ:mB3voiENLucC&gmla=AJsN-F5Nk3ZKqGryiFr6erWZFIFqc5Qp-8rh4hhHQIxfQ0P-iYqUFzKcoDQ4Fb378_tT-wXfW9kPqDe5gOm5XM2mUswZsdK3jsRW4_kCFmQUtT-btlrydJQ
 
 If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-pdb-tools/issues
@@ -36,6 +36,7 @@ Information about development is also available:
    workflows
    tips
    rna-puzzles
+   pymol4rna
    notebooks
    emacs
    geekbook
@@ -48,11 +49,10 @@ Information about development is also available:
 
    development
 
-   
+
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
