@@ -232,7 +232,7 @@ def rp172():
          ((((.[[[[[[.))))........((((.....]]]]]]...((((()))))..))))
          # len 58-nt
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/rna.png
+    See rp17()
     """
 
     txt = """color forest, resi 1-5+12-16; # p1
