@@ -1,12 +1,31 @@
 #!/usr/bin/env python
-
+"""
+Read for more interesting functions https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
+"""
 import tempfile
-from pymol import cmd
-from itertools import izip
 import math
+import subprocess
+import os
+from itertools import izip
+
 from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
 
+try:
+    RNA_PDB_TOOLS
+except NameError:
+    RNA_PDB_TOOLS = os.environ.get('RNA_PDB_TOOLS')
+
+def exe(cmd):
+    """Helper function to run cmd. Using in this Python module."""
+    print('cmd:' + cmd)
+    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = o.stdout.read().strip().decode()
+    err = o.stderr.read().strip().decode()
+    return out, err
+
+
 def color_by_text(txt):
+    """Helper function used for color-coding based on residue indexes ranges."""
     for t in txt.strip().split('\n'):
         color, resi = t.replace('color ', '').split(',')
         print((color, resi))
@@ -14,7 +33,7 @@ def color_by_text(txt):
 
 
 def rp():
-    """RNA like in papers ;-)"""
+    """Represent your RNA."""
     cmd.hide("sticks", "all")
     cmd.hide("lines", "all")
     cmd.show("cartoon", "all")
@@ -24,11 +43,10 @@ def rp():
 
 
 def rs():
-    """RNA like in papers ;-)  - even better :D
-
-    Creates supercool cartoon-like RNA and colors each (and every) structure as a rainbow.
+    """    The function creates super-cool cartoon-like RNA and colors each structure as a rainbow.
     Good to view aligned structures in a grid.
 
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/rs.png
     """
     cmd.hide("sticks", "all")
     cmd.hide("lines", "all")
@@ -43,8 +61,7 @@ def rs():
 
     colours = ['rainbow']
     ncolours = len(colours)
-
-           # Loop over objects
+    # Loop over objects
     i = 0
     for obj in obj_list:
         print "  ", obj, colours[i]
@@ -91,6 +108,8 @@ def align_all( subset = [] ):
   """
   Superimpose all open models onto the first one.
   This may not work well with selections.
+
+  This function is probably taken from https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
   """
   print """This returns a list with 7 items:
 
@@ -119,7 +138,9 @@ def align_all( subset = [] ):
 
 
 def get_pdb():
-    """ """
+    """Get PDB content of selection.
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/pdb.png"""
     tmpfn = '/tmp/pymol_get_pdb.pdb'
     cmd.save(tmpfn, '(sele)')
     s = RNAStructure(tmpfn)
@@ -127,23 +148,40 @@ def get_pdb():
         print(l)
 
 
-def __off__ss():
+def ss():
+    """Get Secondary Structure of (sele) based on py3dna.py.
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ss.png
+    """
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    cmd.save(f.name, '(sele)')
+    out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
+    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+    if err:
+        print(err)
+    f.close()
+
+
+def ss_all():
+    """The some as ss() but for all objects."""
     subset = "*"
     AllObj = cmd.get_names("all")
     # print AllObj
     for x in AllObj[:]:
-        # print(AllObj[0],x)
-        f = tempfile.NamedTemporaryFile(delete=True)
-        # print f.name
-        # f.write(XX)
+        f = tempfile.NamedTemporaryFile(delete=False) # True)
         cmd.save(f.name, x)
-        out = subprocess.getoutput('py3dna.py ' + f.name)
-        print(x)
+        out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
         print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+        if err:
+            print(err)
         f.close()
 
 
 def p():
+    """A shortcut for putting a seq at the bottom. Pretty cool for screenshots with names of objects.
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/p.png
+    """
     cmd.set("seq_view_format", 4)
     cmd.set("seq_view", 1)
     cmd.set("seq_view_location", 1)
@@ -153,7 +191,7 @@ def p():
 def rna_cartoon():
     """http://www-cryst.bioc.cam.ac.uk/members/zbyszek/figures_pymol
 
-    .. image :: ../pngs/rna_cartoon.png
+    .. image:: ../pngs/rna_cartoon.png
     """
     cmd.set("cartoon_ring_mode", 3)
     cmd.set("cartoon_ring_finder", 1)
@@ -163,6 +201,16 @@ def rna_cartoon():
 
 
 def rp17():
+    """Color-coding for secondary structure elements for the RNA Puzzle 17.
+
+    For the variant::
+
+         CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA
+         ((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))
+         # len 62-nt
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/rna.png
+    """
     txt = """color forest, resi 1-5+12-16; # p1
  color magenta, resi 6-11+34-39;
  color grey, resi 17-24;
@@ -176,6 +224,17 @@ def rp17():
 
 
 def rp172():
+    """Color-coding for secondary structure elements for the RNA Puzzle 17.
+
+    For the variant::
+
+         CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAUCAGGUGCAA
+         ((((.[[[[[[.))))........((((.....]]]]]]...((((()))))..))))
+         # len 58-nt
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/rna.png
+    """
+
     txt = """color forest, resi 1-5+12-16; # p1
  color magenta, resi 6-11+34-39
  color grey, resi 17-24
@@ -288,7 +347,9 @@ def color_rbw(rainbow=0):
                  i = 0
 
 def ino():
-    """Sphare and yellow inorganic, such us Mg"""
+    """Sphare and yellow inorganic, such us Mg.
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ion.png"""
     cmd.show("spheres", "inorganic")
     cmd.color("yellow", "inorganic")
 
@@ -323,6 +384,7 @@ USAGE
     return rg
 
 
+# main code #
 try:
     from pymol import cmd
 except ImportError:
@@ -345,6 +407,8 @@ else:
     print('color_obj')
     print('color_rbw')
     print('aa')
+    print('RNA_PDB_TOOLS env variable used: ' + RNA_PDB_TOOLS)
+    print()
 
     cmd.extend('rp17', rp17)
     cmd.extend('rp', rp)
@@ -357,6 +421,7 @@ else:
     cmd.extend('color_obj', color_obj)
     cmd.extend('color_rbw', color_rbw)
     cmd.extend('aa', align_all)
+    cmd.extend('ss', ss)
     cmd.extend("rgyration", rgyration)
 
     # set dash lines
