@@ -12,13 +12,17 @@ from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
 
 try:
     RNA_PDB_TOOLS
+    EXECUTABLE
 except NameError:
     RNA_PDB_TOOLS = os.environ.get('RNA_PDB_TOOLS')
+    EXECUTABLE="/bin/zsh"
+    SOURCE=""
 
 def exe(cmd):
     """Helper function to run cmd. Using in this Python module."""
     print('cmd:' + cmd)
-    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                         executable=EXECUTABLE)
     out = o.stdout.read().strip().decode()
     err = o.stderr.read().strip().decode()
     return out, err
@@ -147,6 +151,33 @@ def get_pdb():
     for l in s.lines:
         print(l)
 
+
+def clarna():
+    """Get contacts classification based on ClaRNA.
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ss.png
+    """
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    cmd.save(f.name + '.pdb', '(sele)')
+    out, err = exe(SOURCE + " && " + CLARNA_RUN + " -ipdb " + f.name + '.pdb -bp+stack')
+    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+    if err:
+        print(err)
+    f.close()
+
+
+def get_seq():
+    """Get contacts classification based on ClaRNA.
+
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ss.png
+    """
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    cmd.save(f.name, '(sele)')
+    out, err = exe('source ~/.zshrc && ' + RNA_PDB_TOOLS + '/bin/rna_pdb_toolsx.py --get_seq ' + f.name)
+    print(out)
+    if err:
+        print(err)
+    f.close()
 
 def ss():
     """Get Secondary Structure of (sele) based on py3dna.py.
@@ -414,6 +445,7 @@ else:
     cmd.extend('rp', rp)
     cmd.extend('p', p)
     cmd.extend('get_pdb', get_pdb)
+    cmd.extend('get_seq', get_seq)
     cmd.extend('rna_cartoon', rna_cartoon)
     cmd.extend('rs', rs)
     cmd.extend('ino', ino)
@@ -422,6 +454,8 @@ else:
     cmd.extend('color_rbw', color_rbw)
     cmd.extend('aa', align_all)
     cmd.extend('ss', ss)
+    cmd.extend('ss_all', ss_all)
+    cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
 
     # set dash lines

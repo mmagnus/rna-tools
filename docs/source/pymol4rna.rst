@@ -32,3 +32,18 @@ RNA Helix Vis (draw helices using PyMOL)
 .. automodule:: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis
    :members:
    :undoc-members:
+
+Install
+-----------------------------------------
+
+Open your `~/.pymolrc` and set up following variables as you need::
+
+   # rna-pdb-tools
+   RNA_PDB_TOOLS="/Users/magnus/work-src/rna-pdb-tools"
+   EXECUTABLE="/bin/zsh" # set up your shell, usually /bin/bash or /bin/zsh
+   SOURCE="source ~/.zshrc" # set up the path to the file where you keep your shell variables
+   CLARNA_RUN="/Users/magnus/work-src/clarna_play/clarna_run.py"  # if you want to run clarna_run.py set up the path
+   sys.path.append('/Users/magnus/work-src/rna-pdb-tools')
+   run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/PyMOL4RNA/PyMOL4RNA.py
+   run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/pymol_drawing.py
+   run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/rna_filter/pymol_dists.py
