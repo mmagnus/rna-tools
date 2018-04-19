@@ -153,9 +153,9 @@ def get_pdb():
 
 
 def clarna():
-    """Get contacts classification based on ClaRNA.
+    """Get contacts classification of the selected fragment based on ClaRNA.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ss.png
+    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/clarna.png
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name + '.pdb', '(sele)')
