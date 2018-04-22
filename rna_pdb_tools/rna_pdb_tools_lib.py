@@ -749,6 +749,11 @@ class RNAStructure:
     def write(self, outfn, v=True):
         """Write ```self.lines``` to a file (and END file")"""
         f = open(outfn, 'w')
+        # test if there is anything to write, if not, it's likely that the
+        # file is not a PDB file, e.g. .outCR
+        if not self.lines:
+            raise Exception('Nothing to write. Is the input a PDB file? ', self.fn)
+
         for l in self.lines:
             f.write(l + '\n')
         if not l.startswith('END'):
