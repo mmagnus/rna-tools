@@ -47,3 +47,5 @@ Open your `~/.pymolrc` and set up following variables as you need::
    run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/PyMOL4RNA/PyMOL4RNA.py
    run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/pymol_drawing.py
    run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/rna_filter/pymol_dists.py
+   
+The plugins have been tested with MacPyMOL version 1.7.4.5 Edu.
