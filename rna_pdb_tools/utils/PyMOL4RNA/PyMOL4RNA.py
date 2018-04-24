@@ -385,6 +385,52 @@ def ino():
     cmd.color("yellow", "inorganic")
 
 
+def spli():
+    AllObj = cmd.get_names("all")
+    for name in AllObj:
+        if 'Exon' in name or 'exon' in name:
+            cmd.color('yellow', name)
+        if 'Intron' in name or 'intron' in name:
+            cmd.color('magenta', name)
+        if name.startswith("U2_snRNA"):
+            cmd.color('green', name)
+        if name.startswith("U5_snRNA"):
+            cmd.color('blue', name)
+        if name.startswith("U4_snRNA"):
+            cmd.color('orange', name)
+        if name.startswith("U4_snRNA"):
+            cmd.color('red', name)
+    cmd.color("red",'resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
+    cmd.color("forest",'resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
+    cmd.color("orange",'resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
+    cmd.color("blue",'resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
+
+
+def _spli():
+    """
+    # this trick is taken from Rhiju's Das code
+    color red,resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2
+    color forest,resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6
+    color orange, resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2
+    color blue, resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2
+
+    #
+    #cmd.color("yellow", "*intron*")
+    #cmd.color("yellow", "*exon*")
+
+    #cmd.show("spheres", "inorganic")
+    #cmd.color("yellow", "inorganic")
+    """
+    cmd.color("orange", "U4_snRNA*")
+    cmd.color("red", "U6_snRNA*")
+    cmd.color("blue", "U5_snRNA*")
+    cmd.color("green", "U2_snRNA*")
+    cmd.color("red",'resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
+    cmd.color("forest",'resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
+    cmd.color("orange",'resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
+    cmd.color("blue",'resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
+
+
 def rgyration(selection='(all)', quiet=1):
     '''
 
@@ -438,8 +484,9 @@ else:
     print('color_obj')
     print('color_rbw')
     print('aa')
+    print("""cspli - color snRNAs of the spliceosome:
+    green: U2,  blue: U5, red:U6, orange:U2""")
     print('RNA_PDB_TOOLS env variable used: ' + RNA_PDB_TOOLS)
-    print()
 
     cmd.extend('rp17', rp17)
     cmd.extend('rp', rp)
@@ -457,6 +504,7 @@ else:
     cmd.extend('ss_all', ss_all)
     cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
+    cmd.extend("spli", spli)
 
     # set dash lines
     cmd.set('dash_color', 'red')
