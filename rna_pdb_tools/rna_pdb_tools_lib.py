@@ -835,6 +835,16 @@ class RNAStructure:
 
     def get_chain_id(self, line):
         return line[21:22]
+    def get_all_chain_ids(self):
+        """
+        Returns:
+           set: chain ids, e.g. set(['A', 'B'])
+        """
+        chain_ids = set()
+        for l in self.lines:
+            if self.get_chain_id(l):
+                chain_ids.add(self.get_chain_id(l))
+        return chain_ids
 
     def get_atom_index(self, line):
         try:
@@ -1671,6 +1681,27 @@ def fetch_cif_ba(cif_id, path="."):
         f.write(txt)
     print('ok')
     return cif_id + '_ba.cif'
+
+
+def replace_chain(struc_fn, insert_fn, chain_id):
+    struc = RNAStructure(struc_fn)
+    insert = RNAStructure(insert_fn)
+
+    output = ''
+    inserted = False
+    for l in struc.lines:
+        if l.startswith('ATOM'):
+            chain = l[21]
+            if chain == chain_id:
+                if not inserted:
+                    for insertl in insert.lines:
+                        if not insertl.startswith('HEADER') and not insertl.startswith('END'):
+                            output += insertl + '\n'
+                    inserted = True
+                continue
+            # insert pdb
+            output += l + '\n'
+    return output.strip()
 
 
 # main

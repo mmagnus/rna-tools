@@ -91,6 +91,9 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ## --orgmode
 ./rna_pdb_toolsx.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org
 
+## --replace-chain
+./rna_pdb_toolsx.py --replace-chain output/205d_rmH2o_mutant_A.pdb input/205d_rmH2o.pdb
+
 ## --is_pdb
 ./rna_pdb_toolsx.py --is_pdb input/1I9V_A.pdb
 ./rna_pdb_toolsx.py --is_pdb input/image.png
