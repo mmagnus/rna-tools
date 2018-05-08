@@ -117,6 +117,10 @@ def get_parser():
                         default='',
                         help="edit 'A:6>B:200', 'A:2-7>B:2-7'")
 
+    parser.add_argument('--replace-chain',
+                        default='',
+                        help="a file PDB name with one chain that will be used to replace the chain in the original PDB file, the chain id in this file has to be the same with the chain id of the original chain")
+
     parser.add_argument('--delete',  # type="string",
                         dest="delete",
                         default='',
@@ -359,6 +363,23 @@ if __name__ == '__main__':
                 except IOError:
                     pass
 
+    if args.replace_chain:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            # --replace_chain <file> without A:<file> it will be easier than --x "A:<file>"
+            s = RNAStructure(args.replace_chain)
+            chain_ids = (s.get_all_chain_ids())
+            if len(chain_ids) > 1:
+                raise Exception('There is more than one chain in the inserted PDB file. There should be only one chain, the one you want to insert to the PDB.')
+            out = replace_chain(f, args.replace_chain, list(chain_ids)[0])
+            print(out)
+
     if args.extract:
         # quick fix - make a list on the spot
         if list != type(args.file):
@@ -424,6 +445,7 @@ if __name__ == '__main__':
 
     if args.collapsed_view or args.cv:
         collapsed_view(args)
+
 
     if args.orgmode:
         if args.inplace:
