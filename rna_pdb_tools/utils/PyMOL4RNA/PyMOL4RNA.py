@@ -18,9 +18,9 @@ except NameError:
     EXECUTABLE="/bin/zsh"
     SOURCE=""
 
-def exe(cmd):
+def exe(cmd, verbose=False):
     """Helper function to run cmd. Using in this Python module."""
-    print('cmd:' + cmd)
+    if verbose: print('cmd:' + cmd)
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                          executable=EXECUTABLE)
     out = o.stdout.read().strip().decode()
@@ -187,25 +187,29 @@ def ss():
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name, '(sele)')
     out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
-    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+    print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
     if err:
         print(err)
     f.close()
 
 
 def ss_all():
-    """The some as ss() but for all objects."""
+    """The same as ss() but for all objects."""
     subset = "*"
     AllObj = cmd.get_names("all")
     # print AllObj
-    for x in AllObj[:]:
-        f = tempfile.NamedTemporaryFile(delete=False) # True)
-        cmd.save(f.name, x)
-        out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
-        print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
-        if err:
-            print(err)
-        f.close()
+    for name in AllObj[:]:
+        if not name.startswith('_align'):
+            print('> ' + name)
+            f = tempfile.NamedTemporaryFile(delete=False) # True)
+            cmd.save(f.name, name)
+            out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
+            print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
+            # hide this line: is >tmpGCszi7 nts=4 [tmpGCszi7] -- secondary structure derived by DSSR
+            if err:
+                print(err)
+            f.close()
+    print('-- secondary structure derived by DSSR')
 
 
 def p():
