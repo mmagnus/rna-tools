@@ -9,7 +9,7 @@ standard_library.install_aliases()
 
 if __name__ == '__main__':
     start_tag = "[mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_toolsx.py -h"
-    end_tag = "  --delete DELETE"
+    end_tag = "more than one fragment --extract"
     #
     doc = subprocess.getoutput('python rna_pdb_toolsx.py -h')
     print(doc)
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         if l.startswith(start_tag):
             fn += doc + '\n'
             copy_line_flag = False
-        if l.startswith(end_tag):
+        if l.strip().startswith(end_tag):
             copy_line_flag = True
 
     f = open('../README.md', 'w')
