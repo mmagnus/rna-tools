@@ -24,8 +24,8 @@ from __future__ import print_function
 
 import argparse
 import os
-import time
 import progressbar
+import tempfile
 
 from rna_pdb_tools_lib import *
 from rna_pdb_tools.utils.rna_x3dna.rna_x3dna import x3DNA
@@ -112,10 +112,13 @@ def get_parser():
     parser.add_argument('--inplace', help='in place edit the file! [experimental, only for get_rnapuzzle_ready, delete, get_ss, get_seq]',
                         action='store_true')
 
+    parser.add_argument('--mutate', help="""mutate residues, e.g. A:1A+2A+3A+4A,B:1A to mutate the first nucleotide of the A chain to Adenine etc and the first nucleotide of the B chain""")
+
     parser.add_argument('--edit',
                         dest="edit",
                         default='',
                         help="edit 'A:6>B:200', 'A:2-7>B:2-7'")
+
 
     parser.add_argument('--replace-chain',
                         default='',
@@ -379,6 +382,59 @@ if __name__ == '__main__':
                 raise Exception('There is more than one chain in the inserted PDB file. There should be only one chain, the one you want to insert to the PDB.')
             out = replace_chain(f, args.replace_chain, list(chain_ids)[0])
             print(out)
+
+    if args.mutate:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        try:
+            from moderna import *
+        except ImportError:
+            raise Exception('To use this functionality please install ModeRNA, e.g. pip install moderna')
+
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')  # create a backup copy if inplace
+
+            # create a working copy of the main file
+            ftf = tempfile.NamedTemporaryFile(delete=False).name  # f temp file
+            shutil.copy(f, ftf)  # create a backup copy if inplace
+
+            # go over each chain
+            for m in args.mutate.split(','):  # A:1A, B:1A
+                chain, resi_mutate_to = m.strip().split(':')  # A:1A+2C
+                resi_mutate_to_list = resi_mutate_to.split('+')  # A:1A+2C
+
+                model = load_model(f, chain)
+                # go over each mutation in this chain
+                for resi_mutate_to in resi_mutate_to_list:
+                    resi = resi_mutate_to[:-1]
+                    mutate_to = resi_mutate_to[-1]
+                    if args.verbose:
+                        print('Mutate', model[resi], 'to', mutate_to)
+                    exchange_single_base(model[resi], mutate_to)
+
+                # multi mutation in one chain
+                tf = tempfile.NamedTemporaryFile(delete=False)
+                model.write_pdb_file(tf.name)
+
+                # work on the copy of f, ftf
+                output = replace_chain(ftf, tf.name, chain)
+                with open(ftf, 'w') as tmp:
+                    tmp.write(output)
+
+            # write: inplace
+            if args.inplace:
+                # ftf now is f, get ready for the final output
+                shutil.copy(ftf, f)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
+
 
     if args.extract:
         # quick fix - make a list on the spot
