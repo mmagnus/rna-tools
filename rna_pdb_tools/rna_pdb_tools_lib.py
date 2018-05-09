@@ -1684,6 +1684,16 @@ def fetch_cif_ba(cif_id, path="."):
 
 
 def replace_chain(struc_fn, insert_fn, chain_id):
+    """Replace chain of the main file (struc_fn) with some new chain (insert_fn) of given chain id.
+
+    Args:
+       struc_fn (str): path to the main PDB file
+       insert_fn (str): path to the file that will be injected in into the main PDB file
+       chain_id (str): chain that will be inserted into the main PDB file
+
+    Returns:
+       string: text in the PDB format
+    """
     struc = RNAStructure(struc_fn)
     insert = RNAStructure(insert_fn)
 

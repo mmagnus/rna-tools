@@ -88,10 +88,16 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
                          [--dont_rename_chains] [--dont_fix_missing_atoms]
                          [--dont_report_missing_atoms] [--collapsed_view]
                          [--cv] [-v] [--replace_hetatm] [--inplace]
-                         [--edit EDIT] [--delete DELETE] [--extract EXTRACT]
+                         [--mutate MUTATE] [--edit EDIT]
+                         [--replace-chain REPLACE_CHAIN] [--delete DELETE]
+                         [--extract EXTRACT]
                          file [file ...]
 
 rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+
+Tricks:
+
+   for i in *pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i >  ${i/.pdb/_rpr.pdb}; done
 
 Usage::
 
@@ -146,12 +152,19 @@ optional arguments:
                         --get_rnapuzzle_ready]
   --inplace             in place edit the file! [experimental, only for
                         get_rnapuzzle_ready, delete, get_ss, get_seq]
+  --mutate MUTATE       mutate residues, e.g. A:1A+2A+3A+4A,B:1A to mutate the
+                        first nucleotide of the A chain to Adenine etc and the
+                        first nucleotide of the B chain
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
+  --replace-chain REPLACE_CHAIN
+                        a file PDB name with one chain that will be used to
+                        replace the chain in the original PDB file, the chain
+                        id in this file has to be the same with the chain id
+                        of the original chain
   --delete DELETE       delete the selected fragment, e.g. A:10-16, or for
                         more than one fragment --delete 'A:1-25+30-57'
   --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for
                         more than one fragment --extract 'A:1-25+30-57'
-                        more than one fragment --delete 'A:1-25+30-57'
 ```
 
 Tricks:
