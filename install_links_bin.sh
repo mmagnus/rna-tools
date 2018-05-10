@@ -69,6 +69,8 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/random_assignment_of_nucleotid
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_seq_search_BLASTn_outfmt-6/select_seq_fromBLAStn_6outfm.py $curr_dir/bin/select_seq_fromBLAStn_6outfm.py
 
+ln -s $curr_dir/rna_pdb_tools/utils/pefx/pefx.py $curr_dir/bin/pefx.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo
