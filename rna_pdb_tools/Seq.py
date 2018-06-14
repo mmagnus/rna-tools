@@ -250,6 +250,33 @@ class RNASequence(object):
             if not stderr:
                 with open(tf.name + '.dot') as f:
                     return f.read().strip()
+
+        # (-51.15, '.(.(((((((((((((((..))))))))))))))))(..((((((((....)))).))))).')
+        elif method == "rnastructure_CycleFold":
+            cmd = RNASTRUCTURE_PATH + '/exe/CycleFold ' + tf.name + ' > ' + tf.name + '.ct '
+            if verbose:
+                print(cmd)
+            o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stderr = o.stderr.read().strip()
+            if stderr:
+                print(stderr)
+
+            # get energy
+            energy = float(open(tf.name + '.ct').readline().split("energy:")[1].strip())  # >rna_seq	energy: -51.1500
+
+            # get ss in dot-bracket notation
+            cmd = RNASTRUCTURE_PATH + '/exe/ct2dot ' + tf.name + '.ct 1 ' + \
+                             tf.name + '.dot'
+            if verbose:
+                print(cmd)
+            o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stderr = o.stderr.read().strip()
+            if not stderr:
+                with open(tf.name + '.dot') as f:
+                    # (-51.15, '.(.(((((((((((((((..))))))))))))))))(..((((((((....)))).))))).')
+                    return energy, f.read().strip().split('\n')[2]
+
+
         else:
             raise MethodNotChosen('You have to define a correct method to use.')
 
