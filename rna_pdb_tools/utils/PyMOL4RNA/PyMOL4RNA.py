@@ -341,6 +341,13 @@ USAGE
                  i = 0
 
 
+def names():
+    # Get names of all PyMOL objects
+    obj_list = cmd.get_names('objects')
+    for o in obj_list:
+        print(o)
+
+
 def color_rbw(rainbow=0):
         """
         similar to color_obj() but this time colors every obect as rainbow
@@ -509,6 +516,7 @@ else:
     cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
     cmd.extend("spli", spli)
+    cmd.extend('names', names)
 
     # set dash lines
     cmd.set('dash_color', 'red')
