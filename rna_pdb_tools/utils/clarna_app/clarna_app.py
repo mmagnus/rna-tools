@@ -46,10 +46,10 @@ def clarna_run(fn, force=True):
     if os.path.isfile(fn_out) and not force:
         pass
     else:
-        cmd = 'clarna_run.py -ipdb ' + fn + ' > ' + fn_out
+        cmd = 'clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
         os.system(cmd)
     if os.stat(fn_out).st_size == 0: # if file is empty also run
-        cmd = 'clarna_run.py -ipdb ' + fn + ' > ' + fn_out
+        cmd = 'clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
         os.system(cmd)
     return fn_out
 
