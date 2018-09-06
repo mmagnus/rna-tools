@@ -281,6 +281,24 @@ def rp172():
 """
     color_by_text(txt)
 
+def color_aa_types():
+    """Color aminoacides types like in Cider (http://pappulab.wustl.edu/CIDER/)"""
+    txt = """
+color gray70, resn Ala+Ile+Leu+Met+Phe+Trp+Val #hydrophobic
+color yellow, resn Tyr+Trp #aromatic
+color blue, resn Arg+Lys+His # positive
+color forest, resn GLN+SER+GLY+thr
+color pink, resn PRO # pro
+color red, resn GLU+asp # """
+    print("""color (according to) amino-acids types)
+hydrohobic (gray)  Ala+Ile+Leu+Met+Phe+Trp+Val
+aromatic (yellow) Tyr+Trp
+positive (blue)  Arg+Lys+His
+polar (forest) Gln+Ser+Glu+Thr
+negative (red) Glu+Asp
+prolina ;) (pink) Pro""")
+    color_by_text(txt)
+
 
 def color_obj(rainbow=0):
 
@@ -516,6 +534,9 @@ else:
     cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
     cmd.extend("spli", spli)
+
+    cmd.extend('color_aa_types', color_aa_types)
+
     cmd.extend('names', names)
 
     # set dash lines
