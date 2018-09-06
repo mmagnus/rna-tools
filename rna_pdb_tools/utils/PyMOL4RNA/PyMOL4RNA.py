@@ -542,3 +542,7 @@ else:
     # set dash lines
     cmd.set('dash_color', 'red')
     cmd.set('dash_width', 4)
+
+    print('###########################')
+    print('PYMOL4RNA loading .... [ok]')
+    print('###########################')
