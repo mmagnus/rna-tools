@@ -184,6 +184,8 @@ class RNASequence(object):
                 f.write(constraints)
 
         # run prediction
+
+        # rnafold without contraints
         if method == "RNAfold" and constraints:
             cmd = 'RNAfold -C < ' + tf.name
             if verbose:
@@ -191,8 +193,22 @@ class RNASequence(object):
             self.ss_log = subprocess.check_output(cmd, shell=True).decode()
             return '\n'.join(self.ss_log.strip().split('\n')[:])
 
+        elif method == "RNAfold":
+            cmd = 'RNAfold < ' + tf.name
+            if verbose:
+                print(cmd)
+            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
+            return '\n'.join(self.ss_log.strip().split('\n')[:])
+
         elif method == "RNAsubopt" and constraints:
             cmd = 'RNAsubopt -C < ' + tf.name
+            if verbose:
+                print(cmd)
+            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
+            return '\n'.join(self.ss_log.split('\n')[:])
+
+        elif method == "RNAsubopt":
+            cmd = 'RNAsubopt < ' + tf.name
             if verbose:
                 print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True).decode()
