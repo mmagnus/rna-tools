@@ -3,7 +3,7 @@ rna-pdb-tools
 
 <p align="center"><b>Beta: this is still under development. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.</b></p>
 
-Look for other our projects at https://github.com/RNA-Puzzles
+Look for other our projects at https://github.com/RNA-Puzzles.
 
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_pdb_tools.svg?style=social&label=Follow)](https://twitter.com/rna_pdb_tools)
 
