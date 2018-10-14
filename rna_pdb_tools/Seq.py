@@ -239,7 +239,7 @@ class RNASequence(object):
             # prepare outputs, return and self-s
             self.log = out
             self.ss = ss
-            return ss, float(energy)
+            return float(energy), ss
 
         # if method == "RNAsubopt":
         #     from cogent.app.vienna_package import RNAfold, RNAsubopt
