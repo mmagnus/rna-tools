@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#-*- coding: utf-8 -*-
 """RNA Sequence with secondary structure prediction methods.
 
 This tool takes a given sequence and returns the secondary structure prediction provided by 5 different tools: RNAfold, RNAsubopt, ipknot, contextfold and centroid_fold. You must have these tools installed. You don't have to install all tools if you want to use only one of the methods.
@@ -213,6 +213,33 @@ class RNASequence(object):
                 print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True).decode()
             return '\n'.join(self.ss_log.split('\n')[:])
+
+        elif method == "mcfold":
+            cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+            print(cmd)
+            o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out = o.stdout.read().strip()
+            err = o.stderr.read().strip()
+
+            energy = ''
+            for l in out.split('\n'):
+                # first you will find the best dynamic energy, and in the next loop
+                # it will be used to search for lines with this energy and secondary
+                # structure
+
+                # (((..)))  -5.43
+                if energy:  # if energy is set
+                    if energy in l:
+                        ss = l.split()[0]
+
+                # Performing Dynamic Programming...
+                # Best Dynamic Programming Solution has Energy:  -5.43
+                if l.startswith('Best Dynamic Programming Solution has Energy:'):
+                    energy = l.split(':')[1]
+            # prepare outputs, return and self-s
+            self.log = out
+            self.ss = ss
+            return ss, float(energy)
 
         # if method == "RNAsubopt":
         #     from cogent.app.vienna_package import RNAfold, RNAsubopt
