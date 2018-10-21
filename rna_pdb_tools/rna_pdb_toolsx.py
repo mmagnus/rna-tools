@@ -134,6 +134,8 @@ def get_parser():
                         default='',
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
 
+    parser.add_argument('--uniq', help="")
+
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -181,7 +183,16 @@ if __name__ == '__main__':
         if list != type(args.file):
             args.file = [args.file]
         ##################################
+        analyzed = []
         for f in args.file:
+            #####################################
+            if args.uniq:
+                subname = eval('f' + args.uniq)
+                if subname in analyzed:
+                    continue
+                else:
+                    analyzed.append(subname)
+            ########
             s = RNAStructure(f)
             s.decap_gtp()
             s.std_resn()
