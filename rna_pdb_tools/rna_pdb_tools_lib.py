@@ -314,7 +314,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def get_seq(self):
+    def get_seq(self, compact=False, chainfirst = True):
         """Get seq (v2) gets segments of chains with correct numbering
 
         Run::
@@ -372,11 +372,20 @@ class RNAStructure:
             header += '' + str(chains[c]['resi'][-1])
             chains[c]['header'] = header  # add -163 (last element)
 
-        txt = ''
-        for c in list(chains.keys()):
-            txt += '> ' + chains[c]['header'] + '\n'
-            txt += ''.join(chains[c]['seq']) + '\n'
-        return txt.strip()
+        if compact:
+            txt = ''
+            for c in list(chains.keys()):
+                if chainfirst:
+                    txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq'])
+                else:
+                    txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header']
+            return txt.strip()
+        else:
+            txt = ''
+            for c in list(chains.keys()):
+                txt += '> ' + chains[c]['header'] + '\n'
+                txt += ''.join(chains[c]['seq']) + '\n'
+            return txt.strip()
 
     def __get_seq(self):
         """get_seq DEPRECATED
