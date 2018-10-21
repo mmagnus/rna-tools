@@ -216,7 +216,8 @@ class RNASequence(object):
 
         elif method == "mcfold":
             cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
-            print(cmd)
+            if verbose:
+                print(cmd)
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out = o.stdout.read().strip()
             err = o.stderr.read().strip()
