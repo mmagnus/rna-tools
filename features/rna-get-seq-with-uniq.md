@@ -1,6 +1,7 @@
 181021
+(https://twitter.com/rna_pdb_tools/status/1053978809362534400)
 
-Imagine that you have a folder with models from hundreds of models from a few simulations. Now, you want to get preview sequences for one example model from each simulation. So instead of running:
+Imagine that you have a folder with hundreds of models from a few simulations. Now, you want to get preview sequences for one example model from each simulation. So instead of running:
 
     $ rna_pdb_toolsx.py --get_seq *
 
