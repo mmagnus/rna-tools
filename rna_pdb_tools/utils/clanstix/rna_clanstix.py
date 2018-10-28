@@ -141,7 +141,12 @@ def get_parser():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('matrixfn', help="matrix")
-    parser.add_argument('--groups', help="groups, at the moment up to 7 groups can be handle (easy to be changed in the future)")
+    parser.add_argument('--groups', help="groups, at the moment up to 7 groups can be handle"
+                        "--groups 1:native+100:zmp+100:zaa+100:zbaa+100:zcp+100:znc"
+                        "--groups 1:native+100:nats+100:hom1+100:hom2+100:hom3+100:hom4"
+                        "native will light green"
+                        "zmp will be forest green"
+                        "(easy to be changed in the future)")
     parser.add_argument('--pvalue', action='store_true',
                         help="")
     return parser
@@ -167,14 +172,21 @@ if __name__ == '__main__':
     # print color
     # 1+20+20+20+20+20
     seqgroups = ''
-    colors = ['0;255;102;255', # ligthgreen
-              '255;102;102;255', # red
-              '0;102;0;255', # forest
-              '51;51;255;255', # blue
-              '180;38;223;255', # violet
-              '64;64;64;255', # grey
-              '255;128;0;255' # orange
-                  ]
+    colors = ['0;255;102;255', # ligthgreen 1
+              '0;102;0;255', # forest 2
+              '255;102;102;255', # red 3
+              '51;51;255;255', # blue 4
+              '0;255;255;255', # light blue +1
+              '180;38;223;255', # violet 5
+              '64;64;64;255', # grey 6
+              '255;128;0;255', # orange 7
+              '128;0;128;255', # purple 8
+              '0;128;128;255', # Teal 9
+              '128;0;0;255', # maroon 10
+              '0;255;255;255',  # cyjan
+              '240;230;140;255', #khaki
+              '210;105;30;255', # chocolate
+               ]
     if args.groups:
         groups = args.groups.split('+')
         seqgroups = '<seqgroups>\n'
@@ -185,6 +197,7 @@ if __name__ == '__main__':
             size = 10
             dottype = 0
             if ':' in group:
+
                 nstruc, name = group.split(':')
                 if name == 'native':
                     dottype = 8
