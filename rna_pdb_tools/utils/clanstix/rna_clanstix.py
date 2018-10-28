@@ -66,6 +66,7 @@ class RNAStructClans:
 
     def __init__(self, n=10):
         self.n = n
+        self.comment = ''
         self.txt = """sequences=%i
 <param>
 maxmove=0.1
@@ -123,6 +124,10 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
             c += 1
 
         t += '</hsp>\n'
+
+        self.comment = '# max: %f min (non-zero): %f\n' % (math.ceil(matrix.max()), matrix[matrix>0].min())
+        for i in range(1,20):
+            self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
         t += '# max: %f min (non-zero): %f' % (math.ceil(matrix.max()), matrix[matrix>0].min())
         t += ' # 1A RMSD range is for lower than 1.0E-%f' % (math.ceil(matrix.max()) - 1)
         t += ' # 2A RMSD range is for lower than 1.0E-%f' % (math.ceil(matrix.max()) - 2)
@@ -208,3 +213,4 @@ if __name__ == '__main__':
             seqgroups += "numbers=%s;\n" % ';'.join([str(number) for number in numbers])
         seqgroups += '</seqgroups>\n'
     print(seqgroups)
+    print(c.comment)
