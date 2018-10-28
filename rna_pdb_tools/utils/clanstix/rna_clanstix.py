@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Clanstix - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans.
+"""rna_clanstix - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans.
 
 We hacked Clans thus instead of BLAST-based distances between sequences, you can analyze distances between structures described as p-values of rmsd (based on the method from the Dokholyan lab.)
 
@@ -30,13 +30,25 @@ Get inspiration for more colors (http://www.rapidtables.com/web/color/RGB_Color.
 How to use ClanstixRNA?
 ----------------------------------------
 
-1. Get a matrix of distances, save it as e.g. matrix.txt
+1. Get a matrix of distances, save it as e.g. matrix.txt (see Comment below)
 2. run ClanstixRNA on this matrix to get an input file to Clans (e.g. clans_rna.txt)::
 
-     clanstix.py test_data/matrix.txt > clans_run.txt
+     rna_clanstix.py test_data/matrix.txt > clans_run.txt
 
 3. open CLANS and click File -> Load run and load clans_run.txt
 4. You're done! :-)
+
+Comment: To get this matrix you can use for example another tool from the rna-pdb-tools packages::
+
+     rna_calc_rmsd_all_vs_all.py -i rp18 -o rp18_rmsd.csv
+     rna_clastix.py --groups 1:native+5:3dRNA+
+           5:Chen+3:Dokh+5:Feng+5:LeeASModel+
+           5:Lee+5:RNAComposer+10:RW3D+5:Rhiju+
+           1:YagoubAli+3:SimRNA  rp18_rmsd.csv | tee clans.in
+
+where ``rp18`` is a folder with structure and ``rp18_rmsd.csv`` is a matrix of all-vs-all rmsds.
+
+.. image:: ../../rna_pdb_tools/utils/clanstix/doc/rp18_clanstix.png
 
 Hajdin, C. E., Ding, F., Dokholyan, N. V, & Weeks, K. M. (2010). On the significance of an RNA tertiary structure prediction. RNA (New York, N.Y.), 16(7), 1340–9. doi:10.1261/rna.1837410
 
