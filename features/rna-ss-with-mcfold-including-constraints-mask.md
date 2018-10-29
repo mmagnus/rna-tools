@@ -45,7 +45,7 @@ and from the console if you want:
     gggaaacc
     (((..))) -7.61
 
-different between unpaired and not constrained:
+the distinction between unpaired and not constrained:
 
     [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/giic+g.fa --cstinfile
     gGUAUguaaGUACc
