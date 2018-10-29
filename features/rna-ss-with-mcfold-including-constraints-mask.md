@@ -23,3 +23,24 @@ to run it:
     (-5.43, '(((..)))')
     curl -Y 0 -y 300 -F "pass=lucy" -F mask="(......)" -F sequence="CCuuuuGG" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
     (0.0, '')
+
+and from the console if you want:
+
+    [mm] tests$ git:(master) ✗ ./test_rna_ss_pred.sh
+    + rna_ss_pred.py --method mcfold --seq gggaaacc
+    gggaaacc
+    (((..))) -7.61
+    + rna_ss_pred.py --method mcfold --seq gggaaacc --cst '((....))'
+    gggaaacc
+    ((....)) <= cst
+    x 0.0
+    + rna_ss_pred.py --method mcfold --seq gggaaacc --cst '(((..)))'
+    gggaaacc
+    (((..))) <= cst
+    (((..))) -7.61
+    + rna_ss_pred.py --method mcfold --file rna1.fa --cstinfile
+    gggaaacc
+    x 0.0
+    + rna_ss_pred.py --method mcfold --file rna1.fa
+    gggaaacc
+    (((..))) -7.61
