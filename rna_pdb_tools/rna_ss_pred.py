@@ -66,7 +66,7 @@ if __name__ == '__main__':
     if args.method == 'mcfold':
         seq = RNASequence(seq)
         if cst:
-            en, ss = seq.predict_ss('mcfold', constraints=cst)
+            en, ss = seq.predict_ss('mcfold', constraints=cst, verbose=args.verbose)
         else:
             en, ss = seq.predict_ss('mcfold')
         if not ss:
