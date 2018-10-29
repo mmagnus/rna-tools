@@ -55,3 +55,13 @@ different between unpaired and not constrained:
     gGUAUguaaGUACc
     (((((****))))) <= cst
     ((((((..)))))) -13.62
+    
+and an interesting issue of GC vs CG at the end:
+
+    [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/upper4x.fa
+    gCCCUguaaAGGGc
+    ((((((..)))))) -16.07
+    [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/upper4x.fa
+    cCCCUguaaAGGGg
+    ((((((..)))))) -15.74
+
