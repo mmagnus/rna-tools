@@ -270,6 +270,13 @@ class RNASequence(object):
                     index = out.index(l)
                     ss_line = out[index + 2]
                     ss, energy = ss_line.split()[0:2]  # '(((.((..)))))  -5.44 ( +0.00)'
+
+                    # if there is
+                    # UUGCCGUAAGACA
+                    # .............  BP >=  50%
+                    # then finish with energy 0.00, and empty ss
+                    if energy == 'BP':
+                        return 0.00, ''
                     break
 
             # prepare outputs, return and self-s
