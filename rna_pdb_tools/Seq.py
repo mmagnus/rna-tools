@@ -219,12 +219,20 @@ class RNASequence(object):
             return '\n'.join(self.ss_log.split('\n')[:])
 
         elif method == "mcfold":
-            cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+            if constraints:
+                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F mask=\"" + constraints + "\"" + \
+                " -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+            else:
+                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
             if verbose:
                 print(cmd)
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out = o.stdout.read().strip()
             err = o.stderr.read().strip()
+
+            # If the structure can't be find, detect this statement and finish this routine.
+            if 'Explored 0 structures' in out:
+                return 0.00, ''
 
             energy = ''
             for l in out.split('\n'):
