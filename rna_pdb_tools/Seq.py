@@ -183,8 +183,12 @@ class RNASequence(object):
             if constraints:
                 f.write(constraints)
 
-        # run prediction
+        # check for seq and constraints
+        if constraints:
+            if len(self.seq) != len(constraints):
+                raise Exception('The seq and constraints should be of the same length: %i %s %i %s' % (len(self.seq), self.seq, len(constraints), constraints))
 
+        # run prediction
         # rnafold without contraints
         if method == "RNAfold" and constraints:
             cmd = 'RNAfold -C < ' + tf.name
