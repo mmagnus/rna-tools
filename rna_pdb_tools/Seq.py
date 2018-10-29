@@ -235,7 +235,8 @@ class RNASequence(object):
                 return 0.00, ''
 
             energy = ''
-            for l in out.split('\n'):
+            out = out.split('\n')
+            for l in out :
                 # first you will find the best dynamic energy, and in the next loop
                 # it will be used to search for lines with this energy and secondary
                 # structure
@@ -243,12 +244,34 @@ class RNASequence(object):
                 # (((..)))  -5.43
                 if energy:  # if energy is set
                     if energy in l:
+                        if verbose: print(l)
                         ss = l.split()[0]
 
                 # Performing Dynamic Programming...
                 # Best Dynamic Programming Solution has Energy:  -5.43
                 if l.startswith('Best Dynamic Programming Solution has Energy:'):
-                    energy = l.split(':')[1]
+                    energy = l.split(':')[1].strip()
+                    if verbose:
+                        print ('mcfold::energy: ' + energy)
+
+            # Ok, for whatever reason Best DP energy might not be exactly the same as and
+            # the energy listed later for secondary structure. So this code finds this secondary
+            # structure and gets again the energy for this secondary structure,
+            # and overwrites the previous energy.
+            # In this case:
+            # Best Dynamic Programming Solution has Energy:  -5.46
+            # ...
+            # CUCUCGAAAGAUG
+            # (((.((..)))))  -5.44 ( +0.00)
+            # (((.((..)))))  BP >=  50%
+
+            for l in out:
+                if 'target="_blank">MARNA</a>-formatted:<P><P><P></H2><pre>' in l:
+                    index = out.index(l)
+                    ss_line = out[index + 2]
+                    ss, energy = ss_line.split()[0:2]  # '(((.((..)))))  -5.44 ( +0.00)'
+                    break
+
             # prepare outputs, return and self-s
             self.log = out
             self.ss = ss
