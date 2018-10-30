@@ -44,3 +44,24 @@ and from the console if you want:
     + rna_ss_pred.py --method mcfold --file rna1.fa
     gggaaacc
     (((..))) -7.61
+
+the distinction between unpaired and not constrained:
+
+    [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/giic+g.fa --cstinfile
+    gGUAUguaaGUACc
+    (((((....))))) <= cst
+    (((((....))))) -12.49
+    [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/giic+g.fa --cstinfile
+    gGUAUguaaGUACc
+    (((((****))))) <= cst
+    ((((((..)))))) -13.62
+    
+and an interesting issue of GC vs CG at the end:
+
+    [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/upper4x.fa
+    gCCCUguaaAGGGc
+    ((((((..)))))) -16.07
+    [mm] Desktop$ rna_ss_pred.py --method mcfold --file seqs/upper4x.fa
+    cCCCUguaaAGGGg
+    ((((((..)))))) -15.74
+
