@@ -1,0 +1,1 @@
+If you want to get rid of the Warning in your pdfs files, use put this R2R.cpp in R2R's src folder and `make`. Sorry Zasha ;-) It might be a different way to do it, for now this is my workaround --Magnus
