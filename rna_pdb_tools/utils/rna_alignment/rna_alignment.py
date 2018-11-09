@@ -199,7 +199,7 @@ class RNASeq(object):
         self.seq = nseq
         self.ss = nss
 
-    def draw_ss(self, title='', resolution=1.5):
+    def draw_ss(self, title='', verbose=False, resolution=1.5):
         """Draw secondary structure of RNA with VARNA.
 
         VARNA: Visualization Applet for RNA
@@ -211,7 +211,7 @@ class RNASeq(object):
 
         http://varna.lri.fr/"""
         drawfn = tempfile.NamedTemporaryFile(delete=False).name + '.png'
-        SecondaryStructure.draw_ss(title, self.seq, self.ss, drawfn, resolution)  # , verbose=True)
+        SecondaryStructure.draw_ss(title, self.seq, self.ss, drawfn, resolution, verbose=verbose)
         from IPython.display import Image
         return Image(filename=drawfn)
 
