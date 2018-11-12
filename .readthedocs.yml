@@ -1,0 +1,9 @@
+build:
+  image: latest
+
+python:
+  version: 2.7
+
+python:
+    extra_requirements:
+        - sphinx-argparse
