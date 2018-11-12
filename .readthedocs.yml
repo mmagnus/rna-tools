@@ -11,4 +11,4 @@ python:
     extra_requirements:
         - sphinx-argparse
         
-requirements_file: docs/docs.txt        
+requirements_file: docs/requirements.txt
