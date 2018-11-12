@@ -2,7 +2,7 @@ numpy
 biopython
 forgi
 progressbar2
-sphinx-argparse
+sphinx-argparse==0.1.17
 sphinx-rtd-theme
 sphinxcontrib-napoleon
 urllib3
