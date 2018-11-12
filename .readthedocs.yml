@@ -5,6 +5,9 @@ python:
   version: 2.7
 
 python:
+   pip_install: true
+   
+python:
     extra_requirements:
         - sphinx-argparse
         
