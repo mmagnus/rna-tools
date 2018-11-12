@@ -3,12 +3,9 @@ build:
 
 python:
   version: 2.7
+  pip_install: true
+requirements_file: docs/requirements.txt
 
-python:
-   pip_install: true
-   
 python:
     extra_requirements:
         - sphinx-argparse
-        
-requirements_file: docs/requirements.txt

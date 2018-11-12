@@ -40,9 +40,11 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.inheritance_diagram',
-    # 'sphinxarg.ext',
     #'sphinx.ext.githubpages',
 ]
+
+extensions += ['sphinxarg.ext']
+
 napoleon_include_private_with_doc = False
 
 # Add any paths that contain templates here, relative to this directory.
@@ -192,6 +194,7 @@ html_static_path = ['_static']
 # html_last_updated_fmt = None
 
 # If true, SmartyPants will be used to convert quotes and dashes to
+
 # typographically correct entities.
 #
 # html_use_smartypants = True
