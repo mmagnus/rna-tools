@@ -7,3 +7,5 @@ python:
 python:
     extra_requirements:
         - sphinx-argparse
+        
+requirements_file: docs/docs.txt        
