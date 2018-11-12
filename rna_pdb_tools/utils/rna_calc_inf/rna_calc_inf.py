@@ -2,6 +2,14 @@
 # -*- coding: utf-8 -*-
 """A tool to calc inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC between two structures.
 
+Mind, that ClaRNA is pretty slow, it takes even a few seconds to analyze a structure,
+so for, say, 1000 models you need a few hours.
+
+How to make it faster? First, you can use ``--number_of_threads`` to specify the number of cores used for multiprocessing.
+
+Second, the procedure implemented in here is composed of two steps, first for each structure ClaRNA is used to generate an output with contacts, then these files are used for comparisons. So, if you want to re-run your analysis, you don't have to run re-run ClaRNA itself. Thus, be default ClaRNA is not executed if <model>.outCR is found next to the analyzed files.  To change this behavior force (``--force``) rna_cal_inf.py to re-run ClaRNA.
+
+
 ClaRNA_play required!
 https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server). Contact <magnus@genesilico.pl>.
 
