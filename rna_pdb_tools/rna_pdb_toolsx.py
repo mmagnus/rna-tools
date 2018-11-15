@@ -43,6 +43,9 @@ def get_parser():
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
 
+    parser.add_argument('--delete-anisou', help='remove files with ANISOU records',
+                        action='store_true')
+
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
@@ -512,6 +515,37 @@ if __name__ == '__main__':
 
     if args.collapsed_view or args.cv:
         collapsed_view(args)
+
+    if args.delete_anisou:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            s = RNAStructure(f)
+
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+
+            for l in s.lines:
+                if l.startswith('ANISOU'):
+                    continue
+                else:
+                    output += l + '\n'
+
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
 
 
     if args.orgmode:
