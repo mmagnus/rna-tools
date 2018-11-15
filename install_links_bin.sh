@@ -47,6 +47,9 @@ ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_find_core.py $curr_dir/bin/rna_align_find_core.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_get_ss_from_alignment.py $curr_dir/bin/rna_align_get_ss_from_alignment.py
 ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/utils/rna_alignment_get_species.py $curr_dir/bin/rna_alignment_get_species.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/utils/rna_alignment_process_id.py $curr_dir/bin/rna_alignment_process_id.py
+ln -s $curr_dir/rna_pdb_tools/utils/rna_alignment/utils/rna_alignment_r2r.py $curr_dir/bin/rna_alignment_r2r.py
 
 
 ln -s $curr_dir/rna_pdb_tools/utils/rna_pdb_edit_occupancy_bfactor/rna_pdb_edit_occupancy_bfactor.py $curr_dir/bin/rna_pdb_edit_occupancy_bfactor.py
