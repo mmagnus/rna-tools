@@ -79,6 +79,7 @@ Take a tour http://mmagnus.github.io/rna-pdb-tools/#/
 
 ```
 [mm] rna_pdb_tools$ git:(master) ✗ ./rna_pdb_toolsx.py -h
+usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--delete-anisou] [-c]
 usage: rna_pdb_toolsx.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
                          [--un_nmr] [--orgmode] [--get_chain GET_CHAIN]
                          [--fetch] [--fetch_ba] [--get_seq] [--get_ss]
@@ -117,6 +118,7 @@ optional arguments:
   -h, --help            show this help message and exit
   --version
   -r, --report          get report
+  --delete-anisou       remove files with ANISOU records
   -c, --clean           get clean structure
   --is_pdb              check if a file is in the pdb format
   --is_nmr              check if a file is NMR-style multiple model pdb
