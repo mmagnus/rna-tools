@@ -19,7 +19,7 @@ import subprocess
 import math
 import logging
 import shutil
-
+import time
 #limit_clusters = 1  # if you want to change this, then rewrite procedure of stopping!
 
 logging.basicConfig(level=logging.INFO)
@@ -125,7 +125,8 @@ def get_no_structures(file):
 def run():
     """Pipline for modeling RNA"""
     args = get_parser().parse_args()
-    print(args)
+    logging.info(time.strftime("%Y-%m-%d %H:%M"))
+    logging.info(args)
     # get_no_structures(args.file) # if you mini then # is the total number of structures
     n = args.n
     nc = int(math.ceil(n * 0.005))  # nc no for clustring
