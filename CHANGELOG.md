@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `rna_pdb_toolsx.py --split-alt-locations`
 - `rna_pdb_toolsx.py --delete-anisou`
 
+### Changed
+- PyMOL4RNA: scale down shperes for inorganic, to 0.25
+
 ## History
 
 170814 Python3 everywhere (at least it should be)
