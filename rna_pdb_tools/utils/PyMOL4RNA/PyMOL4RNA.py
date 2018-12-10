@@ -411,6 +411,7 @@ def ino():
 
     .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ion.png"""
     cmd.show("spheres", "inorganic")
+    cmd.set('sphere_scale', '0.25', '(all)')
     cmd.color("yellow", "inorganic")
 
 
