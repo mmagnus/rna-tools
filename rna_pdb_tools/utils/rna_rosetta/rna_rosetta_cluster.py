@@ -15,13 +15,12 @@ from __future__ import print_function
 import platform
 import argparse
 import os
-import glob
 import subprocess
 import math
 import logging
 import shutil
 
-limit_clusters = 5
+limit_clusters = 1  # if you want to change this, then rewrite procedure of stopping!
 
 logging.basicConfig(level=logging.INFO)
 
@@ -36,8 +35,15 @@ def get_parser():
     return parser
 
 
-def get_no_structures(file):
-    p = subprocess.Popen('cat ' + file + ' | grep SCORE | wc -l', shell=True,
+def get_no_structures(fn):
+    """Get # of structures in a silent file.
+
+    Args:
+         fn (string): a filename to a silent file
+
+    Returns
+         int: # of structures in a silent file"""
+    p = subprocess.Popen('cat ' + fn + ' | grep SCORE | wc -l', shell=True,
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
     stderr = p.stderr.read().strip()
