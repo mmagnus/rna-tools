@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `rna_pdb_toolsx.py --delete-anisou`
 
 ### Changed
-- PyMOL4RNA: scale down shperes for inorganic, to 0.25
+- PyMOL4RNA: scale down shapes for inorganic, to 0.25
 
 ## History
 
