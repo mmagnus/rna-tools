@@ -19,8 +19,8 @@ import subprocess
 import math
 import logging
 import shutil
-
-limit_clusters = 1  # if you want to change this, then rewrite procedure of stopping!
+import time
+#limit_clusters = 1  # if you want to change this, then rewrite procedure of stopping!
 
 logging.basicConfig(level=logging.INFO)
 
@@ -30,12 +30,16 @@ def get_parser():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--no_select', action='store_true',
                         help="Don't run selection once again. Use selected.out in the current folder")
+    parser.add_argument('--radius-inc-step', type=float, default=0.5,
+                        help="radius incremental step, default 0.5")
+    parser.add_argument('--limit-clusters', default=5,
+                        help="# of clusters")
     parser.add_argument('file', help='ade.out')
     parser.add_argument('n', type=int, help='# of total structures')
     return parser
 
 
-def get_no_structures(fn):
+def get_no_structures_in_first_cluster(fn):
     """Get # of structures in a silent file.
 
     Args:
@@ -43,13 +47,13 @@ def get_no_structures(fn):
 
     Returns
          int: # of structures in a silent file"""
-    p = subprocess.Popen('cat ' + fn + ' | grep SCORE | wc -l', shell=True,
+    p = subprocess.Popen('grep SCORE ' + fn + ' | grep c.0 | wc -l', shell=True,
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.wait()
     stderr = p.stderr.read().strip()
     if stderr:
         print(stderr)
-    return int(p.stdout.read().strip()) - 1
+    return int(p.stdout.read().strip())
 
 
 def get_selected(file, nc):
@@ -63,7 +67,7 @@ def get_selected(file, nc):
         print(stderr)
 
 
-def cluster(radius=1):
+def cluster(radius, limit_clusters):
     """Internal function of cluster_loop: It removes cluster.out first."""
     try:
         os.remove("cluster.out")
@@ -74,8 +78,7 @@ def cluster(radius=1):
         cmd = 'cluster.macosclangrelease'
     if platform.system() == "Linux":
         cmd = "cluster.default.linuxgccrelease"
-    cmd += " -in:file:silent selected.out -in:file:fullatom -out:file:silent_struct_type binary -export_only_low false -out:file:silent cluster.out -cluster:limit_clusters " + \
-        str(5) + " -cluster:radius " + str(radius)
+    cmd += " -in:file:silent selected.out -in:file:fullatom -out:file:silent_struct_type binary -export_only_low false -out:file:silent cluster.out -cluster:limit_clusters " + str(limit_clusters) + " -cluster:radius " + str(radius)
 
     #'-out:prefix ade_ "#| tee clustering.out"
     logging.info(cmd)
@@ -96,23 +99,34 @@ def extract():
     os.system(cmd)
 
 
-def cluster_loop(ns):
+def cluster_loop(ns, radius_inc_step, limit_clusters):
     """Go from radius 1 to get 1/6 of structures of ns (# of selected structures)
     in the first cluster, then it stops."""
     radius = 1  # should be 1
     while 1:
-        cluster(radius)
-        n = get_no_structures('cluster.out')
-        if n > ns * .16:  # 1/6
+        cluster(radius, limit_clusters)
+        ns1 = get_no_structures_in_first_cluster('cluster.out')
+        print('%i in #1 cluster %i from the total number of structures' % (ns1, ns))
+        if ns1 > ns * .16:  # 1/6
             break
-        radius += 1
-    logging.info('radius %i n %i' % (radius, n))
+        radius += radius_inc_step
+    logging.info('radius %i ; %i in #1 cluster %i from the total number of structures' % (radius, ns1, ns))
+    return radius, ns1
+
+def get_no_structures(file):
+    p = subprocess.Popen('cat ' + file + ' | grep SCORE | wc -l', shell=True,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stderr = p.stderr.read().strip()
+    if stderr:
+        print(stderr)
+    return int(p.stdout.read().strip()) - 1
 
 
 def run():
     """Pipline for modeling RNA"""
     args = get_parser().parse_args()
-
+    logging.info(time.strftime("%Y-%m-%d %H:%M"))
+    logging.info(args)
     # get_no_structures(args.file) # if you mini then # is the total number of structures
     n = args.n
     nc = int(math.ceil(n * 0.005))  # nc no for clustring
@@ -125,12 +139,11 @@ def run():
 
     ns = get_no_structures('selected.out')
 
-    cluster_loop(ns)  # loop over selected to get 1/6 in the biggest cluster
-
-    print("# of structures in the biggest cluster", get_no_structures('cluster.out'))
-
+    radius, ns1 = cluster_loop(ns, args.radius_inc_step, args.limit_clusters)  # loop over selected to get 1/6 in the biggest cluster
     extract()
 
+    print("# of structures in the biggest cluster", ns1)
+    logging.info('radius %f, step %f ; %i in #1 cluster %i from the total number of structures' % (radius, args.radius_inc_step, ns1, ns))
 
 # main
 if __name__ == '__main__':
