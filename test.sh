@@ -107,6 +107,7 @@ cp input/205d_rmH2o.pdb output/205d_rmH2o_mutA1234-B1_inplace.pdb
 ./rna_pdb_toolsx.py --is_pdb input/image.png.zip
 
 ./rna_pdb_toolsx.py --no_hr --delete-anisou input/3xmg-ANISOU.pdb > output/3xmg-ANISOU.pdb
+./rna_pdb_toolsx.py --no_hr --split-alt-locations input/3xmg-polim_ATL_LOC.pdb > output/3xmg-polim_ATL_LOC.pdb
 
 ## --renumber_residues
 ./rna_pdb_toolsx.py --no_hr --renumber_residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb

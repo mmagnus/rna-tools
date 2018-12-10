@@ -44,6 +44,7 @@ def get_parser():
                         action='store_true')
 
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records',
+    parser.add_argument('--split-alt-locations', help='@todo',
                         action='store_true')
 
     parser.add_argument('-c', '--clean', help='get clean structure',
@@ -547,6 +548,57 @@ if __name__ == '__main__':
                 except IOError:
                     pass
 
+
+    if args.split_alt_locations:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            #s = RNAStructure(f)
+            s = open(f)
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+
+            # First, collect all alternative locations.
+            alts = set()
+            for l in s:
+                if l.startswith('ATOM'):
+                    if l[16].strip():
+                        alts.add(l[16])
+            s.close()
+
+            if args.verbose:
+                print('alts:', alts)
+
+            for index, alt in enumerate(alts):
+                output += 'MODEL %i' % (index + 1)
+                s = open(f)
+                for l in s:
+                    if l.startswith('ATOM') or l.startswith('HETATM'):
+                        # if empty, then print this line
+                        if l[16] == ' ':
+                            output += l
+                        if l[16] == alt:
+                            output += l
+                    else:
+                        output += l
+                output += 'ENDMDL\n'
+                s.close()
+
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
 
     if args.orgmode:
         if args.inplace:
