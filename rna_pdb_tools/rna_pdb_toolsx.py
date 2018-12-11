@@ -43,7 +43,7 @@ def get_parser():
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
 
-    parser.add_argument('--delete-anisou', help='remove files with ANISOU records',
+    parser.add_argument('--delete-anisou', help='remove lines in a file with ANISOU records',
                         action='store_true')
 
     parser.add_argument('-c', '--clean', help='get clean structure',
