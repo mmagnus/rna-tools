@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 The output you simply get from the screen, save it it to a file.
+
+Example::
+
+    rna_alignment_get_species.py RF00004.stockholm.stk
+    # STOCKHOLM 1.0
+    Sorex-araneus-(European-shrew)                     AUCGCU-UCU----CGGCC--UUU-U
+
 """
 from __future__ import print_function
 
@@ -101,9 +108,13 @@ if __name__ == '__main__':
             print(mapping)
 
     for l in open(a):
-        if l:
+        if l.strip():
             if not l.startswith('#') and not l.startswith('//'):
-                id, seq = l.split()
+                try:
+                    id, seq = l.split()
+                except:
+                    print('Error in ', l)
+                    sys.exit(1)
                 energy = ''
                 ss = ''
                 if False:
@@ -163,7 +174,10 @@ if __name__ == '__main__':
                         print((group.replace(' ','-') + '|' + os.replace(' ', '-')[:name_width] + '|' + semi_clean_id(id) + ss).ljust(name_width), seq.strip())
 
                 else:
-                    print((os.replace(' ', '-')[:name_width] + '[' + group.replace(' ','-') + ']' + str(energy)).ljust(name_width), seq.strip())
+                    # this is no group
+                    # ech, this is super messy, sorry!
+                    group = ''
+                    print((os.replace(' ', '-')[:name_width] + str(energy)).ljust(name_width), seq.strip())
 
                 if args.one:
                     break
