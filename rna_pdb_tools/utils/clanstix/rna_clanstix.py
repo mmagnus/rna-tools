@@ -44,7 +44,9 @@ Comment: To get this matrix you can use for example another tool from the rna-pd
      rna_clastix.py --groups 1:native+5:3dRNA+
            5:Chen+3:Dokh+5:Feng+5:LeeASModel+
            5:Lee+5:RNAComposer+10:RW3D+5:Rhiju+
-           1:YagoubAli+3:SimRNA  rp18_rmsd.csv | tee clans.in
+           1:YagoubAli+3:SimRNA  rp18_rmsd.csv clans.in
+
+     rna_clastix.py --groups 100+100+100+100+100+100+100+100+100+100+1:native  rp18_rmsd.csv
 
 where ``rp18`` is a folder with structure and ``rp18_rmsd.csv`` is a matrix of all-vs-all rmsds.
 
@@ -61,6 +63,24 @@ import argparse
 import rna_pdb_tools.utils.rmsd_signif.rnastruc_pred_signif as pv
 import numpy as np
 import math
+import logging
+import time
+
+
+logging.basicConfig(level=logging.INFO,
+                format='%(message)s',
+                datefmt='%m-%d %H:%M',
+                filename='rna_clanstix.log',
+                filemode='w')
+
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter('%(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
+log = logging.getLogger()
+log.setLevel(logging.INFO)
 
 
 class RNAStructClans:
@@ -95,7 +115,7 @@ dampening=1.0
 minattract=1.0
 cluster2d=false
 blastpath=blastall -p blastp -I T -T T
-formatdbpath=/home/sdh/apps/blast-2.2.17/bin/formatdb
+formatdbpath=''
 showinfo=false
 zoom=1.0
 dotsize=1
@@ -119,6 +139,7 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
         self.txt += t
 
     def dist_from_matrix(self, lines, matrix=0, use_pv=False):
+        # return '' # for some hardcore debugging ;-)
         t = '\n<hsp>\n'
         c = 0
         c2 = 0
@@ -150,6 +171,9 @@ def get_parser():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('matrixfn', help="matrix")
+
+    parser.add_argument('--groups-auto', help="groups automatically <3", type=int, default=10)
+
     parser.add_argument('--groups', help="groups, at the moment up to 7 groups can be handle"
                         "--groups 1:native+100:zmp+100:zaa+100:zbaa+100:zcp+100:znc"
                         "--groups 1:native+100:nats+100:hom1+100:hom2+100:hom3+100:hom4"
@@ -158,6 +182,7 @@ def get_parser():
                         "(easy to be changed in the future)")
     parser.add_argument('--pvalue', action='store_true',
                         help="")
+    parser.add_argument('output', help="input file for clans")
     return parser
 
 
@@ -171,18 +196,22 @@ if __name__ == '__main__':
     # print ids
     # print len(ids)
     # get max
+    logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
+
     matrix = np.loadtxt(args.matrixfn)
 
     c = RNAStructClans(n=len(ids))  # 200?
     c.add_ids(ids)
     c.dist_from_matrix(f, matrix, args.pvalue)
-    print(c.txt)
 
-    # print color
+    #
+    # DEFINE GROUPS
+    #
     # 1+20+20+20+20+20
     seqgroups = ''
-    colors = ['0;255;102;255', # ligthgreen 1
-              '0;102;0;255', # forest 2
+    #colors = ['0;255;102;255', # ligthgreen 1
+    #          '0;102;0;255', # forest 2
+    colors = [
               '255;102;102;255', # red 3
               '51;51;255;255', # blue 4
               '0;255;255;255', # light blue +1
@@ -196,21 +225,54 @@ if __name__ == '__main__':
               '240;230;140;255', #khaki
               '210;105;30;255', # chocolate
                ]
-    if args.groups:
-        groups = args.groups.split('+')
+
+    args_groups = args.groups
+    if args.groups_auto:
+        from collections import OrderedDict
+        # collect groups
+        #groups = []
+        groups = OrderedDict()
+        for i in ids:
+            group_name = i[:args.groups_auto]
+            if group_name in groups:
+                groups[group_name] += 1
+            else:
+                groups[group_name] = 1
+        groups_str = ''
+        for g in groups:
+            groups_str += str(groups[g]) + ':' + g + '+'
+
+        args_groups = groups_str[:-1]
+        #print(groups_str)
+        # change this to get 1:hccp+10:zmp+10:xrt
+
+    if args_groups:
+        # this is a manual way how to do it
+        groups = args_groups.split('+')
         seqgroups = '<seqgroups>\n'
         curr_number = 0
         for index, group in enumerate(groups):
             # parse groups
             # type and size will be changed for native
-            size = 10
+            size = 8
             dottype = 0
+            color = '' # use for diff color selection if tar
             if ':' in group:
-
                 nstruc, name = group.split(':')
                 if name == 'native':
                     dottype = 8
                     size = 20
+
+                if 'tar' in name and 'tar_min' not in name: # simrna
+                    dottype = 7
+                    size = 20
+                    color = '0;255;102;255', # ligthgreen 1
+
+                if 'tar_min' in name:
+                    dottype = 9
+                    size = 20
+                    color = '0;102;0;255', # forest 2
+
             else:
                 nstruc = group
                 name = 'foo'
@@ -218,7 +280,10 @@ if __name__ == '__main__':
             # craft seqgroups
             seqgroups += "name=%s\n" % name
             seqgroups += "type=%i\n" % dottype
-            seqgroups += "color=%s\n" % colors[index]
+            if colors:  # this color will be
+                seqgroups += "color=%s\n" % color
+            else:
+                colors[index]
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
             # get numbers - convert nstruc into numbers in Clans format 0;1; etc.
@@ -234,5 +299,10 @@ if __name__ == '__main__':
             curr_number = curr_number + int(nstruc)
             seqgroups += "numbers=%s;\n" % ';'.join([str(number) for number in numbers])
         seqgroups += '</seqgroups>\n'
-    print(seqgroups)
+
+    with open(args.output, 'w') as f:
+        f.write(c.txt)
+        f.write(seqgroups)
+        f.write(c.comment)
     print(c.comment)
+    logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
