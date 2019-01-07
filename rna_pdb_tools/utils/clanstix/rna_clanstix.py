@@ -262,17 +262,22 @@ if __name__ == '__main__':
                 if name == 'native':
                     dottype = 8
                     size = 20
+                    color = '0;128;128;255' # olive
+
+                if 'solution' in name:
+                    dottype = 8
+                    size = 20
+                    color = '0;128;128;255' # olive
 
                 if 'tar' in name and 'tar_min' not in name: # simrna
                     dottype = 7
                     size = 20
-                    color = '0;255;102;255', # ligthgreen 1
+                    color = '0;255;102;255' # ligthgreen 1
 
                 if 'tar_min' in name:
                     dottype = 9
                     size = 20
-                    color = '0;102;0;255', # forest 2
-
+                    color = '0;102;0;255' # forest 2
             else:
                 nstruc = group
                 name = 'foo'
@@ -280,10 +285,12 @@ if __name__ == '__main__':
             # craft seqgroups
             seqgroups += "name=%s\n" % name
             seqgroups += "type=%i\n" % dottype
-            if colors:  # this color will be
+            # color hack
+            if color:  # this color is fixed for native right now
                 seqgroups += "color=%s\n" % color
             else:
-                colors[index]
+                seqgroups += "color=%s\n" % colors[index]
+            # color hack
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
             # get numbers - convert nstruc into numbers in Clans format 0;1; etc.
