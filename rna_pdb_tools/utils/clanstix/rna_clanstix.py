@@ -99,6 +99,7 @@ class RNAStructClans:
     def __init__(self, n=10):
         self.n = n
         self.comment = ''
+        #cluster2d=false
         self.txt = """sequences=%i
 <param>
 maxmove=0.1
@@ -113,8 +114,8 @@ repfactor=10.0
 repvalpow=1
 dampening=1.0
 minattract=1.0
-cluster2d=false
-blastpath=blastall -p blastp -I T -T T
+cluster2d=true
+blastpath=''
 formatdbpath=''
 showinfo=false
 zoom=1.0
