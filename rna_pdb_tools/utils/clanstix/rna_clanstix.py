@@ -314,12 +314,25 @@ if __name__ == '__main__':
                     # 10:gxx_6bd266+10:gxx_min.ou+10:gbaP_d2b57+10:gbaP_min.o+10:gbx_00de79+10:gbx_min.ou+10:gapP_d9d22+10:gapP_min.o+10:gmp_faa97e+10:gmp_min.ou
                     tmp = name.split('_')
                     homolog_name = tmp[0]
-                    if homolog_name in homologs_colors:
-                        color = homologs_colors[homolog_name]
+                    if debug: 'homolog_name', homolog_name
+                    # ignore tar and solution, their colors are defined above ^
+                    ## [mm] simrna5x100farna5x100$ git:(master) ✗ rna_clastix.py --groups-auto 8 --color-by-homolog --shape-by-source rp14sub_ref_mapping_refX.txt input2.clans --debug
+                    ## 2019-01-09 12:23:21
+                    ## 100:tar_min.+100:tar_rp14+1:solution+100:cy2_min.+100:cy2_r14a+100:aj6_min.+100:aj6_r14a
+                    ## {'cy2': '210;105;30;255'}
+                    ## {'cy2': '210;105;30;255'}
+                    ## {'cy2': '210;105;30;255', 'aj6': '0;255;255;255'}
+                    ## {'cy2': '210;105;30;255', 'aj6': '0;255;255;255'}
+                    ## # max: 18.000000 min (non-zero): 0.810000
+                    if homolog_name == 'tar' or homolog_name == 'solution':
+                        pass
                     else:
-                        homologs_colors[homolog_name] = colors_homologs.pop()
-                        color = homologs_colors[homolog_name]
-                    if debug: print(homologs_colors)
+                        if homolog_name in homologs_colors:
+                            color = homologs_colors[homolog_name]
+                        else:
+                            homologs_colors[homolog_name] = colors_homologs.pop()
+                            color = homologs_colors[homolog_name]
+                        if debug: print(homologs_colors)
             else:
                 nstruc = group
                 name = 'foo'
