@@ -292,17 +292,17 @@ if __name__ == '__main__':
 
                 if 'solution' in name:
                     dottype = 8
-                    size = 20
+                    size = 20  # solution is a bit bigger
                     color = '0;128;128;255' # olive
 
-                if 'tar' in name and 'tar_min' not in name: # simrna
+                if 'tar' in name and 'tar_min' not in name: # SimRNA
                     dottype = 7
-                    size = 20
+                    size = 7  # size of SimRNA reference seq points
                     color = '0;255;102;255' # ligthgreen 1
 
                 if 'tar_min' in name:
                     dottype = 9
-                    size = 20
+                    size = 7 # size of Rosetta reference seq points
                     color = '0;102;0;255' # forest 2
 
                 if args.shape_by_source:
