@@ -174,6 +174,13 @@ def get_parser():
 
     parser.add_argument('--groups-auto', help="groups automatically <3", type=int, default=10)
 
+    parser.add_argument('--color-by-homolog', help="color the same homolog in the same way", action='store_true')
+
+    parser.add_argument('--shape-by-source', help="shape points based on source, SimRNA vs Rosetta (Rosetta models have 'min' in name'",
+                        action='store_true')
+
+    parser.add_argument('--debug', action='store_true')
+
     parser.add_argument('--groups', help="groups, at the moment up to 7 groups can be handle"
                         "--groups 1:native+100:zmp+100:zaa+100:zbaa+100:zcp+100:znc"
                         "--groups 1:native+100:nats+100:hom1+100:hom2+100:hom3+100:hom4"
@@ -190,6 +197,7 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
+    debug = args.debug  # as a short cut later
 
     f = open(args.matrixfn)
     ids = f.readline().replace('#', '').split()
@@ -226,6 +234,17 @@ if __name__ == '__main__':
               '210;105;30;255', # chocolate
                ]
 
+    # this is pretty much the same list as above, but in here I have more distinguishable colors
+    colors_homologs = [
+              '255;102;102;255', # red 3
+              '51;51;255;255', # blue 4
+              '64;64;64;255', # grey 6
+              '128;0;128;255', # purple 8
+              '128;0;0;255', # maroon 10
+              '0;255;255;255',  # cyjan
+              '210;105;30;255', # chocolate
+               ]
+
     args_groups = args.groups
     if args.groups_auto:
         from collections import OrderedDict
@@ -233,6 +252,10 @@ if __name__ == '__main__':
         #groups = []
         groups = OrderedDict()
         for i in ids:
+            #
+            # collect homologs gmp_
+            # simrna and farna
+
             group_name = i[:args.groups_auto]
             if group_name in groups:
                 groups[group_name] += 1
@@ -251,6 +274,8 @@ if __name__ == '__main__':
         groups = args_groups.split('+')
         seqgroups = '<seqgroups>\n'
         curr_number = 0
+        homologs_colors = {}
+        if args.debug: print(args_groups)
         for index, group in enumerate(groups):
             # parse groups
             # type and size will be changed for native
@@ -278,6 +303,23 @@ if __name__ == '__main__':
                     dottype = 9
                     size = 20
                     color = '0;102;0;255' # forest 2
+
+                if args.shape_by_source:
+                    # Rosetta models are diamond now
+                    if 'min' in name:
+                        dottype = 2
+
+                # color by homolog
+                if args.color_by_homolog:
+                    # 10:gxx_6bd266+10:gxx_min.ou+10:gbaP_d2b57+10:gbaP_min.o+10:gbx_00de79+10:gbx_min.ou+10:gapP_d9d22+10:gapP_min.o+10:gmp_faa97e+10:gmp_min.ou
+                    tmp = name.split('_')
+                    homolog_name = tmp[0]
+                    if homolog_name in homologs_colors:
+                        color = homologs_colors[homolog_name]
+                    else:
+                        homologs_colors[homolog_name] = colors_homologs.pop()
+                        color = homologs_colors[homolog_name]
+                    if debug: print(homologs_colors)
             else:
                 nstruc = group
                 name = 'foo'
