@@ -161,7 +161,12 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
 
         t += '</hsp>\n'
 
-        self.comment = '# max: %f min (non-zero): %f\n' % (math.ceil(matrix.max()), matrix[matrix>0].min())
+        max = math.ceil(matrix.max())
+        min = matrix[matrix>0].min()
+        self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
+        self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
+        self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
+        self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
         for i in range(1,20):
             self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
         # 1E-11 = 0
