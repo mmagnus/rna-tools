@@ -325,7 +325,7 @@ if __name__ == '__main__':
                     ## {'cy2': '210;105;30;255', 'aj6': '0;255;255;255'}
                     ## {'cy2': '210;105;30;255', 'aj6': '0;255;255;255'}
                     ## # max: 18.000000 min (non-zero): 0.810000
-                    if homolog_name == 'tar' or homolog_name == 'solution':
+                    if homolog_name == 'tar' or homolog_name.startswith('solution'):
                         pass
                     else:
                         if homolog_name in homologs_colors:
