@@ -139,8 +139,10 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
             raise Exception('n != ids')
         self.txt += t
 
-    def dist_from_matrix(self, lines, matrix=0, use_pv=False):
-        # return '' # for some hardcore debugging ;-)
+    def dist_from_matrix(self, lines, matrix=0, use_pv=False, debug=False):
+        if debug:
+            print('Everything but the dists are generated. Use it to edit the original clans input file.')
+            return # for some hardcore debugging ;-)
         t = '\n<hsp>\n'
         c = 0
         c2 = 0
@@ -182,6 +184,12 @@ def get_parser():
 
     parser.add_argument('--debug', action='store_true')
 
+    parser.add_argument('--dont-calc', action='store_true', help="A simple and dirty trick to get "
+                        "generates everything but the main distances from the matrix"
+                        "useful if you want to run the script to generate different settings, such as"
+                        "colors, groups etc. Run the script and then replace parts of the original "
+                        "file with the matrix")
+
     parser.add_argument('--groups', help="groups, at the moment up to 7 groups can be handle"
                         "--groups 1:native+100:zmp+100:zaa+100:zbaa+100:zcp+100:znc"
                         "--groups 1:native+100:nats+100:hom1+100:hom2+100:hom3+100:hom4"
@@ -211,8 +219,7 @@ if __name__ == '__main__':
 
     c = RNAStructClans(n=len(ids))  # 200?
     c.add_ids(ids)
-    c.dist_from_matrix(f, matrix, args.pvalue)
-
+    c.dist_from_matrix(f, matrix, args.pvalue, args.dont_calc)
     #
     # DEFINE GROUPS
     #
