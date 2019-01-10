@@ -292,7 +292,7 @@ if __name__ == '__main__':
 
                 if 'solution' in name:
                     dottype = 8
-                    size = 20  # solution is a bit bigger
+                    size = 30  # solution is bigger
                     color = '0;128;128;255' # olive
 
                 if 'tar' in name and 'tar_min' not in name: # SimRNA
