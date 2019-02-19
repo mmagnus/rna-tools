@@ -10,6 +10,9 @@ Usage::
     # download with a trajectory, and cluster #4 and #5, add to all pdb files
     # prefix: cp771_pk
 
+    $ rna_simrnaweb_download_job.py --web-models rp17_well_d10_e1-a43d3ab5 --prefix tar
+    # prefix added will be tar_XXXX
+
 Example::
 
     rna_pdb_download_simrna_job.py -t -x -m 20569fa1 -p zmp_pk
@@ -41,26 +44,32 @@ import urllib3
 import shutil
 import subprocess
 import sys
+import logging
+import time
 
 sys.tracebacklimit = 0
 
+SIMRNAWEB_ARCHIVE = "/home/magnus/work/simrnaweb-archive"
 
 class SimRNAwebError(Exception):
     pass
 
 
-def extract(nstruc, remove_trajectory):
-    os.system('rna_simrna_lowest.py -n ' + str(nstruc) + ' *_ALL.trafl')
+def extract(job_id, nstruc, remove_trajectory):
+    """using rna_simrna_extract.py"""
+    os.system('rna_simrna_lowest.py -n ' + str(nstruc) + ' *' + job_id + '_ALL.trafl')
     if remove_trajectory:
         os.system('rm *_ALL.trafl*')
-    os.system('rna_simrna_extract.py -t *01X.pdb -f *top' + str(nstruc) + '.trafl -c')
+    cmd = 'rna_simrna_extract.py -t ' + job_id + '*01X.pdb -f *' + job_id + '*top' + str(nstruc) + '.trafl -n ' + str(nstruc) + ' -c'
+    print(cmd)
+    os.system(cmd)
 
 
-def download_trajectory(args):
-    if args.trajectory:
-        cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
-            "/processing_results/" + job_id + "_ALL.trafl "  # -O " + fn
-        os.system(cmd)
+def download_trajectory():
+    cmd = "wget --restrict-file-names=nocontrol http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
+        "/processing_results/" + job_id + "_ALL.trafl "  # -O " + fn
+    print(cmd)
+    os.system(cmd)
 
 def run_cmd(cmd):
     o = subprocess.Popen(
@@ -70,29 +79,94 @@ def run_cmd(cmd):
     return out, err
 
 def copy_trajectory(args):
-    "Using xfind https://github.com/mmagnus/Xfind"""
+    """Using xfind https://github.com/mmagnus/Xfind
 
-    ## clustername = "malibu"
-    ## cmd = "ssh " + clustername + " xfind.sh " + args.job_id + " | grep .ALL.trafl"
-    ## out, err = run_cmd(cmd)
-    ## if out:
-    ##     path_to_trafl = out.split('\n')[0]
-    ##     os.system('scp ' + clustername + ':' + path_to_trafl + " " + job_id + "_ALL.trafl ")
+    Do I have to copy it? Nope, you can make a link (ln)"""
+    # OK, find this file on the drive
+    # cmd = "mdfind -name " +  args.job_id  + " 000001_AA.pdb"
+    print('[Get Trajectory]')
+    cmd = "mdfind -name " + args.job_id + " | grep .ALL.trafl"
+    print(cmd)
+    out, err = run_cmd(cmd)
+    if out:
+        path_to_fn = out.split('\n')[0]
+        cmd = 'ln -s ' + path_to_fn + " " + job_id + "_ALL.trafl "
+        print(cmd)
+        os.system(cmd)
+        return
 
     clustername = "malibu"
-    cmd = "ssh " + clustername + " xfind.sh " + args.job_id + " | grep clust01-000001.pdb"
+    cmd = "ssh " + clustername + " xfind " + args.job_id + " | grep .ALL.trafl"
+    print(cmd)
     out, err = run_cmd(cmd)
     if out:
         path_to_trafl = out.split('\n')[0]
-        os.system('scp ' + clustername + ':' + path_to_trafl + " " + job_id + "-01X.pdb")
+        os.system('scp ' + clustername + ':' + path_to_trafl + " " + SIMRNAWEB_ARCHIVE + '/' + job_id + "_ALL.trafl ")
+        return
 
+    raise Exception("Trajectory not found on the cluster")
 
-def add_prefix(args):
+def copy_template(args):
+    """Copy a template for the trajectory, on cluster and locally.
+
+    Args:
+      args.job_id
+
+    If it fails, raise an Exception"""
+    # OK, find this file on the drive
+    # cmd = "mdfind -name " +  args.job_id  + " 000001_AA.pdb"
+    cmd = "mdfind -name " +  args.job_id  + " | grep 'clust01X.pdb$'"  #'000001_AA.pdb$'"
+    print(cmd)
+    out, err = run_cmd(cmd)
+    if out:
+        path_to_fn = out.split('\n')[0]
+        print('Template found %s' % path_to_fn)
+        # cmd = 'cp ' + path_to_fn + " " + job_id + "-01X.pdb"
+        shutil.copyfile(path_to_fn, job_id + "-01X.pdb")
+        return
+
+    cmd = "mdfind -name " +  args.job_id  + " | grep '01X.pdb$'"
+    print(cmd)
+    out, err = run_cmd(cmd)
+    if out:
+        path_to_fn = out.split('\n')[0]
+        print('Template found %s' % path_to_fn)
+        # cmd = 'cp ' + path_to_fn + " " + job_id + "-01X.pdb"
+        shutil.copyfile(path_to_fn, job_id + "-01X.pdb")
+        return
+
+    cmd = "mdfind " +  args.job_id  + " | grep '000001_AA.pdb$'"
+    print(cmd)
+    out, err = run_cmd(cmd)
+    if out:
+        path_to_fn = out.split('\n')[0]
+        print('Template found %s' % path_to_fn)
+        # cmd = 'cp ' + path_to_fn + " " + job_id + "-01X.pdb"
+        shutil.copyfile(path_to_fn, job_id + "-01X.pdb")
+        return
+
+    # find it on the cluster
+    clustername = "malibu"
+    cmd = "ssh " + clustername + " xfind " + args.job_id + " | grep 'clust01-000001.pdb$'"
+    print(cmd)
+    out, err = run_cmd(cmd)
+    if out:
+        path_to_fn = out.split('\n')[0]
+        print('Template found %s' % path_to_fn)
+        cmd = 'scp ' + clustername + ':' + path_to_fn + " " + job_id + "-01X.pdb"
+        print(cmd)
+        os.system(cmd)
+        return
+
+    # hack with returns, not pretty
+    raise Exception("Trajectory template not found on the cluster")
+
+def add_prefix(prefix):
+    """This is very crude way to do it"""
     # d2b57aef_ALL-thrs8.40A_clust01X.pdb -> gba_pk_d2b57aef_ALL-thrs8.40A_clust01X.pdb
-    if args.prefix:
-        # print('disable right now')
-        os.system("rename 's/^/" + args.prefix.strip() + "_/' *pdb")
-        # os.system("rename 's/^/" + args.prefix.strip() + "_/' *_ALL.tarfl*")
+    # print('disable right now')
+    os.system("rename 's/^/" + prefix.strip() + "_/' *pdb")
+    # os.system("rename 's/^/" + args.prefix.strip() + "_/' *_ALL.tarfl*")
 
 
 def more_clusters(args):
@@ -160,8 +234,9 @@ def download_models(args):
             # nfn = '-'.join([fn[:12], ''.join(parts[-1])]) ### ? nfn
 
             # wget
-            cmd = "wget http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/output_PDBS/" + \
-                  fn + " -O " + nfn
+            cmd = "wget --restrict-file-names=nocontrol http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + "/output_PDBS/" + \
+                  fn + " -O " + nfn.replace('%2B', '+')  # fix
+            print(cmd)
             subprocess.check_call(cmd, shell=True)
 
 
@@ -175,14 +250,19 @@ def get_parser():
         'be changed.')
     parser.add_argument('-n', '--nstruc',
                        help='extract nstruc the lowest energy', type=int, default=100)
-    parser.add_argument('-t', '--trajectory',
-                        action='store_true', help='download also trajectory')
+    ## parser.add_argument('-t', '--trajectory',
+    ##                     action='store_true', help='download also trajectory')
     parser.add_argument('-m', '--more_clusters',
                         action='store_true', help='download also cluster 4 and 5')
     parser.add_argument('-r', '--remove-trajectory',
                         action='store_true', help='remove trajectory after analysis', default=False)
     parser.add_argument('-c', '--cluster',
-                        action='store_true', help='get trajectory from cluster', default=False)
+                        action='store_true', help='get trajectory from cluster OR local on your computer (mdfind for macOS)', default=False)
+    parser.add_argument('-w', '--web',
+                        action='store_true', help='web', default=False)
+    parser.add_argument('--web-models',
+                        action='store_true', help='web models download', default=False)
+
     return parser
 
 
@@ -191,20 +271,37 @@ if __name__ == '__main__':
     # trajectory link
     # http://iimcb.genesilico.pl/SimRNAweb/media/jobs/
     # rp12aawlpk-8713ed35/processing_results/rp12aawlpk-8713ed35_ALL.trafl
+
     parser = get_parser()
     args = parser.parse_args()
     job_id = args.job_id
     job_id = job_id.replace('genesilico.pl/SimRNAweb/jobs/', '').replace(
         'http://', '').replace('/', '')  # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
+
+    # web
+    if args.web_models:
+        download_models(args)  # models are needed if you want to extract anything from the trajectory
+
+    if args.cluster:
+        copy_template(args)
+
+    # trajectory
+    if args.web:
+        download_trajectory()
+        if args.nstruc:
+            extract(args.job_id, args.nstruc, args.remove_trajectory)
+
     if args.cluster:
         copy_trajectory(args)
-    else:
-        download_trajectory(args)
+        if args.nstruc:
+            extract(args.job_id, args.nstruc, args.remove_trajectory)
 
-    if not args.cluster:
-        download_models(args)  # models are needed if you want to extract anything from the trajectory
-    ## if args.more_clusters:
-    ##     more_clusters()
-    if args.nstruc:
-        extract(args.nstruc, args.remove_trajectory)
-    ## add_prefix(args)
+    if args.prefix:
+        add_prefix(args.prefix)
+
+    #if not args.nolog:
+    if 1:
+        logging.basicConfig(filename='rna_simrnaweb_download_job.log',level=logging.INFO)
+        #logging.basicConfig(level=logging.INFO)
+        logging.info(time.strftime("%Y-%m-%d %H:%M"))
+        logging.info(args)
