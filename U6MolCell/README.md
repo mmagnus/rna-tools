@@ -132,3 +132,10 @@ R2R
     doing place_defer (bulges)
     DONE PARSING: u6-only-cons
 
+Free Energy Calculations
+-------------------------------------------------------------------------------
+
+- `free-energies-used-for-the-plot.csv` summary of the data mentioned belowe, used to calculate final plot
+- `u6evo-seq-ss-groups-3x3-GC.csv` free energies and sequences of U6 representatives
+- `gii_dv_mini-gii3shift-upper-loop-guaa-lower-loop-guaa-flanks-GC.csv` free energies and sequences of Group II Introns
+- `calc-energy2.py` the tools used to calculate free energies
