@@ -1,4 +1,5 @@
-Rearrangements within the U6 snRNA core during the transition between the two catalytic steps of splicing
+# Rearrangements within the U6 snRNA core during the transition between the two catalytic steps of splicing
+
 Eysmont K., Matylla-Kulińska K., Jaskulska A., Magnus M., Konarska M.
 
 Alignments
