@@ -137,7 +137,7 @@ Free Energy Calculations
 
 - `free-energies-used-for-the-plot.csv` summary of the data mentioned belowe, used to calculate final plot
 
-- `yeast u6 mutants free energies/u6evo-seq-ss-groups-3x3-GC.csv` free energies and sequences of U6 representatives
+- `u6 representatives free energies/u6evo-seq-ss-groups-3x3-GC.csv` free energies and sequences of U6 representatives
 - `yeast u6 mutants free energies/yeast u6 mutants/energies.csv` free energies and sequences of mutants of U6 ILS
 - `group two introns free energies/gii_dv_mini-gii3shift-upper-loop-guaa-lower-loop-guaa-flanks-GC.csv` free energies and sequences of Group II Introns
 
