@@ -2,8 +2,8 @@
 import subprocess
 import tempfile
 
-from rna_pdb_tools.Seq import RNASequence
-from rna_pdb_tools.rpt_config import RFAM_DB_PATH
+from rna_tools.Seq import RNASequence
+from rna_tools.rna_tools_config import RFAM_DB_PATH
 
 
 class RfamSearchError(Exception):

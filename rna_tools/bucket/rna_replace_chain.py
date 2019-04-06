@@ -4,7 +4,7 @@
 
 """
 from __future__ import print_function
-from rna_pdb_tools_lib import RNAStructure
+from rna_tools_lib import RNAStructure
 import argparse
 
 def get_parser():

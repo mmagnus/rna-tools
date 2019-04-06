@@ -7,7 +7,7 @@ import tempfile
 import shutil
 import subprocess
 
-from rna_pdb_tools.rpt_config import VARNA_JAR_NAME, VARNA_PATH
+from rna_tools.rna_tools_config import VARNA_JAR_NAME, VARNA_PATH
 
 
 class ExceptionOpenPairsProblem(Exception):
@@ -28,7 +28,7 @@ def draw_ss(title, seq, ss, img_out, resolution=4, verbose=False):
        >>> print('Made %s' % img_out)
        Made output/demo.png
 
-    .. image:: ../../rna_pdb_tools/output/demo.png
+    .. image:: ../../rna_tools/output/demo.png
        :scale: 25 %
 
     Can be used with http://geekbook.readthedocs.io/en/latest/rna.html"""
