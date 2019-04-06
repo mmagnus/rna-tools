@@ -1,0 +1,382 @@
+%PDF-1.0
+5 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/Name /FH
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+>>
+endobj
+4 0 obj
+[/PDF /Text /ImageC]
+endobj
+6 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/Resources 9 0 R
+/MediaBox [0 0 288.000000 109.044458]
+/Contents 7 0 R
+>>
+endobj
+7 0 obj
+<< /Length 8 0 R>>
+stream
+0 g
+BT
+/FH 12 Tf
+ 0 Tr
+0 109.044458 Td
+()Tj
+ET
+.5 w
+.4 G
+0 109.044458 288 0 re
+s
+BT
+/FH 12 Tf
+ 0 Tr
+0 90.428458 Td
+(u6-only-cons)Tj
+ET
+8.96 w
+1 J
+1 j
+.5 w
+0 J
+0 j
+7.56 w
+1 J
+1 j
+.5 w
+0 J
+0 j
+7.56 w
+1 J
+1 j
+.5 w
+0 J
+0 j
+1.44 w
+0 G
+24.124227 15.538227 m
+28.012227 15.538227 l
+S
+.5 w
+1.44 w
+24.124227 23.098227 m
+28.012227 23.098227 l
+S
+.5 w
+1.44 w
+24.124227 30.658227 m
+28.012227 30.658227 l
+S
+.5 w
+.784314 .847059 .980392 rg
+17.030727 40.910727 m
+35.105727 40.910727 l
+35.105727 35.525727 l
+17.030727 35.525727 l
+h
+f
+1.44 w
+24.124227 38.218227 m
+28.012227 38.218227 l
+S
+.5 w
+17.030727 48.470727 m
+35.105727 48.470727 l
+35.105727 43.085727 l
+17.030727 43.085727 l
+h
+f
+1.44 w
+24.124227 45.778227 m
+28.012227 45.778227 l
+S
+.5 w
+.843137 .937255 .772549 rg
+17.030727 56.030727 m
+35.105727 56.030727 l
+35.105727 50.645727 l
+17.030727 50.645727 l
+h
+f
+1.44 w
+24.124227 53.338227 m
+28.012227 53.338227 l
+S
+.5 w
+1 .845401 .847059 rg
+17.030727 63.590727 m
+35.105727 63.590727 l
+35.105727 58.205727 l
+17.030727 58.205727 l
+h
+f
+1.44 w
+24.124227 60.898227 m
+28.012227 60.898227 l
+S
+.5 w
+.360784 G
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+S
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.446977 12.845727 Td
+(Y)Tj
+ET
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.240727 20.405727 Td
+(R)Tj
+ET
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.240727 27.965727 Td
+(R)Tj
+ET
+.85098 0 0 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+10.899825 31.745727 Td
+(Y)Tj
+ET
+0 g
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.240727 35.525727 Td
+(C)Tj
+ET
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.240727 43.085727 Td
+(C)Tj
+ET
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.240727 50.645727 Td
+(C)Tj
+ET
+.85098 0 0 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+17.240727 58.205727 Td
+(U)Tj
+ET
+0 g
+BT
+/FH 7.5 Tf
+ 0 Tr
+13.629396 64.95736 Td
+(G)Tj
+ET
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+16.419759 72.063366 Td
+(C)Tj
+ET
+.85098 0 0 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+23.360727 75.059458 Td
+(R)Tj
+ET
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+30.301695 72.063366 Td
+(C)Tj
+ET
+0 g
+BT
+/FH 7.5 Tf
+ 0 Tr
+33.088309 64.95736 Td
+(A)Tj
+ET
+.85098 0 0 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.686977 58.205727 Td
+(A)Tj
+ET
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.270727 50.645727 Td
+(G)Tj
+ET
+0 g
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.270727 43.085727 Td
+(G)Tj
+ET
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+37.246977 43.085727 Td
+(A)Tj
+ET
+0 g
+BT
+/FH 7.5 Tf
+ 0 Tr
+37.246977 35.525727 Td
+(Y)Tj
+ET
+.85098 0 0 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.270727 35.525727 Td
+(G)Tj
+ET
+.501961 .482353 .533333 rg
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.480727 27.965727 Td
+(R)Tj
+ET
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.686977 20.405727 Td
+(Y)Tj
+ET
+BT
+/FH 7.5 Tf
+ 0 Tr
+29.480727 12.845727 Td
+(R)Tj
+ET
+0 G
+1.5 w
+19.948227 11.974409 m
+19.948227 10.990288 19.150439 10.1925 18.166318 10.1925 c
+14.6025 10.1925 l
+S
+0 g
+BT
+/FH 7.5 Tf
+ 0 Tr
+7.5 7.5 Td
+(5´)Tj
+ET
+.5 w
+endstream
+endobj
+10 0 obj<</Type/ExtGState/SA true/OP false/op false/OPM 1/ca 1.0/CA 1.0/BM/Normal/SMask/None/AIS false>>
+endobj
+9 0 obj
+<< /Font <</FH 5 0 R>> /ProcSet[/PDF/Text/ImageC]/XObject << >>/ExtGState<</GS0 10 0 R>>/Properties<</MC0<</Color[20224.0 -32768.0 -1.0]/Title(Layer 1)/Visible true/Preview true/Editable true/Printed true/Dimmed true>>>>>>
+endobj
+8 0 obj
+2751
+endobj
+1 0 obj
+<<
+/Type /Catalog
+/Pages 3 0 R
+/Outlines 2 0 R
+>>
+endobj
+3 0 obj
+<<
+/Type /Pages
+/Count 1
+/Kids [6 0 R ]
+>>
+endobj
+2 0 obj
+<<
+/Type /Outlines
+/Count 0
+>>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000003442 00000 n 
+0000003565 00000 n 
+0000003507 00000 n 
+0000000116 00000 n 
+0000000009 00000 n 
+0000000152 00000 n 
+0000000270 00000 n 
+0000003422 00000 n 
+0000003184 00000 n 
+0000003072 00000 n 
+trailer
+<<
+/Size 11
+/Root 1 0 R
+>>
+startxref
+3611
+%%EOF

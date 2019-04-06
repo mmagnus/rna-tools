@@ -121,7 +121,7 @@ optional arguments:
   -h, --help            show this help message and exit
   --version
   -r, --report          get report
-  --delete-anisou       remove files with ANISOU records
+  --delete-anisou       remove files with ANISOU records, works with --inplace
   -c, --clean           get clean structure
   --is_pdb              check if a file is in the pdb format
   --is_nmr              check if a file is NMR-style multiple model pdb
