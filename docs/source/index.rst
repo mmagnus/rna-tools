@@ -1,9 +1,9 @@
-.. rna-pdb-tools documentation master file, created by
+.. rna-tools documentation master file, created by
    sphinx-quickstart on Thu Sep 15 12:43:15 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to rna-pdb-tools's documentation!
+Welcome to rna-tools' documentation!
 =========================================
 
 **rna-tools: a toolbox to analyze structures and simulations of RNA**
