@@ -2,11 +2,11 @@
 set -v
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 
-cd rna_pdb_tools
+cd rna_tools
 
 python update_readme.py
 
-./rna_pdb_tools_lib.py
+./rna_tools_lib.py
 
 ./rna_pdb_toolsx.py -h | tee rna_pdb_tools.out
 
@@ -128,32 +128,32 @@ if [ "$1" == "--full" ]; then
 fi
 
 # ClashCalc
-cd ./utils/ClashCalc/
+cd ./tools/ClashCalc/
 ./ClashCalc.py
 cd ../..
 
-cd ./utils/rna_calc_rmsd/
+cd ./tools/rna_calc_rmsd/
 ./test.sh
 cd ../..
 
-cd ./utils/rnashape2ascii/
+cd ./tools/rnashape2ascii/
 ./test.sh
 cd ../..
 
-cd ./utils/rna_pdb_edit_occupancy_bfactor
+cd ./tools/rna_pdb_edit_occupancy_bfactor
 ./test.sh
 cd ../..
 
-cd ./utils/rna_filter/
+cd ./tools/rna_filter/
 ./test.sh
 cd ../..
 
-cd ./utils/renum_pdb_to_aln/
+cd ./tools/renum_pdb_to_aln/
 ./test.sh
 cd ../..
 
 if [ "$1" == "--full" ]; then
-    cd ./utils/rna_refinement/
+    cd ./tools/rna_refinement/
     ./test.sh
     cd ../..
 fi
