@@ -411,6 +411,7 @@ def ino():
 
     .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ion.png"""
     cmd.show("spheres", "inorganic")
+    cmd.set('sphere_scale', '0.25', '(all)')
     cmd.color("yellow", "inorganic")
 
 
@@ -490,6 +491,47 @@ USAGE
     return rg
 
 
+import getpass
+user = getpass.getuser()
+
+def tmp():
+    cmd.save('/home/' + user + '/Desktop/' + tmp + '.png')
+    cmd.save('/home/' + user + '/Desktop/' + tmp + '.pse')
+
+
+################################################################################
+def sav_tmp():
+    from shutil import copyfile
+    import datetime
+    try:
+        TMP_FOLDER + ' '
+    except:
+        print("Error: Set up TMP_FOLDER in your ~/.pymolrc, e.g. TMP_FOLDER = '/home/magnus/Desktop/PyMOL/'")
+        return
+
+    try:
+        os.mkdir(TMP_FOLDER)
+    except:
+        pass
+
+    date = datetime.datetime.today().strftime('%Y-%m-%d.%S')
+    try:
+        fn = TMP_FOLDER +  os.sep + id + '_' + date + '.pse'
+    except TypeError:
+        fn = TMP_FOLDER +  os.sep + '_' + date + '.pse'
+    cmd.save(fn)
+    print('Save...' + fn)
+    cmd.save(fn.replace('.pse', '.png'))
+    copyfile(fn, TMP_FOLDER + '/last.pse')
+
+def load_tmp():
+    print('Load...')
+    cmd.load(TMP_FOLDER + '/last.pse')
+
+#cmd.set_key('CTRL-S', cmd.save, ['/home/magnus/Desktop/tmp.pse'])
+cmd.set_key('CTRL-S', sav_tmp)
+cmd.set_key('CTRL-Z', load_tmp)  # ostatni wrzucam tutaj
+#cmd.load, ['/home/magnus/Desktop/tmp.pse'])
 # main code #
 try:
     from pymol import cmd

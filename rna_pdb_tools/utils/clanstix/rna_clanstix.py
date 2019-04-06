@@ -44,7 +44,9 @@ Comment: To get this matrix you can use for example another tool from the rna-pd
      rna_clastix.py --groups 1:native+5:3dRNA+
            5:Chen+3:Dokh+5:Feng+5:LeeASModel+
            5:Lee+5:RNAComposer+10:RW3D+5:Rhiju+
-           1:YagoubAli+3:SimRNA  rp18_rmsd.csv | tee clans.in
+           1:YagoubAli+3:SimRNA  rp18_rmsd.csv clans.in
+
+     rna_clastix.py --groups 100+100+100+100+100+100+100+100+100+100+1:native  rp18_rmsd.csv
 
 where ``rp18`` is a folder with structure and ``rp18_rmsd.csv`` is a matrix of all-vs-all rmsds.
 
@@ -61,6 +63,24 @@ import argparse
 import rna_pdb_tools.utils.rmsd_signif.rnastruc_pred_signif as pv
 import numpy as np
 import math
+import logging
+import time
+
+
+logging.basicConfig(level=logging.INFO,
+                format='%(message)s',
+                datefmt='%m-%d %H:%M',
+                filename='rna_clanstix.log',
+                filemode='w')
+
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter('%(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
+log = logging.getLogger()
+log.setLevel(logging.INFO)
 
 
 class RNAStructClans:
@@ -79,6 +99,7 @@ class RNAStructClans:
     def __init__(self, n=10):
         self.n = n
         self.comment = ''
+        #cluster2d=false
         self.txt = """sequences=%i
 <param>
 maxmove=0.1
@@ -93,9 +114,9 @@ repfactor=10.0
 repvalpow=1
 dampening=1.0
 minattract=1.0
-cluster2d=false
-blastpath=blastall -p blastp -I T -T T
-formatdbpath=/home/sdh/apps/blast-2.2.17/bin/formatdb
+cluster2d=true
+blastpath=''
+formatdbpath=''
 showinfo=false
 zoom=1.0
 dotsize=1
@@ -118,7 +139,10 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
             raise Exception('n != ids')
         self.txt += t
 
-    def dist_from_matrix(self, lines, matrix=0, use_pv=False):
+    def dist_from_matrix(self, lines, matrix=0, use_pv=False, debug=False):
+        if debug:
+            print('Everything but the dists are generated. Use it to edit the original clans input file.')
+            return # for some hardcore debugging ;-)
         t = '\n<hsp>\n'
         c = 0
         c2 = 0
@@ -137,7 +161,12 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
 
         t += '</hsp>\n'
 
-        self.comment = '# max: %f min (non-zero): %f\n' % (math.ceil(matrix.max()), matrix[matrix>0].min())
+        max = math.ceil(matrix.max())
+        min = matrix[matrix>0].min()
+        self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
+        self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
+        self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
+        self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
         for i in range(1,20):
             self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
         # 1E-11 = 0
@@ -150,6 +179,22 @@ def get_parser():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('matrixfn', help="matrix")
+
+    parser.add_argument('--groups-auto', help="groups automatically <3", type=int, default=10)
+
+    parser.add_argument('--color-by-homolog', help="color the same homolog in the same way", action='store_true')
+
+    parser.add_argument('--shape-by-source', help="shape points based on source, SimRNA vs Rosetta (Rosetta models have 'min' in name'",
+                        action='store_true')
+
+    parser.add_argument('--debug', action='store_true')
+
+    parser.add_argument('--dont-calc', action='store_true', help="A simple and dirty trick to get "
+                        "generates everything but the main distances from the matrix"
+                        "useful if you want to run the script to generate different settings, such as"
+                        "colors, groups etc. Run the script and then replace parts of the original "
+                        "file with the matrix")
+
     parser.add_argument('--groups', help="groups, at the moment up to 7 groups can be handle"
                         "--groups 1:native+100:zmp+100:zaa+100:zbaa+100:zcp+100:znc"
                         "--groups 1:native+100:nats+100:hom1+100:hom2+100:hom3+100:hom4"
@@ -158,6 +203,7 @@ def get_parser():
                         "(easy to be changed in the future)")
     parser.add_argument('--pvalue', action='store_true',
                         help="")
+    parser.add_argument('output', help="input file for clans")
     return parser
 
 
@@ -165,24 +211,28 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
+    debug = args.debug  # as a short cut later
 
     f = open(args.matrixfn)
     ids = f.readline().replace('#', '').split()
     # print ids
     # print len(ids)
     # get max
+    logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
+
     matrix = np.loadtxt(args.matrixfn)
 
     c = RNAStructClans(n=len(ids))  # 200?
     c.add_ids(ids)
-    c.dist_from_matrix(f, matrix, args.pvalue)
-    print(c.txt)
-
-    # print color
+    c.dist_from_matrix(f, matrix, args.pvalue, args.dont_calc)
+    #
+    # DEFINE GROUPS
+    #
     # 1+20+20+20+20+20
     seqgroups = ''
-    colors = ['0;255;102;255', # ligthgreen 1
-              '0;102;0;255', # forest 2
+    #colors = ['0;255;102;255', # ligthgreen 1
+    #          '0;102;0;255', # forest 2
+    colors = [
               '255;102;102;255', # red 3
               '51;51;255;255', # blue 4
               '0;255;255;255', # light blue +1
@@ -196,21 +246,106 @@ if __name__ == '__main__':
               '240;230;140;255', #khaki
               '210;105;30;255', # chocolate
                ]
-    if args.groups:
-        groups = args.groups.split('+')
+
+    # this is pretty much the same list as above, but in here I have more distinguishable colors
+    colors_homologs = [
+              '255;102;102;255', # red 3
+              '51;51;255;255', # blue 4
+              '64;64;64;255', # grey 6
+              '128;0;128;255', # purple 8
+              '128;0;0;255', # maroon 10
+              '0;255;255;255',  # cyjan
+              '210;105;30;255', # chocolate
+               ]
+
+    args_groups = args.groups
+    if args.groups_auto:
+        from collections import OrderedDict
+        # collect groups
+        #groups = []
+        groups = OrderedDict()
+        for i in ids:
+            #
+            # collect homologs gmp_
+            # simrna and farna
+
+            group_name = i[:args.groups_auto]
+            if group_name in groups:
+                groups[group_name] += 1
+            else:
+                groups[group_name] = 1
+        groups_str = ''
+        for g in groups:
+            groups_str += str(groups[g]) + ':' + g + '+'
+
+        args_groups = groups_str[:-1]
+        #print(groups_str)
+        # change this to get 1:hccp+10:zmp+10:xrt
+
+    if args_groups:
+        # this is a manual way how to do it
+        groups = args_groups.split('+')
         seqgroups = '<seqgroups>\n'
         curr_number = 0
+        homologs_colors = {}
+        if args.debug: print(args_groups)
         for index, group in enumerate(groups):
             # parse groups
             # type and size will be changed for native
-            size = 10
+            size = 8
             dottype = 0
+            color = '' # use for diff color selection if tar
             if ':' in group:
-
                 nstruc, name = group.split(':')
                 if name == 'native':
                     dottype = 8
                     size = 20
+                    color = '0;128;128;255' # olive
+
+                if 'solution' in name:
+                    dottype = 8
+                    size = 30  # solution is bigger
+                    color = '0;128;128;255' # olive
+
+                if 'tar' in name and 'tar_min' not in name: # SimRNA
+                    dottype = 7
+                    size = 7  # size of SimRNA reference seq points
+                    color = '0;255;102;255' # ligthgreen 1
+
+                if 'tar_min' in name:
+                    dottype = 9
+                    size = 7 # size of Rosetta reference seq points
+                    color = '0;102;0;255' # forest 2
+
+                if args.shape_by_source:
+                    # Rosetta models are diamond now
+                    if 'min' in name:
+                        dottype = 2
+
+                # color by homolog
+                if args.color_by_homolog:
+                    # 10:gxx_6bd266+10:gxx_min.ou+10:gbaP_d2b57+10:gbaP_min.o+10:gbx_00de79+10:gbx_min.ou+10:gapP_d9d22+10:gapP_min.o+10:gmp_faa97e+10:gmp_min.ou
+                    tmp = name.split('_')
+                    homolog_name = tmp[0]
+                    if debug: 'homolog_name', homolog_name
+                    # ignore tar and solution, their colors are defined above ^
+                    ## [mm] simrna5x100farna5x100$ git:(master) ✗ rna_clastix.py --groups-auto 8 --color-by-homolog --shape-by-source rp14sub_ref_mapping_refX.txt input2.clans --debug
+                    ## 2019-01-09 12:23:21
+                    ## 100:tar_min.+100:tar_rp14+1:solution+100:cy2_min.+100:cy2_r14a+100:aj6_min.+100:aj6_r14a
+                    ## {'cy2': '210;105;30;255'}
+                    ## {'cy2': '210;105;30;255'}
+                    ## {'cy2': '210;105;30;255', 'aj6': '0;255;255;255'}
+                    ## {'cy2': '210;105;30;255', 'aj6': '0;255;255;255'}
+                    ## # max: 18.000000 min (non-zero): 0.810000
+                    if homolog_name == 'tar' or homolog_name.startswith('solution'):
+                        pass
+                    else:
+                        if homolog_name in homologs_colors:
+                            color = homologs_colors[homolog_name]
+                        else:
+                            homologs_colors[homolog_name] = colors_homologs.pop()
+                            color = homologs_colors[homolog_name]
+                        if debug: print(homologs_colors)
             else:
                 nstruc = group
                 name = 'foo'
@@ -218,7 +353,12 @@ if __name__ == '__main__':
             # craft seqgroups
             seqgroups += "name=%s\n" % name
             seqgroups += "type=%i\n" % dottype
-            seqgroups += "color=%s\n" % colors[index]
+            # color hack
+            if color:  # this color is fixed for native right now
+                seqgroups += "color=%s\n" % color
+            else:
+                seqgroups += "color=%s\n" % colors[index]
+            # color hack
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
             # get numbers - convert nstruc into numbers in Clans format 0;1; etc.
@@ -234,5 +374,10 @@ if __name__ == '__main__':
             curr_number = curr_number + int(nstruc)
             seqgroups += "numbers=%s;\n" % ';'.join([str(number) for number in numbers])
         seqgroups += '</seqgroups>\n'
-    print(seqgroups)
+
+    with open(args.output, 'w') as f:
+        f.write(c.txt)
+        f.write(seqgroups)
+        f.write(c.comment)
     print(c.comment)
+    logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))

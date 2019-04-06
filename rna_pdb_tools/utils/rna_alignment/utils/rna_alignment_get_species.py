@@ -2,12 +2,19 @@
 # -*- coding: utf-8 -*-
 """
 The output you simply get from the screen, save it it to a file.
+
+Example::
+
+    rna_alignment_get_species.py RF00004.stockholm.stk
+    # STOCKHOLM 1.0
+    Sorex-araneus-(European-shrew)                     AUCGCU-UCU----CGGCC--UUU-U
+
 """
 from __future__ import print_function
 
 from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment
 from rna_pdb_tools.Seq import RNASequence
-
+import pandas as pd
 import argparse
 import urllib2
 
@@ -23,6 +30,7 @@ def get_parser():
     parser.add_argument('--one', action="store_true")
     parser.add_argument('--u5', action="store_true")
     parser.add_argument('--calc-energy', action="store_true")
+    parser.add_argument('--osfn')
     parser.add_argument("alignment")
     return parser
 
@@ -41,7 +49,7 @@ def clean_id(id):
     id = id.split('.')[0]
     return id
 
-def get_species(id, verbose=False):
+def get_species(id, ocfn, verbose=False):
     """
     OS   Leishmania tarentolae
     OC   Eukaryota; Euglenozoa; Kinetoplastida; Trypanosomatidae; Leishmaniinae;
@@ -53,6 +61,14 @@ def get_species(id, verbose=False):
     # clean for AABX02000022.1/363025-363047 -> AABX02000022.1
     id = clean_id(id)
 
+    if ocfn:
+        try:
+            df = pd.read_csv(ocfn, index_col=0)
+        except:
+            df = pd.DataFrame()
+        if id in df.index:
+            os = df[df.index == id]['os'].item()
+            return os, ''  #
     # download
     url = "https://www.ebi.ac.uk/ena/data/view/%s&display=text&download=txt&filename=tmp.txt" % id
     response = urllib2.urlopen(url)
@@ -70,7 +86,12 @@ def get_species(id, verbose=False):
             print(url)
         return None, None
 
-    return os.strip(), oc.strip()
+    if ocfn:
+        os, oc = os.strip(), oc.strip()
+        df.index.name = 'id'
+        df = df.append(pd.DataFrame({'os' : [os]}, index=[id])) # 'oc': [oc]
+        df.to_csv(ocfn) # , index=False)
+    return os, oc
 
 
 # some default simple mapping
@@ -100,10 +121,16 @@ if __name__ == '__main__':
         if args.verbose:
             print(mapping)
 
+    os_done = []
+
     for l in open(a):
-        if l:
+        if l.strip():
             if not l.startswith('#') and not l.startswith('//'):
-                id, seq = l.split()
+                try:
+                    id, seq = l.split()
+                except:
+                    print('Error in ', l)
+                    sys.exit(1)
                 energy = ''
                 ss = ''
                 if False:
@@ -143,9 +170,18 @@ if __name__ == '__main__':
                     ## energy, ss = seql.predict_ss(method="mcfold", constraints=cst, verbose=args.verbose)
                     ## if args.verbose: print(energy, ss)
                 ################################################################################
-                os, oc = get_species(id)
+                os, oc = get_species(id, args.osfn)
+                # check if os if it's there already
+                c = 1
                 if not os:
                     os = id
+                while 1:
+                    if os not in os_done:
+                        os_done.append(os)
+                        break
+                    os += '.' + str(c)
+                    c += 1
+                ################################################################################
                 if args.evo_mapping or args.evo_mapping_default:
                     for m in mapping: # m is ['Parabasalia', 'Parabasalia']
                         if oc:
@@ -163,16 +199,26 @@ if __name__ == '__main__':
                         print((group.replace(' ','-') + '|' + os.replace(' ', '-')[:name_width] + '|' + semi_clean_id(id) + ss).ljust(name_width), seq.strip())
 
                 else:
-                    print((os.replace(' ', '-')[:name_width] + '[' + group.replace(' ','-') + ']' + str(energy)).ljust(name_width), seq.strip())
+                    # this is no group
+                    # ech, this is super messy, sorry!
+                    group = ''
+                    print((os.replace(' ', '-')[:name_width] + str(energy)).ljust(name_width), seq.strip())
 
                 if args.one:
                     break
-
                 #else:
                 #    print(os.replace(' ', '-') + str(energy)[:name_width].ljust(name_width), seq.strip())
 
             elif '#=GC SS_cons' in l:
                 ss = l.replace('#=GC SS_cons', '')
                 print('#=GC SS_cons'.ljust(name_width), ss.strip())
+
+            # OK, i'm not sure, if this should be RF_cons or RF
+            elif '#=GC RF_cons' in l:
+                ss = l.replace('#=GC SS_cons', '')
+                print('#=GC RF_cons'.ljust(name_width), ss.strip())
+            elif '#=GC RF' in l:
+                ss = l.replace('#=GC RF', '')
+                print('#=GC RF'.ljust(name_width), ss.strip())
             else:
                 print(l.strip())

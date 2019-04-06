@@ -1,0 +1,110 @@
+
+a82c.fa
+gGUUguaacACc
+(((((..))))) <= cst
+(((((..))))) -9.85
+
+a82g.fa
+gGUUguaagACc
+(((((..))))) <= cst
+(((((..))))) -11.29
+
+a82u.fa
+gGUUguaauACc
+(((((..))))) <= cst
+(((((..))))) -10.5
+
+a83c.fa
+gGUUguaaAcCc
+(((((..))))) <= cst
+(((((..))))) -9.88
+
+a83g.fa
+gGUUguaaAgCc
+(((((..))))) <= cst
+(((((..))))) -11.3
+
+a83u.fa
+gGUUguaaAuCc
+(((((..))))) <= cst
+(((((..))))) -10.4
+
+c84a.fa
+gGUUguaaAAac
+(((((..))))) <= cst
+(((((..))))) -10.28
+
+c84g.fa
+gGUUguaaAAgc
+(((((..))))) <= cst
+(((((..))))) -9.24
+
+c84u.fa
+gGUUguaaAAuc
+(((((..))))) <= cst
+(((((..))))) -10.58
+
+g63a.fa
+gaUUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -8.97
+
+g63c.fa
+gcUUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -8.69
+
+g63u.fa
+guUUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -9.0
+
+u64a.fa
+gGaUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -10.29
+
+u64c.fa
+gGcUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -9.76
+
+u64g.fa
+gGgUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -11.16
+
+u65a.fa
+gGUaguaaAACc
+(((((..))))) <= cst
+x 0.0
+
+u65c.fa
+gGUcguaaAACc
+(((((..))))) <= cst
+(((((..))))) -9.8
+
+u65g.fa
+gGUgguaaAACc
+(((((..))))) <= cst
+(((((..))))) -11.14
+
+zcruzi-3x3+g.fa
+gCUCgaaaAUGc
+((((****)))) <= cst
+(((((..))))) -7.99
+
+zgc.fa
+gGGUguaaACCc
+(((((..))))) <= cst
+(((((..))))) -13.29
+
+zhuman-3x3+g.fa
+gUGGguaaACAc
+((((****)))) <= cst
+(((((..))))) -11.12
+
+zyeast-3x3+g.fa
+gGUUguaaAACc
+(((((..))))) <= cst
+(((((..))))) -12.41

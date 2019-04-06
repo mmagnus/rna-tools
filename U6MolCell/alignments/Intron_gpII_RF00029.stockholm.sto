@@ -1,0 +1,147 @@
+# STOCKHOLM 1.0
+
+#=GF AC   RF00029
+#=GF ID   Intron_gpII
+#=GF DE   Group II catalytic intron
+#=GF AU   Griffiths-Jones SR; 0000-0001-6043-807X
+#=GF SE   PMID:11726522
+#=GF SS   Predicted; PFOLD
+#=GF GA   40.00
+#=GF TC   40.00
+#=GF NC   39.90
+#=GF TP   Intron;
+#=GF BM   cmbuild -F CM SEED
+#=GF CB   cmcalibrate --mpi CM
+#=GF SM   cmsearch --cpu 4 --verbose --nohmmonly -T 23.00 -Z 549862.597050 CM SEQDB
+#=GF DR   SO; 0000603; group_II_intron;
+#=GF DR   GO; 0000373; Group II intron splicing;
+#=GF RN   [1]
+#=GF RM   11377794
+#=GF RT   The ins and outs of group II introns.
+#=GF RA   Bonen L, Vogel J
+#=GF RL   Trends Genet 2001;17:322-331.
+#=GF RN   [2]
+#=GF RM   11726522
+#=GF RT   Control of branch-site choice by a group II intron.
+#=GF RA   Chu VT, Adamidi C, Liu Q, Perlman PS, Pyle AM
+#=GF RL   EMBO J 2001;20:6866-6876.
+#=GF RN   [3]
+#=GF RM   12870716
+#=GF RT   Group II introns: structure and catalytic versatility of large natural
+#=GF RT   ribozymes.
+#=GF RA   Lehmann K, Schmidt U
+#=GF RL   Crit Rev Biochem Mol Biol 2003;38:249-303.
+#=GF CC   Group II introns are found in rRNA, tRNA and mRNA of organelles in fungi,
+#=GF CC   plants and protists, and also in mRNA in bacteria. They are large
+#=GF CC   self-splicing ribozymes and have 6 structural domains (usually designated
+#=GF CC   dI to dVI. This model and alignment represents only domains V and VI. A
+#=GF CC   subset of group II introns also encode essential splicing proteins in
+#=GF CC   intronic ORFs. The length of these introns can therefore be up to 3kb.
+#=GF CC   Splicing occurs in almost identical fashion to nuclear pre-mRNA splicing
+#=GF CC   with two transesterification steps. The 2' hydroxyl of a bulged adenosine
+#=GF CC   in domain VI attacks the 5' splice site, followed by nucleophilic attack
+#=GF CC   on the 3' splice site by the 3' OH of the upstream exon. Protein machinery
+#=GF CC   is required for splicing in vivo, and long range intron-intron and
+#=GF CC   intron-exon interactions are important for splice site positioning. Group
+#=GF CC   II introns are further sub-classified into groups IIA and IIB which differ
+#=GF CC   in splice site consensus, distance of bulged A from 3' splice site, some
+#=GF CC   tertiary interactions, and intronic ORF phylogeny [1].
+#=GF WK   Group_II_intron
+#=GF SQ   92
+
+
+AF074613.1/60570-60649  UUGAGCCGUAUGCCGG---GAAA--CUGGCACGUACGGUUCUU------------------------AG-GGGGC---------------------------------------------------------------------------GGUGAUGCAGUAAUGCAUCACUGCUACC-CGAUCGU
+X03834.1/1418-1494      GGGAGCCGGAUGAGA---AGAAA-C-UCUCAUGUCCGGUUCUGU----------------------AGU-AGAGA------------------------------------------------------------------------------UGGAAUAGGGAAAUAACCAUCAACU-AU--AAC
+M68929.1/41010-41093    GUGAGCCGUGUAAUGG---GCAA--CUAUUUCGCACGGUUCGG------------------------AG-GGCACUUC---------------------------------------------------------------------AGUAAGCCCUACAAGGGCUGAAGUCUUGACC-CC--UAU
+AJ316582.1/9914-9993    AGGAGCCGAAUGAAAC---CAAA--GUUUCAUGUUCGGUUUUGA----------------------AUU-AGAGA---------------------------------------------------------------------------CGUUAAAAAUAAUGAAUCGACGUCGACU-AU--AAC
+X07106.1/2899-2978      UUGAGCCGGAUGAUGA---AAAA--UUAUCAUGUCCGGUUCUUU----------------------CGG-GGGAU---------------------------------------------------------------------------GAAUUGAAUCUAUAAGAAUUCACCUAUC-CU--AAU
+X01088.1/1893-1955      GAGAGCUUUUUGCGGG---GAAA--CUUGCAAGUAAAGUUUGG------------------------GG-GGAGG-------------------------------------------------------------------------------------------CGGGCGUCGACC-CA-ACCU
+U77945.1/1848-1919      AACCGCCGUGUACG-----GAAC----CGUACGCACGGUGGUG------------------------UG-AGAGG----------------------------------------------------------------------------ACGGCGGGUGUGAAUCCGCCUCCUACU-CG---AU
+AB022308.1/6486-6569    GAACGCCGUAUGCUG----GAAA--CUCGCCUGUACGGUGUGA-----------------------AGU-GGGGGAAA---------------------------------------------------------------------AGCUGGAGAUAACUUCAAAAGCUUACCUAUC-AC--UAU
+X62341.1/1274-1336      GAGAGCUUUUUGCGGG---GAAA--CUUGCAAGUACAGUUUGG------------------------GG-GGAGA-------------------------------------------------------------------------------------------CGGGCGUCGACC-CA-ACCU
+L43910.1/323-456        AAGAGCGCAGUACAAC---GGGG-AGUUGUAUGCUGCGUUCGG------------------------GA-AGGAUGAAUCGCUCCCGAAAAGGGAGUCUAUUG-------------------AUUCUCUCCCCAAUUGGUUGGAUCGUAGAGCGCAGUACAAGGGGCGAUGAUUUACU-UC---AC
+AJ316582.1/98150-98072  AGGAGCCGUGUGAGAU---GAAA--GUCUCAUGCACGGUUUUGAA--------------------UGAG-AGAAA------------------------------------------------------------------------------GAAGUGAGGAAUCCUCUUUUCGACU-CU--GAC
+AF314856.1/1250-1311    ACGAGCCACAUGCAGG---GAAA--CUUGCACGUGUGGUUCUG------------------------GCCGGGGA-------------------------------------------------------------------------------------------CCCCGGUAUACU-GU---AC
+X71404.1/2822-2898      AGGAGCCGUAUGAGGU---GAAA--GUCUCAAGUACGGUUUUG-----------------------AAG-ACCAG-----------------------------------------------------------------------------CAGGAUUGGUGACAGUCUUGCUGAGU-UU--AAU
+V00712.1/1227-1289      GAGAGCUUUUUGCGGG---GAAA--CUUGCAAGUCAAGUUUGG------------------------GG-GGAGG-------------------------------------------------------------------------------------------CGGGCGUCGACC-CA-ACCU
+X17395.1/1934-1994      GAGAGCUUUUUGCGGG---GAAA--CUUGCAAGUACAGUUUGG------------------------GG-GGAGG-------------------------------------------------------------------------------------------CGGGCGUCGACC-CU---AC
+AB027572.1/1941-1862    AGGAGCCGAAUGAAAU---CAAA--AUUUCAUGUUCGGUUUUGA----------------------AUU-AGAGA---------------------------------------------------------------------------CGUUAAAAAUAAUCAACCAACGUCGACU-AU--AAC
+AF235045.1/658-731      GAAAGCCGUAUUCGAU---GAAA--GUCGUAUGUACGGCUUGG------------------------AG-GGAGA------------------------------------------------------------------------------UCUUUCAUAUCUUUCGAGAUCCACC-CU---AC
+X63625.1/1815-1875      GAGAGCUUUUUGCGGG---GAAA--CUUGCAAGUACAGUUUGG------------------------AG-GGAGG-------------------------------------------------------------------------------------------CGGGCGUCGACC-CA---AC
+AF143423.1/825-965      GUGAGCCGUGUGAUGG---GAAA--CCUCCCCGCACGGUUCGGAGAGCACUUAAUUAGAAUGUUCCUGG-GGGGUACCACAUCAUUGCAAGGGUA-----------------------------------ACAGAGCUCGAUUCGCAGAUUGGUUCGACCCGGAAUUCACUUCCGACC-CU---GU
+Z00044.2/23180-23109    UUGAGCCGGAUGAAAG---GAAA--CUUUCACGUCCGAUUUUGA----------------------AGG-GGGGG-----------------------------------------------------------------------------------AGAUCCUAUAGAAUCCUAUC-CC--AAU
+AJ130737.1/1761-1840    UUGAGCCGUAUGCGGG---GAAA--CUUGCACGUGCGGUUCUUU---------------------GAGG-GGGGG----------------------------------------------------------------------------GAGCUUGCUCGAAAGAGCCUACCUAUC-CC--GAU
+X07106.1/1306-1373      UUGAGCUGUACGAGAU---GAAA--GUCUCAUAUACAGUUCUU-----------------------AGG-GGGGU--------------------------------------------------------------------------------------UUAAUAGUUUACCUAUC-UC--AAU
+AJ131144.1/1753-1833    UUGAGCCGUAUGCGAG---GAAA--CUUGCACGUGCGGUUCUUUGC-----------------UUUGAG-GGGGG-------------------------------------------------------------------------------AAAGCUUGAAAGAGCCUAUCCAUC-CU--GAU
+U41288.1/3118-3192      UUGAGCCGUAUGCGAU---GAAA--GUUGCACGUACGGUUCUU-----------------------ACC-GGGGG-------------------------------------------------------------------------------AAAGCUUGAGAGAGCCUACCUAUC-GG--AAC
+X04336.1/3210-3313      GAGAGCCGUAUGCAGG---GAAA--CUUGCACGUACGGUUCGG------------------------AG-GGAGGUCUCUCGUUGCCAG------------------------------------------------UUCUAAUCUAUUGAUAAGGAUCACGGUGCGGGUUAUCGACC-CU---AC
+AJ277126.1/9249-9325    AGGAGCCGUAUGAAUG---GAGA--CAUUCACGUACGGUUUUGG----------------------AGU-AGCAG------------------------------------------------------------------------------GAUAUAUGGUAACAUGUACUUGACU-AU--AAG
+AJ277126.1/6413-6487    GUGAGCCGUGUGCGAU---GAAA--GUCGCAAGCACGGUUCUG-----------------------AUG-GGGGG-------------------------------------------------------------------------------AAAACGAGAGAUCGUCUACCUAUC-CA--ACU
+AJ277126.1/35792-35885  GAGAGCCCGGUGCGGU---GAAA--GUCGCACGCCGGGUUCGG------------------------GG-AGAACUCUCUGUAA----------------------------------------------------------CUAAAAUAUUUCGGUAUCACGUUAUGGUUAGUCACU-CC---AC
+X72287.1/717-859        GUGAGCCGUGUGAUGG---GAAA--CCUUCCCGCACGGUUCGG------------------------AG-AGCACUGAAUUAGAAUGAGAGGUUCACCACCACAUCAU---------UGCAUGCAAGGGGAGCUCGCUCGAUUCGCAAAUUGGUCCGACUCGUAAUUCACUUCUGACU-CC---GU
+X55026.1/77786-77867    GAGAGCCGUAUGAUGG---GAAA--CUAUCACGUACGGUUCGG------------------------GA-AAAGGUAU----------------------------------------------------------------------AUAUACUGAUAAGAGGUAUACGUAUCUAGU-UC---AU
+AJ316582.1/78387-78450  UUGAGCUGUACGAGAU---GAAA--GUCUCAUAUACGGUUCUC-----------------------AGA-GGGGG------------------------------------------------------------------------------------------AGUUCCGCCUAUC-UC--AAU
+X60045.1/1000-1142      GUGAGCCGUGUGAUGG---GAAA--CCUUCCCGCACGGUUCGG------------------------AG-AGCACUGAAUUAGAAUGAGAGGUUCACCACCACAUCAU---------UGCAUGCAAGGGGAGCUCGCUCGAUUCGCAAAUAGGUCCGACUCGUAAUUCACUUCUGACU-CU---GU
+AJ131145.1/1727-1802    UUGAGCCGUAUGCGAG---GAAA--CUUGCACGUGCGGUUCUUU---------------------GAGG-GGGGG--------------------------------------------------------------------------------AAGCUUGAAAGAGCCUACCCAUC-CC--GAU
+AF080083.1/1551-1683    GAGAGCCGUGUGAUGG---GUGA--CUAUCCAGCACGGUUCGG------------------------AG-AGCACUUUUAGUCUGCGUUGGUGAAUGAAAGCC-------------------CCCCCCCAUCAAGCAAGAAAGAAGCGGCUCUUCCCACGGCGGAGUCACCAUUGACU-CU---AU
+AJ130746.1/1754-1835    UUGAGCCGUAUGCGAA--GGAAA--CUUGCACGUGCGGUUCUUUGC-----------------UUUGAG-GGGGG-------------------------------------------------------------------------------AAAGCUUGAAAGAGCCUAUCCAUC-CU--GAU
+AF065404.1/6521-6444    UUGAGCCGUAUGUGCU---GAAA--GGUACAAGUACGGUUCUU------------------------AG-GGGAG---------------------------------------------------------------------------AAAGAGUUGGUAACACCUCUGACUUACC-CG--ACU
+AJ277126.1/33096-33168  GCGAGCCGUAUGAUGG---GAAA--CUAUCACGUACGGUUCUG------------------------AG-GGCAA--------------------------------------------------------------------------------GGUAUAUUCUAAAUGCCUUGACCCCU---AC
+X03481.1/524-600        AGGAGCCGUAUGAGGU---GAAA--AUCUCAUGUACGGUUCUG-----------------------UAG-AGUGG-----------------------------------------------------------------------------CAGUAAGGGUGACUUAUCUGUCAACU-UU--UCC
+AJ131136.1/1732-1807    UUGAGCCGUAUGCGAG---GAAA--CUUGCACGUGCGGUUCUUU---------------------GAGG-GGGGA--------------------------------------------------------------------------------AAGCUUGAAAGAGCCUAUCCAUC-CC--GAU
+X86563.2/93178-93102    AGGAGCCGUAUGAGGU---GAAA-A-UCUCAUGUACGGUUCUG-----------------------UAG-AGGGA-----------------------------------------------------------------------------CAGUAAGGAUGACUUAUCUGUCGACU-UU--UCC
+AJ131147.1/1719-1794    UUGAGCCGUAUGCGAG---GAAA--CUUGCACGUGCGGUUCUUU---------------------GAGG-GGGAA--------------------------------------------------------------------------------AAGCUUGAAAGAGCCUAUCCAUC-CC--GAU
+AF143425.1/760-901      GUGAGCCGUGUGAUGG---GAAA--CCUCCCCGCACGGUUCGGAGAGCACUU------CAUUCGAAUGG-GGUGAACCACCACAUCAUUGCAAGGGUAA----------------------------CAGAGCUCGCUCGAUUCGCAGAUUGGUUUGACCCGGAAUUCACUUUCGACC-CU---GU
+AF029891.1/4522-4594    UUGAGCCGUAUGCCAU---GAAA--GUGGCACGUACGGUUCUG-----------------------AGG-GGGGG-------------------------------------------------------------------------------AAAGUCUGAGAGGACCUACCUAUC-CC----A
+Z00044.2/45483-45410    AGGAGCCGUAUGAGGU---GAAA--AUCUCACGUACGGUUCUGG----------------------AAC-GGAGA---------------------------------------------------------------------------------UUCUUUCAAUUGAAUGACGACC-GU--AAC
+V00694.1/5204-5294      GAGAGCCGUAUGAUAU---GAAA--GUAUCACGUACGGUUCGG------------------------AG-AGGGCUCUUUUA-------------------------------------------------------------UAUGAAUGUUAUUACAUUCAGAUAGGUUUGCUACU-CU---AC
+X04465.1/116516-116403  GAGAGCACAGUACGAU---GAAA--GUUGUAAGCUGUGUUUGG------------------------GG-GGGAGUUAUUGUCUAUCAAAGGCC--------------------------------------UCUAUGGUAAAAUAAAUCAAUAAAGUCUAAGAGACGAUGGCUUACC-CU---GU
+U13767.1/4803-4881      GGGAGCCGUGUGCAGC---GAAA--GUUGCACGCACGGAUCUAA----------------------CAG-AGAGG----------------------------------------------------------------------------GACGGGGAAUAAUAUCCCCUCUCGACU-CU--AAC
+AF143421.1/868-1007     GUGAGCCGUGUGAUGG---GAAA--CCUCCCCGCACGGUUCGGAGAGCACUUAAUUAGAAUGUUCCUGG-GGGUACCACAUCAUUGCAAGGGUAA------------------------------------AAGAGCUCGAUUCGCAGAUUGGUUCGACCCGGAAUUCACUUCCGACC-CU---GU
+M68929.1/120754-120816  GGGAGCCGGAUGAGGG--AGAAA-UUUCUCACGUCCGGAUCUU------------------------UG-AGAGC-------------------------------------------------------------------------------------------CUCCGGGCUACU-CU---CU
+X73671.1/1293-1367      UUGAGCCGUAUGCGAU---GAAA--GUUGCACGUACGGUUCUU-----------------------AAG-AGGGG-------------------------------------------------------------------------------AAAAUGAGUGAUCAUCUACCUAUU-CU--AAC
+AJ277126.1/8230-8302    UUGAGCCGUGUGCGUU---GAAA--GAUGCAUGCACGGUUCUU-----------------------AGG-GGGGG---------------------------------------------------------------------------------AAAGCCGGUAACCGUACCUAUC-CC--AAU
+Y12731.1/1118-1260      GUGAGCCGUGUGAUGG---GAAA--CCUUCCCGCACGGUUCGG------------------------AG-AGCACUUAAUUAGAAUGAGAGGUUCACCACCACAUCAU---------UGCAUGCAAGGGGAGCUCGCUCGAUUCGCAAAUAGGUCCGACUCGUAAUUAACUUCUGACU-CC---GU
+M36911.1/2445-2539      GAGAGCCGUAUGCGGU---GAAA--GUCGCACGUACGGUUCGG------------------------AG-GAGAGUUUUUGGUU---------------------------------------------------------UCUAAGGUCUAUAUAGACUAAGGACUGGCUGCUUAUC-CU---AC
+X86563.2/124917-124799  AAGAGCGCAGUACAAC--GGGGA--GUUGUAUGCUGCGUUCGG------------------------GA-AGGAUGGAUCGCUCCCGAAAAGGAGU----------------------------------CUAUUGAUUCUCUCCCAAUUGGUUGGAUCGUAGGGGCGAUGAUUUACU-UC---AC
+Z69899.1/2926-3021      GAGAGCCGUAUGCGGU---GAAA--GUCGCACGUACGGUUCGG------------------------AG-GAGAGUUGUUGGUU---------------------------------------------------------UCUAAGGUUUCUUUAGACUAAGGACUGGCUGCUUAUC-CU--ACA
+X57546.1/2817-2907      GAGAGCCGUAUGAUAU---GAAA--GUAUCACGUACGGUUCGG------------------------AG-AGGGCUCUCUUA-------------------------------------------------------------UAUGAUUGUUAUUACAAUCAGAUAGGUUUGCUACU-CU---AC
+AF143424.1/944-1083     GUGAGCCGUGUGAUGG---GAAA--CCUCCCCGCACGGUUCGGAGAGCACUUCAUUCUAAUGUUCCUGG-GGGUACCACAUCAUUGCAAGGGUAA------------------------------------CAGAGCUCGAUUCGCAGAUUGGUUCGACCCGGAAUUCACUUCCGACC-CU---GU
+X17375.2/29364-29438    UUGAGCCGUGUGCGGU---GAAA--GUCGCAUGCACGGUUCUA-----------------------CUG-GGGGG-------------------------------------------------------------------------------AAAGCCUGAGAGGGCCUACCUAUC-CA--ACU
+Z00044.2/84143-84067    AGGAGCUGGAUGAGA---AGAAA--CUCUCACGUCCGGUUCUGU----------------------AGU-AGAGA------------------------------------------------------------------------------UGGAAUUCAGAAACAACCAUCAACU-AU--AAC
+Z00044.2/44465-44397    CUGAGCCGUAUGAGG-UAAGAAA--UUCUCAAGUACGGUUCUA-----------------------AGG-GAAGG---------------------------------------------------------------------------------------AAUUGAACUACCUAUU-CC--GGC
+Y08501.2/135699-135828  UCGAGCCGUAUGAAGG---GAAA--CUCUCACGUACAGUUUGUUUU-----------------UUUUGG-GGGGGGCAGGAGCCCGACAGGGUCCCCC------------------------------ACUGACUUGGCCCGGGCCUAAGUUAAAGUGAAGUGGUGGGCCUACCCAUC-CC--AAC
+X97295.1/1333-1451      GAGAGCGCAGUACAAC--GGAGA--GUUGUAUGCUGCGUUCGG------------------------GA-AGGAUGAAUCGCUCCCGAAAAGGAAU----------------------------------CUAUUGAUUCUCUCCCAAUUGGUUGGACCGUAGGUGCGAUGAUUUACU-UC---AC
+Y18999.2/2881-2957      UUGAGCCGGAUGAGGG---GCGA--CUCUCAUGUCCGGUUCUU------------------------AG-GGGAC---------------------------------------------------------------------------GGCGGCGCAGUAAUGCGCUGCUGUUACC-CG---AC
+AF029891.1/9161-9235    UUGAGCCGUAUGCGAU---GAAA--GUCGCACGUACGGUUCUU-----------------------AGA-GGGGG-------------------------------------------------------------------------------AAAGUUCGAGAGGACCUACCUAUC-UC--AAC
+M68929.1/49817-49892    UUGAGCCGUAUGCGG----GAAA-ACUCGCACGUACGGUUCUU-----------------------AGG-GGGGG------------------------------------------------------------------------------GAAAGCUUGAGAGGGCCUACCUAUC-CC--GAC
+L36897.1/2659-2743      GAAAGCCGUAUGAUGG---GAAA--CUAUCACGUACGGUUUGG------------------------GA-AAGGCUCUU-------------------------------------------------------------------UAACACGUGGCAACAUAGGUUAAUUUGCUAUU-UC---AU
+Y08501.2/169475-169584  GUGAGCCUAGUGAUAG---GAGA--CUAUCUAGCUUGGUUCGG------------------------AG-AGCACUUGUUGGGUUAAAAACU-----------------------------------------UUUUUUGUUGCUAAAUGUUACAGCCUAAAUGCUGAACUAUUGACU-CU----A
+M81726.1/5191-5288      GUGAGCCGUAUGAUGG---GCAA--CUAUCUCCUGCGGUUCGG------------------------AG-AGGACUCAGCUGUUAG------------------------------------------------------UUAGUACCCCCGUCGGUUUCGGGGUGGACCCUUUUACU-CU---AU
+AF200692.2/21112-21025  GAGAGCCGGAUGCGCU---GAAA--GGUGCACGUCCGGUUCGG------------------------GG-AGGAGAGGCA-----------------------------------------------------------------GGGAAAUAGUCCGACUACGCCCUGCCUCUUACU-CU--UAC
+X05422.1/3488-3558      UUGAGCCGUACGAGA---UGAAA-U-UUUCAUAUACGGUUCUC-----------------------GGA-GGGGG-----------------------------------------------------------------------------------AGUCGGGCUAGUUACCUAUC-UC--AAU
+AJ277126.1/2879-2953    UUCAGCCGUGUGCGGU---GAAA--GUCGCACGCACGGUUGUG-----------------------AGG-GGGGG-------------------------------------------------------------------------------AAAAUCUGUGAAGAUCUACCUAUC-CC--GAU
+Z00028.1/5121-5234      GAGAGCACAGUACGAU---GAAA--GUUGUAAGCUGUGUUCGG------------------------GG-GGGAGUUAUUGCCUAUCGUUGUCC--------------------------------------UCUAUGGUAGAACCCGUCGGGGAGGCCUGAGAGGCGGUGGUUUACC-CU---GU
+Z72500.1/3161-3251      GAAAGCCGUAUGAGGG---GAAA--CUUUCACGUACGGUUUGG------------------------AG-GAAAGUCGGGAA-------------------------------------------------------------GCUCUAAGGUAUUUGCUAUGAACUCUCGGCUCAUC-CU---AC
+AB042240.3/88332-88259  GAAAGCCGUAUUCGAU---GAAA--GUCGUAUGUACGGCUUGG------------------------AG-GGAGA------------------------------------------------------------------------------UCUUUCCUAUCUUUCGAGAUCCACC-CU---AC
+AJ315331.1/53-130       AGGAGCCGUAUGAGAU---GAAA--AUCUCACGUACGGUUCUGU----------------------AAU-AGCGA-----------------------------------------------------------------------------UGGGCACAGUGAUGUUAUCAUCGACU-AU--GAU
+X02819.1/3326-3410      GAGAGCCGUAUAAUUA--CGAAA--GUAUCCCGUACGGUUCGG------------------------UG-ACGAGCCG---------------------------------------------------------------------UGUCAACCCUGCAAAGGGAAUGCGUCUUAGUUCA---AU
+U41288.1/27369-27451    GAGAGCCGUAUGCGGU---GAAA--GUUGCACGUACGGUUCGG------------------------UG-GGAGGUUU---------------------------------------------------------------------CUUAUAUCCCUCGUGGAGUAGGCUAUCGACC-CA---AC
+AF243383.1/10225-10322  CAGAGCCGUAUACUCC---GAGA--GGGGUACGUACGGUUCCC------------------------GA-AGAGGGUGGUGCAAAC------------------------------------------------------CAGUCACAGUAAUGUGAACAAGGCGGUACCUCCCUACU-UC---AC
+M15176.1/580-656        AGGAGCUGGAUGAGA---AGAAA-C-UCUCAUGUCCAGUUUUGU----------------------AGU-AGAGA------------------------------------------------------------------------------UGGAACUAAGAAGGAACCAUCGACU-AU--AAC
+V00166.1/1829-1941      GAGAGCACAGUACGAU---GAAA--GUUGUAAGCUGUGUUCGG------------------------GG-GGGAGUUAUUGUCUAUCGUUGGC---------------------------------------CUCUAUGGUAGAAUCAGUCGGGGGACCUGAGAGGCGGUGGUUUACC-CU---GC
+Z00044.2/12705-12618    GAGAGCCAAAUGAAUC---GAAA--GAUUCAUGUUUGGUUCGG------------------------GA-AGGGAUUAUG-----------------------------------------------------------------GAAUUUUGGAAAGGAAUGGAAAAAUAAUCUACUUUC---AU
+M68929.1/7762-7915      GAGAGCCGUAUGCGAG---GAGA--CUUGCACGUACGGUUCGG------------------------AG-GAAGGCCAUUGAUACCUAAUGAAAAUAUCACCAUGACUAAGGUAUAAGCCGCGCCUUGAAAGUCCAGAGGACUUGGUUUUAUUGGGUAGUUGAGGUUGGUGGCCCAUC-UC-UUAC
+X77508.1/2333-2408      GGGAGCGGUAUGAGCC---GAGA--GGUUCACGUACCGUUCUG------------------------CG-AGAGG----------------------------------------------------------------------------CUGCGGGGGAGGUUCCUGCGGCCUACU-CA---CC
+X04465.1/8-84           AGAAGCCGUAUGAAAU---GAAA--AUAUCAAGUACGGUUUUG-----------------------UAA-AGUGA-----------------------------------------------------------------------------CAAUUUAGGUAACUUAUUUGUCAACU-UU--UCC
+AY248839.1/1808-1884    GGGAGCGGUGUGAAUC---GAGA--GGUUCACGCACCGUUCUG------------------------CG-AGAGG---------------------------------------------------------------------------CCGGCUGGUGAAACUCCUCCGGCCUACU-CA---CC
+AM087200.3/1962-1851    GAAAGCCGUGUGCA--A-UGAAAAG--UGCAAGCACGGCUUGG------------------------GG-AGGGAUCUUUACUUGUUUAUUUA----------------------------------------AUUUAAGAUUAACAUUUAUUUUAUUUAACAAGGAACUUAUCUACU-CC---AU
+AC145820.20/76117-76030 GAGAGCCAAAUGAAUU---GAAA--GAUUCAUGUUUGGUUCGG------------------------GA-AGAGAUCAUA-----------------------------------------------------------------GACAUUUUGAAAUGAAUGGAAAGAGAAUCUACUUUC---AU
+AB281599.1/897-973      AGGAGCCGUAUGAAUG---GAGA--CAUUCACGUACGGUUUUGG----------------------AGU-AGCAG------------------------------------------------------------------------------GAUAUAUGGUAACAUGUACUUGACU-AU--AAG
+FM992111.1/3630-3713    GAACGCCGUAUGCGGU---GAAA--GUCGCACGUACGGUGUGA-----------------------GGC-GGGGGAAA---------------------------------------------------------------------AGUUGGAGAUAACAUCAAAUUCUUACCUAUC-GU---AC
+AM489440.1/2183-2254    AACCGCCGUAUGCGG-------A--GCCGCAUGUACGGUGGUG------------------------UG-AGAGG----------------------------------------------------------------------------ACGGCGGGAGUGAUCCCGCCUCCUACU-CG---AU
+DQ787115.1/750-834      GAACGCCGUAUGCGGU---GAAA--GUCGCACGUACGGUGUGG-----------------------AGC-GGGGGAAA---------------------------------------------------------------------AAUUGGAGAUAACAUCAAAGAUUUACCUAUC-GC--UAU
+EF165030.1/2861-2955    GAACGCCGUGUGCGGG---GAAA--CUCGCACGCACGGUGUGA-----------------------AGC-GGGGAAAAAUAGC-----------------------------------------------------------CCCUCCGGGUAAUGCCGAGGGUGACUAUUACCUAUC-GC--UAU
+#=GC SS_cons            ::<<<<<<<<-<<<<<...____..>>>>>--->>>>>>>>--........................<<.<<-<<________...........................................................______________________________>>-->>.>>...::
+#=GC RF                 GaGAGCCGuaUGcggg...GAAA..cccgCACGuaCGGUUCGG........................gG.GGgGgucauugau...........................................................ucgcaaaUuguuuggacuuggaauugacuacCuACC.Cc...Au
+//
