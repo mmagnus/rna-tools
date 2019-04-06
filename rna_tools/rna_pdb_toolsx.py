@@ -36,7 +36,7 @@ def get_parser():
     version = version[1].strip()
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    
+
     parser.add_argument('--version', help='', action='version', version=version)
 
     parser.add_argument('-r', '--report', help='get report',
