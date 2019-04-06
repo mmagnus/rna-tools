@@ -6,7 +6,7 @@ rna-tools
 
 Look for other our projects at https://github.com/RNA-Puzzles.
 
-[![Twitter Follow](http://img.shields.io/twitter/follow/rna_pdb_tools.svg?style=social&label=Follow)](https://twitter.com/rna_pdb_tools)
+[![Twitter Follow](http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow)](https://twitter.com/rna_tools)
 
 [![release](https://img.shields.io/github/release/mmagnus/rna-tools.svg)](https://github.com/mmagnus/rna-tools/releases)
 [![Build Status](https://travis-ci.org/mmagnus/rna-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-tools)
