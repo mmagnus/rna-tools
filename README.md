@@ -1,5 +1,6 @@
-rna-pdb-tools
+rna-tools
 =================
+(formerly rna-pdb-tools)
 
 <p align="center"><b>Beta: this is still under development. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.</b></p>
 
@@ -7,10 +8,10 @@ Look for other our projects at https://github.com/RNA-Puzzles.
 
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_pdb_tools.svg?style=social&label=Follow)](https://twitter.com/rna_pdb_tools)
 
-[![release](https://img.shields.io/github/release/mmagnus/rna-pdb-tools.svg)](https://github.com/mmagnus/rna-pdb-tools/releases)
-[![Build Status](https://travis-ci.org/mmagnus/rna-pdb-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-pdb-tools)
-[![Documentation Status](https://readthedocs.org/projects/rna-pdb-tools/badge/?version=latest)](http://rna-pdb-tools.readthedocs.io/en/latest/?badge=latest)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-pdb-tools/?branch=master)
+[![release](https://img.shields.io/github/release/mmagnus/rna-tools.svg)](https://github.com/mmagnus/rna-tools/releases)
+[![Build Status](https://travis-ci.org/mmagnus/rna-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-tools)
+[![Documentation Status](https://readthedocs.org/projects/rna-tools/badge/?version=latest)](http://rna-tools.readthedocs.io/en/latest/?badge=latest)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-tools/?branch=master)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60933.svg)](http://dx.doi.org/10.5281/zenodo.60933)
 <span class="badge-paypal"><a href="https://www.paypal.me/MarcinMagnus" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 <span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
@@ -27,7 +28,7 @@ The software is used by me in my servers **NPDock** (RNA/DNA-protein docking met
 
 **What is fun here?**
 
-`rna-pdb-tools` is a packages of shell utils that are using the common core library. You can also access functions of the library from your scripts.
+`rna-tools` (formerly rna-pdb-tools) is a packages of shell utils that are using the common core library. You can also access functions of the library from your scripts.
 
 A shell util:
 
@@ -50,9 +51,9 @@ or from another script (fetch an alignment and plot it)
 
 ![](docs/pngs/align.png)
 
-Fig. See more <https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb>
+Fig. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb>
 
-Take a tour [http://mmagnus.github.io/rna-pdb-tools/#/](http://mmagnus.github.io/rna-pdb-tools/) and/or read the doc [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
+Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna-tools/) and/or read the doc [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
 <p align="center">
   <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
@@ -73,7 +74,7 @@ Table of Contents
 
 ## Tour
 
-Take a tour http://mmagnus.github.io/rna-pdb-tools/#/
+Take a tour http://mmagnus.github.io/rna-tools/#/
 
 ## rna_pdb_toolsx.py
 
@@ -93,7 +94,7 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [-c] [--is_pdb] [--is_nmr]
                          [--extract EXTRACT]
                          file [file ...]
 
-rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
 Tricks:
 
@@ -197,17 +198,17 @@ Tricks:
 
 See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tools.
 
-Read more http://rna-pdb-tools.readthedocs.io/en/latest/
+Read more http://rna-tools.readthedocs.io/en/latest/
 
 ## Docs
 
-Read the documentations at [rna-pdb-tools.rtfd.io/en/latest/](http://rna-pdb-tools.rtfd.io/en/latest/).
+Read the documentations at [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
-<a href="http://rna-pdb-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
+<a href="http://rna-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
 ## RNA Puzzle Submission
 
-Read at https://rna-pdb-tools.readthedocs.io/en/latest/rna-puzzles.html
+Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 
 ## Inspiration (and alternatives)
 
@@ -220,4 +221,4 @@ Read at https://rna-pdb-tools.readthedocs.io/en/latest/rna-puzzles.html
 
 ## Install
 
-Read at http://rna-pdb-tools.readthedocs.io/en/latest/install.html
+Read at http://rna-tools.readthedocs.io/en/latest/install.html
