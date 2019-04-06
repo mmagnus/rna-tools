@@ -36,14 +36,15 @@ def get_parser():
     version = version[1].strip()
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    #parser = argparse.ArgumentParser('rna-pdb-tools.py ver: %s' % version)
 
     parser.add_argument('--version', help='', action='version', version=version)
 
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
 
-    parser.add_argument('--delete-anisou', help='remove files with ANISOU records',
+    parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
+                        action='store_true')
+
     parser.add_argument('--split-alt-locations', help='@todo',
                         action='store_true')
 
