@@ -2,7 +2,7 @@ rna-tools
 =================
 (formerly rna-pdb-tools)
 
-<p align="center"><b>Beta: this is still under development. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases.</b></p>
+<p align="center"><b>Beta: this is still under development. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases. (2) I just changed the name to rna-tools, I renamed the utils folder. It means that there still might be some misimports. I will try to fix it asap.</b></p>
 
 Look for other our projects at https://github.com/RNA-Puzzles.
 
