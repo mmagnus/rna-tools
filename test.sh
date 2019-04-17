@@ -24,6 +24,9 @@ python update_readme.py
 ## extract
 ./rna_pdb_toolsx.py --no_hr --extract A:1-2 input/pistol_thrs0.50A_clust99-000001_AA.pdb > output/pistol_thrs0.50A_clust99-000001_AA_A-2.pdb
 
+## -rename-chain
+./rna_pdb_toolsx.py --no_hr --rename-chain 'B>A' input/8_Chen_10_rpr_ChainB.pdb output/8_Chen_10_rpr_ChainA.pdb
+
 ## --clean
 ./rna_pdb_toolsx.py --no_hr --clean input/1a9l_NMR_1_2_models.pdb > output/1a9l_NMR_1_2_models_tool.pdb
 ./rna_pdb_toolsx.py --no_hr --clean input/1xjr_GTP.pdb > output/1xjr_GTP.pdb
