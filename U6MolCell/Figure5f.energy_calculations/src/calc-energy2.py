@@ -87,8 +87,8 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
-    from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment
-    from rna_pdb_tools.Seq import RNASequence
+    from rna_tools.tools.rna_alignment.rna_alignment import RNAalignment
+    from rna_tools.Seq import RNASequence
 
     skipped = 0
     skipped_with_gaps = 0
