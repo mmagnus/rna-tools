@@ -1,5 +1,5 @@
 REMARK 250 Generated with rna-pdb-tools
-REMARK 250 https://github.com/mmagnus/rna-pdb-tools 
+REMARK 250 https://github.com/mmagnus/rna-pdb-tools
 REMARK 250 Fri May 12 16:41:36 2017
 ATOM      1    P   G B   1     -26.949  -2.863 -57.713  1.00  0.00           P
 ATOM      2  OP1   G B   1     -26.928  -2.048 -58.949  1.00  0.00           O
