@@ -7,7 +7,7 @@ This code uses heavily the SimRNATrajectory class. Be default 100 lowest energy 
 """
 
 from __future__ import print_function
-from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
+from rna_tools.tools.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 import argparse
 
 

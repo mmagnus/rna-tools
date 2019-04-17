@@ -28,7 +28,7 @@ TIPS:
 
 Should you need to run it on a list of sequences, use the following script::
 
-    from rna_pdb_tools import Seq
+    from rna_tools import Seq
     f = open("listOfSequences.fasta")
     for line in f:
      if line.startswith('>'):
@@ -53,7 +53,7 @@ import tempfile
 import sys
 
 
-from rna_pdb_tools.rpt_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH
+from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH
 
 
 class MethodNotChosen(Exception):
@@ -265,6 +265,11 @@ class RNASequence(object):
             # (((.((..)))))  -5.44 ( +0.00)
             # (((.((..)))))  BP >=  50%
 
+            # if evenn this will not find ss, then set ss to null not to crash
+            # and it's possible, like in here
+            # curl -Y 0 -y 300 -F "pass=lucy" -F mask="((******)))" -F sequence="CCUgcgcaAGG" \
+            #            http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
+            ss = ''
             for l in out:
                 if 'target="_blank">MARNA</a>-formatted:<P><P><P></H2><pre>' in l:
                     index = out.index(l)
