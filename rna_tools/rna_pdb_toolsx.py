@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+"""rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
 Tricks:
 
@@ -27,8 +27,8 @@ import os
 import progressbar
 import tempfile
 
-from rna_pdb_tools_lib import *
-from rna_pdb_tools.utils.rna_x3dna.rna_x3dna import x3DNA
+from rna_tools_lib import *
+from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
 
 
 def get_parser():
@@ -124,6 +124,8 @@ def get_parser():
                         default='',
                         help="edit 'A:6>B:200', 'A:2-7>B:2-7'")
 
+    parser.add_argument('--rename-chain',
+                        help="edit 'A>B' to rename chain A to chain B")
 
     parser.add_argument('--replace-chain',
                         default='',
@@ -539,6 +541,32 @@ if __name__ == '__main__':
                 else:
                     output += l + '\n'
 
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
+
+
+    if args.rename_chain:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+            # rename_chain 'A>B'
+            s = RNAStructure(f)
+            chain_id_old, chain_id_new = args.rename_chain.split('>')
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+            output += s.rename_chain(chain_id_old, chain_id_new)
             if args.inplace:
                 with open(f, 'w') as f:
                     f.write(output)
