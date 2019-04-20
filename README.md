@@ -43,7 +43,7 @@ False
 or from a script
 
 ```python
->>> from rna_pdb_tools_lib import *
+>>> from rna_tools_lib import *
 >>> s = RNAStructure('input/1I9V_A.pdb')
 >>> s.is_pdb()
 True
