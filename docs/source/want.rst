@@ -60,10 +60,13 @@ Example::
     > H:1-10
     CCGGCAGCCU
 
+
+
+
 get secondary structures of your PDB files
 --------------------------------------------
 
-.. automodule:: rna_pdb_tools.utils.rna_x3dna.rna_x3dna
+.. automodule:: rna_tools.tools.rna_x3dna.rna_x3dna
    :members:
 
 delete a part of of your structure
