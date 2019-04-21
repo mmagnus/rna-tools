@@ -21,11 +21,9 @@ Usage::
 
 """
 from __future__ import print_function
-
 import argparse
 import os
 import progressbar
-import tempfile
 
 from rna_tools_lib import *
 from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
