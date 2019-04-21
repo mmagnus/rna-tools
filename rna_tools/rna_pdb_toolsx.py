@@ -201,6 +201,8 @@ if __name__ == '__main__':
                     analyzed.append(subname)
             ########
             s = RNAStructure(f)
+            if not s.is_pdb():
+                print('Not a PDF file %s' % f)
             s.decap_gtp()
             s.std_resn()
             s.remove_hydrogen()
