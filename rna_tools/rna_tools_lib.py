@@ -325,7 +325,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def get_seq(self, compact=False, chainfirst = True):
+    def get_seq(self, compact=False, chainfirst=False):
         """Get seq (v2) gets segments of chains with correct numbering
 
         Run::
@@ -387,7 +387,7 @@ class RNAStructure:
             txt = ''
             for c in list(chains.keys()):
                 if chainfirst:
-                    txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq'])
+                    txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq']) + ' '
                 else:
                     txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header']
             return txt.strip()
