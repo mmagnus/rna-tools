@@ -1,4 +1,4 @@
-Geekbook & rna-pdb-tools
+Geekbook & rna-tools
 ============================================================
 
 G33KB00K - 🤓 eXtreme eXtendable note taking system for nerds/geeks (including scientists!) (= beautiful html generator of your markdown-based notes) docs: http://geekbook.rtfd.io
