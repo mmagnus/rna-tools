@@ -71,6 +71,7 @@ def get_parser():
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get_seq', help='get seq', action='store_true')
+    parser.add_argument('--compact', help='with --get_seq, get it in compact view' , action='store_true')
 
     parser.add_argument('--get_ss', help='get secondary structure', action='store_true')
 
@@ -142,6 +143,7 @@ def get_parser():
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
 
     parser.add_argument('--uniq', help="")
+    parser.add_argument('--chain-first', help="")
 
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
@@ -215,7 +217,7 @@ if __name__ == '__main__':
             output = ''
             # with # is easier to grep this out
             output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n'
-            output += s.get_seq() + '\n'
+            output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
             try:
                 sys.stdout.write(output)
                 sys.stdout.flush()
