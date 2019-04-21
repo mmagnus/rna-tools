@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment
+from rna_tools.tools.rna_alignment.rna_alignment import RNAalignment
 
 path = os.path.dirname(os.path.realpath(__file__))
 
@@ -11,4 +11,4 @@ print(alignment[1])
 
 alignment.plot()
 
-from rna_pdb_tools.Seq import RNASequence
+from rna_tools.Seq import RNASequence

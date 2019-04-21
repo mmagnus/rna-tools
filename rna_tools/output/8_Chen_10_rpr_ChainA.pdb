@@ -1,7 +1,3 @@
-REMARK 250 Model edited with rna-pdb-tools
-REMARK 250  ver py2-348-gf7ed24c-dirty 
-REMARK 250  https://github.com/mmagnus/rna-pdb-tools 
-REMARK 250  Wed Apr 17 10:46:38 2019
 ATOM      1    P   G A   1     -26.949  -2.863 -57.713  1.00  0.00           P
 ATOM      2  OP1   G A   1     -26.928  -2.048 -58.949  1.00  0.00           O
 ATOM      3  OP2   G A   1     -26.234  -4.145 -57.648  1.00  0.00           O
@@ -2076,3 +2072,4 @@ ATOM   2071   C4   U A  96     -33.656  20.946 -12.254  1.00  0.00           C
 ATOM   2072   O4   U A  96     -33.377  21.198 -11.085  1.00  0.00           O
 ATOM   2073   C5   U A  96     -33.940  21.920 -13.267  1.00  0.00           C
 ATOM   2074   C6   U A  96     -34.462  21.521 -14.437  1.00  0.00           C
+TER    2075        U A  96

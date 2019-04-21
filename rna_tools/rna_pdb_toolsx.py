@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+"""rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
 Tricks:
 
@@ -27,8 +27,8 @@ import os
 import progressbar
 import tempfile
 
-from rna_pdb_tools_lib import *
-from rna_pdb_tools.utils.rna_x3dna.rna_x3dna import x3DNA
+from rna_tools_lib import *
+from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
 
 
 def get_parser():
@@ -71,6 +71,7 @@ def get_parser():
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get_seq', help='get seq', action='store_true')
+    parser.add_argument('--compact', help='with --get_seq, get it in compact view' , action='store_true')
 
     parser.add_argument('--get_ss', help='get secondary structure', action='store_true')
 
@@ -124,6 +125,8 @@ def get_parser():
                         default='',
                         help="edit 'A:6>B:200', 'A:2-7>B:2-7'")
 
+    parser.add_argument('--rename-chain',
+                        help="edit 'A>B' to rename chain A to chain B")
 
     parser.add_argument('--replace-chain',
                         default='',
@@ -140,6 +143,7 @@ def get_parser():
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
 
     parser.add_argument('--uniq', help="")
+    parser.add_argument('--chain-first', help="")
 
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
@@ -199,6 +203,8 @@ if __name__ == '__main__':
                     analyzed.append(subname)
             ########
             s = RNAStructure(f)
+            if not s.is_pdb():
+                print('Not a PDF file %s' % f)
             s.decap_gtp()
             s.std_resn()
             s.remove_hydrogen()
@@ -211,7 +217,7 @@ if __name__ == '__main__':
             output = ''
             # with # is easier to grep this out
             output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n'
-            output += s.get_seq() + '\n'
+            output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
             try:
                 sys.stdout.write(output)
                 sys.stdout.flush()
@@ -539,6 +545,32 @@ if __name__ == '__main__':
                 else:
                     output += l + '\n'
 
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
+
+
+    if args.rename_chain:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+            # rename_chain 'A>B'
+            s = RNAStructure(f)
+            chain_id_old, chain_id_new = args.rename_chain.split('>')
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+            output += s.rename_chain(chain_id_old, chain_id_new)
             if args.inplace:
                 with open(f, 'w') as f:
                     f.write(output)

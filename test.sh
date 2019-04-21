@@ -79,6 +79,14 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 ./rna_pdb_toolsx.py --get_seq input/2_bujnicki_1_rpr.pdb > output/2_bujnicki_1_rpr.txt
 ./rna_pdb_toolsx.py --get_seq input/2_bujnicki_1_rpr_BA_chain_swap.pdb > output/2_bujnicki_1_rpr_BA_chain_swap.txt
 
+./rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact input/pistol* > output/pistol_compact.txt
+# pistol_thrs0.50A_clust99-000001_AA
+#CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA # A:1-62
+
+./rna_pdb_toolsx.py --get_seq --uniq '[:5]' input/pistol* > output/pistol_uniq.txt
+# pistol_thrs0.50A_clust99-000001_AA
+#CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA # A:1-62
+
 ## --replace_hetatm
 ./rna_pdb_toolsx.py --no_hr --rpr input/A_YG_A.pdb --replace_hetatm  > output/A_YG_A.pdb
 

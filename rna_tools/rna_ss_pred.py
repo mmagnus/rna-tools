@@ -52,10 +52,12 @@ if __name__ == '__main__':
         seq = f.readline().strip()
         if args.cstinfile:
             cst = f.readline().strip()
+            assert cst, 'Cst line empty, check the input file'
 
     print(seq)
     if args.cst:
         cst = args.cst
+    if cst:
         print(cst, '<= cst')
 
     if args.method == 'cyclefold':
@@ -68,7 +70,7 @@ if __name__ == '__main__':
         if cst:
             en, ss = seq.predict_ss('mcfold', constraints=cst, verbose=args.verbose)
         else:
-            en, ss = seq.predict_ss('mcfold')
+            en, ss = seq.predict_ss('mcfold', verbose=args.verbose)
         if not ss:
             ss = 'x'
         print(ss, en)

@@ -1,6 +1,21 @@
 #!/usr/bin/env python
 """
-Read for more interesting functions https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
+Quick reference:
+
+- clarna: show contacts classification of the selected fragment based on ClaRNA
+- ss: show secondary structure of the selection based on py3dna.py (3DNA (Lu, Olson 2003))
+- ss_all: the same as ss() but for all objects
+- pdbsrc: show PDB content (source) of selection.
+- seq: show sequence of the selection
+- ino: represent ions as sphare and yellow inorganic, such us Mg
+- p: shortcut for putting a seq at the bottom. Pretty cool for screenshots with names of objects
+- spli: color snRNA of the spliceosome and bases according to identity U(blue), A(orange), G(red), C(forest)
+- rp: @todo
+- rs: @todo
+- rib: @todo
+- clr:
+-
+If you want more, read for interesting functions https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
 """
 import tempfile
 import math
@@ -8,7 +23,7 @@ import subprocess
 import os
 from itertools import izip
 
-from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
+from rna_tools.rna_tools_lib import RNAStructure
 
 try:
     RNA_PDB_TOOLS
@@ -46,11 +61,67 @@ def rp():
     cmd.set("cartoon_ladder_mode", 1)
 
 
+def rp06():
+  txt = """color black, all
+  color pink, resi 2-10+163-170
+  color grey, resi 12-33
+  color green, resi 40-41
+  color green, resi 161-162
+  color orange, resi 45-61
+  color green, resi 64-73
+  color blue, resi 74-155
+  color cyan, resn B1Z"""
+  for t in txt.split('\n'):
+    color, resi = t.replace('color ', '').split(',')
+    print color, resi
+    cmd.color(color.strip(), resi.strip())
+
+
+def grid_on():
+    cmd.set('grid_mode', 1)
+
+
+def grid_off():
+    cmd.set('grid_mode', 0)
+
+
+def rp14():
+  """color black; # everything
+ color blue, resi 1-5+55-59; # p1
+ color green, resi 7-11+16-20; # p2
+ color magenta, resi 23+60; # pk
+ color yellow, resi 29-34+45-50; # p3
+ color grey, resi 24-28+51-54; # e-loop
+ color red, resi 6+21+22+24+25+28+52+54; # higly conserved"""
+ #color blue, resi 5+55
+
+
+  txt ="""color black, all
+ color red, resi 1-5+55-59
+ color blue, resi 1-5+55-59; # p1
+ color green, resi 7-11+16-20
+ color magenta, resi 23+60
+ color yellow, resi 29-34+45-50
+ color grey, resi 24-28+51-54
+ color red, resi 6+21+22"""
+  for t in txt.split('\n'):
+    color, resi = t.replace('color ', '').split(',')
+    print color, resi
+    cmd.color(color.strip(), resi.strip())
+
+def rp14s():
+  """color with Baker's SHAPE data for rp14!"""
+  txt = """
+   color yellow, resi 12-15+25-29+35-44
+   color red, resi 21-24+53+54+60
+  """
+  color_by_text(txt)
+
 def rs():
     """    The function creates super-cool cartoon-like RNA and colors each structure as a rainbow.
     Good to view aligned structures in a grid.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/rs.png
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/rs.png
     """
     cmd.hide("sticks", "all")
     cmd.hide("lines", "all")
@@ -141,10 +212,10 @@ def align_all( subset = [] ):
     cmd.zoom()
 
 
-def get_pdb():
+def pdb():
     """Get PDB content of selection.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/pdb.png"""
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/pdb.png"""
     tmpfn = '/tmp/pymol_get_pdb.pdb'
     cmd.save(tmpfn, '(sele)')
     s = RNAStructure(tmpfn)
@@ -155,7 +226,7 @@ def get_pdb():
 def clarna():
     """Get contacts classification of the selected fragment based on ClaRNA.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/clarna.png
+    .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name + '.pdb', '(sele)')
@@ -166,10 +237,10 @@ def clarna():
     f.close()
 
 
-def get_seq():
-    """Get contacts classification based on ClaRNA.
+def seq():
+    """Get sequence of the selected fragment using ``rna_pdb_toolsx.py --get_seq ``.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ss.png
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name, '(sele)')
@@ -182,7 +253,7 @@ def get_seq():
 def ss():
     """Get Secondary Structure of (sele) based on py3dna.py.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ss.png
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name, '(sele)')
@@ -215,7 +286,7 @@ def ss_all():
 def p():
     """A shortcut for putting a seq at the bottom. Pretty cool for screenshots with names of objects.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/p.png
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/p.png
     """
     cmd.set("seq_view_format", 4)
     cmd.set("seq_view", 1)
@@ -244,7 +315,7 @@ def rp17():
          ((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))
          # len 62-nt
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/rna.png
+    .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/rna.png
     """
     txt = """color forest, resi 1-5+12-16; # p1
  color magenta, resi 6-11+34-39;
@@ -256,6 +327,29 @@ def rp17():
  color red, resi 19+20+21;
 """
     color_by_text(txt)
+
+def rp17csrv():
+    """Color-coding for secondary structure elements for the RNA Puzzle 17.
+
+    For the variant::
+
+         CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA
+         ((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))
+         # len 62-nt
+
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/rna.png
+    """
+    txt = """color forest, resi 1-5+12-16; # p1
+ color magenta, resi 6-11+34-39;
+ color grey, resi 17-24;
+ color marine, resi 25-28+59-62;
+ color deepblue, resi 29-33+40-42;
+ color orange, resi 44-47+48-56;
+ color yellow, resi 57-58;
+ color red, resi 5+19+20+21+31+32+33+40+41+42
+"""
+    color_by_text(txt)
+
 
 
 def rp172():
@@ -409,32 +503,72 @@ def color_rbw(rainbow=0):
 def ino():
     """Sphare and yellow inorganic, such us Mg.
 
-    .. image:: ../../rna_pdb_tools/utils/PyMOL4RNA/doc/ion.png"""
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ion.png"""
     cmd.show("spheres", "inorganic")
     cmd.set('sphere_scale', '0.25', '(all)')
     cmd.color("yellow", "inorganic")
-
 
 def spli():
     AllObj = cmd.get_names("all")
     for name in AllObj:
         if 'Exon' in name or 'exon' in name:
             cmd.color('yellow', name)
-        if 'Intron' in name or 'intron' in name:
-            cmd.color('magenta', name)
+        if 'Intron' in name or 'intron' in name or '5splicing-site' in name:
+            cmd.color('gray40', name)
+        if '3exon-intron' in name.lower():
+            cmd.color('gray20', name)
         if name.startswith("U2_snRNA"):
-            cmd.color('green', name)
+            cmd.color('forest', name)
         if name.startswith("U5_snRNA"):
             cmd.color('blue', name)
         if name.startswith("U4_snRNA"):
             cmd.color('orange', name)
-        if name.startswith("U4_snRNA"):
+        if name.startswith("U6_snRNA"):
             cmd.color('red', name)
+
+    cmd.do('color gray')
+
+    # trisnrp
+    cmd.do('color orange, chain V') # conflict
+    cmd.do('color red, chain W')
+    cmd.do('color blue, chain U')
+    #
+    cmd.do('color blue, chain 5')
+    cmd.do('color forest, chain 2')
+    cmd.do('color red, chain 6')
+    cmd.do('color orange, chain 4')
+    cmd.do('color yellow, chain Y')
+    # shi
+    cmd.do('color blue, chain D') # u5
+    cmd.do('color forest, chain L') # u2
+    cmd.do('color red, chain E') # u6
+    cmd.do('color yellow, chain M')
+    cmd.do('color yellow, chain N')
+    # afte branch
+    cmd.do('color blue, chain U') # u5
+    cmd.do('color forest, chain Z') # u2
+    cmd.do('color red, chain V') # u6
+    cmd.do('color yellow, chain E')
+    cmd.do('color black, chain I')
+    # 5WSG
+    # Cryo-EM structure of the Catalytic Step II spliceosome (C* complex) at 4.0 angstrom resolution
+    cmd.do('color blue, chain D') # u5
+    #cmd.do('color forest, chain L') # u2
+    cmd.do('color red, chain E') # u6
+    cmd.do('color yellow, chain B')
+    cmd.do('color yellow, chain b')
+    cmd.do('color black, chain N')
+    cmd.do('color black, chain M')
+
+    cmd.do('bg gray')
+    cmd.do('remove (polymer.protein)')
+
     cmd.color("red",'resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
     cmd.color("forest",'resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
     cmd.color("orange",'resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
     cmd.color("blue",'resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
-
+    cmd.set("cartoon_tube_radius", 1.0)
+    ino()
 
 def _spli():
     """
@@ -490,6 +624,85 @@ USAGE
         print "Radius of gyration: %.2f" % (rg)
     return rg
 
+
+def qrnass():
+    cmd.save('sele.pdb', '(sele)')
+    mini('sele.pdb')
+
+
+def qrnas():
+    subset = "*"
+    AllObj=cmd.get_names("all")
+    #print AllObj
+    for x in AllObj[:]:
+      print x, 'qrnas...'
+      #print(AllObj[0],x)
+      f = tempfile.NamedTemporaryFile(delete=True)
+      #print f.name
+      #f.write(XX)
+      cmd.save(f.name, x)
+      #p = Process(target=mini)
+      #p.start()
+      mini()
+      #cmd.load('out.pdb', 'ref')
+      #p.join()
+      #print x
+      #print '\n'.join(out.split('\n')[1:]) # to remove first line of py3dna /tmp/xxx
+      f.close()
+      break
+    align_all()
+    rr()
+    cmd.set('grid_mode', 1)
+
+
+def mini(f):
+    #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
+    os.system('~/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c ~/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
+    cmd.delete('mini')
+    cmd.load('out.pdb', 'mini')
+    print 'end'
+
+
+def reload():
+    """Reload PyMOL4RNA.py"""
+    cmd.run(RNA_PDB_TOOLS + "/rna_tools/utils/PyMOL4RNA/PyMOL4RNA.py")
+
+def clr():
+  """clr - make white bg and structure black"""
+  cmd.bg_color( "white" )
+  color_by_text('color black, all')
+
+
+def rlabel():
+    cmd = "n. C1'", '"%s %s" % (resn, resi)'
+    print('label ' + cmd)
+    cmd.label(cmd)
+
+
+def sav(name):
+    cmd.bg_color( "white" )
+    cmd.save('/home/magnus/Desktop/' + name + '.png')
+    cmd.save('/home/magnus/Desktop/' + name + '.pse')
+
+def hide_rna():
+    cmd.hide('(polymer.nucleic)')
+cmd.extend('rna-hide', hide_rna)
+
+def show_rna():
+    cmd.show('(polymer.nucleic)')
+cmd.extend('rna-show', show_rna)
+
+def select_rna():
+    cmd.select('polymer.nucleic')
+cmd.extend('select-rna', select_rna)
+
+def hide_protein():
+    cmd.hide('(polymer.protein)')
+cmd.extend('protein-hide', hide_protein)
+
+def select_protein():
+    cmd.select('polymer.protein')
+cmd.extend('protein-select', select_protein)
 
 import getpass
 user = getpass.getuser()
@@ -555,15 +768,17 @@ else:
     print('color_obj')
     print('color_rbw')
     print('aa')
-    print("""cspli - color snRNAs of the spliceosome:
+    print("""spli - color snRNAs of the spliceosome:
     green: U2,  blue: U5, red:U6, orange:U2""")
     print('RNA_PDB_TOOLS env variable used: ' + RNA_PDB_TOOLS)
 
     cmd.extend('rp17', rp17)
+    cmd.extend('rp17csrv', rp17csrv)
+
     cmd.extend('rp', rp)
     cmd.extend('p', p)
-    cmd.extend('get_pdb', get_pdb)
-    cmd.extend('get_seq', get_seq)
+    cmd.extend('pdb', pdb)
+    cmd.extend('seq', seq)
     cmd.extend('rna_cartoon', rna_cartoon)
     cmd.extend('rs', rs)
     cmd.extend('ino', ino)
@@ -576,6 +791,11 @@ else:
     cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
     cmd.extend("spli", spli)
+    cmd.extend('rlabel', 'rlabel')
+
+    cmd.extend('grid_on', grid_on)
+    cmd.extend('grid_off', grid_off)
+    cmd.extend('reload', reload)
 
     cmd.extend('color_aa_types', color_aa_types)
 
@@ -584,6 +804,9 @@ else:
     # set dash lines
     cmd.set('dash_color', 'red')
     cmd.set('dash_width', 4)
+
+    cmd.extend('sav', sav)
+
 
     print('###########################')
     print('PYMOL4RNA loading .... [ok]')

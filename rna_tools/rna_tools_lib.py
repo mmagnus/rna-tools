@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_pdb_tools_lib.py - main lib file, many tools in this lib is using this file."""
+"""rna_tools_lib.py - main lib file, many tools in this lib is using this file."""
 
 from __future__ import print_function
 
@@ -15,7 +15,7 @@ import tempfile
 import shutil
 import subprocess
 
-from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rna_tools.tools.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 import logging
 logger = logging.getLogger('rna-pdb-tools')
@@ -142,7 +142,7 @@ class RNAStructure:
         """
         return self.has_many_models
 
-    def un_nmr(self, verbose=False):
+    def un_nmr(self, startwith1=False, verbose=False):
         """Un NMR - Split NMR-style multiple model pdb files into individual models.
 
         Take self.fn and create new files in the way::
@@ -160,6 +160,8 @@ class RNAStructure:
                 print(m)
             io = PDBIO()
             io.set_structure(m)
+            if startwith1:
+                c += 1
             io.save(self.fn.replace('.pdb', '_%i.pdb' % c))
 
     def is_mol2(self):
@@ -299,6 +301,15 @@ class RNAStructure:
         txt += 'TER'
         return txt
 
+    def rename_chain(self, chain_id_old, chain_id_new):
+        txt = ''
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER'):
+                if l[21] == chain_id_old:
+                    l = l[:21] + chain_id_new + l[22:]
+            txt += l.strip() + '\n'  # ok, actually keep all lines as it was
+        return txt
+
     def get_resn_uniq(self):
         res = set()
         for l in self.lines:
@@ -314,7 +325,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def get_seq(self, compact=False, chainfirst = True):
+    def get_seq(self, compact=False, chainfirst=False):
         """Get seq (v2) gets segments of chains with correct numbering
 
         Run::
@@ -376,7 +387,7 @@ class RNAStructure:
             txt = ''
             for c in list(chains.keys()):
                 if chainfirst:
-                    txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq'])
+                    txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq']) + ' '
                 else:
                     txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header']
             return txt.strip()
@@ -886,7 +897,7 @@ class RNAStructure:
 
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
-        Run :func:`rna_pdb_tools.rna_pdb_tools_lib.RNAStructure.std_resn` before this function to fix names.
+        Run :func:`rna_tools.rna_tools.lib.RNAStructure.std_resn` before this function to fix names.
 
         - 170305 Merged with get_simrna_ready and fixing OP3 terminal added
         - 170308 Fix missing atoms for bases, and O2'
@@ -1520,8 +1531,8 @@ class RNAStructure:
 
 def add_header(version=None):
     now = time.strftime("%c")
-    txt = 'REMARK 250 Model edited with rna-pdb-tools\n'
-    txt += 'REMARK 250  ver %s \nREMARK 250  https://github.com/mmagnus/rna-pdb-tools \nREMARK 250  %s' % (
+    txt = 'REMARK 250 Model edited with rna-tools\n'
+    txt += 'REMARK 250  ver %s \nREMARK 250  https://github.com/mmagnus/rna-tools \nREMARK 250  %s' % (
         version, now)
     return txt
 
@@ -1607,7 +1618,7 @@ def collapsed_view(args):
 
     example::
 
-        [mm] rna_pdb_tools git:(master) $ python rna-pdb-tools.py --cv input/1f27.pdb
+        [mm] rna_tools git:(master) $ python rna-pdb-tools.py --cv input/1f27.pdb
         ATOM      1  C5'   A A   3      25.674  19.091   3.459  1.00 16.99           C
         ATOM     23  C5'   C A   4      19.700  19.206   5.034  1.00 12.65           C
         ATOM     43  C5'   C A   5      14.537  16.130   6.444  1.00  8.74           C
