@@ -80,7 +80,7 @@ def rp06():
   color cyan, resn B1Z"""
   for t in txt.split('\n'):
     color, resi = t.replace('color ', '').split(',')
-    print color, resi
+    print(color, resi)
     cmd.color(color.strip(), resi.strip())
 
 
@@ -113,7 +113,7 @@ def rp14():
  color red, resi 6+21+22"""
   for t in txt.split('\n'):
     color, resi = t.replace('color ', '').split(',')
-    print color, resi
+    print(color, resi)
     cmd.color(color.strip(), resi.strip())
 
 def rp14s():
@@ -146,7 +146,7 @@ def rs():
     # Loop over objects
     i = 0
     for obj in obj_list:
-        print "  ", obj, colours[i]
+        print("  ", obj, colours[i])
         cmd.spectrum('count', colours[i], obj)
         i = i+1
         if(i == ncolours):
@@ -179,7 +179,7 @@ def rcomp():
            # Loop over objects
     i = 0
     for obj in obj_list:
-        print "  ", obj, colours[i]
+        print("  ", obj, colours[i])
         cmd.color(colours[i], obj)
         i = i+1
         if(i == ncolours):
@@ -193,7 +193,7 @@ def align_all( subset = [] ):
 
   This function is probably taken from https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
   """
-  print """This returns a list with 7 items:
+  print("""This returns a list with 7 items:
 
     RMSD after refinement
     Number of aligned atoms after refinement
@@ -201,7 +201,7 @@ def align_all( subset = [] ):
     RMSD before refinement
     Number of aligned atoms before refinement
     Raw alignment score
-    Number of residues aligned """
+    Number of residues aligned """)
 
   AllObj=cmd.get_names("all")
   for x in AllObj[1:]:
@@ -426,7 +426,7 @@ USAGE
 
         if rainbow:
 
-           print "\nColouring objects as rainbow\n"
+           print("\nColouring objects as rainbow\n")
 
            nobj = len(obj_list)
 
@@ -438,7 +438,7 @@ USAGE
               rgb = hsv_to_rgb(hsv)
               # Define the new colour
               cmd.set_color("col" + str(j), rgb)
-              print obj_list[j], rgb
+              print(obj_list[j], rgb)
               # Colour the object
               cmd.color("col" + str(j), obj_list[j])
 
@@ -453,7 +453,7 @@ USAGE
            # Loop over objects
            i = 0
            for obj in obj_list:
-              print "  ", obj, colours[i]
+              print("  ", obj, colours[i])
               cmd.color(colours[i], obj)
               i = i+1
               if(i == ncolours):
@@ -478,7 +478,7 @@ def color_rbw(rainbow=0):
 
         if rainbow:
 
-           print "\nColouring objects as rainbow\n"
+           print("\nColouring objects as rainbow\n")
 
            nobj = len(obj_list)
 
@@ -490,7 +490,7 @@ def color_rbw(rainbow=0):
               rgb = hsv_to_rgb(hsv)
               # Define the new colour
               cmd.set_color("col" + str(j), rgb)
-              print obj_list[j], rgb
+              print(obj_list[j], rgb)
               # Colour the object
               cmd.color("col" + str(j), obj_list[j])
         else:
@@ -500,7 +500,7 @@ def color_rbw(rainbow=0):
            # Loop over objects
            i = 0
            for obj in obj_list:
-              print "  ", obj, colours[i]
+              print("  ", obj, colours[i])
               cmd.spectrum('count', colours[i], obj)
 #              cmd.color(colours[i], obj)
               i = i+1
@@ -628,7 +628,7 @@ USAGE
     mm = sum((sum(i)/tmass)**2 for i in izip(*xm))
     rg = math.sqrt(rr/tmass - mm)
     if not quiet:
-        print "Radius of gyration: %.2f" % (rg)
+        print("Radius of gyration: %.2f" % (rg))
     return rg
 
 
@@ -642,7 +642,7 @@ def qrnas():
     AllObj=cmd.get_names("all")
     #print AllObj
     for x in AllObj[:]:
-      print x, 'qrnas...'
+      print(x, 'qrnas...')
       #print(AllObj[0],x)
       f = tempfile.NamedTemporaryFile(delete=True)
       #print f.name
@@ -667,7 +667,7 @@ def mini(f):
     os.system('~/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c ~/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
     cmd.delete('mini')
     cmd.load('out.pdb', 'mini')
-    print 'end'
+    print('end')
 
 
 def reload():
