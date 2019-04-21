@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from rna_pdb_tools.utils.pdb_formatix.SingleLineUtils import get_res_code, get_res_num, get_atom_code, \
+from rna_tools.tools.pdb_formatix.SingleLineUtils import get_res_code, get_res_num, get_atom_code, \
     set_atom_code, set_line_bfactor
 import re
 

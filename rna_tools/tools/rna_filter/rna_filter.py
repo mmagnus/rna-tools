@@ -49,9 +49,9 @@ Usage::
 
 from __future__ import print_function
 
-from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import get_coordinates
-from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
-from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
+from rna_tools.tools.rna_calc_rmsd.lib.rmsd.calculate_rmsd import get_coordinates
+from rna_tools.tools.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rna_tools.tools.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 
 import argparse
 import re

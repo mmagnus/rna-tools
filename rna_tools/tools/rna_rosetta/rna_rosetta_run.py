@@ -84,7 +84,7 @@ import os
 import sys
 
 try:
-    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING
+    from rna_tools.rna_tools_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING
 except:
     print ('Set up rna_rosetta_run_root_dir_for_modeling in rpt_config_local.py')
 

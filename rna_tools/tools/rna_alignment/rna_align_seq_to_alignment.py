@@ -18,7 +18,7 @@ Reads seq files::
    >4lvv
    GGAGAGUAGAUGAUUCGCGUUAAGUGUGUGUGAAUGGGAUGUCGUCACACAACGAAGCGAGAGCGCGGUGAAUCAUUGCAUCCGCUCCA
 """
-import rna_pdb_tools.utils.rna_alignment.rna_alignment as ra
+import rna_tools.utils.rna_alignment.rna_alignment as ra
 
 import sys
 import argparse

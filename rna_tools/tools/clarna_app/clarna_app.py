@@ -11,7 +11,7 @@ Example:
 
  .. code-block:: python
 
-    from rna_pdb_tools.utils.clarna_app import clarna_app
+    from rna_tools.utils.clarna_app import clarna_app
     if __name__ == '__main__':
         ss = '((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))'
         fnCRref = clarna_app.get_ClaRNA_output_from_dot_bracket(ss)
@@ -28,14 +28,14 @@ import subprocess
 import sys
 import os
 import tempfile
-from rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_pk_simrna_to_one_line import get_one_line
+from rna_tools.tools.rna_convert_pseudoknot_formats.rna_pk_simrna_to_one_line import get_one_line
 
 try:
     ClaRNA_play_path = os.environ['ClaRNA_play_path']
 except:
     print('you need to set up ClaRNA_play_path in your .bashrc')
 
-def clarna_run(fn, force=True):
+def clarna_run(fn, force=True, stacking=False):
     """Run ClaRNA run
 
     fn: str
@@ -46,7 +46,11 @@ def clarna_run(fn, force=True):
     if os.path.isfile(fn_out) and not force:
         pass
     else:
-        cmd = 'clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
+        opts = ''
+        if stacking:
+            opts = ' -bp+stack '
+
+        cmd = 'clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
         os.system(cmd)
     if os.stat(fn_out).st_size == 0: # if file is empty also run
         cmd = 'clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
@@ -107,7 +111,7 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     Return:
 
         a filename to ClaRNA output"""
-    from rna_pdb_tools.SecondaryStructure import parse_vienna_to_pairs
+    from rna_tools.SecondaryStructure import parse_vienna_to_pairs
 
     if ss.find(':') > -1:
         chain,ss = ss.split(':')

@@ -16,7 +16,7 @@ Example::
     cmd.load_cgo(obj,'cgo01')
     /// copy above to pymol ///
 
-.. image:: ../../rna_pdb_tools/utils/rna_helix_vis/doc/rna_helix_vis.png
+.. image:: ../../rna_tools/tools/rna_helix_vis/doc/rna_helix_vis.png
 
 .. warning:: works only for chain A @todo
 
@@ -28,7 +28,7 @@ import argparse
 import sys
 import six
 
-from rna_pdb_tools.utils.rna_bp.base_pair import *
+from rna_tools.tools.rna_bp.base_pair import *
 
 if six.PY2:
     import forgi.graph.bulge_graph as fgb

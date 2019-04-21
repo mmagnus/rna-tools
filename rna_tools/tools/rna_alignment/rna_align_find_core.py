@@ -3,7 +3,7 @@
 """rna_align_find_core.py
 """
 
-import rna_pdb_tools.utils.rna_alignment.rna_alignment as ra
+import rna_tools.tools.rna_alignment.rna_alignment as ra
 import argparse
 
 def get_parser():
@@ -18,7 +18,6 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
     fn = args.file
-    
+
     a = ra.RNAalignment(fn)
     print(a.find_core())
-    

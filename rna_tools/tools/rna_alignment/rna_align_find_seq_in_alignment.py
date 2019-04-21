@@ -31,7 +31,7 @@ so you can combine this with `grep`::
 
 """
 
-from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment
+from rna_tools.utils.rna_alignment.rna_alignment import RNAalignment
 
 import sys
 import argparse
