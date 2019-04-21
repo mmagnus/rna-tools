@@ -9,7 +9,7 @@ import subprocess
 import logging
 import argparse
 
-from rna_pdb_tools.rpt_config import CPUS_CLUSTER
+from rna_tools.rna_tools_config import CPUS_CLUSTER
 
 MAX_JOBS = CPUS_CLUSTER
 print('MAX_JOBS:', MAX_JOBS)

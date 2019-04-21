@@ -5,11 +5,15 @@
 
 We hacked Clans thus instead of BLAST-based distances between sequences, you can analyze distances between structures described as p-values of rmsd (based on the method from the Dokholyan lab.)
 
+Quickref::
+
+      rna_clastix.py --groups-auto 10 --color-by-homolog --shape-by-source  thf_ref_mapping_pk_refX.txt input2.clans
+
 Running Clans:
 To run CLANS you need to have Java 1.4 or better installed (java can be downloaded HERE). For full functionality you will also need the NCBI BLAST,PSI-BLAST and formatdb executables (NCBI). For command line parameters and basic help please refer to the README file.
 (source: http://www.eb.tuebingen.mpg.de/research/departments/protein-evolution/software/clans.html)
 
-.. image:: ../../rna_pdb_tools/utils/clanstix/doc/yndSrLTb7l.gif
+.. image:: ../../rna_tools/tools/clanstix/doc/yndSrLTb7l.gif
 
 The RMSDs between structures are converted into p-values based on the method from the Dokholyan lab.
 
@@ -17,7 +21,7 @@ Color groups
 ---------------------------------------
 You can color your groups:
 
-.. image:: ../../rna_pdb_tools/utils/clanstix/doc/rna_clanstix.png
+.. image:: ../../rna_tools/tools/clanstix/doc/rna_clanstix.png
 
 To get colors, run a cmd like this::
 
@@ -50,7 +54,7 @@ Comment: To get this matrix you can use for example another tool from the rna-pd
 
 where ``rp18`` is a folder with structure and ``rp18_rmsd.csv`` is a matrix of all-vs-all rmsds.
 
-.. image:: ../../rna_pdb_tools/utils/clanstix/doc/rp18_clanstix.png
+.. image:: ../../rna_tools/tools/clanstix/doc/rp18_clanstix.png
 
 Hajdin, C. E., Ding, F., Dokholyan, N. V, & Weeks, K. M. (2010). On the significance of an RNA tertiary structure prediction. RNA (New York, N.Y.), 16(7), 1340–9. doi:10.1261/rna.1837410
 
@@ -60,7 +64,7 @@ Frickey, T., & Lupas, A. (2004). CLANS: a Java application for visualizing prote
 """
 
 import argparse
-import rna_pdb_tools.utils.rmsd_signif.rnastruc_pred_signif as pv
+import rna_tools.tools.rmsd_signif.rnastruc_pred_signif as pv
 import numpy as np
 import math
 import logging

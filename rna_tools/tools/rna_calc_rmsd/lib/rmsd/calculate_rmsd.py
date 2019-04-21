@@ -10,7 +10,7 @@ license: https://github.com/charnley/rmsd/blob/master/LICENSE
 """
 import numpy as np
 import re
-from rna_pdb_tools.utils.extra_functions.select_fragment import is_in_selection
+from rna_tools.tools.extra_functions.select_fragment import is_in_selection
 
 def kabsch_rmsd(P, Q):
     """
@@ -153,7 +153,7 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
                                     x = line[30:38]
                                     y = line[38:46]
                                     z = line[46:54]
-                                    V.append(np.asarray([x,y,z],dtype=float))                    
+                                    V.append(np.asarray([x,y,z],dtype=float))
 
     V = np.asarray(V)
     #print filename, resi_set, len(resi_set)

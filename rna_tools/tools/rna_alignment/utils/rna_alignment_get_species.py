@@ -12,8 +12,8 @@ Example::
 """
 from __future__ import print_function
 
-from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment
-from rna_pdb_tools.Seq import RNASequence
+from rna_tools.tools.rna_alignment.rna_alignment import RNAalignment
+from rna_tools.Seq import RNASequence
 import pandas as pd
 import argparse
 import urllib2
@@ -24,6 +24,7 @@ def get_parser():
 
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
+    parser.add_argument("--debug", action="store_true")
     parser.add_argument('--id-width', type=int, default=50)
     parser.add_argument('--evo-mapping')
     parser.add_argument('--evo-mapping-default', action="store_true")
@@ -123,9 +124,13 @@ if __name__ == '__main__':
 
     os_done = []
 
+    cc = 1
     for l in open(a):
         if l.strip():
             if not l.startswith('#') and not l.startswith('//'):
+                if args.debug:
+                    print(cc)
+                    cc += 1
                 try:
                     id, seq = l.split()
                 except:
@@ -171,15 +176,21 @@ if __name__ == '__main__':
                     ## if args.verbose: print(energy, ss)
                 ################################################################################
                 os, oc = get_species(id, args.osfn)
-                # check if os if it's there already
-                c = 1
                 if not os:
                     os = id
+                os = os.replace('.', '_') # remove dots from here
+                # check if os if it's there already
+                c = 1
                 while 1:
                     if os not in os_done:
-                        os_done.append(os)
+                        os_done.append(os) # Tupaia-chinensis-(Chinese-tree-shrew).1.2.3.4.5.6. fuck!
                         break
-                    os += '.' + str(c)
+                    if len(os.split('.')) == 2:
+                        os = os.replace('.' + str(c - 1), '.' + str(c))
+                    else:
+                        os += '.' + str(c)
+                    if args.debug:
+                        pass
                     c += 1
                 ################################################################################
                 if args.evo_mapping or args.evo_mapping_default:

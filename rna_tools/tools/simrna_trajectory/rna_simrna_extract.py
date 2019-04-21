@@ -7,11 +7,11 @@ Options:
   SIMRNA_DATA_PATH has to be properly defined in ``rpt_config_local``.
 
 """
-from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
+from rna_tools.tools.simrna_trajectory.simrna_trajectory import SimRNATrajectory
+from rna_tools.rna_tools_config import SIMRNA_DATA_PATH
+
 import argparse
 import os
-
-from rna_pdb_tools.rpt_config import SIMRNA_DATA_PATH
 
 import logging
 logger = logging.getLogger()
@@ -41,15 +41,18 @@ def get_parser():
 
 def get_data():
     """Get a link to SimRNA data folder in cwd."""
-    print('getting SimRNA data folder in cwd ...')
     cmd = 'ln -s %s %s' % (SIMRNA_DATA_PATH, os.getcwd())
+    print('getting SimRNA data folder in cwd ...', cmd)
     logger.info(cmd)
     os.system(cmd)
 
 
 def extract(template, trafl, number_of_structures=''):
     """Run SimRNA_trafl2pdb to extract all full atom structures in the trajectory."""
-    os.system('SimRNA_trafl2pdbs %s %s AA :%s' % (template, trafl, number_of_structures))
+    cmd = 'SimRNA_trafl2pdbs %s %s AA :%s' % (template, trafl, number_of_structures)
+    # cmd = 'SimRNA_trafl2pdbs %s %s AA : ' % (template, trafl)  # like extract all :
+    print('rna_simrna_extract::' + cmd)
+    os.system(cmd)
 
 
 def cleanup(trafl):
@@ -66,16 +69,29 @@ def cleanup(trafl):
             1db3ee42-d2b1-4c6e-b81c-92f972e03310_ALL_100low-000002.pdb
             1db3ee42-d2b1-4c6e-b81c-92f972e03310_ALL_100low-000002.ss_detected
 
+    Now, in the folder there will be only AA.pdb
+    find can be used to remove files, if rm can't handle, e.g. with 10k files.
     """
     traflfn = trafl.replace('.trafl', '')
     try:
         os.mkdir('_%s' % traflfn)
     except OSError:
         pass
-    os.system('mv %s*.pdb _%s' % (traflfn, traflfn))
-    os.system('mv %s*.ss_detected _%s' % (traflfn, traflfn))
-    os.system('mv %s/*AA.pdb .' % traflfn)
 
+    # move AA to a folder, .e.g _ade_pk-35b2a2c1_ALL_top500
+    cmd = 'mv -v %s*AA.pdb _%s' % (traflfn, traflfn)
+    print(cmd)
+    os.system(cmd)
+
+    # mv vs trash them
+    if True:
+        # os.system('mv %s*.pdb _%s' % (traflfn, traflfn))
+        os.system('rm %s*.pdb' % traflfn)
+        # os.system('find . -name "*%s*.pdb" -print0 | xargs -0 rm ' % traflfn)
+        # os.system('mv %s*.ss_detected _%s' % (traflfn, traflfn))
+        os.system('rm %s*.ss_detected' % traflfn)
+        # os.system('find . -name "*%s*ss_detected" -print0 | xargs -0 rm ' % traflfn)
+        pass
 
 if __name__ == '__main__':
     parser = get_parser()

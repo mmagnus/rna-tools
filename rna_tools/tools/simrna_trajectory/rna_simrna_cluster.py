@@ -7,7 +7,7 @@ By default: cluster 1% and give 5 clusters
 .. warning :: clustering has to be visiable in your shell by the script!"""
 
 from __future__ import print_function
-from rna_pdb_tools.utils.simrna_trajectory.simrna_trajectory import SimRNATrajectory
+from rna_tools.tools.simrna_trajectory.simrna_trajectory import SimRNATrajectory
 import argparse
 import os
 

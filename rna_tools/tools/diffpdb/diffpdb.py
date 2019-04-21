@@ -13,29 +13,29 @@ on these two output files. You get a diff output. That's it! Enjoy!
 
 Configuration:
 
- * ``DIFF_TOOL="open -a diffmerge"`` or ``DIFF_TOOL="kompare"`` to set up what tool would you like to use to diff files in the file ``rna-pdb-tools/utils/diffpdb/diffpdb_conf.py`` (create it if needed)
+ * ``DIFF_TOOL="open -a diffmerge"`` or ``DIFF_TOOL="kompare"`` to set up what tool would you like to use to diff files in the file ``rna-pdb-tools/tools/diffpdb/diffpdb_conf.py`` (create it if needed)
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/screenshot.png
+.. image:: ../../rna_tools/tools/diffpdb/doc/screenshot.png
 
 ``./diffpdb.py --names test_data/4/1duq.pdb test_data/4/1duq_decoy0171_amb_clx.pdb``
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/screenshot2.png
+.. image:: ../../rna_tools/tools/diffpdb/doc/screenshot2.png
 
 and on the Mac (using ``diffmerge``):
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/diffpdb_osx_diffmerge.png
+.. image:: ../../rna_tools/tools/diffpdb/doc/diffpdb_osx_diffmerge.png
 
 One of the difference that can be detected with the script is variants of atoms.
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/atom-variants.png
+.. image:: ../../rna_tools/tools/diffpdb/doc/atom-variants.png
 
 or a detection of missing atom.
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/missing-atoms.png
+.. image:: ../../rna_tools/tools/diffpdb/doc/missing-atoms.png
 
 or a detection of missing OP3 at the beginning.
 
-.. image:: ../../rna_pdb_tools/utils/diffpdb/doc/missing-op3.png
+.. image:: ../../rna_tools/tools/diffpdb/doc/missing-op3.png
 
 """
 import sys
@@ -49,7 +49,7 @@ else:
     PATH = os.path.dirname(os.path.abspath(__file__)) + '/'
 
 try:
-    from rna_pdb_tools.rpt_config import DIFF_TOOL
+    from rna_tools.rna_tools_config import DIFF_TOOL
 except ImportError:
     DIFF_TOOL = 'diff' ## kompare
 

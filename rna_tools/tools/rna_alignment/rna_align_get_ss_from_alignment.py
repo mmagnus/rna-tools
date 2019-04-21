@@ -13,7 +13,7 @@ to get::
   ((((((((...(((((((.......)))))))........((((((.......))))))..))))))))
 
 """
-from rna_pdb_tools.utils.rna_alignment.rna_alignment import clean_seq_and_ss
+from rna_tools.tools.rna_alignment.rna_alignment import clean_seq_and_ss
 import argparse
 
 def get_parser():
