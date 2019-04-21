@@ -26,7 +26,9 @@ import csv
 import shutil
 
 from multiprocessing import Pool, Lock, Value, Process
-from rna_pdb_tools.utils.clarna_app import clarna_app
+from rna_tools.tools.clarna_app import clarna_app
+#from rna_tools.opt.BasicAssessMetrics.BasicAssessMetrics import InteractionNetworkFidelity
+
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
@@ -37,8 +39,8 @@ def get_parser():
                          help="pdb file")
 
     parser.add_argument('-m',"--number_of_threads",
-                           dest="nt",
-                         default=8,
+                         dest="nt",
+                         default=3,
                          help="number of threads used for multiprocessing, if 1 then mp is not used \
                          (useful for debugging)!")
 
@@ -46,6 +48,15 @@ def get_parser():
                          dest="ss",
                          default='',
                          help="A:(([[))]]")
+
+    parser.add_argument('--stacking',
+                         action="store_true",
+                         help="take into account also stacking")
+
+    parser.add_argument('--debug',
+                         action="store_true")
+
+    parser.add_argument('--method', default="clarna", help="you can use mcannotate or clarna")
 
     parser.add_argument('-f',"--force",
                          dest="force",
@@ -70,14 +81,23 @@ from ctypes import c_int
 lock = Lock()
 counter = Value(c_int)
 DEBUG = False
-def do_job(i):
+
+def do_job(i):  # , method='clarna'):
     """Run ClaRNA & Compare, add 1 to the counter, write output
     to csv file (keeping it locked)"""
-    # run clarna & compare
-    i_cl_fn = clarna_app.clarna_run(i, args.force)
+    #if method == 'clarna':
+        # run clarna & compare
+    i_cl_fn = clarna_app.clarna_run(i, args.force, args.stacking)
     output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, DEBUG)
     if args.verbose:
         print(output)
+    ## else:
+    ##     rmsd, DI_ALL, INF_ALL, INF_WC, INF_NWC,INF_STACK = InteractionNetworkFidelity(os.path.abspath(target_fn),
+    ##                                                                                   '/tmp/empty-index',
+    ##                                                                                   os.path.abspath(i),
+    ##                                                                                   '/tmp/empty-index')
+    ##     if args.debug:
+    ##         print(rmsd)
 
     # counter and bar
     global counter
@@ -98,6 +118,9 @@ def do_job(i):
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
+
+    if args.debug:
+        print(args)
 
     if len(sys.argv) == 1:
         print((parser.print_help()))
@@ -141,10 +164,12 @@ if __name__ == '__main__':
     # Main meat
     number_processes = int(args.nt)
 
+    open('/tmp/empty-index', 'a').close()  ## ugly hack
+
     if number_processes > 1: # multi
         p = Pool(number_processes)
-        p.map(do_job, input_files)
+        p.map(do_job, input_files) # , args.method)
     else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
-            do_job(i)
+            do_job(i, args.method)
     print('csv was created! ', out_fn)

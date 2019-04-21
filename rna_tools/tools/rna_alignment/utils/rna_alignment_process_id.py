@@ -28,7 +28,10 @@ if __name__ == '__main__':
 
     for l in open(args.alignment):
         if l:
+            if args.debug:
+                print(l)
             if not l.startswith('#') and not l.startswith('//'):
+                if args.debug: print(l.split())
                 id, seq = l.split()
                 id = id.replace('[', '|').replace(']', '|')
                 if args.debug: print(id)

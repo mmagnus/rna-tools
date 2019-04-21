@@ -44,9 +44,9 @@ Should you need to run it on a list of sequences, use the following script::
 import os
 
 try:
-    RPT_PATH = os.environ['RNA_PDB_TOOLS']
+    RPT_PATH = os.environ['RNA_TOOLS_PATH']
 except KeyError:
-    print ('Set up RNA_PDB_TOOLS, see Installation note')
+    print ('Set up RNA_TOOLS_PATH, see Installation note')
 
 import subprocess
 import tempfile

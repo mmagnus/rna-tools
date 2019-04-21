@@ -91,7 +91,7 @@ def cluster(radius, limit_clusters):
 
 
 def extract():
-    #cmd = "~/src/rna-pdb-tools/rna_pdb_tools/utils/rna_rosetta/rna_extract_lowscore_decoys.py cluster0.out 5"
+    #cmd = "~/src/rna-pdb-tools/rna_tools/utils/rna_rosetta/rna_extract_lowscore_decoys.py cluster0.out 5"
     if platform.system() == "Darwin":
         cmd = 'extract_pdbs.default.macosclangrelease -in::file::silent cluster.out'
     if platform.system() == "Linux":

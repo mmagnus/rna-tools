@@ -1,8 +1,8 @@
-rna-pdb-tools
+rna-tools
 ========================================
 
 .. argparse::
-   :ref: rna_tools.rna_tools.get_parser
+   :ref: rna_tools.rna_pdb_toolsx.get_parser
    :prog: rna_pdb_toolsx.py
 
 get RNAPuzzle ready
@@ -20,7 +20,7 @@ Example::
       > 5_solution_1.pdb A:1-576
       CAUCCGGUAUCCCAAGACAAUCUCGGGUUGGGUUGGGAAGUAUCAUGGCUAAUCACCAUGAUGCAAUCGGGUUGAACACUUAAUUGGGUUAAAACGGUGGGGGACGAUCCCGUAACAUCCGUCCUAACGGCGACAGACUGCACGGCCCUGCCUCAGGUGUGUCCAAUGAACAGUCGUUCCGAAAGGAAG
 
-.. autoclass:: rna_tools.rna_pdb_tools_lib.RNAStructure
+.. autoclass:: rna_tools.rna_tools_lib.RNAStructure
    :members: get_seq
 
 fetch
@@ -31,7 +31,7 @@ Example::
   $ rna_pdb_toolsx.py --fetch 1xjr
   downloading...1xjr ok
 
-.. autofunction:: rna_tools.rna_pdb_tools_lib.fetch
+.. autofunction:: rna_tools.rna_tools_lib.fetch
 
 fetch Biological Assembly
 -----------------------------------------

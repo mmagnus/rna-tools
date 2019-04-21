@@ -15,7 +15,7 @@ Example::
 
     $ rna_plot_hist.py rmsds.csv --column rmsd_all
 
-.. image:: ../../rna_pdb_tools/utils/plotting/test_data/rmsds_dens.png
+.. image:: ../../rna_tools/tools/plotting/test_data/rmsds_dens.png
 """
 from __future__ import print_function
 import pandas as pd

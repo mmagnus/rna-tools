@@ -26,11 +26,11 @@ You can use ``-d`` to get a list of all interacting bases, something like::
 
 so you can plot all interacting bases:
 
-.. image:: ../../rna_pdb_tools/utils/rna_calc_inf/doc/1y26_dinf.png
+.. image:: ../../rna_tools/tools/rna_calc_inf/doc/1y26_dinf.png
 
 Mind, that draw_dists works on C2 atoms, that might be different from atoms detected with the program (e.g. different base atom could be detected to make an interaction).
 
-.. image:: ../../rna_pdb_tools/utils/rna_calc_inf/doc/1y26_dinf2.png
+.. image:: ../../rna_tools/tools/rna_calc_inf/doc/1y26_dinf2.png
 
 """
 from __future__ import print_function

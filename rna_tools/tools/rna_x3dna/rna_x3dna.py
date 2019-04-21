@@ -1,11 +1,11 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Python parser to 3dna <http://x3dna.org/>.
 
 Installation::
 
   # install the code from http://forum.x3dna.org/downloads/3dna-download/
-  Create a copy of the rna_x3dna_config_local_sample.py (remove "_sample") present in rna-pdb-tools/rna_pdb_tools/utils/rna_x3dna folder.
+  Create a copy of the rna_x3dna_config_local_sample.py (remove "_sample") present in rna-tools/rna_tools/tools/rna_x3dna folder.
   Edit this line :
   BINARY_PATH = <path to your x3dna-dssr file>
   matching the path with the path of your x3dna-dssr file.

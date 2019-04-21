@@ -59,9 +59,9 @@ Example #2::
 """
 from __future__ import print_function
 
-from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import *
+from rna_tools.tools.rna_calc_rmsd.lib.rmsd.calculate_rmsd import *
 import sys
-from rna_pdb_tools.utils.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
+from rna_tools.tools.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 import argparse
 import sys
 import math
@@ -172,7 +172,8 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
     atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
 
     if atomsQ != atomsP:
-        sys.exit('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
+        print('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
+        return (-1,0) # skip this RNA
     # Calculate 'dumb' RMSD
     normal_rmsd = rmsd(P, Q)
     # Create the centroid of P and Q which is the geometric center of a

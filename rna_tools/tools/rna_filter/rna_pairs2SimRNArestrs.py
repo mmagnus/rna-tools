@@ -24,6 +24,8 @@ def get_parser():
     parser.add_argument('pairs', help="a file with [[2, 172], [3, 169], [12, 32], [13, 31]]")
     parser.add_argument("--offset", help="can be -10", default=0, type=int)
     parser.add_argument("--weight", default=3, type=float, help="weight")
+    parser.add_argument("--dist", default=7, help="distances, for MOHCA use 25", type=int)
+    parser.add_argument("--well", help="well instead of slope", action="store_true", default=False)
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     return parser
@@ -46,5 +48,8 @@ if __name__ == '__main__':
         a = str(a)
         b = str(b)
 
-        print('SLOPE A/' + a + '/MB A/' + b + '/MB 0 6 ' + str(args.weight))
-        print('SLOPE A/' + a + '/MB A/' + b + '/MB 0 7 -' + str(args.weight))
+        if args.well:
+            print('WELL A/' + a + '/MB A/' + b + '/MB 0 ' + str(args.dist) + ' ' + str(args.weight))
+        else:
+            print('SLOPE A/' + a + '/MB A/' + b + '/MB 0 ' + str(args.dist - 1) + ' ' + str(args.weight))
+            print('SLOPE A/' + a + '/MB A/' + b + '/MB 0 ' + str(args.dist) + ' -' + str(args.weight))

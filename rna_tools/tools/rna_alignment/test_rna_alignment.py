@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from rna_pdb_tools.utils.rna_alignment.rna_alignment import RNAalignment, RNASeq
+from rna_tools.tools.rna_alignment.rna_alignment import RNAalignment, RNASeq
 
 
 def _test_remove_gaps():
