@@ -15,7 +15,7 @@ The program is using (https://github.com/charnley/rmsd)
 """
 from __future__ import print_function
 
-from rna_pdb_tools.utils.rna_calc_rmsd.lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
+from rna_tools.tools.rna_calc_rmsd.lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
 
 import argparse
 import glob

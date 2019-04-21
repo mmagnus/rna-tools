@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-from .SingleLineUtils import get_res_code, get_res_num, get_atom_code, \
+from SingleLineUtils import get_res_code, get_res_num, get_atom_code, \
     set_atom_code
-from . import PDBFile
+import PDBFile
 import os
 
 if __name__ == '__main__':

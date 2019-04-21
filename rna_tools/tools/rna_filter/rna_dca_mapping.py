@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """rna_dca_mapping.py
 
 This function is divided into three parts (and panels in the output):
@@ -20,7 +21,7 @@ Q: your interactions start from 0 or 1?
 
 For a DCA interaction file, ' ' is used for separator at the moment.
 
-Required:  rna_pdb_tools.SecondaryStructure to parse secondary structures in the Vienna format (dot-bracket notation).
+Required:  rna_tools.SecondaryStructure to parse secondary structures in the Vienna format (dot-bracket notation).
 
 Example::
 
@@ -68,9 +69,9 @@ import sys
 import numpy as np
 import argparse
 
-from rna_pdb_tools.SecondaryStructure import parse_vienna_to_pairs
+from rna_tools.SecondaryStructure import parse_vienna_to_pairs
 
-def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, verbose):
+def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss, verbose):
     """This function is deviede into
 
     .. warning:: in the line that we load parameters, watch for sep argument that defines seperator of your file (line21)
@@ -230,6 +231,8 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, ver
         line_new = 'x'.rjust(i[0]) + 'x'.rjust(i[1] - i[0]) + str(i).rjust(len(seq) - i[1] + 10)
         nmapped_interactions.append([i[0], i[1]])
         print line_new
+        if mss:
+            print(ss)
     mapped_interactions = nmapped_interactions
 
     if offset:
@@ -245,12 +248,13 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, ver
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(description=__doc__ , formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--seq', help='seq fn in Fasta format')
-    parser.add_argument('--gseq', help='gapped sequence and secondary structure (like in the alignment used for DCA) in Fasta format')
-    parser.add_argument('--dca', help='file with parsed interactions')
+    parser = argparse.ArgumentParser()  # description=__doc__ , formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--seq', help='seq fn in Fasta format', required=True)
+    parser.add_argument('--gseq', help='gapped sequence and secondary structure (like in the alignment used for DCA) in Fasta format', required=True)
+    parser.add_argument('--dca', help='file with parsed interactions', required=True)
     parser.add_argument('--offset', help="offset", type=int)
     parser.add_argument('--noss', help='filter out ss from plot', action='store_true')
+    parser.add_argument('--mss', help='ss every each line', action='store_true')
     parser.add_argument('--verbose', help='be verbose', action='store_true')
     parser.add_argument('--noshort', help='filter out short interactions, dist in seq < 6 nt', action='store_true')
     return parser
@@ -258,4 +262,4 @@ def get_parser():
 if __name__=="__main__":
     parser = get_parser()
     args = parser.parse_args()
-    rna_dca_mapping(args.seq, args.gseq, args.dca, args.noss, args.noshort, args.offset, args.verbose)
+    rna_dca_mapping(args.seq, args.gseq, args.dca, args.noss, args.noshort, args.offset, args.mss, args.verbose)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 """RNAalignment - a module to work with RNA sequence alignments.
 
-To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
+To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb)
 
 Load an alignment in the Stockholm or fasta format::
 
@@ -27,8 +27,8 @@ from Bio import AlignIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.Phylo.TreeConstruction import DistanceCalculator
-from rna_pdb_tools import SecondaryStructure
-from rna_pdb_tools.rpt_config import RCHIE_PATH
+from rna_tools import SecondaryStructure
+from rna_tools.rna_tools_config import RCHIE_PATH
 from collections import OrderedDict
 
 import tempfile
@@ -70,7 +70,7 @@ class RChie:
             install.packages('optparse')
             install.packages('RColorBrewer')
 
-    - Go to rna_pdb_tools/rpt_config_local.py and set RCHIE_PATH to the folder with RChie, e.g. ``"/home/magnus/work/opt/r-chie/"``.
+    - Go to rna_tools/rna_tools_config_local.py and set RCHIE_PATH to the folder with RChie, e.g. ``"/home/magnus/work/opt/r-chie/"``.
 
     To test if Rchie works on your machine (from rna_align folder)::
 
@@ -357,7 +357,7 @@ class RNASeq(object):
 class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA alignment stuff
 
-    Usage (for more see IPython notebook https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb)
+    Usage (for more see IPython notebook https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb)
 
     >>> a = RNAalignment('test_data/RF00167.stockholm.sto')
     >>> print(a.tail())

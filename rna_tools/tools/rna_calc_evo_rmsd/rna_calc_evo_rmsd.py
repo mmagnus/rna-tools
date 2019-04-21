@@ -25,8 +25,8 @@ import Bio.PDB.Superimposer
 from Bio.PDB.PDBIO import Select
 from Bio.PDB import PDBIO, Superimposer
 
-from .RNAalignment import RNAalignment
-from .RNAmodel import RNAmodel
+from RNAalignment import RNAalignment
+from RNAmodel import RNAmodel
 import csv
 
 debug = False

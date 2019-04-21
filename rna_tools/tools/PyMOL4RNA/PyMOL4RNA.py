@@ -22,6 +22,13 @@ import math
 import subprocess
 import os
 from itertools import izip
+import sys
+
+try:
+    from pymol import cmd
+except ImportError:
+    print("PyMOL Python lib is missing")
+    sys.exit(0)
 
 from rna_tools.rna_tools_lib import RNAStructure
 
@@ -741,11 +748,6 @@ def load_tmp():
     print('Load...')
     cmd.load(TMP_FOLDER + '/last.pse')
 
-#cmd.set_key('CTRL-S', cmd.save, ['/home/magnus/Desktop/tmp.pse'])
-cmd.set_key('CTRL-S', sav_tmp)
-cmd.set_key('CTRL-Z', load_tmp)  # ostatni wrzucam tutaj
-#cmd.load, ['/home/magnus/Desktop/tmp.pse'])
-# main code #
 try:
     from pymol import cmd
 except ImportError:
@@ -771,6 +773,12 @@ else:
     print("""spli - color snRNAs of the spliceosome:
     green: U2,  blue: U5, red:U6, orange:U2""")
     print('RNA_PDB_TOOLS env variable used: ' + RNA_PDB_TOOLS)
+
+    #cmd.set_key('CTRL-S', cmd.save, ['/home/magnus/Desktop/tmp.pse'])
+    cmd.set_key('CTRL-S', sav_tmp)
+    cmd.set_key('CTRL-Z', load_tmp)  # ostatni wrzucam tutaj
+    #cmd.load, ['/home/magnus/Desktop/tmp.pse'])
+    # main code #
 
     cmd.extend('rp17', rp17)
     cmd.extend('rp17csrv', rp17csrv)

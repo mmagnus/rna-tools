@@ -19,7 +19,7 @@ Now it also work with pseudoknots.
 from __future__ import print_function
 
 import argparse
-from rna_pdb_tools.SecondaryStructure import parse_vienna_to_pairs
+from rna_tools.SecondaryStructure import parse_vienna_to_pairs
 
 
 def get_parser():

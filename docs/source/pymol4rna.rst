@@ -1,20 +1,20 @@
 PyMOL4RNA
 =========================================
 
-.. automodule:: rna_pdb_tools.utils.PyMOL4RNA.PyMOL4RNA
+.. automodule:: rna_tools.tools.PyMOL4RNA.PyMOL4RNA
    :members:
    :undoc-members:
 
 PyMOL Drawing
 -----------------------------------------
 
-.. automodule:: rna_pdb_tools.utils.pymol_drawing.pymol_drawing
+.. automodule:: rna_tools.tools.pymol_drawing.pymol_drawing
    :members:
    :undoc-members:
 
 Install PyMOL plugin to view the interactions with PyMOL::
 
-    run <path>rna-pdb-tools/utils/pymol_drawing/pymol_dists.py
+    run <path>rna-tools/tools/pymol_drawing/pymol_dists.py
 
 and type::
 
@@ -26,10 +26,10 @@ RNA Helix Vis (draw helices using PyMOL)
 -----------------------------------------
 
 .. argparse::
-   :ref: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis.get_parser
+   :ref: rna_tools.tools.rna_helix_vis.rna_helix_vis.get_parser
    :prog: rna_helix_vis
 
-.. automodule:: rna_pdb_tools.utils.rna_helix_vis.rna_helix_vis
+.. automodule:: rna_tools.tools.rna_helix_vis.rna_helix_vis
    :members:
    :undoc-members:
 
@@ -38,14 +38,14 @@ Install
 
 Open your `~/.pymolrc` and set up following variables as you need::
 
-   # rna-pdb-tools
-   RNA_PDB_TOOLS="/Users/magnus/work-src/rna-pdb-tools"
+   # rna-tools
+   RNA_TOOLS="/Users/magnus/work-src/rna-tools"
    EXECUTABLE="/bin/zsh" # set up your shell, usually /bin/bash or /bin/zsh
    SOURCE="source ~/.zshrc" # set up the path to the file where you keep your shell variables
    CLARNA_RUN="/Users/magnus/work-src/clarna_play/clarna_run.py"  # if you want to run clarna_run.py set up the path
-   sys.path.append('/Users/magnus/work-src/rna-pdb-tools')
-   run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/PyMOL4RNA/PyMOL4RNA.py
-   run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/pymol_drawing/pymol_drawing.py
-   run ~/work-src/rna-pdb-tools/rna_pdb_tools/utils/rna_filter/pymol_dists.py
-   
+   sys.path.append('/Users/magnus/work-src/rna-tools')
+   run ~/work-src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py
+   run ~/work-src/rna-tools/rna_tools/tools/pymol_drawing/pymol_drawing.py
+   run ~/work-src/rna-tools/rna_tools/tools/rna_filter/pymol_dists.py
+
 The plugins have been tested with MacPyMOL version 1.7.4.5 Edu.

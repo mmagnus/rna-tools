@@ -3,8 +3,8 @@ Configuration
 
 Keep configuration sytanx like::
 
-    from rna_pdb_tools.rpt_config import CPUS_CLUSTER
-    # since we use export PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/
+    from rna_tools.rna_tools_config import CPUS_CLUSTER
+    # since we use export PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-tools/
 
 vs::
 
@@ -21,7 +21,7 @@ We are using (at least we are moving towards)the Google style docstrings via Nap
 Add a new util
 ------------------------------------
 
-1. Create a new folder in ``rna-pdb-tools/rna_pdb_tools/utils`` with your util. The folder will be seen online after your push at https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils. We will walk you through this simple example https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils/renum_pdb_to_aln .
+1. Create a new folder in ``rna-ools/rna_tools/tools`` with your util. The folder will be seen online after your push at https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools. We will walk you through this simple example https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/renum_pdb_to_aln .
 
 2. Make sure that there is a simple test as ``test.sh``::
 
@@ -30,27 +30,27 @@ Add a new util
 
 and there is a ``test_data`` folder with some test inputs and outputs. See the example.
 
-3. Add your util to ``install_links_bin.sh`` at the top folder of ``rna-pdb-tools``::
+3. Add your util to ``install_links_bin.sh`` at the top folder of ``rna-tools``::
 
-    ln -s $curr_dir/rna_pdb_tools /utils/<util folder>/<util script name with .py> $curr_dir/bin/<util script name with .py>
+    ln -s $curr_dir/rna_tools /tools/<tool folder>/<util script name with .py> $curr_dir/bin/<util script name with .py>
 
     e.g.
 
-    ln -s $curr_dir/rna_pdb_tools/utils/renum_pdb_to_aln/renum_pdb_to_aln.py $curr_dir/bin/rna_renum_pdb_to_aln.py
+    ln -s $curr_dir/rnatools/utils/renum_pdb_to_aln/renum_pdb_to_aln.py $curr_dir/bin/rna_renum_pdb_to_aln.py
 
 This will "install" you script in bin directory of the project so it can be used system-wide.
 
 Run this script to see if there is any error, ``./install_links_bin.sh``.
 
-4.  Add your util to the documentation. The util has to be "importable", so don't forget to create ``__init__.py`` inside your util directory. Next, go to ``rna-pdb-tools/docs/source`` and edit ``utils.rst``. Add - wherever you think your tool will fit - lines like::
+4.  Add your util to the documentation. The util has to be "importable", so don't forget to create ``__init__.py`` inside your util directory. Next, go to ``rna-tools/docs/source`` and edit ``utils.rst``. Add - wherever you think your tool will fit - lines like::
 
      Renumber a pdb file according to alignment
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      .. argparse::
-        :ref: rna_pdb_tools.utils.<util folder>.<utl script name>.get_parser
+        :ref: rna_tools.utils.<util folder>.<utl script name>.get_parser
         :prog: <utl script name>
 
-     .. automodule:: rna_pdb_tools.utils.<util folder>.<utl script name>
+     .. automodule:: rna_tools.utils.<util folder>.<utl script name>
         : members:
 
      e.g:
@@ -58,21 +58,21 @@ Run this script to see if there is any error, ``./install_links_bin.sh``.
       Renumber a pdb file according to alignment
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       .. argparse::
-         :ref: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
+         :ref: rna_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
          :prog: renum_pdb_to_aln
 
-      .. automodule:: rna_pdb_tools.utils.renum_pdb_to_aln.renum_pdb_to_aln
+      .. automodule:: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln
         :members:
 
 and run ``make html`` in the folder to check if the documenatation is compiled without any errors.
 
-If you are using any external library such us ``scipy``, please make sure that they are listed in ``rna-pdb-tools/docs/requirements.txt``. If the library is not there, please add it. This file is read by the Read The Docs to compile the documentation and also by Travis for continuous testing.
+If you are using any external library such us ``scipy``, please make sure that they are listed in ``rna-tools/docs/requirements.txt``. If the library is not there, please add it. This file is read by the Read The Docs to compile the documentation and also by Travis for continuous testing.
 
-You can open the documentation compiled locally under a link link file://<path to rna-pdb>/rna-pdb-tools/docs/build/html/index.html, e.g. file:///Users/magnus/work/src/rna-pdb-tools/docs/build/html/index.html.
+You can open the documentation compiled locally under a link link file://<path to rna-tools>/rna-tools/docs/build/html/index.html, e.g. file:///Users/magnus/work/src/rna-tools/docs/build/html/index.html.
 
-5. The very last step is to add your util ``test.sh`` to the main testing script. Edit ``rna-pdb-tools/test.sh`` and add ::
+5. The very last step is to add your util ``test.sh`` to the main testing script. Edit ``rna-tools/test.sh`` and add ::
 
-       cd ./utils/<util folder>/
+       cd ./tools/<tool folder>/
        ./test.sh
        cd ../..
 

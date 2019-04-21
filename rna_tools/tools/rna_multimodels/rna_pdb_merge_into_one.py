@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-from rna_pdb_tools.rna_pdb_tools_lib import RNAStructure
+from rna_tools.rna_tools_lib import RNAStructure
 
 
 if __name__ == '__main__':

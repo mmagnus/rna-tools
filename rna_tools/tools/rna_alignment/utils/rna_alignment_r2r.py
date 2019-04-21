@@ -15,7 +15,7 @@ What's next: the script will be integrated into RNAalignment class
 """
 
 from __future__ import print_function
-import rna_pdb_tools.utils.rna_alignment.rna_alignment as ra
+import rna_tools.tools.rna_alignment.rna_alignment as ra
 import argparse
 import subprocess
 
