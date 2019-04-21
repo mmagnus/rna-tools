@@ -21,7 +21,7 @@ We are using (at least we are moving towards)the Google style docstrings via Nap
 Add a new util
 ------------------------------------
 
-1. Create a new folder in ``rna-ools/rna_tools/tools`` with your util. The folder will be seen online after your push at https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools. We will walk you through this simple example https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/renum_pdb_to_aln .
+1. Create a new folder in ``rna-tools/rna_tools/tools`` with your util. The folder will be seen online after your push at https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools. We will walk you through this simple example https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/renum_pdb_to_aln .
 
 2. Make sure that there is a simple test as ``test.sh``::
 
