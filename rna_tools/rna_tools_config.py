@@ -16,14 +16,16 @@ RNASTRUCTURE_PATH = ""
 
 import os
 try:
-    PATH = os.environ['RNA_PDB_TOOLS']
+    PATH = os.environ['RNA_TOOLS_PATH']
 except KeyError:
-    print ('Set up RNA_PDB_TOOLS, see Installation note')
+    print ('Set up RNA_TOOLS_PATH, see Installation note')
     pass
 else:
     QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
-try:
-    from rna_pdb_tools.rpt_config_local import *
-except ImportError:
-    pass
+#try:
+if 1:
+    print('Loading local config...')
+    from rna_tools.rna_tools_config_local import *
+#except ImportError:
+#    pass
