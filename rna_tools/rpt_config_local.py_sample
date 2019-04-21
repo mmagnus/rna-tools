@@ -1,5 +1,0 @@
-VARNA_PATH  = '/Users/magnus/skills/rnax/varna_tut/'
-VARNA_JAR_NAME = 'VARNA.jar'
-
-RFAM_DB_PATH = "/home/magnus/work/db/rfamdb/Rfam.cm"
-CPUS_CLUSTER = 680
