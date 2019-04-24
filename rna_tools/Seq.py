@@ -221,9 +221,9 @@ class RNASequence(object):
         elif method == "mcfold":
             if constraints:
                 cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F mask=\"" + constraints + "\"" + \
-                " -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+                " -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
             else:
-                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" http://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
             if verbose:
                 print(cmd)
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
