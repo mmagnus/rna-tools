@@ -140,9 +140,9 @@ def get_parser():
                         default='',
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
 
-    parser.add_argument('--uniq', help="")
-    parser.add_argument('--chain-first', help="")
-
+    parser.add_argument('--uniq', help="", action='store_true')
+    parser.add_argument('--chain-first', help="", action='store_true')
+    parser.add_argument('--oneline', help="", action='store_true')
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -213,9 +213,14 @@ if __name__ == '__main__':
             s.fix_op_atoms()
 
             output = ''
+
             # with # is easier to grep this out
-            output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n'
-            output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
+            if args.oneline:
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
+            else:
+                output += os.path.basename(f.replace('.pdb', '')) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
+
             try:
                 sys.stdout.write(output)
                 sys.stdout.flush()
