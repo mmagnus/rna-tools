@@ -50,7 +50,8 @@ python update_readme.py
 ./rna_pdb_toolsx.py --no_hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pdb
 
 ## CCC.pdb
-./rna_pdb_toolsx.py --no_hr --rpr input/CCC.pdb > output/CCC.pdb
+./rna_pdb_toolsx.py --no_hr --rpr --replace_hetatm input/CCC.pdb > output/CCC.pdb
+./rna_pdb_toolsx.py --no_hr --rpr input/CCC.pdb > output/CCC_empty.pdb
 
 #./rna_pdb_toolsx.py --no_hr --rpr input/4W90_protein_rna.pdb > output/4W90_protein_rna_onlyRNA.pdb
 

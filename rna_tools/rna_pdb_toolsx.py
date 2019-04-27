@@ -273,18 +273,20 @@ if __name__ == '__main__':
             print(add_header(version))
         print(s.get_text())
 
+    #rpr #--rpr
     if args.get_rnapuzzle_ready or args.rpr:
         # quick fix - make a list on the spot
         if list != type(args.file):
             args.file = [args.file]
         ##################################
-
         # progress bar only in --inplace mode!
         if args.inplace:
             bar = progressbar.ProgressBar(max_value=len(args.file))
             bar.update(0)
 
         for c, f in enumerate(args.file):
+            if args.verbose:
+                print(f)
             if args.inplace:
                 shutil.copy(f, f + '~')
 

@@ -10,6 +10,10 @@ input/1xjr_A3-4.pdb
 >1xjr_A3-4 nts=2 [1xjr_A3-4] -- secondary structure derived by DSSR
 AG
 ..
+input/1xjr_A5-10.pdb
+>1xjr_A5-10 nts=6 [1xjr_A5-10] -- secondary structure derived by DSSR
+UUCACC
+......
 input/1xjr_C10-11.pdb
 >1xjr_C10-11 nts=2 [1xjr_C10-11] -- secondary structure derived by DSSR
 AG
@@ -18,6 +22,10 @@ input/1xjr_GTP.pdb
 >1xjr_GTP nts=1 [1xjr_GTP] -- secondary structure derived by DSSR
 g
 .
+input/1xjr_ba.pdb
+>1xjr_ba nts=47 [1xjr_ba] -- secondary structure derived by DSSR
+gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
 input/1xjr_clx_charmm.pdb
 >1xjr_clx_charmm nts=46 [1xjr_clx_charmm] -- secondary structure derived by DSSR
 GAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
