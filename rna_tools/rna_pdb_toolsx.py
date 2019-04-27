@@ -22,10 +22,17 @@ Usage::
 """
 from __future__ import print_function
 import argparse
+import textwrap
 import os
+import shutil
+import sys
+import tempfile
+
 import progressbar
 
-from rna_tools_lib import *
+from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version, \
+                          collapsed_view, fetch, fetch_ba, replace_chain, RNAStructure, \
+                          select_pdb_fragment
 from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
 
 
@@ -33,7 +40,7 @@ def get_parser():
     version = os.path.basename(os.path.dirname(os.path.abspath(__file__))), get_version(__file__)
     version = version[1].strip()
     parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+        description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('--version', help='', action='version', version=version)
 
@@ -69,16 +76,28 @@ def get_parser():
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get_seq', help='get seq', action='store_true')
-    parser.add_argument('--compact', help='with --get_seq, get it in compact view' , action='store_true')
+    parser.add_argument('--compact',
+                        help=textwrap.dedent("""with --get_seq, get it in compact view'
+$ rna_pdb_toolsx.py --get_seq --compact *.pdb
+# 20_Bujnicki_1
+ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
+# 20_Bujnicki_2
+ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
+# 20_Bujnicki_3
+ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
+# 20_Bujnicki_4
+
+"""), action='store_true')
 
     parser.add_argument('--get_ss', help='get secondary structure', action='store_true')
 
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get_rnapuzzle_ready', help='get RNApuzzle ready (keep only standard atoms).'
-                                                      'Be default it does not renumber residues, use --renumber_residues '
-                                                      '[requires biopython]', action='store_true')
+    parser.add_argument('--get_rnapuzzle_ready',
+                        help=textwrap.dedent("""get RNApuzzle ready (keep only standard atoms).'
+Be default it does not renumber residues, use --renumber_residues
+[requires BioPython]"""), action='store_true')
 
     parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
                         action='store_true')
@@ -89,8 +108,11 @@ def get_parser():
     parser.add_argument('--renumber_residues', help='by defult is false',
                         action='store_true')
 
-    parser.add_argument('--dont_rename_chains', help="""used only with --get_rnapuzzle_ready. By default \
-                                                      --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option""",
+    parser.add_argument('--dont_rename_chains',
+                        help=textwrap.dedent("""used only with --get_rnapuzzle_ready.
+By default:
+   --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option
+"""),
                         action='store_true')
 
     parser.add_argument('--dont_fix_missing_atoms',
@@ -113,10 +135,13 @@ def get_parser():
     parser.add_argument('--replace_hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]",
                         action="store_true")
 
-    parser.add_argument('--inplace', help='in place edit the file! [experimental, only for get_rnapuzzle_ready, delete, get_ss, get_seq]',
+    parser.add_argument('--inplace', help=textwrap.dedent("""in place edit the file! [experimental,
+only for get_rnapuzzle_ready, delete, get_ss, get_seq, edit_pdb]"""),
                         action='store_true')
 
-    parser.add_argument('--mutate', help="""mutate residues, e.g. A:1A+2A+3A+4A,B:1A to mutate the first nucleotide of the A chain to Adenine etc and the first nucleotide of the B chain""")
+    parser.add_argument('--mutate', help=textwrap.dedent("""mutate residues,
+ e.g. A:1A+2A+3A+4A,B:1A to mutate the first nucleotide of the A chain to Adenine
+ etc and the first nucleotide of the B chain"""))
 
     parser.add_argument('--edit',
                         dest="edit",
@@ -128,7 +153,9 @@ def get_parser():
 
     parser.add_argument('--replace-chain',
                         default='',
-                        help="a file PDB name with one chain that will be used to replace the chain in the original PDB file, the chain id in this file has to be the same with the chain id of the original chain")
+                        help=textwrap.dedent("""a file PDB name with one chain that will be used to
+replace the chain in the original PDB file,
+the chain id in this file has to be the same with the chain id of the original chain"""))
 
     parser.add_argument('--delete',  # type="string",
                         dest="delete",
@@ -140,10 +167,25 @@ def get_parser():
                         default='',
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
 
-    parser.add_argument('--uniq', help="", action='store_true')
+    parser.add_argument('--uniq', help=textwrap.dedent("""
+rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact --chain-first * | sort
+A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
+A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
+A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # zcp_6537608a_ALL-000001_AA
+A:1-45 57-71   GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCGCCGCCCGCCUGGGC # solution
+"""))
+
     parser.add_argument('--chain-first', help="", action='store_true')
     parser.add_argument('--oneline', help="", action='store_true')
-    parser.add_argument('--fasta', help="", action='store_true')
+    parser.add_argument('--fasta',
+                        help= textwrap.dedent("""with --get-seq, show sequences in fasta format,
+can be combined with --compact (mind, chains will be separated with ' ' in one line)
+
+$ rna_pdb_toolsx.py --get_seq --fasta --compact input/20_Bujnicki_1.pdb
+> 20_Bujnicki_1
+ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
+
+"""), action='store_true')
 
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
