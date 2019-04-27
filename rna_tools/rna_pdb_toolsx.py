@@ -223,7 +223,7 @@ if __name__ == '__main__':
             elif args.oneline:
                 output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
             else:
-                output += os.path.basename(f.replace('.pdb', '')) + '\n'
+                output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n'
                 output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
 
             try:
@@ -518,12 +518,33 @@ if __name__ == '__main__':
         str(s.un_nmr())
 
     if args.is_nmr:
-        s = RNAStructure(args.file)
-        output = str(s.is_nmr(args.verbose))
+        struc = RNAStructure(args.file)
+        output = str(struc.is_nmr(args.verbose))
         sys.stdout.write(output + '\n')
 
+    #edit
     if args.edit:
-        edit_pdb(args)
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.verbose:
+                print(f)
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            output = edit_pdb(f, args)
+
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
+
 
     if args.fetch:
         fetch(args.file)
