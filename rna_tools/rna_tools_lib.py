@@ -325,7 +325,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def get_seq(self, compact=False, chainfirst=False):
+    def get_seq(self, compact=False, chainfirst=False, fasta=False):
         """Get seq (v2) gets segments of chains with correct numbering
 
         Run::
@@ -388,8 +388,11 @@ class RNAStructure:
             for c in list(chains.keys()):
                 if chainfirst:
                     txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq']) + ' '
+                elif fasta:
+                    txt += ''.join(chains[c]['seq']) + ' '
                 else:
                     txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header'] + ' '
+
             return txt.strip()
         else:
             txt = ''
@@ -1537,7 +1540,7 @@ def add_header(version=None):
     return txt
 
 
-def edit_pdb(args):
+def edit_pdb(f, args):
     """Edit your structure.
 
     The function can take ``A:3-21>A:1-19`` or even syntax like this
@@ -1555,10 +1558,11 @@ def edit_pdb(args):
 
     """
     # open a new file
-    s = RNAStructure(args.file)
+    s = RNAStructure(f)
+    output = ''
     if not args.no_hr:
         add_header()
-        print('HEADER --edit ' + args.edit)
+        output += 'HEADER --edit ' + args.edit
 
     # --edit 'A:3-21>A:1-19,B:22-32>B:20-30'
     if args.edit.find(',') > -1:
@@ -1571,7 +1575,7 @@ def edit_pdb(args):
             if len(selection_to) != len(selection_from):
                 raise Exception('len(selection_to) != len(selection_from)')
             selects.append([selection_from, selection_to])
-        print(edits)
+        output += edits
     else:
         # one edit
         e = args.edit
@@ -1606,11 +1610,12 @@ def edit_pdb(args):
                         nl[22:26] = resi_new
                         nl = ''.join(nl)
                         if_selected_dont_print = True
-                        print(nl)
+                        output += nl + '\n'
             if not if_selected_dont_print:
-                print(l)
+                output += l + '\n'
         else:  # if not atom
-            print(l)
+            output += l + '\n'
+    return output
 
 
 def collapsed_view(args):
