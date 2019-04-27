@@ -143,6 +143,8 @@ def get_parser():
     parser.add_argument('--uniq', help="", action='store_true')
     parser.add_argument('--chain-first', help="", action='store_true')
     parser.add_argument('--oneline', help="", action='store_true')
+    parser.add_argument('--fasta', help="", action='store_true')
+
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -215,7 +217,10 @@ if __name__ == '__main__':
             output = ''
 
             # with # is easier to grep this out
-            if args.oneline:
+            if args.fasta:
+                output += '> ' + os.path.basename(f.replace('.pdb', '')) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta) + '\n'
+            elif args.oneline:
                 output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
             else:
                 output += os.path.basename(f.replace('.pdb', '')) + '\n'
