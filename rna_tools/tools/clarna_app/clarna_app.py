@@ -35,7 +35,7 @@ try:
 except:
     print('you need to set up ClaRNA_play_path in your .bashrc')
 
-def clarna_run(fn, force=True, stacking=False):
+def clarna_run(fn, force=True, stacking=True):
     """Run ClaRNA run
 
     fn: str
