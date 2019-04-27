@@ -389,7 +389,7 @@ class RNAStructure:
                 if chainfirst:
                     txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq']) + ' '
                 else:
-                    txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header']
+                    txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header'] + ' '
             return txt.strip()
         else:
             txt = ''
