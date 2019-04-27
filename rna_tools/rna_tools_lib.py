@@ -1428,18 +1428,17 @@ class RNAStructure:
                 atom_code = self.get_atom_code(l)
                 l = self.set_atom_code(l, atom_code)
             ##################################################################################
-
             if l.startswith('TER'):
-                pass  # leave it for now this
-                # atom_l = self.lines[c - 1]
-                # new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
-                # new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l) + 1 + no_ters))
-                # new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
-                # new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
-                # new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
-                # nlines.append(new_l)
-                nlines.append(l)
-                ## no_ters += 1
+                #                pass  # leave it for now this
+                atom_l = self.lines[c - 1]
+                new_l = 'TER'.ljust(80)   # TER    1528        G A  71 <<<'
+                new_l = self.set_atom_index(new_l, str(self.get_atom_index(atom_l) + 1 + no_ters))
+                new_l = self.set_res_code(new_l, self.get_res_code(atom_l))
+                new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
+                new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
+                nlines.append(new_l)
+                #nlines.append(l)
+                no_ters += 1
             else:
                 if self.get_atom_index(l):
                     l = self.set_atom_index(l, self.get_atom_index(
@@ -1561,8 +1560,8 @@ def edit_pdb(f, args):
     s = RNAStructure(f)
     output = ''
     if not args.no_hr:
-        add_header()
-        output += 'HEADER --edit ' + args.edit
+        output += add_header() + '\n'
+        output += 'REMARK 250    HEADER --edit ' + args.edit + '\n'
 
     # --edit 'A:3-21>A:1-19,B:22-32>B:20-30'
     if args.edit.find(',') > -1:
