@@ -231,8 +231,8 @@ def main():
         print(ss)
 
         if RNA_ROSETTA_RUN_ROOT_DIR_MODELING.strip() == '':
-            raise Exception(
-                'Set RNA_ROSETTA_RUN_ROOT_DIR_MODELING in your rpt_config file.')
+            print('Set RNA_ROSETTA_RUN_ROOT_DIR_MODELING in your rpt_config file.')
+            return
 
         path = args.sandbox + os.sep + header + \
             os.sep  # RNA_ROSETTA_RUN_ROOT_DIR_MODELING
