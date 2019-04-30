@@ -215,7 +215,7 @@ def align_all( subset = [] ):
     elif isinstance( subset, str ) and len( subset ) > 0:
       subset_tag = ' and %s' % subset
     values = cmd.align(x+subset_tag,AllObj[0]+subset_tag)
-    print AllObj[0], x, ' '.join([str(v) for v in values]), '-- RMSD', values[3], ' of ', values[6], 'residues'
+    print(AllObj[0], x, ' '.join([str(v) for v in values]), '-- RMSD', values[3], ' of ', values[6], 'residues')
     cmd.zoom()
 
 
