@@ -362,4 +362,4 @@ if __name__ == '__main__':
         write_seq(align, args.outfn)
 
 
-    print 'DONE \nSaved to:', args.outfn
+    print('DONE \nSaved to:', args.outfn)

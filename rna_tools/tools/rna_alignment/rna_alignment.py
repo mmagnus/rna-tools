@@ -340,8 +340,8 @@ class RNASeq(object):
         """
         c = start + offset
         index = []
-        print self.seq
-        print consensus
+        print(self.seq)
+        print(consensus)
         for nt_seq, nt_consensus in zip(self.seq, consensus):
             if nt_consensus in ['-', 'X']:
                 pass
