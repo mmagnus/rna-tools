@@ -28,7 +28,7 @@ try:
     from pymol import cmd
 except ImportError:
     print("PyMOL Python lib is missing")
-    sys.exit(0)
+    # sys.exit(0)
 
 from rna_tools.rna_tools_lib import RNAStructure
 
