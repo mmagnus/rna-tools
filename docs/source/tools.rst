@@ -73,6 +73,14 @@ RNAalignment
    :members:
    :undoc-members:
 
+
+rna_alignment_get_species.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_tools.tools.rna_alignment.utils.rna_alignment_get_species.get_parser
+   :prog: rna_alignment_get_species
+
 Random assignment of nucleotides
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
