@@ -188,29 +188,29 @@ if __name__ == '__main__':
     #print (list_res)
     res_matrix = np.array(list_res[1:])
 
-''' 
-Creating a plot
+    '''
+    Creating a plot
 
-'''
+    '''
 
-new_resi = list_res[1:]
-new_resis = []
+    new_resi = list_res[1:]
+    new_resis = []
 
-for i in new_resi:
-    #print (j)
-    new_resis.append(str(i[0]) + '/' + str(i[1]))
+    for i in new_resi:
+        #print (j)
+        new_resis.append(str(i[0]) + '/' + str(i[1]))
 
 
-#print (new_resis)
+    #print (new_resis)
 
-list2_matrix= new_resis
+    list2_matrix= new_resis
 
-list2_matrix1 = map(float, list(res_matrix[:,2]))
-#print (list2_matrix1)
+    list2_matrix1 = map(float, list(res_matrix[:,2]))
+    #print (list2_matrix1)
 
-plt.bar(list2_matrix,list2_matrix1,facecolor='pink' )
+    plt.bar(list2_matrix,list2_matrix1,facecolor='pink' )
 
-plt.suptitle('Distance between C4 atoms of residues')
-plt.ylabel("distance [A]")
-plt.xlabel('Nr of residue')
-plt.show()
+    plt.suptitle('Distance between C4 atoms of residues')
+    plt.ylabel("distance [A]")
+    plt.xlabel('Nr of residue')
+    plt.show()
