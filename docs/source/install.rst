@@ -1,30 +1,30 @@
 Install & Configure
 =============================================
 
-Download rna-pdb-tools by clicking here https://github.com/mmagnus/rna-pdb-tools/archive/master.zip or using ``git``::
+Download rna-pdb-tools by clicking here https://github.com/mmagnus/rna-tools/archive/master.zip or using ``git``::
 
-   $ git clone https://github.com/mmagnus/rna-pdb-tools.git
+   $ git clone https://github.com/mmagnus/rna-tools.git
    $ cd rna-pdb-tools
 
-(``git`` is better if you want to contribute to the package and if you want to get pretty frequent updates).
+``git`` is better if you want to contribute to the package and if you want to get pretty frequent updates.
 
-The first step is "zero" because not all requirments are needed to start working with rna-pdb-tools.
+The first step is "zero" because not all requirements are needed to start working with rna-tools.
 
 To install the full set of requirements, use ``pip``:
 
 0. ``pip install -r docs/requirements.txt``
 
-and install the package itself in three steps:
+and setup the package itself in three steps:
 
-1. add the path to the package to your PYTHONPATH (in ~/.bashrc), e.g. ``export PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-pdb-tools/``
+1. Add the path to the package to your PYTHONPATH (in ~/.bashrc or ~/.zshrc), e.g., ``export PYTHONPATH=$PYTHONPATH:/home/magnus/src/rna-tools/``
    
-2. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  ``export PATH=$PATH:/home/magnus/src/rna-pdb-tools/bin/``
+2. Add the path to the bin folder of the package to your PATH (in  ~/.bashrc or ~/.zshrc), e.g.,  ``export PATH=$PATH:/home/magnus/src/rna-tools/bin/``
    
-3. add the path to the bin folder of the package to your PATH (in ~/.bashrc), e.g.  ``export RNA_PDB_TOOLS=/home/magnus/src/rna-pdb-tools/``
+3. Add the path to the bin folder of the package to your PATH (in  ~/.bashrc or ~/.zshrc), e.g.,  ``export RNA_TOOLS_PATH=/home/magnus/src/rna-tools/``
 
-4. and run the install script::
+4. And run the installation script::
 
-    ➜  rna-pdb-tools git:(master) ✗ ./install_links_bin.sh
+    ➜  rna-tools git:(master) ✗ ./install_links_bin.sh
     Installed in ./bin
     rmsd_calc_to_target.py
 
@@ -32,11 +32,11 @@ should be OK now :-)
 
 To set you own configuration, please first::
 
-    cp rpt_config_local.py_sample rpt_config_local.py # in rna-pdb-tools/rna_pdb_tools
+    cp rna_tools_config_local.py_sample rna_tools_config_local.py # in rna-tools/rna_tools
 
 and then edit ``rpt_config_local.py`` as you need. In my case it is::
 
-    rna_pdb_tools git:(master) ✗ cat rpt_config_local.py
+    rna_tools git:(master) ✗ cat rna_tools_config_local.py
     VARNA_PATH  = '/Users/magnus/skills/rnax/varna_tut/'
     VARNA_JAR_NAME = 'VARNA.jar'
 
