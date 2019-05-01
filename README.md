@@ -70,6 +70,7 @@ Table of Contents
    * [rna_pdb_toolsx.py](#rna_pdb_toolspy)
    * [Utils](#utils)
    * [Docs](#docs)
+   * [Papers](#papers)
    * [RNA Puzzle Submission](#rna-puzzle-submission)
    * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
