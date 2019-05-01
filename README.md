@@ -236,17 +236,17 @@ Read the documentations at [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.
 
 ## Papers
 
-1. Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., et al. (2019). RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation and evaluation tools. (in preparation)
+1. Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., et al. (2019). *RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation and evaluation tools*. (in preparation)
 
-2. Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Mol Cell (in press)
+2. Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell (in press)
 
-3. Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
+3. Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
 
-4. Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). RNArchitecture: a database and a classification system of RNA families, with a focus on structural information. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
+4. Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
 
-5. Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). SimRNAweb: a web server for RNA 3D structure modeling with optional restraints. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
+5. Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
 
-6. Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). NPDock: a web server for protein-nucleic acid docking. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
+6. Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
 
 ## RNA Puzzle Submission
 
