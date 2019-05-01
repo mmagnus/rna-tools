@@ -12,13 +12,10 @@ Look for other our projects at https://github.com/RNA-Puzzles.
 [![Build Status](https://travis-ci.org/mmagnus/rna-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-tools)
 [![Documentation Status](https://readthedocs.org/projects/rna-tools/badge/?version=latest)](http://rna-tools.readthedocs.io/en/latest/?badge=latest)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-tools/?branch=master)
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.60933.svg)](http://dx.doi.org/10.5281/zenodo.60933)
 <span class="badge-paypal"><a href="https://www.paypal.me/MarcinMagnus" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 <span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
 
-> Magnus, Marcin. (2016). rna-pdb-tools. Zenodo. 10.5281/zenodo.60933
-
-*If you find the tools helpful, you can cite the repo using the doi above :-), you can donate via PayPal, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.*
+*If you find the tools helpful you can by me a beer via PayPal or Flattr, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.*
 
 ![](docs/pngs/starit.png)
 
@@ -70,7 +67,8 @@ Table of Contents
    * [rna_pdb_toolsx.py](#rna_pdb_toolspy)
    * [Utils](#utils)
    * [Docs](#docs)
-   * [Papers](#papers)
+   * [Cite](#cite)
+   * [Used in papers](#used-in-papers)
    * [RNA Puzzle Submission](#rna-puzzle-submission)
    * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
@@ -234,19 +232,21 @@ Read the documentations at [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.
 
 <a href="http://rna-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
 
-## Papers
+## Cite
 
-1. Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., et al. (2019). *RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation and evaluation tools*. (in preparation)
+Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., et al. (2019). *RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation and evaluation tools*. (in preparation)
 
-2. Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell (in press)
+## Used in papers
 
-3. Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
+1. Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell (in press)
 
-4. Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
+2. Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
 
-5. Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
+3. Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
 
-6. Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
+4. Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling 4with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
+
+5. Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
 
 ## RNA Puzzle Submission
 
