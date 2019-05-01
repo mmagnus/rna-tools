@@ -19,6 +19,8 @@ Look for other our projects at https://github.com/RNA-Puzzles.
 
 ![](docs/pngs/starit.png)
 
+**Cite** Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., et al. (2019). RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation and evaluation tools. (in preparation)
+
 A core library and a set of programs to run various Python functions related to work with PDB files of RNA structures, but also with various different formats. 
 
 **That's why in 2019, after publishing our U6 MolCell paper I decided to rename the package to rna-tools. Simply, various tools to work with RNA, alignments, sequences, structures, trajectories, RNA-seq data.**
