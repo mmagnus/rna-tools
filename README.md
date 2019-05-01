@@ -50,7 +50,7 @@ or from another script (fetch an alignment and plot it)
 
 ![](docs/pngs/align.png)
 
-Fig. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_pdb_tools/utils/rna_alignment/rna_alignment.ipynb>
+Fig. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb>
 
 Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna-tools/) and/or read the doc [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
