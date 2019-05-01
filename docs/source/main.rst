@@ -1,6 +1,9 @@
 rna-tools
 ========================================
 
+rna_pdb_toolsx
+-----------------------------------------
+
 .. argparse::
    :ref: rna_tools.rna_pdb_toolsx.get_parser
    :prog: rna_pdb_toolsx.py
