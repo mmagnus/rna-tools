@@ -5,8 +5,6 @@
   <b >a toolbox to analyze sequences, structures and simulations of RNA</b>
 </p>
 
-<p align="center"><b>Beta: this is still under development. Contact me if you need help. We'll be adding features and possibly making breaking changes in future releases. (2) I just changed the name to rna-tools, I renamed the utils folder. It means that there still might be some misimports. I will try to fix it asap.</b></p>
-
 Look for other our projects at https://github.com/RNA-Puzzles.
 
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow)](https://twitter.com/rna_tools) [![release](https://img.shields.io/github/release/mmagnus/rna-tools.svg)](https://github.com/mmagnus/rna-tools/releases)
