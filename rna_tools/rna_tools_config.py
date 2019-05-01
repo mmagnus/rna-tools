@@ -23,9 +23,7 @@ except KeyError:
 else:
     QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
-#try:
-if 1:
-    print('Loading local config...')
+try:
     from rna_tools.rna_tools_config_local import *
-#except ImportError:
-#    pass
+except ImportError:
+    pass
