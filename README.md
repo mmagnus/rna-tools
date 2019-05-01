@@ -65,7 +65,7 @@ Table of Contents
 
    * [Tour](#tour)
    * [rna_pdb_toolsx.py](#rna_pdb_toolspy)
-   * [Utils](#utils)
+   * [Tools](#tools)
    * [Docs](#docs)
    * [Cite](#cite)
    * [Used in papers](#used-in-papers)
@@ -220,9 +220,9 @@ Tricks:
 
     $ for i in *pdb; do rna_pdb_toolsx.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
 
-## Utils
+## Tools
 
-See [Utils](rna_pdb_tools/utils) for simple but still extremly powerful rna tools.
+See [Tools](rna_tools/tools) for simple but still extremly powerful rna tools.
 
 Read more http://rna-tools.readthedocs.io/en/latest/
 
