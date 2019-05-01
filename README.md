@@ -6,9 +6,7 @@ rna-tools
 
 Look for other our projects at https://github.com/RNA-Puzzles.
 
-[![Twitter Follow](http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow)](https://twitter.com/rna_tools)
-
-[![release](https://img.shields.io/github/release/mmagnus/rna-tools.svg)](https://github.com/mmagnus/rna-tools/releases)
+[![Twitter Follow](http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow)](https://twitter.com/rna_tools) [![release](https://img.shields.io/github/release/mmagnus/rna-tools.svg)](https://github.com/mmagnus/rna-tools/releases)
 [![Build Status](https://travis-ci.org/mmagnus/rna-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-tools)
 [![Documentation Status](https://readthedocs.org/projects/rna-tools/badge/?version=latest)](http://rna-tools.readthedocs.io/en/latest/?badge=latest)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mmagnus/rna-tools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mmagnus/rna-tools/?branch=master)
