@@ -35,7 +35,7 @@ The software is used by me in my servers **NPDock** (RNA/DNA-protein docking met
 
 `rna-tools` (formerly rna-pdb-tools) is a packages of shell utils that are using the common core library. You can also access functions of the library from your scripts.
 
-A shell util:
+A command-line tools:
 
 ```shell
 $ rna_pdb_toolsx.py --is_pdb input/1I9V_A.pdb
@@ -43,7 +43,8 @@ True
 $ rna_pdb_toolsx.py --is_pdb input/image.png
 False
 ```
-or from a script
+
+or from a script:
 
 ```python
 >>> from rna_tools_lib import *
@@ -52,11 +53,11 @@ or from a script
 True
 ```
 
-or from another script (fetch an alignment and plot it)
+or from a Jupyter Notebook:
 
 ![](docs/pngs/align.png)
 
-Fig. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb>
+Fig. Fetch an alignment and generate an RChie plot for it. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb>
 
 Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna-tools/) and/or read the doc [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
