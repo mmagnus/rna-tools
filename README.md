@@ -5,7 +5,9 @@
   <b >a toolbox to analyze sequences, structures and simulations of RNA</b>
 </p>
 
-Look for other our projects at https://github.com/RNA-Puzzles.
+<p align="center">
+  Look for other our projects at https://github.com/RNA-Puzzles.
+</p>
 
 [![Twitter Follow](http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow)](https://twitter.com/rna_tools) [![release](https://img.shields.io/github/release/mmagnus/rna-tools.svg)](https://github.com/mmagnus/rna-tools/releases)
 [![Build Status](https://travis-ci.org/mmagnus/rna-tools.svg?branch=master)](https://travis-ci.org/mmagnus/rna-tools)
@@ -14,9 +16,10 @@ Look for other our projects at https://github.com/RNA-Puzzles.
 <span class="badge-paypal"><a href="https://www.paypal.me/MarcinMagnus" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 <span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
 
+<!--
 *If you find the tools helpful you can by me a beer via PayPal or Flattr, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.*
-
 ![](docs/pngs/starit.png)
+-->
 
 A core library and a set of programs to run various Python functions related to work with PDB files of RNA structures, but also with various different formats. 
 
