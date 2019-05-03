@@ -203,6 +203,9 @@ def prepare_rosetta(header, cpus, nstruc):
     # change to 50 per job (!)
     # 50 * 100 = 10k ?
     # dont change this 100 (!) it might not run on peyote2 with values like 99999 !
+    # cmd is
+    # rna_tools/bin//rosetta_submit.py <text file with rosetta command> <outdir> <# jobs> <# hours> <job name>
+    # manually: [peyote2] a22$ rosetta_submit.py README_FARFAR o 200 100 a22_
     cmd = 'rosetta_submit.py README_FARFAR o ' + \
         str(njobs) + ' 100 ' + header + '_'
     print(cmd)
