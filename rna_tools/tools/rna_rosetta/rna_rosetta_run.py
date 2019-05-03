@@ -106,7 +106,7 @@ def get_parser():
                         action='store_true')
     parser.add_argument('-g', '--go', help=go.__doc__,
                         action='store_true')
-
+    parser.add_argument('-m', '--motif', help="include a motif file, e.g. -s E-loop_1q9a_mutated_no_flanks_renumber.pdb")
     parser.add_argument('-n', '--nstruc', help="# of structures you want to get",
                         default=10000, type=int)
 
@@ -122,7 +122,30 @@ def get_parser():
 
 
 def prepare_folder(args, header, seq, ss, path):
-    """Make folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder"""
+    """Make folder for you job, with seq.fa, ss.fa, input file is copied as input.fa to the folder.
+
+    For ss lowercase is needed when used with motifs, otherwise::
+
+        [peyote2] aa20$ rna_rosetta_run.py -r -m E-loop_1q9a_mutated_no_flanks_renumber_for_acy20.pdb ~/aa20.fa
+        2019-05-03 21:31:30,842 rpt_config_local.py::<module>::rpt_config_local loading...
+        run rosetta for:
+        aa20
+        UACGUUCAUCAUCCGUUUGGAUGACGGAAGUAAGCGAAAGCUGAAGGAACGCAUG
+        ..(((((.((((((....))))))..[.....(((....)))....)))))]...
+        rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct 50  -s E-loop_1q9a_mutated_no_flanks_renumber_for_acy20.pdb  -silent helix0.out helix1.out helix2.out  -input_silent_res 3-7 47-51 9-14 19-24 33-35 40-42
+
+        Sequence:  UACGUUCAUCAUCCGUUUGGAUGACGGAAGUAAGCGAAAGCUGAAGGAACGCAUG
+        Secstruc:  ..(((((.((((((....))))))..[.....(((....)))....)))))]...
+        aaguagaag
+        AAGUAGAAG
+        Traceback (most recent call last):
+          File "/home/magnus/opt/rosetta_src_2016.13.58602_bundle/tools/rna_tools/bin//rna_denovo_setup.py", line 170, in <module>
+            raise ValueError('The sequence in %s does not match input sequence!!' % pdb)
+        ValueError: The sequence in E-loop_1q9a_mutated_no_flanks_renumber_for_acy20.pdb does not match input sequence!!
+        rosetta_submit.py README_FARFAR o 200 100 aa20_
+        Could not find:  README_FARFAR
+
+    """
     d = path
     try:
         os.mkdir(d)
@@ -136,7 +159,7 @@ def prepare_folder(args, header, seq, ss, path):
         f.write(seq)
 
     with open(d + "ss.fa", "w") as f:
-        f.write(ss)
+        f.write(ss.lower())
     print('Seq & ss created')
     shutil.copyfile(args.file, d + 'input.fa')
 
@@ -179,7 +202,7 @@ def prepare_helices():
             print(stderr)
 
 
-def prepare_rosetta(header, cpus, nstruc):
+def prepare_rosetta(header, cpus, motif, nstruc):
     """Prepare ROSETTA using rna_denovo_setup.py
 
     cpus is used to calc nstruc per job to get 10k structures per full run::
@@ -188,6 +211,7 @@ def prepare_rosetta(header, cpus, nstruc):
 
       nstruc(int): how many structures you want to obtain
       nstruct = int(math.floor(20000 / cpus))
+      motif: motif file; e.g., -s E-loop_1q9a_mutated_no_flanks_renumber.pdb
       50 (nstruc) = 10k / 200 (cpus)
 
     """
@@ -195,9 +219,12 @@ def prepare_rosetta(header, cpus, nstruc):
     helices = open('CMDLINES').readlines()[-1].replace('#', '')
     njobs = cpus  # 500
     nstruct = int(math.floor(nstruc / cpus))  # 20000/500 -> 40
-
+    if motif:
+        cmd_motif = ' -s ' + motif
+    else:
+        cmd_motif = ''
     cmd = 'rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct ' + \
-        str(nstruct) + ' ' + helices
+        str(nstruct) + ' ' + cmd_motif + ' ' + helices
     print(cmd)
     os.system(cmd)
     # change to 50 per job (!)
@@ -252,7 +279,7 @@ def main():
         if args.helices:
             prepare_helices()
         if args.rosetta:
-            prepare_rosetta(header, cpus, args.nstruc)
+            prepare_rosetta(header, cpus, args.motif, args.nstruc)
         if args.go:
             go()
 
