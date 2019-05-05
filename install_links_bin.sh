@@ -21,6 +21,7 @@ ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_run.py $curr_dir/bin/rna
 ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_cluster.py $curr_dir/bin/rna_rosetta_cluster.py
 ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_min.py $curr_dir/bin/rna_rosetta_min.py
 ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_n.py $curr_dir/bin/rna_rosetta_n.py
+ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_extract_lowscore_decoys.py $curr_dir/bin/rna_rosetta_extract_lowscore_decoys.py
 ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_check_progress.py $curr_dir/bin/rna_rosetta_check_progress.py
 ln -s $curr_dir/rna_tools/tools/rna_rosetta/rna_rosetta_head.py $curr_dir/bin/rna_rosetta_head.py
 
