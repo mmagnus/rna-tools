@@ -81,6 +81,13 @@ rna_alignment_get_species.py
    :ref: rna_tools.tools.rna_alignment.utils.rna_alignment_get_species.get_parser
    :prog: rna_alignment_get_species
 
+rna_alignment_calc_energy.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_tools.tools.rna_alignment.utils.rna_alignment_calc_energy.get_parser
+   :prog: rna_alignment_calc_energy
+
 Random assignment of nucleotides
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -447,6 +454,17 @@ Minimize
    :prog: rna_rosetta_min.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_min.py
+   :members:
+   :undoc-members:
+
+Extract lowscore decoy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys.get_parser
+   :prog: rna_rosetta_extract_lowscore_decoys.py
+
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys.py
    :members:
    :undoc-members:
 
