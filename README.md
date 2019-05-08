@@ -21,19 +21,6 @@
 <p>
 
 
-Table of Contents
------------------
-
-   * [Tour](#tour)
-   * [rna_pdb_toolsx.py](#rna_pdb_toolspy)
-   * [Tools](#tools)
-   * [Docs](#docs)
-   * [Cite](#cite)
-   * [Used in papers](#used-in-papers)
-   * [RNA Puzzle Submission](#rna-puzzle-submission)
-   * [Inspiration (and alternatives)](#inspiration-and-alternatives)
-   * [Install](#install)
-
 <!--
 *If you find the tools helpful you can by me a beer via PayPal or Flattr, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.*
 ![](docs/pngs/starit.png)
@@ -80,6 +67,20 @@ Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna
 </p>
 
 Fig. `rna_pdb_toolsx.py --get_rnapuzzle_ready *pdb --inplace`
+
+
+Table of Contents
+-----------------
+
+   * [Tour](#tour)
+   * [rna_pdb_toolsx.py](#rna_pdb_toolspy)
+   * [Tools](#tools)
+   * [Docs](#docs)
+   * [Cite](#cite)
+   * [Used in papers](#used-in-papers)
+   * [RNA Puzzle Submission](#rna-puzzle-submission)
+   * [Inspiration (and alternatives)](#inspiration-and-alternatives)
+   * [Install](#install)
 
 ## Tour
 
