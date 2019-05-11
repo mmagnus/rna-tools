@@ -50,6 +50,28 @@ def exe(cmd, verbose=False):
     return out, err
 
 
+def save_transformed(object, file):
+    """Saves the molecule with coordinates from the current orientation.
+
+     Args:
+        object (string): PyMOL name
+        file (string): a file name to output file
+
+    Example::
+
+         PyMOL>save_transformed 6bk8_RNA_only_Oriented, 6bk8_RNA_only_Oriented.pdb
+
+    Source: <https://pymolwiki.org/index.php/Modeling_and_Editing_Structures>
+    """
+    m = cmd.get_view(0)
+    ttt = [m[0], m[1], m[2], 0.0,
+           m[3], m[4], m[5], 0.0,
+           m[6], m[7], m[8], 0.0,
+           0.0,   0.0,  0.0, 1.0]
+    cmd.transform_object(object,ttt,transpose=1)
+    cmd.save(file,object)
+
+
 def color_by_text(txt):
     """Helper function used for color-coding based on residue indexes ranges."""
     for t in txt.strip().split('\n'):
@@ -770,6 +792,7 @@ else:
     print('color_obj')
     print('color_rbw')
     print('aa')
+    print('savt - save_transformed <object>, <file>')
     print("""spli - color snRNAs of the spliceosome:
     green: U2,  blue: U5, red:U6, orange:U2""")
     print('RNA_PDB_TOOLS env variable used: ' + RNA_PDB_TOOLS)
@@ -814,7 +837,8 @@ else:
     cmd.set('dash_width', 4)
 
     cmd.extend('sav', sav)
-
+    cmd.extend('save_transformed', save_transformed)
+    cmd.extend('savt', save_transformed)
 
     print('###########################')
     print('PYMOL4RNA loading .... [ok]')
