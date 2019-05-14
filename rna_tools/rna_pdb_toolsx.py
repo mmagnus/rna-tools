@@ -47,6 +47,9 @@ def get_parser():
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
 
+    parser.add_argument('--renum-atoms', help='renumber atoms, tested with --get-seq',
+                        action='store_true')
+
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
                         action='store_true')
 
@@ -252,7 +255,8 @@ if __name__ == '__main__':
             s.remove_hydrogen()
             s.remove_ion()
             s.remove_water()
-            s.renum_atoms()
+            if args.renum_atoms:
+                s.renum_atoms()
             s.fix_O_in_UC()
             s.fix_op_atoms()
 
