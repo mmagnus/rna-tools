@@ -305,6 +305,11 @@ class RNAStructure:
         txt = ''
         for l in self.lines:
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER'):
+                # TER
+                try:
+                    l[21]
+                except IndexError:
+                    continue
                 if l[21] == chain_id_old:
                     l = l[:21] + chain_id_new + l[22:]
             txt += l.strip() + '\n'  # ok, actually keep all lines as it was
