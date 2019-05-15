@@ -33,10 +33,10 @@ except ImportError:
 from rna_tools.rna_tools_lib import RNAStructure
 
 try:
-    RNA_PDB_TOOLS
+    RNA_TOOLS_PATH
     EXECUTABLE
 except NameError:
-    RNA_PDB_TOOLS = os.environ.get('RNA_PDB_TOOLS')
+    RNA_TOOLS_PATH = os.environ.get('RNA_TOOLS_PATH')
     EXECUTABLE="/bin/zsh"
     SOURCE=""
 
@@ -273,7 +273,7 @@ def seq():
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name, '(sele)')
-    out, err = exe('source ~/.zshrc && ' + RNA_PDB_TOOLS + '/bin/rna_pdb_toolsx.py --get_seq ' + f.name)
+    out, err = exe('source ~/.zshrc && ' + RNA_TOOLS_PATH + '/bin/rna_pdb_toolsx.py --get_seq ' + f.name)
     print(out)
     if err:
         print(err)
@@ -286,7 +286,7 @@ def ss():
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     cmd.save(f.name, '(sele)')
-    out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
+    out, err = exe(RNA_TOOLS_PATH + '/bin/rna_x3dna.py ' + f.name)
     print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
     if err:
         print(err)
@@ -303,7 +303,7 @@ def ss_all():
             print('> ' + name)
             f = tempfile.NamedTemporaryFile(delete=False) # True)
             cmd.save(f.name, name)
-            out, err = exe(RNA_PDB_TOOLS + '/bin/rna_x3dna.py ' + f.name)
+            out, err = exe(RNA_TOOLS_PATH + '/bin/rna_x3dna.py ' + f.name)
             print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
             # hide this line: is >tmpGCszi7 nts=4 [tmpGCszi7] -- secondary structure derived by DSSR
             if err:
@@ -694,7 +694,7 @@ def mini(f):
 
 def reload():
     """Reload PyMOL4RNA.py"""
-    cmd.run(RNA_PDB_TOOLS + "/rna_tools/utils/PyMOL4RNA/PyMOL4RNA.py")
+    cmd.run(RNA_TOOLS_PATH + "/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py")
 
 def clr():
   """clr - make white bg and structure black"""
@@ -795,7 +795,7 @@ else:
     print('savt - save_transformed <object>, <file>')
     print("""spli - color snRNAs of the spliceosome:
     green: U2,  blue: U5, red:U6, orange:U2""")
-    print('RNA_PDB_TOOLS env variable used: ' + RNA_PDB_TOOLS)
+    print('RNA_TOOLS_PATH env variable used: ' + RNA_TOOLS_PATH)
 
     #cmd.set_key('CTRL-S', cmd.save, ['/home/magnus/Desktop/tmp.pse'])
     cmd.set_key('CTRL-S', sav_tmp)
