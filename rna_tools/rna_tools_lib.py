@@ -1651,6 +1651,7 @@ def fetch(pdb_id, path="."):
     import urllib3
     http = urllib3.PoolManager()
     # try:
+    pdb_id = pdb_id.replace('.pdb', '')
     response = http.request('GET', 'https://files.rcsb.org/download/' + pdb_id + '.pdb')
     if not response.status == 200:
         raise PDBFetchError()
@@ -1659,8 +1660,11 @@ def fetch(pdb_id, path="."):
     #    raise Exception('The PDB does not exists: ' + pdb_id)
     txt = response.data
 
-    npath = path + os.sep + pdb_id + '.pdb'
-    print('downloading...' + npath)
+    if path != '.':
+        npath = path + os.sep + pdb_id + '.pdb'
+    else:
+        npath = pdb_id + '.pdb'
+    print('downloading... ' + npath)
     with open(npath, 'wb') as f:
         f.write(txt)
     print('ok')
