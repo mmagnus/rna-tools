@@ -295,11 +295,11 @@ class RNAStructure:
     def get_chain(self, chain_id='A'):
         txt = ''
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM'):
+            if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER'):
                 if l[21] == chain_id:
                     txt += l.strip() + '\n'
-        txt += 'TER'
-        return txt
+        # txt += 'TER'
+        return txt.strip()
 
     def rename_chain(self, chain_id_old, chain_id_new):
         txt = ''
@@ -863,6 +863,7 @@ class RNAStructure:
 
     def get_chain_id(self, line):
         return line[21:22]
+
     def get_all_chain_ids(self):
         """
         Returns:

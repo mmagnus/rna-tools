@@ -71,7 +71,7 @@ def get_parser():
     parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
                         action='store_true')
 
-    parser.add_argument('--get_chain', help='get chain, .e.g A')
+    parser.add_argument('--get-chain', help='get chain, one or many, e.g, A, but now also ABC works')
 
     parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db')
 
@@ -79,6 +79,8 @@ def get_parser():
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get_seq', help='get seq', action='store_true')
+    parser.add_argument('--hide-warnings', help='hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file', action='store_true')
+
     parser.add_argument('--compact',
                         help=textwrap.dedent("""with --get_seq, get it in compact view'
 $ rna_pdb_toolsx.py --get_seq --compact *.pdb
@@ -293,17 +295,27 @@ if __name__ == '__main__':
             except IOError:
                 pass
 
+    # getchain
     if args.get_chain:
         s = RNAStructure(args.file)
-        s.std_resn()
-        s.remove_hydrogen()
-        s.remove_ion()
-        s.remove_water()
-        s.renum_atoms()
-        s.fix_O_in_UC()
-        s.fix_op_atoms()
+        ## s.std_resn()
+        ## s.remove_hydrogen()
+        ## s.remove_ion()
+        ## s.remove_water()
+        ## s.renum_atoms()
+        ## s.fix_O_in_UC()
+        ## s.fix_op_atoms()
         # print s.get_preview()
-        print(s.get_chain(args.get_chain))
+        warningmsg = ''
+        for chain in list(args.get_chain):
+            chain_txt = s.get_chain(chain)
+            if not chain_txt.strip():
+                warningmsg += 'Warning: Chain %s not detected!' % chain
+            else:
+                print(chain_txt)
+        if not args.hide_warnings:
+            if warningmsg:
+                print(warningmsg)
 
     if args.rosetta2generic:
         s = RNAStructure(args.file)
