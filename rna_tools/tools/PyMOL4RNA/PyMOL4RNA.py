@@ -89,6 +89,9 @@ def rp():
     cmd.set("cartoon_ring_finder", 2)
     cmd.set("cartoon_ladder_mode", 1)
 
+def show_all_at_once():
+    cmd.set('states', 'on')
+
 
 def rp06():
   txt = """color black, all
@@ -537,7 +540,9 @@ def ino():
     cmd.set('sphere_scale', '0.25', '(all)')
     cmd.color("yellow", "inorganic")
 
-def spli():
+def spl():
+    """Color spl RNAs (for only color spl RNA and use 4-color code for residues see `spl2`)
+    """
     AllObj = cmd.get_names("all")
     for name in AllObj:
         if 'Exon' in name or 'exon' in name:
@@ -583,11 +588,80 @@ def spli():
     # Cryo-EM structure of the Catalytic Step II spliceosome (C* complex) at 4.0 angstrom resolution
     cmd.do('color blue, chain D') # u5
     #cmd.do('color forest, chain L') # u2
-    cmd.do('color red, chain E') # u6
     cmd.do('color yellow, chain B')
     cmd.do('color yellow, chain b')
     cmd.do('color black, chain N')
     cmd.do('color black, chain M')
+
+    cmd.do('color black, chain 3') # orange
+    cmd.do('color black, chain E') # yellow
+    cmd.do('color black, chain i')
+    cmd.do('color black, chain e')
+
+    cmd.do('bg gray')
+    cmd.do('remove (polymer.protein)')
+
+    cmd.set("cartoon_tube_radius", 1.0)
+    ino()
+
+def spl2():
+    """Color spl RNAs and use 4-color code for residues (for only color spl RNA see `spl`)
+    """
+
+    AllObj = cmd.get_names("all")
+    for name in AllObj:
+        if 'Exon' in name or 'exon' in name:
+            cmd.color('yellow', name)
+        if 'Intron' in name or 'intron' in name or '5splicing-site' in name:
+            cmd.color('gray40', name)
+        if '3exon-intron' in name.lower():
+            cmd.color('gray20', name)
+        if name.startswith("U2_snRNA"):
+            cmd.color('forest', name)
+        if name.startswith("U5_snRNA"):
+            cmd.color('blue', name)
+        if name.startswith("U4_snRNA"):
+            cmd.color('orange', name)
+        if name.startswith("U6_snRNA"):
+            cmd.color('red', name)
+
+    cmd.do('color gray')
+
+    # trisnrp
+    cmd.do('color orange, chain V') # conflict
+    cmd.do('color red, chain W')
+    cmd.do('color blue, chain U')
+    #
+    cmd.do('color blue, chain 5')
+    cmd.do('color forest, chain 2')
+    cmd.do('color red, chain 6')
+    cmd.do('color orange, chain 4')
+    cmd.do('color yellow, chain Y')
+    # shi
+    cmd.do('color blue, chain D') # u5
+    cmd.do('color forest, chain L') # u2
+    cmd.do('color red, chain E') # u6
+    cmd.do('color yellow, chain M')
+    cmd.do('color yellow, chain N')
+    # afte branch
+    cmd.do('color blue, chain U') # u5
+    cmd.do('color forest, chain Z') # u2
+    cmd.do('color red, chain V') # u6
+    cmd.do('color yellow, chain E')
+    cmd.do('color black, chain I')
+    # 5WSG
+    # Cryo-EM structure of the Catalytic Step II spliceosome (C* complex) at 4.0 angstrom resolution
+    cmd.do('color blue, chain D') # u5
+    #cmd.do('color forest, chain L') # u2
+    cmd.do('color yellow, chain B')
+    cmd.do('color yellow, chain b')
+    cmd.do('color black, chain N')
+    cmd.do('color black, chain M')
+
+    cmd.do('color black, chain 3') # orange
+    cmd.do('color black, chain E') # yellow
+    cmd.do('color black, chain i')
+    cmd.do('color black, chain e')
 
     cmd.do('bg gray')
     cmd.do('remove (polymer.protein)')
@@ -598,6 +672,7 @@ def spli():
     cmd.color("blue",'resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
     cmd.set("cartoon_tube_radius", 1.0)
     ino()
+
 
 def _spli():
     """
@@ -793,7 +868,7 @@ else:
     print('color_rbw')
     print('aa')
     print('savt - save_transformed <object>, <file>')
-    print("""spli - color snRNAs of the spliceosome:
+    print("""spl - color snRNAs of the spliceosome:
     green: U2,  blue: U5, red:U6, orange:U2""")
     print('RNA_TOOLS_PATH env variable used: ' + RNA_TOOLS_PATH)
 
@@ -821,7 +896,8 @@ else:
     cmd.extend('ss_all', ss_all)
     cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
-    cmd.extend("spli", spli)
+    cmd.extend("spl", spl)
+    cmd.extend("spl2", spl2)
     cmd.extend('rlabel', 'rlabel')
 
     cmd.extend('grid_on', grid_on)
@@ -839,6 +915,7 @@ else:
     cmd.extend('sav', sav)
     cmd.extend('save_transformed', save_transformed)
     cmd.extend('savt', save_transformed)
+    cmd.extend('show_all_at_once', show_all_at_once)
 
     print('###########################')
     print('PYMOL4RNA loading .... [ok]')
