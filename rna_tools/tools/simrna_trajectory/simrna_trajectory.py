@@ -71,12 +71,15 @@ class SimRNATrajectory:
         h, l = txt.split('\n')
         self.frames.append(Frame(c, h, l))
 
-    def sort(self):
+    def sort(self, inplace=True):
         """Sort frames within the trajectory according to energy."""
         def getEnergy(frame):
             return frame.energy
         frames_sorted = sorted(self.frames, key=getEnergy)
-        return frames_sorted
+        if inplace:
+            self.frames = frames_sorted
+        else:
+            return frames_sorted
 
     def load_from_list(self, frames):
         self.frames = frames
@@ -100,7 +103,6 @@ class SimRNATrajectory:
         # plotting inside ipython
         import matplotlib.pyplot as plt
         import matplotlib
-
         plt.plot([f.energy for f in self.frames])
         plt.ylabel('# frames')
         plt.ylabel('energies')
