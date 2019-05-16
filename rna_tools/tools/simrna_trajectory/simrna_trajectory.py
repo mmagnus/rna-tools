@@ -109,6 +109,7 @@ class SimRNATrajectory:
         plt.title('SimRNATrajectory: energies over frames')
         plt.grid()
         plt.savefig(plotfn, figsize=(30, 10))  # bbox_inches='tight',
+        plt.close()
 
     def __len__(self):
         """Get number of frames"""
