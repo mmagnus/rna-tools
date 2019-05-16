@@ -16,6 +16,10 @@ def exe(cmd):
     return out, err
 
 
+def dot2ct():
+    pass
+
+
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
@@ -26,10 +30,8 @@ def get_parser():
 >seq
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 ((...((((((((((.......)))))))))).))
-
 """))
     return parser
-
 
 if __name__ == '__main__':
     parser = get_parser()
