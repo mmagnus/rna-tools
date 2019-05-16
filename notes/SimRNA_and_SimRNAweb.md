@@ -24,3 +24,7 @@ s.plot_energy('plot2.png')
 ```
 
 ![](imgs/plot1.png) ![](imgs/plot2.png)
+
+Boniecki, M. J., Lach, G., Dawson, W. K., Tomala, K., Lukasz, P., Soltysinski, T., et al. (2016). SimRNA: a coarse-grained method for RNA folding simulations and 3D structure prediction. Nucleic Acids Research, 44(7), e63–e63. http://doi.org/10.1093/nar/gkv1479
+
+Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). SimRNAweb: a web server for RNA 3D structure modeling with optional restraints. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
