@@ -8,6 +8,7 @@ ln -s $curr_dir/rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py $curr_
 ln -s $curr_dir/rna_tools/rna_pdb_toolsx.py $curr_dir/bin/rna_pdb_toolsx.py
 ln -s $curr_dir/rna_tools/tools/diffpdb/diffpdb.py $curr_dir/bin/diffpdb
 ln -s $curr_dir/rna_tools/tools/clanstix/rna_clanstix.py $curr_dir/bin/rna_clanstix.py
+ln -s $curr_dir/rna_tools/rna_dot2ct.py $curr_dir/bin/rna_dot2ct.py
 
 ln -s $curr_dir/rna_tools/tools/rna_multimodels/rna_pdb_merge_into_one.py $curr_dir/bin/rna_pdb_merge_into_one.py
 ln -s $curr_dir/rna_tools/tools/rna_calc_inf/rna_calc_inf.py $curr_dir/bin/rna_calc_inf.py

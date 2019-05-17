@@ -13,6 +13,12 @@ RNA Secondary Structure
    :members:
    :undoc-members:
 
+rna_dot2ct.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. argparse::
+   :ref: rna_tools.rna_dot2ct.get_parser
+   :prog: rna_dot2ct.py
+
 Blast PDB
 -------------------------------------------
 

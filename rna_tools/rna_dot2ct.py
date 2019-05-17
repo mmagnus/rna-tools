@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-output is <file>.ct
+The output file is <input-file>.ct
 """
 from __future__ import print_function
 import textwrap
@@ -14,7 +14,6 @@ def exe(cmd):
     out = o.stdout.read().strip().decode()
     err = o.stderr.read().strip().decode()
     return out, err
-
 
 def dot2ct():
     pass
