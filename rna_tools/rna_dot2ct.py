@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 """
 The output file is <input-file>.ct
+
+Wrapper to
+
+RNAstructure: software for RNA secondary structure prediction and analysis. (2010). RNAstructure: software for RNA secondary structure prediction and analysis., 11, 129. http://doi.org/10.1186/1471-2105-11-129
 """
 from __future__ import print_function
 import textwrap
