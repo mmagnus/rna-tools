@@ -54,7 +54,12 @@ if __name__ == '__main__':
             cst = f.readline().strip()
             assert cst, 'Cst line empty, check the input file'
 
-    print(seq)
+    try:
+        print(seq)
+    except NameError:
+        parser.print_usage()
+        parser.exit(1)
+
     if args.cst:
         cst = args.cst
     if cst:
@@ -62,7 +67,7 @@ if __name__ == '__main__':
 
     if args.method == 'cyclefold':
         seq = RNASequence(seq)
-        ss, en = seq.predict_ss('rnastructure_CycleFold')
+        ss, en = seq.predict_ss('rnastructure_CycleFold', verbose=args.verbose)
         print(en, ss)
 
     if args.method == 'mcfold':
@@ -71,6 +76,6 @@ if __name__ == '__main__':
             en, ss = seq.predict_ss('mcfold', constraints=cst, verbose=args.verbose)
         else:
             en, ss = seq.predict_ss('mcfold', verbose=args.verbose)
-        if not ss:
-            ss = 'x'
+        #if not ss:
+        #    ss = 'x'
         print(ss, en)
