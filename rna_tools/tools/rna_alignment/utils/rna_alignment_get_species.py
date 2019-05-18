@@ -9,6 +9,44 @@ Example::
     # STOCKHOLM 1.0
     Sorex-araneus-(European-shrew)                     AUCGCU-UCU----CGGCC--UUU-U
 
+Examples 2::
+
+    [dhcp177-lan203] Desktop$ rna_alignment_get_species.py u5_rfam_u5only.stk --verbose
+    # STOCKHOLM 1.0
+    #=GF WK U5_spliceosomal_RNA
+    #=GF NC 39.90
+    #=GF RT The spliceosomal snRNAs of Caenorhabditis elegans.
+    #=GF TC 40.00
+    #=GF RN [3]
+    #=GF RM 2339054
+    #=GF RL Nucleic Acids Res 1990;18:2633-2642.
+    #=GF AU Gardner PP; 0000-0002-7808-1213
+    #=GF CC methylation.
+    #=GF CB cmcalibrate --mpi CM
+    #=GF DR GO; 0046540; U4/U6 x U5 tri-snRNP complex;
+    #=GF ID U5
+    #=GF SS Published; PMID:2339054; Griffiths-Jones SR
+    #=GF RA Thomas J, Lea K, Zucker-Aprison E, Blumenthal T
+    #=GF SQ 180
+    #=GF SM cmsearch --cpu 4 --verbose --nohmmonly -E 1000 -Z 549862.597050 CM SEQDB
+    #=GF DE U5 spliceosomal RNA
+    #=GF AC RF00020
+    #=GF SE Zwieb C, The uRNA database, PMID:9016512; PMID:18390578
+    #=GF GA 40.00
+    #=GF BM cmbuild -F CM SEED
+    #=GF TP Gene; snRNA; splicing;
+    Bos-taurus-(cattle)                                GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+    Sorex-araneus-(European-shrew)                     GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+    Ictidomys-tridecemlineatus-(thirteen-lined-ground- GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+    Monodelphis-domestica-(gray-short-tailed-opossum)  GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+    Oryctolagus-cuniculus-(rabbit)                     GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+    Cavia-porcellus-(domestic-guinea-pig)              GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+    Ochotona-princeps-(American-pika)                  GAUC-GUAUAAAUCUUUCGCCUUUUACUAAAGA-UUUCCG----UGG-A--GA-G
+
+.. note::
+
+  This code has way more code than the name of the script says. This is customized script based on
+  some script that did way more.
 """
 from __future__ import print_function
 
@@ -213,7 +251,7 @@ if __name__ == '__main__':
                     # this is no group
                     # ech, this is super messy, sorry!
                     group = ''
-                    print((os.replace(' ', '-')[:name_width] + str(energy)).ljust(name_width), seq.strip())
+                    print((os.strip().replace(' ', '-')[:name_width] + str(energy)).ljust(name_width), seq.strip())
 
                 if args.one:
                     break
