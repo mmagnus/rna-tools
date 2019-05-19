@@ -107,7 +107,7 @@ class RNAStructClans:
         self.txt = """sequences=%i
 <param>
 maxmove=0.1
-pval=1.0E-15
+pval=%s
 usescval=false
 complexatt=true
 cooling=1.0
@@ -122,15 +122,15 @@ cluster2d=true
 blastpath=''
 formatdbpath=''
 showinfo=false
-zoom=1.0
-dotsize=1
+zoom=0.9
+dotsize=0
 ovalsize=10
 groupsize=4
 usefoldchange=false
 avgfoldchange=false
 colorcutoffs=0.0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.9;
 colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(115;115;115):(92;92;92):(69;69;69):(46;46;46):(23;23;23):
-</param>""" % n
+</param>""" % (n, args.pvalue)
 
     def add_ids(self, ids):
         t = '\n<seq>\n'
@@ -208,9 +208,10 @@ def get_parser():
                         "native will light green"
                         "zmp will be forest green"
                         "(easy to be changed in the future)")
-    parser.add_argument('--pvalue', action='store_true',
-                        help="")
-    parser.add_argument('output', help="input file for clans")
+
+    parser.add_argument('--use-pvalue', action='store_true', help="")
+
+    parser.add_argument('--pvalue', default="1.0E-15", help="set p-value for clans.input, default: 1.0E-15")
 
     parser.add_argument('--output', help="input file for clans, e.g., clans.input", default="clans.input")
     return parser
@@ -233,7 +234,11 @@ if __name__ == '__main__':
 
     c = RNAStructClans(n=len(ids))  # 200?
     c.add_ids(ids)
-    c.dist_from_matrix(f, matrix, args.pvalue, args.dont_calc)
+    if debug:
+        print('dist_from_matrix...')
+    c.dist_from_matrix(f, matrix, args.use_pvalue, args.dont_calc)
+    if debug:
+        print('process the matrix')
     #
     # DEFINE GROUPS
     #
@@ -264,7 +269,8 @@ if __name__ == '__main__':
               '128;0;128;255', # purple 8
               '128;0;0;255', # maroon 10
               '0;255;255;255',  # cyjan
-              '210;105;30;255', # chocolate
+              '237;41;57;255', # red
+              #'210;105;30;255', # chocolate
                ]
 
     args_groups = args.groups
@@ -376,6 +382,9 @@ if __name__ == '__main__':
             # color hack
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
+            if debug:
+                print('name: ' + name + ' ' + colors[index])
+
             # get numbers - convert nstruc into numbers in Clans format 0;1; etc.
             # remember: it starts from 0
             # --groups 1:hccp+10:zmp+10:xrt
