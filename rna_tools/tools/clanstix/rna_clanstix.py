@@ -210,6 +210,8 @@ def get_parser():
     parser.add_argument('--pvalue', action='store_true',
                         help="")
     parser.add_argument('output', help="input file for clans")
+
+    parser.add_argument('--output', help="input file for clans, e.g., clans.input", default="clans.input")
     return parser
 
 
