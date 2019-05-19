@@ -187,6 +187,7 @@ def get_parser():
     parser.add_argument('--groups-auto', help="groups automatically <3", type=int, default=10)
 
     parser.add_argument('--color-by-homolog', help="color the same homolog in the same way", action='store_true')
+    parser.add_argument('--one-target', help="color the same homolog in the same way", action='store_true')
 
     parser.add_argument('--shape-by-source', help="shape points based on source, SimRNA vs Rosetta (Rosetta models have 'min' in name'",
                         action='store_true')
@@ -315,15 +316,21 @@ if __name__ == '__main__':
                     size = 30  # solution is bigger
                     color = '0;128;128;255' # olive
 
-                if 'tar' in name and 'tar_min' not in name: # SimRNA
-                    dottype = 7
-                    size = 7  # size of SimRNA reference seq points
-                    color = '0;255;102;255' # ligthgreen 1
+                if args.one_target: # target is target, dont distinguish it
+                    if 'tar' in name and 'tar_min' not in name: # SimRNA
+                        dottype = 7
+                        size = size # 7  # size of SimRNA reference seq points
+                        color = '0;255;102;255' # ligthgreen 1
 
-                if 'tar_min' in name:
-                    dottype = 9
-                    size = 7 # size of Rosetta reference seq points
-                    color = '0;102;0;255' # forest 2
+                    if 'tar_min' in name:
+                        dottype = 9
+                        size = size # 7 # size of Rosetta reference seq points
+                        color = '0;102;0;255' # forest 2
+                else:
+                    if 'tar' in name: # SimRNA
+                        size = size #8  # size of SimRNA reference seq points
+                        dottype = 0
+                        color = '0;255;102;255' # ligthgreen 1
 
                 if args.shape_by_source:
                     # Rosetta models are diamond now
