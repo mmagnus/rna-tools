@@ -193,6 +193,8 @@ def get_parser():
 
     parser.add_argument('--debug', action='store_true')
 
+    parser.add_argument('--size', type=int, default=8)
+
     parser.add_argument('--dont-calc', action='store_true', help="A simple and dirty trick to get "
                         "generates everything but the main distances from the matrix"
                         "useful if you want to run the script to generate different settings, such as"
@@ -296,7 +298,7 @@ if __name__ == '__main__':
         for index, group in enumerate(groups):
             # parse groups
             # type and size will be changed for native
-            size = 8
+            size = args.size
             dottype = 0
             color = '' # use for diff color selection if tar
             if ':' in group:
