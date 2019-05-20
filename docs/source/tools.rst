@@ -375,7 +375,7 @@ Download files of a SimRNAweb run
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
-   :ref: rna_tools.rna_simrnaweb_download_job.rna_simrnaweb_download_job.get_parser
+   :ref: rna_tools.rna_simrnaweb_download_job.get_parser
    :prog: rna_simrnaweb_download_job.py
 
 SimRNATrajectory
