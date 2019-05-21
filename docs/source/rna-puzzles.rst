@@ -55,3 +55,18 @@ In terminal::
 	TER    1327        C B  22
 	ENDMDL
 	END
+
+The Bujnicki lab is using this script to process the results and send the results, you can hack it for your own case::
+
+	[mm] rnapuzzle_sender$ git:(master) ✗ ./rnapuzzle_sender.py
+	rnapuzzle_sender
+
+	Usage: rnapuzzle_sender.py
+
+	Options:
+	  -h, --help            show this help message and exit
+	  -d DIR, --dir=DIR
+	  -s EMAIL_SUBJECT, --email_subject=EMAIL_SUBJECT
+				email subject
+
+File: `rna-tools/rna_tools/tools/rnapuzzle_sender`.
