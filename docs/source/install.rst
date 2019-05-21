@@ -1,7 +1,7 @@
 Install & Configure
 =============================================
 
-Download rna-tools by clicking here https://github.com/mmagnus/rna-tools/archive/master.zip or using ``git``::
+Download rna-tools by clicking here https://github.com/mmagnus/rna-tools/archive/master.zip (~30 MB) or using ``git``::
 
    $ git clone https://github.com/mmagnus/rna-tools.git
    $ cd rna-tools
