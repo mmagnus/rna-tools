@@ -7,7 +7,7 @@ We hacked Clans thus instead of BLAST-based distances between sequences, you can
 
 Quickref::
 
-      rna_clastix.py --groups-auto 10 --color-by-homolog --shape-by-source  thf_ref_mapping_pk_refX.txt input2.clans
+      rna_clanstix.py --groups-auto 10 --color-by-homolog --shape-by-source  thf_ref_mapping_pk_refX.txt input2.clans
 
 Running Clans:
 To run CLANS you need to have Java 1.4 or better installed (java can be downloaded HERE). For full functionality you will also need the NCBI BLAST,PSI-BLAST and formatdb executables (NCBI). For command line parameters and basic help please refer to the README file.
@@ -15,7 +15,7 @@ To run CLANS you need to have Java 1.4 or better installed (java can be download
 
 .. image:: ../../rna_tools/tools/clanstix/doc/yndSrLTb7l.gif
 
-The RMSDs between structures are converted into p-values based on the method from the Dokholyan lab.
+The RMSDs between structures are converted into p-values based on the method from the Dokholyan lab or some hacky way developed by mmagnus .
 
 Color groups
 ---------------------------------------
@@ -37,7 +37,7 @@ How to use ClanstixRNA?
 1. Get a matrix of distances, save it as e.g. matrix.txt (see Comment below)
 2. run ClanstixRNA on this matrix to get an input file to Clans (e.g. clans_rna.txt)::
 
-     rna_clanstix.py test_data/matrix.txt > clans_run.txt
+     rna_clanstix.py test_data/matrix.txt # clans.input will be created by default
 
 3. open CLANS and click File -> Load run and load clans_run.txt
 4. You're done! :-)
@@ -179,6 +179,13 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
         self.txt += t
 
 
+def check_symmetric(a, rtol=1e-05, atol=1e-08):
+    """
+    https://stackoverflow.com/questions/42908334/checking-if-a-matrix-is-symmetric-in-numpy
+    """
+    return np.allclose(a, a.T, rtol=rtol, atol=atol)
+
+
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -222,15 +229,29 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
     debug = args.debug  # as a short cut later
-
     f = open(args.matrixfn)
-    ids = f.readline().replace('#', '').split()
-    # print ids
-    # print len(ids)
+    # OK, check if there is a header = the line with '#'
+    headers = f.readline()
+    if headers.strip().startswith('#'):
+        # if yes, then split remove # and split into lists
+        ids = headers.replace('#', '').split()
+    else:
+        # if no, then make a list form [0, # of items in the first line]
+        ids = [str(i) for i in range(0, len(headers.split()))]
+        f.seek(0)
+
     # get max
     logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
 
+    # warning:
+    # eh, this matrix is not really used by clanstix main engine
+    # it's used to calc min and max value of a matrix
     matrix = np.loadtxt(args.matrixfn)
+    if check_symmetric(matrix):
+        #if debug:
+        print('Matrix is symmetrical!')
+    else:
+        print('Matrix is not symmetrical!')
 
     c = RNAStructClans(n=len(ids))  # 200?
     c.add_ids(ids)
@@ -377,8 +398,9 @@ if __name__ == '__main__':
             # color hack
             if color:  # this color is fixed for native right now
                 seqgroups += "color=%s\n" % color
-            else:
-                seqgroups += "color=%s\n" % colors[index]
+            #else:
+            #    seqgroups += "color=%s\n" % colors[index]
+
             # color hack
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
