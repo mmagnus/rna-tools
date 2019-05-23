@@ -100,7 +100,7 @@ class RNAStructClans:
         >>> print(c.txt)
     """
 
-    def __init__(self, n=10):
+    def __init__(self, n=10, dotsize=10):
         self.n = n
         self.comment = ''
         #cluster2d=false
@@ -123,14 +123,14 @@ blastpath=''
 formatdbpath=''
 showinfo=false
 zoom=0.9
-dotsize=0
+dotsize=%s
 ovalsize=10
 groupsize=4
 usefoldchange=false
 avgfoldchange=false
 colorcutoffs=0.0;0.1;0.2;0.3;0.4;0.5;0.6;0.7;0.8;0.9;
 colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(115;115;115):(92;92;92):(69;69;69):(46;46;46):(23;23;23):
-</param>""" % (n, args.pvalue)
+</param>""" % (n, args.pvalue, str(dotsize))
 
     def add_ids(self, ids):
         t = '\n<seq>\n'
@@ -248,12 +248,16 @@ if __name__ == '__main__':
     # it's used to calc min and max value of a matrix
     matrix = np.loadtxt(args.matrixfn)
     if check_symmetric(matrix):
-        #if debug:
-        print('Matrix is symmetrical!')
+        if args.debug: print('Matrix is symmetrical!')
     else:
-        print('Matrix is not symmetrical!')
+        raise Exception('Matrix is not symmetrical! Check your matrix')
 
-    c = RNAStructClans(n=len(ids))  # 200?
+    # keep dot quite big by default,
+    # but if you use dotsize then keep this one 0
+    if args.groups_auto:
+        dotsize =  0
+
+    c = RNAStructClans(n=len(ids), dotsize=dotsize)  # 200?
     c.add_ids(ids)
     if debug:
         print('dist_from_matrix...')
@@ -318,7 +322,8 @@ if __name__ == '__main__':
         #print(groups_str)
         # change this to get 1:hccp+10:zmp+10:xrt
 
-    if args_groups:
+
+    if args_groups.strip() and args.groups:
         # this is a manual way how to do it
         groups = args_groups.split('+')
         seqgroups = '<seqgroups>\n'
