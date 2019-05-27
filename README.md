@@ -2,7 +2,7 @@
   rna-tools
 </h1>
 <p align="center" style="font-size:20px">
-  <b >a toolbox to analyze sequences, structures and simulations of RNA</b>
+  <b >a toolbox to analyze sequences, structures, and simulations of RNA molecules</b>
 </p>
 
 <p align="center">
