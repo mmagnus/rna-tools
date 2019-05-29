@@ -5,13 +5,13 @@
 
 Tricks:
 
-   for i in *pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i >  ${i/.pdb/_rpr.pdb}; done
+   for i in *pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i >  ${i/.pdb/_rpr.pdb}; done
 
 Usage::
 
    $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
-    $ rna_pdb_toolsx.py --get_seq *
+    $ rna_pdb_toolsx.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound
     > A:1-61
     # BujnickiLab_RNApuzzle14_n02bound
@@ -82,8 +82,8 @@ def get_parser():
     parser.add_argument('--hide-warnings', help='hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file', action='store_true')
 
     parser.add_argument('--compact',
-                        help=textwrap.dedent("""with --get_seq, get it in compact view'
-$ rna_pdb_toolsx.py --get_seq --compact *.pdb
+                        help=textwrap.dedent("""with --get-seq, get it in compact view'
+$ rna_pdb_toolsx.py --get-seq --compact *.pdb
 # 20_Bujnicki_1
 ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
 # 20_Bujnicki_2
@@ -101,7 +101,7 @@ ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
 
     parser.add_argument('--get-rnapuzzle-ready',
                         help=textwrap.dedent("""get RNApuzzle ready (keep only standard atoms).'
-Be default it does not renumber residues, use --renumber_residues
+Be default it does not renumber residues, use --renumber-residues
 [requires BioPython]"""), action='store_true')
 
     parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
@@ -114,18 +114,18 @@ Be default it does not renumber residues, use --renumber_residues
                         action='store_true')
 
     parser.add_argument('--dont-rename-chains',
-                        help=textwrap.dedent("""used only with --get_rnapuzzle_ready.
+                        help=textwrap.dedent("""used only with --get-rnapuzzle-ready.
 By default:
-   --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option
+   --get-rnapuzzle-ready rename chains from ABC.. to stop behavior switch on this option
 """),
                         action='store_true')
 
     parser.add_argument('--dont-fix-missing-atoms',
-                        help="""used only with --get_rnapuzzle_ready""",
+                        help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')
 
     parser.add_argument('--dont-report-missing-atoms',
-                        help="""used only with --get_rnapuzzle_ready""",
+                        help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')
 
     parser.add_argument('--collapsed-view', help='',
@@ -137,11 +137,11 @@ By default:
     parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
                         action='store_true')
 
-    parser.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]",
+    parser.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
                         action="store_true")
 
     parser.add_argument('--inplace', help=textwrap.dedent("""in place edit the file! [experimental,
-only for get_rnapuzzle_ready, delete, get_ss, get_seq, edit_pdb]"""),
+only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]"""),
                         action='store_true')
 
     parser.add_argument('--mutate', help=textwrap.dedent("""mutate residues,
@@ -173,7 +173,7 @@ the chain id in this file has to be the same with the chain id of the original c
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
 
     parser.add_argument('--uniq', help=textwrap.dedent("""
-rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact --chain-first * | sort
+rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
 A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
 A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
 A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # zcp_6537608a_ALL-000001_AA
@@ -186,7 +186,7 @@ A:1-45 57-71   GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCGCCGCCCGCCUGGGC # so
                         help= textwrap.dedent("""with --get-seq, show sequences in fasta format,
 can be combined with --compact (mind, chains will be separated with ' ' in one line)
 
-$ rna_pdb_toolsx.py --get_seq --fasta --compact input/20_Bujnicki_1.pdb
+$ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
 > 20_Bujnicki_1
 ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
 

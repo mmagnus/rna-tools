@@ -49,13 +49,13 @@ Listing:
 
 .. code-block:: console
 
-    $ rna_pdb_toolsx.py --get_seq 1nuj_rnakbmd_decoy1000_clx.pdb
+    $ rna_pdb_toolsx.py --get-seq 1nuj_rnakbmd_decoy1000_clx.pdb
     > 1nuj_rnakbmd_decoy1000_clx.pdb A:1-13
     CGGACCGAGCCAG
     > 1nuj_rnakbmd_decoy1000_clx.pdb B:14-24
     GCUGGGAGUCC
 
-    $ rna_pdb_toolsx.py --get_seq 1nuj_clean.pdb
+    $ rna_pdb_toolsx.py --get-seq 1nuj_clean.pdb
     > 1nuj_clean.pdb A:18-30
     CGGACCGAGCCAG
     > 1nuj_clean.pdb B:39-49
@@ -63,7 +63,7 @@ Listing:
 
     $ rna_pdb_toolsx.py --edit 'A:18-30>A:1-13,B:39-49>B:14-24' 1nuj_clean.pdb > 1nuj_clean_renumber.pdb
 
-    $ rna_pdb_toolsx.py --get_seq 1nuj_clean_renumber.pdb
+    $ rna_pdb_toolsx.py --get-seq 1nuj_clean_renumber.pdb
     > 1nuj_clean_renumber.pdb A:1-13
     CGGACCGAGCCAG
     > 1nuj_clean_renumber.pdb B:14-24

@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://twitter.com/rna_tools"><img src="http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow"></a>
-<!--	
+<!--
   <a href="https://github.com/mmagnus/rna-tools/releases"><img src="https://img.shields.io/github/release/mmagnus/rna-tools.svg"></a>-->
   <a href="https://travis-ci.org/mmagnus/rna-tools"><img src="https://travis-ci.org/mmagnus/rna-tools.svg?branch=master"></a>
   <a href="http://rna-tools.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/rna-tools/badge/?version=latest"></a>
@@ -40,9 +40,9 @@ The software is used by me in my servers **NPDock** (RNA/DNA-protein docking met
 A command-line tools:
 
 ```shell
-$ rna_pdb_toolsx.py --is_pdb input/1I9V_A.pdb
+$ rna_pdb_toolsx.py --is-pdb input/1I9V_A.pdb
 True
-$ rna_pdb_toolsx.py --is_pdb input/image.png
+$ rna_pdb_toolsx.py --is-pdb input/image.png
 False
 ```
 

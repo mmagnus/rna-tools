@@ -5,7 +5,7 @@ The RNA Puzzle organizers required ONE file with your submissions in the NMR-sty
 
 First, prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`)::
 
-	$ for i in *.pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+	$ for i in *.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done
 
 merge them as one file in the order as you like (or use `*`)::
 
@@ -20,9 +20,9 @@ and verify your file with the template provided by the organizers (if provided):
 	$ diffpdb --method diff Reference_19.pdb rp19_bujnicki.pdb
 	#<empty = no difference but xyz columns, OK!>
 
-diffpdb_ is a part of the rna-pdb-tools package.
+diffpdb_ is a part of the rna-tools package.
 
-.. _diffpdb: https://github.com/mmagnus/rna-pdb-tools/tree/master/rna_pdb_tools/utils/diffpdb
+.. _diffpdb: https://github.com/mmagnus/rna-tools/tree/master/rna_tools/utils/diffpdb
 
 .. image:: ../pngs/rp19.png
 

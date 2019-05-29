@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Pre-release]
 ### Added
+
 - `rna_pdb_toolsx.py --split-alt-locations`
 - `rna_pdb_toolsx.py --delete-anisou`
 

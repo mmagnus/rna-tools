@@ -19,7 +19,7 @@ get sequence
 
 Example::
 
-      $ rna_pdb_toolsx.py --get_seq 5_solution_1.pdb
+      $ rna_pdb_toolsx.py --get-seq 5_solution_1.pdb
       > 5_solution_1.pdb A:1-576
       CAUCCGGUAUCCCAAGACAAUCUCGGGUUGGGUUGGGAAGUAUCAUGGCUAAUCACCAUGAUGCAAUCGGGUUGAACACUUAAUUGGGUUAAAACGGUGGGGGACGAUCCCGUAACAUCCGUCCUAACGGCGACAGACUGCACGGCCCUGCCUCAGGUGUGUCCAAUGAACAGUCGUUCCGAAAGGAAG
 
@@ -41,7 +41,7 @@ fetch Biological Assembly
 
 Example::
 
-  $ rna_pdb_toolsx.py --fetch_ba 1xjr
+  $ rna_pdb_toolsx.py --fetch-ba 1xjr
   downloading...1xjr_ba.pdb ok
 
 or over a list of pdb ids in a text file::
@@ -50,7 +50,7 @@ or over a list of pdb ids in a text file::
   1y26
   1fir
 
-  $ while read p; do rna_pdb_toolsx.py --fetch_ba $p; done < data/pdb_ids.txt
+  $ while read p; do rna_pdb_toolsx.py --fetch-ba $p; done < data/pdb_ids.txt
   downloading...1y26_ba.pdb ok
   downloading...1fir_ba.pdb ok
 
