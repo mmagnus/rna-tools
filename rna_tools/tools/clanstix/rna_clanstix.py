@@ -191,7 +191,7 @@ def get_parser():
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('matrixfn', help="matrix")
 
-    parser.add_argument('--groups-auto', help="groups automatically <3", type=int, default=10)
+    parser.add_argument('--groups-auto', help="define into how many groups make automatically", type=int)
 
     parser.add_argument('--color-by-homolog', help="color the same homolog in the same way", action='store_true')
     parser.add_argument('--one-target', help="color the same homolog in the same way", action='store_true')
@@ -248,13 +248,14 @@ if __name__ == '__main__':
     # it's used to calc min and max value of a matrix
     matrix = np.loadtxt(args.matrixfn)
     if check_symmetric(matrix):
-        if args.debug: print('Matrix is symmetrical!')
+        if args.debug: print('Matrix is symmetrical! ', matrix.shape)
     else:
-        raise Exception('Matrix is not symmetrical! Check your matrix')
+        raise Exception('Matrix is not symmetrical! Check your matrix', matrix.shape)
 
     # keep dot quite big by default,
     # but if you use dotsize then keep this one 0
-    if args.groups_auto:
+    dotsize =  8
+    if args.groups_auto or args.groups:
         dotsize =  0
 
     c = RNAStructClans(n=len(ids), dotsize=dotsize)  # 200?
@@ -271,6 +272,7 @@ if __name__ == '__main__':
     seqgroups = ''
     #colors = ['0;255;102;255', # ligthgreen 1
     #          '0;102;0;255', # forest 2
+    # A list of colors used later ....
     colors = [
               '255;102;102;255', # red 3
               '51;51;255;255', # blue 4
@@ -286,7 +288,8 @@ if __name__ == '__main__':
               '210;105;30;255', # chocolate
                ]
 
-    # this is pretty much the same list as above, but in here I have more distinguishable colors
+    # This is pretty much the same list as above, but in here I have more distinguishable colors,
+    # as I should be used with less number of groups
     colors_homologs = [
               '255;102;102;255', # red 3
               '51;51;255;255', # blue 4
@@ -298,8 +301,12 @@ if __name__ == '__main__':
               #'210;105;30;255', # chocolate
                ]
 
-    args_groups = args.groups
+    # OK, this is the trick
+    # if args.groups_auto is on, then you built args.groups automatically,
+    # and then just simply run the next if as it was args.groups in the arguments
+    # pretty cool ;-)
     if args.groups_auto:
+        # arsg_groups = ''
         from collections import OrderedDict
         # collect groups
         #groups = []
@@ -317,19 +324,19 @@ if __name__ == '__main__':
         groups_str = ''
         for g in groups:
             groups_str += str(groups[g]) + ':' + g + '+'
-
-        args_groups = groups_str[:-1]
-        #print(groups_str)
+        #
+        # this is the trick, you
+        args.groups = groups_str[:-1]
+        print(groups_str)
         # change this to get 1:hccp+10:zmp+10:xrt
 
-
-    if args_groups.strip() and args.groups:
+    if args.groups:
         # this is a manual way how to do it
-        groups = args_groups.split('+')
+        groups = args.groups.split('+')
         seqgroups = '<seqgroups>\n'
         curr_number = 0
         homologs_colors = {}
-        if args.debug: print(args_groups)
+        if args.debug: print(args.groups)
         for index, group in enumerate(groups):
             # parse groups
             # type and size will be changed for native
@@ -397,21 +404,22 @@ if __name__ == '__main__':
                 nstruc = group
                 name = 'foo'
 
+            # color is set in the args.color_by_homologs
+
             # craft seqgroups
             seqgroups += "name=%s\n" % name
             seqgroups += "type=%i\n" % dottype
             # color hack
             if color:  # this color is fixed for native right now
                 seqgroups += "color=%s\n" % color
-            #else:
-            #    seqgroups += "color=%s\n" % colors[index]
+            else:
+                seqgroups += "color=%s\n" % colors[index]
 
             # color hack
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
             if debug:
                 print('name: ' + name + ' ' + colors[index])
-
             # get numbers - convert nstruc into numbers in Clans format 0;1; etc.
             # remember: it starts from 0
             # --groups 1:hccp+10:zmp+10:xrt
@@ -432,3 +440,5 @@ if __name__ == '__main__':
         f.write(c.comment)
     print(c.comment)
     logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
+    if debug:
+        print(seqgroups)
