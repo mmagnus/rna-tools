@@ -59,13 +59,13 @@ def get_parser():
     parser.add_argument('-c', '--clean', help='get clean structure',
                         action='store_true')
 
-    parser.add_argument('--is_pdb', help='check if a file is in the pdb format',
+    parser.add_argument('--is-pdb', help='check if a file is in the pdb format',
                         action='store_true')
 
-    parser.add_argument('--is_nmr', help='check if a file is NMR-style multiple model pdb',
+    parser.add_argument('--is-nmr', help='check if a file is NMR-style multiple model pdb',
                         action='store_true')
 
-    parser.add_argument('--un_nmr', help='Split NMR-style multiple model pdb files into individual models [biopython]',
+    parser.add_argument('--un-nmr', help='Split NMR-style multiple model pdb files into individual models [biopython]',
                         action='store_true')
 
     parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
@@ -75,10 +75,10 @@ def get_parser():
 
     parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db')
 
-    parser.add_argument('--fetch_ba', action='store_true',
+    parser.add_argument('--fetch-ba', action='store_true',
                         help='fetch biological assembly from the PDB db')
 
-    parser.add_argument('--get_seq', help='get seq', action='store_true')
+    parser.add_argument('--get-seq', help='get seq', action='store_true')
     parser.add_argument('--hide-warnings', help='hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file', action='store_true')
 
     parser.add_argument('--compact',
@@ -94,12 +94,12 @@ ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
 
 """), action='store_true')
 
-    parser.add_argument('--get_ss', help='get secondary structure', action='store_true')
+    parser.add_argument('--get-ss', help='get secondary structure', action='store_true')
 
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get_rnapuzzle_ready',
+    parser.add_argument('--get-rnapuzzle-ready',
                         help=textwrap.dedent("""get RNApuzzle ready (keep only standard atoms).'
 Be default it does not renumber residues, use --renumber_residues
 [requires BioPython]"""), action='store_true')
@@ -107,28 +107,28 @@ Be default it does not renumber residues, use --renumber_residues
     parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
                         action='store_true')
 
-    parser.add_argument('--no_hr', help='do not insert the header into files',
+    parser.add_argument('--no-hr', help='do not insert the header into files',
                         action='store_true')
 
-    parser.add_argument('--renumber_residues', help='by defult is false',
+    parser.add_argument('--renumber-residues', help='by defult is false',
                         action='store_true')
 
-    parser.add_argument('--dont_rename_chains',
+    parser.add_argument('--dont-rename-chains',
                         help=textwrap.dedent("""used only with --get_rnapuzzle_ready.
 By default:
    --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option
 """),
                         action='store_true')
 
-    parser.add_argument('--dont_fix_missing_atoms',
+    parser.add_argument('--dont-fix-missing-atoms',
                         help="""used only with --get_rnapuzzle_ready""",
                         action='store_true')
 
-    parser.add_argument('--dont_report_missing_atoms',
+    parser.add_argument('--dont-report-missing-atoms',
                         help="""used only with --get_rnapuzzle_ready""",
                         action='store_true')
 
-    parser.add_argument('--collapsed_view', help='',
+    parser.add_argument('--collapsed-view', help='',
                         action='store_true')
 
     parser.add_argument('--cv', help='alias to collapsed_view',
@@ -137,7 +137,7 @@ By default:
     parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
                         action='store_true')
 
-    parser.add_argument('--replace_hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]",
+    parser.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]",
                         action="store_true")
 
     parser.add_argument('--inplace', help=textwrap.dedent("""in place edit the file! [experimental,

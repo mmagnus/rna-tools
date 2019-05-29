@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Rename `rna_ss_pred.py` to `rna_secondary_structure_prediction.py`
+- Changed all underscores into dashes in arguments, .e.g --get_seq to --get-seq #94 190529
 
 ## [Pre-release]
 ### Added
