@@ -4,28 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Master
-### Added
+# Master
+## Added
 - `rna_dot2ct.py`
-- `rna_pdb_toolsx.py --swap-chains SWAP_CHAINS` 190530
-
-### Changed
-- Rename `rna_ss_pred.py` to `rna_secondary_structure_prediction.py`
-- Changed all underscores into dashes in arguments, .e.g --get_seq to --get-seq #94 190529
-
-### Fix:
-- Clanstixs problem with group and coloring bug #91 
-
-## [Pre-release]
-### Added
-
+- `rna_pdb_toolsx.py --swap-chains SWAP_CHAINS` [190530]
+- Clanstix: with smart group name picking [190500]
 - `rna_pdb_toolsx.py --split-alt-locations`
 - `rna_pdb_toolsx.py --delete-anisou`
 
-### Changed
+## Changed
+- Rename `rna_ss_pred.py` to `rna_secondary_structure_prediction.py`
+- Changed all underscores into dashes in arguments, .e.g --get_seq to --get-seq #94 [190529]
 - PyMOL4RNA: scale down shapes for inorganic, to 0.25
 
-## History
+## Fix:
+- Clanstix problem with group and coloring bug #91 
+
+# History
 
 170814 Python3 everywhere (at least it should be)
 
