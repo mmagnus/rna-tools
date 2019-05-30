@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Master
 ### Added
 - `rna_dot2ct.py`
+- `rna_pdb_toolsx.py --swap-chains SWAP_CHAINS` 190530
 
 ### Changed
 - Rename `rna_ss_pred.py` to `rna_secondary_structure_prediction.py`
 - Changed all underscores into dashes in arguments, .e.g --get_seq to --get-seq #94 190529
+
+### Fix:
+- Clanstixs problem with group and coloring bug #91 
 
 ## [Pre-release]
 ### Added
