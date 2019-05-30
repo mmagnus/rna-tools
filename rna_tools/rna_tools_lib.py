@@ -301,8 +301,9 @@ class RNAStructure:
         # txt += 'TER'
         return txt.strip()
 
-    def rename_chain(self, chain_id_old, chain_id_new):
+    def rename_chain(self, chain_id_old, chain_id_new, debug=True):
         txt = ''
+        lines = []
         for l in self.lines:
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER'):
                 # TER
@@ -312,7 +313,10 @@ class RNAStructure:
                     continue
                 if l[21] == chain_id_old:
                     l = l[:21] + chain_id_new + l[22:]
+            if debug: print(l)
             txt += l.strip() + '\n'  # ok, actually keep all lines as it was
+            lines.append(l)
+        self.lines = lines
         return txt
 
     def get_resn_uniq(self):

@@ -90,20 +90,21 @@ Take a tour http://mmagnus.github.io/rna-tools/#/
 ## rna_pdb_toolsx.py
 
 ```
-usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--delete-anisou]
-                         [--split-alt-locations] [-c] [--is_pdb] [--is_nmr]
-                         [--un_nmr] [--orgmode] [--get_chain GET_CHAIN]
-                         [--fetch] [--fetch_ba] [--get_seq] [--compact]
-                         [--get_ss] [--rosetta2generic]
-                         [--get_rnapuzzle_ready] [--rpr] [--no_hr]
-                         [--renumber_residues] [--dont_rename_chains]
-                         [--dont_fix_missing_atoms]
-                         [--dont_report_missing_atoms] [--collapsed_view]
-                         [--cv] [-v] [--replace_hetatm] [--inplace]
+usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]
+                         [--delete-anisou] [--split-alt-locations] [-c]
+                         [--is-pdb] [--is-nmr] [--un-nmr] [--orgmode]
+                         [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
+                         [--get-seq] [--hide-warnings] [--compact] [--get-ss]
+                         [--rosetta2generic] [--get-rnapuzzle-ready] [--rpr]
+                         [--no-hr] [--renumber-residues]
+                         [--dont-rename-chains] [--dont-fix-missing-atoms]
+                         [--dont-report-missing-atoms] [--collapsed-view]
+                         [--cv] [-v] [--replace-hetatm] [--inplace]
                          [--mutate MUTATE] [--edit EDIT]
                          [--rename-chain RENAME_CHAIN]
+                         [--swap-chains SWAP_CHAINS]
                          [--replace-chain REPLACE_CHAIN] [--delete DELETE]
-                         [--extract EXTRACT] [--uniq] [--chain-first]
+                         [--extract EXTRACT] [--uniq UNIQ] [--chain-first]
                          [--oneline] [--fasta]
                          file [file ...]
 
@@ -111,13 +112,13 @@ rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
 Tricks:
 
-   for i in *pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i >  ${i/.pdb/_rpr.pdb}; done
+   for i in *pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i >  ${i/.pdb/_rpr.pdb}; done
 
 Usage::
 
    $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
-    $ rna_pdb_toolsx.py --get_seq *
+    $ rna_pdb_toolsx.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound
     > A:1-61
     # BujnickiLab_RNApuzzle14_n02bound
@@ -132,21 +133,23 @@ optional arguments:
   -h, --help            show this help message and exit
   --version
   -r, --report          get report
+  --renum-atoms         renumber atoms, tested with --get-seq
   --delete-anisou       remove files with ANISOU records, works with --inplace
   --split-alt-locations
                         @todo
   -c, --clean           get clean structure
-  --is_pdb              check if a file is in the pdb format
-  --is_nmr              check if a file is NMR-style multiple model pdb
-  --un_nmr              Split NMR-style multiple model pdb files into individual models [biopython]
+  --is-pdb              check if a file is in the pdb format
+  --is-nmr              check if a file is NMR-style multiple model pdb
+  --un-nmr              Split NMR-style multiple model pdb files into individual models [biopython]
   --orgmode             get a structure in org-mode format <sick!>
-  --get_chain GET_CHAIN
-                        get chain, .e.g A
+  --get-chain GET_CHAIN
+                        get chain, one or many, e.g, A, but now also ABC works
   --fetch               fetch file from the PDB db
-  --fetch_ba            fetch biological assembly from the PDB db
-  --get_seq             get seq
-  --compact             with --get_seq, get it in compact view'
-                        $ rna_pdb_toolsx.py --get_seq --compact *.pdb
+  --fetch-ba            fetch biological assembly from the PDB db
+  --get-seq             get seq
+  --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
+  --compact             with --get-seq, get it in compact view'
+                        $ rna_pdb_toolsx.py --get-seq --compact *.pdb
                         # 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_2
@@ -155,42 +158,44 @@ optional arguments:
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_4
 
-  --get_ss              get secondary structure
+  --get-ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
-  --get_rnapuzzle_ready
+  --get-rnapuzzle-ready
                         get RNApuzzle ready (keep only standard atoms).'
-                        Be default it does not renumber residues, use --renumber_residues
+                        Be default it does not renumber residues, use --renumber-residues
                         [requires BioPython]
   --rpr                 alias to get_rnapuzzle ready)
-  --no_hr               do not insert the header into files
-  --renumber_residues   by defult is false
-  --dont_rename_chains  used only with --get_rnapuzzle_ready.
+  --no-hr               do not insert the header into files
+  --renumber-residues   by defult is false
+  --dont-rename-chains  used only with --get-rnapuzzle-ready.
                         By default:
-                           --get_rnapuzzle_ready rename chains from ABC.. to stop behavior switch on this option
-  --dont_fix_missing_atoms
-                        used only with --get_rnapuzzle_ready
-  --dont_report_missing_atoms
-                        used only with --get_rnapuzzle_ready
-  --collapsed_view
+                           --get-rnapuzzle-ready rename chains from ABC.. to stop behavior switch on this option
+  --dont-fix-missing-atoms
+                        used only with --get-rnapuzzle-ready
+  --dont-report-missing-atoms
+                        used only with --get-rnapuzzle-ready
+  --collapsed-view
   --cv                  alias to collapsed_view
   -v, --verbose         tell me more what you're doing, please!
-  --replace_hetatm      replace 'HETATM' with 'ATOM' [tested only with --get_rnapuzzle_ready]
+  --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
   --inplace             in place edit the file! [experimental,
-                        only for get_rnapuzzle_ready, delete, get_ss, get_seq]
+                        only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]
   --mutate MUTATE       mutate residues,
                          e.g. A:1A+2A+3A+4A,B:1A to mutate the first nucleotide of the A chain to Adenine
                          etc and the first nucleotide of the B chain
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
   --rename-chain RENAME_CHAIN
                         edit 'A>B' to rename chain A to chain B
+  --swap-chains SWAP_CHAINS
+                        B>A, rename A to _, then B to A, then _ to B
   --replace-chain REPLACE_CHAIN
                         a file PDB name with one chain that will be used to
                         replace the chain in the original PDB file,
                         the chain id in this file has to be the same with the chain id of the original chain
   --delete DELETE       delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'
   --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
-  --uniq
-                        rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact --chain-first * | sort
+  --uniq UNIQ
+                        rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
                         A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # zcp_6537608a_ALL-000001_AA
@@ -200,7 +205,7 @@ optional arguments:
   --fasta               with --get-seq, show sequences in fasta format,
                         can be combined with --compact (mind, chains will be separated with ' ' in one line)
 
-                        $ rna_pdb_toolsx.py --get_seq --fasta --compact input/20_Bujnicki_1.pdb
+                        $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
                         > 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
 ```
