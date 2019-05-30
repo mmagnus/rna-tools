@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# Master
+# Current
 ## Added
 - `rna_dot2ct.py`
 - `rna_pdb_toolsx.py --swap-chains SWAP_CHAINS` [190530]
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed all underscores into dashes in arguments, .e.g --get_seq to --get-seq #94 [190529]
 - PyMOL4RNA: scale down shapes for inorganic, to 0.25
 
-## Fix:
+## Fixed
 - Clanstix problem with group and coloring bug #91 
 
 # History
