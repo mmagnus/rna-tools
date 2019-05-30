@@ -55,8 +55,9 @@ python update_readme.py
 #./rna_pdb_toolsx.py --no-hr --rpr input/4W90_protein_rna.pdb > output/4W90_protein_rna_onlyRNA.pdb
 
 ## --get-rnapuzzle-ready and --dont_rename_chains
-rna_pdb_toolsx.py --no-hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
-rna_pdb_toolsx.py --no-hr --rpr --dont-rename-chains input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_dontRenameChains.pdb
+./rna_pdb_toolsx.py --no-hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
+./rna_pdb_toolsx.py --no-hr --rpr --dont-rename-chains input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_dontRenameChains.pdb
+./rna_pdb_toolsx.py --no-hr --swap-chain 'B>A' input/20_Bujnicki_1_mini_2chains_on_TER.pdb > output/20_Bujnicki_1_mini_2chains_on_TER_swapped_chains.pdb
 
 # --rpr inplace fix
 cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb

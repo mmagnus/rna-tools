@@ -156,6 +156,8 @@ only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]"""),
     parser.add_argument('--rename-chain',
                         help="edit 'A>B' to rename chain A to chain B")
 
+    parser.add_argument('--swap-chains', help='B>A, rename A to _, then B to A, then _ to B')
+
     parser.add_argument('--replace-chain',
                         default='',
                         help=textwrap.dedent("""a file PDB name with one chain that will be used to
@@ -644,6 +646,33 @@ if __name__ == '__main__':
                 except IOError:
                     pass
 
+
+    if args.swap_chains:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+            # rename_chain 'A>B'
+            s = RNAStructure(f)
+            chain_id_old, chain_id_new = args.swap_chains.split('>')
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+            s.rename_chain(chain_id_new, '_')
+            s.rename_chain(chain_id_old, chain_id_new)
+            output += s.rename_chain('_', chain_id_old)
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
 
     if args.rename_chain:
         # quick fix - make a list on the spot
