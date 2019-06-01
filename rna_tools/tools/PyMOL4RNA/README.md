@@ -42,4 +42,6 @@ This is a bit hacky way to do it. You must have only one structure open. The fun
 
 The implemented so far structures (based on PDB ID), colors and chains can be found here `pyMoL_colors-EMX.xlsx`.
 
+The structure ready to use with the function can be download from [here](https://www.dropbox.com/s/jz4qoqu6p8mfhof/spls.zip?dl=0).
+
     [1] run /Users/magnus/work-src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py
