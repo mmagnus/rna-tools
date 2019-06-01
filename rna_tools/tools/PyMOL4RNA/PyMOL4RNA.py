@@ -21,8 +21,9 @@ import tempfile
 import math
 import subprocess
 import os
-from itertools import izip
 import sys
+import getpass
+user = getpass.getuser()
 
 try:
     from pymol import cmd
@@ -39,6 +40,7 @@ except NameError:
     RNA_TOOLS_PATH = os.environ.get('RNA_TOOLS_PATH')
     EXECUTABLE="/bin/zsh"
     SOURCE=""
+cmd.set('cartoon_gap_cutoff', 0)
 
 def exe(cmd, verbose=False):
     """Helper function to run cmd. Using in this Python module."""
@@ -540,7 +542,347 @@ def ino():
     cmd.set('sphere_scale', '0.25', '(all)')
     cmd.color("yellow", "inorganic")
 
-def spl():
+mapping = [[u'PRP8', 'A', u'skyblue'], [u'BRR2', 'B', u'grey60'], [u'BUD31', 'C', u'dirtyviolet'], [u'CEF1', 'D', u'raspberry'], [u'CLF1', 'E', u'raspberry'], [u'CWC15', 'F', u'dirtyviolet'], [u'CWC16/YJU2', 'G', u'lightteal'], [u'CWC2', 'H', u'ruby'], [u'CWC21', 'I', u'violetpurple'], [u'CWC22', 'J', u'bluewhite'], [u'CWC25', 'K', u'deepteal'], [u'Intron', 'L', u'black'], [u'ISY1', 'M', u'dirtyviolet'], [u'LEA1', 'N', u'palegreen'], [u'Msl1', 'O', u'palegreen'], [u'PRP45', 'P', u'lightpink'], [u'PRP16', 'Q', u'smudge'], [u'CDC40\xa0(PRP17, SLU4, XRS2)', 'R', u'dirtyviolet'], [u'PRP19 (PSO4)', 'S', u'grey70'], [u'PRP46', 'T', u'lightblue'], [u'SLT11/ECM2', 'U', u'chocolate'], [u'SNT309', 'V', u'grey70'], [u'SNU114', 'W', u'slate'], [u'SYF2', 'X', u'brightorange'], [u'SYF1', 'Y', u'brightorange'], [u'U2', 'Z', u'forest'], [u'U5', 'a', u'density'], [u'U5_SmRNP', 'b', u'deepblue'], [u'U6', 'c', u'firebrick'], [u'Intron', 'r', u'grey50'], [u'Exon', 'z', u'yellow'], [u'exon-3', 'y', u'yellow'], [u'exon-5', 'z', u'yellow'], [u'PRP4 ', 'd', u'grey50'], [u'PRP31', 'e', u'grey50'], [u'PRP6', 'f', u'grey50'], [u'PRP3', 'g', u'grey50'], [u'DIB1', 'h', u'grey50'], [u'SNU13', 'i', u'grey50'], [u'LSM8', 'j', u'grey50'], [u'LSM2', 'k', u'grey50'], [u'LSM3', 'l', u'grey50'], [u'LSM6', 'm', u'grey50'], [u'LSM5', 'n', u'grey50'], [u'LSM7', 'o', u'grey50'], [u'LSM4', 'p', u'grey50'], [u'SNU66', 'q', u'grey50'], [u'RNA (intron or U6 snRNA)', 'r', u'grey50'], [u'5EXON', 's', u'grey50'], [u'BUD13', 't', u'grey60'], [u'CLF2', 'u', u'rasberry'], [u'Cus1', 'v', u'palegreen'], [u'CWC24', 'w', u'grey60'], [u'CWC27', 'x', u'grey60'], [u'HSH155', '1', u'smudge'], [u'HSH49', '2', u'sand'], [u'PML1', '3', u'grey60'], [u'PRP11', '4', u'palegreen'], [u'PRP2', '5', u'palegreen'], [u'RDS3', '6', u'palegreen'], [u'RSE1', '7', u'smudge'], [u'SNU17', '8', u'grey60'], [u'Ysf3', '9', u'palegreen'], [u'cwc23', 'd', u'grey50'], [u'SPP382\xa0(CCF8, NTR1)', 'e', u'grey50'], [u'NTR2', 'f', u'grey50'], [u'PRP43', 'g', u'grey50'], [u'SMB1', 'h', u'grey50'], [u'SME1', 'i', u'grey50'], [u'SMX3', 'j', u'grey50'], [u'SMX2\xa0(SNP2)', 'k', u'grey50'], [u'SMD3', 'l', u'grey50'], [u'SMD1', 'm', u'grey50'], [u'SMD2', 'n', u'grey50'], [u'PRP22', 'o', u'grey50'], [u'PRP18', 'p', u'grey50'], [u'SLU7', 'q', u'grey50'], [u'SMF', 'd', u'grey50'], [u'SMG', 'e', u'grey50'], [u'PRP9', 'f', u'grey50'], [u'PRP21', 'g', u'grey50'], [u'SNU23', 'r', u'grey50'], [u'PRP38', 's', u'grey50'], [u'SPP381', 'w', u'grey50']]
+
+def spl(arg):
+    """
+    action='', name=''
+    """
+    if ' ' in arg:
+        action, name = arg.split()
+        name = name.lower()
+    else:
+        action = arg
+        name = ''
+    #import pandas as pd
+    #df = pd.read_excel("/home/magnus/Desktop/pyMoL_colors-EMX.xlsx")
+    if not action or action == 'help':
+        spl_help()
+    if action == 'color':
+        spl_color()
+        return
+    if action == 'select':
+        for m in mapping:
+            protein = m[0]
+            chain = m[1]
+            color = m[2]
+            print('\_' + ' '.join([protein, chain, color]))
+            if name.lower() == protein.lower():
+                cmd.select('chain ' + chain)
+
+    if arg == 'extract all' or arg == 'ea':
+        for m in mapping:
+            protein = m[0]
+            chain = m[1]
+            color = m[2]
+            print('\_' + ' '.join([protein, chain, color]))
+            # Extract only if there is anything to select
+            if cmd.select('chain ' + chain):  # 0 or more
+                cmd.extract(protein, 'chain ' + chain)
+
+    if action == 'show':
+        for m in mapping:
+            protein = m[0]
+            chain = m[1]
+            color = m[2]
+            if name.lower() == protein.lower():
+                cmd.show("cartoon", "chain " + chain)
+
+
+cmd.extend('spl', spl)
+def spl_help():
+    print('################ SPL #################')
+    print('spl color|show cwc15|select cwc15|help')
+    print('######################################')
+    for m in mapping:
+            protein = m[0]
+            chain = m[1]
+            color = m[2]
+            print('-' + protein.rjust(20) + ' ' +  chain + ' ' + color)
+
+spl_help()
+
+def spl_color():
+    name = cmd.get_names("all")[0]
+    cmd.do('color grey50') # PRP8
+
+    if '5zwo' in name.lower():
+        cmd.do('color skyblue, chain A') # PRP8
+        cmd.do('color grey60, chain D') # BRR2
+        cmd.do('color palegreen, chain o') # LEA1
+        cmd.do('color palegreen, chain p') # Msl1
+        cmd.do('color slate, chain C') # SNU114
+        cmd.do('color forest, chain H') # U2
+        cmd.do('color density, chain B') # U5
+        cmd.do('color firebrick, chain F') # U6
+        cmd.do('color brown, chain I') # U4
+        cmd.do('color grey50, chain G') # Intron
+        cmd.do('color grey50, chain K') # PRP4
+        cmd.do('color grey50, chain L') # PRP31
+        cmd.do('color grey50, chain N') # PRP6
+        cmd.do('color grey50, chain J') # PRP3
+        cmd.do('color grey50, chain E') # DIB1
+        cmd.do('color grey50, chain M') # SNU13
+        cmd.do('color grey50, chain z') # LSM8
+        cmd.do('color grey50, chain q') # LSM2
+        cmd.do('color grey50, chain r') # LSM3
+        cmd.do('color grey50, chain x') # LSM6
+        cmd.do('color grey50, chain t') # LSM5
+        cmd.do('color grey50, chain y') # LSM7
+        cmd.do('color grey50, chain s') # LSM4
+        cmd.do('color grey50, chain O') # SNU66
+        cmd.do('color grey60, chain Y') # BUD13
+        cmd.do('color palegreen, chain 2') # Cus1
+        cmd.do('color smudge, chain 1') # HSH155
+        cmd.do('color sand, chain 4') # HSH49
+        cmd.do('color grey60, chain Z') # PML1
+        cmd.do('color palegreen, chain v') # PRP11
+        cmd.do('color palegreen, chain 5') # RDS3
+        cmd.do('color smudge, chain 3') # RSE1
+        cmd.do('color grey60, chain X') # SNU17
+        cmd.do('color palegreen, chain 6') # Ysf3
+        cmd.do('color grey50, chain a') # SMB1
+        cmd.do('color grey50, chain P') # SMB1
+        cmd.do('color grey50, chain h') # SMB1
+        cmd.do('color grey50, chain e') # SME1
+        cmd.do('color grey50, chain T') # SME1
+        cmd.do('color grey50, chain i') # SME1
+        cmd.do('color grey50, chain f') # SMX3
+        cmd.do('color grey50, chain U') # SMX3
+        cmd.do('color grey50, chain j') # SMX3
+        cmd.do('color grey50, chain g') # SMX2 (SNP2)
+        cmd.do('color grey50, chain V') # SMX2 (SNP2)
+        cmd.do('color grey50, chain k') # SMX2 (SNP2)
+        cmd.do('color grey50, chain d') # SMD3
+        cmd.do('color grey50, chain S') # SMD3
+        cmd.do('color grey50, chain l') # SMD3
+        cmd.do('color grey50, chain b') # SMD1
+        cmd.do('color grey50, chain Q') # SMD1
+        cmd.do('color grey50, chain m') # SMD1
+        cmd.do('color grey50, chain c') # SMD2
+        cmd.do('color grey50, chain R') # SMD2
+        cmd.do('color grey50, chain n') # SMD2
+        cmd.do('color grey50, chain u') # PRP9
+        cmd.do('color grey50, chain w') # PRP21
+        cmd.do('color grey50, chain W') # SNU23
+        cmd.do('color grey50, chain 0') # PRP38
+        cmd.do('color grey50, chain 9') # SPP381
+    if '5gm6' in name.lower():
+        cmd.do('color skyblue, chain A') # PRP8
+        cmd.do('color grey60, chain B') # BRR2
+        cmd.do('color dirtyviolet, chain T') # BUD31
+        cmd.do('color raspberry, chain c') # CEF1
+        cmd.do('color dirtyviolet, chain S') # CWC15
+        cmd.do('color ruby, chain R') # CWC2
+        cmd.do('color violetpurple, chain X') # CWC21
+        cmd.do('color bluewhite, chain Z') # CWC22
+        cmd.do('color lightpink, chain P') # PRP45
+        cmd.do('color dirtyviolet, chain n') # CDC40 (PRP17, SLU4, XRS2)
+        cmd.do('color grey70, chain f') # PRP19 (PSO4)
+        cmd.do('color lightblue, chain O') # PRP46
+        cmd.do('color chocolate, chain Q') # SLT11/ECM2
+        cmd.do('color grey70, chain t') # SNT309
+        cmd.do('color slate, chain C') # SNU114
+        cmd.do('color brightorange, chain f') # SYF2
+        cmd.do('color brightorange, chain v') # SYF1
+        cmd.do('color forest, chain L') # U2
+        cmd.do('color density, chain 5') # U5
+        cmd.do('color firebrick, chain 6') # U6
+        cmd.do('color grey50, chain M') # Intron
+        cmd.do('color yellow, chain N') # Exon
+        cmd.do('color grey60, chain W') # BUD13
+        cmd.do('color rasberry, chain d') # CLF2
+        cmd.do('color palegreen, chain H') # Cus1
+        cmd.do('color grey60, chain a') # CWC24
+        cmd.do('color grey60, chain b') # CWC27
+        cmd.do('color smudge, chain G') # HSH155
+        cmd.do('color sand, chain e') # HSH49
+        cmd.do('color grey60, chain U') # PML1
+        cmd.do('color palegreen, chain I') # PRP11
+        cmd.do('color palegreen, chain Y') # PRP2
+        cmd.do('color palegreen, chain J') # RDS3
+        cmd.do('color smudge, chain F') # RSE1
+        cmd.do('color grey60, chain V') # SNU17
+        cmd.do('color palegreen, chain K') # Ysf3
+    if '5lj3' in name.lower():
+        cmd.do('color skyblue, chain A') # PRP8
+        cmd.do('color dirtyviolet, chain L') # BUD31
+        cmd.do('color raspberry, chain O') # CEF1
+        cmd.do('color raspberry, chain S') # CLF1
+        cmd.do('color dirtyviolet, chain P') # CWC15
+        cmd.do('color lightteal, chain D') # CWC16/YJU2
+        cmd.do('color ruby, chain M') # CWC2
+        cmd.do('color violetpurple, chain R') # CWC21
+        cmd.do('color bluewhite, chain H') # CWC22
+        cmd.do('color deepteal, chain F') # CWC25
+        cmd.do('color black, chain I') # Intron
+        cmd.do('color dirtyviolet, chain G') # ISY1
+        cmd.do('color palegreen, chain W') # LEA1
+        cmd.do('color palegreen, chain Y') # Msl1
+        cmd.do('color lightpink, chain K') # PRP45
+        cmd.do('color smudge, chain Q') # PRP16
+        cmd.do('color lightblue, chain J') # PRP46
+        cmd.do('color chocolate, chain N') # SLT11/ECM2
+        cmd.do('color slate, chain C') # SNU114
+        cmd.do('color brightorange, chain T') # SYF1
+        cmd.do('color forest, chain Z') # U2
+        cmd.do('color density, chain U') # U5
+        cmd.do('color firebrick, chain V') # U6
+        cmd.do('color grey50, chain I') # Intron
+        cmd.do('color yellow, chain E') # Exon
+        cmd.do('color grey50, chain b') # SMB1
+        cmd.do('color grey50, chain k') # SMB1
+        cmd.do('color grey50, chain e') # SME1
+        cmd.do('color grey50, chain p') # SME1
+        cmd.do('color grey50, chain f') # SMX3
+        cmd.do('color grey50, chain q') # SMX3
+        cmd.do('color grey50, chain g') # SMX2 (SNP2)
+        cmd.do('color grey50, chain r') # SMX2 (SNP2)
+        cmd.do('color grey50, chain d') # SMD3
+        cmd.do('color grey50, chain n') # SMD3
+        cmd.do('color grey50, chain h') # SMD1
+        cmd.do('color grey50, chain l') # SMD1
+        cmd.do('color grey50, chain j') # SMD2
+        cmd.do('color grey50, chain m') # SMD2
+    if '5mps' in name.lower():
+        cmd.do('color skyblue, chain A') # PRP8
+        cmd.do('color dirtyviolet, chain L') # BUD31
+        cmd.do('color raspberry, chain O') # CEF1
+        cmd.do('color raspberry, chain S') # CLF1
+        cmd.do('color dirtyviolet, chain P') # CWC15
+        cmd.do('color ruby, chain M') # CWC2
+        cmd.do('color violetpurple, chain R') # CWC21
+        cmd.do('color bluewhite, chain H') # CWC22
+        cmd.do('color lightpink, chain K') # PRP45
+        cmd.do('color dirtyviolet, chain o') # CDC40 (PRP17, SLU4, XRS2)
+        cmd.do('color lightblue, chain J') # PRP46
+        cmd.do('color chocolate, chain N') # SLT11/ECM2
+        cmd.do('color slate, chain C') # SNU114
+        cmd.do('color brightorange, chain y') # SYF2
+        cmd.do('color brightorange, chain T') # SYF1
+        cmd.do('color forest, chain 2') # U2
+        cmd.do('color density, chain 5') # U5
+        cmd.do('color firebrick, chain 6') # U6
+        cmd.do('color grey50, chain E') # 5EXON
+        cmd.do('color grey50, chain I') # Intron
+        cmd.do('color yellow, chain E') # Exon
+        cmd.do('color grey50, chain b') # SMB1
+        cmd.do('color grey50, chain e') # SME1
+        cmd.do('color grey50, chain f') # SMX3
+        cmd.do('color grey50, chain g') # SMX2 (SNP2)
+        cmd.do('color grey50, chain d') # SMD3
+        cmd.do('color grey50, chain h') # SMD1
+        cmd.do('color grey50, chain j') # SMD2
+        cmd.do('color grey50, chain a') # PRP18
+        cmd.do('color grey50, chain c') # SLU7
+    if '6exn' in name.lower():
+        cmd.do('color skyblue, chain A') # PRP8
+        cmd.do('color dirtyviolet, chain L') # BUD31
+        cmd.do('color raspberry, chain O') # CEF1
+        cmd.do('color raspberry, chain S') # CLF1
+        cmd.do('color dirtyviolet, chain P') # CWC15
+        cmd.do('color lightteal, chain D') # CWC16/YJU2
+        cmd.do('color ruby, chain M') # CWC2
+        cmd.do('color violetpurple, chain R') # CWC21
+        cmd.do('color bluewhite, chain H') # CWC22
+        cmd.do('color palegreen, chain W') # LEA1
+        cmd.do('color palegreen, chain Y') # Msl1
+        cmd.do('color lightpink, chain K') # PRP45
+        cmd.do('color dirtyviolet, chain o') # CDC40 (PRP17, SLU4, XRS2)
+        cmd.do('color grey70, chain t') # PRP19 (PSO4)
+        cmd.do('color grey70, chain u') # PRP19 (PSO4)
+        cmd.do('color grey70, chain v') # PRP19 (PSO4)
+        cmd.do('color grey70, chain w') # PRP19 (PSO4)
+        cmd.do('color lightblue, chain J') # PRP46
+        cmd.do('color chocolate, chain N') # SLT11/ECM2
+        cmd.do('color grey70, chain s') # SNT309
+        cmd.do('color slate, chain C') # SNU114
+        cmd.do('color brightorange, chain y') # SYF2
+        cmd.do('color brightorange, chain T') # SYF1
+        cmd.do('color forest, chain 2') # U2
+        cmd.do('color density, chain 5') # U5
+        cmd.do('color firebrick, chain 6') # U6
+        cmd.do('color grey50, chain I') # Intron
+        cmd.do('color yellow, chain E') # Exon
+        cmd.do('color grey50, chain b') # SMB1
+        cmd.do('color grey50, chain k') # SMB1
+        cmd.do('color grey50, chain e') # SME1
+        cmd.do('color grey50, chain p') # SME1
+        cmd.do('color grey50, chain f') # SMX3
+        cmd.do('color grey50, chain q') # SMX3
+        cmd.do('color grey50, chain g') # SMX2 (SNP2)
+        cmd.do('color grey50, chain r') # SMX2 (SNP2)
+        cmd.do('color grey50, chain d') # SMD3
+        cmd.do('color grey50, chain n') # SMD3
+        cmd.do('color grey50, chain h') # SMD1
+        cmd.do('color grey50, chain l') # SMD1
+        cmd.do('color grey50, chain j') # SMD2
+        cmd.do('color grey50, chain m') # SMD2
+        cmd.do('color grey50, chain V') # PRP22
+        cmd.do('color grey50, chain a') # PRP18
+        cmd.do('color grey50, chain c') # SLU7
+        cmd.do('color grey50, chain f') # SMF
+        cmd.do('color grey50, chain q') # SMF
+        cmd.do('color grey50, chain g') # SMG
+        cmd.do('color grey50, chain r') # SMG
+        cmd.do('color grey50, chain X') # SPP381
+    if '5y88' in name.lower():
+        cmd.do('color skyblue, chain A') # PRP8
+        cmd.do('color dirtyviolet, chain L') # BUD31
+        cmd.do('color raspberry, chain I') # CLF1
+        cmd.do('color dirtyviolet, chain P') # CWC15
+        cmd.do('color lightteal, chain R') # CWC16/YJU2
+        cmd.do('color ruby, chain N') # CWC2
+        cmd.do('color deepteal, chain G') # CWC25
+        cmd.do('color black, chain E') # Intron
+        cmd.do('color palegreen, chain o') # LEA1
+        cmd.do('color palegreen, chain p') # Msl1
+        cmd.do('color lightpink, chain Q') # PRP45
+        cmd.do('color dirtyviolet, chain S') # CDC40 (PRP17, SLU4, XRS2)
+        cmd.do('color grey70, chain q') # PRP19 (PSO4)
+        cmd.do('color grey70, chain r') # PRP19 (PSO4)
+        cmd.do('color grey70, chain s') # PRP19 (PSO4)
+        cmd.do('color grey70, chain t') # PRP19 (PSO4)
+        cmd.do('color lightblue, chain O') # PRP46
+        cmd.do('color chocolate, chain M') # SLT11/ECM2
+        cmd.do('color grey70, chain G') # SNT309
+        cmd.do('color slate, chain C') # SNU114
+        cmd.do('color brightorange, chain K') # SYF2
+        cmd.do('color brightorange, chain H') # SYF1
+        cmd.do('color forest, chain F') # U2
+        cmd.do('color density, chain B') # U5
+        cmd.do('color firebrick, chain D') # U6
+        cmd.do('color grey50, chain x') # Intron
+        cmd.do('color grey50, chain x') # RNA (intron or U6 snRNA)
+        cmd.do('color grey50, chain T') # cwc23
+        cmd.do('color grey50, chain U') # SPP382 (CCF8, NTR1)
+        cmd.do('color grey50, chain V') # NTR2
+        cmd.do('color grey50, chain W') # PRP43
+        cmd.do('color grey50, chain a') # SMB1
+        cmd.do('color grey50, chain h') # SMB1
+        cmd.do('color grey50, chain b') # SME1
+        cmd.do('color grey50, chain i') # SME1
+        cmd.do('color grey50, chain c') # SMX3
+        cmd.do('color grey50, chain j') # SMX3
+        cmd.do('color grey50, chain d') # SMX2 (SNP2)
+        cmd.do('color grey50, chain k') # SMX2 (SNP2)
+        cmd.do('color grey50, chain e') # SMD3
+        cmd.do('color grey50, chain l') # SMD3
+        cmd.do('color grey50, chain f') # SMD1
+        cmd.do('color grey50, chain m') # SMD1
+        cmd.do('color grey50, chain g') # SMD2
+        cmd.do('color grey50, chain n') # SMD2
+
+def spl_color___():
+    for m in mapping:
+        protein = m[0]
+        chain = m[1]
+        color = m[2]
+        print('\_' + ' '.join([protein, chain, color]))
+        cmd.do('color ' + color + ', chain ' + chain)
+        # cmd.do('color firebrick, chain V') # U6
+
+def spl_color_():
     """Color spl RNAs (for only color spl RNA and use 4-color code for residues see `spl2`)
     """
     AllObj = cmd.get_names("all")
@@ -598,8 +940,40 @@ def spl():
     cmd.do('color black, chain i')
     cmd.do('color black, chain e')
 
+    cmd.do('color black, chain e')
+
+    cmd.do('color dirtyviolet, chain L') # bud31
+    cmd.do('color rasberry, chain L') # CERF1
+
+    cmd.do('color skyblue, chain A') # PRP8
+    cmd.do('color grey60, chain B') # BRR2
+    cmd.do('color dirtyiolet, chain L') # BUD31
+    cmd.do('color rasberry, chain O') # CEF1
+    cmd.do('color rasberry, chain S') # CLF1
+    cmd.do('color dirtyviolet, chain P') # CWC15
+    cmd.do('color lightteal, chain D') # CWC16/YJU2
+    cmd.do('color ruby, chain M') # CWC2
+    cmd.do('color violetpurple, chain R') # CWC21
+    cmd.do('color bluewhite, chain H') # CWC22
+    cmd.do('color deepteal, chain F') # CWC25
+    cmd.do('color black, chain I') # Intron
+    cmd.do('color dirtyviolet, chain G') # ISY1
+    cmd.do('color palegreen, chain W') # LEA1
+    cmd.do('color palegreen, chain Y') # Msl1
+    cmd.do('color lightpink, chain K') # PRP45
+    cmd.do('color smudge, chain Q') # Prp16
+    cmd.do('color grey70, chain t') # Prp19
+    cmd.do('color lightblue, chain J') # PRP46
+    cmd.do('color chocolate, chain N') # SLT11/ECM2
+    cmd.do('color grey70, chain s') # Snt309
+    cmd.do('color slate, chain C') # SNU114
+    cmd.do('color brightorange, chain T') # SYF1
+    cmd.do('color forest, chain Z') # U2
+    cmd.do('color density, chain U') # U5
+    cmd.do('color deepblue, chain b') # U5_Sm
+
     cmd.do('bg gray')
-    cmd.do('remove (polymer.protein)')
+    # cmd.do('remove (polymer.protein)')
 
     cmd.set("cartoon_tube_radius", 1.0)
     ino()
@@ -715,6 +1089,7 @@ USAGE
  :::warning:::
  if nothing is selected  function is calculating radius of gyration for all pdbs in current Pymol session
     '''
+    from itertools import izip
     quiet = int(quiet)
     model = cmd.get_model(selection).atom
     x = [i.coord for i in model]
@@ -808,9 +1183,6 @@ def select_protein():
     cmd.select('polymer.protein')
 cmd.extend('protein-select', select_protein)
 
-import getpass
-user = getpass.getuser()
-
 def tmp():
     cmd.save('/home/' + user + '/Desktop/' + tmp + '.png')
     cmd.save('/home/' + user + '/Desktop/' + tmp + '.pse')
@@ -896,7 +1268,7 @@ else:
     cmd.extend('ss_all', ss_all)
     cmd.extend('clarna', clarna)
     cmd.extend("rgyration", rgyration)
-    cmd.extend("spl", spl)
+    #cmd.extend("spl", spl)
     cmd.extend("spl2", spl2)
     cmd.extend('rlabel', 'rlabel')
 
@@ -917,6 +1289,10 @@ else:
     cmd.extend('savt', save_transformed)
     cmd.extend('show_all_at_once', show_all_at_once)
 
+    cmd.set('ignore_case', 'off')
+    #cmd.extend('spl_select', spl_select)
+
+    print('ignore_case made off')
     print('###########################')
     print('PYMOL4RNA loading .... [ok]')
     print('###########################')
