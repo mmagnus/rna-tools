@@ -27,3 +27,13 @@ e.g.:
 
 to our `~/.pymolrc`
 
+Just Run
+-------------------------------------------------------------------------------
+
+You PyMOL console type:
+
+![rna](doc/run.png)
+
+and then open a given spliceosomal structure and run:
+
+![rna](doc/spl.png)
