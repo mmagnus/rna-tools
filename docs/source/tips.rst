@@ -57,6 +57,10 @@ Read more about sed_.
 In PyMOL
 ========
 
+Quickref::
+
+     set ignore_case, off
+	
 Rename a chain::
 
 	PyMOL>alter (sele), chain="B"
