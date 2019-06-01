@@ -31,7 +31,11 @@ except ImportError:
     print("PyMOL Python lib is missing")
     # sys.exit(0)
 
-from rna_tools.rna_tools_lib import RNAStructure
+try:
+    from rna_tools.rna_tools_lib import RNAStructure
+except ImportError:
+    print("rna_tools lib is missing")
+    RNA_TOOLS_PATH = ''
 
 try:
     RNA_TOOLS_PATH
