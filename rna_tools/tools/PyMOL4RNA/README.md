@@ -40,4 +40,6 @@ and then open a given spliceosomal structure and type `spl color`:
 
 This is a bit hacky way to do it. You must have only one structure open. The function `spl color` reads the name of the object (like in this case `5zwo`, so this object must include PDB ID) in your PyMOL session and based on that it colors the chains according to rules encoded in the function.
 
+The implemented so far structures (based on PDB ID), colors and chains can be found here `pyMoL_colors-EMX.xlsx`.
+
     [1] run /Users/magnus/work-src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py
