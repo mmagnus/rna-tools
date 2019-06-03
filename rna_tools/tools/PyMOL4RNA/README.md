@@ -30,18 +30,24 @@ to our `~/.pymolrc`
 Just Run the file
 -------------------------------------------------------------------------------
 
-To load the functions of `PyMOL4RNA.py`, type `run <path to the file of PyMOL4RNA.py>` in my case [1]:
+To load the functions of PyMOL4RNA.py, type `run <path to the file of PyMOL4RNA.py>` into the PyMOL console. 
+
+In my case, this will be [1]:
 
 ![rna](doc/run.png)
 
-and then open a given spliceosomal structure and type `spl color`:
+OK, now the functions are loaded into PyMOL. Unfortunately, you have to type run each time when you open and close PyMOL. If you want this to be loaded at the start of PyMOL see the Install section.
+
+Now we can open a PDB file and color spliceosomal proteins. The way how it works at the moment is a bit hacky. The function `spl color` reads the name of the object (like in this case 5zwo) in your PyMOL session and based on that, the function colors the chains according to the rules encoded in the function. 
+
+At the moment, the following structure can be colored with the PyMOL4RNA: (1) complex B (5zwo), (2) complex Bact (5gm6), (3) complex C (5lj3), (4) C* (5mps), (5) complex P (6exn), and (6) ILS (5y88). To learn more about these structures, see the review (Zhang, & Zhao, 2019).
+
+Chains and colors can be found here pyMoL_colors-EMX.xlsx.
 
 ![rna](doc/spl.png)
-
-This is a bit hacky way to do it. You must have only one structure open. The function `spl color` reads the name of the object (like in this case `5zwo`, so this object must include PDB ID) in your PyMOL session and based on that it colors the chains according to rules encoded in the function.
-
-The implemented so far structures (based on PDB ID), colors and chains can be found here `pyMoL_colors-EMX.xlsx`.
 
 The structure ready to use with the function can be download from [here](https://www.dropbox.com/s/jz4qoqu6p8mfhof/spls.zip?dl=0).
 
     [1] run /Users/magnus/work-src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py
+
+Zhang, L., Vielle, A., Espinosa, S., & Zhao, R. (2019). RNAs in the spliceosome: Insight from cryoEM structures. Wiley Interdisciplinary Reviews: RNA, 10(3), e1523–11. http://doi.org/10.1002/wrna.1523
