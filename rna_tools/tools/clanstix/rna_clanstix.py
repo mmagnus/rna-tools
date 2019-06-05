@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 """rna_clanstix - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans.
 
 We hacked Clans thus instead of BLAST-based distances between sequences, you can analyze distances between structures described as p-values of rmsd (based on the method from the Dokholyan lab.)
@@ -70,6 +69,10 @@ import math
 import logging
 import time
 
+import multiprocessing as mp
+#import dill
+#import parmap
+from pathos.multiprocessing import ProcessingPool
 
 logging.basicConfig(level=logging.INFO,
                 format='%(message)s',
@@ -178,6 +181,50 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
         # 1E-9 = 2-1
         self.txt += t
 
+    def dist_from_matrix_mp(self, output_pmatrix_fn, max, min, lines, pmat=False, use_pv=False, debug=False):
+        if debug:
+            print('Everything but the dists are generated. Use it to edit the original clans input file.')
+            return # for some hardcore debugging ;-)
+        t = '\n<hsp>\n'
+        myp = ''
+        c = 0
+        c2 = 0
+        for l in lines:
+            for rmsd in l:
+                if c != c2:
+                    if use_pv:
+                        dist = pv.get_p_value(rmsd, 1 * 38)[0]  # r.get_rmsd_to(r2), 3)
+                    else:
+                        # 1e-06 10-1 = 9 10-10 0
+                        dist = '1.0E-' + str(int(math.floor(matrix.max()) - int(float(rmsd))))
+                    t += str(c) + ' ' + str(c2) + ':' + str(dist) + '\n'
+                    myp += ' ' + str(dist)
+                else:
+                    myp += ' ' + '0.0'
+                c2 += 1
+            myp += '\n'
+            c2 = 0
+            c += 1
+
+        t += '</hsp>\n'
+
+        max = math.ceil(matrix.max())
+        min = matrix[matrix>0].min()
+        self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
+        self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
+        self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
+        self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
+        for i in range(1,20):
+            self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
+        # 1E-11 = 0
+        # 1E-10 = 1-0
+        # 1E-9 = 2-1
+        self.txt += t
+
+        if pmat:
+            with open(output_pmatrix_fn, 'w') as f:
+                f.write(myp)
+        return t
 
 def check_symmetric(a, rtol=1e-05, atol=1e-08):
     """
@@ -221,10 +268,14 @@ def get_parser():
     parser.add_argument('--pvalue', default="1.0E-15", help="set p-value for clans.input, default: 1.0E-15")
 
     parser.add_argument('--output', help="input file for clans, e.g., clans.input", default="clans.input")
+    parser.add_argument('--output-pmatrix', action='store_true', help="p value matrix will be saved, see --output-matrix-fn to define name")
+    parser.add_argument('--output-pmatrix-fn', default="pmatrix.txt", help="filename of output matrix, pmatrix.txt by default")
+    parser.add_argument('--multiprocessing', action='store_true', help="run calculations in parallel way")
+
     return parser
 
 
-# main
+#main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
@@ -242,6 +293,12 @@ if __name__ == '__main__':
 
     # get max
     logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
+
+    # Collect rmsds into a list
+    rmsds = []
+    for l in f:
+            #for rmsd in map(float,l.split()):  # map(float, s.split())
+       		rmsds.append(map(float,l.split()))
 
     # warning:
     # eh, this matrix is not really used by clanstix main engine
@@ -262,9 +319,21 @@ if __name__ == '__main__':
     c.add_ids(ids)
     if debug:
         print('dist_from_matrix...')
-    c.dist_from_matrix(f, matrix, args.use_pvalue, args.dont_calc)
-    if debug:
-        print('process the matrix')
+
+    if args.multiprocessing:
+        matrix = np.loadtxt(args.matrixfn)
+        max = int(math.floor(matrix.max()))
+        min = matrix[matrix>0].min()
+        clans_list_of_pvalues = ''
+        pool = ProcessingPool(mp.cpu_count())
+        x=pool.map(c.dist_from_matrix_mp, [args.output_pmatrix_fn], [max], [min], [rmsds], [args.output_pmatrix], )
+        pool.close()
+        for i in x:
+            clans_list_of_pvalues = clans_list_of_pvalues.join(i)
+    else:
+        c.dist_from_matrix(f, matrix, args.use_pvalue, args.dont_calc)
+        if debug:
+            print('process the matrix')
     #
     # DEFINE GROUPS
     #
@@ -436,6 +505,8 @@ if __name__ == '__main__':
 
     with open(args.output, 'w') as f:
         f.write(c.txt)
+        if args.multiprocessing:
+            f.write(clans_list_of_pvalues)
         f.write(seqgroups)
         f.write(c.comment)
     print(c.comment)
