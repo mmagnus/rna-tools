@@ -2,6 +2,15 @@
 
 Eysmont K., Matylla-Kulińska K., Jaskulska A., Magnus M., Konarska M.
 
+![figure](figure.png)
+
+<b>General Model of the Catalytic Core Structural Rearrangements during Splicing</b>
+
+(A) Rearrangements within the U6 core between the catalytic and inactive conformations, facilitated by Prp16. We propose that upon destabilization of the lower U6-ISL stem, the catalytic center adopts the optimal geometry for catalysis. Conversely, stabilization of pairing interactions within the lower stem promotes the Prp16-dependent transition out of the first-step conformation.
+(B) Consensus sequence and secondary structure diagram for U6-ISL based on the Rfam alignment.
+(C–E) Structural features of (C) U6-ISL, (D) U6atac-ISL, and (E) group II introns domain V. Sequences and secondary structures are shown for group representatives.
+(F) The free energy plot. For each representative, free energy of the lower (in blue) and upper segment (in black) is shown. The upper stem free energy shared by all U6-ISL (-12.75 kcal/mol) is shown as a black line. For group II introns, the free energies for the representative sequence (*O. iheyensis*) are shown as dots, and distributions of free energies for all (n = 92) diverse segments taken from the Rfam alignment are shown as violin plots. Statistical significance of differences between free energies was determined by the non-parametric Mann-Whitney test (p value = 7.85e-20). Free energies of destabilizing yeast lower ISL mutants (n = 18) are shown as purple dots.
+
 Alignments
 -------------------------------------------------------------------------------
 
