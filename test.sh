@@ -58,6 +58,7 @@ python update_readme.py
 ./rna_pdb_toolsx.py --no-hr --rpr input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_toAB.pdb
 ./rna_pdb_toolsx.py --no-hr --rpr --dont-rename-chains input/1osw_nt1-4_ChainRenamedToBC.pdb > output/1osw_nt1-4_ChainRenamedToBC_dontRenameChains.pdb
 ./rna_pdb_toolsx.py --no-hr --swap-chain 'B>A' input/20_Bujnicki_1_mini_2chains_on_TER.pdb > output/20_Bujnicki_1_mini_2chains_on_TER_swapped_chains.pdb
+./rna_pdb_toolsx.py --no-hr --swap-chain 'B>B' input/20_Bujnicki_1_mini_2chains_on_TER.pdb > output/20_Bujnicki_1_mini_2chains_on_TER_swapped_chains_B2B.pdb
 
 # --rpr inplace fix
 cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
@@ -111,9 +112,7 @@ cp input/7_Chen_7_rpr.pdb output/7_Chen_7_rpr_inplacefix.pdb
 
 ## --mutate
 ./rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A' input/205d_rmH2o.pdb > output/205d_rmH2o_mutA1234.pdb
-cp input/205d_rmH2o.pdb output/205d_rmH2o_mutA1234-B1_inplace.pdb
-./rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' --inplace output/205d_rmH2o.pdb
-
+cp input/205d_rmH2o.pdb output/205d_rmH2o_mutA1234-B1_inplace.pdb && ./rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' --inplace output/205d_rmH2o_mutA1234-B1_inplace.pdb
 ./rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' input/205d_rmH2o.pdb > output/205d_rmH2o_mutA1234-B1.pdb
 
 ## --is_pdb
