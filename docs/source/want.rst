@@ -126,6 +126,17 @@ Run::
     ATOM      3  OP2   C A   1     -15.666  -4.265  69.342  1.00 12.68           O
     ...
 
+mutate residues
+-------------------------------------------
+
+For example, to replace the first four residues of chain A into adenines and 13th A of chain B, run::
+
+    rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' \
+       --inplace output/205d_rmH2o_mutA1234-B1_inplace.pdb
+
+.. image:: ../pngs/mutate.png
+Figure. Input structure on the left, mutated structure on the right.
+
 add missing atoms
 --------------------------------------------
 
