@@ -62,17 +62,13 @@ An output of this tool can be viewed using CLANS.
 Frickey, T., & Lupas, A. (2004). CLANS: a Java application for visualizing protein families based on pairwise similarity. Bioinformatics (Oxford, England), 20(18), 3702–4. doi:10.1093/bioinformatics/bth444
 """
 
+from __future__ import print_function
 import argparse
 import rna_tools.tools.rmsd_signif.rnastruc_pred_signif as pv
 import numpy as np
 import math
 import logging
 import time
-
-import multiprocessing as mp
-#import dill
-#import parmap
-from pathos.multiprocessing import ProcessingPool
 
 logging.basicConfig(level=logging.INFO,
                 format='%(message)s',
@@ -146,15 +142,16 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
             raise Exception('n != ids')
         self.txt += t
 
-    def dist_from_matrix(self, lines, matrix=0, use_pv=False, debug=False):
-        if debug:
+    def dist_from_matrix(self, rmsds, matrix=0, use_pv=False, dont_calc=False, debug=False):
+        if dont_calc:
             print('Everything but the dists are generated. Use it to edit the original clans input file.')
             return # for some hardcore debugging ;-)
         t = '\n<hsp>\n'
         c = 0
         c2 = 0
-        for l in lines:
-            for rmsd in l.split():
+        if debug: print(rmsds)
+        for row in rmsds:
+            for rmsd in row:
                 if c != c2:
                     if use_pv:
                         dist = pv.get_p_value(rmsd, 1 * 38)[0]  # r.get_rmsd_to(r2), 3)
@@ -270,7 +267,7 @@ def get_parser():
     parser.add_argument('--output', help="input file for clans, e.g., clans.input", default="clans.input")
     parser.add_argument('--output-pmatrix', action='store_true', help="p value matrix will be saved, see --output-matrix-fn to define name")
     parser.add_argument('--output-pmatrix-fn', default="pmatrix.txt", help="filename of output matrix, pmatrix.txt by default")
-    parser.add_argument('--multiprocessing', action='store_true', help="run calculations in parallel way")
+    parser.add_argument('--multiprocessing', action='store_true', help="run calculations in parallel way, warning: extra libraries required, see the Docs")
 
     return parser
 
@@ -321,6 +318,11 @@ if __name__ == '__main__':
         print('dist_from_matrix...')
 
     if args.multiprocessing:
+        import multiprocessing as mp
+        #import dill
+        #import parmap
+        from pathos.multiprocessing import ProcessingPool
+
         matrix = np.loadtxt(args.matrixfn)
         max = int(math.floor(matrix.max()))
         min = matrix[matrix>0].min()
@@ -331,9 +333,9 @@ if __name__ == '__main__':
         for i in x:
             clans_list_of_pvalues = clans_list_of_pvalues.join(i)
     else:
-        c.dist_from_matrix(f, matrix, args.use_pvalue, args.dont_calc)
+        c.dist_from_matrix(rmsds, matrix, args.use_pvalue, args.dont_calc, args.debug)
         if debug:
-            print('process the matrix')
+            print('process the matrix...')
     #
     # DEFINE GROUPS
     #
@@ -509,7 +511,9 @@ if __name__ == '__main__':
             f.write(clans_list_of_pvalues)
         f.write(seqgroups)
         f.write(c.comment)
+    # if debug: print(c.txt)
     print(c.comment)
+
     logging.info(time.strftime("%Y-%m-%d %H:%M:%S"))
     if debug:
         print(seqgroups)
