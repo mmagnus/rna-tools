@@ -1,5 +1,7 @@
 # Index of tools
+
 `rna_pdb_toolsx.py`:
+
 1. --get-rnapuzzle-ready
 1. --report          get report
 1. --renum-atoms         renumber atoms, tested with --get-seq
@@ -30,18 +32,71 @@
 1. --delete DELETE       delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'
 1. --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
 1. --extract-chain EXTRACT_CHAIN
+
 Sequence analysis:
-1. BlastPDB.py
+1. BlastPDB.py - a simple Blast search
+1. RfamSearch.py - a simple Rfam search
+
 Secondary structure analysis:
+1. ! rna_secondary_structure_prediction.py - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable),
 1. rna_dot2ct.py - convert dot notation to ct notation,
 1. clarna_app.py - a wrapper to ClaRNA,
 1. rna_x3dna.py - a wrapper to 3dna,
+
 Tertiary structure comparison:
-1.
-1. rna_calc_inf.py - including multiprocessing based on ClaRNA,
-1. rna_clanstix.py - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans,
+
+1. **rna_calc_rmsd.py** - calculate RMSDs of structures to the target
+1. **rna_calc_inf.py** - including multiprocessing based on ClaRNA,
+1. **rna_clanstix.py** - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans,
+
 Tertiary structure formats:
-1. diffpdb
+
+1. **diffpdb**
 1. rna_pdb_merge_into_one.py - merge single files into an NMR-style multiple model file PDB file
+
 PyMOL4RNA:
+
 1. color structure domains according to pre-defined styles
+
+SimRNA:
+
+
+SimRNAweb:
+1. dd
+
+Rosetta:
+1. rna_rosetta_n.py
+
+RNAalignment
+1. get_seq()
+1. get_ss()
+1. fetch()
+1. cmalign()
+
+
+Python Classes:
+
+1. Seq.py - seq processing, including secondary structure prediction
+1. SecondaryStructure.py::draw_ss()
+1. SecondaryStructure.py::parse_vienna_to_pairs()
+
+
+-------------------------------------------------------------------------------
+
+Stub...
+
+```
+rna_secondary_structure_prediction.py -h
+usage: rna_secondary_structure_prediction.py [-h] [--method METHOD]
+                                             [--seq SEQ] [--file FILE]
+                                             [--cstinfile] [--cst CST] [-v]
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --method METHOD  cyclefold, mcfold
+  --seq SEQ
+  --file FILE
+  --cstinfile      the 3rd file should have cst line, e.g. '((....))'
+  --cst CST        --cst '((....))'
+  -v, --verbose    be verbose
+```
