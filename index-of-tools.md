@@ -1,5 +1,4 @@
 # Index of tools
-
 `rna_pdb_toolsx.py`:
 1. --get-rnapuzzle-ready
 1. --report          get report
@@ -31,3 +30,18 @@
 1. --delete DELETE       delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'
 1. --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
 1. --extract-chain EXTRACT_CHAIN
+Sequence analysis:
+1. BlastPDB.py
+Secondary structure analysis:
+1. rna_dot2ct.py - convert dot notation to ct notation,
+1. clarna_app.py - a wrapper to ClaRNA,
+1. rna_x3dna.py - a wrapper to 3dna,
+Tertiary structure comparison:
+1.
+1. rna_calc_inf.py - including multiprocessing based on ClaRNA,
+1. rna_clanstix.py - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans,
+Tertiary structure formats:
+1. diffpdb
+1. rna_pdb_merge_into_one.py - merge single files into an NMR-style multiple model file PDB file
+PyMOL4RNA:
+1. color structure domains according to pre-defined styles
