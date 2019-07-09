@@ -44,7 +44,11 @@ except NameError:
     RNA_TOOLS_PATH = os.environ.get('RNA_TOOLS_PATH')
     EXECUTABLE="/bin/zsh"
     SOURCE=""
-cmd.set('cartoon_gap_cutoff', 0)
+
+try:
+    cmd.set('cartoon_gap_cutoff', 0)
+except:
+    pass
 
 def exe(cmd, verbose=False):
     """Helper function to run cmd. Using in this Python module."""
