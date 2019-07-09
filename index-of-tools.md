@@ -1,6 +1,6 @@
 # Index of tools
 
-`rna_pdb_toolsx.py`
+`rna_pdb_toolsx.py`:
 1. --get-rnapuzzle-ready
 1. --report          get report
 1. --renum-atoms         renumber atoms, tested with --get-seq
@@ -17,4 +17,17 @@
 1. --fetch-ba            fetch biological assembly from the PDB db
 1. --get-seq             get seq
 1. --compact             with --get-seq, get it in compact view'
-
+1. --get-ss              get secondary structure
+1. --rosetta2generic     convert ROSETTA-like format to a generic pdb
+1. --get-rnapuzzle-ready
+1. --renumber-residues   by defult is false
+1. --collapsed-view
+1. --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
+1. --mutate MUTATE       mutate residues,
+1. --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
+1. --rename-chain RENAME_CHAIN
+1. --swap-chains SWAP_CHAINS
+1. --replace-chain REPLACE_CHAIN
+1. --delete DELETE       delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'
+1. --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
+1. --extract-chain EXTRACT_CHAIN
