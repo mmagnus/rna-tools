@@ -1,4 +1,4 @@
-#!/usr/bin/evn python
+#!/usr/bin/env python
 
 from Bio import PDB
 from Bio.PDB import PDBIO
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     s.detect_what_is_in_pdb()
 
     s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb', pdb='test_data/1xjr_root.pdb',
-              fragments='A:1-14,37-45', pdb_out='tmp.pdb', v=True)
+              fragments='A:1-14,37-45', pdb_out='test_data/tmp.pdb', v=True)
     err = s.detect_what_is_in_pdb()
     err = s.merge()
     if err:
