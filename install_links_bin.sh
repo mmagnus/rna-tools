@@ -13,6 +13,7 @@ ln -s $curr_dir/rna_tools/tools/clanstix/rna_clanstix.py $curr_dir/bin/rna_clans
 ln -s $curr_dir/rna_tools/rna_dot2ct.py $curr_dir/bin/rna_dot2ct.py
 ln -s $curr_dir/rna_tools/rna_secondary_structure_prediction.py $curr_dir/bin/rna_secondary_structure_prediction.py
 
+ln -s $curr_dir/rna_tools/tools/rna_prediction_significance/rna_prediction_significance.py $curr_dir/bin/rna_prediction_significance.py
 ln -s $curr_dir/rna_tools/tools/rna_multimodels/rna_pdb_merge_into_one.py $curr_dir/bin/rna_pdb_merge_into_one.py
 ln -s $curr_dir/rna_tools/tools/rna_calc_inf/rna_calc_inf.py $curr_dir/bin/rna_calc_inf.py
 ln -s $curr_dir/rna_tools/tools/rna_convert_pseudoknot_formats/rna_pk_simrna_to_one_line.py $curr_dir/bin/rna_pk_simrna_to_one_line.py
