@@ -41,7 +41,7 @@ Secondary structure analysis:
 1. ! rna_secondary_structure_prediction.py - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable),
 1. rna_dot2ct.py - convert dot notation to ct notation,
 1. clarna_app.py - a wrapper to ClaRNA,
-1. rna_x3dna.py - a wrapper to 3dna,
+1. `rna_x3dna.py` - a wrapper to 3dna,
 
 Tertiary structure comparison:
 
@@ -54,18 +54,26 @@ Tertiary structure formats:
 1. **diffpdb**
 1. rna_pdb_merge_into_one.py - merge single files into an NMR-style multiple model file PDB file
 
+Analsys
+1. `ClashCalc.py` - a simple clash score calculator, used in NPDock, requires BioPython
+
 PyMOL4RNA:
 
-1. color structure domains according to pre-defined styles
+1. `clarna()` - contact classification directly in PyMOL for selected residues,
+1.`ss()` - get secondary structures of selected objects,
+1 `sav <fn>` - save on Desktop a session and a PNG file illustrating the session,
+1. color structure domains according to pre-defined styles, e.g., `rp17()`
 
 SimRNA:
-
-
-SimRNAweb:
-1. dd
+1. `rna_simrna_cluster.py`
+1. `rna_simrna_extract.py`
+1. `rna_simrna_get_data`
+1. `rna_simrna_lowest.py`
+1. SimRNAweb: `rna_simrnaweb_download_job.py` - download model files, trajectory for a given SimRNAweb job
+1. See also simrna_trajectory in Python Classes
 
 Rosetta:
-1. rna_rosetta_n.py
+1. `rna_rosetta_n.py`
 
 RNAalignment
 1. get_seq()
@@ -73,17 +81,20 @@ RNAalignment
 1. fetch()
 1. cmalign()
 
-
 Python Classes:
 
 1. Seq.py - seq processing, including secondary structure prediction
 1. SecondaryStructure.py::draw_ss()
 1. SecondaryStructure.py::parse_vienna_to_pairs()
+1. simrna_trajectory
 
+Other:
+1. rnakb_utils - RNAkb-related tools
+1. rnapuzzle_sender - a script to send PDB files to the RNA-Puzzle organizers
+1. rnashape2ascii - convert RNA shape data into ascii characters ;-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁`
+1. `cluster_load` - scripts to view cluster load, based on processing `qstat`,
 
 -------------------------------------------------------------------------------
-
-Stub...
 
 ```
 rna_secondary_structure_prediction.py -h
