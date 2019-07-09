@@ -1,5 +1,22 @@
 # Index of tools
 
+* [Index of tools](#index-of-tools)
+  * [rna\_pdb\_toolsx\.py](#rna_pdb_toolsxpy)
+  * [Sequence analysis](#sequence-analysis)
+  * [Secondary structure analysis](#secondary-structure-analysis)
+  * [Tertiary structure comparison](#tertiary-structure-comparison)
+  * [Tertiary structure formats](#tertiary-structure-formats)
+  * [Tertiary structure analysis](#tertiary-structure-analysis)
+  * [Tertiary structure processing](#tertiary-structure-processing)
+  * [PyMOL4RNA](#pymol4rna)
+  * [SimRNA](#simrna)
+  * [Rosetta](#rosetta)
+  * [RNA Alignment](#rna-alignment)
+  * [Python Classes](#python-classes)
+  * [Other](#other)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
+
 ## `rna_pdb_toolsx.py`
 
 1. `--get-rnapuzzle-ready` format PDB file to be compatible with the "RNA-Puzzle PDB format",
