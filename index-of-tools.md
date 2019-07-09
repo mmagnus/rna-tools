@@ -1,6 +1,6 @@
 # Index of tools
 
-`rna_pdb_toolsx.py`:
+**`rna_pdb_toolsx.py`**:
 
 1. --get-rnapuzzle-ready
 1. --report          get report
