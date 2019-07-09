@@ -97,7 +97,9 @@
 1. `get_seq()` - get sequence,
 1. `get_ss()` - get secondary structure for a given sequence,
 1. `fetch()` - fetch an alignment from Rfam,
-1. `cmalign()`
+1. `cmalign()` - aligns the RNA sequences in <seqfile> to the covariance model (CM) in <cmfile>
+1. `Rchie()` - plotting arc diagrams of RNA secondary structures,
+1. `find_core()` - finds core of molecules in alignment,
 
 ## Python Classes
 
