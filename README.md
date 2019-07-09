@@ -239,6 +239,8 @@ Tricks:
 
 See [Tools](rna_tools/tools) for simple but still extremly powerful rna tools.
 
+The (almost) full list of tools can be found here: <https://github.com/mmagnus/rna-tools/blob/master/index-of-tools.md>
+
 Read more http://rna-tools.readthedocs.io/en/latest/
 
 ## Docs
