@@ -90,7 +90,8 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 1.  `sav <fn>` - save on Desktop a session and a PNG file illustrating the session,
 1. color structure domains according to pre-defined styles, e.g., `rp17()`
 
-## SimRNA
+<h2><a href="https://rna-tools.readthedocs.io/en/latest/tools.html#simrna">SimRNA</a></h2>
+
 1. `rna_simrna_cluster.py`
 1. `rna_simrna_extract.py`
 1. `rna_simrna_get_data`
