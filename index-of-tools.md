@@ -90,7 +90,7 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 1.  `sav <fn>` - save on Desktop a session and a PNG file illustrating the session,
 1. color structure domains according to pre-defined styles, e.g., `rp17()`
 
-<h2><a href="https://rna-tools.readthedocs.io/en/latest/tools.html#simrna">SimRNA</a></h2>
+<h2><a target="_blank" href="https://rna-tools.readthedocs.io/en/latest/tools.html#simrna">SimRNA</a></h2>
 
 1. `rna_simrna_cluster.py`
 1. `rna_simrna_extract.py`
@@ -103,7 +103,8 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 1. `rna_ss_pk_to_simrna.py` - do opposite as previous one, convert one line bracket format with pseudoknots into multi-line SimRNA secondary structure format,
 1. See also `simrna_trajectory` in Python Classes.
 
-## Rosetta
+<h2><a target="_blank" href="https://rna-tools.readthedocs.io/en/latest/tools.html#rosetta">Rosetta</a></h2>
+
 1. `rna_rosetta_n.py`
 1. `rna_rosetta_check_progress.py`
 1. `rna_rosetta_min.py`
