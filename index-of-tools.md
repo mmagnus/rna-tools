@@ -58,8 +58,8 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 ## Secondary structure analysis
 
 1. **`rna_secondary_structure_prediction.py`** - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable),
-1. **`clarna_app.py`** - a wrapper to ClaRNA,
-1. **`rna_x3dna.py`** - a wrapper to 3dna,
+1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA,
+1. **`rna_x3dna.py`** - a wrapper to 3dna, See also PyMOL4RNA,
 1. `rna_dot2ct.py` - convert dot notation to ct notation.
 
 ## Tertiary structure comparison
@@ -84,7 +84,8 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 ## PyMOL4RNA
 
 1. Undo ("Quick Save & Load") for PyMOL, `CTRL-S` & `CTRL-Z`,
-1. `clarna()` - contact classification directly in PyMOL for selected residues,
+1. `clarna()` - contact classification with ClaRNA directly in PyMOL for selected residues,
+1. `x3dna()` - contact classification with X3DNA directly in PyMOL for selected residues,
 1. `ss()` - get secondary structures of selected objects,
 1.  `sav <fn>` - save on Desktop a session and a PNG file illustrating the session,
 1. color structure domains according to pre-defined styles, e.g., `rp17()`

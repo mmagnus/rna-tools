@@ -265,6 +265,16 @@ def pdb():
         print(l)
 
 
+def x3dna():
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    #cmd.save(f.name + '.pdb', '(backbone_)')
+    cmd.save(f.name + '.pdb', '(sele)')
+    out, err = exe("rna_x3dna.py --show-log " + f.name + ".pdb ")
+    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+    if err:
+        print(err)
+    f.close()
+
 def clarna():
     """Get contacts classification of the selected fragment based on ClaRNA.
 
@@ -1275,6 +1285,7 @@ else:
     cmd.extend('ss', ss)
     cmd.extend('ss_all', ss_all)
     cmd.extend('clarna', clarna)
+    cmd.extend('x3dna', x3dna)
     cmd.extend("rgyration", rgyration)
     #cmd.extend("spl", spl)
     cmd.extend("spl2", spl2)
