@@ -17,7 +17,7 @@
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
-## `rna_pdb_toolsx.py`
+<h2><a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx"><code>rna_pdb_toolsx.py</code></a></h2>
 
 1. `--get-rnapuzzle-ready` format PDB file to be compatible with the "RNA-Puzzle PDB format",
 1. `--report`             get report
