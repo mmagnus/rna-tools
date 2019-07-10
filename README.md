@@ -116,7 +116,7 @@ Tricks:
 
 Usage::
 
-   $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+   $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-i > ../rpr_rm_loop/$i ; done
 
     $ rna_pdb_toolsx.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound
@@ -212,7 +212,7 @@ optional arguments:
 
 Tricks:
 
-    $ for i in *; do echo $i; rna_pdb_toolsx.py --delete A:48-52 $i > noloop/${i/.pdb/_noloop.pdb}; done
+    $ for i in *; do echo $i; rna_pdb_toolsx.py --delete A:48-i > noloop/${i/.pdb/_noloop.pdb}; done
     10_rp17c.out.14.pdb
     10_rp17c.out.14_out.pdb
     [..]
@@ -236,8 +236,6 @@ Tricks:
     $ for i in *pdb; do rna_pdb_toolsx.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
 
 ## Tools
-
-See [Tools](rna_tools/tools) for simple but still extremly powerful rna tools.
 
 The (almost) full list of tools can be found here: <https://github.com/mmagnus/rna-tools/blob/master/index-of-tools.md>
 
