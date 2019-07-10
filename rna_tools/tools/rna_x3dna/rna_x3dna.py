@@ -59,6 +59,7 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-c', '--compact',  action='store_true')
+    parser.add_argument('-l', '--show-log',  action='store_true', help="show full log")
     parser.add_argument('files', help='file', nargs='+')
     return parser
 
@@ -73,10 +74,10 @@ class x3DNA(object):
 
     """
 
-    def __init__(self, pdbfn):
+    def __init__(self, pdbfn, show_log=False):
         """Set self.curr_fn based on pdbfn"""
         self.curr_fn = pdbfn
-        self.run_x3dna()
+        self.run_x3dna(show_log)
         self.clean_up()
 
     def __get_report(self):
@@ -112,7 +113,7 @@ class x3DNA(object):
                 text += l.replace('uncommon residue ', '') + '\n'
         return text.strip()
 
-    def run_x3dna(self):
+    def run_x3dna(self, show_log=False):
         """
         """
         cmd = BINARY_PATH + ' -i=' + self.curr_fn
@@ -123,6 +124,8 @@ class x3DNA(object):
 
         f = open('py3dna.log', 'w')
         f.write(cmd + '\n' + stdout)
+        if args.show_log:
+            print(stdout)
         f.close()
 
         if outerr.find('does not exist!') > -1:  # not very pretty
@@ -211,7 +214,7 @@ if __name__ == '__main__':
         else:
             print(f)
 
-            p = x3DNA(f)
+            p = x3DNA(f, args.show_log)
 
             #s = p.get_seq()
             # print s
