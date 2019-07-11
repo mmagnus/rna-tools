@@ -19,6 +19,57 @@ rna_dot2ct.py
    :ref: rna_tools.rna_dot2ct.get_parser
    :prog: rna_dot2ct.py
 
+Secondary structure format conversion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+rna\_convert\_pseudoknot\_formats
+
+Run this as::
+
+	python rna-pk-simrna-to-one-line.py test_data/simrna.ss
+
+Convert::
+
+	> a
+	....((.(..(((....)))..((((.(.........).)))....).)).......((((......))))
+	..............................((((...................))))..............
+
+to::
+
+	> a
+	....((.(..(((....)))..((((.(..[[[[...).)))....).))...]]]]((((......))))
+
+and::
+
+	>2 chains
+	(((((......)))))........(.((....(.......)..(((. .)))...)).)
+	.....((((((......................))))))........ ...........
+
+to::
+
+	>2 chains
+	((((([[[[[[)))))........(.((....(]]]]]].)..(((. .)))...)).)
+
+and::
+
+	> b
+	..(.......(((....)))..((((.(.........).))))).............((((......))))
+	....((.(......................................).)).....................
+	..............................((((...................))))..............
+
+to::
+
+	> b
+	..(.[[.[..(((....)))..((((.(..{{{{...).)))))..].]]...}}}}((((......))))
+
+and it works with VARNA:
+
+.. image:: ../../rna_tools/tools/rna_convert_pseudoknot_formats/doc/varna_2pk.png
+
+.. automodule:: rna_tools.tools.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
+   :members:
+   :undoc-members:
+   
 Blast PDB
 -------------------------------------------
 
@@ -283,57 +334,6 @@ rna_pairs_diff.py - get a diff of pairs
 .. argparse::
    :ref: rna_tools.tools.rna_filter.rna_pairs_diff.get_parser
    :prog: rna_pairs_diff.py
-
-Secondary structure format conversion
------------------------------------------
-
-rna\_convert\_pseudoknot\_formats
-
-Run this as::
-
-	python rna-pk-simrna-to-one-line.py test_data/simrna.ss
-
-Convert::
-
-	> a
-	....((.(..(((....)))..((((.(.........).)))....).)).......((((......))))
-	..............................((((...................))))..............
-
-to::
-
-	> a
-	....((.(..(((....)))..((((.(..[[[[...).)))....).))...]]]]((((......))))
-
-and::
-
-	>2 chains
-	(((((......)))))........(.((....(.......)..(((. .)))...)).)
-	.....((((((......................))))))........ ...........
-
-to::
-
-	>2 chains
-	((((([[[[[[)))))........(.((....(]]]]]].)..(((. .)))...)).)
-
-and::
-
-	> b
-	..(.......(((....)))..((((.(.........).))))).............((((......))))
-	....((.(......................................).)).....................
-	..............................((((...................))))..............
-
-to::
-
-	> b
-	..(.[[.[..(((....)))..((((.(..{{{{...).)))))..].]]...}}}}((((......))))
-
-and it works with VARNA:
-
-.. image:: ../../rna_tools/utils/rna_convert_pseudoknot_formats/doc/varna_2pk.png
-
-.. automodule:: rna_tools.tools.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
-   :members:
-   :undoc-members:
 
 x3DNA (contacts classification & secondary structure detection)
 ------------------------------------------------------------------
