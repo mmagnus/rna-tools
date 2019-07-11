@@ -17,7 +17,7 @@
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
-<h2><a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx"><code>rna_pdb_toolsx.py</code></a>
+<h2><a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx"><code>rna_pdb_toolsx.py</code></a></h2>
 
 1. `--get-rnapuzzle-ready` format PDB file to be compatible with the "RNA-Puzzle PDB format",
 1. `--report`             get report
@@ -114,6 +114,7 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 1. `rna_rosetta_head.py`
 
 ## RNA Alignment
+
 1. `get_seq()` - get sequence,
 1. `get_ss()` - get secondary structure for a given sequence,
 1. `fetch()` - fetch an alignment from Rfam,
@@ -129,6 +130,7 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 1. `simrna_trajectory`
 
 ## Other
+
 1. rnakb_utils - RNAkb-related tools,
 1. rnapuzzle_sender - a script to send PDB files to the RNA-Puzzle organizers,
 1. rnashape2ascii - convert RNA shape data into ascii characters ;-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁`
