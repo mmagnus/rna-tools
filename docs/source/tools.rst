@@ -28,7 +28,7 @@ A super-simple wrapper around Blast on the PDB db (online).
    :members:
    :undoc-members:
 
-Blastn - select sequences from teh database matched by BLASTn
+Blastn - select sequences from the database matched by BLASTn
 ----------------------------------------------------------------
 
 A super-simple wrapper to parse by headers a BLASTn output (outfmt - 6) sequences in fasta from the database of sequences.
