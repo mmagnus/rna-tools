@@ -96,7 +96,7 @@ Table of Contents
       * [RNA Alignment](#rna-alignment)
       * [Python Classes](#python-classes)
       * [Other](#other)
-  
+
 
 ## Tour
 
@@ -352,15 +352,16 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 
 ### Sequence analysis
 
-1. `BlastPDB.py` - a simple Blast search,
-1. `RfamSearch.py` - a simple Rfam search.
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#blast-pdb"><code>BlastPDB.py</code></a> - a simple Blast search,
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#rfam-search"><code>RfamSearch.py</code></a> - a simple Rfam search.
 
 ### Secondary structure analysis
 
-1. **`rna_secondary_structure_prediction.py`** - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable),
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.Seq"><code>rna_secondary_structure_prediction.py</code></a> - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable)
 1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA,
 1. **`rna_x3dna.py`** - a wrapper to 3dna, See also PyMOL4RNA,
 1. `rna_dot2ct.py` - convert dot notation to ct notation.
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#secondary-structure-format-conversion">secondary structure format conversion tools</a>
 
 ### Tertiary structure comparison
 
@@ -371,7 +372,7 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 
 ### Tertiary structure formats
 
-1. **`diffpdb`** - a simple tool to compare text-content of PDB files,
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.tools.diffpdb.diffpdb><code>diffpdb</code></a> - a simple tool to compare text-content of PDB files,
 1. `rna_pdb_merge_into_one.py` - merge single files into an NMR-style multiple model file PDB file.
 
 ### Tertiary structure analysis
@@ -414,6 +415,7 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 1. `rna_rosetta_head.py`
 
 ### RNA Alignment
+
 1. `get_seq()` - get sequence,
 1. `get_ss()` - get secondary structure for a given sequence,
 1. `fetch()` - fetch an alignment from Rfam,
@@ -429,8 +431,8 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 1. `simrna_trajectory`
 
 ### Other
-1. rnakb_utils - RNAkb-related tools,
+
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.tools.rnakb_utils.rnakb_utils">rnakb_utils</a> - RNAkb-related tools,
 1. rnapuzzle_sender - a script to send PDB files to the RNA-Puzzle organizers,
 1. rnashape2ascii - convert RNA shape data into ascii characters ;-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁`
 1. cluster_load - scripts to view cluster load, based on processing `qstat`.
-
