@@ -17,7 +17,7 @@
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
-## `rna_pdb_toolsx.py`
+<h2><a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx"><code>rna_pdb_toolsx.py</code></a>
 
 1. `--get-rnapuzzle-ready` format PDB file to be compatible with the "RNA-Puzzle PDB format",
 1. `--report`             get report
@@ -52,12 +52,12 @@ Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
 
 ## Sequence analysis
 
-1. `BlastPDB.py` - a simple Blast search,
-1. `RfamSearch.py` - a simple Rfam search.
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#blast-pdb"><code>BlastPDB.py</code></a> - a simple Blast search,
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#rfam-search"><code>RfamSearch.py</code></a> - a simple Rfam search.
 
 ## Secondary structure analysis
 
-1. **`rna_secondary_structure_prediction.py`** - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable),
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.Seq"><code>rna_secondary_structure_prediction.py</code></a> - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable),
 1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA,
 1. **`rna_x3dna.py`** - a wrapper to 3dna, See also PyMOL4RNA,
 1. `rna_dot2ct.py` - convert dot notation to ct notation.
