@@ -1,8 +1,8 @@
-Notebooks & rna-tools
+Jupyter Notebooks & rna-tools
 =============================================
 
-The tools collected here as rna-pdb-tools, ideally could be also used in IPython/Jupiter (https://ipython.org/notebook.html)
-notebooks. We belive it would be extremely valuable if we could, as scientists share our notebooks used for RNA structure analysis, e..g protocols of modeling used in the RNA Puzzle challenge.
+The tools collected here as rna-tools, ideally could be also used in IPython/Jupiter (https://ipython.org/notebook.html)
+Notebooks. We belive it would be valuable if we could, as scientists share our notebooks used for RNA structure analysis, e.g, protocols of modeling used in the RNA Puzzle challenge.
 
 .. image:: ../pngs/ipython-notebooks.png
 
@@ -12,7 +12,7 @@ Share your notebooks
 ----------------------------------------
 You can share Jupyter notebooks from your Google Drive using the new Jupyter Drive. This allows you share Jupyter notebooks like NBViewr with all the access control that Google Drive provides. You can also push your notebooks to a Github repository, so then can be rendered for easy viewing.
 
-E.g https://github.com/mmagnus/rna-tools/blob/master/rp18.ipynb
+E.g., https://github.com/mmagnus/rna-tools/blob/master/rp18.ipynb
 
 Learn Jupyter
 ----------------------------------------
