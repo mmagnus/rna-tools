@@ -1,5 +1,5 @@
-rna-tools
-========================================
+RNA PDB Tools
+===============================================
 
 rna_pdb_toolsx
 -----------------------------------------
@@ -78,3 +78,35 @@ the library
 
   .. automodule:: rna_tools.rna_tools_lib
    :members:
+
+
+PDB Edit Bfactor/Occupancy
+------------------------------------------
+
+.. argparse::
+   :ref: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.get_parser
+   :prog: rna_pdb_edit_occupancy_bfactor.py
+
+.. autofunction:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.edit_occupancy_of_pdb
+
+Add chain to a file
+------------------------------------------
+
+.. automodule:: rna_tools.tools.misc.rna_add_chain
+   :members:
+   :undoc-members:
+
+.. argparse::
+   :ref: rna_tools.tools.misc.rna_add_chain.get_parser
+   :prog: rna_add_chain
+
+Measure distance between atoms
+------------------------------------------
+
+.. argparse::
+   :ref: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists.get_parser
+   :prog: pdbs_measure_atom_dists
+
+.. automodule:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists
+   :members:
+   :undoc-members:

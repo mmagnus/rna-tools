@@ -1,4 +1,4 @@
-Tools
+RNA Tools
 =========================================
 
 RNA Sequence
@@ -69,7 +69,7 @@ and it works with VARNA:
 .. automodule:: rna_tools.tools.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna
    :members:
    :undoc-members:
-   
+
 Blast PDB
 -------------------------------------------
 
@@ -79,20 +79,6 @@ A super-simple wrapper around Blast on the PDB db (online).
    :members:
    :undoc-members:
 
-Blastn - select sequences from the database matched by BLASTn
-----------------------------------------------------------------
-
-A super-simple wrapper to parse by headers a BLASTn output (outfmt - 6) sequences in fasta from the database of sequences.
-
-.. argparse::
-   :ref: rna_tools.tools.rna_seq_search_BLASTn_outfmt-6.get_parser
-   :prog: select_seq_fromBLAStn_6outfm.py
-
-.. automodule:: rna_tools.tools.rna_seq_search_BLASTn_outfmt-6
-   :members:
-   :undoc-members:
-
-
 Rfam Search
 ------------------------------------------
 
@@ -101,15 +87,6 @@ A super-simple wrapper around cmscan (Infernal) on local RFAM.
 .. automodule:: rna_tools.RfamSearch
    :members:
    :undoc-members:
-
-PDB Edit Bfactor/Occupancy
-------------------------------------------
-
-.. argparse::
-   :ref: rna_tools.tools.rna_edit_occupancy_bfactor.rna_edit_occupancy_bfactor.get_parser
-   :prog: rna_edit_occupancy_bfactor.py
-
-.. autofunction:: rna_tools.tools.rna_edit_occupancy_bfactor.rna_edit_occupancy_bfactor.edit_occupancy_of_pdb
 
 RNA Alignment
 ------------------------------------------
@@ -183,14 +160,7 @@ Renumber a pdb file according to alignment
    :members:
    :undoc-members:
 
-RNA clustering with CLANS (clanstix)
-------------------------------------------
-
-.. automodule:: rna_tools.tools.clanstix.rna_clanstix
-   :members:
-   :undoc-members:
-
-Calculate Root Mean Square Deviation (RMSD)
+Root Mean Square Deviation (RMSD)
 ---------------------------------------------
 
 rna_calc_rmsd
@@ -237,8 +207,8 @@ rna_calc_rmsd_all_vs_all
    :members:
    :undoc-members:
 
-Calculate Interaction Network Fidelity (INF) and not only
--------------------------------------------------------------
+Interaction Network Fidelity (INF)
+------------------------------------------------------------
 
 rna_calc_inf
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -262,28 +232,7 @@ rna_calc_dinf
    :members:
    :undoc-members:
 
-
-Measure distance between atoms
------------------------------------------
-.. argparse::
-   :ref: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists.get_parser
-   :prog: pdbs_measure_atom_dists
-
-.. automodule:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists
-   :members:
-   :undoc-members:
-
-diffpdb
------------------------------------------
-
-.. automodule:: rna_tools.tools.diffpdb.diffpdb
-   :undoc-members:
-
-.. argparse::
-   :ref: rna_tools.tools.diffpdb.diffpdb.get_parser
-   :prog: rna_helix_vis
-
-RNA filter
+RNA filter (DCA)
 -----------------------------------------
 
 rna_filter.py - calculate distances based on given restrants on PDB files or SimRNA trajectories
@@ -335,15 +284,18 @@ rna_pairs_diff.py - get a diff of pairs
    :ref: rna_tools.tools.rna_filter.rna_pairs_diff.get_parser
    :prog: rna_pairs_diff.py
 
-x3DNA (contacts classification & secondary structure detection)
+Contacts classification & secondary structure detection
 ------------------------------------------------------------------
+
+3DNA (contacts classification & secondary structure detection)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: rna_tools.tools.rna_x3dna.rna_x3dna
    :members:
    :undoc-members:
 
 ClaRNA (contacts classification)
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to calculate "Interaction Network Fidelity (INF) and not only" see rna_calc_inf in the Utils.
 
@@ -351,62 +303,17 @@ If you want to calculate "Interaction Network Fidelity (INF) and not only" see r
    :members:
    :undoc-members:
 
-SimRNA
+
+RNA 3D structure prediction
 -----------------------------------------
-
-Select low energy frames
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.simrna_trajectory.rna_simrna_lowest.get_parser
-   :prog: rna_simrna_lowest.py
-
-Extract
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.simrna_trajectory.rna_simrna_extract.get_parser
-   :prog: rna_simrna_extract.py
-
-SimRNAweb
------------------------------------------
-
-Download files of a SimRNAweb run
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.rna_simrnaweb_download_job.get_parser
-   :prog: rna_simrnaweb_download_job.py
-
-SimRNATrajectory
------------------------------------------
-
-.. automodule:: rna_tools.tools.simrna_trajectory.simrna_trajectory
-   :members:
-   :undoc-members:
-
-RNAkb
------------------------------------------
-
-.. automodule:: rna_tools.tools.rnakb_utils.rnakb_utils
-   :members:
-   :undoc-members:
-
-RNA Refinement (QRNAS)
------------------------------------------
-
-.. argparse::
-   :ref: rna_tools.tools.rna_refinement.rna_refinement.get_parser
-   :prog: rna_refinement.py
-
 
 ROSETTA
------------------------------------------
+~~~~~~~~
 
 A set of wrappers around Rosetta (https://www.rosettacommons.org/), mostly based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015. http://www.sciencedirect.com/science/article/pii/S0076687914000524
 
 Run (modeling)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_run.get_parser
@@ -417,7 +324,7 @@ Run (modeling)
    :undoc-members:
 
 Get a number of structures
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_n.get_parser
@@ -428,7 +335,7 @@ Get a number of structures
    :undoc-members:
 
 Get a head of a Rosetta silent file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_head.get_parser
@@ -439,7 +346,7 @@ Get a head of a Rosetta silent file
    :undoc-members:
 
 Cluster
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :nodescription:
@@ -451,9 +358,8 @@ Cluster
    :members:
    :undoc-members:
 
-
 Minimize
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_min.get_parser
@@ -464,7 +370,7 @@ Minimize
    :undoc-members:
 
 Extract lowscore decoy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys.get_parser
@@ -475,7 +381,7 @@ Extract lowscore decoy
    :undoc-members:
 
 Check progress
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 .. argparse::
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress.get_parser
@@ -485,8 +391,66 @@ Check progress
    :members:
    :undoc-members:
 
-Plotting
+SimRNA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Select low energy frames
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. argparse::
+   :ref: rna_tools.tools.simrna_trajectory.rna_simrna_lowest.get_parser
+   :prog: rna_simrna_lowest.py
+
+Extract
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. argparse::
+   :ref: rna_tools.tools.simrna_trajectory.rna_simrna_extract.get_parser
+   :prog: rna_simrna_extract.py
+
+SimRNAweb
+~~~~~~~~~~~~~
+
+Download files of a SimRNAweb run
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. argparse::
+   :ref: rna_tools.rna_simrnaweb_download_job.get_parser
+   :prog: rna_simrnaweb_download_job.py
+
+SimRNATrajectory
+~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_tools.tools.simrna_trajectory.simrna_trajectory
+   :members:
+   :undoc-members:
+
+RNA Refinement (QRNAS)
+-----------------------------------------
+
+.. argparse::
+   :ref: rna_tools.tools.rna_refinement.rna_refinement.get_parser
+   :prog: rna_refinement.py
+
+
+diffpdb
+-----------------------------------------
+
+.. automodule:: rna_tools.tools.diffpdb.diffpdb
+   :undoc-members:
+
+RNA clustering with CLANS (clanstix)
 ------------------------------------------
+
+.. automodule:: rna_tools.tools.clanstix.rna_clanstix
+   :members:
+   :undoc-members:
+
+Misc
+-----------
+
+Plotting
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
    :ref: rna_tools.tools.plotting.rna_plot_hist.get_parser
@@ -496,8 +460,6 @@ Plotting
    :ref: rna_tools.tools.plotting.rna_plot_density.get_parser
    :prog: rna_plot_density
 
-Misc
------------
 
 rna_sali2dotbracket
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -509,17 +471,6 @@ rna_sali2dotbracket
 .. automodule:: rna_tools.tools.rna_sali2dotbracket.rna_sali2dotbracket
    :members:
    :undoc-members:
-
-rna_add_chain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: rna_tools.tools.misc.rna_add_chain
-   :members:
-   :undoc-members:
-
-.. argparse::
-   :ref: rna_tools.tools.misc.rna_add_chain.get_parser
-   :prog: rna_add_chain
 
 Cluster load
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -537,5 +488,12 @@ A very simple tool to see your cluster load per user::
   22 magnus       qw 10
 
 .. automodule:: rna_tools.tools.cluster_load.cluster_load
+   :members:
+   :undoc-members:
+
+RNAkb
+~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_tools.tools.rnakb_utils.rnakb_utils
    :members:
    :undoc-members:

@@ -35,9 +35,9 @@ Information about development is also available:
    tools
    selection
    workflows
+   pymol4rna
    tips
    rna-puzzles
-   pymol4rna
    notebooks
    emacs
    geekbook
