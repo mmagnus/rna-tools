@@ -153,10 +153,10 @@ Renumber a pdb file according to alignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. argparse::
-   :ref: rna_tools.tools.renum_to_aln.renum_to_aln.get_parser
+   :ref: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
    :prog: renum_to_aln
 
-.. automodule:: rna_tools.tools.renum_to_aln.renum_to_aln
+.. automodule:: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln
    :members:
    :undoc-members:
 
