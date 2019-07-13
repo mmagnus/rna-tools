@@ -41,15 +41,14 @@ Information about development is also available:
    notebooks
    emacs
    geekbook
-   git
    install
 
 .. toctree::
    :maxdepth: 2
    :caption: Developer Documentation
 
+   git
    development
-
 
 Indices and tables
 ==================

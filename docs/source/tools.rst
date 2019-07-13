@@ -70,8 +70,10 @@ and it works with VARNA:
    :members:
    :undoc-members:
 
+Search
+------------------------------------------
 Blast PDB
--------------------------------------------
+~~~~~~~~~~~~~~~~~~~~
 
 A super-simple wrapper around Blast on the PDB db (online).
 
@@ -80,9 +82,9 @@ A super-simple wrapper around Blast on the PDB db (online).
    :undoc-members:
 
 Rfam Search
-------------------------------------------
+~~~~~~~~~~~~~~~~~~~~
 
-A super-simple wrapper around cmscan (Infernal) on local RFAM.
+A super-simple wrapper around cmscan (Infernal) on local Rfam database.
 
 .. automodule:: rna_tools.RfamSearch
    :members:
