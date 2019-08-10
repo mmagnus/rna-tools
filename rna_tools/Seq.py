@@ -95,7 +95,7 @@ class RNASequence(object):
     def __repr__(self):
         return self.seq
 
-    def eval(self, no_dangling_end_energies=True, verbose=False):
+    def eval(self, ss='', no_dangling_end_energies=True, verbose=False):
         """Evaluate energy of RNA sequence.
 
         Args:
@@ -114,14 +114,18 @@ class RNASequence(object):
 
         RNAeval -v -d0 < input.txt
 
-        Read more: http://rna.tbi.univie.ac.at//cgi-bin/RNAWebSuite/RNAeval.cgi
+        Read more: <http://rna.tbi.univie.ac.at//cgi-bin/RNAWebSuite/RNAeval.cgi>
+
         """
         tf = tempfile.NamedTemporaryFile(delete=False)
+        if not ss:
+            ss = self.ss
+
         tf.name += '.fa'
         with open(tf.name, 'w') as f:
             f.write('>' + self.name + '\n')
             f.write(self.seq + '\n')
-            f.write(self.ss + '\n')
+            f.write(ss + '\n')
 
         dopt = ''
         if no_dangling_end_energies:
