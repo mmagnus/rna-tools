@@ -14,6 +14,18 @@ ViennaRNA (https://www.tbi.univie.ac.at/RNA/)
 
 ipknot OSX (https://github.com/satoken/homebrew-rnatools)
 
+If one encounters a problem::
+
+    [mm] Desktop$ /usr/local/opt/bin/ipknot
+    dyld: Library not loaded: /usr/local/opt/glpk/lib/libglpk.40.dylib
+      Referenced from: /usr/local/opt/bin/ipknot
+      Reason: image not found
+    [1]    51654 abort      /usr/local/opt/bin/ipknot
+
+the solution is::
+
+     brew install glpk # on OSX
+
 RNAStructure (http://rna.urmc.rochester.edu/)
 
 Works with 5.8.1; Jun 16, 2016.
