@@ -64,8 +64,8 @@ import subprocess
 import tempfile
 import sys
 
-
-from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH
+from SecondaryStructure import parse_vienna_to_pairs
+from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH, ENTRNA_PATH
 
 
 class MethodNotChosen(Exception):
@@ -138,6 +138,69 @@ class RNASequence(object):
         # [u'>rna_seq\nGGCAGGGGCGCUUCGGCCCCCUAUGCC\n((((((((.((....)).)))).))))', u'(-13.50)']
         return float(self.ss_log.strip().split(' ')[-1].replace('(','').replace(')', ''))
 
+
+    def get_foldability(self, ss='', verbose=False):
+        """Get foldability based on:
+
+        Steps:
+        - parse SS into basepairs,
+        - calculate foldabilty
+
+        Configuration:
+        - Set ENTRNA_PATH to the folder where ENTRNA_predict.py is.
+
+        Cmd: python ENTRNA_predict.py --seq_file pseudoknotted_seq.txt --str_file pseudoknotted_str.txt
+
+        Su, C., Weir, J. D., Zhang, F., Yan, H., & Wu, T. (2019). ENTRNA: a framework to predict RNA foldability. BMC Bioinformatics, 20(1), 1–11. http://doi.org/10.1186/s12859-019-2948-5
+        """
+        if ss:
+            self.ss = ss
+
+        # parse SS into base-pairs
+        def dp_to_bp(dp):
+            import numpy as np
+            a_list = []
+            bp_array = np.zeros(len(dp),dtype = int)
+            for i in range(len(dp)):
+                if dp[i] == "(":
+                    a_list.append(i)
+                if dp[i] == ")":
+                    bp_array[i] = a_list[-1] + 1
+                    bp_array[a_list[-1]] = i + 1
+                    a_list.pop()
+            return list(bp_array)
+
+        bp = dp_to_bp(self.ss)
+        if verbose: print(bp)
+
+        tempstr = tempfile.NamedTemporaryFile(delete=False)
+        with open(tempstr.name, 'w') as f:
+            f.write(str(bp))
+
+        tempseq = tempfile.NamedTemporaryFile(delete=False)
+        with open(tempseq.name, 'w') as f:
+            f.write(self.seq)
+
+        # -W to silent warnings See [1]
+        cmd = "cd " + ENTRNA_PATH + " && python -W ignore ENTRNA_predict.py --seq_file " + tempseq.name + " --str_file " + tempstr.name
+        log = subprocess.check_output(cmd, shell=True).decode()
+        if verbose:
+            print(cmd)
+            print(log)
+        for l in log.split('\n'):
+            if l.startswith('Foldability: '):
+                return float(l.replace('Foldability: ', ''))
+        return -1
+        ## [1]:
+        ##     /Users/magnus/work/evoClustRNA/rna-foldability/ENTRNA/util/pseudoknot_free.py:22: SettingWithCopyWarning:
+        ## A value is trying to be set on a copy of a slice from a DataFrame.
+        ## Try using .loc[row_indexer,col_indexer] = value instead
+
+        ## See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+        ##   df_v1['length'] = df_v1['seq'].apply(lambda x:len(x))
+        ## /home/magnus/miniconda2/lib/python2.7/site-packages/sklearn/linear_model/logistic.py:433: FutureWarning: Default solver will be changed to 'lbfgs' in 0.22. Specify a solver to silence this warning.
+        ##   FutureWarning)
+        ## cd /Users/magnus/work/evoClustRNA/rna-foldability/ENTRNA/ && python ENTRNA_predict.py --seq_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpUORegp --str_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmp1ERCcD
 
     def predict_ss(self, method="RNAfold", constraints='', shapefn='', verbose=0):
         """Predict secondary structure of the seq.
