@@ -21,11 +21,11 @@ import sys
 import argparse
 
 try:
-    from rna_tools.rna_tools_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
+    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
 except:
     print('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
 
-from rna_tools.rna_tools_config import EASY_CAT_PATH
+from rna_pdb_tools.rpt_config import EASY_CAT_PATH
 # print('Set up EASY_CAT_PATH in rpt_config_local.py')
 print(EASY_CAT_PATH)
 
@@ -48,6 +48,9 @@ right now: \n""" + RNA_ROSETTA_RUN_ROOT_DIR_MODELING)
                         action='store_true', help="be verbose")
     parser.add_argument('-m', '--min-only', action='store_true',
                         help="check only for mo folder")
+    parser.add_argument('-s', '--select',
+                        help="select for analysis only jobs with this phrase, .e.g., evoseq_", default='')
+
     parser.add_argument('-k', '--kill', action='store_true', help="""kill (qdel) jobs if your reach
 limit (nstruc) of structure that you want, right now is %i structures""" % RNA_ROSETTA_NSTRUC)
     return parser
@@ -62,7 +65,6 @@ if __name__ == '__main__':
     # print jobs
 
     jobs = [x for x in glob.glob(args.dir + '/*')]
-    print(jobs)
     if v:
         print(jobs)
 
@@ -74,8 +76,12 @@ if __name__ == '__main__':
     d['#curr'] = []
     d['#todo'] = []
     d['done'] = []
+    d['progress'] = []
 
     for j in jobs:
+        if args.select:
+            if not args.select in j:
+                continue
         if v:
             print(j)
         d['jobs'].append(j)
@@ -180,12 +186,14 @@ if __name__ == '__main__':
             # cmd = 'kill '
             # print cmd
 
+        d['progress'].append(round((float(no_decoys) / 10000) * 100, 2))
+
         os.chdir(curr_path)
 
-    df = pd.DataFrame(d, columns=['jobs', '#curr', '#todo', '#decoys', 'done'])
+    df = pd.DataFrame(d, columns=['jobs', '#curr', '#todo', '#decoys', 'done', 'progress'])
     print(df)
 
     out, err = run_cmd('qstat | grep magnus  | grep "  r  " | wc -l ')
-    print('#curr ', out, end="")
+    print('#curr ', out, end=" ")
     out, err = run_cmd('qstat | grep magnus | grep "  qw  " | wc -l ')
     print('#todo ', out)
