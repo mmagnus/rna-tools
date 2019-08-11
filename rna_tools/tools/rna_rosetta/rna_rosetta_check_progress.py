@@ -21,11 +21,11 @@ import sys
 import argparse
 
 try:
-    from rna_pdb_tools.rpt_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
+    from rna_tools.rna_tools_config import RNA_ROSETTA_RUN_ROOT_DIR_MODELING, RNA_ROSETTA_NSTRUC
 except:
-    print('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rpt_config_local.py')
+    print('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in rna_tools.rna_tools_config_local.py')
 
-from rna_pdb_tools.rpt_config import EASY_CAT_PATH
+from rna_tools.rna_tools_config import EASY_CAT_PATH
 # print('Set up EASY_CAT_PATH in rpt_config_local.py')
 print(EASY_CAT_PATH)
 
