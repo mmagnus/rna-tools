@@ -64,7 +64,7 @@ Frickey, T., & Lupas, A. (2004). CLANS: a Java application for visualizing prote
 
 from __future__ import print_function
 import argparse
-import rna_tools.tools.rmsd_signif.rnastruc_pred_signif as pv
+import rna_tools.tools.rna_prediction_significance.rna_prediction_significance as pv
 import numpy as np
 import math
 import logging
