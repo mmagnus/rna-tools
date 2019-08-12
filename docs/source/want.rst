@@ -137,6 +137,8 @@ For example, to replace the first four residues of chain A into adenines and 13t
 .. image:: ../pngs/mutate.png
 Figure. Input structure on the left, mutated structure on the right.
 
+If, for whatever reason, the tool here does not do what you want, use the tool from MC-Fold|MC-Sym Pipeline (go there https://www.major.iric.ca/MC-Pipeline/ and scroll down to the Section: "RNA SEQUENCE MUTATION" at the very bottom of the page).
+
 add missing atoms
 --------------------------------------------
 
