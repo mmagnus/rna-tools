@@ -106,8 +106,10 @@ Take a tour http://mmagnus.github.io/rna-tools/#/
 
 ```
 usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]
-                         [--delete-anisou] [--split-alt-locations] [-c]
-                         [--is-pdb] [--is-nmr] [--un-nmr] [--orgmode]
+usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]
+                         [--renum-residues-dirty] [--delete-anisou]
+                         [--split-alt-locations] [-c] [--is-pdb] [--is-nmr]
+                         [--nmr-dir NMR_DIR] [--un-nmr] [--orgmode]
                          [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
                          [--get-seq] [--hide-warnings] [--compact] [--get-ss]
                          [--rosetta2generic] [--get-rnapuzzle-ready] [--rpr]
@@ -119,8 +121,8 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]
                          [--rename-chain RENAME_CHAIN]
                          [--swap-chains SWAP_CHAINS]
                          [--replace-chain REPLACE_CHAIN] [--delete DELETE]
-                         [--extract EXTRACT] [--uniq UNIQ] [--chain-first]
-                         [--oneline] [--fasta]
+                         [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
+                         [--uniq UNIQ] [--chain-first] [--oneline] [--fasta]
                          file [file ...]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
@@ -131,7 +133,7 @@ Tricks:
 
 Usage::
 
-   $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-i > ../rpr_rm_loop/$i ; done
+   $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
     $ rna_pdb_toolsx.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound
@@ -149,13 +151,21 @@ optional arguments:
   --version
   -r, --report          get report
   --renum-atoms         renumber atoms, tested with --get-seq
+  --renum-residues-dirty
   --delete-anisou       remove files with ANISOU records, works with --inplace
   --split-alt-locations
                         @todo
   -c, --clean           get clean structure
   --is-pdb              check if a file is in the pdb format
   --is-nmr              check if a file is NMR-style multiple model pdb
-  --un-nmr              Split NMR-style multiple model pdb files into individual models [biopython]
+  --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files 
+                        
+                          rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
+                        
+                        please use '' for pattern file recognition, this is a hack to deal with folders with
+                        thousands of models, if you used only *.pdb then the terminal will complain that you
+                        selected to many files.
+  --un-nmr              split NMR-style multiple model pdb files into individual models [biopython]
   --orgmode             get a structure in org-mode format <sick!>
   --get-chain GET_CHAIN
                         get chain, one or many, e.g, A, but now also ABC works
@@ -172,7 +182,7 @@ optional arguments:
                         # 20_Bujnicki_3
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_4
-
+                        
   --get-ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
   --get-rnapuzzle-ready
@@ -196,8 +206,10 @@ optional arguments:
   --inplace             in place edit the file! [experimental,
                         only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]
   --mutate MUTATE       mutate residues,
-                         e.g. A:1A+2A+3A+4A,B:1A to mutate the first nucleotide of the A chain to Adenine
-                         etc and the first nucleotide of the B chain
+                        e.g.,
+                              --mutate "A:1A+2A+3A+4A,B:1A"
+                        to mutate to adenines the first four nucleotides of the chain A
+                        and the first nucleotide of the chain B
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
   --rename-chain RENAME_CHAIN
                         edit 'A>B' to rename chain A to chain B
@@ -209,7 +221,9 @@ optional arguments:
                         the chain id in this file has to be the same with the chain id of the original chain
   --delete DELETE       delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'
   --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
-  --uniq UNIQ
+  --extract-chain EXTRACT_CHAIN
+                        extract chain, e.g. A
+  --uniq UNIQ           
                         rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
                         A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
@@ -219,10 +233,11 @@ optional arguments:
   --oneline
   --fasta               with --get-seq, show sequences in fasta format,
                         can be combined with --compact (mind, chains will be separated with ' ' in one line)
-
+                        
                         $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
                         > 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
+                        
 ```
 
 Tricks:
@@ -358,8 +373,6 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 ### Secondary structure analysis
 
 1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.Seq"><code>rna_secondary_structure_prediction.py</code></a> - a wrapper for secondary structure prediction methods, e.g., cyclefold, mcfold,ipknot, RNAsubopt, contextfold, centroid_fold, with a use of restraints (if applicable)
-1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA,
-1. **`rna_x3dna.py`** - a wrapper to 3dna, See also PyMOL4RNA,
 1. `rna_dot2ct.py` - convert dot notation to ct notation.
 1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#secondary-structure-format-conversion">secondary structure format conversion tools</a>
 
@@ -369,15 +382,18 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 1. **`rna_calc_evo_rmsd.py`** - calculate RMSD between structures based on a given alignment and selected residues as defined in the "x line",
 1. **`rna_calc_inf.py`** - including multiprocessing based on ClaRNA,
 1. **`rna_clanstix.py`** - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans,
+1. `rna_prediction_significance.py` - calculate significance of an RNA tertiary structure prediction.
 
 ### Tertiary structure formats
 
 1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.tools.diffpdb.diffpdb><code>diffpdb</code></a> - a simple tool to compare text-content of PDB files,
+
 1. `rna_pdb_merge_into_one.py` - merge single files into an NMR-style multiple model file PDB file.
 
 ### Tertiary structure analysis
+1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA,
+1. **`rna_x3dna.py`** - a wrapper to 3dna, See also PyMOL4RNA,
 1. `ClashCalc.py` - a simple clash score calculator, used in NPDock, requires BioPython,
-1. `rna_prediction_significance.py` - calculate significance of an RNA tertiary structure prediction.
 
 ### Tertiary structure processing
 1. `rna_refinement.py` - a wrapper for QRNAS (Quick Refinement of Nucleic Acids)

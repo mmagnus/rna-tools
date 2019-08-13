@@ -27,12 +27,13 @@ import os
 import shutil
 import sys
 import tempfile
-
+import glob
 import progressbar
+import re
 
 from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version, \
                           collapsed_view, fetch, fetch_ba, replace_chain, RNAStructure, \
-                          select_pdb_fragment
+                          select_pdb_fragment, sort_strings
 from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
 
 
@@ -65,7 +66,13 @@ def get_parser():
     parser.add_argument('--is-nmr', help='check if a file is NMR-style multiple model pdb',
                         action='store_true')
 
-    parser.add_argument('--un-nmr', help='Split NMR-style multiple model pdb files into individual models [biopython]',
+    parser.add_argument('--nmr-dir', help='make NMR-style multiple model pdb file from a set of files \n\n' +
+                        "  rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb\n\n" +
+                        "please use '' for pattern file recognition, this is a hack to deal with folders with\n"
+                        "thousands of models, if you used only *.pdb then the terminal will complain that you\n"
+                        "selected to many files.")
+
+    parser.add_argument('--un-nmr', help='split NMR-style multiple model pdb files into individual models [biopython]',
                         action='store_true')
 
     parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
@@ -809,3 +816,18 @@ if __name__ == '__main__':
             for r in c[2]:
                 t.append('** ' + c[0] + ':' + r)
         print('\n'.join(t))
+
+    if args.nmr_dir:
+        files = sort_strings(glob.glob(args.nmr_dir + '/' + args.file))
+
+        c = 1
+
+        for f in files:
+            #s = RNAStructure(f)
+            print("MODEL        " + str(c))
+            # at some point I could use RNAStructure for this
+            print(open(f).read())
+            #print(s.get_text(add_end=False))
+            print('ENDMDL')
+            c += 1
+        print('END')
