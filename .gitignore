@@ -23,7 +23,7 @@ rpt_config_local.py
 *config_local.py*
 opt*
 .idea
-*ipynb
+ipynb
 .coverage
 coverage.xml
 *bak
