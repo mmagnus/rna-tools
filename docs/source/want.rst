@@ -143,6 +143,10 @@ Moreover, you can also mutate interactively proteins and nucleic acids with PyMO
 
 .. image:: ../pngs/pymol_mutate.png
 
+Learn more here https://pymolwiki.org/index.php/Mutagenesis
+
+If you want to mutate with PyMOL with command-line see this https://pymolwiki.org/index.php/Rotkit
+
 add missing atoms
 --------------------------------------------
 
