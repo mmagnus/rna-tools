@@ -31,7 +31,7 @@ if __name__ == '__main__':
     # for f in s.frames:
     #    print f
 
-    sorted_frames = s.sort()
+    sorted_frames = s.sort(inplace=False)
 
     for c, f in enumerate(sorted_frames[:args.nstruc]):
         print(c + 1, f)
