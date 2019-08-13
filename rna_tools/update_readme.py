@@ -8,8 +8,8 @@ import subprocess
 standard_library.install_aliases()
 
 if __name__ == '__main__':
-    start_tag = "[mm] rna_tools$ git:(master) ✗ ./rna_pdb_toolsx.py -h"
-    end_tag = "more than one fragment --extract"
+    start_tag = "usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]"
+    end_tag = "ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU"
     #
     doc = subprocess.getoutput('python rna_pdb_toolsx.py -h')
     print(doc)
