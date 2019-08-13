@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
       rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb 
 
+- `190810` Add: ENTRNA wrapper for foldability
+
 ## Added
 
 - `rna_dot2ct.py`
