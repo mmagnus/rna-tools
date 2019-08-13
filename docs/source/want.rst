@@ -139,9 +139,13 @@ Figure. Input structure on the left, mutated structure on the right.
 
 If, for whatever reason, the tool here does not do what you want, use the tool from MC-Fold|MC-Sym Pipeline (go there https://www.major.iric.ca/MC-Pipeline/ and scroll down to the Section: "RNA SEQUENCE MUTATION" at the very bottom of the page).
 
+Moreover, you can also mutate interactively proteins and nucleic acids with PyMOL >2.
+
+.. image:: ../pngs/pymol_mutate.png
+
 add missing atoms
 --------------------------------------------
 
 The tool is using the function:
 
-.. automethod:: rna_pdb_tools.rna_pdb_tools_lib.RNAStructure.get_rnapuzzle_ready
+.. automethod:: rna_tools.rna_tools_lib.RNAStructure.get_rnapuzzle_ready
