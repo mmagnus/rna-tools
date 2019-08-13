@@ -88,6 +88,17 @@ def get_version(currfn='', verbose=False):  # dupa
         return version
 
 
+def sort_strings(l):
+    """ Sort the given list in the way that humans expect.
+    http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
+    """
+    def convert(text): return int(text) if text.isdigit() else text
+
+    def alphanum_key(key): return [convert(c) for c in re.split('([0-9]+)', key)]
+    l.sort(key=alphanum_key)
+    return l
+
+
 class RNAStructure:
     """RNAStructure - handles an RNA pdb file.
 

@@ -6,11 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Current
 ## Added
+
 - `rna_dot2ct.py`
 - `rna_pdb_toolsx.py --swap-chains SWAP_CHAINS` [190530]
 - Clanstix: with smart group name picking [190500]
 - `rna_pdb_toolsx.py --split-alt-locations`
 - `rna_pdb_toolsx.py --delete-anisou`
+- copied and edited from rna_pdb_merge_into_one.py to `rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb` [190813
+]
 
 ## Changed
 - Rename `rna_ss_pred.py` to `rna_secondary_structure_prediction.py`
@@ -18,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PyMOL4RNA: scale down shapes for inorganic, to 0.25
 
 ## Fixed
-- Clanstix problem with group and coloring bug #91 
+- Clanstix problem with group and coloring bug #91
 
 # History
 
