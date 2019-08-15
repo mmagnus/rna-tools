@@ -3,7 +3,11 @@
 
 To see a full demo what you can do with this util, please take a look at the jupiter notebook (https://github.com/mmagnus/rna-pdb-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb)
 
-Load an alignment in the Stockholm or fasta format::
+Load an alignment in the Stockholm::
+
+    alignment = ra.RNAalignment('test_data/RF00167.stockholm.sto')
+
+ or fasta format::
 
      import rna_alignment as ra
      alignment = ra.fasta2stokholm(alignment.fasta)

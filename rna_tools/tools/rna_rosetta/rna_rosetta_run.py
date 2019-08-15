@@ -21,7 +21,7 @@ Helix
 
 Run::
 
-    rna_rosetta_run.py - i - e - r - g - c 200 cp20.fa
+    rna_rosetta_run.py -i -e -r -g -c 200 cp20.fa
 
 `-i`::
 
@@ -30,7 +30,7 @@ Run::
     AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
     .(((((....(((((.....)))))(((..(((((..[[[[..)).))).)))......))))).((((......)))).......]]]].
 
-    [peyote2] ~ rna_rosetta_run.py - i cp20.fa
+    [peyote2] ~ rna_rosetta_run.py -i cp20.fa
     run rosetta for:
     cp20
     AUUAUCAAGAAUCUCAAAGAGAGAUAGCAACCUGCAAUAACGAGCAAGGUGCUAAAAUAGAUAAGCCAAAUUCAAUUGGAAAAAAUGUUAA
@@ -68,7 +68,7 @@ edit the secondary structure, run the program with -i(init, to overwrite seq.fa,
 
 Notes::
 
-   rp17hc 6 charactes.
+   rp17hc 6 characters
 
 """
 from __future__ import print_function
@@ -132,7 +132,7 @@ def prepare_folder(args, header, seq, ss, path):
         aa20
         UACGUUCAUCAUCCGUUUGGAUGACGGAAGUAAGCGAAAGCUGAAGGAACGCAUG
         ..(((((.((((((....))))))..[.....(((....)))....)))))]...
-        rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct 50  -s E-loop_1q9a_mutated_no_flanks_renumber_for_acy20.pdb  -silent helix0.out helix1.out helix2.out  -input_silent_res 3-7 47-51 9-14 19-24 33-35 40-42
+        rna_denovo_setup.py -fasta seq.fa -secstruct_file ss.fa -cycles 20000 -no_minimize -nstruct 50  -s E-loop_1q9a_mutated_no_flanks_renumber_for_acy20.pdb  -silent helix0.out helix1.out helix2.out -input_silent_res 3-7 47-51 9-14 19-24 33-35 40-42
 
         Sequence:  UACGUUCAUCAUCCGUUUGGAUGACGGAAGUAAGCGAAAGCUGAAGGAACGCAUG
         Secstruc:  ..(((((.((((((....))))))..[.....(((....)))....)))))]...
@@ -144,7 +144,6 @@ def prepare_folder(args, header, seq, ss, path):
         ValueError: The sequence in E-loop_1q9a_mutated_no_flanks_renumber_for_acy20.pdb does not match input sequence!!
         rosetta_submit.py README_FARFAR o 200 100 aa20_
         Could not find:  README_FARFAR
-
     """
     d = path
     try:
