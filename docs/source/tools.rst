@@ -138,6 +138,13 @@ rna_align_get_ss_from_stk.py
    :ref: rna_tools.tools.rna_alignment.rna_align_get_ss_from_stk.get_parser
    :prog: rna_align_get_ss_from_stk
 
+rna_align_distance_to_seq.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_tools.tools.rna_alignment.rna_align_distance_to_seq.get_parser
+   :prog: rna_align_distance_to_seq.py
+
 
 Random assignment of nucleotides
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
