@@ -6,11 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Current
 
-- `190813` Add: copied and edited from rna_pdb_merge_into_one.py to:
+- 190820 Add: rna_align_distance_to_seq.py
+- 190813 Add: copied and edited from rna_pdb_merge_into_one.py to:
 
-      rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb 
+      rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
 
-- `190810` Add: ENTRNA wrapper for foldability
+- 190810 Add: ENTRNA wrapper for foldability
 
 ## Added
 

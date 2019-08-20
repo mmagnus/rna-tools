@@ -35,6 +35,7 @@ from rna_tools import SecondaryStructure
 from rna_tools.rna_tools_config import RCHIE_PATH
 from collections import OrderedDict
 
+import Levenshtein
 import tempfile
 import subprocess
 import os
@@ -357,6 +358,10 @@ class RNASeq(object):
             return("color red, " + str(index).replace(', ', '+').replace('[','').replace(']',''))
         else:
             return index
+
+    def get_distance_to(self, nseq):
+        """Get distance of self.seq to nseq."""
+        return round(Levenshtein.ratio(self.seq, nseq), 2)
 
 class RNAalignment(object):
     """RNA alignment - adapter class around BioPython to do RNA alignment stuff
