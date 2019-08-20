@@ -124,6 +124,21 @@ rna_alignment_calc_energy.py
    :ref: rna_tools.tools.rna_alignment.utils.rna_alignment_calc_energy.get_parser
    :prog: rna_alignment_calc_energy
 
+rna_align_get_ss_from_fasta.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_tools.tools.rna_alignment.rna_align_get_ss_from_fasta.get_parser
+   :prog: rna_align_get_ss_from_fasta
+
+rna_align_get_ss_from_stk.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. argparse::
+   :ref: rna_tools.tools.rna_alignment.rna_align_get_ss_from_stk.get_parser
+   :prog: rna_align_get_ss_from_stk
+
+
 Random assignment of nucleotides
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
