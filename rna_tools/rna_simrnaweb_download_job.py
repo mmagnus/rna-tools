@@ -55,9 +55,13 @@ class SimRNAwebError(Exception):
     pass
 
 
-def extract(job_id, nstruc, remove_trajectory):
+def extract(job_id, nstruc, remove_trajectory, lowest=True):
     """using rna_simrna_extract.py"""
-    os.system('rna_simrna_lowest.py -n ' + str(nstruc) + ' *' + job_id + '_ALL.trafl')
+    if lowest:
+        # Ok, this is off for now because I can download top100 and top200
+        cmd = 'rna_simrna_lowest.py -n ' + str(nstruc) + ' ' + job_id + '*.trafl'
+        print(cmd)
+        os.system(cmd)
     if remove_trajectory:
         os.system('rm *_ALL.trafl*')
     cmd = 'rna_simrna_extract.py -t ' + job_id + '*01X.pdb -f *' + job_id + '*top' + str(nstruc) + '.trafl -n ' + str(nstruc) + ' -c'
@@ -68,6 +72,18 @@ def extract(job_id, nstruc, remove_trajectory):
 def download_trajectory():
     cmd = "wget --restrict-file-names=nocontrol http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
         "/processing_results/" + job_id + "_ALL.trafl "  # -O " + fn
+    print(cmd)
+    os.system(cmd)
+
+def download_trajectory_top100():
+    cmd = "wget --restrict-file-names=nocontrol http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
+        "/processing_results/top100/" + job_id + "_ALL_top100.trafl "  # -O " + fn
+    print(cmd)
+    os.system(cmd)
+
+def download_trajectory_top200():
+    cmd = "wget --restrict-file-names=nocontrol http://genesilico.pl/SimRNAweb/media/jobs/" + job_id + \
+        "/processing_results/top200/" + job_id + "_ALL_top200.trafl "  # -O " + fn
     print(cmd)
     os.system(cmd)
 
@@ -249,7 +265,9 @@ def get_parser():
         'If you have already some files with the given folder, their names might'
         'be changed.')
     parser.add_argument('-n', '--nstruc',
-                       help='extract nstruc the lowest energy', type=int, default=100)
+                       help='extract nstruc the lowest energy, this option must go with --web', type=int, default=100)
+    parser.add_argument('-e', '--extract',
+                       help='extract nstruc the lowest energy, this option must go with --web', action="store_true")
     ## parser.add_argument('-t', '--trajectory',
     ##                     action='store_true', help='download also trajectory')
     parser.add_argument('-m', '--more_clusters',
@@ -258,8 +276,10 @@ def get_parser():
                         action='store_true', help='remove trajectory after analysis', default=False)
     parser.add_argument('-c', '--cluster',
                         action='store_true', help='get trajectory from cluster OR local on your computer (mdfind for macOS)', default=False)
-    parser.add_argument('-w', '--web',
+    parser.add_argument('-d', '--download-trajectory',
                         action='store_true', help='web', default=False)
+    parser.add_argument('--top100', action='store_true', help='download top100 trajectory', default=False)
+    parser.add_argument('--top200', action='store_true', help='download top200 trajectory', default=False)
     parser.add_argument('--web-models',
                         action='store_true', help='web models download', default=False)
 
@@ -278,23 +298,30 @@ if __name__ == '__main__':
     job_id = job_id.replace('genesilico.pl/SimRNAweb/jobs/', '').replace(
         'http://', '').replace('/', '')  # d86c07d9-9871-4454-bfc6-fb2e6edf13fc/
 
-    # web
-    if args.web_models:
+    if args.web_models or args.top100 or args.top200 or args.download_trajectory:
         download_models(args)  # models are needed if you want to extract anything from the trajectory
 
-    if args.cluster:
-        copy_template(args)
-
     # trajectory
-    if args.web:
+    if args.top100:
+        download_trajectory_top100()
+
+    if args.top200:
+        download_trajectory_top200()
+
+    if args.download_trajectory:
         download_trajectory()
-        if args.nstruc:
-            extract(args.job_id, args.nstruc, args.remove_trajectory)
 
     if args.cluster:
         copy_trajectory(args)
-        if args.nstruc:
-            extract(args.job_id, args.nstruc, args.remove_trajectory)
+
+    if (args.top100 or args.top200):
+        extract(args.job_id, args.nstruc, args.remove_trajectory, lowest=False)
+
+    if (download_trajectory or args.cluster) and args.nstruc:
+        extract(args.job_id, args.nstruc, args.remove_trajectory, lowest=True)
+
+    if args.extract:
+        extract(args.job_id, args.nstruc, args.remove_trajectory)
 
     if args.prefix:
         add_prefix(args.prefix)
