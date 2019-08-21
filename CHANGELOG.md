@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Current
 
+- 190821
+    - Seq.py now you can set .name
 - 190820 Add: rna_align_distance_to_seq.py
 - 190815 Seq.py: load_fasta_ss_into_RNAseqs()
 - 190813 Add: copied and edited from rna_pdb_merge_into_one.py to:
