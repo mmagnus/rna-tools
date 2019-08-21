@@ -366,11 +366,20 @@ class RNASequence(object):
                 cmd = 'RNAfold -p -d2 --noLP -C < ' + tf.name
             if verbose:
                 print(cmd)
-            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
+
+            try:
+                self.ss_log = subprocess.check_output(cmd, shell=True).decode()
+            except subprocess.CalledProcessError:
+                 print('Error')
+                 return 0, 'error', 0, '', 0, '', 0, 0
+
             if verbose:
                 print(self.ss_log)
             # parse the results
             lines = self.ss_log.split('\n')
+            if 'Supplied structure constraints create empty solution set for sequence' in self.ss_log:
+                return 0, 'Supplied structure constraints create empty solution set for sequence', 0, '', 0, '', 0, 0
+            #if not 'frequency of mfe structure' in self.ss_log:
 
             # RNAfold -p -d2 --noLP -C < /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpGiUoo7.fa
             # >rna_seq
@@ -380,13 +389,16 @@ class RNASequence(object):
             #...((((((((.(((......((((((.((....(((...)))..)).))))))...)))..............))))))))... {-19.80 d=2.34}
             # frequency of mfe structure in ensemble 0.131644; ensemble diversity 3.68
 
-            mfess, mfe = lines[2].split()
+            mfess = lines[2].split()[0]
+            mfe = ' '.join(lines[2].split()[-1:])
             mfe = float(mfe.replace('(', '').replace(')', '')) # (-19.80) ->-19.80
 
-            efess, efe = lines[3].split()  # ensamble free energy
+            efess = lines[3].split()[0]  # ensamble free energy
+            efe = ' '.join(lines[3].split()[-1:])
             efe = float(efe.replace('[', '').replace(']', '')) # (-19.80) ->-19.80
 
-            cfess, cfe, d = lines[4].split()  # ensamble free energy
+            cfess = lines[4].split()[0]  # ensamble free energy
+            cfe, d = ' '.join(lines[4].split()[1:]).split('d')
             cfe = float(cfe.replace('{', '').replace('}', '')) # (-19.80) ->-19.80
 
             words = lines[5].split()  # ensamble free energy
