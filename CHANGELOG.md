@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 190821
     - Seq.py now you can set .name
+    - Seq.py mc-fold:
+        - Add: explore option
+        - Change: verbose now also shows full output of the program
+        - Add: comment field for some extra information from the program
 - 190820 Add: rna_align_distance_to_seq.py
-- 190815 Seq.py: load_fasta_ss_into_RNAseqs()
+- 190815 Add: Seq.py: load_fasta_ss_into_RNAseqs()
 - 190813 Add: copied and edited from rna_pdb_merge_into_one.py to:
 
       rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb

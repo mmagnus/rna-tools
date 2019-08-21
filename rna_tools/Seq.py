@@ -230,7 +230,7 @@ class RNASequence(object):
         ##   FutureWarning)
         ## cd /Users/magnus/work/evoClustRNA/rna-foldability/ENTRNA/ && python ENTRNA_predict.py --seq_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpUORegp --str_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmp1ERCcD
 
-    def predict_ss(self, method="RNAfold", constraints='', shapefn='', verbose=0):
+    def predict_ss(self, method="RNAfold", constraints='', shapefn='', explore='', verbose=0):
         """Predict secondary structure of the seq.
 
         Args:
@@ -290,7 +290,51 @@ class RNASequence(object):
 
         You can easily see that the first G is unpaired right now! The reactivity of this G was
         set to 10. Worked!
+
+
+        **MC-Fold**
+
+        MC-Fold uses the online version of the tool, this is very powerful with constraints::
+
+            rna_seq
+            acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg
+            ((((........)))).......((((..............(((((((((((((((....)))))))))))))))..))))
+            curl -Y 0 -y 300 -F "pass=lucy" -F mask="((((........)))).......((((..............(((((((((((((((....)))))))))))))))..))))" -F sequence="acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
+            mcfold::energy best dynamics programming: -53.91
+            (-53.91, '((((........)))).......((((..............(((((((((((((((....)))))))))))))))..))))')
+
+            curl -Y 0 -y 300 -F "pass=lucy" -F mask="((((........)))).......((((..............((((((((((..............))))))))))..))))" -F sequence="acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
+            mcfold::energy best dynamics programming: -34.77
+            (-34.77, '((((........)))).......((((..............((((((((((..............))))))))))..))))')
+
+            acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg
+            ((((........)))).......((((..............(((((((((((((((....)))))))))))))))..))))
+            curl -Y 0 -y 300 -F "pass=lucy" -F mask="((((xxxxxxxx))))xxxxxxx((((xxxxxxxxxxxxxx((((((((((xxxxxxxxxxxxxx))))))))))xx))))" -F sequence="acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
+            mcfold::energy best dynamics programming: -34.77
+            (-34.77, '((((........)))).......((((..............((((((((((..............))))))))))..))))')
+
+
+            acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg
+            ((((........)))).......((((..............(((((((((((((((....)))))))))))))))..))))
+            curl -Y 0 -y 300 -F "pass=lucy" -F mask="((((********))))*******((((**************((((((((((**************))))))))))**))))" -F sequence="acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
+            mcfold::energy best dynamics programming: -77.30
+            (-71.12, '(((((((..))))))).......((((((.(((...)))..(((((((((((((((....)))))))))))))))))))))')
+
+            acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg
+            ((((........)))).......((((..............(((((((((((((((....)))))))))))))))..))))
+            curl -Y 0 -y 300 -F "pass=lucy" -F mask="((((**[[[[[**))))*******((((****]]]]]****(((((((((((((((****)))))))))))))))**))))" -F sequence="acucggcuaggcgaguauaaauagccgucaggccuagcgcguccaagccuagccccuucuggggcugggcgaagggucggg" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi
+            mcfold::energy best dynamics programming: -77.30
+            ('-77.30', '((((**[[[[[**))))*******((((****]]]]]****(((((((((((((((****)))))))))))))))**))))')
+
+        **explore**
+
+         The sub-optimal search space can be constrained within a percentage of the minimum free energy structure, as MC-fold makes use of the Waterman-Byers algorithm [18, 19]. Because the exploration has an exponential time complexity, increasing this value can have a dramatic effect on MC-Fold’s run time.
+
+        Parisien, M., & Major, F. (2009). RNA Modeling Using the MC-Fold and MC-Sym Pipeline [Manual] (pp. 1–84).
+
+
         """
+
         tf = tempfile.NamedTemporaryFile(delete=False)
         tf.name += '.fa'
         with open(tf.name, 'w') as f:
@@ -335,8 +379,14 @@ class RNASequence(object):
             return '\n'.join(self.ss_log.split('\n')[:])
 
         elif method == "mcfold":
+            #  -F tope=1
+            if explore:
+                explore_str = " -F explore=" + str(explore)
+            else:
+                explore_str = ''
+
             if constraints:
-                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F mask=\"" + constraints + "\"" + \
+                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F mask=\"" + constraints + "\" " + explore_str + \
                 " -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
             else:
                 cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
@@ -346,10 +396,14 @@ class RNASequence(object):
             out = o.stdout.read().strip()
             err = o.stderr.read().strip()
 
+            if verbose:
+                print(out)
+
             # If the structure can't be find, detect this statement and finish this routine.
             if 'Explored 0 structures' in out:
-                return 0.00, ''
+                return 0.00, '', 'Explored 0 structures'
 
+            comment = ''
             energy = ''
             out = out.split('\n')
             for l in out :
@@ -366,9 +420,12 @@ class RNASequence(object):
                 # Performing Dynamic Programming...
                 # Best Dynamic Programming Solution has Energy:  -5.43
                 if l.startswith('Best Dynamic Programming Solution has Energy:'):
-                    energy = l.split(':')[1].strip()
+                    energy_bdp = l.split(':')[1].strip()
                     if verbose:
-                        print ('mcfold::energy: ' + energy)
+                        print ('mcfold::energy best dynamics programming: ' + energy_bdp)
+                        comment = 'energy best dynamics programming'
+                    ss = constraints
+                    # return float(energy), constraints # I'm not sure if this is good
 
             # Ok, for whatever reason Best DP energy might not be exactly the same as and
             # the energy listed later for secondary structure. So this code finds this secondary
@@ -397,13 +454,15 @@ class RNASequence(object):
                     # .............  BP >=  50%
                     # then finish with energy 0.00, and empty ss
                     if energy == 'BP':
-                        return 0.00, ''
-                    break
+                        energy = energy_bdp
+                        comment = 'BP energy'
+                        return energy_bdp, constraints, comment
+                    # break
 
             # prepare outputs, return and self-s
             self.log = out
             self.ss = ss
-            return float(energy), ss
+            return float(energy), ss, comment
 
         # if method == "RNAsubopt":
         #     from cogent.app.vienna_package import RNAfold, RNAsubopt
