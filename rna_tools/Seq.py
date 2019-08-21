@@ -452,6 +452,19 @@ class RNASequence(object):
 
 
 # main
+
+def load_fasta_ss_into_RNAseqs(fn, debug=True):
+    seqs = []
+    with open(fn) as f:
+        for line in f:
+            if debug: print(line)
+            name = line.replace('>', '').strip()
+            seq = next(f).strip()
+            ss = next(f).strip()
+            rs = RNASequence(seq, ss, name)
+            seqs.append(rs)
+    return seqs
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
