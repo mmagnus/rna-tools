@@ -189,7 +189,7 @@ class RNASequence(object):
             print(log)
         for l in log.split('\n'):
             if l.startswith('Foldability: '):
-                return float(l.replace('Foldability: ', ''))
+                return round(float(l.replace('Foldability: ', '')), 2)
         return -1
         ## [1]:
         ##     /Users/magnus/work/evoClustRNA/rna-foldability/ENTRNA/util/pseudoknot_free.py:22: SettingWithCopyWarning:
