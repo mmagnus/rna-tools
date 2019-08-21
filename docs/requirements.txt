@@ -16,3 +16,4 @@ matplotlib
 scipy
 future
 six
+Levenshtein
