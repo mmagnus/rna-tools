@@ -151,7 +151,7 @@ class RNASequence(object):
             f.write(self.seq + '\n')
             f.write(ss + '\n')
 
-        dopt = '-v -d2 '
+        dopt = ' -d2 '
         if no_dangling_end_energies:
             dopt = ' -d0 '
 
