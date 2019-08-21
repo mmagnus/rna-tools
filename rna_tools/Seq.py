@@ -20,6 +20,8 @@ ViennaRNA
 ^^^^^^^^^^^^^^
 https://www.tbi.univie.ac.at/RNA/
 
+For OSX install from the binary Installer from the page.
+
 ipknot OSX
 ^^^^^^^^^^^^^
 https://github.com/satoken/homebrew-rnatools
@@ -116,7 +118,7 @@ class RNASequence(object):
     def __repr__(self):
         return self.name + '\n' + self.seq + '\n' + self.ss
 
-    def eval(self, ss='', no_dangling_end_energies=True, verbose=False):
+    def eval(self, ss='', no_dangling_end_energies=False, verbose=False):
         """Evaluate energy of RNA sequence.
 
         Args:
@@ -149,7 +151,7 @@ class RNASequence(object):
             f.write(self.seq + '\n')
             f.write(ss + '\n')
 
-        dopt = ''
+        dopt = '-v -d2 '
         if no_dangling_end_energies:
             dopt = ' -d0 '
 
@@ -230,7 +232,7 @@ class RNASequence(object):
         ##   FutureWarning)
         ## cd /Users/magnus/work/evoClustRNA/rna-foldability/ENTRNA/ && python ENTRNA_predict.py --seq_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpUORegp --str_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmp1ERCcD
 
-    def predict_ss(self, method="RNAfold", constraints='', shapefn='', explore='', verbose=0):
+    def predict_ss(self, method="RNAfold", constraints='', enforce_constraint=False, shapefn='', explore='', verbose=0):
         """Predict secondary structure of the seq.
 
         Args:
@@ -356,6 +358,44 @@ class RNASequence(object):
                 print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True).decode()
             return '\n'.join(self.ss_log.strip().split('\n')[:])
+
+        if method == "RNAfoldX" and constraints:
+            if enforce_constraint:
+                cmd = 'RNAfold -p -d2 --noLP -C --enforceConstraint < ' + tf.name
+            else:
+                cmd = 'RNAfold -p -d2 --noLP -C < ' + tf.name
+            if verbose:
+                print(cmd)
+            self.ss_log = subprocess.check_output(cmd, shell=True).decode()
+            if verbose:
+                print(self.ss_log)
+            # parse the results
+            lines = self.ss_log.split('\n')
+
+            # RNAfold -p -d2 --noLP -C < /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpGiUoo7.fa
+            # >rna_seq
+            # AAAUUAAGGGGAAGCGUUGAGCCGCUACCCAUAUGUGGUUCACUCGGAUAGCGGGGAGCUAAUAGUGAAACCGGCCCUUUAGGGG
+            # ...((((((((.(((......((((((.((....(((...)))..)).))))))...)))..............))))))))... (-19.80)
+            # ...{(((((((.(((......((((((.((....(((...)))..)).))))))...)))..............)))))))}... [-21.05]
+            #...((((((((.(((......((((((.((....(((...)))..)).))))))...)))..............))))))))... {-19.80 d=2.34}
+            # frequency of mfe structure in ensemble 0.131644; ensemble diversity 3.68
+
+            mfess, mfe = lines[2].split()
+            mfe = float(mfe.replace('(', '').replace(')', '')) # (-19.80) ->-19.80
+
+            efess, efe = lines[3].split()  # ensamble free energy
+            efe = float(efe.replace('[', '').replace(']', '')) # (-19.80) ->-19.80
+
+            cfess, cfe, d = lines[4].split()  # ensamble free energy
+            cfe = float(cfe.replace('{', '').replace('}', '')) # (-19.80) ->-19.80
+
+            words = lines[5].split()  # ensamble free energy
+            freq = round(float(words[6].replace(';', '')), 2) # frequency of mfe structure in ensemble
+            diversity = float(words[9])     # ensemble diversity
+
+            if verbose:
+                print(mfe, mfess, efe, efess, cfe, cfess, freq, diversity)
+            return mfe, mfess, efe, efess, cfe, cfess, freq, diversity
 
         elif method == "RNAfold":
             cmd = 'RNAfold < ' + tf.name
@@ -585,5 +625,6 @@ if __name__ == '__main__':
     seq = RNASequence("CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGgUGCAA")
     print(seq.predict_ss("rnastructure", shapefn="data/shape.txt", verbose=verbose))
 
+    #
     # test of MethodNotChose
     # print(seq.predict_ss("test"))
