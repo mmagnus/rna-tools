@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Current
 
 - 190821
+    - Add `rna_alignment/rna_align_foldability.py`
     - Seq.py now you can set .name
     - Seq.py mc-fold:
         - Add: explore option
