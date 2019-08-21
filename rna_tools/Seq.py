@@ -86,14 +86,14 @@ class RNASequence(object):
 
     """
 
-    def __init__(self, seq):
+    def __init__(self, seq, ss='', name='rna_seq'):
         self.seq = seq
-        self.ss = ''
+        self.ss = ss
         self.ss_log = ''
-        self.name = 'rna_seq'
+        self.name = name
 
     def __repr__(self):
-        return self.seq
+        return self.name + '\n' + self.seq + '\n' + self.ss
 
     def eval(self, ss='', no_dangling_end_energies=True, verbose=False):
         """Evaluate energy of RNA sequence.
