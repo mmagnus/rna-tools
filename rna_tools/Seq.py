@@ -6,13 +6,23 @@ This tool takes a given sequence and returns the secondary structure prediction 
 
 It's easy to add more methods of your choince to this class.
 
-Installation:
+Installation
+~~~~~~~~~~~~~
+Depends on what tools you want to use, follow the instructions below.
 
-ContextFold (https://www.cs.bgu.ac.il/~negevcb/contextfold/) needs Java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 Single chain only!
+ContextFold
+^^^^^^^^^^^^^^^^^^^^^
+https://www.cs.bgu.ac.il/~negevcb/contextfold/
 
-ViennaRNA (https://www.tbi.univie.ac.at/RNA/)
+needs Java. Try this on Ubuntu 14-04 https://askubuntu.com/questions/521145/how-to-install-oracle-java-on-ubuntu-14-04 Single chain only!
 
-ipknot OSX (https://github.com/satoken/homebrew-rnatools)
+ViennaRNA
+^^^^^^^^^^^^^^
+https://www.tbi.univie.ac.at/RNA/
+
+ipknot OSX
+^^^^^^^^^^^^^
+https://github.com/satoken/homebrew-rnatools
 
 If one encounters a problem::
 
@@ -26,17 +36,24 @@ the solution is::
 
      brew install glpk # on OSX
 
-RNAStructure (http://rna.urmc.rochester.edu/)
+RNA Structure
+^^^^^^^^^^^^^
+http://rna.urmc.rochester.edu/
 
 Works with 5.8.1; Jun 16, 2016.
 
 Download http://rna.urmc.rochester.edu/RNAstructureDownload.html and untar it in ``<RNA_PDB_TOOLS>/opt/RNAstructure/``; run make, the tools will be compiled in a folder ``exe``. Set up ``DATPATH`` in your bashrc to ``<RNA_PDB_TOOLS>/opt/RNAstructure/data_tables`` ``DATAPATH=/home/magnus/work/src/rna-pdb-tools/opt/RNAstructure/data_tables/`` (read more http://rna.urmc.rochester.edu/Text/Thermodynamics.html). RNAstructure can be run with SHAPE restraints, read more http://rna.urmc.rochester.edu/Text/File_Formats.html#Constraint about the format. The file format for SHAPE reactivity comprises two columns. The first column is the nucleotide number, and the second is the reactivity. Nucleotides for which there is no SHAPE data can either be left out of the file, or the reactivity can be entered as less than -500. Columns are separated by any white space.
 
-FAQ:
+MC-Sym
+^^^^^^^^^^^^^
+
+FAQ
+~~~~~~~~~~~~~
 
 - Does it work for more than one chain??? Hmm.. I think it's not. You have to check on your own. --magnus
 
-TIPS:
+TIPS
+~~~~~~~~~~~~~
 
 Should you need to run it on a list of sequences, use the following script::
 
@@ -51,7 +68,11 @@ Should you need to run it on a list of sequences, use the following script::
        print s.predict_ss(method="contextfold"),
        #print s.predict_ss(method="centroid_fold")
 
-@todo should be renamed to RNASeq, and merged with RNASeq class from RNAalignment.
+TODO
+~~~~~~~~~~~~~
+
+- This calss should be renamed to RNASeq and merged with RNASeq class from RNAalignment
+
 """  # noqa
 import os
 
@@ -99,20 +120,21 @@ class RNASequence(object):
         """Evaluate energy of RNA sequence.
 
         Args:
+            ss (optional), if not set, then self.ss is taken for calc
             no_dangling_end_energies (Boolean)
             verbose (Boolean)
 
         Returns:
-            Energy (flaot)
+            Energy (float)
 
-        The RNAeval web server calculates the energy of a RNA sequence on a given secondary structure. You can use it
- to get a detailed thermodynamic description (loop free-energy decomposition) of your RNA structures.
+        The RNAeval web server calculates the energy of a RNA sequence on a given secondary structure.
+        You can use it to get a detailed thermodynamic description (loop free-energy decomposition) of your RNA structures.
 
         Simply paste or upload your sequence below and click Proceed. To get more information on the meaning of the options click the help symbols. You can test the server using this sample sequence/structure pair.
 
-        An equivalent RNAeval command line call would have been
+        An equivalent RNAeval command line call would have been::
 
-        RNAeval -v -d0 < input.txt
+            RNAeval -v -d0 < input.txt
 
         Read more: <http://rna.tbi.univie.ac.at//cgi-bin/RNAWebSuite/RNAeval.cgi>
 
@@ -140,18 +162,24 @@ class RNASequence(object):
 
 
     def get_foldability(self, ss='', verbose=False):
-        """Get foldability based on:
+        """Calculate foldability based on EntRNA.
 
         Steps:
+
         - parse SS into basepairs,
         - calculate foldabilty
 
         Configuration:
+
         - Set ENTRNA_PATH to the folder where ENTRNA_predict.py is.
 
-        Cmd: python ENTRNA_predict.py --seq_file pseudoknotted_seq.txt --str_file pseudoknotted_str.txt
+        Cmd wrapper in here::
 
-        Su, C., Weir, J. D., Zhang, F., Yan, H., & Wu, T. (2019). ENTRNA: a framework to predict RNA foldability. BMC Bioinformatics, 20(1), 1–11. http://doi.org/10.1186/s12859-019-2948-5
+            python ENTRNA_predict.py --seq_file pseudoknotted_seq.txt --str_file pseudoknotted_str.txt
+
+        Su, C., Weir, J. D., Zhang, F., Yan, H., & Wu, T. (2019).
+        ENTRNA: a framework to predict RNA foldability. BMC Bioinformatics, 20(1), 1–11.
+        http://doi.org/10.1186/s12859-019-2948-5
         """
         if ss:
             self.ss = ss
@@ -205,15 +233,22 @@ class RNASequence(object):
     def predict_ss(self, method="RNAfold", constraints='', shapefn='', verbose=0):
         """Predict secondary structure of the seq.
 
-        :param method:
-        :param constraints:
-        :param shapefn: path to a file with shape reactivites
-        :param verbose:
+        Args:
+          method:
+          onstraints:
+          shapefn (str): path to a file with shape reactivites
+          verbose (boolean)
 
         It creates a seq fasta file and runs various methods for secondary structure
         prediction. You can provide also a constraints file for RNAfold and RNAsubopt.
 
-        ContextFold::
+        Methods that can be used with contraints: RNAsubopt, RNAfold, mcfold.
+
+        Methods that can be used with SHAPE contraints: RNAfold.
+
+        **ContextFold**
+
+        Example::
 
             $ java -cp bin contextFold.app.Predict in:CCCCUUUGGGGG
             CCCCUUUGGGGG
@@ -230,7 +265,9 @@ class RNASequence(object):
             .(((...)))
 
 
-        RNAstructure::
+        **RNAstructure**
+
+        Example::
 
             >>> seq = RNASequence("GGGGUUUUCCC")
             >>> print(seq.predict_ss("rnastructure"))
