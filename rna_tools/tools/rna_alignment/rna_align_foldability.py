@@ -2,6 +2,49 @@
 
 """Calculate statistics of foldability on an alignment.
 
+The tool uses ENTRANA {Su:2019bp} to calculate, what the authors called, foldability (column: "foldability") of a given sequence into a given secondary structure.
+
+Next, MC-Fold {Parisien:2008dh} is executed to calculate free energy (column: "mcsym") on the sequence and the secondary structure obtained based on the alignment. The secondary structure is used as constraints.
+
+The third used program is RNAfold from the Vienna package {Lorenz:2011it}.  Also, in this case the secondary structure obtained with rna-tools from the RNA alignment is used as constraints, columns: "mfe" (minimum free energy), mfess (secondary structure for minimum free energy state), "cfe" (minimum free energy of centroid), cfess (secondary structure for centroid, "diversity" (ensemble diversity), efe (free energy of the thermodynamic ensemble), efess (secondary structure for the thermodynamic ensemble), "freq" (frequency of mfe structure in ensemble). RNAfold is also executed in with "--enforceConstraint" where the constraints are enforced. This run gives analogous values as the default RNAfold, to all RNAfold column  "_enforce" is added
+
+The tool is able to calculate the distance Levenshtein (the difference between the two sequences)(column: "distance") from the target sequence and all sequence in the alignment to test if there is a bias in the accuracy towards the most similar sequences.
+
+Another tool used from the Vienna package is RNAeval. The tool calculates free energy for a given sequence and secondary structure.
+
+The accuracy is expressed as the median of core RMSD of 10% the lowest core RMSD models for the given sequences.
+
+.. image :: ../../rna_tools/tools/rna_alignment/test_data/foldability/rp17_foldability.png
+
+The correlations::
+
+    accuracy             1.000000
+    cfe                  0.653813
+    foldability          0.622038
+    mfe                  0.607340
+    efe                  0.585077
+    diversity            0.404350
+    eval                 0.349499
+    cfe_enforce          0.311744
+    mfe_enforce          0.302973
+    efe_enforce          0.280929
+    distance             0.256870
+    freq                 0.037037
+    diversity_enforce    0.018429
+    mcsym                0.017533
+    freq_enforce        -0.037991
+    length              -0.340809
+
+The data:
+
+We tested correlations between the above-mentioned statistics, and the highest correlation, 0.65 () was achieved to the centroid free energy calculated with RNAFold, which suggests that to some extent this metric could be used to pick sequence from the alignment to pick sequences that are more likely to fold.
+
+However, this needs further investigation and the detailed analysis an all cases and more folded sequences.
+
+1. Su C, Weir JD, Zhang F, Yan H, Wu T. ENTRNA: a framework to predict RNA foldability. BMC Bioinformatics. BioMed Central 2019
+2. Parisien M, Major F. The MC-Fold and MC-Sym pipeline infers RNA structure from sequence data. Nature 2008;452:51-5
+3. Lorenz R, Bernhart SH, Honer Zu Siederdissen C, Tafer H, Flamm C, Stadler PF, et al. ViennaRNA Package 2.0. Algorithms Mol Biol. BioMed Central; 2011;6:26-14.
+
 Example::
 
     $ python rna_align_foldability.py test_data/gmp_ref.sto test_data/gmp_foldability.csv
@@ -215,8 +258,10 @@ if __name__ == '__main__':
 
             'mfe' : mfe,
             'mfess' : mfess,
+
             'efe' : efe,
             'efess' : efess,
+
             'cfe' : cfe,
             'cfess' : cfess,
             'freq' : freq,
