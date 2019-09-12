@@ -1,7 +1,17 @@
 PyMOL4RNA
 =========
 
+## PyMOL4Spliceosome
+
+Quick ref:
+
+	PyMOL>enable CWC15*
+	PyMOL>disable CWC15*
+
+## Example: Color-coding for RNA Puzzles
+
 To get:
+
 
 ![rna](doc/rna.png)
 
@@ -12,8 +22,8 @@ To get:
 
 The source of the pdb: <http://www.rcsb.org/pdb/explore/explore.do?structureId=5K7C> see also `test_data/5k7c_clean.pdb`
 
-Install
--------------------------------------------------------------------------------
+## Install
+
 
 Add:
 
@@ -27,8 +37,8 @@ e.g.:
 
 to our `~/.pymolrc`
 
-Just Run the file
--------------------------------------------------------------------------------
+## One-time load of the functions
+(less complicated than install, but you have to do it each time, it's better to properly install the package).
 
 To load the functions of PyMOL4RNA.py, type `run <path to the file of PyMOL4RNA.py>` into the PyMOL console. 
 
