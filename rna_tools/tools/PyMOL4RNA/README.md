@@ -1,12 +1,20 @@
 PyMOL4RNA
 =========
 
-## PyMOL4Spliceosome
+## PyMOL4Spliceosome: all spliceosome structures in one PyMOL session
+
+![](doc/pymol4spliceosome.png)
+
+See releases for PyMOL sessions: https://github.com/mmagnus/rna-tools/releases
 
 Quick ref:
 
 	PyMOL>enable CWC15*
 	PyMOL>disable CWC15*
+
+You can also download sessions for single steps prepared by the Nagai lab: <https://www2.mrc-lmb.cam.ac.uk/groups/nagai/resources/>
+
+Read more: https://pymolwiki.org/index.php/Enable
 
 ## Example: Color-coding for RNA Puzzles
 
