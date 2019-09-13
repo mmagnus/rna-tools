@@ -2,13 +2,13 @@
 
 """Calculate statistics of foldability on an alignment.
 
-The tool uses ENTRANA [1] to calculate, what the authors called, foldability (column: "foldability”) of a given sequence into a given secondary structure.
+The tool uses ENTRANA [1] to calculate, what the authors called, foldability (column: "foldability") of a given sequence into a given secondary structure.
 
-Next, MC-Fold [2] is executed to calculate free energy (column: "mcsym”) on the sequence and the secondary structure obtained based on the alignment. The secondary structure is used as constraints.
+Next, MC-Fold [2] is executed to calculate free energy (column: "mcsym") on the sequence and the secondary structure obtained based on the alignment. The secondary structure is used as constraints.
 
-The third used program is RNAfold from the Vienna package [3]. Also, in this case the secondary structure obtained with rna-tools from the RNA alignment is used as constraints, columns: "mfe” (minimum free energy), mfess (secondary structure for minimum free energy state), "cfe” (minimum free energy of centroid), cfess (secondary structure for centroid, "diversity” (ensemble diversity), efe (free energy of the thermodynamic ensemble), efess (secondary structure for the thermodynamic ensemble), "freq” (frequency of mfe structure in ensemble). RNAfold is also executed in with "–enforceConstraint” where the constraints are enforced. This run gives analogous values as the default RNAfold, to all RNAfold column "_enforce” is added
+The third used program is RNAfold from the Vienna package [3]. Also, in this case the secondary structure obtained with rna-tools from the RNA alignment is used as constraints, columns: "mfe" (minimum free energy), "mfess" (secondary structure for minimum free energy state), "cfe" (minimum free energy of centroid), "cfess" (secondary structure for centroid, "diversity" (ensemble diversity), "efe" (free energy of the thermodynamic ensemble), "efess" (secondary structure for the thermodynamic ensemble), "freq" (frequency of mfe structure in ensemble). RNAfold is also executed in with "--enforceConstraint" where the constraints are enforced. This run gives analogous values as the default RNAfold, to all RNAfold column "_enforce" is added.
 
-The tool is able to calculate the distance Levenshtein (the difference between the two sequences)(column: "distance”) from the target sequence and all sequence in the alignment to test if there is a bias in the accuracy towards the most similar sequences.
+The tool is able to calculate the distance Levenshtein (the difference between the two sequences)(column: "distance") from the target sequence and all sequence in the alignment to test if there is a bias in the accuracy towards the most similar sequences.
 
 Another tool used from the Vienna package is RNAeval. The tool calculates free energy for a given sequence and secondary structure.
 
