@@ -401,7 +401,7 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 ### PyMOL4RNA
 
 1. Undo ("Quick Save & Load") for PyMOL, `CTRL-S` & `CTRL-Z`,
-1. [PyMOL4RNA](https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/PyMOL4RNA/README.md)
+1. [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome) (link to its own repository)
 1. `clarna()` - contact classification with ClaRNA directly in PyMOL for selected residues,
 1. `x3dna()` - contact classification with X3DNA directly in PyMOL for selected residues,
 1. `ss()` - get secondary structures of selected objects,
