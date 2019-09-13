@@ -87,7 +87,7 @@ import subprocess
 import tempfile
 import sys
 
-from SecondaryStructure import parse_vienna_to_pairs
+from rna_tools.SecondaryStructure import parse_vienna_to_pairs
 from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH, ENTRNA_PATH
 
 
