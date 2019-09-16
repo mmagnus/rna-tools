@@ -81,6 +81,8 @@ ln -s $curr_dir/rna_tools/tools/rna_alignment/random_assignment_of_nucleotides.p
 ln -s $curr_dir/rna_tools/tools/rna_seq_search_BLASTn_outfmt-6/select_seq_fromBLAStn_6outfm.py $curr_dir/bin/select_seq_fromBLAStn_6outfm.py
 
 ln -s $curr_dir/rna_tools/tools/pefx/pefx.py $curr_dir/bin/pefx.py
+ln -s $curr_dir/rna_tools/tools/misc/translate.py $curr_dir/bin/translate.py
+ln -s $curr_dir/rna_tools/tools/misc/translate.py $curr_dir/bin/trs # translate sequence
 
 echo 'Installed in ./bin'
 ls -l bin
