@@ -10,6 +10,9 @@ for line in fileinput.input():
     protein = seq.translate()
     print(protein)
     protein_txt = ''
-    for p in str(protein):
+    index_txt = ''
+    for index, p in enumerate(str(protein)):
          protein_txt += '\\' + p + '/'
+         index_txt += '' + str(index + 1).ljust(3)
     print(protein_txt)
+    print(index_txt)
