@@ -153,7 +153,7 @@ class RNAStructure:
         """
         return self.has_many_models
 
-    def un_nmr(self, startwith1=False, verbose=False):
+    def un_nmr(self, startwith1=True, verbose=False):
         """Un NMR - Split NMR-style multiple model pdb files into individual models.
 
         Take self.fn and create new files in the way::
