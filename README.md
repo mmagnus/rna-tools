@@ -291,10 +291,7 @@ Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., 
 
 ## Used in papers
 
-1. RNA 3D Structure Prediction Using Multiple Sequence Alignment Information
-M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M.
-https://github.com/mmagnus/EvoClustRNA
-(in revision)
+1. M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). *RNA 3D structure prediction guided by independent folding of homologous sequences*, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA
 
 2. Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell (in press)
 
