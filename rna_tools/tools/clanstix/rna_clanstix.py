@@ -240,12 +240,12 @@ def get_parser():
     parser.add_argument('--color-by-homolog', help="color the same homolog in the same way", action='store_true')
     parser.add_argument('--one-target', help="color the same homolog in the same way", action='store_true')
 
-    parser.add_argument('--shape-by-source', help="shape points based on source, SimRNA vs Rosetta (Rosetta models have 'min' in name'",
+    parser.add_argument('--shape-by-source', help="shape points based on source, SimRNA vs Rosetta (Rosetta models have 'min' in name')",
                         action='store_true')
 
     parser.add_argument('--debug', action='store_true')
 
-    parser.add_argument('--size', type=int, default=8)
+    parser.add_argument('--groups-dot-size', type=int, default=8)
 
     parser.add_argument('--dont-calc', action='store_true', help="A simple and dirty trick to get "
                         "generates everything but the main distances from the matrix"
@@ -351,12 +351,13 @@ if __name__ == '__main__':
               '180;38;223;255', # violet 5
               '64;64;64;255', # grey 6
               '255;128;0;255', # orange 7
+              '240;230;140;255', #khaki
+              '210;105;30;255', # chocolate
+              '0;255;255;255',  # cyjan
               '128;0;128;255', # purple 8
               '0;128;128;255', # Teal 9
               '128;0;0;255', # maroon 10
-              '0;255;255;255',  # cyjan
-              '240;230;140;255', #khaki
-              '210;105;30;255', # chocolate
+
                ]
 
     # This is pretty much the same list as above, but in here I have more distinguishable colors,
@@ -386,7 +387,7 @@ if __name__ == '__main__':
             #
             # collect homologs gmp_
             # simrna and farna
-
+            print(i)
             group_name = i[:args.groups_auto]
             if group_name in groups:
                 groups[group_name] += 1
@@ -411,7 +412,7 @@ if __name__ == '__main__':
         for index, group in enumerate(groups):
             # parse groups
             # type and size will be changed for native
-            size = args.size
+            size = args.groups_dot_size
             dottype = 0
             color = '' # use for diff color selection if tar
             if ':' in group:
