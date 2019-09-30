@@ -48,7 +48,7 @@ if path.islink(PATH):
 else:
     PATH = path.dirname(path.abspath(__file__))
 
-from rna_x3dna_config import BINARY_PATH
+from rna_tools.tools.rna_x3dna.rna_x3dna_config import BINARY_PATH
 
 
 class x3DNAMissingFile(Exception):

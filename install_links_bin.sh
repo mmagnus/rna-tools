@@ -57,6 +57,7 @@ ln -s $curr_dir/rna_tools/tools/rna_alignment/utils/rna_alignment_get_species.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/utils/rna_alignment_process_id.py $curr_dir/bin/rna_alignment_process_id.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/utils/rna_alignment_r2r.py $curr_dir/bin/rna_alignment_r2r.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_find_seq_in_alignment.py $curr_dir/bin/rna_align_find_seq_in_alignment.py
+ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_foldability.py $curr_dir/bin/rna_align_foldability.py
 
 
 ln -s $curr_dir/rna_tools/tools/rna_pdb_edit_occupancy_bfactor/rna_pdb_edit_occupancy_bfactor.py $curr_dir/bin/rna_pdb_edit_occupancy_bfactor.py
@@ -80,6 +81,8 @@ ln -s $curr_dir/rna_tools/tools/rna_alignment/random_assignment_of_nucleotides.p
 ln -s $curr_dir/rna_tools/tools/rna_seq_search_BLASTn_outfmt-6/select_seq_fromBLAStn_6outfm.py $curr_dir/bin/select_seq_fromBLAStn_6outfm.py
 
 ln -s $curr_dir/rna_tools/tools/pefx/pefx.py $curr_dir/bin/pefx.py
+ln -s $curr_dir/rna_tools/tools/misc/translate.py $curr_dir/bin/translate.py
+ln -s $curr_dir/rna_tools/tools/misc/translate.py $curr_dir/bin/trs # translate sequence
 
 echo 'Installed in ./bin'
 ls -l bin

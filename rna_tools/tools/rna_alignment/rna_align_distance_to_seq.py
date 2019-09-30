@@ -67,6 +67,7 @@ if __name__ == '__main__':
             'seq': s.seq,
             'ss:': s.ss,
             'distance': s.get_distance_to(target_seq),
+            'length': len(s.seq.replace('-', '')),
             }, ignore_index=True)
     print(df)
     df.to_csv(args.output)

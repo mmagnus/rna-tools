@@ -91,6 +91,7 @@ def get_parser():
     parser.add_argument('--names_and_resi', help='take only atom residues names', action='store_true')
     parser.add_argument('--htmlout', help='take only atom residues names', action='store_true')
     parser.add_argument('--method', help='method e.g. `diff`')#, action='store_true')
+    parser.add_argument('--verbose', help='be verbose', action='store_true')
     parser.add_argument('f1', help='file')
     parser.add_argument('f2', help='file')
     return parser
@@ -119,4 +120,7 @@ if __name__ == '__main__':
         cmd = 'diff -u %s %s | %s/lib/diff2html.py' % (str1_fn + '.out', str2_fn + '.out', PATH)
         os.system(cmd)
     else:
-        os.system(' '.join([DIFF_TOOL, str1_fn + '.out', str2_fn + '.out']))
+        cmd = ' '.join([DIFF_TOOL, str1_fn + '.out', str2_fn + '.out'])
+        if args.verbose:
+            print(cmd)
+        os.system(cmd)
