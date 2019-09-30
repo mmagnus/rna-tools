@@ -8,7 +8,7 @@ except ImportError:
 def spl_color():
  for name in cmd.get_names("all"):
   # cmd.do('color grey50') # off gray
-  if name in ['5zwo', '5gm6', '5lj3', '5mps', '6exn', '5ylz', '5y88', '3jb9', '6icz', '6ff7', '5yzg', '5xjc']: # this should be auto
+  if name in ['5zwo', '5gm6', '5lj3', '5mps', '6exn', '5ylz', '5y88', '3jb9', '6icz', '6ff7', '5yzg', '5xjc', '5mq0', '5lj5', '6g90', '6n7r', '6n7p']: # this should be auto
     print(" \ Extracting mode for %s" % name)
     if '5zwo' in name.lower():
         #PRP8
@@ -113,9 +113,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5zwo")
         cmd.do("color yellow, exon-3_B5zwo")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5zwo")
-        cmd.do("color yellow, exon-5_B5zwo")
         #PRP4
         cmd.do("color grey50, chain K and 5zwo")
         cmd.do("color grey50, PRP4_B5zwo")
@@ -266,9 +263,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain 9 and 5zwo")
         cmd.do("color grey50, SPP381_B5zwo")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5zwo")
-        cmd.do("color grey50, unknown_unassigned_B5zwo")
+        cmd.do("color grey50, unassigned_B5zwo")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5zwo")
         cmd.do("color grey50, Spp42_yPrp8_B5zwo")
@@ -278,6 +275,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5zwo")
         cmd.do("color grey50, PRKRIP1_B5zwo")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5zwo")
+        cmd.do("color grey51, MUD1_B5zwo")
+        #SNP1
+        cmd.do("color orange, chain nan and 5zwo")
+        cmd.do("color orange, SNP1_B5zwo")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5zwo")
+        cmd.do("color grey53, YHC1_B5zwo")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5zwo")
+        cmd.do("color grey54, PRP39_B5zwo")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5zwo")
+        cmd.do("color grey55, PRP42_B5zwo")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5zwo")
+        cmd.do("color grey56, NAM8_B5zwo")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5zwo")
+        cmd.do("color grey57, SNU56_B5zwo")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5zwo")
+        cmd.do("color grey58, LUC7_B5zwo")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5zwo")
+        cmd.do("color grey59, SNU71_B5zwo")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5zwo")
+        cmd.do("color grey60, HSH155_B5zwo")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5zwo")
+        cmd.do("color grey61, RSE1_B5zwo")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5zwo")
+        cmd.do("color grey62, CUS1_B5zwo")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5zwo")
+        cmd.do("color grey63, HSH49_B5zwo")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5zwo")
+        cmd.do("color grey64, RDS3_B5zwo")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5zwo")
+        cmd.do("color grey65, PRP9_B5zwo")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5zwo")
+        cmd.do("color grey66, PRP11_B5zwo")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5zwo")
+        cmd.do("color grey67, PRP21_B5zwo")
+        #U1
+        cmd.do("color green, chain nan and 5zwo")
+        cmd.do("color green, U1_B5zwo")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5zwo")
+        cmd.do("color grey69, PRP40_B5zwo")
+        #STO1
+        cmd.do("color grey70, chain nan and 5zwo")
+        cmd.do("color grey70, STO1_B5zwo")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5zwo")
+        cmd.do("color grey71, CBC2_B5zwo")
     if '5gm6' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain A and 5gm6")
@@ -381,9 +441,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5gm6")
         cmd.do("color yellow, exon-3_Ba5gm6")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5gm6")
-        cmd.do("color yellow, exon-5_Ba5gm6")
         #PRP4
         cmd.do("color grey50, chain nan and 5gm6")
         cmd.do("color grey50, PRP4_Ba5gm6")
@@ -534,9 +591,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5gm6")
         cmd.do("color grey50, SPP381_Ba5gm6")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5gm6")
-        cmd.do("color grey50, unknown_unassigned_Ba5gm6")
+        cmd.do("color grey50, unassigned_Ba5gm6")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5gm6")
         cmd.do("color grey50, Spp42_yPrp8_Ba5gm6")
@@ -546,6 +603,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5gm6")
         cmd.do("color grey50, PRKRIP1_Ba5gm6")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5gm6")
+        cmd.do("color grey51, MUD1_Ba5gm6")
+        #SNP1
+        cmd.do("color orange, chain nan and 5gm6")
+        cmd.do("color orange, SNP1_Ba5gm6")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5gm6")
+        cmd.do("color grey53, YHC1_Ba5gm6")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5gm6")
+        cmd.do("color grey54, PRP39_Ba5gm6")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5gm6")
+        cmd.do("color grey55, PRP42_Ba5gm6")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5gm6")
+        cmd.do("color grey56, NAM8_Ba5gm6")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5gm6")
+        cmd.do("color grey57, SNU56_Ba5gm6")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5gm6")
+        cmd.do("color grey58, LUC7_Ba5gm6")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5gm6")
+        cmd.do("color grey59, SNU71_Ba5gm6")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5gm6")
+        cmd.do("color grey60, HSH155_Ba5gm6")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5gm6")
+        cmd.do("color grey61, RSE1_Ba5gm6")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5gm6")
+        cmd.do("color grey62, CUS1_Ba5gm6")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5gm6")
+        cmd.do("color grey63, HSH49_Ba5gm6")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5gm6")
+        cmd.do("color grey64, RDS3_Ba5gm6")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5gm6")
+        cmd.do("color grey65, PRP9_Ba5gm6")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5gm6")
+        cmd.do("color grey66, PRP11_Ba5gm6")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5gm6")
+        cmd.do("color grey67, PRP21_Ba5gm6")
+        #U1
+        cmd.do("color green, chain nan and 5gm6")
+        cmd.do("color green, U1_Ba5gm6")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5gm6")
+        cmd.do("color grey69, PRP40_Ba5gm6")
+        #STO1
+        cmd.do("color grey70, chain nan and 5gm6")
+        cmd.do("color grey70, STO1_Ba5gm6")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5gm6")
+        cmd.do("color grey71, CBC2_Ba5gm6")
     if '5lj3' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain A and 5lj3")
@@ -649,9 +769,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5lj3")
         cmd.do("color yellow, exon-3_C5lj3")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5lj3")
-        cmd.do("color yellow, exon-5_C5lj3")
         #PRP4
         cmd.do("color grey50, chain nan and 5lj3")
         cmd.do("color grey50, PRP4_C5lj3")
@@ -795,9 +912,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5lj3")
         cmd.do("color grey50, SPP381_C5lj3")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5lj3")
-        cmd.do("color grey50, unknown_unassigned_C5lj3")
+        cmd.do("color grey50, unassigned_C5lj3")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5lj3")
         cmd.do("color grey50, Spp42_yPrp8_C5lj3")
@@ -807,6 +924,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5lj3")
         cmd.do("color grey50, PRKRIP1_C5lj3")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5lj3")
+        cmd.do("color grey51, MUD1_C5lj3")
+        #SNP1
+        cmd.do("color orange, chain nan and 5lj3")
+        cmd.do("color orange, SNP1_C5lj3")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5lj3")
+        cmd.do("color grey53, YHC1_C5lj3")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5lj3")
+        cmd.do("color grey54, PRP39_C5lj3")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5lj3")
+        cmd.do("color grey55, PRP42_C5lj3")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5lj3")
+        cmd.do("color grey56, NAM8_C5lj3")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5lj3")
+        cmd.do("color grey57, SNU56_C5lj3")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5lj3")
+        cmd.do("color grey58, LUC7_C5lj3")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5lj3")
+        cmd.do("color grey59, SNU71_C5lj3")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5lj3")
+        cmd.do("color grey60, HSH155_C5lj3")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5lj3")
+        cmd.do("color grey61, RSE1_C5lj3")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5lj3")
+        cmd.do("color grey62, CUS1_C5lj3")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5lj3")
+        cmd.do("color grey63, HSH49_C5lj3")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5lj3")
+        cmd.do("color grey64, RDS3_C5lj3")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5lj3")
+        cmd.do("color grey65, PRP9_C5lj3")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5lj3")
+        cmd.do("color grey66, PRP11_C5lj3")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5lj3")
+        cmd.do("color grey67, PRP21_C5lj3")
+        #U1
+        cmd.do("color green, chain nan and 5lj3")
+        cmd.do("color green, U1_C5lj3")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5lj3")
+        cmd.do("color grey69, PRP40_C5lj3")
+        #STO1
+        cmd.do("color grey70, chain nan and 5lj3")
+        cmd.do("color grey70, STO1_C5lj3")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5lj3")
+        cmd.do("color grey71, CBC2_C5lj3")
     if '5mps' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain A and 5mps")
@@ -910,9 +1090,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5mps")
         cmd.do("color yellow, exon-3_Cs5mps")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5mps")
-        cmd.do("color yellow, exon-5_Cs5mps")
         #PRP4
         cmd.do("color grey50, chain nan and 5mps")
         cmd.do("color grey50, PRP4_Cs5mps")
@@ -1063,9 +1240,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5mps")
         cmd.do("color grey50, SPP381_Cs5mps")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5mps")
-        cmd.do("color grey50, unknown_unassigned_Cs5mps")
+        cmd.do("color grey50, unassigned_Cs5mps")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5mps")
         cmd.do("color grey50, Spp42_yPrp8_Cs5mps")
@@ -1075,6 +1252,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5mps")
         cmd.do("color grey50, PRKRIP1_Cs5mps")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5mps")
+        cmd.do("color grey51, MUD1_Cs5mps")
+        #SNP1
+        cmd.do("color orange, chain nan and 5mps")
+        cmd.do("color orange, SNP1_Cs5mps")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5mps")
+        cmd.do("color grey53, YHC1_Cs5mps")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5mps")
+        cmd.do("color grey54, PRP39_Cs5mps")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5mps")
+        cmd.do("color grey55, PRP42_Cs5mps")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5mps")
+        cmd.do("color grey56, NAM8_Cs5mps")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5mps")
+        cmd.do("color grey57, SNU56_Cs5mps")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5mps")
+        cmd.do("color grey58, LUC7_Cs5mps")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5mps")
+        cmd.do("color grey59, SNU71_Cs5mps")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5mps")
+        cmd.do("color grey60, HSH155_Cs5mps")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5mps")
+        cmd.do("color grey61, RSE1_Cs5mps")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5mps")
+        cmd.do("color grey62, CUS1_Cs5mps")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5mps")
+        cmd.do("color grey63, HSH49_Cs5mps")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5mps")
+        cmd.do("color grey64, RDS3_Cs5mps")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5mps")
+        cmd.do("color grey65, PRP9_Cs5mps")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5mps")
+        cmd.do("color grey66, PRP11_Cs5mps")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5mps")
+        cmd.do("color grey67, PRP21_Cs5mps")
+        #U1
+        cmd.do("color green, chain nan and 5mps")
+        cmd.do("color green, U1_Cs5mps")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5mps")
+        cmd.do("color grey69, PRP40_Cs5mps")
+        #STO1
+        cmd.do("color grey70, chain nan and 5mps")
+        cmd.do("color grey70, STO1_Cs5mps")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5mps")
+        cmd.do("color grey71, CBC2_Cs5mps")
     if '6exn' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain A and 6exn")
@@ -1179,9 +1419,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 6exn")
         cmd.do("color yellow, exon-3_P6exn")
-        #exon-5
-        cmd.do("color yellow, chain nan and 6exn")
-        cmd.do("color yellow, exon-5_P6exn")
         #PRP4
         cmd.do("color grey50, chain nan and 6exn")
         cmd.do("color grey50, PRP4_P6exn")
@@ -1325,9 +1562,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 6exn")
         cmd.do("color grey50, SPP381_P6exn")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain X and 6exn")
-        cmd.do("color grey50, unknown_unassigned_P6exn")
+        cmd.do("color grey50, unassigned_P6exn")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 6exn")
         cmd.do("color grey50, Spp42_yPrp8_P6exn")
@@ -1337,6 +1574,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 6exn")
         cmd.do("color grey50, PRKRIP1_P6exn")
+        #MUD1
+        cmd.do("color grey51, chain nan and 6exn")
+        cmd.do("color grey51, MUD1_P6exn")
+        #SNP1
+        cmd.do("color orange, chain nan and 6exn")
+        cmd.do("color orange, SNP1_P6exn")
+        #YHC1
+        cmd.do("color grey53, chain nan and 6exn")
+        cmd.do("color grey53, YHC1_P6exn")
+        #PRP39
+        cmd.do("color grey54, chain nan and 6exn")
+        cmd.do("color grey54, PRP39_P6exn")
+        #PRP42
+        cmd.do("color grey55, chain nan and 6exn")
+        cmd.do("color grey55, PRP42_P6exn")
+        #NAM8
+        cmd.do("color grey56, chain nan and 6exn")
+        cmd.do("color grey56, NAM8_P6exn")
+        #SNU56
+        cmd.do("color grey57, chain nan and 6exn")
+        cmd.do("color grey57, SNU56_P6exn")
+        #LUC7
+        cmd.do("color grey58, chain nan and 6exn")
+        cmd.do("color grey58, LUC7_P6exn")
+        #SNU71
+        cmd.do("color grey59, chain nan and 6exn")
+        cmd.do("color grey59, SNU71_P6exn")
+        #HSH155
+        cmd.do("color grey60, chain nan and 6exn")
+        cmd.do("color grey60, HSH155_P6exn")
+        #RSE1
+        cmd.do("color grey61, chain nan and 6exn")
+        cmd.do("color grey61, RSE1_P6exn")
+        #CUS1
+        cmd.do("color grey62, chain nan and 6exn")
+        cmd.do("color grey62, CUS1_P6exn")
+        #HSH49
+        cmd.do("color grey63, chain nan and 6exn")
+        cmd.do("color grey63, HSH49_P6exn")
+        #RDS3
+        cmd.do("color grey64, chain nan and 6exn")
+        cmd.do("color grey64, RDS3_P6exn")
+        #PRP9
+        cmd.do("color grey65, chain nan and 6exn")
+        cmd.do("color grey65, PRP9_P6exn")
+        #PRP11
+        cmd.do("color grey66, chain nan and 6exn")
+        cmd.do("color grey66, PRP11_P6exn")
+        #PRP21
+        cmd.do("color grey67, chain nan and 6exn")
+        cmd.do("color grey67, PRP21_P6exn")
+        #U1
+        cmd.do("color green, chain nan and 6exn")
+        cmd.do("color green, U1_P6exn")
+        #PRP40
+        cmd.do("color grey69, chain nan and 6exn")
+        cmd.do("color grey69, PRP40_P6exn")
+        #STO1
+        cmd.do("color grey70, chain nan and 6exn")
+        cmd.do("color grey70, STO1_P6exn")
+        #CBC2
+        cmd.do("color grey71, chain nan and 6exn")
+        cmd.do("color grey71, CBC2_P6exn")
     if '5ylz' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain A and 5ylz")
@@ -1441,9 +1741,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5ylz")
         cmd.do("color yellow, exon-3_P5ylz")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5ylz")
-        cmd.do("color yellow, exon-5_P5ylz")
         #PRP4
         cmd.do("color grey50, chain nan and 5ylz")
         cmd.do("color grey50, PRP4_P5ylz")
@@ -1587,9 +1884,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5ylz")
         cmd.do("color grey50, SPP381_P5ylz")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5ylz")
-        cmd.do("color grey50, unknown_unassigned_P5ylz")
+        cmd.do("color grey50, unassigned_P5ylz")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5ylz")
         cmd.do("color grey50, Spp42_yPrp8_P5ylz")
@@ -1599,6 +1896,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5ylz")
         cmd.do("color grey50, PRKRIP1_P5ylz")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5ylz")
+        cmd.do("color grey51, MUD1_P5ylz")
+        #SNP1
+        cmd.do("color orange, chain nan and 5ylz")
+        cmd.do("color orange, SNP1_P5ylz")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5ylz")
+        cmd.do("color grey53, YHC1_P5ylz")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5ylz")
+        cmd.do("color grey54, PRP39_P5ylz")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5ylz")
+        cmd.do("color grey55, PRP42_P5ylz")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5ylz")
+        cmd.do("color grey56, NAM8_P5ylz")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5ylz")
+        cmd.do("color grey57, SNU56_P5ylz")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5ylz")
+        cmd.do("color grey58, LUC7_P5ylz")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5ylz")
+        cmd.do("color grey59, SNU71_P5ylz")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5ylz")
+        cmd.do("color grey60, HSH155_P5ylz")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5ylz")
+        cmd.do("color grey61, RSE1_P5ylz")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5ylz")
+        cmd.do("color grey62, CUS1_P5ylz")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5ylz")
+        cmd.do("color grey63, HSH49_P5ylz")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5ylz")
+        cmd.do("color grey64, RDS3_P5ylz")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5ylz")
+        cmd.do("color grey65, PRP9_P5ylz")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5ylz")
+        cmd.do("color grey66, PRP11_P5ylz")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5ylz")
+        cmd.do("color grey67, PRP21_P5ylz")
+        #U1
+        cmd.do("color green, chain nan and 5ylz")
+        cmd.do("color green, U1_P5ylz")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5ylz")
+        cmd.do("color grey69, PRP40_P5ylz")
+        #STO1
+        cmd.do("color grey70, chain nan and 5ylz")
+        cmd.do("color grey70, STO1_P5ylz")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5ylz")
+        cmd.do("color grey71, CBC2_P5ylz")
     if '5y88' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain A and 5y88")
@@ -1703,9 +2063,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5y88")
         cmd.do("color yellow, exon-3_I5y88")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5y88")
-        cmd.do("color yellow, exon-5_I5y88")
         #PRP4
         cmd.do("color grey50, chain nan and 5y88")
         cmd.do("color grey50, PRP4_I5y88")
@@ -1849,9 +2206,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5y88")
         cmd.do("color grey50, SPP381_I5y88")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5y88")
-        cmd.do("color grey50, unknown_unassigned_I5y88")
+        cmd.do("color grey50, unassigned_I5y88")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5y88")
         cmd.do("color grey50, Spp42_yPrp8_I5y88")
@@ -1861,6 +2218,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5y88")
         cmd.do("color grey50, PRKRIP1_I5y88")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5y88")
+        cmd.do("color grey51, MUD1_I5y88")
+        #SNP1
+        cmd.do("color orange, chain nan and 5y88")
+        cmd.do("color orange, SNP1_I5y88")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5y88")
+        cmd.do("color grey53, YHC1_I5y88")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5y88")
+        cmd.do("color grey54, PRP39_I5y88")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5y88")
+        cmd.do("color grey55, PRP42_I5y88")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5y88")
+        cmd.do("color grey56, NAM8_I5y88")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5y88")
+        cmd.do("color grey57, SNU56_I5y88")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5y88")
+        cmd.do("color grey58, LUC7_I5y88")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5y88")
+        cmd.do("color grey59, SNU71_I5y88")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5y88")
+        cmd.do("color grey60, HSH155_I5y88")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5y88")
+        cmd.do("color grey61, RSE1_I5y88")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5y88")
+        cmd.do("color grey62, CUS1_I5y88")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5y88")
+        cmd.do("color grey63, HSH49_I5y88")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5y88")
+        cmd.do("color grey64, RDS3_I5y88")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5y88")
+        cmd.do("color grey65, PRP9_I5y88")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5y88")
+        cmd.do("color grey66, PRP11_I5y88")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5y88")
+        cmd.do("color grey67, PRP21_I5y88")
+        #U1
+        cmd.do("color green, chain nan and 5y88")
+        cmd.do("color green, U1_I5y88")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5y88")
+        cmd.do("color grey69, PRP40_I5y88")
+        #STO1
+        cmd.do("color grey70, chain nan and 5y88")
+        cmd.do("color grey70, STO1_I5y88")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5y88")
+        cmd.do("color grey71, CBC2_I5y88")
     if '3jb9' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain nan and 3jb9")
@@ -1963,9 +2383,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 3jb9")
         cmd.do("color yellow, exon-3_3jb9")
-        #exon-5
-        cmd.do("color yellow, chain nan and 3jb9")
-        cmd.do("color yellow, exon-5_3jb9")
         #PRP4
         cmd.do("color grey50, chain nan and 3jb9")
         cmd.do("color grey50, PRP4_3jb9")
@@ -2116,9 +2533,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 3jb9")
         cmd.do("color grey50, SPP381_3jb9")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 3jb9")
-        cmd.do("color grey50, unknown_unassigned_3jb9")
+        cmd.do("color grey50, unassigned_3jb9")
         #Spp42_yPrp8
         cmd.do("color grey50, chain A and 3jb9")
         cmd.do("color grey50, Spp42_yPrp8_3jb9")
@@ -2128,6 +2545,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 3jb9")
         cmd.do("color grey50, PRKRIP1_3jb9")
+        #MUD1
+        cmd.do("color grey51, chain nan and 3jb9")
+        cmd.do("color grey51, MUD1_3jb9")
+        #SNP1
+        cmd.do("color orange, chain nan and 3jb9")
+        cmd.do("color orange, SNP1_3jb9")
+        #YHC1
+        cmd.do("color grey53, chain nan and 3jb9")
+        cmd.do("color grey53, YHC1_3jb9")
+        #PRP39
+        cmd.do("color grey54, chain nan and 3jb9")
+        cmd.do("color grey54, PRP39_3jb9")
+        #PRP42
+        cmd.do("color grey55, chain nan and 3jb9")
+        cmd.do("color grey55, PRP42_3jb9")
+        #NAM8
+        cmd.do("color grey56, chain nan and 3jb9")
+        cmd.do("color grey56, NAM8_3jb9")
+        #SNU56
+        cmd.do("color grey57, chain nan and 3jb9")
+        cmd.do("color grey57, SNU56_3jb9")
+        #LUC7
+        cmd.do("color grey58, chain nan and 3jb9")
+        cmd.do("color grey58, LUC7_3jb9")
+        #SNU71
+        cmd.do("color grey59, chain nan and 3jb9")
+        cmd.do("color grey59, SNU71_3jb9")
+        #HSH155
+        cmd.do("color grey60, chain nan and 3jb9")
+        cmd.do("color grey60, HSH155_3jb9")
+        #RSE1
+        cmd.do("color grey61, chain nan and 3jb9")
+        cmd.do("color grey61, RSE1_3jb9")
+        #CUS1
+        cmd.do("color grey62, chain nan and 3jb9")
+        cmd.do("color grey62, CUS1_3jb9")
+        #HSH49
+        cmd.do("color grey63, chain nan and 3jb9")
+        cmd.do("color grey63, HSH49_3jb9")
+        #RDS3
+        cmd.do("color grey64, chain nan and 3jb9")
+        cmd.do("color grey64, RDS3_3jb9")
+        #PRP9
+        cmd.do("color grey65, chain nan and 3jb9")
+        cmd.do("color grey65, PRP9_3jb9")
+        #PRP11
+        cmd.do("color grey66, chain nan and 3jb9")
+        cmd.do("color grey66, PRP11_3jb9")
+        #PRP21
+        cmd.do("color grey67, chain nan and 3jb9")
+        cmd.do("color grey67, PRP21_3jb9")
+        #U1
+        cmd.do("color green, chain nan and 3jb9")
+        cmd.do("color green, U1_3jb9")
+        #PRP40
+        cmd.do("color grey69, chain nan and 3jb9")
+        cmd.do("color grey69, PRP40_3jb9")
+        #STO1
+        cmd.do("color grey70, chain nan and 3jb9")
+        cmd.do("color grey70, STO1_3jb9")
+        #CBC2
+        cmd.do("color grey71, chain nan and 3jb9")
+        cmd.do("color grey71, CBC2_3jb9")
     if '6icz' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain nan and 6icz")
@@ -2231,9 +2711,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 6icz")
         cmd.do("color yellow, exon-3_hP_6icz")
-        #exon-5
-        cmd.do("color yellow, chain nan and 6icz")
-        cmd.do("color yellow, exon-5_hP_6icz")
         #PRP4
         cmd.do("color grey50, chain nan and 6icz")
         cmd.do("color grey50, PRP4_hP_6icz")
@@ -2384,9 +2861,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 6icz")
         cmd.do("color grey50, SPP381_hP_6icz")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 6icz")
-        cmd.do("color grey50, unknown_unassigned_hP_6icz")
+        cmd.do("color grey50, unassigned_hP_6icz")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 6icz")
         cmd.do("color grey50, Spp42_yPrp8_hP_6icz")
@@ -2396,6 +2873,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 6icz")
         cmd.do("color grey50, PRKRIP1_hP_6icz")
+        #MUD1
+        cmd.do("color grey51, chain nan and 6icz")
+        cmd.do("color grey51, MUD1_hP_6icz")
+        #SNP1
+        cmd.do("color orange, chain nan and 6icz")
+        cmd.do("color orange, SNP1_hP_6icz")
+        #YHC1
+        cmd.do("color grey53, chain nan and 6icz")
+        cmd.do("color grey53, YHC1_hP_6icz")
+        #PRP39
+        cmd.do("color grey54, chain nan and 6icz")
+        cmd.do("color grey54, PRP39_hP_6icz")
+        #PRP42
+        cmd.do("color grey55, chain nan and 6icz")
+        cmd.do("color grey55, PRP42_hP_6icz")
+        #NAM8
+        cmd.do("color grey56, chain nan and 6icz")
+        cmd.do("color grey56, NAM8_hP_6icz")
+        #SNU56
+        cmd.do("color grey57, chain nan and 6icz")
+        cmd.do("color grey57, SNU56_hP_6icz")
+        #LUC7
+        cmd.do("color grey58, chain nan and 6icz")
+        cmd.do("color grey58, LUC7_hP_6icz")
+        #SNU71
+        cmd.do("color grey59, chain nan and 6icz")
+        cmd.do("color grey59, SNU71_hP_6icz")
+        #HSH155
+        cmd.do("color grey60, chain nan and 6icz")
+        cmd.do("color grey60, HSH155_hP_6icz")
+        #RSE1
+        cmd.do("color grey61, chain nan and 6icz")
+        cmd.do("color grey61, RSE1_hP_6icz")
+        #CUS1
+        cmd.do("color grey62, chain nan and 6icz")
+        cmd.do("color grey62, CUS1_hP_6icz")
+        #HSH49
+        cmd.do("color grey63, chain nan and 6icz")
+        cmd.do("color grey63, HSH49_hP_6icz")
+        #RDS3
+        cmd.do("color grey64, chain nan and 6icz")
+        cmd.do("color grey64, RDS3_hP_6icz")
+        #PRP9
+        cmd.do("color grey65, chain nan and 6icz")
+        cmd.do("color grey65, PRP9_hP_6icz")
+        #PRP11
+        cmd.do("color grey66, chain nan and 6icz")
+        cmd.do("color grey66, PRP11_hP_6icz")
+        #PRP21
+        cmd.do("color grey67, chain nan and 6icz")
+        cmd.do("color grey67, PRP21_hP_6icz")
+        #U1
+        cmd.do("color green, chain nan and 6icz")
+        cmd.do("color green, U1_hP_6icz")
+        #PRP40
+        cmd.do("color grey69, chain nan and 6icz")
+        cmd.do("color grey69, PRP40_hP_6icz")
+        #STO1
+        cmd.do("color grey70, chain nan and 6icz")
+        cmd.do("color grey70, STO1_hP_6icz")
+        #CBC2
+        cmd.do("color grey71, chain nan and 6icz")
+        cmd.do("color grey71, CBC2_hP_6icz")
     if '6ff7' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain nan and 6ff7")
@@ -2499,9 +3039,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 6ff7")
         cmd.do("color yellow, exon-3_hBa_6ff7")
-        #exon-5
-        cmd.do("color yellow, chain nan and 6ff7")
-        cmd.do("color yellow, exon-5_hBa_6ff7")
         #PRP4
         cmd.do("color grey50, chain nan and 6ff7")
         cmd.do("color grey50, PRP4_hBa_6ff7")
@@ -2652,9 +3189,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 6ff7")
         cmd.do("color grey50, SPP381_hBa_6ff7")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 6ff7")
-        cmd.do("color grey50, unknown_unassigned_hBa_6ff7")
+        cmd.do("color grey50, unassigned_hBa_6ff7")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 6ff7")
         cmd.do("color grey50, Spp42_yPrp8_hBa_6ff7")
@@ -2664,6 +3201,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 6ff7")
         cmd.do("color grey50, PRKRIP1_hBa_6ff7")
+        #MUD1
+        cmd.do("color grey51, chain nan and 6ff7")
+        cmd.do("color grey51, MUD1_hBa_6ff7")
+        #SNP1
+        cmd.do("color orange, chain nan and 6ff7")
+        cmd.do("color orange, SNP1_hBa_6ff7")
+        #YHC1
+        cmd.do("color grey53, chain nan and 6ff7")
+        cmd.do("color grey53, YHC1_hBa_6ff7")
+        #PRP39
+        cmd.do("color grey54, chain nan and 6ff7")
+        cmd.do("color grey54, PRP39_hBa_6ff7")
+        #PRP42
+        cmd.do("color grey55, chain nan and 6ff7")
+        cmd.do("color grey55, PRP42_hBa_6ff7")
+        #NAM8
+        cmd.do("color grey56, chain nan and 6ff7")
+        cmd.do("color grey56, NAM8_hBa_6ff7")
+        #SNU56
+        cmd.do("color grey57, chain nan and 6ff7")
+        cmd.do("color grey57, SNU56_hBa_6ff7")
+        #LUC7
+        cmd.do("color grey58, chain nan and 6ff7")
+        cmd.do("color grey58, LUC7_hBa_6ff7")
+        #SNU71
+        cmd.do("color grey59, chain nan and 6ff7")
+        cmd.do("color grey59, SNU71_hBa_6ff7")
+        #HSH155
+        cmd.do("color grey60, chain nan and 6ff7")
+        cmd.do("color grey60, HSH155_hBa_6ff7")
+        #RSE1
+        cmd.do("color grey61, chain nan and 6ff7")
+        cmd.do("color grey61, RSE1_hBa_6ff7")
+        #CUS1
+        cmd.do("color grey62, chain nan and 6ff7")
+        cmd.do("color grey62, CUS1_hBa_6ff7")
+        #HSH49
+        cmd.do("color grey63, chain nan and 6ff7")
+        cmd.do("color grey63, HSH49_hBa_6ff7")
+        #RDS3
+        cmd.do("color grey64, chain nan and 6ff7")
+        cmd.do("color grey64, RDS3_hBa_6ff7")
+        #PRP9
+        cmd.do("color grey65, chain nan and 6ff7")
+        cmd.do("color grey65, PRP9_hBa_6ff7")
+        #PRP11
+        cmd.do("color grey66, chain nan and 6ff7")
+        cmd.do("color grey66, PRP11_hBa_6ff7")
+        #PRP21
+        cmd.do("color grey67, chain nan and 6ff7")
+        cmd.do("color grey67, PRP21_hBa_6ff7")
+        #U1
+        cmd.do("color green, chain nan and 6ff7")
+        cmd.do("color green, U1_hBa_6ff7")
+        #PRP40
+        cmd.do("color grey69, chain nan and 6ff7")
+        cmd.do("color grey69, PRP40_hBa_6ff7")
+        #STO1
+        cmd.do("color grey70, chain nan and 6ff7")
+        cmd.do("color grey70, STO1_hBa_6ff7")
+        #CBC2
+        cmd.do("color grey71, chain nan and 6ff7")
+        cmd.do("color grey71, CBC2_hBa_6ff7")
     if '5yzg' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain nan and 5yzg")
@@ -2767,9 +3367,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5yzg")
         cmd.do("color yellow, exon-3_hC_5yzg")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5yzg")
-        cmd.do("color yellow, exon-5_hC_5yzg")
         #PRP4
         cmd.do("color grey50, chain nan and 5yzg")
         cmd.do("color grey50, PRP4_hC_5yzg")
@@ -2920,9 +3517,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5yzg")
         cmd.do("color grey50, SPP381_hC_5yzg")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5yzg")
-        cmd.do("color grey50, unknown_unassigned_hC_5yzg")
+        cmd.do("color grey50, unassigned_hC_5yzg")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5yzg")
         cmd.do("color grey50, Spp42_yPrp8_hC_5yzg")
@@ -2932,6 +3529,69 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain nan and 5yzg")
         cmd.do("color grey50, PRKRIP1_hC_5yzg")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5yzg")
+        cmd.do("color grey51, MUD1_hC_5yzg")
+        #SNP1
+        cmd.do("color orange, chain nan and 5yzg")
+        cmd.do("color orange, SNP1_hC_5yzg")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5yzg")
+        cmd.do("color grey53, YHC1_hC_5yzg")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5yzg")
+        cmd.do("color grey54, PRP39_hC_5yzg")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5yzg")
+        cmd.do("color grey55, PRP42_hC_5yzg")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5yzg")
+        cmd.do("color grey56, NAM8_hC_5yzg")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5yzg")
+        cmd.do("color grey57, SNU56_hC_5yzg")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5yzg")
+        cmd.do("color grey58, LUC7_hC_5yzg")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5yzg")
+        cmd.do("color grey59, SNU71_hC_5yzg")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5yzg")
+        cmd.do("color grey60, HSH155_hC_5yzg")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5yzg")
+        cmd.do("color grey61, RSE1_hC_5yzg")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5yzg")
+        cmd.do("color grey62, CUS1_hC_5yzg")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5yzg")
+        cmd.do("color grey63, HSH49_hC_5yzg")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5yzg")
+        cmd.do("color grey64, RDS3_hC_5yzg")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5yzg")
+        cmd.do("color grey65, PRP9_hC_5yzg")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5yzg")
+        cmd.do("color grey66, PRP11_hC_5yzg")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5yzg")
+        cmd.do("color grey67, PRP21_hC_5yzg")
+        #U1
+        cmd.do("color green, chain nan and 5yzg")
+        cmd.do("color green, U1_hC_5yzg")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5yzg")
+        cmd.do("color grey69, PRP40_hC_5yzg")
+        #STO1
+        cmd.do("color grey70, chain nan and 5yzg")
+        cmd.do("color grey70, STO1_hC_5yzg")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5yzg")
+        cmd.do("color grey71, CBC2_hC_5yzg")
     if '5xjc' in name.lower():
         #PRP8
         cmd.do("color skyblue, chain nan and 5xjc")
@@ -3035,9 +3695,6 @@ def spl_color():
         #exon-3
         cmd.do("color yellow, chain nan and 5xjc")
         cmd.do("color yellow, exon-3_hX_5xjc")
-        #exon-5
-        cmd.do("color yellow, chain nan and 5xjc")
-        cmd.do("color yellow, exon-5_hX_5xjc")
         #PRP4
         cmd.do("color grey50, chain nan and 5xjc")
         cmd.do("color grey50, PRP4_hX_5xjc")
@@ -3188,9 +3845,9 @@ def spl_color():
         #SPP381
         cmd.do("color grey50, chain nan and 5xjc")
         cmd.do("color grey50, SPP381_hX_5xjc")
-        #unknown_unassigned
+        #unassigned
         cmd.do("color grey50, chain nan and 5xjc")
-        cmd.do("color grey50, unknown_unassigned_hX_5xjc")
+        cmd.do("color grey50, unassigned_hX_5xjc")
         #Spp42_yPrp8
         cmd.do("color grey50, chain nan and 5xjc")
         cmd.do("color grey50, Spp42_yPrp8_hX_5xjc")
@@ -3200,3 +3857,1693 @@ def spl_color():
         #PRKRIP1
         cmd.do("color grey50, chain X and 5xjc")
         cmd.do("color grey50, PRKRIP1_hX_5xjc")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5xjc")
+        cmd.do("color grey51, MUD1_hX_5xjc")
+        #SNP1
+        cmd.do("color orange, chain nan and 5xjc")
+        cmd.do("color orange, SNP1_hX_5xjc")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5xjc")
+        cmd.do("color grey53, YHC1_hX_5xjc")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5xjc")
+        cmd.do("color grey54, PRP39_hX_5xjc")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5xjc")
+        cmd.do("color grey55, PRP42_hX_5xjc")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5xjc")
+        cmd.do("color grey56, NAM8_hX_5xjc")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5xjc")
+        cmd.do("color grey57, SNU56_hX_5xjc")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5xjc")
+        cmd.do("color grey58, LUC7_hX_5xjc")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5xjc")
+        cmd.do("color grey59, SNU71_hX_5xjc")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5xjc")
+        cmd.do("color grey60, HSH155_hX_5xjc")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5xjc")
+        cmd.do("color grey61, RSE1_hX_5xjc")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5xjc")
+        cmd.do("color grey62, CUS1_hX_5xjc")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5xjc")
+        cmd.do("color grey63, HSH49_hX_5xjc")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5xjc")
+        cmd.do("color grey64, RDS3_hX_5xjc")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5xjc")
+        cmd.do("color grey65, PRP9_hX_5xjc")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5xjc")
+        cmd.do("color grey66, PRP11_hX_5xjc")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5xjc")
+        cmd.do("color grey67, PRP21_hX_5xjc")
+        #U1
+        cmd.do("color green, chain nan and 5xjc")
+        cmd.do("color green, U1_hX_5xjc")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5xjc")
+        cmd.do("color grey69, PRP40_hX_5xjc")
+        #STO1
+        cmd.do("color grey70, chain nan and 5xjc")
+        cmd.do("color grey70, STO1_hX_5xjc")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5xjc")
+        cmd.do("color grey71, CBC2_hX_5xjc")
+    if '5mq0' in name.lower():
+        #PRP8
+        cmd.do("color skyblue, chain nan and 5mq0")
+        cmd.do("color skyblue, PRP8_yCs_5mq0")
+        #BRR2
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, BRR2_yCs_5mq0")
+        #BUD31
+        cmd.do("color dirtyviolet, chain nan and 5mq0")
+        cmd.do("color dirtyviolet, BUD31_yCs_5mq0")
+        #CEF1
+        cmd.do("color raspberry, chain nan and 5mq0")
+        cmd.do("color raspberry, CEF1_yCs_5mq0")
+        #CLF1
+        cmd.do("color raspberry, chain nan and 5mq0")
+        cmd.do("color raspberry, CLF1_yCs_5mq0")
+        #CWC15
+        cmd.do("color orange, chain P and 5mq0")
+        cmd.do("color orange, CWC15_yCs_5mq0")
+        #CWC16/YJU2
+        cmd.do("color lightteal, chain nan and 5mq0")
+        cmd.do("color lightteal, CWC16/YJU2_yCs_5mq0")
+        #CWC2_hRBM22
+        cmd.do("color ruby, chain M and 5mq0")
+        cmd.do("color ruby, CWC2_hRBM22_yCs_5mq0")
+        #CWC21
+        cmd.do("color violetpurple, chain nan and 5mq0")
+        cmd.do("color violetpurple, CWC21_yCs_5mq0")
+        #CWC22
+        cmd.do("color bluewhite, chain nan and 5mq0")
+        cmd.do("color bluewhite, CWC22_yCs_5mq0")
+        #CWC25
+        cmd.do("color deepteal, chain nan and 5mq0")
+        cmd.do("color deepteal, CWC25_yCs_5mq0")
+        #Intron_2
+        cmd.do("color black, chain nan and 5mq0")
+        cmd.do("color black, Intron_2_yCs_5mq0")
+        #ISY1
+        cmd.do("color dirtyviolet, chain nan and 5mq0")
+        cmd.do("color dirtyviolet, ISY1_yCs_5mq0")
+        #LEA1
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, LEA1_yCs_5mq0")
+        #Msl1
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, Msl1_yCs_5mq0")
+        #PRP45
+        cmd.do("color lightpink, chain nan and 5mq0")
+        cmd.do("color lightpink, PRP45_yCs_5mq0")
+        #PRP16_hDHX38
+        cmd.do("color smudge, chain nan and 5mq0")
+        cmd.do("color smudge, PRP16_hDHX38_yCs_5mq0")
+        #CDC40
+        cmd.do("color dirtyviolet, chain nan and 5mq0")
+        cmd.do("color dirtyviolet, CDC40_yCs_5mq0")
+        #PRP19
+        cmd.do("color grey70, chain nan and 5mq0")
+        cmd.do("color grey70, PRP19_yCs_5mq0")
+        #PRP46
+        cmd.do("color lightblue, chain nan and 5mq0")
+        cmd.do("color lightblue, PRP46_yCs_5mq0")
+        #SLT11/ECM2
+        cmd.do("color chocolate, chain nan and 5mq0")
+        cmd.do("color chocolate, SLT11/ECM2_yCs_5mq0")
+        #SNT309
+        cmd.do("color grey70, chain nan and 5mq0")
+        cmd.do("color grey70, SNT309_yCs_5mq0")
+        #SNU114
+        cmd.do("color slate, chain nan and 5mq0")
+        cmd.do("color slate, SNU114_yCs_5mq0")
+        #SYF2
+        cmd.do("color brightorange, chain nan and 5mq0")
+        cmd.do("color brightorange, SYF2_yCs_5mq0")
+        #SYF1
+        cmd.do("color brightorange, chain nan and 5mq0")
+        cmd.do("color brightorange, SYF1_yCs_5mq0")
+        #U2
+        cmd.do("color forest, chain 2 and 5mq0")
+        cmd.do("color forest, U2_yCs_5mq0")
+        #U5
+        cmd.do("color density, chain 5 and 5mq0")
+        cmd.do("color density, U5_yCs_5mq0")
+        #U5_SmRNP
+        cmd.do("color deepblue, chain nan and 5mq0")
+        cmd.do("color deepblue, U5_SmRNP_yCs_5mq0")
+        #U6
+        cmd.do("color firebrick, chain 6 and 5mq0")
+        cmd.do("color firebrick, U6_yCs_5mq0")
+        #5EXON
+        cmd.do("color grey50, chain E and 5mq0")
+        cmd.do("color grey50, 5EXON_yCs_5mq0")
+        #U4
+        cmd.do("color brown, chain nan and 5mq0")
+        cmd.do("color brown, U4_yCs_5mq0")
+        #Intron
+        cmd.do("color black, chain I and 5mq0")
+        cmd.do("color black, Intron_yCs_5mq0")
+        #Exon
+        cmd.do("color yellow, chain nan and 5mq0")
+        cmd.do("color yellow, Exon_yCs_5mq0")
+        #exon-3
+        cmd.do("color yellow, chain 3 and 5mq0")
+        cmd.do("color yellow, exon-3_yCs_5mq0")
+        #PRP4
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP4_yCs_5mq0")
+        #PRP31
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP31_yCs_5mq0")
+        #PRP6
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP6_yCs_5mq0")
+        #PRP3
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP3_yCs_5mq0")
+        #DIB1
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, DIB1_yCs_5mq0")
+        #SNU13
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SNU13_yCs_5mq0")
+        #LSM8
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM8_yCs_5mq0")
+        #LSM2
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM2_yCs_5mq0")
+        #LSM3
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM3_yCs_5mq0")
+        #LSM6
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM6_yCs_5mq0")
+        #LSM5
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM5_yCs_5mq0")
+        #LSM7
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM7_yCs_5mq0")
+        #LSM4
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, LSM4_yCs_5mq0")
+        #SNU66
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SNU66_yCs_5mq0")
+        #RNA
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, RNA_yCs_5mq0")
+        #BUD13
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, BUD13_yCs_5mq0")
+        #CLF2
+        cmd.do("color rasberry, chain nan and 5mq0")
+        cmd.do("color rasberry, CLF2_yCs_5mq0")
+        #Cus1
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, Cus1_yCs_5mq0")
+        #CWC24
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, CWC24_yCs_5mq0")
+        #CWC27
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, CWC27_yCs_5mq0")
+        #HSH155
+        cmd.do("color smudge, chain nan and 5mq0")
+        cmd.do("color smudge, HSH155_yCs_5mq0")
+        #HSH49
+        cmd.do("color sand, chain nan and 5mq0")
+        cmd.do("color sand, HSH49_yCs_5mq0")
+        #PML1
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, PML1_yCs_5mq0")
+        #PRP11
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, PRP11_yCs_5mq0")
+        #PRP2
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, PRP2_yCs_5mq0")
+        #RDS3
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, RDS3_yCs_5mq0")
+        #RSE1
+        cmd.do("color smudge, chain nan and 5mq0")
+        cmd.do("color smudge, RSE1_yCs_5mq0")
+        #SNU17
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, SNU17_yCs_5mq0")
+        #Ysf3
+        cmd.do("color palegreen, chain nan and 5mq0")
+        cmd.do("color palegreen, Ysf3_yCs_5mq0")
+        #cwc23
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, cwc23_yCs_5mq0")
+        #SPP382
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SPP382_yCs_5mq0")
+        #NTR2
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, NTR2_yCs_5mq0")
+        #PRP43
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP43_yCs_5mq0")
+        #SMB1
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMB1_yCs_5mq0")
+        #SME1
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SME1_yCs_5mq0")
+        #SMX3
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMX3_yCs_5mq0")
+        #SMX2
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMX2_yCs_5mq0")
+        #SMD3
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMD3_yCs_5mq0")
+        #SMD1
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMD1_yCs_5mq0")
+        #SMD2
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMD2_yCs_5mq0")
+        #PRP22
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP22_yCs_5mq0")
+        #PRP18
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP18_yCs_5mq0")
+        #SLU7
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SLU7_yCs_5mq0")
+        #SMF
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMF_yCs_5mq0")
+        #SMG
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SMG_yCs_5mq0")
+        #PRP9
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP9_yCs_5mq0")
+        #PRP21
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP21_yCs_5mq0")
+        #SNU23
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SNU23_yCs_5mq0")
+        #PRP38
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRP38_yCs_5mq0")
+        #SPP381
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, SPP381_yCs_5mq0")
+        #unassigned
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, unassigned_yCs_5mq0")
+        #Spp42_yPrp8
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, Spp42_yPrp8_yCs_5mq0")
+        #CWF15_yCWC15
+        cmd.do("color orange, chain nan and 5mq0")
+        cmd.do("color orange, CWF15_yCWC15_yCs_5mq0")
+        #PRKRIP1
+        cmd.do("color grey50, chain nan and 5mq0")
+        cmd.do("color grey50, PRKRIP1_yCs_5mq0")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5mq0")
+        cmd.do("color grey51, MUD1_yCs_5mq0")
+        #SNP1
+        cmd.do("color orange, chain nan and 5mq0")
+        cmd.do("color orange, SNP1_yCs_5mq0")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5mq0")
+        cmd.do("color grey53, YHC1_yCs_5mq0")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5mq0")
+        cmd.do("color grey54, PRP39_yCs_5mq0")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5mq0")
+        cmd.do("color grey55, PRP42_yCs_5mq0")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5mq0")
+        cmd.do("color grey56, NAM8_yCs_5mq0")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5mq0")
+        cmd.do("color grey57, SNU56_yCs_5mq0")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5mq0")
+        cmd.do("color grey58, LUC7_yCs_5mq0")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5mq0")
+        cmd.do("color grey59, SNU71_yCs_5mq0")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5mq0")
+        cmd.do("color grey60, HSH155_yCs_5mq0")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5mq0")
+        cmd.do("color grey61, RSE1_yCs_5mq0")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5mq0")
+        cmd.do("color grey62, CUS1_yCs_5mq0")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5mq0")
+        cmd.do("color grey63, HSH49_yCs_5mq0")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5mq0")
+        cmd.do("color grey64, RDS3_yCs_5mq0")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5mq0")
+        cmd.do("color grey65, PRP9_yCs_5mq0")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5mq0")
+        cmd.do("color grey66, PRP11_yCs_5mq0")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5mq0")
+        cmd.do("color grey67, PRP21_yCs_5mq0")
+        #U1
+        cmd.do("color green, chain nan and 5mq0")
+        cmd.do("color green, U1_yCs_5mq0")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5mq0")
+        cmd.do("color grey69, PRP40_yCs_5mq0")
+        #STO1
+        cmd.do("color grey70, chain nan and 5mq0")
+        cmd.do("color grey70, STO1_yCs_5mq0")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5mq0")
+        cmd.do("color grey71, CBC2_yCs_5mq0")
+    if '5lj5' in name.lower():
+        #PRP8
+        cmd.do("color skyblue, chain A and 5lj5")
+        cmd.do("color skyblue, PRP8_yC_5lj5")
+        #BRR2
+        cmd.do("color grey60, chain B and 5lj5")
+        cmd.do("color grey60, BRR2_yC_5lj5")
+        #BUD31
+        cmd.do("color dirtyviolet, chain L and 5lj5")
+        cmd.do("color dirtyviolet, BUD31_yC_5lj5")
+        #CEF1
+        cmd.do("color raspberry, chain O and 5lj5")
+        cmd.do("color raspberry, CEF1_yC_5lj5")
+        #CLF1
+        cmd.do("color raspberry, chain S and 5lj5")
+        cmd.do("color raspberry, CLF1_yC_5lj5")
+        #CWC15
+        cmd.do("color orange, chain P and 5lj5")
+        cmd.do("color orange, CWC15_yC_5lj5")
+        #CWC16/YJU2
+        cmd.do("color lightteal, chain D and 5lj5")
+        cmd.do("color lightteal, CWC16/YJU2_yC_5lj5")
+        #CWC2_hRBM22
+        cmd.do("color ruby, chain M and 5lj5")
+        cmd.do("color ruby, CWC2_hRBM22_yC_5lj5")
+        #CWC21
+        cmd.do("color violetpurple, chain R and 5lj5")
+        cmd.do("color violetpurple, CWC21_yC_5lj5")
+        #CWC22
+        cmd.do("color bluewhite, chain H and 5lj5")
+        cmd.do("color bluewhite, CWC22_yC_5lj5")
+        #CWC25
+        cmd.do("color deepteal, chain F and 5lj5")
+        cmd.do("color deepteal, CWC25_yC_5lj5")
+        #Intron_2
+        cmd.do("color black, chain nan and 5lj5")
+        cmd.do("color black, Intron_2_yC_5lj5")
+        #ISY1
+        cmd.do("color dirtyviolet, chain G and 5lj5")
+        cmd.do("color dirtyviolet, ISY1_yC_5lj5")
+        #LEA1
+        cmd.do("color palegreen, chain nan and 5lj5")
+        cmd.do("color palegreen, LEA1_yC_5lj5")
+        #Msl1
+        cmd.do("color palegreen, chain Y and 5lj5")
+        cmd.do("color palegreen, Msl1_yC_5lj5")
+        #PRP45
+        cmd.do("color lightpink, chain K and 5lj5")
+        cmd.do("color lightpink, PRP45_yC_5lj5")
+        #PRP16_hDHX38
+        cmd.do("color smudge, chain Q and 5lj5")
+        cmd.do("color smudge, PRP16_hDHX38_yC_5lj5")
+        #CDC40
+        cmd.do("color dirtyviolet, chain nan and 5lj5")
+        cmd.do("color dirtyviolet, CDC40_yC_5lj5")
+        cmd.do("color grey70, chain t and 5lj5")
+        cmd.do("color grey70, chain u and 5lj5")
+        cmd.do("color grey70, chain v and 5lj5")
+        cmd.do("color grey70, chain w and 5lj5")
+        #PRP46
+        cmd.do("color lightblue, chain J and 5lj5")
+        cmd.do("color lightblue, PRP46_yC_5lj5")
+        #SLT11/ECM2
+        cmd.do("color chocolate, chain N and 5lj5")
+        cmd.do("color chocolate, SLT11/ECM2_yC_5lj5")
+        #SNT309
+        cmd.do("color grey70, chain s and 5lj5")
+        cmd.do("color grey70, SNT309_yC_5lj5")
+        #SNU114
+        cmd.do("color slate, chain C and 5lj5")
+        cmd.do("color slate, SNU114_yC_5lj5")
+        #SYF2
+        cmd.do("color brightorange, chain nan and 5lj5")
+        cmd.do("color brightorange, SYF2_yC_5lj5")
+        #SYF1
+        cmd.do("color brightorange, chain T and 5lj5")
+        cmd.do("color brightorange, SYF1_yC_5lj5")
+        #U2
+        cmd.do("color forest, chain Z and 5lj5")
+        cmd.do("color forest, U2_yC_5lj5")
+        #U5
+        cmd.do("color density, chain U and 5lj5")
+        cmd.do("color density, U5_yC_5lj5")
+        #U5_SmRNP
+        cmd.do("color deepblue, chain nan and 5lj5")
+        cmd.do("color deepblue, U5_SmRNP_yC_5lj5")
+        #U6
+        cmd.do("color firebrick, chain V and 5lj5")
+        cmd.do("color firebrick, U6_yC_5lj5")
+        #5EXON
+        cmd.do("color grey50, chain E and 5lj5")
+        cmd.do("color grey50, 5EXON_yC_5lj5")
+        #U4
+        cmd.do("color brown, chain nan and 5lj5")
+        cmd.do("color brown, U4_yC_5lj5")
+        #Intron
+        cmd.do("color black, chain I and 5lj5")
+        cmd.do("color black, Intron_yC_5lj5")
+        #Exon
+        cmd.do("color yellow, chain nan and 5lj5")
+        cmd.do("color yellow, Exon_yC_5lj5")
+        #exon-3
+        cmd.do("color yellow, chain nan and 5lj5")
+        cmd.do("color yellow, exon-3_yC_5lj5")
+        #PRP4
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP4_yC_5lj5")
+        #PRP31
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP31_yC_5lj5")
+        #PRP6
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP6_yC_5lj5")
+        #PRP3
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP3_yC_5lj5")
+        #DIB1
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, DIB1_yC_5lj5")
+        #SNU13
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SNU13_yC_5lj5")
+        #LSM8
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM8_yC_5lj5")
+        #LSM2
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM2_yC_5lj5")
+        #LSM3
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM3_yC_5lj5")
+        #LSM6
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM6_yC_5lj5")
+        #LSM5
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM5_yC_5lj5")
+        #LSM7
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM7_yC_5lj5")
+        #LSM4
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, LSM4_yC_5lj5")
+        #SNU66
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SNU66_yC_5lj5")
+        #RNA
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, RNA_yC_5lj5")
+        #BUD13
+        cmd.do("color grey60, chain nan and 5lj5")
+        cmd.do("color grey60, BUD13_yC_5lj5")
+        #CLF2
+        cmd.do("color rasberry, chain nan and 5lj5")
+        cmd.do("color rasberry, CLF2_yC_5lj5")
+        #Cus1
+        cmd.do("color palegreen, chain nan and 5lj5")
+        cmd.do("color palegreen, Cus1_yC_5lj5")
+        #CWC24
+        cmd.do("color grey60, chain nan and 5lj5")
+        cmd.do("color grey60, CWC24_yC_5lj5")
+        #CWC27
+        cmd.do("color grey60, chain nan and 5lj5")
+        cmd.do("color grey60, CWC27_yC_5lj5")
+        #HSH155
+        cmd.do("color smudge, chain nan and 5lj5")
+        cmd.do("color smudge, HSH155_yC_5lj5")
+        #HSH49
+        cmd.do("color sand, chain nan and 5lj5")
+        cmd.do("color sand, HSH49_yC_5lj5")
+        #PML1
+        cmd.do("color grey60, chain nan and 5lj5")
+        cmd.do("color grey60, PML1_yC_5lj5")
+        #PRP11
+        cmd.do("color palegreen, chain nan and 5lj5")
+        cmd.do("color palegreen, PRP11_yC_5lj5")
+        #PRP2
+        cmd.do("color palegreen, chain nan and 5lj5")
+        cmd.do("color palegreen, PRP2_yC_5lj5")
+        #RDS3
+        cmd.do("color palegreen, chain nan and 5lj5")
+        cmd.do("color palegreen, RDS3_yC_5lj5")
+        #RSE1
+        cmd.do("color smudge, chain nan and 5lj5")
+        cmd.do("color smudge, RSE1_yC_5lj5")
+        #SNU17
+        cmd.do("color grey60, chain nan and 5lj5")
+        cmd.do("color grey60, SNU17_yC_5lj5")
+        #Ysf3
+        cmd.do("color palegreen, chain nan and 5lj5")
+        cmd.do("color palegreen, Ysf3_yC_5lj5")
+        #cwc23
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, cwc23_yC_5lj5")
+        #SPP382
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SPP382_yC_5lj5")
+        #NTR2
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, NTR2_yC_5lj5")
+        #PRP43
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP43_yC_5lj5")
+        cmd.do("color grey50, chain b and 5lj5")
+        cmd.do("color grey50, chain k and 5lj5")
+        cmd.do("color grey50, chain e and 5lj5")
+        cmd.do("color grey50, chain p and 5lj5")
+        cmd.do("color grey50, chain f and 5lj5")
+        cmd.do("color grey50, chain q and 5lj5")
+        cmd.do("color grey50, chain g and 5lj5")
+        cmd.do("color grey50, chain r and 5lj5")
+        cmd.do("color grey50, chain d and 5lj5")
+        cmd.do("color grey50, chain n and 5lj5")
+        cmd.do("color grey50, chain h and 5lj5")
+        cmd.do("color grey50, chain l and 5lj5")
+        cmd.do("color grey50, chain j and 5lj5")
+        cmd.do("color grey50, chain m and 5lj5")
+        #PRP22
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP22_yC_5lj5")
+        #PRP18
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP18_yC_5lj5")
+        #SLU7
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SLU7_yC_5lj5")
+        #SMF
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SMF_yC_5lj5")
+        #SMG
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SMG_yC_5lj5")
+        #PRP9
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP9_yC_5lj5")
+        #PRP21
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP21_yC_5lj5")
+        #SNU23
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SNU23_yC_5lj5")
+        #PRP38
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRP38_yC_5lj5")
+        #SPP381
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, SPP381_yC_5lj5")
+        #unassigned
+        cmd.do("color grey50, chain x and 5lj5")
+        cmd.do("color grey50, unassigned_yC_5lj5")
+        #Spp42_yPrp8
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, Spp42_yPrp8_yC_5lj5")
+        #CWF15_yCWC15
+        cmd.do("color orange, chain nan and 5lj5")
+        cmd.do("color orange, CWF15_yCWC15_yC_5lj5")
+        #PRKRIP1
+        cmd.do("color grey50, chain nan and 5lj5")
+        cmd.do("color grey50, PRKRIP1_yC_5lj5")
+        #MUD1
+        cmd.do("color grey51, chain nan and 5lj5")
+        cmd.do("color grey51, MUD1_yC_5lj5")
+        #SNP1
+        cmd.do("color orange, chain nan and 5lj5")
+        cmd.do("color orange, SNP1_yC_5lj5")
+        #YHC1
+        cmd.do("color grey53, chain nan and 5lj5")
+        cmd.do("color grey53, YHC1_yC_5lj5")
+        #PRP39
+        cmd.do("color grey54, chain nan and 5lj5")
+        cmd.do("color grey54, PRP39_yC_5lj5")
+        #PRP42
+        cmd.do("color grey55, chain nan and 5lj5")
+        cmd.do("color grey55, PRP42_yC_5lj5")
+        #NAM8
+        cmd.do("color grey56, chain nan and 5lj5")
+        cmd.do("color grey56, NAM8_yC_5lj5")
+        #SNU56
+        cmd.do("color grey57, chain nan and 5lj5")
+        cmd.do("color grey57, SNU56_yC_5lj5")
+        #LUC7
+        cmd.do("color grey58, chain nan and 5lj5")
+        cmd.do("color grey58, LUC7_yC_5lj5")
+        #SNU71
+        cmd.do("color grey59, chain nan and 5lj5")
+        cmd.do("color grey59, SNU71_yC_5lj5")
+        #HSH155
+        cmd.do("color grey60, chain nan and 5lj5")
+        cmd.do("color grey60, HSH155_yC_5lj5")
+        #RSE1
+        cmd.do("color grey61, chain nan and 5lj5")
+        cmd.do("color grey61, RSE1_yC_5lj5")
+        #CUS1
+        cmd.do("color grey62, chain nan and 5lj5")
+        cmd.do("color grey62, CUS1_yC_5lj5")
+        #HSH49
+        cmd.do("color grey63, chain nan and 5lj5")
+        cmd.do("color grey63, HSH49_yC_5lj5")
+        #RDS3
+        cmd.do("color grey64, chain nan and 5lj5")
+        cmd.do("color grey64, RDS3_yC_5lj5")
+        #PRP9
+        cmd.do("color grey65, chain nan and 5lj5")
+        cmd.do("color grey65, PRP9_yC_5lj5")
+        #PRP11
+        cmd.do("color grey66, chain nan and 5lj5")
+        cmd.do("color grey66, PRP11_yC_5lj5")
+        #PRP21
+        cmd.do("color grey67, chain nan and 5lj5")
+        cmd.do("color grey67, PRP21_yC_5lj5")
+        #U1
+        cmd.do("color green, chain nan and 5lj5")
+        cmd.do("color green, U1_yC_5lj5")
+        #PRP40
+        cmd.do("color grey69, chain nan and 5lj5")
+        cmd.do("color grey69, PRP40_yC_5lj5")
+        #STO1
+        cmd.do("color grey70, chain nan and 5lj5")
+        cmd.do("color grey70, STO1_yC_5lj5")
+        #CBC2
+        cmd.do("color grey71, chain nan and 5lj5")
+        cmd.do("color grey71, CBC2_yC_5lj5")
+    if '6g90' in name.lower():
+        #PRP8
+        cmd.do("color skyblue, chain nan and 6g90")
+        cmd.do("color skyblue, PRP8_yPre_6g90")
+        #BRR2
+        cmd.do("color grey60, chain nan and 6g90")
+        cmd.do("color grey60, BRR2_yPre_6g90")
+        #BUD31
+        cmd.do("color dirtyviolet, chain nan and 6g90")
+        cmd.do("color dirtyviolet, BUD31_yPre_6g90")
+        #CEF1
+        cmd.do("color raspberry, chain nan and 6g90")
+        cmd.do("color raspberry, CEF1_yPre_6g90")
+        #CLF1
+        cmd.do("color raspberry, chain nan and 6g90")
+        cmd.do("color raspberry, CLF1_yPre_6g90")
+        #CWC15
+        cmd.do("color orange, chain nan and 6g90")
+        cmd.do("color orange, CWC15_yPre_6g90")
+        #CWC16/YJU2
+        cmd.do("color lightteal, chain nan and 6g90")
+        cmd.do("color lightteal, CWC16/YJU2_yPre_6g90")
+        #CWC2_hRBM22
+        cmd.do("color ruby, chain nan and 6g90")
+        cmd.do("color ruby, CWC2_hRBM22_yPre_6g90")
+        #CWC21
+        cmd.do("color violetpurple, chain nan and 6g90")
+        cmd.do("color violetpurple, CWC21_yPre_6g90")
+        #CWC22
+        cmd.do("color bluewhite, chain nan and 6g90")
+        cmd.do("color bluewhite, CWC22_yPre_6g90")
+        #CWC25
+        cmd.do("color deepteal, chain nan and 6g90")
+        cmd.do("color deepteal, CWC25_yPre_6g90")
+        #Intron_2
+        cmd.do("color black, chain nan and 6g90")
+        cmd.do("color black, Intron_2_yPre_6g90")
+        #ISY1
+        cmd.do("color dirtyviolet, chain nan and 6g90")
+        cmd.do("color dirtyviolet, ISY1_yPre_6g90")
+        #LEA1
+        cmd.do("color palegreen, chain W and 6g90")
+        cmd.do("color palegreen, LEA1_yPre_6g90")
+        #Msl1
+        cmd.do("color palegreen, chain Y and 6g90")
+        cmd.do("color palegreen, Msl1_yPre_6g90")
+        #PRP45
+        cmd.do("color lightpink, chain nan and 6g90")
+        cmd.do("color lightpink, PRP45_yPre_6g90")
+        #PRP16_hDHX38
+        cmd.do("color smudge, chain nan and 6g90")
+        cmd.do("color smudge, PRP16_hDHX38_yPre_6g90")
+        #CDC40
+        cmd.do("color dirtyviolet, chain nan and 6g90")
+        cmd.do("color dirtyviolet, CDC40_yPre_6g90")
+        #PRP19
+        cmd.do("color grey70, chain nan and 6g90")
+        cmd.do("color grey70, PRP19_yPre_6g90")
+        #PRP46
+        cmd.do("color lightblue, chain nan and 6g90")
+        cmd.do("color lightblue, PRP46_yPre_6g90")
+        #SLT11/ECM2
+        cmd.do("color chocolate, chain nan and 6g90")
+        cmd.do("color chocolate, SLT11/ECM2_yPre_6g90")
+        #SNT309
+        cmd.do("color grey70, chain nan and 6g90")
+        cmd.do("color grey70, SNT309_yPre_6g90")
+        #SNU114
+        cmd.do("color slate, chain nan and 6g90")
+        cmd.do("color slate, SNU114_yPre_6g90")
+        #SYF2
+        cmd.do("color brightorange, chain nan and 6g90")
+        cmd.do("color brightorange, SYF2_yPre_6g90")
+        #SYF1
+        cmd.do("color brightorange, chain nan and 6g90")
+        cmd.do("color brightorange, SYF1_yPre_6g90")
+        #U2
+        cmd.do("color forest, chain nan and 6g90")
+        cmd.do("color forest, U2_yPre_6g90")
+        #U5
+        cmd.do("color density, chain nan and 6g90")
+        cmd.do("color density, U5_yPre_6g90")
+        #U5_SmRNP
+        cmd.do("color deepblue, chain nan and 6g90")
+        cmd.do("color deepblue, U5_SmRNP_yPre_6g90")
+        #U6
+        cmd.do("color firebrick, chain nan and 6g90")
+        cmd.do("color firebrick, U6_yPre_6g90")
+        #5EXON
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, 5EXON_yPre_6g90")
+        #U4
+        cmd.do("color brown, chain nan and 6g90")
+        cmd.do("color brown, U4_yPre_6g90")
+        #Intron
+        cmd.do("color black, chain nan and 6g90")
+        cmd.do("color black, Intron_yPre_6g90")
+        #Exon
+        cmd.do("color yellow, chain nan and 6g90")
+        cmd.do("color yellow, Exon_yPre_6g90")
+        #exon-3
+        cmd.do("color yellow, chain nan and 6g90")
+        cmd.do("color yellow, exon-3_yPre_6g90")
+        #PRP4
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP4_yPre_6g90")
+        #PRP31
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP31_yPre_6g90")
+        #PRP6
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP6_yPre_6g90")
+        #PRP3
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP3_yPre_6g90")
+        #DIB1
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, DIB1_yPre_6g90")
+        #SNU13
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SNU13_yPre_6g90")
+        #LSM8
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM8_yPre_6g90")
+        #LSM2
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM2_yPre_6g90")
+        #LSM3
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM3_yPre_6g90")
+        #LSM6
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM6_yPre_6g90")
+        #LSM5
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM5_yPre_6g90")
+        #LSM7
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM7_yPre_6g90")
+        #LSM4
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, LSM4_yPre_6g90")
+        #SNU66
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SNU66_yPre_6g90")
+        #RNA
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, RNA_yPre_6g90")
+        #BUD13
+        cmd.do("color grey60, chain nan and 6g90")
+        cmd.do("color grey60, BUD13_yPre_6g90")
+        #CLF2
+        cmd.do("color rasberry, chain nan and 6g90")
+        cmd.do("color rasberry, CLF2_yPre_6g90")
+        #Cus1
+        cmd.do("color palegreen, chain nan and 6g90")
+        cmd.do("color palegreen, Cus1_yPre_6g90")
+        #CWC24
+        cmd.do("color grey60, chain nan and 6g90")
+        cmd.do("color grey60, CWC24_yPre_6g90")
+        #CWC27
+        cmd.do("color grey60, chain nan and 6g90")
+        cmd.do("color grey60, CWC27_yPre_6g90")
+        #HSH155
+        cmd.do("color smudge, chain nan and 6g90")
+        cmd.do("color smudge, HSH155_yPre_6g90")
+        #HSH49
+        cmd.do("color sand, chain nan and 6g90")
+        cmd.do("color sand, HSH49_yPre_6g90")
+        #PML1
+        cmd.do("color grey60, chain nan and 6g90")
+        cmd.do("color grey60, PML1_yPre_6g90")
+        #PRP11
+        cmd.do("color palegreen, chain nan and 6g90")
+        cmd.do("color palegreen, PRP11_yPre_6g90")
+        #PRP2
+        cmd.do("color palegreen, chain nan and 6g90")
+        cmd.do("color palegreen, PRP2_yPre_6g90")
+        #RDS3
+        cmd.do("color palegreen, chain nan and 6g90")
+        cmd.do("color palegreen, RDS3_yPre_6g90")
+        #RSE1
+        cmd.do("color smudge, chain nan and 6g90")
+        cmd.do("color smudge, RSE1_yPre_6g90")
+        #SNU17
+        cmd.do("color grey60, chain nan and 6g90")
+        cmd.do("color grey60, SNU17_yPre_6g90")
+        #Ysf3
+        cmd.do("color palegreen, chain Z and 6g90")
+        cmd.do("color palegreen, Ysf3_yPre_6g90")
+        #cwc23
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, cwc23_yPre_6g90")
+        #SPP382
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SPP382_yPre_6g90")
+        #NTR2
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, NTR2_yPre_6g90")
+        #PRP43
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP43_yPre_6g90")
+        cmd.do("color grey50, chain b and 6g90")
+        cmd.do("color grey50, chain s and 6g90")
+        cmd.do("color grey50, chain e and 6g90")
+        cmd.do("color grey50, chain w and 6g90")
+        cmd.do("color grey50, chain f and 6g90")
+        cmd.do("color grey50, chain x and 6g90")
+        cmd.do("color grey50, chain g and 6g90")
+        cmd.do("color grey50, chain y and 6g90")
+        cmd.do("color grey50, chain d and 6g90")
+        cmd.do("color grey50, chain v and 6g90")
+        cmd.do("color grey50, chain h and 6g90")
+        cmd.do("color grey50, chain t and 6g90")
+        cmd.do("color grey50, chain i and 6g90")
+        cmd.do("color grey50, chain u and 6g90")
+        #PRP22
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP22_yPre_6g90")
+        #PRP18
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP18_yPre_6g90")
+        #SLU7
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SLU7_yPre_6g90")
+        #SMF
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SMF_yPre_6g90")
+        #SMG
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SMG_yPre_6g90")
+        #PRP9
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP9_yPre_6g90")
+        #PRP21
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP21_yPre_6g90")
+        #SNU23
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SNU23_yPre_6g90")
+        #PRP38
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRP38_yPre_6g90")
+        #SPP381
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, SPP381_yPre_6g90")
+        #unassigned
+        cmd.do("color grey50, chain X and 6g90")
+        cmd.do("color grey50, unassigned_yPre_6g90")
+        #Spp42_yPrp8
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, Spp42_yPrp8_yPre_6g90")
+        #CWF15_yCWC15
+        cmd.do("color orange, chain nan and 6g90")
+        cmd.do("color orange, CWF15_yCWC15_yPre_6g90")
+        #PRKRIP1
+        cmd.do("color grey50, chain nan and 6g90")
+        cmd.do("color grey50, PRKRIP1_yPre_6g90")
+        #MUD1
+        cmd.do("color grey51, chain A and 6g90")
+        cmd.do("color grey51, MUD1_yPre_6g90")
+        #SNP1
+        cmd.do("color orange, chain B and 6g90")
+        cmd.do("color orange, SNP1_yPre_6g90")
+        #YHC1
+        cmd.do("color grey53, chain C and 6g90")
+        cmd.do("color grey53, YHC1_yPre_6g90")
+        #PRP39
+        cmd.do("color grey54, chain D and 6g90")
+        cmd.do("color grey54, PRP39_yPre_6g90")
+        #PRP42
+        cmd.do("color grey55, chain E and 6g90")
+        cmd.do("color grey55, PRP42_yPre_6g90")
+        #NAM8
+        cmd.do("color grey56, chain F and 6g90")
+        cmd.do("color grey56, NAM8_yPre_6g90")
+        #SNU56
+        cmd.do("color grey57, chain G and 6g90")
+        cmd.do("color grey57, SNU56_yPre_6g90")
+        #LUC7
+        cmd.do("color grey58, chain H and 6g90")
+        cmd.do("color grey58, LUC7_yPre_6g90")
+        #SNU71
+        cmd.do("color grey59, chain J and 6g90")
+        cmd.do("color grey59, SNU71_yPre_6g90")
+        #HSH155
+        cmd.do("color grey60, chain O and 6g90")
+        cmd.do("color grey60, HSH155_yPre_6g90")
+        #RSE1
+        cmd.do("color grey61, chain P and 6g90")
+        cmd.do("color grey61, RSE1_yPre_6g90")
+        #CUS1
+        cmd.do("color grey62, chain Q and 6g90")
+        cmd.do("color grey62, CUS1_yPre_6g90")
+        #HSH49
+        cmd.do("color grey63, chain R and 6g90")
+        cmd.do("color grey63, HSH49_yPre_6g90")
+        #RDS3
+        cmd.do("color grey64, chain S and 6g90")
+        cmd.do("color grey64, RDS3_yPre_6g90")
+        #PRP9
+        cmd.do("color grey65, chain T and 6g90")
+        cmd.do("color grey65, PRP9_yPre_6g90")
+        #PRP11
+        cmd.do("color grey66, chain U and 6g90")
+        cmd.do("color grey66, PRP11_yPre_6g90")
+        #PRP21
+        cmd.do("color grey67, chain V and 6g90")
+        cmd.do("color grey67, PRP21_yPre_6g90")
+        #U1
+        cmd.do("color green, chain nan and 6g90")
+        cmd.do("color green, U1_yPre_6g90")
+        #PRP40
+        cmd.do("color grey69, chain nan and 6g90")
+        cmd.do("color grey69, PRP40_yPre_6g90")
+        #STO1
+        cmd.do("color grey70, chain nan and 6g90")
+        cmd.do("color grey70, STO1_yPre_6g90")
+        #CBC2
+        cmd.do("color grey71, chain nan and 6g90")
+        cmd.do("color grey71, CBC2_yPre_6g90")
+    if '6n7r' in name.lower():
+        #PRP8
+        cmd.do("color skyblue, chain nan and 6n7r")
+        cmd.do("color skyblue, PRP8_yE_6n7r")
+        #BRR2
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, BRR2_yE_6n7r")
+        #BUD31
+        cmd.do("color dirtyviolet, chain nan and 6n7r")
+        cmd.do("color dirtyviolet, BUD31_yE_6n7r")
+        #CEF1
+        cmd.do("color raspberry, chain nan and 6n7r")
+        cmd.do("color raspberry, CEF1_yE_6n7r")
+        #CLF1
+        cmd.do("color raspberry, chain nan and 6n7r")
+        cmd.do("color raspberry, CLF1_yE_6n7r")
+        #CWC15
+        cmd.do("color orange, chain nan and 6n7r")
+        cmd.do("color orange, CWC15_yE_6n7r")
+        #CWC16/YJU2
+        cmd.do("color lightteal, chain nan and 6n7r")
+        cmd.do("color lightteal, CWC16/YJU2_yE_6n7r")
+        #CWC2_hRBM22
+        cmd.do("color ruby, chain nan and 6n7r")
+        cmd.do("color ruby, CWC2_hRBM22_yE_6n7r")
+        #CWC21
+        cmd.do("color violetpurple, chain nan and 6n7r")
+        cmd.do("color violetpurple, CWC21_yE_6n7r")
+        #CWC22
+        cmd.do("color bluewhite, chain nan and 6n7r")
+        cmd.do("color bluewhite, CWC22_yE_6n7r")
+        #CWC25
+        cmd.do("color deepteal, chain nan and 6n7r")
+        cmd.do("color deepteal, CWC25_yE_6n7r")
+        #Intron_2
+        cmd.do("color black, chain nan and 6n7r")
+        cmd.do("color black, Intron_2_yE_6n7r")
+        #ISY1
+        cmd.do("color dirtyviolet, chain nan and 6n7r")
+        cmd.do("color dirtyviolet, ISY1_yE_6n7r")
+        #LEA1
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, LEA1_yE_6n7r")
+        #Msl1
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, Msl1_yE_6n7r")
+        #PRP45
+        cmd.do("color lightpink, chain nan and 6n7r")
+        cmd.do("color lightpink, PRP45_yE_6n7r")
+        #PRP16_hDHX38
+        cmd.do("color smudge, chain nan and 6n7r")
+        cmd.do("color smudge, PRP16_hDHX38_yE_6n7r")
+        #CDC40
+        cmd.do("color dirtyviolet, chain nan and 6n7r")
+        cmd.do("color dirtyviolet, CDC40_yE_6n7r")
+        #PRP19
+        cmd.do("color grey70, chain nan and 6n7r")
+        cmd.do("color grey70, PRP19_yE_6n7r")
+        #PRP46
+        cmd.do("color lightblue, chain nan and 6n7r")
+        cmd.do("color lightblue, PRP46_yE_6n7r")
+        #SLT11/ECM2
+        cmd.do("color chocolate, chain nan and 6n7r")
+        cmd.do("color chocolate, SLT11/ECM2_yE_6n7r")
+        #SNT309
+        cmd.do("color grey70, chain nan and 6n7r")
+        cmd.do("color grey70, SNT309_yE_6n7r")
+        #SNU114
+        cmd.do("color slate, chain nan and 6n7r")
+        cmd.do("color slate, SNU114_yE_6n7r")
+        #SYF2
+        cmd.do("color brightorange, chain nan and 6n7r")
+        cmd.do("color brightorange, SYF2_yE_6n7r")
+        #SYF1
+        cmd.do("color brightorange, chain nan and 6n7r")
+        cmd.do("color brightorange, SYF1_yE_6n7r")
+        #U2
+        cmd.do("color forest, chain nan and 6n7r")
+        cmd.do("color forest, U2_yE_6n7r")
+        #U5
+        cmd.do("color density, chain nan and 6n7r")
+        cmd.do("color density, U5_yE_6n7r")
+        #U5_SmRNP
+        cmd.do("color deepblue, chain nan and 6n7r")
+        cmd.do("color deepblue, U5_SmRNP_yE_6n7r")
+        #U6
+        cmd.do("color firebrick, chain nan and 6n7r")
+        cmd.do("color firebrick, U6_yE_6n7r")
+        #5EXON
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, 5EXON_yE_6n7r")
+        #U4
+        cmd.do("color brown, chain nan and 6n7r")
+        cmd.do("color brown, U4_yE_6n7r")
+        #Intron
+        cmd.do("color black, chain r and 6n7r")
+        cmd.do("color black, Intron_yE_6n7r")
+        #Exon
+        cmd.do("color yellow, chain nan and 6n7r")
+        cmd.do("color yellow, Exon_yE_6n7r")
+        #exon-3
+        cmd.do("color yellow, chain nan and 6n7r")
+        cmd.do("color yellow, exon-3_yE_6n7r")
+        #PRP4
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP4_yE_6n7r")
+        #PRP31
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP31_yE_6n7r")
+        #PRP6
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP6_yE_6n7r")
+        #PRP3
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP3_yE_6n7r")
+        #DIB1
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, DIB1_yE_6n7r")
+        #SNU13
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SNU13_yE_6n7r")
+        #LSM8
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM8_yE_6n7r")
+        #LSM2
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM2_yE_6n7r")
+        #LSM3
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM3_yE_6n7r")
+        #LSM6
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM6_yE_6n7r")
+        #LSM5
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM5_yE_6n7r")
+        #LSM7
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM7_yE_6n7r")
+        #LSM4
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, LSM4_yE_6n7r")
+        #SNU66
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SNU66_yE_6n7r")
+        #RNA
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, RNA_yE_6n7r")
+        #BUD13
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, BUD13_yE_6n7r")
+        #CLF2
+        cmd.do("color rasberry, chain nan and 6n7r")
+        cmd.do("color rasberry, CLF2_yE_6n7r")
+        #Cus1
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, Cus1_yE_6n7r")
+        #CWC24
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, CWC24_yE_6n7r")
+        #CWC27
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, CWC27_yE_6n7r")
+        #HSH155
+        cmd.do("color smudge, chain nan and 6n7r")
+        cmd.do("color smudge, HSH155_yE_6n7r")
+        #HSH49
+        cmd.do("color sand, chain nan and 6n7r")
+        cmd.do("color sand, HSH49_yE_6n7r")
+        #PML1
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, PML1_yE_6n7r")
+        #PRP11
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, PRP11_yE_6n7r")
+        #PRP2
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, PRP2_yE_6n7r")
+        #RDS3
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, RDS3_yE_6n7r")
+        #RSE1
+        cmd.do("color smudge, chain nan and 6n7r")
+        cmd.do("color smudge, RSE1_yE_6n7r")
+        #SNU17
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, SNU17_yE_6n7r")
+        #Ysf3
+        cmd.do("color palegreen, chain nan and 6n7r")
+        cmd.do("color palegreen, Ysf3_yE_6n7r")
+        #cwc23
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, cwc23_yE_6n7r")
+        #SPP382
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SPP382_yE_6n7r")
+        #NTR2
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, NTR2_yE_6n7r")
+        #PRP43
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP43_yE_6n7r")
+        #SMB1
+        cmd.do("color grey50, chain K and 6n7r")
+        cmd.do("color grey50, SMB1_yE_6n7r")
+        #SME1
+        cmd.do("color grey50, chain O and 6n7r")
+        cmd.do("color grey50, SME1_yE_6n7r")
+        #SMX3
+        cmd.do("color grey50, chain P and 6n7r")
+        cmd.do("color grey50, SMX3_yE_6n7r")
+        #SMX2
+        cmd.do("color grey50, chain Q and 6n7r")
+        cmd.do("color grey50, SMX2_yE_6n7r")
+        #SMD3
+        cmd.do("color grey50, chain N and 6n7r")
+        cmd.do("color grey50, SMD3_yE_6n7r")
+        #SMD1
+        cmd.do("color grey50, chain L and 6n7r")
+        cmd.do("color grey50, SMD1_yE_6n7r")
+        #SMD2
+        cmd.do("color grey50, chain M and 6n7r")
+        cmd.do("color grey50, SMD2_yE_6n7r")
+        #PRP22
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP22_yE_6n7r")
+        #PRP18
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP18_yE_6n7r")
+        #SLU7
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SLU7_yE_6n7r")
+        #SMF
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SMF_yE_6n7r")
+        #SMG
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SMG_yE_6n7r")
+        #PRP9
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP9_yE_6n7r")
+        #PRP21
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP21_yE_6n7r")
+        #SNU23
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SNU23_yE_6n7r")
+        #PRP38
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRP38_yE_6n7r")
+        #SPP381
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, SPP381_yE_6n7r")
+        #unassigned
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, unassigned_yE_6n7r")
+        #Spp42_yPrp8
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, Spp42_yPrp8_yE_6n7r")
+        #CWF15_yCWC15
+        cmd.do("color orange, chain nan and 6n7r")
+        cmd.do("color orange, CWF15_yCWC15_yE_6n7r")
+        #PRKRIP1
+        cmd.do("color grey50, chain nan and 6n7r")
+        cmd.do("color grey50, PRKRIP1_yE_6n7r")
+        #MUD1
+        cmd.do("color grey51, chain C and 6n7r")
+        cmd.do("color grey51, MUD1_yE_6n7r")
+        #SNP1
+        cmd.do("color orange, chain A and 6n7r")
+        cmd.do("color orange, SNP1_yE_6n7r")
+        #YHC1
+        cmd.do("color grey53, chain B and 6n7r")
+        cmd.do("color grey53, YHC1_yE_6n7r")
+        #PRP39
+        cmd.do("color grey54, chain E and 6n7r")
+        cmd.do("color grey54, PRP39_yE_6n7r")
+        #PRP42
+        cmd.do("color grey55, chain D and 6n7r")
+        cmd.do("color grey55, PRP42_yE_6n7r")
+        #NAM8
+        cmd.do("color grey56, chain F and 6n7r")
+        cmd.do("color grey56, NAM8_yE_6n7r")
+        #SNU56
+        cmd.do("color grey57, chain G and 6n7r")
+        cmd.do("color grey57, SNU56_yE_6n7r")
+        #LUC7
+        cmd.do("color grey58, chain I and 6n7r")
+        cmd.do("color grey58, LUC7_yE_6n7r")
+        #SNU71
+        cmd.do("color grey59, chain H and 6n7r")
+        cmd.do("color grey59, SNU71_yE_6n7r")
+        #HSH155
+        cmd.do("color grey60, chain nan and 6n7r")
+        cmd.do("color grey60, HSH155_yE_6n7r")
+        #RSE1
+        cmd.do("color grey61, chain nan and 6n7r")
+        cmd.do("color grey61, RSE1_yE_6n7r")
+        #CUS1
+        cmd.do("color grey62, chain nan and 6n7r")
+        cmd.do("color grey62, CUS1_yE_6n7r")
+        #HSH49
+        cmd.do("color grey63, chain nan and 6n7r")
+        cmd.do("color grey63, HSH49_yE_6n7r")
+        #RDS3
+        cmd.do("color grey64, chain nan and 6n7r")
+        cmd.do("color grey64, RDS3_yE_6n7r")
+        #PRP9
+        cmd.do("color grey65, chain nan and 6n7r")
+        cmd.do("color grey65, PRP9_yE_6n7r")
+        #PRP11
+        cmd.do("color grey66, chain nan and 6n7r")
+        cmd.do("color grey66, PRP11_yE_6n7r")
+        #PRP21
+        cmd.do("color grey67, chain nan and 6n7r")
+        cmd.do("color grey67, PRP21_yE_6n7r")
+        #U1
+        cmd.do("color green, chain R and 6n7r")
+        cmd.do("color green, U1_yE_6n7r")
+        #PRP40
+        cmd.do("color grey69, chain nan and 6n7r")
+        cmd.do("color grey69, PRP40_yE_6n7r")
+        #STO1
+        cmd.do("color grey70, chain nan and 6n7r")
+        cmd.do("color grey70, STO1_yE_6n7r")
+        #CBC2
+        cmd.do("color grey71, chain nan and 6n7r")
+        cmd.do("color grey71, CBC2_yE_6n7r")
+    if '6n7p' in name.lower():
+        #PRP8
+        cmd.do("color skyblue, chain nan and 6n7p")
+        cmd.do("color skyblue, PRP8_yE_6n7p")
+        #BRR2
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, BRR2_yE_6n7p")
+        #BUD31
+        cmd.do("color dirtyviolet, chain nan and 6n7p")
+        cmd.do("color dirtyviolet, BUD31_yE_6n7p")
+        #CEF1
+        cmd.do("color raspberry, chain nan and 6n7p")
+        cmd.do("color raspberry, CEF1_yE_6n7p")
+        #CLF1
+        cmd.do("color raspberry, chain nan and 6n7p")
+        cmd.do("color raspberry, CLF1_yE_6n7p")
+        #CWC15
+        cmd.do("color orange, chain nan and 6n7p")
+        cmd.do("color orange, CWC15_yE_6n7p")
+        #CWC16/YJU2
+        cmd.do("color lightteal, chain nan and 6n7p")
+        cmd.do("color lightteal, CWC16/YJU2_yE_6n7p")
+        #CWC2_hRBM22
+        cmd.do("color ruby, chain nan and 6n7p")
+        cmd.do("color ruby, CWC2_hRBM22_yE_6n7p")
+        #CWC21
+        cmd.do("color violetpurple, chain nan and 6n7p")
+        cmd.do("color violetpurple, CWC21_yE_6n7p")
+        #CWC22
+        cmd.do("color bluewhite, chain nan and 6n7p")
+        cmd.do("color bluewhite, CWC22_yE_6n7p")
+        #CWC25
+        cmd.do("color deepteal, chain nan and 6n7p")
+        cmd.do("color deepteal, CWC25_yE_6n7p")
+        #Intron_2
+        cmd.do("color black, chain nan and 6n7p")
+        cmd.do("color black, Intron_2_yE_6n7p")
+        #ISY1
+        cmd.do("color dirtyviolet, chain nan and 6n7p")
+        cmd.do("color dirtyviolet, ISY1_yE_6n7p")
+        #LEA1
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, LEA1_yE_6n7p")
+        #Msl1
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, Msl1_yE_6n7p")
+        #PRP45
+        cmd.do("color lightpink, chain nan and 6n7p")
+        cmd.do("color lightpink, PRP45_yE_6n7p")
+        #PRP16_hDHX38
+        cmd.do("color smudge, chain nan and 6n7p")
+        cmd.do("color smudge, PRP16_hDHX38_yE_6n7p")
+        #CDC40
+        cmd.do("color dirtyviolet, chain nan and 6n7p")
+        cmd.do("color dirtyviolet, CDC40_yE_6n7p")
+        #PRP19
+        cmd.do("color grey70, chain nan and 6n7p")
+        cmd.do("color grey70, PRP19_yE_6n7p")
+        #PRP46
+        cmd.do("color lightblue, chain nan and 6n7p")
+        cmd.do("color lightblue, PRP46_yE_6n7p")
+        #SLT11/ECM2
+        cmd.do("color chocolate, chain nan and 6n7p")
+        cmd.do("color chocolate, SLT11/ECM2_yE_6n7p")
+        #SNT309
+        cmd.do("color grey70, chain nan and 6n7p")
+        cmd.do("color grey70, SNT309_yE_6n7p")
+        #SNU114
+        cmd.do("color slate, chain nan and 6n7p")
+        cmd.do("color slate, SNU114_yE_6n7p")
+        #SYF2
+        cmd.do("color brightorange, chain nan and 6n7p")
+        cmd.do("color brightorange, SYF2_yE_6n7p")
+        #SYF1
+        cmd.do("color brightorange, chain nan and 6n7p")
+        cmd.do("color brightorange, SYF1_yE_6n7p")
+        #U2
+        cmd.do("color forest, chain nan and 6n7p")
+        cmd.do("color forest, U2_yE_6n7p")
+        #U5
+        cmd.do("color density, chain nan and 6n7p")
+        cmd.do("color density, U5_yE_6n7p")
+        #U5_SmRNP
+        cmd.do("color deepblue, chain nan and 6n7p")
+        cmd.do("color deepblue, U5_SmRNP_yE_6n7p")
+        #U6
+        cmd.do("color firebrick, chain nan and 6n7p")
+        cmd.do("color firebrick, U6_yE_6n7p")
+        #5EXON
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, 5EXON_yE_6n7p")
+        #U4
+        cmd.do("color brown, chain nan and 6n7p")
+        cmd.do("color brown, U4_yE_6n7p")
+        #Intron
+        cmd.do("color black, chain r and 6n7p")
+        cmd.do("color black, Intron_yE_6n7p")
+        #Exon
+        cmd.do("color yellow, chain nan and 6n7p")
+        cmd.do("color yellow, Exon_yE_6n7p")
+        #exon-3
+        cmd.do("color yellow, chain nan and 6n7p")
+        cmd.do("color yellow, exon-3_yE_6n7p")
+        #PRP4
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP4_yE_6n7p")
+        #PRP31
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP31_yE_6n7p")
+        #PRP6
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP6_yE_6n7p")
+        #PRP3
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP3_yE_6n7p")
+        #DIB1
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, DIB1_yE_6n7p")
+        #SNU13
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SNU13_yE_6n7p")
+        #LSM8
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM8_yE_6n7p")
+        #LSM2
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM2_yE_6n7p")
+        #LSM3
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM3_yE_6n7p")
+        #LSM6
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM6_yE_6n7p")
+        #LSM5
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM5_yE_6n7p")
+        #LSM7
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM7_yE_6n7p")
+        #LSM4
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, LSM4_yE_6n7p")
+        #SNU66
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SNU66_yE_6n7p")
+        #RNA
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, RNA_yE_6n7p")
+        #BUD13
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, BUD13_yE_6n7p")
+        #CLF2
+        cmd.do("color rasberry, chain nan and 6n7p")
+        cmd.do("color rasberry, CLF2_yE_6n7p")
+        #Cus1
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, Cus1_yE_6n7p")
+        #CWC24
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, CWC24_yE_6n7p")
+        #CWC27
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, CWC27_yE_6n7p")
+        #HSH155
+        cmd.do("color smudge, chain nan and 6n7p")
+        cmd.do("color smudge, HSH155_yE_6n7p")
+        #HSH49
+        cmd.do("color sand, chain nan and 6n7p")
+        cmd.do("color sand, HSH49_yE_6n7p")
+        #PML1
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, PML1_yE_6n7p")
+        #PRP11
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, PRP11_yE_6n7p")
+        #PRP2
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, PRP2_yE_6n7p")
+        #RDS3
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, RDS3_yE_6n7p")
+        #RSE1
+        cmd.do("color smudge, chain nan and 6n7p")
+        cmd.do("color smudge, RSE1_yE_6n7p")
+        #SNU17
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, SNU17_yE_6n7p")
+        #Ysf3
+        cmd.do("color palegreen, chain nan and 6n7p")
+        cmd.do("color palegreen, Ysf3_yE_6n7p")
+        #cwc23
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, cwc23_yE_6n7p")
+        #SPP382
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SPP382_yE_6n7p")
+        #NTR2
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, NTR2_yE_6n7p")
+        #PRP43
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP43_yE_6n7p")
+        #SMB1
+        cmd.do("color grey50, chain K and 6n7p")
+        cmd.do("color grey50, SMB1_yE_6n7p")
+        #SME1
+        cmd.do("color grey50, chain O and 6n7p")
+        cmd.do("color grey50, SME1_yE_6n7p")
+        #SMX3
+        cmd.do("color grey50, chain P and 6n7p")
+        cmd.do("color grey50, SMX3_yE_6n7p")
+        #SMX2
+        cmd.do("color grey50, chain Q and 6n7p")
+        cmd.do("color grey50, SMX2_yE_6n7p")
+        #SMD3
+        cmd.do("color grey50, chain N and 6n7p")
+        cmd.do("color grey50, SMD3_yE_6n7p")
+        #SMD1
+        cmd.do("color grey50, chain L and 6n7p")
+        cmd.do("color grey50, SMD1_yE_6n7p")
+        #SMD2
+        cmd.do("color grey50, chain M and 6n7p")
+        cmd.do("color grey50, SMD2_yE_6n7p")
+        #PRP22
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP22_yE_6n7p")
+        #PRP18
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP18_yE_6n7p")
+        #SLU7
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SLU7_yE_6n7p")
+        #SMF
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SMF_yE_6n7p")
+        #SMG
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SMG_yE_6n7p")
+        #PRP9
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP9_yE_6n7p")
+        #PRP21
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP21_yE_6n7p")
+        #SNU23
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SNU23_yE_6n7p")
+        #PRP38
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRP38_yE_6n7p")
+        #SPP381
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, SPP381_yE_6n7p")
+        #unassigned
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, unassigned_yE_6n7p")
+        #Spp42_yPrp8
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, Spp42_yPrp8_yE_6n7p")
+        #CWF15_yCWC15
+        cmd.do("color orange, chain nan and 6n7p")
+        cmd.do("color orange, CWF15_yCWC15_yE_6n7p")
+        #PRKRIP1
+        cmd.do("color grey50, chain nan and 6n7p")
+        cmd.do("color grey50, PRKRIP1_yE_6n7p")
+        #MUD1
+        cmd.do("color grey51, chain C and 6n7p")
+        cmd.do("color grey51, MUD1_yE_6n7p")
+        #SNP1
+        cmd.do("color orange, chain A and 6n7p")
+        cmd.do("color orange, SNP1_yE_6n7p")
+        #YHC1
+        cmd.do("color grey53, chain B and 6n7p")
+        cmd.do("color grey53, YHC1_yE_6n7p")
+        #PRP39
+        cmd.do("color grey54, chain E and 6n7p")
+        cmd.do("color grey54, PRP39_yE_6n7p")
+        #PRP42
+        cmd.do("color grey55, chain D and 6n7p")
+        cmd.do("color grey55, PRP42_yE_6n7p")
+        #NAM8
+        cmd.do("color grey56, chain F and 6n7p")
+        cmd.do("color grey56, NAM8_yE_6n7p")
+        #SNU56
+        cmd.do("color grey57, chain G and 6n7p")
+        cmd.do("color grey57, SNU56_yE_6n7p")
+        #LUC7
+        cmd.do("color grey58, chain I and 6n7p")
+        cmd.do("color grey58, LUC7_yE_6n7p")
+        #SNU71
+        cmd.do("color grey59, chain H and 6n7p")
+        cmd.do("color grey59, SNU71_yE_6n7p")
+        #HSH155
+        cmd.do("color grey60, chain nan and 6n7p")
+        cmd.do("color grey60, HSH155_yE_6n7p")
+        #RSE1
+        cmd.do("color grey61, chain nan and 6n7p")
+        cmd.do("color grey61, RSE1_yE_6n7p")
+        #CUS1
+        cmd.do("color grey62, chain nan and 6n7p")
+        cmd.do("color grey62, CUS1_yE_6n7p")
+        #HSH49
+        cmd.do("color grey63, chain nan and 6n7p")
+        cmd.do("color grey63, HSH49_yE_6n7p")
+        #RDS3
+        cmd.do("color grey64, chain nan and 6n7p")
+        cmd.do("color grey64, RDS3_yE_6n7p")
+        #PRP9
+        cmd.do("color grey65, chain nan and 6n7p")
+        cmd.do("color grey65, PRP9_yE_6n7p")
+        #PRP11
+        cmd.do("color grey66, chain nan and 6n7p")
+        cmd.do("color grey66, PRP11_yE_6n7p")
+        #PRP21
+        cmd.do("color grey67, chain nan and 6n7p")
+        cmd.do("color grey67, PRP21_yE_6n7p")
+        #U1
+        cmd.do("color green, chain R and 6n7p")
+        cmd.do("color green, U1_yE_6n7p")
+        #PRP40
+        cmd.do("color grey69, chain J and 6n7p")
+        cmd.do("color grey69, PRP40_yE_6n7p")
+        #STO1
+        cmd.do("color grey70, chain X and 6n7p")
+        cmd.do("color grey70, STO1_yE_6n7p")
+        #CBC2
+        cmd.do("color grey71, chain Y and 6n7p")
+        cmd.do("color grey71, CBC2_yE_6n7p")

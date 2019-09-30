@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.style.use('classic')
 import numpy as np
+import sys
 
 """version when the same protein gets SMD2_2 and SMD2_1"""
 
@@ -21,8 +22,14 @@ strucs = [
           ['S6_hP_6icz', '6icz', '_hP_6icz'],
           ['hBa_6ff7', '6ff7', '_hBa_6ff7'],
           ['hC_5yzg', '5yzg', '_hC_5yzg'],
-          ['hX_5xjc', '5xjc', '_hX_5xjc']
+          ['hX_5xjc', '5xjc', '_hX_5xjc'],
+          ['yCs_5mq0', '5mq0', '_yCs_5mq0'],
+          ['yC_5lj5', '5lj5', '_yC_5lj5'],
+          ['yPre_6g90', '6g90', '_yPre_6g90'],
+          ['yE_6n7r', '6n7r', '_yE_6n7r'],
+          ['yE_6n7p', '6n7p', '_yE_6n7p'],
          ]
+
 
 strs = []
 for s in strucs:
@@ -110,7 +117,12 @@ for struc_col, pdb_id, complex_code in strucs:
             else:
                 #if ref != struc:
                 txt += '        #' + i['protein'] +'\n'
-                txt += '        cmd.do("color ' + i['color'] + ', chain ' + struc + ' and ' +                 pdb_id + '")' + '\n'
+                try:
+                    txt += '        cmd.do("color ' + i['color'] + ', chain ' + struc + ' and ' +                 pdb_id + '")' + '\n'
+                except TypeError:
+                    print('Color entry is missing for ' + i['protein'])
+                    sys.exit(1)
+
                 # color <object>
                 txt += '        cmd.do("color ' + i['color'] + ', ' + i['protein'] +                 complex_code + '")\n'
 print(txt)
