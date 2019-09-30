@@ -70,6 +70,15 @@ def exe(cmd, verbose=False):
     err = o.stderr.read().strip().decode()
     return out, err
 
+def color_protein():
+    cmd.do("color blue, resn ARG+LYS+HIS")
+    cmd.do("color red, resn ASP+GLU")
+    cmd.do("color green, resn GLY+ALA+VAL+LEU+ILE+MET+PHE")
+    cmd.do("color yellow, resn TYR+TRP")
+    cmd.do("color forest, resn SER+THR+CYS+ASN+GLN")
+    cmd.do("color pink, resn PRO")
+
+cmd.extend('cp', color_protein)
 
 def save_transformed(object, file):
     """Saves the molecule with coordinates from the current orientation.
