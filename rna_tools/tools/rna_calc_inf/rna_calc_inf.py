@@ -15,6 +15,13 @@ https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server). Contac
 import progressbar (in version 2) is required! """
 from __future__ import print_function
 
+import sys
+if (sys.version_info > (3, 0)):
+    print('rna_calc_inf.py can be only used with Python 2 because ClaRNA written in Python 2!')
+    sys.exit(1)
+else:
+    pass
+
 import progressbar
 import argparse
 import sys
