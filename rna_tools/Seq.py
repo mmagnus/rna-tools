@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #-*- coding: utf-8 -*-
 """RNA Sequence with secondary structure prediction methods.
 
@@ -87,7 +87,7 @@ import subprocess
 import tempfile
 import sys
 
-from SecondaryStructure import parse_vienna_to_pairs
+from rna_tools.SecondaryStructure import parse_vienna_to_pairs
 from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH, ENTRNA_PATH
 
 
@@ -445,8 +445,8 @@ class RNASequence(object):
             if verbose:
                 print(cmd)
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            out = o.stdout.read().strip()
-            err = o.stderr.read().strip()
+            out = o.stdout.read().decode(errors='ignore').strip()
+            err = o.stderr.read().decode(errors='ignore').strip()
 
             if verbose:
                 print(out)

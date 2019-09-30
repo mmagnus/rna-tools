@@ -20,7 +20,6 @@ Usage::
     [...]
 
 """
-from __future__ import print_function
 import argparse
 import textwrap
 import os
@@ -28,8 +27,6 @@ import shutil
 import sys
 import tempfile
 import glob
-import progressbar
-import re
 
 from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version, \
                           collapsed_view, fetch, fetch_ba, replace_chain, RNAStructure, \
@@ -50,6 +47,8 @@ def get_parser():
 
     parser.add_argument('--renum-atoms', help='renumber atoms, tested with --get-seq',
                         action='store_true')
+
+    parser.add_argument('--renum-residues-dirty', help='',  action='store_true')
 
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
                         action='store_true')
@@ -152,8 +151,10 @@ only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]"""),
                         action='store_true')
 
     parser.add_argument('--mutate', help=textwrap.dedent("""mutate residues,
- e.g. A:1A+2A+3A+4A,B:1A to mutate the first nucleotide of the A chain to Adenine
- etc and the first nucleotide of the B chain"""))
+e.g.,
+      --mutate "A:1A+2A+3A+4A,B:1A"
+to mutate to adenines the first four nucleotides of the chain A
+and the first nucleotide of the chain B"""))
 
     parser.add_argument('--edit',
                         dest="edit",
@@ -180,6 +181,10 @@ the chain id in this file has to be the same with the chain id of the original c
                         dest="extract",
                         default='',
                         help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
+
+    parser.add_argument('--extract-chain',
+                         help="extract chain, e.g. A")
+
 
     parser.add_argument('--uniq', help=textwrap.dedent("""
 rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
@@ -278,7 +283,7 @@ if __name__ == '__main__':
                 output += '> ' + os.path.basename(f.replace('.pdb', '')) + '\n'
                 output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta) + '\n'
             elif args.oneline:
-                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first).strip() + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
             else:
                 output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n'
                 output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
@@ -348,6 +353,7 @@ if __name__ == '__main__':
         ##################################
         # progress bar only in --inplace mode!
         if args.inplace:
+            import progressbar
             bar = progressbar.ProgressBar(max_value=len(args.file))
             bar.update(0)
 
@@ -429,6 +435,49 @@ if __name__ == '__main__':
             print(add_header(version))
         print(s.get_text())
 
+# args.renumber_resides_dirty
+    if args.renum_residues_dirty:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            s = RNAStructure(f)
+
+            output = ''
+            #if not args.no_hr:
+            #    output += add_header(version) + '\n'
+            #    output += 'HEADER --delete ' + args.delete + '\n'  # ' '.join(str(selection))
+            c = 1
+            old_resi = -1
+            for l in s.lines:
+                if l.startswith('ATOM') or l.startswith("HETATOM"):
+                    resi = int(l[23:26].strip())
+                    if resi != old_resi:
+                        old_resi = resi
+                        c += 1
+                    # print(resi, c)
+                    #resi = c
+                    #if chain in selection:
+                    #    if resi in selection[chain]:
+                    #        continue  # print chain, resi
+                    output += l[:23] + str(c).rjust(3) + l[26:] + '\n'
+            # write: inplace
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
+
+
+
     if args.delete:
         # quick fix - make a list on the spot
         if list != type(args.file):
@@ -501,6 +550,7 @@ if __name__ == '__main__':
             shutil.copy(f, ftf)  # create a backup copy if inplace
 
             # go over each chain
+            # rna_pdb_toolsx.py --mutate 'A:1CB:1G,A:1U+B:1A' CG_AB.pdb > ~/Desktop/a.pdb
             for m in args.mutate.split(','):  # A:1A, B:1A
                 chain, resi_mutate_to = m.strip().split(':')  # A:1A+2C
                 resi_mutate_to_list = resi_mutate_to.split('+')  # A:1A+2C
@@ -572,8 +622,38 @@ if __name__ == '__main__':
                     pass
 
 
-    if args.un_nmr:
-        pass
+    if args.extract_chain:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            if args.inplace:
+                shutil.copy(f, f + '~')
+
+            selection = select_pdb_fragment(args.extract)
+            s = RNAStructure(f)
+
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+                output += 'HEADER extract ' + args.extract + '\n'  # ' '.join(str(selection))
+            for l in s.lines:
+                if l.startswith('ATOM') or l.startswith('TER') or l.startswith('HETATM'):
+                    chain = l[21]
+                    if chain in args.extract_chain:
+                        output += l + '\n'
+
+            # write: inplace
+            if args.inplace:
+                with open(f, 'w') as f:
+                    f.write(output)
+            else:  # write: to stdout
+                try:
+                    sys.stdout.write(output)
+                    sys.stdout.flush()
+                except IOError:
+                    pass
 
     if args.is_pdb:
         s = RNAStructure(args.file)
@@ -664,13 +744,18 @@ if __name__ == '__main__':
                 shutil.copy(f, f + '~')
             # rename_chain 'A>B'
             s = RNAStructure(f)
-            chain_id_old, chain_id_new = args.swap_chains.split('>')
             output = ''
             if not args.no_hr:
                 output += add_header(version) + '\n'
-            s.rename_chain(chain_id_new, '_')
-            s.rename_chain(chain_id_old, chain_id_new)
-            output += s.rename_chain('_', chain_id_old)
+
+            chain_id_old, chain_id_new = args.swap_chains.split('>')
+            if chain_id_old == chain_id_new:
+                output = open(f).read() # return the file ;-) itself unchanged
+            else:
+                s.rename_chain(chain_id_new, '_')
+                s.rename_chain(chain_id_old, chain_id_new)
+                output += s.rename_chain('_', chain_id_old)
+
             if args.inplace:
                 with open(f, 'w') as f:
                     f.write(output)

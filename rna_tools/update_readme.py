@@ -2,16 +2,13 @@
 # -*- coding: utf-8 -*-
 """Quick and ugly fix to update auto readme."""
 
-from __future__ import print_function
-from future import standard_library
 import subprocess
-standard_library.install_aliases()
 
 if __name__ == '__main__':
     start_tag = "usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]"
     end_tag = "ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU"
     #
-    doc = subprocess.getoutput('python rna_pdb_toolsx.py -h')
+    doc = subprocess.Popen('python rna_pdb_toolsx.py -h', shell=True, stdout=subprocess.PIPE).stdout.read().decode()
     print(doc)
     fn = ''
     f = open('../README.md', 'r')

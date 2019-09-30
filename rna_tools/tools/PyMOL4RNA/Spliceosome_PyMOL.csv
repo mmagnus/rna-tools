@@ -1,0 +1,110 @@
+﻿ID,protein,color,chain,S1_B_5zwo,S2_Bact_5gm6,S3_C_5lj3,S4_Cstar_5mps,S5_P_6exn,S6_ILS_5y88,S5_P_5ylz,SX_pX_3jb9,S6_hP_6icz,hBa_6ff7,hC_5yzg,hX_5xjc,6bk8,5wsg,yCs_5mq0,yC_5lj5,yPre_6g90,yE_6n7r,yE_6n7p
+1,PRP8,skyblue,A,A,A,A,A,A,A,A,,,,,,,,,A,,,
+2,BRR2,grey60,B,D,B,,,,,,,,,,,,,,B,,,
+3,BUD31,dirtyviolet,C,,T,L,L,L,L,L,,,,,,,,,L,,,
+4,CEF1,raspberry,D,,c,O,O,O,,J,,,,,,,,,O,,,
+5,CLF1,raspberry,E,,,S,S,S,I,I,,,,,,,,,S,,,
+6,CWC15,orange,F,,S,P,P,P,P,P,,P,R,P,P,H,S,P,P,,,
+7,CWC16/YJU2,lightteal,G,,,D,,D,R,,,,,,,,,,D,,,
+8,CWC2_hRBM22,ruby,H,,R,M,M,M,N,N,,,P,O,,,,M,M,,,
+9,CWC21,violetpurple,I,,X,R,R,R,,R,,,,,,,,,R,,,
+10,CWC22,bluewhite,J,,Z,H,H,H,,S,,,,,,,,,H,,,
+11,CWC25,deepteal,K,,,F,,,G,,,,,X,X,,,,F,,,
+12,Intron_2,black,L,,,,,,E,,,,,,,,,,,,,
+13,ISY1,dirtyviolet,M,,,G,,,,,,,,,,,,,G,,,
+14,LEA1,palegreen,N,o,,W,,W,o,o,,,,,,,,,,W,,
+15,Msl1,palegreen,O,p,,Y,,Y,p,p,,,,,,,,,Y,Y,,
+16,PRP45,lightpink,P,,P,K,K,K,Q,Q,,,,,,,,,K,,,
+17,PRP16_hDHX38,smudge,Q,,,,,,,,,,,Z,-,,,,Q,,,
+18,"CDC40 (PRP17, SLU4, XRS2)",dirtyviolet,R,,n,,o,o,S,T,,,,,,,,,,,,
+19,PRP19 (PSO4),grey70,S,,f,,,"t, u, v, w","q, r, s, t","q, r, s, t",,,,,,,,,"t, u, v, w",,,
+20,PRP46,lightblue,T,,O,J,J,J,O,O,,,,,,,,,J,,,
+21,SLT11/ECM2,chocolate,U,,Q,N,N,N,M,M,,,,,,,,,N,,,
+22,SNT309,grey70,V,,t,,,,G,G,,,,,,,,,s,,,
+23,SNU114,slate,W,C,C,C,C,C,C,C,,,,,,,,,C,,,
+24,SYF2,brightorange,X,,f,,y,,K,K,,,,,,,,,,,,
+25,SYF1,brightorange,Y,,v,T,T,T,H,H,,,,,,,,,T,,,
+26,U2,forest,Z,H,2,Z,2,2,F,F,P,H,2,H,H,2,,2,Z,,,
+27,U5,density,a,B,5,U,5,5,B,B,C,B,5,B,B,5,,5,U,,,
+28,U5_SmRNP,deepblue,b,,,,,,,,,,,,,,,,,,,
+29,U6,firebrick,c,F,6,V,6,6,D,D,N,F,6,F,F,6,,6,V,,,
+,5EXON,grey50,s,,,,E,,,,,,,,,,,E,E,,,
+,U4,brown,xxxx,I,,,,,,,,,,,,,,,,,,
+30,Intron,black,r,G,M,I,I,I,x,E,"O,Q",G,Z,G,G,"e,i",,I,I,,r,r
+31,Exon,yellow,z,,N,E,E,E,,,,,,,,,,,,,,
+32,exon-3,yellow,y,,,,,,,,,,,,,,,3,,,,
+34,PRP4 ,grey50,d,K,,,,,,,,,,,,,,,,,,
+35,PRP31,grey50,e,L,,,,,,,,,,,,,,,,,,
+36,PRP6,grey50,f,N,,,,,,,,,,,,,,,,,,
+37,PRP3,grey50,g,J,,,,,,,,,,,,,,,,,,
+38,DIB1,grey50,h,E,,,,,,,,,,,,,,,,,,
+39,SNU13,grey50,i,M,,,,,,,,,,,,,,,,,,
+40,LSM8,grey50,j,z,,,,,,,,,,,,,,,,,,
+41,LSM2,grey50,k,q,,,,,,,,,,,,,,,,,,
+42,LSM3,grey50,l,r,,,,,,,,,,,,,,,,,,
+43,LSM6,grey50,m,x,,,,,,,,,,,,,,,,,,
+44,LSM5,grey50,n,t,,,,,,,,,,,,,,,,,,
+45,LSM7,grey50,o,y,,,,,,,,,,,,,,,,,,
+46,LSM4,grey50,p,s,,,,,,,,,,,,,,,,,,
+47,SNU66,grey50,q,O,,,,,,,,,,,,,,,,,,
+48,RNA (intron or U6 snRNA),grey50,r,,,,,,x,,,,,,,,,,,,,
+50,BUD13,grey60,t,Y,W,,,,,,,,,,,,,,,,,
+51,CLF2,rasberry,u,,d,,,,,,,,,,,,,,,,,
+52,Cus1,palegreen,v,2,H,,,,,,,,,,,,,,,,,
+53,CWC24,grey60,w,,a,,,,,,,,,,,,,,,,,
+54,CWC27,grey60,x,,b,,,,,,,,,,,,,,,,,
+55,HSH155,smudge,1,1,G,,,,,,,,,,,,,,,,,
+56,HSH49,sand,2,4,e,,,,,,,,,,,,,,,,,
+57,PML1,grey60,3,Z,U,,,,,,,,,,,,,,,,,
+58,PRP11,palegreen,4,v,I,,,,,,,,,,,,,,,,,
+59,PRP2,palegreen,5,,Y,,,,,,,,,,,,,,,,,
+60,RDS3,palegreen,6,5,J,,,,,,,,,,,,,,,,,
+61,RSE1,smudge,7,3,F,,,,,,,,,,,,,,,,,
+62,SNU17,grey60,8,X,V,,,,,,,,,,,,,,,,,
+63,Ysf3,palegreen,9,6,K,,,,,,,,,,,,,,,Z,,
+64,cwc23,grey50,d,,,,,,T,,,6ICZ,,,,,,,,,,
+65,"SPP382 (CCF8, NTR1)",grey50,e,,,,,,U,,,,,,,,,,,,,
+66,NTR2,grey50,f,,,,,,V,,,,,,,,,,,,,
+67,PRP43,grey50,g,,,,,,W,,,,,,,,,,,,,
+68,SMB1,grey50,h,"a,P,h",,"b,k",b,"b, k","a,h","a, h",,,,,,,,,"b,k","b, s",K,K
+69,SME1,grey50,i,"e,T,i",,"e,p",e,"e, p","b,i","b, i",,,,,,,,,"e, p","e, w",O,O
+70,SMX3,grey50,j,"f,U,j",,"f,q",f,"f, q","c,j","c, j",,,,,,,,,"f, q","f, x",P,P
+71,SMX2 (SNP2),grey50,k,"g,V,k",,"g,r",g,"g, r","d,k","d, k",,,,,,,,,"g, r","g, y",Q,Q
+72,SMD3,grey50,l,"d,S,l",,"d,n",d,"d, n","e,l","e, l",,,,,,,,,"d, n","d, v",N,N
+73,SMD1,grey50,m,"b,Q,m",,"h,l",h,"h, l","f,m","f, m",,,,,,,,,"h, l","h, t",L,L
+74,SMD2,grey50,n,"c,R,n",,"j,m",j,"j, m","g,n","g, n",,,,,,,,,"j, m","i, u",M,M
+75,PRP22,grey50,o,,,,,V,,W,,,,,,,,,,,,
+76,PRP18,grey50,p,,,,a,a,,U,,,,,,,,,,,,
+77,SLU7,grey50,q,,,,c,c,,V,,,,,,,,,,,,
+78,SMF,grey50,d,,,,,,,,,,,,,,,,,,,
+79,SMG,grey50,e,,,,,,,,,,,,,,,,,,,
+80,PRP9,grey50,f,u,,,,,,,,,,,,,,,,,,
+81,PRP21,grey50,g,w,,,,,,,,,,,,,,,,,,
+82,SNU23,grey50,r,W,,,,,,,,,,,,,,,,,,
+83,PRP38,grey50,s,0,,,,,,,,,,,,,,,,,,
+84,SPP381,grey50,w,9,,,,,,,,,,,,,,,,,,
+85,unassigned,grey50,,,,,,X,,,,,,,,,,,x,X,,
+86,Spp42_yPrp8,grey50,,,,,,,,,A,,,,,,,,,,,
+87,CWF15_yCWC15,orange,,,,,,,,,h,,,,,,,,,,,
+88,PRKRIP1,grey50,,,,,,,,,,,,,X,,,,,,,
+89,MUD1,grey51,,,,,,,,,,,,,,,,,,A,C,C
+90,SNP1,orange,,,,,,,,,,,,,,,,,,B,A,A
+91,YHC1,grey53,,,,,,,,,,,,,,,,,,C,B,B
+92,PRP39,grey54,,,,,,,,,,,,,,,,,,D,E,E
+93,"PRP42 (MUD16, SNU65)",grey55,,,,,,,,,,,,,,,,,,E,D,D
+94,NAM8 (MRE2),grey56,,,,,,,,,,,,,,,,,,F,F,F
+95,SNU56 (MUD10),grey57,,,,,,,,,,,,,,,,,,G,G,G
+96,"LUC7 (EPE1, EXM2)",grey58,,,,,,,,,,,,,,,,,,H,I,I
+97,SNU71,grey59,,,,,,,,,,,,,,,,,,J,H,H
+98,HSH155,grey60,,,,,,,,,,,,,,,,,,O,,
+99,RSE1 (SAP130),grey61,,,,,,,,,,,,,,,,,,P,,
+100,CUS1,grey62,,,,,,,,,,,,,,,,,,Q,,
+101,HSH49,grey63,,,,,,,,,,,,,,,,,,R,,
+102,RDS3,grey64,,,,,,,,,,,,,,,,,,S,,
+103,PRP9,grey65,,,,,,,,,,,,,,,,,,T,,
+104,"PRP11 (PRP10, RNA11)",grey66,,,,,,,,,,,,,,,,,,U,,
+105,PRP21 (SPP91),grey67,,,,,,,,,,,,,,,,,,V,,
+106,U1,green,,,,,,,,,,,,,,,,,,,R,R
+107,PRP40,grey69,,,,,,,,,,,,,,,,,,,,J
+108,"STO1 (CBC1, CBP80, GCR3, SUT1)",grey70,,,,,,,,,,,,,,,,,,,,X
+109,"CBC2 (CBP20, MUD13, SAE1)",grey71,,,,,,,,,,,,,,,,,,,,Y
