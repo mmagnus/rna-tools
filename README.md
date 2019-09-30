@@ -388,7 +388,7 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 
 1. **`rna_calc_rmsd.py`** - calculate RMSDs of structures to the target
 1. **`rna_calc_evo_rmsd.py`** - calculate RMSD between structures based on a given alignment and selected residues as defined in the "x line",
-1. **`rna_calc_inf.py`** - including multiprocessing based on ClaRNA,
+1. **`rna_calc_inf.py`** - including multiprocessing based on ClaRNA (in Python 2!)
 1. **`rna_clanstix.py`** - a tool for visualizing RNA 3D structures based on pairwise structural similarity with Clans,
 1. `rna_prediction_significance.py` - calculate significance of an RNA tertiary structure prediction.
 
@@ -399,7 +399,7 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 1. `rna_pdb_merge_into_one.py` - merge single files into an NMR-style multiple model file PDB file.
 
 ### Tertiary structure analysis
-1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA,
+1. **`clarna_app.py`** - a wrapper to ClaRNA, See also PyMOL4RNA, Python 2!
 1. **`rna_x3dna.py`** - a wrapper to 3dna, See also PyMOL4RNA,
 1. `ClashCalc.py` - a simple clash score calculator, used in NPDock, requires BioPython,
 
