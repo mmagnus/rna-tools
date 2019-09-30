@@ -29,7 +29,11 @@
 
 A core library and a set of programs to run various Python functions related to work, initially, with PDB files of RNA structures, but right now this is a huge toolbox of tools to process various types of RNA data.
 
+</hr>
+
 **That is why in 2019, after publishing our U6 Molecular Cell paper I decided to rename the package to rna-tools. Simply, various tools to work with RNA data: sequences, alignments, structures, trajectories, RNA-seq data.** If you want access the old version see the [branch](https://github.com/mmagnus/rna-tools/tree/rna-pdb-tools).
+
+</hr>
 
 **rna-tools finally work with Python 3, to get Python 2 version go to this [branch](https://github.com/mmagnus/rna-tools/tree/py2)**
 
