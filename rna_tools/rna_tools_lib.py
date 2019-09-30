@@ -1,8 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """rna_tools_lib.py - main lib file, many tools in this lib is using this file."""
-
-from __future__ import print_function
 
 import os
 import sys
@@ -118,7 +116,14 @@ class RNAStructure:
         self.mol2_format = False
 
         self.lines = []
-        lines = open(fn).read().strip().split('\n')
+        try:
+            # lines = open(fn).read().strip().split('\n') # don't strip?, good or bed?
+            lines = open(fn).read().split('\n')
+        except UnicodeDecodeError:
+            print("Can't open a binary file")
+            self.lines = ''
+            return
+
         self.has_many_models = False
 
         for l in lines:
@@ -129,7 +134,7 @@ class RNAStructure:
                 break
 
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER') or l.startswith('END'):
-                self.lines.append(l.strip())
+                self.lines.append(l) # don't strip .strip())
             if l.startswith("@<TRIPOS>"):
                 self.mol2_format = True
                 self.report.append('This is mol2 format')
@@ -297,7 +302,7 @@ class RNAStructure:
         for l in self.lines:
             if l.startswith('END'):
                 continue  # skip end
-            txt += l.strip() + '\n'
+            txt += l + '\n' # .strip()
         if add_end:
             if not l.startswith('END'):
                 txt += 'END'
@@ -309,10 +314,26 @@ class RNAStructure:
             if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER'):
                 if l[21] == chain_id:
                     txt += l.strip() + '\n'
-        # txt += 'TER'
+        ## ll = txt.strip().split('\n')[-1] # last line = ll
+        ## print(ll)
+        ## #if ll.startswith('TER'):  # if the last line does not start with ter
+        ## ter = 'TER   ' +  str(self.get_atom_num(ll) + 1).rjust(5) + '\n'
+        ## ter = self.set_res_code(ter, self.get_res_code(ll)) # + self.get_chain_id(l).rjust(11)
+        ## print(ter)
         return txt.strip()
 
-    def rename_chain(self, chain_id_old, chain_id_new, debug=True):
+    def rename_chain(self, chain_id_old, chain_id_new, debug=False):
+        """Rename chains
+
+        Args:
+            chain_id_old (str): e.g., A
+            chain_id_new (str): e.g., B
+            debug (bool): show some diagnostics
+
+        Returns:
+            pdb content (txt)
+            self.lines is updated with new lines
+        """
         txt = ''
         lines = []
         for l in self.lines:
@@ -329,6 +350,7 @@ class RNAStructure:
             lines.append(l)
         self.lines = lines
         return txt
+
 
     def get_resn_uniq(self):
         res = set()
@@ -810,7 +832,7 @@ class RNAStructure:
         Arguments:
           * line = ATOM line from a PDB file
         Output:
-          * atom number as an integer
+          * atom number (int)
         """
         return int(''.join([x for x in line[6:11] if x.isdigit()]))
 
@@ -874,6 +896,18 @@ class RNAStructure:
         return line[:12] + ' ' + code + ' ' * (3 - len(code)) + line[16:]
 
     def set_res_code(self, line, code):
+        """
+        Args:
+            lines
+            code
+        path (str): The path of the file to wrap
+        field_storage (FileStorage): The :class:Y instance to wrap
+            temporary (bool): Whether or not to delete the file when the File
+            instance is destructed
+
+        Returns:
+            BufferedFileStorage: A buffered writable file descriptor
+        """
         return line[:17] + code.rjust(3) + line[21:]
 
     def get_chain_id(self, line):
