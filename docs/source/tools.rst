@@ -205,14 +205,26 @@ rna_calc_rmsd
    :members:
    :undoc-members:
 
-rna_calc_evo_rmsd
+rna_calc_rmsd
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: rna_tools.tools.rna_calc_evo_rmsd.rna_calc_evo_rmsd
+.. argparse::
+   :ref: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd.get_parser
+   :prog: rna_calc_rmsd
+
+.. automodule:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd
+   :members:
+   :undoc-members:
+
+
+rna_calc_rmsd_multi_targets
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_multi_targets
    :undoc-members:
 
 .. argparse::
-   :ref: rna_tools.tools.rna_calc_evo_rmsd.rna_calc_evo_rmsd.get_parser
+   :ref: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_multi_targets.get_parser
    :prog: rna_calc_evo_rmsd
 
 rna_calc_rmsd_trafl
