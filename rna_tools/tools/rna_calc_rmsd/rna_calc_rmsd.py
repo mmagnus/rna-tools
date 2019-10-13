@@ -195,23 +195,23 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument('-t',"--target_fn",
+    parser.add_argument('-t',"--target-fn",
                             default='',
                          help="pdb file")
 
-    parser.add_argument("--target_selection",
+    parser.add_argument("--target-selection",
                             default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
-    parser.add_argument("--target_ignore_selection",
+    parser.add_argument("--target-ignore-selection",
                             default='',
                          help="A/10/O2\'")
 
-    parser.add_argument("--model_selection",
+    parser.add_argument("--model-selection",
                             default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
-    parser.add_argument("--model_ignore_selection",
+    parser.add_argument("--model-ignore-selection",
                             default='',
                          help="A/10/O2\'")
 
@@ -219,12 +219,15 @@ def get_parser():
                          default='all-atom-built-in',
                          help="align, fit")
 
-    parser.add_argument('-o', "--rmsds_fn",
+    parser.add_argument('-o', "--rmsds-fn",
                          default='rmsds.csv',
                          help="ouput, matrix")
 
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="verbose")
+
+    parser.add_argument("--target-column-name", action="store_true",
+                        help="")
 
     parser.add_argument('files', help='files', nargs='+')
 
@@ -280,7 +283,10 @@ if __name__ == '__main__':
 
     f = open(rmsds_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
-    t = 'fn,rmsd_all\n'
+    if args.target_column_name:
+        t = 'fn,' + os.path.basename(args.target_fn) + '\n'
+    else:
+        t = 'fn,rmsd_all\n'
 
     c = 1
     for r1 in models:
