@@ -1,6 +1,6 @@
 ﻿Index,Type,Tool Group,Tool,Help,,
 1,Swiss army knife tool,rna_pdb_toolsx.py,,,,
-2,,, --get-rnapuzzle-ready,format PDB file to be compatible with the 'RNA-Puzzle PDB format'
+2,,, --get-rnapuzzle-ready,format PDB file to be compatible with the 'RNA-Puzzle PDB format',,
 3,,, --report get report,,,
 4,,, --renum-atoms," ""renumber atoms"," tested with --get-seq""",
 5,,, --renum-residues-dirty,,,
