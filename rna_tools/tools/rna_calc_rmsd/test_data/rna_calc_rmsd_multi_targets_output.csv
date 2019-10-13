@@ -1,0 +1,5 @@
+fn,21_solution_0_ChainA.pdb,21_solution_0_ChainB.pdb,21_solution_1_ChainA.pdb,21_solution_1_ChainB.pdb,21_solution_2.pdb,mean,min,max,sd
+21_3dRNA_1_rpr.pdb,12.17,12.11,12.17,12.11,12.11,12.13,12.11,12.17,0.03
+21_Adamiak_1_rpr.pdb,4.64,4.61,4.64,4.61,4.64,4.63,4.61,4.64,0.01
+21_ChenHighLig_1_rpr.pdb,4.01,3.97,4.01,3.97,4.07,4.01,3.97,4.07,0.04
+21_Das_1_rpr.pdb,5.71,5.6,5.71,5.6,5.61,5.65,5.6,5.71,0.05
