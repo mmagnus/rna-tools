@@ -73,7 +73,7 @@
 72,6,PyMOL4RNA,,qrnas(),do minimalization of RNA with QRNAS
 73,7,PyMOL4RNA,,sav(),"save on Desktop a session and a PNG file illustrating the session,"
 74,8,PyMOL4RNA,,rp17() and more,"color structure domains according to pre-defined styles, e.g., rp17 (RNA-Puzzles 17)"
-,,PyMOL,,pymol_color_by_conserv.py,a pipeline to process alignments into coloring scheme for protein conservation https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_color_by_conserv
+,,PyMOL,,pymol_color_by_conserv.py,a pipeline to process alignments into coloring scheme for protein conservation <https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_color_by_conserv>
 75,1,RNA 3D structure processing,,rna_refinement.py,a wrapper for QRNAS (Quick Refinement of Nucleic Acids) {Stasiewicz:2019ea}
 76,1,RNA 3D structure analysis,,clarna_app.py,"a wrapper to ClaRNA, See also PyMOL4RNA, only Python 2 since ClaRNA {Walen:2014jv} is in Python 2"
 77,2,RNA 3D structure analysis,,rna_x3dna.py,"a wrapper to 3dna, See also PyMOL4RNA"
