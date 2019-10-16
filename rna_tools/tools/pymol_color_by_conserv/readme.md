@@ -1,6 +1,8 @@
 PyMOL: color by conservation
 --------------------------------------
 
+See also https://pymolwiki.org/index.php/Color_by_conservation
+
 Get an alignment for your protein sequence from <https://toolkit.tuebingen.mpg.de/tools/psiblast>
 
 Download the alignment and open the alignment in JalView and save Export Annotation -> To CSV
