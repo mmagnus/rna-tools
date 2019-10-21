@@ -67,8 +67,11 @@ ln -s $curr_dir/rna_tools/tools/rna_refinement/rna_refinement.py $curr_dir/bin/r
 ln -s $curr_dir/rna_tools/rna_simrnaweb_download_job.py $curr_dir/bin/rna_simrnaweb_download_job.py
 
 ln -s $curr_dir/rna_tools/tools/rna_calc_evo_rmsd/rna_calc_evo_rmsd.py $curr_dir/bin/rna_calc_evo_rmsd.py
+ln -s $curr_dir/rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_multi_targets.py $curr_dir/bin/rna_calc_rmsd_multi_targets.py
+
 ln -s $curr_dir/rna_tools/tools/rna_calc_rmsd_trafl/rna_calc_rmsd_trafl.py $curr_dir/bin/rna_calc_rmsd_trafl.py
 ln -s $curr_dir/rna_tools/tools/rna_calc_rmsd_trafl/rna_cal_rmsd_trafl_plot.py $curr_dir/bin/rna_cal_rmsd_trafl_plot.py
+
 
 ln -s $curr_dir/rna_tools/tools/rna_x3dna/rna_x3dna.py $curr_dir/bin/rna_x3dna.py
 

@@ -1,9 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
 
-# run for one do it for all
-# merge tables and calculcate statiics
+"""
+rna_calc_rmsd_multi_targets.py - calculate RMSDs of structures to multiple targets::
+
+   $ rna_calc_rmsd_multi_targets.py --models multi-targets/rp21/*.pdb 
+                                    --targets multi-targets/rp21/solutions/*.pdb 
+                                    --target-selection A:1-27+29-41 
+                                    --model-selection A:1-27+29-41
+
+CSV table produced::
+
+                              21_solution_0_ChainA.pdb  21_solution_0_ChainB.pdb  21_solution_1_ChainA.pdb  21_solution_1_ChainB.pdb  21_solution_2.pdb   mean    min    max    sd
+    fn
+    21_3dRNA_1_rpr.pdb                           12.17                     12.11                     12.17                     12.11              12.11  12.13  12.11  12.17  0.03
+    21_Adamiak_1_rpr.pdb                          4.64                      4.61                      4.64                      4.61               4.64   4.63   4.61   4.64  0.01
+    21_ChenHighLig_1_rpr.pdb                      4.01                      3.97                      4.01                      3.97               4.07   4.01   3.97   4.07  0.04
+    21_Das_1_rpr.pdb                              5.71                      5.60                      5.71                      5.60               5.61   5.65   5.60   5.71  0.05
+    --------------------------------------------------------------------------------
+    Save rna_calc_rmsd_multi_targets_output.csv
 
 
 """

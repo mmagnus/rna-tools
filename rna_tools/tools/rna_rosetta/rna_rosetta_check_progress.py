@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_rosetta_cluster.py - a script to cluster a silent file
+"""rna_rosetta_check_progress.py - check progress for many simulations of Rosetta
 
 Example::
 
