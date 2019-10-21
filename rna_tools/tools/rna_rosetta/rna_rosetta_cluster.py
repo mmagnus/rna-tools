@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""A wrapper to ROSETTA tools for RNA modeling
+"""rna_rosetta_cluster.py - cluster silent Rosetta files
+
+A wrapper to ROSETTA tools for RNA modeling
 
 Based on C. Y. Cheng, F. C. Chou, and R. Das, Modeling complex RNA tertiary folds with Rosetta, 1st ed., vol. 553. Elsevier Inc., 2015.
 http://www.sciencedirect.com/science/article/pii/S0076687914000524

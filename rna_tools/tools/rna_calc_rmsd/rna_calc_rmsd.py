@@ -8,7 +8,7 @@ The program is using (https://github.com/charnley/rmsd).
 
 Example #1::
 
-    $ rna_calc_rmsd.py -t 6_0_solution_4GXY_rpr.pdb --model_selection=A:1-17+24-110+115-168 *.pdb
+    $ rna_calc_rmsd.py -t 6_0_solution_4GXY_rpr.pdb --model-selection=A:1-17+24-110+115-168 *.pdb
     rmsd_calc_rmsd_to_target
     --------------------------------------------------------------------------------
     method: all-atom-built-in
@@ -31,9 +31,9 @@ Example #2::
 
     time rmsd_calc_to_target.py
       -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
-      --target_selection A:1-48+52-63
-      --model_selection A:1-48+52-63
-      --target_ignore_selection A/57/O2\'
+      --target-selection A:1-48+52-63
+      --model-selection A:1-48+52-63
+      --target-ignore_selection A/57/O2\'
       clusters/*_AA.pdb
 
     rmsd_calc_rmsd_to_target
@@ -241,9 +241,12 @@ if __name__ == '__main__':
     rmsds_fn = args.rmsds_fn
     target_fn = args.target_fn
     method = args.method
+
     print('method:', method)
+
     target_selection = select_pdb_fragment(args.target_selection)
     model_selection = select_pdb_fragment(args.model_selection)
+
     if target_selection:
         if args.verbose:
             print('  target_selection: #', args.target_selection, target_selection)
@@ -254,6 +257,7 @@ if __name__ == '__main__':
                 print((i, len(ts[i]))) # chain string, a list of residues
                 resides_in_total += len(ts[i])
             print('in total:', resides_in_total)
+
     if model_selection:
         if args.verbose:
             print('  model_selection:  ', len(model_selection), args.model_selection, model_selection)
@@ -262,6 +266,7 @@ if __name__ == '__main__':
                 print(i, len(model_selection[i])) # chain string, a list of residues
                 resides_in_total += len(model_selection[i])
             print('in total:', resides_in_total)
+
     if args.target_ignore_selection:
         target_ignore_selection = select_pdb_fragment_pymol_style(args.target_ignore_selection)
     else:

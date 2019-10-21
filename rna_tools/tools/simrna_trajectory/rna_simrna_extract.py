@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_simrna_extra.py - extract full atom structures from a SimRNA trajectory file.
+"""rna_simrna_extra.py - extract full atom structures from a SimRNA trajectory file
 
 Options:
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""rna_calc_rmsd_all_vs_all.py - calculate RMSDs all vs all.
+"""rna_calc_rmsd_all_vs_all.py - calculate RMSDs all vs all and save it to a matrix
 
 Examples::
 
@@ -73,11 +73,11 @@ def calc_rmsd(a, b):
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('-i', "--input_dir",
+    parser.add_argument('-i', "--input-dir",
                         default='',
                         help="input folder with structures")
 
-    parser.add_argument('-o', "--matrix_fn",
+    parser.add_argument('-o', "--matrix-fn",
                         default='matrix.txt',
                         help="ouput, matrix")
 
