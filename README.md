@@ -26,6 +26,8 @@ The latest
 
 19-10-22 We made a searchable [index]( https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv) of all the tools, enjoy it! Let us know if something is missing or unclear!
 
+19-10-10 **rna-tools finally work with Python 3, to get Python 2 version go to this [branch](https://github.com/mmagnus/rna-tools/tree/py2)**
+
 Introduction
 --------------------------------------------------------------------
 
@@ -36,15 +38,7 @@ Introduction
 
 A core library and a set of programs to run various Python functions related to work, initially, with PDB files of RNA structures, but right now this is a huge toolbox of tools to process various types of RNA data.
 
-<hr>
-
 **That is why in 2019, after publishing our U6 Molecular Cell paper I decided to rename the package to rna-tools. Simply, various tools to work with RNA data: sequences, alignments, structures, trajectories, RNA-seq data.** If you want access the old version see the [branch](https://github.com/mmagnus/rna-tools/tree/rna-pdb-tools).
-
-<hr>
-
-**rna-tools finally work with Python 3, to get Python 2 version go to this [branch](https://github.com/mmagnus/rna-tools/tree/py2)**
-
-<hr>
 
 The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/) and other projects [EvoClustRNA](https://github.com/mmagnus/EvoClustRNA) and [RNA-Puzzles-Normalized-submissions](https://github.com/mmagnus/RNA-Puzzles-Normalized-submissions).
 
