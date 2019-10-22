@@ -21,6 +21,13 @@
 
 <p>
 
+The latest
+--------------------------------------------------------------------
+
+19-10-22 We made a searchable [index]( https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv) of all the tools, enjoy it! Let us know if something is missing or unclear!
+
+Introduction
+--------------------------------------------------------------------
 
 <!--
 *If you find the tools helpful you can by me a beer via PayPal or Flattr, and if you like the project, please "Star it", so it would be easier to find it for others and to make me happy that the toolbox useful not only for me.*
