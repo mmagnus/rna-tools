@@ -34,7 +34,7 @@ M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). RNA 3D structure p
 
 19-06-15 rna-tools used for spliceosome! :-) is accepted for publication! See [this folder](https://github.com/mmagnus/rna-tools/tree/master/U6MolCell) for the description of the analysis!
 
-Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell
+Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Molecular Cell https://www.cell.com/molecular-cell/pdfExtended/S1097-2765(19)30390-9
 
 
 Introduction
