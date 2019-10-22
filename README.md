@@ -332,6 +332,8 @@ Read at http://rna-tools.readthedocs.io/en/latest/install.html
 
 ## Index of tools
 
+The index in a form of a searchable table can be found [here](https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv).
+
 * [Index of tools](#index-of-tools)
   * [rna\_pdb\_toolsx\.py](#rna_pdb_toolsxpy)
   * [Sequence analysis](#sequence-analysis)
