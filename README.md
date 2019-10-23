@@ -30,7 +30,7 @@ The latest
 
 19-10-01 The EvoClustRNA manuscript with the heavy use of rna-tools is accepted for publication!
 
-M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). RNA 3D structure prediction guided by independent folding of homologous sequences, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA
+M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). RNA 3D structure prediction guided by independent folding of homologous sequences, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-019-3120-y
 
 19-06-15 rna-tools used for spliceosome! :-) is accepted for publication! See [this folder](https://github.com/mmagnus/rna-tools/tree/master/U6MolCell) for the description of the analysis!
 
