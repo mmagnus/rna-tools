@@ -1,97 +1,98 @@
-﻿Index,Type,Tool Group,Tool,Help
-1,Swiss army knife tool,rna_pdb_toolsx.py, --get-rnapuzzle-ready,format PDB file to be compatible with the 'RNA-Puzzle PDB format'
-2,Swiss army knife tool,rna_pdb_toolsx.py, --report,get report
-3,Swiss army knife tool,rna_pdb_toolsx.py, --renum-atoms,"renumber atoms, tested with --get-seq"
-4,Swiss army knife tool,rna_pdb_toolsx.py, --renum-residues-dirty,"renumber residues, dirty way"
-5,Swiss army knife tool,rna_pdb_toolsx.py, --renumber-residues,by defult is false
-6,Swiss army knife tool,rna_pdb_toolsx.py, --delete-anisou,"remove files with ANISOU records, works with --inplace"
-7,Swiss army knife tool,rna_pdb_toolsx.py, --split-alt-locations,split into many structures based on alt locations
-8,Swiss army knife tool,rna_pdb_toolsx.py, --clean,get clean structure
-9,Swiss army knife tool,rna_pdb_toolsx.py, --is-pdb,check if a file is in the pdb format
-10,Swiss army knife tool,rna_pdb_toolsx.py, --is-nmr,check if a file is NMR-style multiple model pdb
-11,Swiss army knife tool,rna_pdb_toolsx.py, --un-nmr,split NMR-style multiple model pdb files into individual models [biopython required]
-12,Swiss army knife tool,rna_pdb_toolsx.py, --orgmode,get a structure in org-mode format <sick!>
-13,Swiss army knife tool,rna_pdb_toolsx.py, --get-chain GET_CHAIN,get a chain
-14,Swiss army knife tool,rna_pdb_toolsx.py, --fetch,fetch file from the PDB db
-15,Swiss army knife tool,rna_pdb_toolsx.py, --fetch-ba,fetch biological assembly from the PDB db
-16,Swiss army knife tool,rna_pdb_toolsx.py, --get-seq,get seq
-17,Swiss army knife tool,rna_pdb_toolsx.py, --compact,"with --get-seq, get it in compact view"
-18,Swiss army knife tool,rna_pdb_toolsx.py, --get-ss,get secondary structure
-19,Swiss army knife tool,rna_pdb_toolsx.py, --rosetta2generic,convert ROSETTA-like format to a generic pdb
-20,Swiss army knife tool,rna_pdb_toolsx.py, --collapsed-view,"collapsed view of pdb file. Only lines with C5’ atoms are shown and TER, MODEL, END"
-21,Swiss army knife tool,rna_pdb_toolsx.py, --replace-hetatm,replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
-22,Swiss army knife tool,rna_pdb_toolsx.py, --mutate MUTATE,mutate residues
-23,Swiss army knife tool,rna_pdb_toolsx.py, --edit EDIT,"edit 'A:6>B:200', 'A:2-7>B:2-7'"
-24,Swiss army knife tool,rna_pdb_toolsx.py, --rename-chain RENAME_CHAIN,rename chain
-25,Swiss army knife tool,rna_pdb_toolsx.py, --swap-chains SWAP_CHAINS,swap two chains
-26,Swiss army knife tool,rna_pdb_toolsx.py, --replace-chain REPLACE_CHAIN,replace a chain
-27,Swiss army knife tool,rna_pdb_toolsx.py, --delete DELETE,"delete the selected fragment, e.g., A:10-16, or for more than one fragment --delete 'A:1-25+30-57'"
-28,Swiss army knife tool,rna_pdb_toolsx.py, --extract EXTRACT,"extract the selected fragment, e.g., A:10-16, or for more than one fragment --extract 'A:1-25+30-57'"
-29,Swiss army knife tool,rna_pdb_toolsx.py, --extract-chain EXTRACT_CHAIN,extract chain
-30,RNA sequence,RNASequence,,"ContextFold, also used for Jupyter Notebook"
-31,RNA sequence,RNASequence,,"RNAeval (ViennaRNA) with constraints, also used for Jupyter Notebook"
-32,RNA sequence,RNASequence,,"RNAfold (ViennaRNA) with constraints, also used for Jupyter Notebook"
-33,RNA sequence,RNASequence,,ipknot also used for Jupyter Notebook
-34,RNA sequence,RNASequence,,MC-Fold also used for Jupyter Notebook
-35,RNA sequence,RNASequence,,get foldability with ENTRNA
-36,RNA sequence search,BlastPDB.py,,a simple Blast search designed to be used mostly in Jupyter Notebooks
-37,RNA sequence search,RfamSearch.py,,a simple Rfam search designed to be used mostly in Jupyter Notebooks
-38,RNA secondary structure,SecondaryStructure,draw_ss(),"Draw Secondary Structure using VARNA, also used for Jupyter Notebook"
-39,RNA secondary structure,SecondaryStructure,parse_vienna_to_pairs(),Parse Vienna (dot-bracket notation) to get pairs including pseudoknot (only one layer of psuedoknots implemented at the moment)
-40,RNA secondary structure,SecondaryStructure,rna-pk-simrna-to-one-line.py,convert simrna multi-line format for secondary structure into one line secondary structure notation
-41,RNA Alignment,RNASeq,get_seq(),get sequence
-42,RNA Alignment,RNASeq,get_ss(),get secondary structure for a given sequence
-43,RNA Alignment,RNAalignment,fetch(),fetch an alignment from Rfam
-44,RNA Alignment,RNAalignment,cmalign(),aligns the RNA sequences in to the covariance model (CM) with Infernal
-45,RNA Alignment,RNAalignment,Rchie()*,plotting arc diagrams of RNA secondary structures
-46,RNA Alignment,RNAalignment,find_core(),finds core of molecules in alignment
-47,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd.py,calculate RMSDs of structures to the target
-48,RNA 3D structure comparison,rna_calc_rmsd, --target-selection TARGET_SELECTION & --model-selection MODEL_SELECTION,target & model selection
-49,RNA 3D structure comparison,rna_calc_rmsd, --method METHOD,"methods: --align and --fit (both taken from PyMOL) or the default method, all atom RMSD"
-50,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd_all_vs_all.py,calculate RMSDs all vs all and save it to a matrix
-51,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd_multi_targets.py,calculate RMSDs of structures to multiple targets::
-52,RNA 3D structure comparison,rna_calc_rmsd, --target-selection TARGET_SELECTION & --model-selection MODEL_SELECTION,target & model selection
-53,RNA 3D structure comparison,rna_calc_evo_rmsd,rna_calc_evo_rmsd.py*,"calculate RMSD between structures based on a given alignment and selected residues as defined in the ""x line"" used in EvoClustRNA {Magnus:2019gsa}"
-54,RNA 3D structure comparison,rna_calc_inf,rna_calc_inf.py*,including multiprocessing based on ClaRNA (in Python 2!)
-55,RNA 3D structure comparison,Clustering,rna_clanstix.py*,a tool for visualizing RNA 3D structures based on pairwise structural similarity with CLANS
-56,RNA 3D structure comparison,,rna_prediction_significance.py,"calculate significance of an RNA tertiary structure prediction, wrapper to "
-57,RNA 3D Structure Prediction,Rosetta,rna_rosetta_n.py,show me # of structure in a silent file
-58,RNA 3D Structure Prediction,Rosetta,rna_rosetta_check_progress.py,check progress for many simulations of Rosetta
-59,RNA 3D Structure Prediction,Rosetta,rna_rosetta_min.py,a script to do minimization
-60,RNA 3D Structure Prediction,Rosetta,rna_rosetta_cluster.py,cluster silent Rosetta files
-61,RNA 3D Structure Prediction,Rosetta,rna_rosetta_extract_lowscore_decoys.py,a simple wrapper to extract_lowscore_decoys.py
-62,RNA 3D Structure Prediction,Rosetta,rna_rosetta_run.py,prepare & run ROSETTA simulations
-63,RNA 3D Structure Prediction,Rosetta,rna_rosetta_head.py,get a head of a Rosetta silent file.
-64,RNA 3D Structure Prediction,SimRNA,rna_simrna_cluster.py,cluster SimRNA trajectories
-65,RNA 3D Structure Prediction,SimRNA,rna_simrna_extract.py,extract full atom structures from a SimRNA trajectory file
-66,RNA 3D Structure Prediction,SimRNA,rna_simrna_get_data,alias to get data folder for SimRNA
-67,RNA 3D Structure Prediction,SimRNA,rna_simrna_lowest.py,get lowest energy frames out of a SimRNA trajectory file
-68,RNA 3D Structure Prediction,SimRNA,rna_simrna_energy_plot.py,get an energy plot of SimRNA trajectory
-69,RNA 3D Structure Prediction,SimRNA,rna_pk_simrna_to_one_line.py,convert multi-line SimRNA secondary structure format to one line bracket format
-70,RNA 3D Structure Prediction,SimRNA,rna_ss_pk_to_simrna.py,"do opposite as previous one, convert one line bracket format with pseudoknots into multi-line SimRNA secondary structure format"
-71,RNA 3D Structure Prediction,SimRNAweb,rna_simrnaweb_download_job.py,"download model files, trajectory for a given SimRNAweb job"
-72,RNA 3D Trajectory Analysis,SimRNATrajectory,"load_from_string(), load_from_file(), load_from_list()","Class for processing simulations of SimRNA in Python: classes of Frames, Residues, Atoms"
-73,RNA 3D Trajectory Analysis,SimRNATrajectory,plot_energy(),Plots the SimRNA energy of the trajetory.
-74,RNA 3D Trajectory Analysis,SimRNATrajectory,get_coord() of atoms or residues,Get coordinates for atoms and residues (middle point) and do mathematics on them
-75,RNA 3D Trajectory Analysis,SimRNATrajectory,trajectory.frames[0:10],slice frames and save it into new trajectories
-76,Other,,rnakb_utils,RNAkb-related {Bernauer:2011hf} tools
-77,Other,,rnapuzzle_sender*,a script to process files to be send to the RNA-Puzzles organizers
-78,Other,,rnashape2ascii ,convert RNA shape data into ascii characters ;-) ▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁
-79,Other,,cluster_load,"scripts to view cluster load, based on processing qstat"
-80,PyMOL4RNA,,Hacky Undo,"Undo (""Quick Save & Load"") for PyMOL, CTRL-S & CTRL-Z"
-81,PyMOL4RNA,,PyMOL4Spliceosome* ,Now own repository https://github.com/mmagnus/PyMOL4Spliceosome
-82,PyMOL4RNA,,clarna()*,contact classification with ClaRNA directly in PyMOL for selected residues
-83,PyMOL4RNA,,x3dna()*,contact classification with 3DNA directly in PyMOL for selected residues
-84,PyMOL4RNA,,ss()*,get secondary structures of selected objects based on 3DNA
-85,PyMOL4RNA,,qrnas(),do minimalization of RNA with QRNAS
-86,PyMOL4RNA,,sav(),"save on Desktop a session and a PNG file illustrating the session,"
-87,PyMOL4RNA,,rp17() and more,"color structure domains according to pre-defined styles, e.g., rp17 (RNA-Puzzles 17)"
-88,PyMOL,,pymol_color_by_conserv.py*,a pipeline to process alignments into coloring scheme for protein conservation <https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_color_by_conserv>
-89,RNA 3D structure processing,,rna_refinement.py,a wrapper for QRNAS (Quick Refinement of Nucleic Acids) {Stasiewicz:2019ea}
-90,RNA 3D structure analysis,,clarna_app.py,"a wrapper to ClaRNA, See also PyMOL4RNA, only Python 2 since ClaRNA {Walen:2014jv} is in Python 2"
-91,RNA 3D structure analysis,,rna_x3dna.py,"a wrapper to 3dna, See also PyMOL4RNA"
-92,RNA 3D structure analysis,,ClashCalc.py,"a simple clash score calculator, used in NPDock, requires BioPython,"
-93,RNA 3D structure formats,,diffpdb*,a simple tool to compare text-content of PDB files
-94,RNA 3D structure formats,,rna_pdb_merge_into_one.py,merge single files into an NMR-style multiple model file PDB file
-95,RNA 3D structure formats,,rna_pdb_edit_occupancy_bfactor.py,"edit occupancy or bfactor in PDB file, used for SimRNAweb"
-96,Library,Selection,,"engine to parse selection in PyMOL format into Python objects, used for example by rmsd_calc.py"
+﻿Index,Type,Tool Group,Tool,Category,Help
+1,Swiss army knife tool,rna_pdb_toolsx.py, --get-rnapuzzle-ready,original,format PDB file to be compatible with the 'RNA-Puzzle PDB format'
+2,Swiss army knife tool,rna_pdb_toolsx.py, --report,original,get report
+3,Swiss army knife tool,rna_pdb_toolsx.py, --renum-atoms,original,"renumber atoms, tested with --get-seq"
+4,Swiss army knife tool,rna_pdb_toolsx.py, --renum-residues-dirty,original,"renumber residues, dirty way"
+5,Swiss army knife tool,rna_pdb_toolsx.py, --renumber-residues,original,by defult is false
+6,Swiss army knife tool,rna_pdb_toolsx.py, --delete-anisou,original,"remove files with ANISOU records, works with --inplace"
+7,Swiss army knife tool,rna_pdb_toolsx.py, --split-alt-locations,original,split into many structures based on alt locations
+8,Swiss army knife tool,rna_pdb_toolsx.py, --clean,original,get clean structure
+9,Swiss army knife tool,rna_pdb_toolsx.py, --is-pdb,original,check if a file is in the pdb format
+10,Swiss army knife tool,rna_pdb_toolsx.py, --is-nmr,original,check if a file is NMR-style multiple model pdb
+11,Swiss army knife tool,rna_pdb_toolsx.py, --un-nmr,original,split NMR-style multiple model pdb files into individual models [biopython required]
+12,Swiss army knife tool,rna_pdb_toolsx.py, --orgmode,original,get a structure in org-mode format <sick!>
+13,Swiss army knife tool,rna_pdb_toolsx.py, --get-chain GET_CHAIN,original,get a chain
+14,Swiss army knife tool,rna_pdb_toolsx.py, --fetch,original,fetch file from the PDB db
+15,Swiss army knife tool,rna_pdb_toolsx.py, --fetch-ba,original,fetch biological assembly from the PDB db
+16,Swiss army knife tool,rna_pdb_toolsx.py, --get-seq,original,get seq
+17,Swiss army knife tool,rna_pdb_toolsx.py, --compact,original,"with --get-seq, get it in compact view"
+18,Swiss army knife tool,rna_pdb_toolsx.py, --get-ss,original,get secondary structure
+19,Swiss army knife tool,rna_pdb_toolsx.py, --rosetta2generic,original,convert ROSETTA-like format to a generic pdb
+20,Swiss army knife tool,rna_pdb_toolsx.py, --collapsed-view,original,"collapsed view of pdb file. Only lines with C5’ atoms are shown and TER, MODEL, END"
+21,Swiss army knife tool,rna_pdb_toolsx.py, --replace-hetatm,original,replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
+22,Swiss army knife tool,rna_pdb_toolsx.py, --mutate MUTATE,original,"mutate residues, uses ModeRNA"
+23,Swiss army knife tool,rna_pdb_toolsx.py, --edit EDIT,original,"edit 'A:6>B:200', 'A:2-7>B:2-7'"
+24,Swiss army knife tool,rna_pdb_toolsx.py, --rename-chain RENAME_CHAIN,original,rename chain
+25,Swiss army knife tool,rna_pdb_toolsx.py, --swap-chains SWAP_CHAINS,original,swap two chains
+26,Swiss army knife tool,rna_pdb_toolsx.py, --replace-chain REPLACE_CHAIN,original,replace a chain
+27,Swiss army knife tool,rna_pdb_toolsx.py, --delete DELETE,original,"delete the selected fragment, e.g., A:10-16, or for more than one fragment --delete 'A:1-25+30-57'"
+28,Swiss army knife tool,rna_pdb_toolsx.py, --extract EXTRACT,original,"extract the selected fragment, e.g., A:10-16, or for more than one fragment --extract 'A:1-25+30-57'"
+29,Swiss army knife tool,rna_pdb_toolsx.py, --extract-chain EXTRACT_CHAIN,original,extract chain
+30,RNA sequence,RNASequence,predict_ss(),wrapper,"ContextFold, also used for Jupyter Notebook"
+31,RNA sequence,RNASequence,predict_ss(),wrapper,"CentroidFold, also used for Jupyter Notebook"
+32,RNA sequence,RNASequence,eval(),wrapper,"RNAeval (ViennaRNA) with constraints, also used for Jupyter Notebook"
+33,RNA sequence,RNASequence,predict_ss(),wrapper,"RNAfold (ViennaRNA) with constraints, also used for Jupyter Notebook"
+34,RNA sequence,RNASequence,predict_ss(),wrapper,ipknot also used for Jupyter Notebook
+35,RNA sequence,RNASequence,predict_ss(),wrapper,MC-Fold also used for Jupyter Notebook
+36,RNA sequence,RNASequence,get_foldability(),wrapper,get foldability with ENTRNA
+37,RNA sequence search,BlastPDB.py,search(),wrapper,a simple Blast search designed to be used mostly in Jupyter Notebooks
+38,RNA sequence search,RfamSearch.py,cmscan(),wrapper,a simple Rfam search designed to be used mostly in Jupyter Notebooks
+39,RNA secondary structure,SecondaryStructure,draw_ss(),wrapper,"Draw Secondary Structure using VARNA, also used for Jupyter Notebook"
+40,RNA secondary structure,SecondaryStructure,parse_vienna_to_pairs(),original,Parse Vienna (dot-bracket notation) to get pairs including pseudoknot (only one layer of psuedoknots implemented at the moment)
+41,RNA secondary structure,SecondaryStructure,rna-pk-simrna-to-one-line.py,original,convert simrna multi-line format for secondary structure into one line secondary structure notation
+42,RNA Alignment,RNASeq,get_seq(),original,get sequence from an alignment
+43,RNA Alignment,RNASeq,get_ss(),original,get secondary structure for a given sequence
+44,RNA Alignment,RNAalignment,fetch(),original,fetch an alignment from Rfam
+45,RNA Alignment,RNAalignment,cmalign(),wrapper,aligns the RNA sequences in to the covariance model (CM) with Infernal
+46,RNA Alignment,RNAalignment,Rchie()*,wrapper,plot arc diagrams of RNA secondary structures
+47,RNA Alignment,RNAalignment,find_core(),original,finds core of molecules in alignment
+48,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd.py,original,calculate RMSDs of structures to the target
+49,RNA 3D structure comparison,rna_calc_rmsd, --target-selection TARGET_SELECTION & --model-selection MODEL_SELECTION,original,target & model selection
+50,RNA 3D structure comparison,rna_calc_rmsd, --method METHOD,original,"methods: --align and --fit (both taken from PyMOL) or the default method, all atom RMSD"
+51,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd_all_vs_all.py,original,calculate RMSDs all vs all and save it to a matrix
+52,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd_multi_targets.py,original,calculate RMSDs of structures to multiple targets::
+53,RNA 3D structure comparison,rna_calc_rmsd, --target-selection TARGET_SELECTION & --model-selection MODEL_SELECTION,original,target & model selection
+54,RNA 3D structure comparison,rna_calc_evo_rmsd,rna_calc_evo_rmsd.py*,original,"calculate RMSD between structures based on a given alignment and selected residues as defined in the ""x line"" used in EvoClustRNA {Magnus:2019gsa}"
+55,RNA 3D structure comparison,rna_calc_inf,rna_calc_inf.py*,original/wrapper,including multiprocessing based on ClaRNA (in Python 2!)
+56,RNA 3D structure comparison,Clustering,rna_clanstix.py*,original,a tool for visualizing RNA 3D structures based on pairwise structural similarity with CLANS
+57,RNA 3D structure comparison,,rna_prediction_significance.py,wrapper,"calculate significance of an RNA tertiary structure prediction, wrapper to "
+58,RNA 3D Structure Prediction,Rosetta,rna_rosetta_n.py,wrapper,show me # of structure in a silent file
+59,RNA 3D Structure Prediction,Rosetta,rna_rosetta_check_progress.py,wrapper,check progress for many simulations of Rosetta
+60,RNA 3D Structure Prediction,Rosetta,rna_rosetta_min.py,wrapper,a script to do minimization
+61,RNA 3D Structure Prediction,Rosetta,rna_rosetta_cluster.py,wrapper,cluster silent Rosetta files
+62,RNA 3D Structure Prediction,Rosetta,rna_rosetta_extract_lowscore_decoys.py,wrapper,a simple wrapper to extract_lowscore_decoys.py
+63,RNA 3D Structure Prediction,Rosetta,rna_rosetta_run.py,wrapper,prepare & run ROSETTA simulations
+64,RNA 3D Structure Prediction,Rosetta,rna_rosetta_head.py,wrapper,get a head of a Rosetta silent file.
+65,RNA 3D Structure Prediction,SimRNA,rna_simrna_cluster.py,wrapper,cluster SimRNA trajectories
+66,RNA 3D Structure Prediction,SimRNA,rna_simrna_extract.py,wrapper,extract full atom structures from a SimRNA trajectory file
+67,RNA 3D Structure Prediction,SimRNA,rna_simrna_get_data,wrapper,alias to get data folder for SimRNA
+68,RNA 3D Structure Prediction,SimRNA,rna_simrna_lowest.py,wrapper,get lowest energy frames out of a SimRNA trajectory file
+69,RNA 3D Structure Prediction,SimRNA,rna_simrna_energy_plot.py,wrapper,get an energy plot of SimRNA trajectory
+70,RNA 3D Structure Prediction,SimRNA,rna_pk_simrna_to_one_line.py,original,convert multi-line SimRNA secondary structure format to one line bracket format
+71,RNA 3D Structure Prediction,SimRNA,rna_ss_pk_to_simrna.py,original,"do opposite as previous one, convert one line bracket format with pseudoknots into multi-line SimRNA secondary structure format"
+72,RNA 3D Structure Prediction,SimRNAweb,rna_simrnaweb_download_job.py,original,"download model files, trajectory for a given SimRNAweb job"
+73,RNA 3D Trajectory Analysis,SimRNATrajectory,"load_from_string(), load_from_file(), load_from_list()",original,"Class for processing simulations of SimRNA in Python: classes of Frames, Residues, Atoms"
+74,RNA 3D Trajectory Analysis,SimRNATrajectory,plot_energy(),original,Plots the SimRNA energy of the trajetory.
+75,RNA 3D Trajectory Analysis,SimRNATrajectory,get_coord() of atoms or residues,original,Get coordinates for atoms and residues (middle point) and do mathematics on them
+76,RNA 3D Trajectory Analysis,SimRNATrajectory,trajectory.frames[0:10],original,slice frames and save it into new trajectories
+77,Other,,rnakb_utils,original,RNAkb-related {Bernauer:2011hf} tools
+78,Other,,rnapuzzle_sender*,original,a script to process files to be send to the RNA-Puzzles organizers
+79,Other,,rnashape2ascii ,original,convert RNA shape data into ascii characters ;-) ▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁
+80,Other,,cluster_load,original,"scripts to view cluster load, based on processing qstat"
+81,PyMOL4RNA,,Hacky Undo,original,"Undo (""Quick Save & Load"") for PyMOL, CTRL-S & CTRL-Z"
+82,PyMOL4RNA,,PyMOL4Spliceosome* ,original,Now own repository https://github.com/mmagnus/PyMOL4Spliceosome
+83,PyMOL4RNA,,clarna()*,wrapper,contact classification with ClaRNA directly in PyMOL for selected residues
+84,PyMOL4RNA,,x3dna()*,wrapper,contact classification with 3DNA directly in PyMOL for selected residues
+85,PyMOL4RNA,,ss()*,original/wrapper,get secondary structures of selected objects based on 3DNA
+86,PyMOL4RNA,,qrnas(),wrapper,do minimalization of RNA with QRNAS
+87,PyMOL4RNA,,sav(),original,"save on Desktop a session and a PNG file illustrating the session,"
+88,PyMOL4RNA,,rp17() and more,original,"color structure domains according to pre-defined styles, e.g., rp17 (RNA-Puzzles 17)"
+89,PyMOL,,pymol_color_by_conserv.py*,original,a pipeline to process alignments into coloring scheme for protein conservation <https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_color_by_conserv>
+90,RNA 3D structure processing,,rna_refinement.py,wrapper,a wrapper for QRNAS (Quick Refinement of Nucleic Acids) {Stasiewicz:2019ea}
+91,RNA 3D structure analysis,,clarna_app.py,wrapper,"a wrapper to ClaRNA, See also PyMOL4RNA, only Python 2 since ClaRNA {Walen:2014jv} is in Python 2"
+92,RNA 3D structure analysis,,rna_x3dna.py,wrapper,"a wrapper to 3dna, See also PyMOL4RNA"
+93,RNA 3D structure analysis,,ClashCalc.py,original,"a simple clash score calculator, used in NPDock, requires BioPython,"
+94,RNA 3D structure formats,,diffpdb*,original,a simple tool to compare text-content of PDB files
+95,RNA 3D structure formats,,rna_pdb_merge_into_one.py,original,merge single files into an NMR-style multiple model file PDB file
+96,RNA 3D structure formats,,rna_pdb_edit_occupancy_bfactor.py,original,"edit occupancy or bfactor in PDB file, used for SimRNAweb"
+97,Library,Selection,,,"engine to parse selection in PyMOL format into Python objects, used for example by rmsd_calc.py"
