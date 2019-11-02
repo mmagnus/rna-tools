@@ -87,6 +87,9 @@ ln -s $curr_dir/rna_tools/tools/pefx/pefx.py $curr_dir/bin/pefx.py
 ln -s $curr_dir/rna_tools/tools/misc/translate.py $curr_dir/bin/translate.py
 ln -s $curr_dir/rna_tools/tools/misc/translate.py $curr_dir/bin/trs # translate sequence
 
+# test
+ln -s $curr_dir/rna_tools/rna_tools_test_all.py $curr_dir/bin/rna_tools_test_all.py
+
 echo 'Installed in ./bin'
 ls -l bin
 echo
