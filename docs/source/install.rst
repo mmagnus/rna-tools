@@ -41,7 +41,7 @@ for example in my case it looks as::
       (py37) [mm] rna-tools$ git:(master) rna_tools_test_all.py
       BlastPDB requires urllib3
       - Python: 3.7.4 (default, Aug 13 2019, 15:17:50) [Clang 4.0.1 (tags/RELEASE_401/final)]
-      - rna-tools: b'py2-78-g3b3dd5f\n'
+      - rna-tools: b'py2-78-g3b3dd5f'
       - RNA_TOOLS_PATH set to  /home/magnus/work-src/rna-tools/
       - See full list of tools <https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv
       Seems OK
