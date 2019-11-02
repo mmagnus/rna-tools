@@ -96,3 +96,4 @@
 95,RNA 3D structure formats,,rna_pdb_merge_into_one.py,original,merge single files into an NMR-style multiple model file PDB file
 96,RNA 3D structure formats,,rna_pdb_edit_occupancy_bfactor.py,original,"edit occupancy or bfactor in PDB file, used for SimRNAweb"
 97,Library,Selection,,,"engine to parse selection in PyMOL format into Python objects, used for example by rmsd_calc.py"
+#,see the newest version at https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv,,,,
