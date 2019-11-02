@@ -20,11 +20,11 @@ To install the full set of requirements, use ``pip``:
 
 1. Setup the package paths by adding to your  ~/.bashrc or ~/.zshrc following code::
 
-   export RNA_TOOLS_PATH=<PATH TO YOUR RNA_TOOLS>
-   export PYTHONPATH=$PYTHONPATH:$RNA_TOOLS_PATH
-   export PATH=$PATH:$RNA_TOOLS_PATH'/bin/'
+      export RNA_TOOLS_PATH=<PATH TO YOUR RNA_TOOLS>
+      export PYTHONPATH=$PYTHONPATH:$RNA_TOOLS_PATH
+      export PATH=$PATH:$RNA_TOOLS_PATH'/bin/'
 
-for example in my case it's:
+for example in my case it looks as::
 
    export RNA_TOOLS_PATH=/home/magnus/work-src/rna-tools/
    export PYTHONPATH=$PYTHONPATH:$RNA_TOOLS_PATH
