@@ -126,6 +126,8 @@ cp input/205d_rmH2o.pdb output/205d_rmH2o_mutA1234-B1_inplace.pdb && ./rna_pdb_t
 ## --renumber_residues
 ./rna_pdb_toolsx.py --no-hr --renumber-residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
 
+./rna_calc_fenergy.py --file input/u2/* --cstinfile --method all  > output/rna_calc_fenergy.txt
+
 ./BlastPDB.py
 
 if [ "$1" == "--full" ]; then
