@@ -437,13 +437,14 @@ class RNASequence(object):
             else:
                 explore_str = ''
 
-            if constraints:
-                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F mask=\"" + constraints + "\" " + explore_str + \
-                " -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
-            else:
-                cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+            #if constraints:
+            #cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F mask=\"" + constraints + "\" " + explore_str + \
+            #" -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
+            cmd = "curl https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi\?pass\=lucy\&sequence\=" + self.seq + "\&top\=20\&explore\=15\&name\=\&mask\='" + constraints + "'\&singlehigh\=\&singlemed\=\&singlelow\="
+            # cmd = "curl -Y 0 -y 300 -F \"pass=lucy\" -F sequence=\"" + self.seq + "\" https://www.major.iric.ca/cgi-bin/MC-Fold/mcfold.static.cgi"
             if verbose:
                 print(cmd)
+                
             o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             out = o.stdout.read().decode(errors='ignore').strip()
             err = o.stderr.read().decode(errors='ignore').strip()
