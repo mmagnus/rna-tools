@@ -51,7 +51,7 @@ ln -s $curr_dir/rna_tools/tools/rna_filter/rna_pairs_diff.py $curr_dir/bin/rna_p
 # rna_alignment
 ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_find_core.py $curr_dir/bin/rna_align_find_core.py
-ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_get_ss_from_alignment.py $curr_dir/bin/rna_align_get_ss_from_alignment.py
+ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_get_ss_from_stk.py $curr_dir/bin/rna_align_get_ss_from_stk.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/rna_align_seq_to_alignment.py $curr_dir/bin/rna_align_seq_to_alignment.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/utils/rna_alignment_get_species.py $curr_dir/bin/rna_alignment_get_species.py
 ln -s $curr_dir/rna_tools/tools/rna_alignment/utils/rna_alignment_process_id.py $curr_dir/bin/rna_alignment_process_id.py

@@ -4,7 +4,7 @@
 
 Example::
 
-    $ rna_align_get_ss_from_alignment.py aligns/gmp_RF01786.stockholm_p75_pk.sto
+    $ rna_align_get_ss_from_stk.py aligns/gmp_RF01786.stockholm_p75_pk.sto
     AAOX01000007.1/31274-31356
     AAGAAUAUAGAACACUGUGAUGAGCGGUUUUUAUUUGCACUUUAAACCGCUUGGAGUGACUAGUGCAGCCGGCCAAUGAUCUA
     .(((.(((.(..(((......((((((((...............))))))))...)))...............).))).))).
