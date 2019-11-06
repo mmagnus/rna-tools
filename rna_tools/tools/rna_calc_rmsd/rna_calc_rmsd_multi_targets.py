@@ -80,11 +80,22 @@ if __name__ == '__main__':
     for f in rmsds_files:
         df1 = pd.read_csv(f, index_col='fn')
         dfs.append(df1)
+
     df = pd.concat(dfs, axis=1)# join='inner')
-    df['mean'] = df.mean(numeric_only=True, axis=1)
-    df['min'] = df.min(numeric_only=True, axis=1)
-    df['max'] = df.max(numeric_only=True, axis=1)
-    df['sd'] = df.std(numeric_only=True, axis=1)
+    mean = df.mean(numeric_only=True, axis=1)
+    median = df.median(numeric_only=True, axis=1)
+    var = df.var(numeric_only=True, axis=1)
+    min = df.min(numeric_only=True, axis=1)
+    max = df.max(numeric_only=True, axis=1)
+    sd = df.std(numeric_only=True, axis=1)
+
+    df['mean'] = mean
+    df['median'] = median
+    df['variance'] = var
+    df['min'] = min
+    df['max'] = max
+    df['sd'] = sd
+    
     df.round(2).to_csv(args.output_csv)
     print('-' * 80)
     print(df.round(2))
