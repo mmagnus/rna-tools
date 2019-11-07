@@ -6,7 +6,7 @@ from Bio.Alphabet import generic_dna, generic_protein
 import fileinput
 
 for line in fileinput.input():
-    seq = Seq(line.strip())
+    seq = Seq(line.strip().replace('-', ''))  # remove gaps
     protein = seq.translate()
     print(protein)
     protein_txt = ''
