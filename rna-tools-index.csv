@@ -1,4 +1,4 @@
-﻿Index,Type,Tool Group,Tool,Category,Help
+﻿Index,Group Name,Tool Group,Tool,Category,Help
 1,Swiss army knife tool,rna_pdb_toolsx.py, --get-rnapuzzle-ready,original,format PDB file to be compatible with the 'RNA-Puzzle PDB format'
 2,Swiss army knife tool,rna_pdb_toolsx.py, --report,original,get report
 3,Swiss army knife tool,rna_pdb_toolsx.py, --renum-atoms,original,"renumber atoms, tested with --get-seq"
@@ -35,16 +35,18 @@
 34,RNA sequence,RNASequence,predict_ss(),wrapper,ipknot also used for Jupyter Notebook
 35,RNA sequence,RNASequence,predict_ss(),wrapper,MC-Fold also used for Jupyter Notebook
 36,RNA sequence,RNASequence,get_foldability(),wrapper,get foldability with ENTRNA
-37,RNA sequence search,BlastPDB.py,search(),wrapper,a simple Blast search designed to be used mostly in Jupyter Notebooks
-38,RNA sequence search,RfamSearch.py,cmscan(),wrapper,a simple Rfam search designed to be used mostly in Jupyter Notebooks
-39,RNA secondary structure,SecondaryStructure,draw_ss(),wrapper,"Draw Secondary Structure using VARNA, also used for Jupyter Notebook"
-40,RNA secondary structure,SecondaryStructure,parse_vienna_to_pairs(),original,Parse Vienna (dot-bracket notation) to get pairs including pseudoknot (only one layer of psuedoknots implemented at the moment)
-41,RNA secondary structure,SecondaryStructure,rna-pk-simrna-to-one-line.py,original,convert simrna multi-line format for secondary structure into one line secondary structure notation
-42,RNA Alignment,RNASeq,get_seq(),original,get sequence from an alignment
-43,RNA Alignment,RNASeq,get_ss(),original,get secondary structure for a given sequence
-44,RNA Alignment,RNAalignment,fetch(),original,fetch an alignment from Rfam
-45,RNA Alignment,RNAalignment,cmalign(),wrapper,aligns the RNA sequences in to the covariance model (CM) with Infernal
-46,RNA Alignment,RNAalignment,Rchie()*,wrapper,plot arc diagrams of RNA secondary structures
+37,RNA sequence: misc,,reverse.py,original,reverse sequence #cmd #stdin
+38,RNA sequence: misc,,translate.py,original,translate sequence #cmd #stdin
+39,RNA sequence search,BlastPDB.py,search(),wrapper,a simple Blast search designed to be used mostly in Jupyter Notebooks
+40,RNA sequence search,RfamSearch.py,cmscan(),wrapper,a simple Rfam search designed to be used mostly in Jupyter Notebooks
+41,RNA secondary structure,SecondaryStructure,draw_ss(),wrapper,"Draw Secondary Structure using VARNA, also used for Jupyter Notebook"
+42,RNA secondary structure,SecondaryStructure,parse_vienna_to_pairs(),original,Parse Vienna (dot-bracket notation) to get pairs including pseudoknot (only one layer of psuedoknots implemented at the moment)
+43,RNA secondary structure,SecondaryStructure,rna-pk-simrna-to-one-line.py,original,convert simrna multi-line format for secondary structure into one line secondary structure notation
+44,RNA Alignment,RNASeq,get_seq(),original,get sequence from an alignment
+45,RNA Alignment,RNASeq,get_ss(),original,get secondary structure for a given sequence
+46,RNA Alignment,RNAalignment,fetch(),original,fetch an alignment from Rfam
+47,RNA Alignment,RNAalignment,cmalign(),wrapper,aligns the RNA sequences in to the covariance model (CM) with Infernal
+48,RNA Alignment,RNAalignment,Rchie()*,wrapper,plot arc diagrams of RNA secondary structures
 47,RNA Alignment,RNAalignment,find_core(),original,finds core of molecules in alignment
 48,RNA 3D structure comparison,rna_calc_rmsd,rna_calc_rmsd.py,original,calculate RMSDs of structures to the target
 49,RNA 3D structure comparison,rna_calc_rmsd, --target-selection TARGET_SELECTION & --model-selection MODEL_SELECTION,original,target & model selection
