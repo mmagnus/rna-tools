@@ -24,6 +24,11 @@
 The latest
 --------------------------------------------------------------------
 
+**19-11-08** The RNA-toolkit paper has been accepted for publication in Nucleic Acid Research :-)
+
+RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools
+Magnus, Marcin; Antczak, Maciej; Zok, Tomasz; Wiedemann, Jakub ; Lukasiak, Piotr; Cao, Yang ; Bujnicki, Janusz; Westhof, Eric; Szachniuk, Marta; Miao, Zhichao
+
 **19-10-22** We made a searchable [index]( https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv) of all the tools. There are around 100 functionalities implemented, enjoy it! Let us know if something is missing or unclear!
 
 **19-10-10** **rna-tools finally works with Python 3, to get Python 2 version go to this [branch](https://github.com/mmagnus/rna-tools/tree/py2)** However, not all tools can be used with Python 3, for example, ClaRNA is written in Python 2 and we can do nothing about it. So, for now, we suggest using Conda or something else that supports kind of hybrid Python2/Python3 environments. Read more on this [here](https://towardsdatascience.com/environment-management-with-conda-python-2-3-b9961a8a5097) and [here](https://docs.anaconda.com/anaconda/user-guide/tasks/switch-environment/)
