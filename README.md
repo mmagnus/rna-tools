@@ -24,7 +24,7 @@
 The latest
 --------------------------------------------------------------------
 
-**19-11-08** The RNA-toolkit paper has been accepted for publication in Nucleic Acid Research :-)
+**19-11-08** The RNA-Puzzles toolkit paper has been accepted for publication in Nucleic Acid Research :-)
 
 RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools
 Magnus, Marcin; Antczak, Maciej; Zok, Tomasz; Wiedemann, Jakub ; Lukasiak, Piotr; Cao, Yang ; Bujnicki, Janusz; Westhof, Eric; Szachniuk, Marta; Miao, Zhichao
