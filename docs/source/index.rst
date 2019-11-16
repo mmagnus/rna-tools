@@ -28,9 +28,9 @@ Information about development is also available:
    want
    main
    tools
+   pymol4rna
    selection
    workflows
-   pymol4rna
    tips
    rna-puzzles
    notebooks
