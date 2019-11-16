@@ -8,6 +8,15 @@ Download one PyMOL session with structures for each step.
 
 https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/PyMOL4RNA/README.md
 
+PyMOL: color by conservation
+----------------------------------------------------------------------
+
+Show conserved regions of proteins in PyMOL.
+
+.. image:: ../pngs/pymol_color_by_conserv.png
+
+See more: https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_color_by_conserv
+
 PyMOL Drawing
 -----------------------------------------
 
