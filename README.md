@@ -120,6 +120,7 @@ Table of Contents
       * [RNA Alignment](#rna-alignment)
       * [Python Classes](#python-classes)
       * [Other](#other)
+   * [Index of Jupyter Notebooks](#index-of-jupyters)   
 
 
 ## Tour
