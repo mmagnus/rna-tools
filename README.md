@@ -476,3 +476,7 @@ The index in a form of a searchable table can be found [here](https://github.com
 1. rnapuzzle_sender - a script to send PDB files to the RNA-Puzzle organizers,
 1. rnashape2ascii - convert RNA shape data into ascii characters ;-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁`
 1. cluster_load - scripts to view cluster load, based on processing `qstat`.
+## Index of Jupyters
+
+- https://github.com/mmagnus/rna-tools/blob/master/notes/fig3-manuscript.ipynb
+- https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb
