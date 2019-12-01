@@ -6,7 +6,7 @@ PyMOL4Spliceosome: all spliceosome structures in one PyMOL session
 
 Download one PyMOL session with structures for each step.
 
-https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/PyMOL4RNA/README.md
+See own project https://github.com/mmagnus/PyMOL4Spliceosome
 
 PyMOL: color by conservation
 ----------------------------------------------------------------------
