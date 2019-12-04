@@ -1,4 +1,4 @@
-h#!/bin/bash
+#!/bin/bash
 
 mkdir -p bin
 rm bin/*
