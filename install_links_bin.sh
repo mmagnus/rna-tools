@@ -1,8 +1,8 @@
-h#!/bin/bash
+#!/bin/bash
 
-mkdir -p bin
-rm bin/*
-curr_dir=$(pwd)
+curr_dir=$(dirname $(readlink -f $0))
+mkdir -p $curr_dir/bin
+rm $curr_dir/bin/*
 ln -s $curr_dir/rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd.py $curr_dir/bin/rna_calc_rmsd.py
 ln -s $curr_dir/rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py $curr_dir/bin/rna_calc_rmsd_all_vs_all.py
 ln -s $curr_dir/rna_tools/rna_pdb_toolsx.py $curr_dir/bin/rna_pdb_toolsx.py
@@ -95,10 +95,10 @@ ln -s $curr_dir/rna_tools/tools/pymol_color_by_conserv/pymol_color_by_conserv.py
 # test
 ln -s $curr_dir/rna_tools/rna_tools_test_all.py $curr_dir/bin/rna_tools_test_all.py
 
-echo 'Installed in ./bin'
-ls -l bin
+echo "Installed in $curr_dir/bin"
+ls -l $curr_dir/bin
 echo
 echo 'Broken links'
 echo '-- below this should be none --'
-find bin -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print
+find $curr_dir/bin -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print
 echo '-- ^ should be none! -- '
