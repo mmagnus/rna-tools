@@ -28,6 +28,7 @@ The latest
 
 RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools
 Magnus, Marcin; Antczak, Maciej; Zok, Tomasz; Wiedemann, Jakub ; Lukasiak, Piotr; Cao, Yang ; Bujnicki, Janusz; Westhof, Eric; Szachniuk, Marta; Miao, Zhichao
+https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkz1108/5651330
 
 **19-10-22** We made a searchable [index]( https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv) of all the tools. There are around 100 functionalities implemented, enjoy it! Let us know if something is missing or unclear!
 
