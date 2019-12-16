@@ -367,7 +367,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def get_seq(self, compact=False, chainfirst=False, fasta=False):
+    def get_seq(self, compact=False, chainfirst=False, fasta=False, addfn=''):
         """Get seq (v2) gets segments of chains with correct numbering
 
         Run::
@@ -388,6 +388,8 @@ class RNAStructure:
 
         .. warning :: take only ATOM and HETATM lines.
         """
+        if addfn:
+            addfn += ' ' # add space to file name
         seq = self.lines[0][19]
         chains = OrderedDict()
         resi_prev = None
@@ -439,7 +441,7 @@ class RNAStructure:
         else:
             txt = ''
             for c in list(chains.keys()):
-                txt += '> ' + chains[c]['header'] + '\n'
+                txt += '>' + addfn + chains[c]['header'] + '\n'
                 txt += ''.join(chains[c]['seq']) + '\n'
             return txt.strip()
 

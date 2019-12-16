@@ -281,8 +281,7 @@ if __name__ == '__main__':
 
             # with # is easier to grep this out
             if args.fasta:
-                output += '> ' + os.path.basename(f.replace('.pdb', '')) + '\n'
-                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta, addfn=s.fn) + '\n'
             elif args.oneline:
                 output += s.get_seq(compact=args.compact, chainfirst=args.chain_first).strip() + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
             else:
