@@ -265,7 +265,8 @@ if __name__ == '__main__':
             ########
             s = RNAStructure(f)
             if not s.is_pdb():
-                print('Not a PDF file %s' % f)
+                print('Error: Not a PDB file %s' % f)
+                sys.exit(1)
             s.decap_gtp()
             s.std_resn()
             s.remove_hydrogen()
