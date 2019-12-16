@@ -305,7 +305,8 @@ Read the documentations at [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.
 
 ## Cite
 
-Magnus, M., Antczak, M., Zok, T., Wiedemann, J., Lukasiak, P., Bujnicki, J. M., et al. (2019). *RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation and evaluation tools*. (in preparation)
+Magnus M, Antczak M, Zok T, Wiedemann J, Lukasiak P, Cao Y, Bujnicki JM, Westhof E, Szachniuk M, Miao Z. RNA-Puzzles toolkit: a computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools. 
+Nucleic Acids Research. 2019, 10.1093/nar/gkz1108
 
 ## Used in papers
 
