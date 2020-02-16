@@ -56,11 +56,17 @@ def get_parser():
                          default='',
                          help="A:(([[))]]")
 
-    parser.add_argument('--stacking',
+    parser.add_argument('--no-stacking',
                          action="store_true",
-                         help="take into account also stacking")
+                         help="default: use stacking, if this option on, don't take into account stacking, \n\nWARNING/BUG: inf_all will be incorrectly calculated if stacking is off")
 
     parser.add_argument('--debug',
+                         action="store_true")
+
+    parser.add_argument('-pr', '--print-results',
+                         action="store_true")
+
+    parser.add_argument('-sr', '--sort-results',
                          action="store_true")
 
     parser.add_argument('--method', default="clarna", help="you can use mcannotate or clarna")
@@ -94,7 +100,7 @@ def do_job(i):  # , method='clarna'):
     to csv file (keeping it locked)"""
     #if method == 'clarna':
         # run clarna & compare
-    i_cl_fn = clarna_app.clarna_run(i, args.force, args.stacking)
+    i_cl_fn = clarna_app.clarna_run(i, args.force,not args.no_stacking)
     output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, DEBUG)
     if args.verbose:
         print(output)
@@ -154,6 +160,9 @@ if __name__ == '__main__':
 
     out_fn = args.out_fn
 
+    if args.no_stacking:
+        print('WARNING/BUG: inf_all will be incorrectly calculated if stacking is off')
+
     # Open output file
     csv_file = open(out_fn, 'w')
     csv_writer = csv.writer(csv_file, delimiter=',')
@@ -180,3 +189,14 @@ if __name__ == '__main__':
         for c, i in enumerate(input_files):#, range(len(input_files))):
             do_job(i, args.method)
     print('csv was created! ', out_fn)
+    
+    # hack with pandas
+    csv_file.close()
+    import pandas as pd
+    df = pd.read_csv(out_fn)
+    df = df.round(2)
+    if args.sort_results:
+        df = df.sort_values('inf_all', ascending=False)
+    if args.print_results:
+        print(df)
+    df.to_csv(out_fn, sep=',', index=False)

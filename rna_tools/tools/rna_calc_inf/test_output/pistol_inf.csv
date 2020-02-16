@@ -1,4 +1,5 @@
 target,fn,inf_all,inf_stack,inf_WC,inf_nWC,sns_WC,ppv_WC,sns_nWC,ppv_nWC
-target.pdb.outCR,pistol_thrs0.50A_clust03-000001_AA.pdb.outCR,0.707,0.000,0.754,0.000,0.833,0.682,0.000,0.000
-target.pdb.outCR,pistol_thrs0.50A_clust02-000001_AA.pdb.outCR,0.786,0.000,0.865,0.000,0.889,0.842,0.000,0.000
-target.pdb.outCR,pistol_thrs0.50A_clust01-000001_AA.pdb.outCR,0.786,0.000,0.874,0.000,0.944,0.810,0.000,0.000
+target.pdb.outCR,5k7c_clean_onechain_renumber_as_puzzle_srr.pdb.outCR,0.4,0.0,0.86,0.0,0.84,0.89,0.0,0.0
+target.pdb.outCR,pistol_thrs0.50A_clust02-000001_AA.pdb.outCR,0.44,0.0,0.9,0.0,0.9,0.9,0.0,0.0
+target.pdb.outCR,pistol_thrs0.50A_clust01-000001_AA.pdb.outCR,0.45,0.0,0.9,0.0,0.95,0.86,0.0,0.0
+target.pdb.outCR,pistol_thrs0.50A_clust03-000001_AA.pdb.outCR,0.47,0.0,0.86,0.0,0.95,0.78,0.0,0.0
