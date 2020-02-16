@@ -33,7 +33,7 @@ Example #2::
       -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
       --target-selection A:1-48+52-63
       --model-selection A:1-48+52-63
-      --target-ignore_selection A/57/O2\'
+      --target-ignore-selection A/57/O2\\'
       clusters/*_AA.pdb
 
     rmsd_calc_rmsd_to_target
@@ -68,6 +68,8 @@ import math
 import glob
 import re
 import os
+import pandas as pd
+
 
 def get_rna_models_from_dir(files):
     """
@@ -171,6 +173,10 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
     atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True)
     atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
 
+    if verbose:
+        print(atomsP, P)
+        print(atomsQ, Q)
+
     if atomsQ != atomsP:
         print('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
         return (-1,0) # skip this RNA
@@ -226,6 +232,16 @@ def get_parser():
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="verbose")
 
+    parser.add_argument('-pr', '--print-results',
+                         action="store_true")
+
+    parser.add_argument('-sr', '--sort-results',
+                         action="store_true")
+
+    parser.add_argument('-pp', '--print-progress',
+                         default=False,
+                         action="store_true")
+
     parser.add_argument("--target-column-name", action="store_true",
                         help="")
 
@@ -242,7 +258,7 @@ if __name__ == '__main__':
     target_fn = args.target_fn
     method = args.method
 
-    print('method:', method)
+    print('# method:', method)
 
     target_selection = select_pdb_fragment(args.target_selection)
     model_selection = select_pdb_fragment(args.model_selection)
@@ -268,12 +284,12 @@ if __name__ == '__main__':
             print('in total:', resides_in_total)
 
     if args.target_ignore_selection:
-        target_ignore_selection = select_pdb_fragment_pymol_style(args.target_ignore_selection)
+        target_ignore_selection = select_pdb_fragment_pymol_style(args.target_ignore_selection, args.verbose)
     else:
         target_ignore_selection = None
 
     if args.model_ignore_selection:
-        model_ignore_selection = select_pdb_fragment_pymol_style(args.model_ignore_selection)
+        model_ignore_selection = select_pdb_fragment_pymol_style(args.model_ignore_selection, args.verbose)
     else:
         model_ignore_selection = None
 
@@ -296,11 +312,11 @@ if __name__ == '__main__':
     c = 1
     for r1 in models:
         if method == 'align' or method == 'fit':
-            rmsd_curr, atoms = calc_rmsd_pymol(r1, target_fn, method)
+            rmsd_curr, atoms = calc_rmsd_pymol(r1, target_fn, method, args.verbose)
         else:
             rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, args.verbose)
         r1_basename = os.path.basename(r1)
-        print(r1_basename, rmsd_curr, atoms)
+        if args.print_progress: print(r1_basename, rmsd_curr, atoms)
         t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '
         c += 1
         t += '\n'
@@ -311,5 +327,13 @@ if __name__ == '__main__':
     #print t.strip() # matrix
 
     print('# of atoms used:', atoms)
-    if args.rmsds_fn:
-        print('csv was created! ', rmsds_fn)
+
+    df = pd.read_csv(rmsds_fn)
+    df = df.round(2)
+    if args.sort_results:
+        df = df.sort_values('rmsd_all', ascending=True)
+    if args.print_results:
+        print(df)
+    df.to_csv(rmsds_fn, sep=',', index=False)  # easy to set \t here!
+
+    print('csv was created! ', rmsds_fn)
