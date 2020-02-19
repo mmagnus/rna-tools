@@ -36,6 +36,7 @@ from multiprocessing import Pool, Lock, Value, Process
 from rna_tools.tools.clarna_app import clarna_app
 #from rna_tools.opt.BasicAssessMetrics.BasicAssessMetrics import InteractionNetworkFidelity
 
+import pandas as pd
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
@@ -192,7 +193,7 @@ if __name__ == '__main__':
     
     # hack with pandas
     csv_file.close()
-    import pandas as pd
+
     df = pd.read_csv(out_fn)
     df = df.round(2)
     df['target'] = df['target'].str.replace('.outCR', '')
