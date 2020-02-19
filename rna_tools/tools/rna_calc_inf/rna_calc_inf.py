@@ -195,6 +195,8 @@ if __name__ == '__main__':
     import pandas as pd
     df = pd.read_csv(out_fn)
     df = df.round(2)
+    df['target'] = df['target'].str.replace('.outCR', '')
+    df['fn'] = df['fn'].str.replace('.outCR', '')
     if args.sort_results:
         df = df.sort_values('inf_all', ascending=False)
     if args.print_results:
