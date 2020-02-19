@@ -37,6 +37,8 @@ from rna_tools.tools.clarna_app import clarna_app
 #from rna_tools.opt.BasicAssessMetrics.BasicAssessMetrics import InteractionNetworkFidelity
 
 import pandas as pd
+pd.set_option('display.max_rows', 1000)
+
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
