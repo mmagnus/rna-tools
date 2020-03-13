@@ -178,6 +178,7 @@ Example of pro TER::
 	
 Add missing atoms
 =======================
+Add missing atoms etc.::
 
 	(py37) [mx] cwc46$ pdbfixer prp46.pdb --add-atoms all --add-residues
 
