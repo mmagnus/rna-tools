@@ -437,6 +437,7 @@ The index in a form of a searchable table can be found [here](https://github.com
 1. `ss()` - get secondary structures of selected objects,
 1.  `sav <fn>` - save on Desktop a session and a PNG file illustrating the session,
 1. color structure domains according to pre-defined styles, e.g., `rp17()`
+1. [PyMOL Preview Generator for OSX](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_preview_generator)
 
 <h3><a target="_blank" href="https://rna-tools.readthedocs.io/en/latest/tools.html#simrna">SimRNA</a></h3>
 
