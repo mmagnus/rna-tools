@@ -2,7 +2,7 @@
 
 ![](demo.gif)
 
-Video with an exmplanation how to set it up:
+Video with an explanation how to set it up:
 
 <a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="demo.png"></a>
 
