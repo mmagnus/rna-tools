@@ -29,12 +29,12 @@ if __name__ == '__main__':
     tf = tempfile.NamedTemporaryFile(delete=False)
     f = tf.name + '.png'
     file = args.file.replace(" ", "\\ ")
-    os.system('pymol -c ' + file + " -d 'set ray_opaque_background, off; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+    os.system('/usr/local/bin/pymol -c ' + file + " -d 'set ray_opaque_background, off; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
     if args.verbose:
         print(f)
     # crop
     fcrop = f.replace('.png', '32.png')
-    cmd = "convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
+    cmd = "/usr/local/bin/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
     os.system(cmd)
     #cmd = 'source activate base && /usr/local/bin/fileicon set ' + args.file + ' ' + f
     cmd = 'unset PYTHONPATH && /usr/local/bin/fileicon set ' + file + ' ' + fcrop
