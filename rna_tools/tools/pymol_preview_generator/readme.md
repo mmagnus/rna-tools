@@ -27,6 +27,7 @@ Installation:
     
 Automator:
 
+- New -> Quick Action
 - Workflow receives current: files
 - Select Image that you want, we can use QuickLook
 - Color orange
