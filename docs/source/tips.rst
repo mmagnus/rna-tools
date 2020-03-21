@@ -175,3 +175,11 @@ Example of pro TER::
 	ATOM  72309  C5    U x   9     304.190 149.269 320.912  1.00211.91           C
 	ATOM  72310  C6    U x   9     304.960 150.336 320.668  1.00205.76           C
 	TER   72311        U x   9
+	
+Add missing atoms
+=======================
+Add missing atoms etc.::
+
+	(py37) [mx] cwc46$ pdbfixer prp46.pdb --add-atoms all --add-residues
+
+with http://htmlpreview.github.io/?https://raw.github.com/pandegroup/pdbfixer/master/Manual.html
