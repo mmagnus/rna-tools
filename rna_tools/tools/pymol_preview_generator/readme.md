@@ -22,15 +22,13 @@ Installation:
     $ brew install imagemagick
     
     # install pymol
-    $ brew cask install xquartz
     $ brew install brewsci/bio/pymol # if you have any error see below this page
     
 Automator:
 
 - New -> Quick Action
-- Workflow receives current: files
+- Workflow receives current: `files or folders` in `Finder`
 - Select Image that you want, we can use QuickLook
-- Color orange
 - Action: Run shell script, drag and drop this action to the Main Panel
 - Copy paste the code below for this action
 - Pass input `as arguments` (!)
