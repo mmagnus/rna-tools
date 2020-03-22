@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='rna-tools',
-    version='3.1',
+    version='3.1.3',
     packages=['', 'rna_tools', 'rna_tools.tools', 'rna_tools.tools.misc', 'rna_tools.tools.rna_bp',
               'rna_tools.tools.diffpdb', 'rna_tools.tools.clanstix', 'rna_tools.tools.plotting',
               'rna_tools.tools.ClashCalc', 'rna_tools.tools.PyMOL4RNA', 'rna_tools.tools.rna_x3dna',
@@ -94,5 +94,20 @@ setup(
     license='GPLv3',
     author='Marcin Magnus',
     author_email='mag_dex@o2.pl',
-    description='rna-tools: a toolbox to analyze structures and simulations of RNA'
+    description='a toolbox to analyze structures and simulations of RNA',
+    install_requires=[
+        'numpy',
+        'biopython',
+        'forgi',
+        'progressbar2'
+        'sphinx==1.6.7',
+        'sphinx-argparse==0.1.15',
+        'sphinx-rtd-theme',
+        'sphinxcontrib-napoleon',
+        'urllib3',
+        'pandas',
+        'matplotlib',
+        'scipy',
+        'python-Levenshtein'
+      ],
 )
