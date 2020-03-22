@@ -61,6 +61,7 @@ def get_version(currfn='', verbose=False):  # dupa
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
     The version is not printed!
     https://github.com/m4rx9/curr_version/"""
+    return '3.1'
     if currfn == '':
         path = '.'
     else:
