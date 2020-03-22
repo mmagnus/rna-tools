@@ -61,7 +61,11 @@
 					<key>COMMAND_STRING</key>
 					<string>    for f in "$@"
     do
-        source ~/.zshrc
+		if [ -f ~/.zshrc ]; then
+   			 source ~/.zshrc
+		else
+   			 source ~/.bashrc
+		fi
         pymol_preview_generator.py $f  
   done
 </string>
@@ -70,7 +74,7 @@
 					<key>inputMethod</key>
 					<integer>1</integer>
 					<key>shell</key>
-					<string>/bin/zsh</string>
+					<string>/bin/sh</string>
 					<key>source</key>
 					<string></string>
 				</dict>
@@ -177,7 +181,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>479.500000:305.000000</string>
+				<string>479.500000:470.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
