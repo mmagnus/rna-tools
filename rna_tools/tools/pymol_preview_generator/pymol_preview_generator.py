@@ -18,7 +18,7 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("-b", "--black",
                         action="store_true", help="black bg")
-    parser.add_argument("file", help="", default="")
+    parser.add_argument("files", help="", default="", nargs='+')
     return parser
 
 
@@ -26,16 +26,17 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
-    tf = tempfile.NamedTemporaryFile(delete=False)
-    f = tf.name + '.png'
-    file = args.file.replace(" ", "\\ ")
-    os.system('/usr/local/bin/pymol -c ' + file + " -d 'set ray_opaque_background, off; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
-    if args.verbose:
-        print(f)
-    # crop
-    fcrop = f.replace('.png', '32.png')
-    cmd = "/usr/local/bin/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
-    os.system(cmd)
-    #cmd = 'source activate base && /usr/local/bin/fileicon set ' + args.file + ' ' + f
-    cmd = 'unset PYTHONPATH && /usr/local/bin/fileicon set ' + file + ' ' + fcrop
-    os.system(cmd)
+    for file in args.files:
+        tf = tempfile.NamedTemporaryFile(delete=False)
+        f = tf.name + '.png'
+        file = file.replace(" ", "\\ ")
+        os.system('/usr/local/bin/pymol -c ' + file + " -d 'set ray_opaque_background, off; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+        if args.verbose:
+            print(f)
+        # crop
+        fcrop = f.replace('.png', '32.png')
+        cmd = "/usr/local/bin/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
+        os.system(cmd)
+        #cmd = 'source activate base && /usr/local/bin/fileicon set ' + args.file + ' ' + f
+        cmd = 'unset PYTHONPATH && /usr/local/bin/fileicon set ' + file + ' ' + fcrop
+        os.system(cmd)
