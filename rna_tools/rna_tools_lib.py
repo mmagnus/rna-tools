@@ -55,36 +55,9 @@ except ImportError:
     print("Biopython is not detected. It is required for some functions.")
 
 
-def get_version(currfn='', verbose=False):  # dupa
-    """Get version of the tool based on state of the git repository.
-    Return version.
-    If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
-    The version is not printed!
-    https://github.com/m4rx9/curr_version/"""
-    return '3.1'
-    if currfn == '':
-        path = '.'
-    else:
-        path = os.path.dirname(currfn)
-    if verbose:
-        print('get_version::path', path)
-    if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
-        path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
-    if not path:
-        path = '.'
-    if verbose:
-        print('get_version::path2', path)
-    curr_path = os.getcwd()
-    os.chdir(os.path.abspath(path))
-    version = str(subprocess.check_output(
-        'git describe --long --tags --dirty --always', shell=True))
-    if verbose:
-        print(version, curr_path)
-    os.chdir(curr_path)  # go path to original path
-    if version.find('not found') > -1:
-        return ' unknown'  # > install git to get versioning based on git'
-    else:
-        return version
+def get_version(currfn='', verbose=False):
+    import rna_tools
+    return rna_tools.__version__
 
 
 def sort_strings(l):
