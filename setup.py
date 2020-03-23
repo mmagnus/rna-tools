@@ -107,7 +107,7 @@ setup(
     install_requires=[
         'numpy',
         'biopython',
-        'forgi',
+        #'forgi',
         'progressbar2',
         'sphinx==1.6.7',
         'sphinx-argparse==0.1.15',
