@@ -104,6 +104,8 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
 
+    package_data={'': ['docs/README.rst']},
+    
     install_requires=[
         'numpy',
         'biopython',
