@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """Quick and ugly fix to update auto readme."""
 
 import subprocess
