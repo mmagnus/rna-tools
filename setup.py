@@ -102,10 +102,8 @@ setup(
     author_email='mag_dex@o2.pl',
     description='a toolbox to analyze structures and simulations of RNA',
     long_description=long_description,
-    long_description_content_type='text/markdown',
-
+    include_package_data=True,
     package_data={'': ['docs/README.rst']},
-    
     install_requires=[
         'numpy',
         'biopython',
