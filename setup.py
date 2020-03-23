@@ -1,8 +1,10 @@
 from distutils.core import setup
+import versioneer
 
 setup(
     name='rna-tools',
-    version='3.1.4.2',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     packages=['', 'rna_tools', 'rna_tools.tools', 'rna_tools.tools.misc', 'rna_tools.tools.rna_bp',
               'rna_tools.tools.diffpdb', 'rna_tools.tools.clanstix', 'rna_tools.tools.plotting',
               'rna_tools.tools.ClashCalc', 'rna_tools.tools.PyMOL4RNA', 'rna_tools.tools.rna_x3dna',
@@ -105,14 +107,11 @@ setup(
         'sphinx-rtd-theme',
         'sphinxcontrib-napoleon',
         'urllib3',
-        'pandas',
-        'matplotlib',
-        'scipy',
-        'python-Levenshtein'
+        #'pandas',
+        #'matplotlib',
+        #'scipy',
+        #'python-Levenshtein',
         'versioneer',
       ],
 )
 
-import versioneer
-setup(version=versioneer.get_version(),
-       cmdclass=versioneer.get_cmdclass())
