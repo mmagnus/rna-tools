@@ -1,0 +1,2 @@
+include versioneer.py
+include rna_tools/_version.py
