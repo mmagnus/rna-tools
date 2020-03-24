@@ -347,7 +347,7 @@ Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 
     pip install rna-tools
 
-For developers see this http://rna-tools.readthedocs.io/en/latest/install.html
+For developers see this http://rna-tools.readthedocs.io/en/latest/install-dev.html
 
 ## Index of tools
 
