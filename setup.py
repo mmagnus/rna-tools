@@ -93,8 +93,6 @@ setup(
              'rna_tools/tools/misc/translate.py',
              'rna_tools/tools/misc/reverse.py',
              'rna_tools/tools/misc/reverse.py',
-             'rna_tools/tools/rna_kd/rna_kd2pkd.py',
-             'rna_tools/tools/rna_kd/rna_pkd2kd.py',
              'rna_tools/tools/pymol_color_by_conserv/pymol_color_by_conserv.py',
              'rna_tools/tools/pymol_preview_generator/pymol_preview_generator.py'],
     license='GPLv3',
