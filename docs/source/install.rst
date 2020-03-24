@@ -1,4 +1,4 @@
-Install & Configure
+Install
 =============================================
 
 To install kind of vanilla version rna-tools by use pip::
