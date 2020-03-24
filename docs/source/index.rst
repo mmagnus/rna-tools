@@ -37,11 +37,12 @@ Information about development is also available:
    emacs
    geekbook
    install
-
+   
 .. toctree::
    :maxdepth: 2
    :caption: Developer Documentation
 
+   install-dev
    git
    development
 
