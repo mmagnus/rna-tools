@@ -1,4 +1,6 @@
-# PyMOL Preview Generator [OSX]
+<h1 align="center">
+ PyMOL Preview Generator [OSX]
+</h1>
 
 <p align="center">
 <img src="docs/demo.gif">
