@@ -8,7 +8,7 @@
 ## Quick Installation
 
      $ pip install git+http://github.com/mmagnus/rna-tools.git
-     $ pymol_preview_install.py
+     $ pymol_preview_install.py zsh # select your shell, zsh or bash
 
 ## Old Installation
 
