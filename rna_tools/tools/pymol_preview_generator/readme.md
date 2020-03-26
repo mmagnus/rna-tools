@@ -6,7 +6,7 @@
 
 ## Quick Installation
 
-     $ pip install git+http://github.com/mmagnus/rna-tools.git
+     $ pip install rna-tools
      $ pymol_preview_install.py zsh # select your shell, zsh or bash
 
 ## Gallery
@@ -23,20 +23,20 @@ Video with an explanation how to set it up:
 4:05 Shell tool
 5:52 Quick Action with Automator
 
-Installation:
+Requirments:
 
     # install brew [if you don't have it]
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-    $ brew install git # install git
-    $ git clone https://github.com/mmagnus/rna-tools.git # get rna-tools [only if you don't have it]
-
     $ brew install fileicon
     $ brew install imagemagick
+
+    $ brew install brewsci/bio/pymol # install pymol, if you have any error see below this page
+
+Install rna-tools:
     
-    # install pymol
-    $ brew install brewsci/bio/pymol # if you have any error see below this page
-    
+    $ pip install rna-tools
+
 Automator:
 
 - New -> Quick Action
