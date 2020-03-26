@@ -1,7 +1,5 @@
 # PyMOL Preview Generator [OSX]
 
-![](docs/preview.png)
-
 ![](docs/demo.gif)
 
 
@@ -9,6 +7,10 @@
 
      $ pip install git+http://github.com/mmagnus/rna-tools.git
      $ pymol_preview_install.py zsh # select your shell, zsh or bash
+
+## Gallery
+
+![](docs/preview.png)
 
 ## Old Installation
 
