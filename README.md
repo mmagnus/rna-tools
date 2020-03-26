@@ -14,8 +14,7 @@
 <!--
   <a href="https://github.com/mmagnus/rna-tools/releases"><img src="https://img.shields.io/github/release/mmagnus/rna-tools.svg"></a>-->
   <a href="https://travis-ci.org/mmagnus/rna-tools"><img src="https://travis-ci.org/mmagnus/rna-tools.svg?branch=master"></a>
-  <a href="http://rna-tools.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/rna-tools/badge/?version=latest"></a>
-  <a href="https://scrutinizer-ci.com/g/mmagnus/rna-tools/?branch=master"><img src="https://scrutinizer-ci.com/g/mmagnus/rna-tools/badges/quality-score.png?b=master"></a>
+  <a href="http://rna-tools.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/rna-tools/badge/?version=latest"></a><a href="https://badge.fury.io/py/rna-tools"><img src="https://badge.fury.io/py/rna-tools.svg" alt="PyPI version" height="18"></a><a href="https://scrutinizer-ci.com/g/mmagnus/rna-tools/?branch=master"><img src="https://scrutinizer-ci.com/g/mmagnus/rna-tools/badges/quality-score.png?b=master"></a>
 	<span class="badge-paypal"><a href="https://www.paypal.me/MarcinMagnus" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 	<span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
 
