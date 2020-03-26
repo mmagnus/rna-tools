@@ -1,11 +1,5 @@
-<h1 align="center">
- PyMOL Preview Generator [OSX]
-</h1>
-
-<p align="center">
+# PyMOL Preview Generator [OSX]
 <img src="docs/demo.gif">
-</p>
-
 ## Quick Installation
 
      $ pip install git+http://github.com/mmagnus/rna-tools.git
