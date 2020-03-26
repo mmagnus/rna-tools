@@ -65,4 +65,6 @@ and then edit ``rna_tools_config_local.py`` as you need. In my case it is::
     VARNA_PATH  = '/Users/magnus/skills/rnax/varna_tut/'
     VARNA_JAR_NAME = 'VARNA.jar'
 
+For git based pip run::
 
+   pip install git+http://github.com/mmagnus/rna-tools.git
