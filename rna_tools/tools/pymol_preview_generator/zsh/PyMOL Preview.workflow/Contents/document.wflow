@@ -62,7 +62,7 @@
 					<string>    for f in "$@"
     do
 		source ~/.zshrc
-        pymol_preview_generator.py $f &>>  ~/Library/Logs/pymol_preview_generator.log
+        pymol_preview_generator.py $f &amp;&gt;&gt; ~/Library/Logs/pymol_preview_generator.txt
   done
 </string>
 					<key>CheckedForUserDefaultShell</key>
@@ -177,7 +177,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>718.500000:465.000000</string>
+				<string>718.500000:305.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
