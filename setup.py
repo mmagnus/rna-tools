@@ -28,6 +28,7 @@ setup(
               'rna_tools.tools.rna_pdb_merge_structure_with_fragments'],
     url='https://github.com/mmagnus/rna-tools',
     scripts=['rna_tools/rna_pdb_toolsx.py',
+             'rna_tools/tools/misc/rna_tools_which.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py',
              'rna_tools/tools/diffpdb/diffpdb.py',

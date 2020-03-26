@@ -54,6 +54,10 @@ try:
 except ImportError:
     print("Biopython is not detected. It is required for some functions.")
 
+def get_rna_tools_path():
+    import inspect
+    import rna_tools
+    return os.path.dirname(inspect.getfile(rna_tools))
 
 def get_version(currfn='', verbose=False):
     import rna_tools
@@ -368,6 +372,7 @@ class RNAStructure:
         chains = OrderedDict()
         resi_prev = None
         chain_prev = None
+
         for l in self.lines:
             if l.startswith('ATOM') or l.startswith('HETATM'):
                 resi = int(l[22:26])
@@ -391,7 +396,7 @@ class RNAStructure:
 
                     resi_prev = resi
                     chain_prev = chain_curr
-
+                    
         for c in list(chains.keys()):
             header = c + ':' + str(chains[c]['resi'][0]) + '-'  # add A:1-
             for i in range(1, len(chains[c]['resi'])):  # start from second element
@@ -713,6 +718,7 @@ class RNAStructure:
                 if r not in wrong_res:
                     wrong_res.append(r)
         return wrong_res
+
 
     def is_rna(self):
         for r in self.res:
