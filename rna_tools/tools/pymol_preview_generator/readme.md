@@ -4,6 +4,14 @@
 
 ![](docs/demo.gif)
 
+
+## Quick Installation
+
+     $ pip install git+http://github.com/mmagnus/rna-tools.git
+     $ pymol_preview_install.py
+
+## Old Installation
+
 Video with an explanation how to set it up:
 
 <a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="docs/demo.png"></a>
