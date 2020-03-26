@@ -62,7 +62,7 @@
 					<string>    for f in "$@"
     do
 		source ~/.zshrc
-        pymol_preview_generator.py $f  
+        pymol_preview_generator.py $f &>>  ~/Library/Logs/pymol_preview_generator.log
   done
 </string>
 					<key>CheckedForUserDefaultShell</key>
