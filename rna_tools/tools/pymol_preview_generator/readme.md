@@ -1,10 +1,12 @@
 # PyMOL Preview Generator [OSX]
 
-![](demo.gif)
+![](docs/preview.png)
+
+![](docs/demo.gif)
 
 Video with an explanation how to set it up:
 
-<a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="demo.png"></a>
+<a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="docs/demo.png"></a>
 
 1:26 Installation
 4:05 Shell tool
