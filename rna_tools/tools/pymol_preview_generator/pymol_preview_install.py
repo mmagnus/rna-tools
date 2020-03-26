@@ -12,19 +12,20 @@ def get_parser():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument("shell", help="", default="")
     return parser
 
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-    if args.shell == 'bash':
+
+    shell = os.getenv('SHELL')
+    if shell.endswith('bash'):
         p = rna_tools_lib.get_rna_tools_path() + '/tools/pymol_preview_generator/bash/PyMOL Preview.workflow'
         cmd = "cp -rv '" + p + "' ~/Library/Services/"
         os.system(cmd)
-    elif args.shell == 'zsh':        
+    elif shell.endswith('zsh'):        
         p = rna_tools_lib.get_rna_tools_path() + '/tools/pymol_preview_generator/zsh/PyMOL Preview.workflow'
         cmd = "cp -rv '" + p + "' ~/Library/Services/"
         os.system(cmd)
     else:
-        print('select shell as bash or zsh')
+        print('shell is not recognized')
