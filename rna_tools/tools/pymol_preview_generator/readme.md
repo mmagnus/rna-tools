@@ -1,8 +1,8 @@
 # PyMOL Preview Generator [OSX]
 
-<center>
+<p align="center">
 <img src="docs/demo.gif">
-</center>
+</p>
 
 ## Quick Installation
 
