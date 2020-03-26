@@ -1,15 +1,15 @@
-import setuptools
+from setuptools import setup, find_packages
 import versioneer
 
 # read the contents of your README file
 with open('docs/README.rst') as f:
     long_description = f.read()
     
-setuptools.setup(
-    name='rna-tools',
+setup(
+    name='rna_tools',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    packages=['', 'rna_tools', 'rna_tools.tools', 'rna_tools.tools.misc', 'rna_tools.tools.rna_bp',
+    packages=['', 'docs', 'rna_tools', 'rna_tools.tools', 'rna_tools.tools.misc', 'rna_tools.tools.rna_bp',
               'rna_tools.tools.diffpdb', 'rna_tools.tools.clanstix', 'rna_tools.tools.plotting',
               'rna_tools.tools.ClashCalc', 'rna_tools.tools.PyMOL4RNA', 'rna_tools.tools.rna_x3dna',
               'rna_tools.tools.clarna_app', 'rna_tools.tools.rna_filter',
@@ -103,13 +103,7 @@ setuptools.setup(
     author_email='mag_dex@o2.pl',
     description='a toolbox to analyze structures and simulations of RNA',
     long_description=long_description,
-
-    #setup_requires=['setuptools_scm'],
     include_package_data=True,
-    package_data={'rna_tools': [
-                       'docs/README.rst'
-                       'tools/pymol_preview_generator/PyMOL Preview.workflow.zip'],},
-    # data_files = ('data', 'tools/pymol_preview_generator/PyMOL Preview.workflow/*'),
     install_requires=[
         'numpy',
         'biopython',
