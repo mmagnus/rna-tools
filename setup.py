@@ -1,11 +1,11 @@
-from distutils.core import setup
+import setuptools
 import versioneer
 
 # read the contents of your README file
 with open('docs/README.rst') as f:
     long_description = f.read()
     
-setup(
+setuptools.setup(
     name='rna-tools',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
@@ -95,14 +95,21 @@ setup(
              'rna_tools/tools/misc/reverse.py',
              'rna_tools/tools/misc/reverse.py',
              'rna_tools/tools/pymol_color_by_conserv/pymol_color_by_conserv.py',
-             'rna_tools/tools/pymol_preview_generator/pymol_preview_generator.py'],
+
+             'rna_tools/tools/pymol_preview_generator/pymol_preview_generator.py',
+             'rna_tools/tools/pymol_preview_generator/pymol_preview_install.py'],
     license='GPLv3',
     author='Marcin Magnus',
     author_email='mag_dex@o2.pl',
     description='a toolbox to analyze structures and simulations of RNA',
     long_description=long_description,
+
+    #setup_requires=['setuptools_scm'],
     include_package_data=True,
-    package_data={'': ['docs/README.rst']},
+    package_data={'rna_tools': [
+                       'docs/README.rst'
+                       'tools/pymol_preview_generator/PyMOL Preview.workflow.zip'],},
+    # data_files = ('data', 'tools/pymol_preview_generator/PyMOL Preview.workflow/*'),
     install_requires=[
         'numpy',
         'biopython',
