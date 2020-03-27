@@ -14,7 +14,7 @@ fetch a biologicaly assembly
 
 Example::
 
-  $ rna_pdb_toolsx.py --fetch_ba 1xjr
+  $ rna_pdb_toolsx.py --fetch-ba 1xjr
   downloading...1xjr_ba.pdb ok
 
 or over a list of pdb ids in a text file::
@@ -23,7 +23,7 @@ or over a list of pdb ids in a text file::
   1y26
   1fir
 
-  $ while read p; do rna_pdb_toolsx.py --fetch_ba $p; done < data/pdb_ids.txt
+  $ while read p; do rna_pdb_toolsx.py --fetch-ba $p; done < data/pdb_ids.txt
   downloading...1y26_ba.pdb ok
   downloading...1fir_ba.pdb ok
 
@@ -35,7 +35,7 @@ get sequences of a bunch of PDB files
 
 Example::
 
-    rna_pdb_toolsx.py --get_seq *.pdb
+    rna_pdb_toolsx.py --get-seq *.pdb
     # 1xjr
     > A:1-47
     GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
@@ -60,9 +60,6 @@ Example::
     > H:1-10
     CCGGCAGCCU
 
-
-
-
 get secondary structures of your PDB files
 --------------------------------------------
 
@@ -82,11 +79,11 @@ get numbering of your structure and rename chains
 ----------------------------------------------------
 Rename chain B in structure 4_das_1_rpr.pdb::
 
-  $ rna_pdb_toolsx.py --get_seq  4_das_1_rpr.pdb
+  $ rna_pdb_toolsx.py --get-seq  4_das_1_rpr.pdb
   > 4_das_1_rpr.pdb B:1-126
   GGCUUAUCAAGAGAGGUGGAGGGACUGGCCCGAUGAAACCCGGCAACCACUAGUCUAGCGUCAGCUUCGGCUGACGCUAGGCUAGUGGUGCCAAUUCCUGCAGCGGAAACGUUGAAAGAUGAGCCA
   $ rna_pdb_toolsx.py --edit 'B:1-126>A:1-126' 4_das_1_rpr.pdb > 4_das_1_rpr2.pdb
-  $ rna_pdb_toolsx.py --get_seq  4_das_1_rpr2.pdb
+  $ rna_pdb_toolsx.py --get-seq  4_das_1_rpr2.pdb
   > 4_das_1_rpr2.pdb A:1-126
   GGCUUAUCAAGAGAGGUGGAGGGACUGGCCCGAUGAAACCCGGCAACCACUAGUCUAGCGUCAGCUUCGGCUGACGCUAGGCUAGUGGUGCCAAUUCCUGCAGCGGAAACGUUGAAAGAUGAGCCA
 
@@ -111,7 +108,7 @@ find missing atoms in my structure
 
 Run::
 
-    $ rna_pdb_toolsx.py --get_rnapuzzle_ready input/1_das_1_rpr_fixed.pdb
+    $ rna_pdb_toolsx.py --get-rnapuzzle-ready input/1_das_1_rpr_fixed.pdb
     HEADER Generated with rna-pdb-tools
     HEADER ver 91ed4f8-dirty
     HEADER https://github.com/mmagnus/rna-pdb-tools
