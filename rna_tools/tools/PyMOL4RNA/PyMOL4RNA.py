@@ -48,11 +48,13 @@ except ImportError:
 
     RNA_TOOLS_PATH = ''
 
+import rna_tools
+RNA_TOOLS_PATH = rna_tools.rna_tools_lib.get_rna_tools_path()
+    
 try:
     RNA_TOOLS_PATH
     EXECUTABLE
 except NameError:
-    RNA_TOOLS_PATH = os.environ.get('RNA_TOOLS_PATH')
     EXECUTABLE="/bin/zsh"
     SOURCE=""
 
@@ -909,7 +911,7 @@ def mini(f):
 
 def reload():
     """Reload PyMOL4RNA.py"""
-    cmd.run(RNA_TOOLS_PATH + "/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py")
+    cmd.run(RNA_TOOLS_PATH + "/tools/PyMOL4RNA/PyMOL4RNA.py")
 
 def clr():
   """clr - make white bg and structure black"""
