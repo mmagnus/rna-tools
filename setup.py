@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import versioneer
 
 # read the contents of your README file
-with open('docs/README.rst') as f:
+with open('README.md') as f:
     long_description = f.read()
     
 setup(
@@ -103,6 +103,7 @@ setup(
     author_email='mag_dex@o2.pl',
     description='a toolbox to analyze structures and simulations of RNA',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     include_package_data=True,
     install_requires=[
         'numpy',
