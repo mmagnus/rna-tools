@@ -5,6 +5,7 @@ python:
 
 install:
  - sudo apt-get install python-biopython pymol
+ - pip install git+http://github.com/mmagnus/rna-tools.git
  - pip install -r docs/requirements.txt
 
 script:
