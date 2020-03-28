@@ -17,3 +17,5 @@ scipy
 future
 six
 python-Levenshtein
+
+moderna
