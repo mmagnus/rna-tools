@@ -4,11 +4,10 @@
 
 """
 from __future__ import print_function
-from Seq import RNASequence
 import argparse
-import sys
 import subprocess
 import os
+from rna_tools.Seq import RNASequence
 
 
 def get_parser():

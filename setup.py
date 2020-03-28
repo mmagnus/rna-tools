@@ -12,6 +12,8 @@ setup(
     packages=find_packages(),
     url='https://github.com/mmagnus/rna-tools',
     scripts=['rna_tools/rna_pdb_toolsx.py',
+             'rna_tools/rna_calc_fenergy.py',
+             
              'rna_tools/tools/misc/rna_tools_which.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py',
@@ -27,6 +29,8 @@ setup(
              'rna_tools/tools/rna_helix_vis/rna_helix_vis.py',
              'rna_tools/tools/misc/rna_add_chain.py',
              'rna_tools/tools/rna_sali2dotbracket/rna_sali2dotbracket.py',
+
+
 
              'rna_tools/tools/rna_rosetta/rna_rosetta_run.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_cluster.py',
