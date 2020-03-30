@@ -85,11 +85,11 @@ setup(
              'rna_tools/tools/rna_alignment/utils/rna_align_strip_stk.py',
              'rna_tools/tools/pymol_color_by_conserv/pymol_color_by_conserv.py',
              'rna_tools/tools/pymol_preview_generator/pymol_preview_generator.py',
-             'rna_tools/tools/pymol_preview_generator/pymol_preview_install.py'
+             'rna_tools/tools/pymol_preview_generator/pymol_preview_install.py',
 
              'rna_tools/tools/rna_binding_affinity/rna_dG2kd.py',
              'rna_tools/tools/rna_binding_affinity/rna_dG2kd.py',
-             'rna_tools/tools/rna_binding_affinity/rna_kd2dG.py'
+             'rna_tools/tools/rna_binding_affinity/rna_kd2dG.py',
              'rna_tools/tools/rna_binding_affinity/rna_kd2pkd.py',
              'rna_tools/tools/rna_binding_affinity/rna_pkd2dG.py',
              'rna_tools/tools/rna_binding_affinity/rna_pkd2kd.py',
