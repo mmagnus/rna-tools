@@ -41,7 +41,7 @@ user_path = os.path.expanduser("~")
 ##             globals()[var.upper()] = value
 try:
     exec(open(user_path + '/.rna_tools.py').read())  # python3
-except FileNotFoundError:
+except: # FileNotFoundError: noooot perfect! 
     pass
 # for cruel testing
 # print(DIFF_TOOL, '\n', VARNA_PATH) # globals()
