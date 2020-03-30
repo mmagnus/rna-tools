@@ -116,6 +116,7 @@ setup(
         #'scipy',
         #'python-Levenshtein',
         'versioneer',
+        'configparser',
       ],
 )
 
