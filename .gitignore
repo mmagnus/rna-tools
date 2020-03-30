@@ -36,3 +36,4 @@ dist/*
 .project
 .pydevproject
 lastfailed
+rna_tools.egg*
