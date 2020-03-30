@@ -1,3 +1,6 @@
+import configparser
+import os
+
 SIMRNA_DATA_PATH = None
 RCHIE_PATH = None
 QRNAS_PATH = None
@@ -8,23 +11,37 @@ CONTEXTFOLD_PATH = None
 CPUS_CLUSTER = 1000
 DIFF_TOOL = "diff"
 
-RNA_ROSETTA_RUN_ROOT_DIR_MODELING = "/home/magnus/rosetta-runs"
+RNA_ROSETTA_RUN_ROOT_DIR_MODELING = ""
 RNA_ROSETTA_NSTRUC = 10000
 
 EASY_CAT_PATH = ""
 RNASTRUCTURE_PATH = ""
 ENTRNA_PATH = ''
+#QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
 
-import os
-try:
-    PATH = os.environ['RNA_TOOLS_PATH']
-except KeyError:
-    print ('Set up RNA_TOOLS_PATH, see Installation note')
-    pass
-else:
-    QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
+user_path = os.path.expanduser("~")
 
+# https://docs.python.org/3/library/configparser.html
+# based on config
+## def is_int(s):
+##     try:
+##         int(s)
+##         return True
+##     except ValueError:
+##         return False
+## config = configparser.ConfigParser()
+## 
+## conf = config.read(user_path + '/.rna_tools.ini')
+## if conf:
+##     for var in config['rna-tools'].keys():
+##         value = config['rna-tools'][var]
+##         if is_int(value):
+##             globals()[var.upper()] = int(value)
+##         else:
+##             globals()[var.upper()] = value
 try:
-    from rna_tools.rna_tools_config_local import *
-except ImportError:
+    exec(open(user_path + '/.rna_tools.py').read())  # python3
+except FileNotFoundError:
     pass
+# for cruel testing
+# print(DIFF_TOOL, '\n', VARNA_PATH) # globals()

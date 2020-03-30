@@ -1,42 +1,44 @@
 Install & Configure
 =============================================
 
-Download rna-tools by clicking here https://github.com/mmagnus/rna-tools/archive/master.zip (~30 MB) and unpack the zip file, enter the folder::
+Pip as a developer
+-------------------------------------------
+You can get rna-tools and install them from the current directory with this pip::
 
-   $ cd rna-tools-master
-   
-OR use ``git``::
+    pip install -e git+http://github.com/mmagnus/rna-tools.git
 
-   $ git clone https://github.com/mmagnus/rna-tools.git
-   $ cd rna-tools
+This was is better (than ``pip install rna-tools``) if you're going to do some coding in the tools.
 
-``git`` is better if you want to contribute to the package or/and you want to get pretty frequent updates.
+Configuration
+------------------------------------------
+To set up your own configuration, create ~/.rna_tools.py in your HOME directory and redefine variables, e.g.::
 
-The first step is "zero" because not all requirements are needed to start working with rna-tools. If anything is missing you can install it later.
+    (py37) [mx] rna-tools$ git:(master) ✗ cat ~/.rna_tools.py
+    VARNA_PATH = '/Users/magnus/work/opt/varna'
+    VARNA_JAR_NAME = 'VARNA.jar'
+    SIMRNA_DATA_PATH = '/Users/magnus/work/opt/simRNA/SimRNA_64bitIntel_MacOSX_staticLibs/data'
+    QRNAS_PATH = "/Users/magnus/work/opt/qrnas/"
+    RCHIE_PATH = "/Users/magnus/work/opt/r-chie/"
+    RFAM_DB_PATH = "/Users/magnus/work/db/rfam/Rfam.cm"
+    CONTEXTFOLD_PATH = "/Users/magnus/work/opt/ContextFold_1_00/"
+    DIFF_TOOL = "open -a diffmerge"
+    CPUS_CLUSTER = 630
+    RNASTRUCTURE_PATH = "/Users/magnus/work/opt/RNAstructure/6.1/"
+    ENTRNA_PATH = "/Users/magnus/work/opt/ENTRNA"
 
-To install the full set of requirements, use ``pip``:
+All requirements
+-------------------------------------------
+To get ALL requirements, use ``pip``::
 
-0. ``pip install -r docs/requirements.txt``
+     pip install -r docs/requirements.txt
 
-1. Setup the package paths by adding to your  ~/.bashrc or ~/.zshrc following code::
+Be default rna-tools will not install all requirements, because some of them are heavy or might cause various problems, so you will be asked to install them when needed. For example, installing `matplotlib` is not essential for many other tools, `python-Levenshtein` is only used in one function.
 
-      export RNA_TOOLS_PATH=<PATH TO YOUR RNA_TOOLS>
-      export PYTHONPATH=$PYTHONPATH:$RNA_TOOLS_PATH
-      export PATH=$PATH:$RNA_TOOLS_PATH'/bin/'
+Test all
+-------------------------------------------
+This is still under active development.
 
-for example in my case it looks as::
-
-   export RNA_TOOLS_PATH=/home/magnus/work-src/rna-tools/
-   export PYTHONPATH=$PYTHONPATH:$RNA_TOOLS_PATH
-   export PATH=$PATH:$RNA_TOOLS_PATH'/bin/'
-
-2. And run the installation script::
-
-    ➜  rna-tools git:(master) ✗ ./install_links_bin.sh
-    Installed in ./bin
-    rmsd_calc_to_target.py
-
-3. Run ``rna_tools_test_all.py`` to see if you got any errors, this should look like::
+To test (almost) all rna-tools functionality, you can run ``rna_tools_test_all.py`` to see if you got any errors, this should look like::
 
       (py37) [mm] rna-tools$ git:(master) rna_tools_test_all.py
       BlastPDB requires urllib3
@@ -55,16 +57,4 @@ or for Python 2::
    - See full list of tools <https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv
    Seems OK
 
-To set you own configuration, please first::
-
-    cp rna_tools_config_local.py_sample rna_tools_config_local.py # in rna-tools/rna_tools
-
-and then edit ``rna_tools_config_local.py`` as you need. In my case it is::
-
-    rna_tools git:(master) ✗ cat rna_tools_config_local.py
-    VARNA_PATH  = '/Users/magnus/skills/rnax/varna_tut/'
-    VARNA_JAR_NAME = 'VARNA.jar'
-
-For git based pip run::
-
-   pip install git+http://github.com/mmagnus/rna-tools.git
+For crude testing you can also use ``./test.sh`` script and then see for errors in output and also check output/ folder to see if there are differences between your output and output committed to GitHub by me.
