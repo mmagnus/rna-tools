@@ -13,16 +13,17 @@ vs::
     except:
         print ('Set up RNA_ROSETTA_RUN_ROOT_DIR_MODELING in .bashrc')
 
-Generate docs
-------------------------------------
-At the moment the generation of the docs is quite tricky, because of old dependencies on Python2 and old version of Sphinx. To generate docs locally please switch to Python2 and then run ``cd docs/; make clean; make html``.
-
-It should be updated at some point. 
-
 Documentation
 ------------------------------------
 
 We are using (at least we are moving towards)the Google style docstrings via Napoleon. Napoleon is a Sphinx Extensions that enables Sphinx to parse both NumPy and Google style docstrings - the style recommended by Khan Academy. http://www.sphinx-doc.org/en/stable/ext/napoleon.html#type-annotations
+
+Generate docs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+At the moment the generation of the docs is quite tricky, because of old dependencies on Python2 and old version of Sphinx. To generate docs locally please switch to Python2 and then run ``cd docs/; make clean; make html``.
+
+It should be updated at some point. 
 
 Add a new tool to the package
 ------------------------------------
