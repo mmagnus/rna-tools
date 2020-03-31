@@ -5,7 +5,7 @@ Pip as a developer
 -------------------------------------------
 You can get rna-tools and install them from the current directory with this pip::
 
-    pip install -e git+http://github.com/mmagnus/rna-tools.git
+    pip install -e git+http://github.com/mmagnus/rna-tools.git#egg=rna-tools
 
 This was is better (than ``pip install rna-tools``) if you're going to do some coding in the tools.
 
