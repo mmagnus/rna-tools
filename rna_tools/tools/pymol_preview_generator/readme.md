@@ -1,7 +1,8 @@
 # PyMOL Preview Generator
-
-![](docs/demo.gif)
-![](docs/preview.png)
+<p align="center">
+<img src="docs/demo.gif">
+<img src="docs/preview.png">
+</p>
 <a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="docs/demo.png"></a>
 
 ## Quick Installation [OSX]
