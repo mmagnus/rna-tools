@@ -9,7 +9,7 @@ import argparse
 import tempfile
 import os
 import subprocess
-
+import platform
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -21,7 +21,13 @@ def get_parser():
     parser.add_argument("files", help="", default="", nargs='+')
     return parser
 
-
+if 'Darwin' == platform.system():
+    is_mac = True
+    BIN = '/usr/local/bin' 
+else:
+    is_mac = False
+    BIN = '/usr/bin'
+    
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
@@ -30,13 +36,15 @@ if __name__ == '__main__':
         tf = tempfile.NamedTemporaryFile(delete=False)
         f = tf.name + '.png'
         file = file.replace(" ", "\\ ")
-        os.system('/usr/local/bin/pymol -c ' + file + " -d 'set ray_opaque_background, off; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+        os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off; show cartoon; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
         if args.verbose:
             print(f)
-        # crop
-        fcrop = f.replace('.png', '32.png')
-        cmd = "/usr/local/bin/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
-        os.system(cmd)
-        #cmd = 'source activate base && /usr/local/bin/fileicon set ' + args.file + ' ' + f
-        cmd = 'unset PYTHONPATH && /usr/local/bin/fileicon set ' + file + ' ' + fcrop
+
+        if is_mac:
+            fcrop = f.replace('.png', '32.png')
+            cmd = BIN + "/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
+            os.system(cmd)
+            cmd = 'unset PYTHONPATH && /usr/local/bin/fileicon set ' + file + ' ' + fcrop
+        else:
+            cmd = 'gvfs-set-attribute ' + file + ' metadata::custom-icon file://' + f  # f so the file before convert
         os.system(cmd)
