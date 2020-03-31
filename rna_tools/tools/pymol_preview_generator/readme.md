@@ -1,12 +1,7 @@
 # PyMOL Preview Generator
 
-<p align="center">
-<img src="docs/demo.gif">
-</p> 
-
+![](docs/demo.gif)
 ![](docs/preview.png)
-Splicing on your Desktop!
-
 <a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="docs/demo.png"></a>
 
 ## Quick Installation [OSX]
