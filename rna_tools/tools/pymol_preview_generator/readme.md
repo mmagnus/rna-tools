@@ -3,7 +3,7 @@
 <img src="docs/demo.gif">
 <img src="docs/preview.png">
 </p>
-<a href="https://www.youtube.com/watch?v=TdVVfPHlr8U"><img src="docs/demo.png"></a>
+<a href="https://www.youtube.com/watch?v=mNgW7sekgug"><img src="docs/demo.png"></a>
 
 ## Quick Installation [OSX]
 The requirements:
