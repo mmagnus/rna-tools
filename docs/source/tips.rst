@@ -182,4 +182,7 @@ Add missing atoms etc.::
 
 	(py37) [mx] cwc46$ pdbfixer prp46.pdb --add-atoms all --add-residues
 
-with http://htmlpreview.github.io/?https://raw.github.com/pandegroup/pdbfixer/master/Manual.html
+Read more:
+
+- https://github.com/openmm/pdbfixer
+- http://htmlpreview.github.io/?https://raw.github.com/pandegroup/pdbfixer/master/Manual.html
