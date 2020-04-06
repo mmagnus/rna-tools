@@ -340,6 +340,7 @@ Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 + https://github.com/haddocking/pdb-tools
 + https://github.com/harmslab/pdbtools
 + http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
++ an amazing PDB fixer! https://github.com/openmm/pdbfixer
 + .. and more!
 
 ## Install
