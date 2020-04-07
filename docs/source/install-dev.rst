@@ -58,3 +58,18 @@ or for Python 2::
    Seems OK
 
 For crude testing you can also use ``./test.sh`` script and then see for errors in output and also check output/ folder to see if there are differences between your output and output committed to GitHub by me.
+
+PyMOL4RNA: adv config
+-------------------------------------------
+For some extra functions you migth also follow this. Open your `~/.pymolrc` and set up following variables as you need::
+
+   # rna-tools
+   EXECUTABLE="/bin/zsh" # set up your shell, usually /bin/bash or /bin/zsh
+   SOURCE="source ~/.zshrc" # set up the path to the file where you keep your shell variables
+
+   CLARNA_RUN="/Users/magnus/work-src/clarna_play/clarna_run.py"  # if you want to run clarna_run.py set up the path
+
+   run ~/work-src/rna-tools/rna_tools/tools/pymol_drawing/pymol_drawing.py
+   run ~/work-src/rna-tools/rna_tools/tools/rna_filter/pymol_dists.py
+
+The plugins have been tested with MacPyMOL version 1.7.4.5 Edu.
