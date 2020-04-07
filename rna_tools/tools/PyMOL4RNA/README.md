@@ -31,15 +31,8 @@ To get:
 The source of the pdb: <http://www.rcsb.org/pdb/explore/explore.do?structureId=5K7C> see also `test_data/5k7c_clean.pdb`
 
 ## Install
-Run in your terminal:
 
-    echo "sys.path.append('`rna_tools_which.py --site`')" >> ~/.pymolrc
-    echo "PyMOL4RNA_PATH='`rna_tools_which.py`/tools/PyMOL4RNA/PyMOL4RNA.py'; cmd.run(PyMOL4RNA_PATH)" >> ~/.pymolrc
-
-so something like this will be added to your `~/.pymolrc`:
-
-    sys.path.append('/Users/magnus/work/src/rna-tools')
-    PyMOL4RNA_PATH='/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py'; cmd.run(PyMOL4RNA_PATH)
+See the docs, https://rna-tools.readthedocs.io/en/latest/pymol4rna.html#install
 
 ## One-time load of the functions
 (less complicated than install, but you have to do it each time, it's better to properly install the package).
