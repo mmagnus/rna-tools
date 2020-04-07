@@ -1,6 +1,8 @@
 PyMOL4RNA
 =========================================
 
+(See also https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/PyMOL4RNA)
+
 PyMOL4Spliceosome: all spliceosome structures in one PyMOL session
 ----------------------------------------------------------------------
 
@@ -37,16 +39,12 @@ and type::
 Install
 -----------------------------------------
 
-Open your `~/.pymolrc` and set up following variables as you need::
+After you install rna-tools, run these two lines your terminal::
 
-   # rna-tools
-   RNA_TOOLS="/Users/magnus/work-src/rna-tools"
-   EXECUTABLE="/bin/zsh" # set up your shell, usually /bin/bash or /bin/zsh
-   SOURCE="source ~/.zshrc" # set up the path to the file where you keep your shell variables
-   CLARNA_RUN="/Users/magnus/work-src/clarna_play/clarna_run.py"  # if you want to run clarna_run.py set up the path
-   sys.path.append('/Users/magnus/work-src/rna-tools')
-   run ~/work-src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py
-   run ~/work-src/rna-tools/rna_tools/tools/pymol_drawing/pymol_drawing.py
-   run ~/work-src/rna-tools/rna_tools/tools/rna_filter/pymol_dists.py
+    $ echo "sys.path.append('`rna_tools_which.py --site`')" >> ~/.pymolrc 
+    $ echo "PyMOL4RNA_PATH='`rna_tools_which.py`/tools/PyMOL4RNA/PyMOL4RNA.py'; cmd.run(PyMOL4RNA_PATH)" >> ~/.pymolrc
 
-The plugins have been tested with MacPyMOL version 1.7.4.5 Edu.
+so something like this will be added to your ``~/.pymolrc``::
+
+    sys.path.append('/Users/magnus/work/src/rna-tools')
+    PyMOL4RNA_PATH='/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py'; cmd.run(PyMOL4RNA_PATH)
