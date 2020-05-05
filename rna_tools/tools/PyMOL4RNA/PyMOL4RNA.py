@@ -208,6 +208,30 @@ def rs():
            i = 0
 
 
+def save_each_object(folder='', prefix=''):
+    """
+
+    Usage::
+
+        save_each_object /Users/magnus/work/spliceosome/PyMOL4Spliceosome/chains/yB_5zwo, yB_5zwo_
+
+        p = 'yP_6exn' # yP_5ylz' #yI_5y88' # yE_6n7r'
+        pth = '/Users/magnus/work/spliceosome/PyMOL4Spliceosome/chains/'
+        save_each_object(pth + p, p + '_')
+
+    See the application here <https://github.com/mmagnus/PyMOL4Spliceosome/releases/tag/v0.32>
+
+    .. todo:: add some way to select which objects to use
+    """
+    obj_list = cmd.get_names('objects')
+    for o in obj_list:
+        if folder:
+            folder += '/'
+        fn = folder + prefix.strip() + o.strip() + '.pdb'
+        cmd.save(fn, o)
+
+cmd.extend('save_each_object', save_each_object)
+
 def rcomp():
     """RNA like in papers ;-)
 
