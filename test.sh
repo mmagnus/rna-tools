@@ -108,11 +108,15 @@ rna_pdb_toolsx.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org
 ## --replace-chain
 rna_pdb_toolsx.py --replace-chain output/205d_rmH2o_mutant_A.pdb input/205d_rmH2o.pdb
 
+
 ## --mutate
 rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A' input/205d_rmH2o.pdb > output/205d_rmH2o_mutA1234.pdb
 cp input/205d_rmH2o.pdb output/205d_rmH2o_mutA1234-B1_inplace.pdb && ./rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' --inplace output/205d_rmH2o_mutA1234-B1_inplace.pdb
 rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' input/205d_rmH2o.pdb > output/205d_rmH2o_mutA1234-B1.pdb
 
+## cif
+rna_pdb_toolsx.py --cif2pdb input/cif/*.cif
+rna_pdb_toolsx.py --pdb2cif input/cif/pdb2cif/*.pdb
 ## --is_pdb
 rna_pdb_toolsx.py --is-pdb input/1I9V_A.pdb
 rna_pdb_toolsx.py --is-pdb input/image.png
