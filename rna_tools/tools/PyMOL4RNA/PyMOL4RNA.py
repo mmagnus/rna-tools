@@ -932,8 +932,8 @@ def mini(f):
 
 
 def reload():
-    """Reload PyMOL4RNA.py"""
-    cmd.run(PyMOL4RNA_PATH)
+    """Reload ~/.pymolrc and all included there packages (e.g. with run <foo.py>)"""
+    cmd.do('@ ~/.pymolrc')
 
 def clr():
   """clr - make white bg and structure black"""
