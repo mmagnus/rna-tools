@@ -206,6 +206,9 @@ ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
 
 """), action='store_true')
 
+    parser.add_argument('--cif2pdb', help="[PyMOL Python package required]", action='store_true')
+    parser.add_argument('--pdb2cif', help="[PyMOL Python package required]", action='store_true')
+
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -916,3 +919,35 @@ if __name__ == '__main__':
             print('ENDMDL')
             c += 1
         print('END')
+
+    if args.cif2pdb:
+        try:
+            from pymol import cmd
+        except ImportError:
+            print('This functionality needs PyMOL. Install it or if installed, check your setup')
+            sys.exit(1)
+
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            cmd.load(f)
+            cmd.save(f.replace('.cif', '.pdb'), '(all)')
+            cmd.delete('all')
+            
+    if args.pdb2cif:
+        try:
+            from pymol import cmd
+        except ImportError:
+            print('This functionality needs PyMOL. Install it or if installed, check your setup')
+            sys.exit(1)
+
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            cmd.load(f)
+            cmd.save(f.replace('.pdb', '.cif'), '(all)')
+            cmd.delete('all')
