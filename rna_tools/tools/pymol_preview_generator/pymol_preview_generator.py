@@ -18,6 +18,8 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("-b", "--black",
                         action="store_true", help="black bg")
+    parser.add_argument("-r", "--rainbow",
+                        action="store_true", help="rainbow")
     parser.add_argument("files", help="", default="", nargs='+')
     return parser
 
@@ -36,7 +38,11 @@ if __name__ == '__main__':
         tf = tempfile.NamedTemporaryFile(delete=False)
         f = tf.name + '.png'
         file = file.replace(" ", "\\ ")
-        os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off; show cartoon; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+        rainbow = ''
+        if args.rainbow:
+            rainbow = 'util.chainbow;'
+
+        os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
         if args.verbose:
             print(f)
 
