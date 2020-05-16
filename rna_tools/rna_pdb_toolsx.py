@@ -79,7 +79,8 @@ def get_parser():
 
     parser.add_argument('--get-chain', help='get chain, one or many, e.g, A, but now also ABC works')
 
-    parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db')
+    parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db, e.g., 1xjr,\nuse \'rp\' to fetch' +
+                        'the RNA-Puzzles standardized_dataset [around 100 MB]')
 
     parser.add_argument('--fetch-ba', action='store_true',
                         help='fetch biological assembly from the PDB db')
