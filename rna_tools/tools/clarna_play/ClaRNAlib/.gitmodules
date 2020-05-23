@@ -1,0 +1,4 @@
+[submodule "clarna_wrapper"]
+	path = clarna_wrapper
+	url = https://gitlab.genesilico.pl/magnus/clarna_wrapper
+
