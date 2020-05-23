@@ -103,6 +103,35 @@ or even, even, do rename X chain to A only for Chen's pdb structures in the fold
     for i in *Chen*; do rna_pdb_toolsx.py --edit 'X:1-125>A:1-125' $i > ${i}_temp; mv ${i}_temp ${i}; done
     # do only edit for Chen's pdb structures, in place.
 
+extract part of your structure
+--------------------------------------------
+
+Example::
+
+  $ rna_pdb_toolsx.py --extract A:1-4 13_Bujnicki_1_rpr.pdb
+  REMARK 250 Model edited with rna-tools
+  REMARK 250  ver 3.1.14
+  REMARK 250  https://github.com/mmagnus/rna-tools
+  REMARK 250  Sat May 23 14:54:05 2020
+  HEADER extract A:1-4
+  ATOM      1  P     G A   1     -16.883 -12.441   8.021  1.00  0.00           P
+  ATOM      2  OP1   G A   1     -15.777 -12.225   8.969  1.00  0.00           O
+  ATOM      3  OP2   G A   1     -16.752 -11.535   6.892  1.00  0.00           O
+  ATOM      4  O5'   G A   1     -16.882 -13.822   7.219  1.00  0.00           O
+  ATOM      5  C5'   G A   1     -16.092 -13.871   6.013  1.00  0.00           C
+  ATOM      6  C4'   G A   1     -16.314 -15.160   5.206  1.00  0.00           C
+  ATOM      7  O4'   G A   1     -17.723 -14.932   4.905  1.00  0.00           O
+  ATOM      8  C3'   G A   1     -15.788 -15.216   3.752  1.00  0.00           C
+  ATOM      9  O3'   G A   1     -14.461 -15.860   3.764  1.00  0.00           O
+  ATOM     10  C2'   G A   1     -16.841 -15.946   2.969  1.00  0.00           C
+  (...)
+  ATOM     84  O2    U A   4     -14.553  -5.285  -7.938  1.00  0.00           O
+  ATOM     85  N3    U A   4     -14.077  -5.583  -5.727  1.00  0.00           N
+  ATOM     86  C4    U A   4     -13.451  -6.130  -4.622  1.00  0.00           C
+  ATOM     87  O4    U A   4     -13.706  -5.737  -3.486  1.00  0.00           O
+  ATOM     88  C5    U A   4     -12.494  -7.167  -4.998  1.00  0.00           C
+  ATOM     89  C6    U A   4     -12.318  -7.489  -6.300  1.00  0.00           C
+
 find missing atoms in my structure
 --------------------------------------------
 
