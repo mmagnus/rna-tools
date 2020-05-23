@@ -27,7 +27,7 @@ import shutil
 import sys
 import tempfile
 import glob
-
+import os
 from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version, \
                           collapsed_view, fetch, fetch_ba, replace_chain, RNAStructure, \
                           select_pdb_fragment, sort_strings
@@ -51,6 +51,9 @@ def get_parser():
     parser.add_argument('--renum-residues-dirty', help='',  action='store_true')
 
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
+                        action='store_true')
+
+    parser.add_argument('--fix', help='fix a PDB file, ! external program, pdbfixer used to fix missing atoms',
                         action='store_true')
 
     parser.add_argument('--to-mol2', help='fix a PDB file, ! external program, pdbfixer used to fix missing atoms',
@@ -909,6 +912,20 @@ if __name__ == '__main__':
                 t.append('** ' + c[0] + ':' + r)
         print('\n'.join(t))
 
+    if args.fix:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            cmd = 'pdbfixer ' + f + ' --add-atoms all --add-residues'
+            print(cmd)
+            os.system(cmd)
+            if args.inplace:
+                shutil.move("output.pdb", f)
+            else:
+                shutil.move("output.pdb", f.replace('.pdb', '_fx.pdb'))
+                            
     if args.to_mol2:
         # quick fix - make a list on the spot
         if list != type(args.file):
@@ -918,6 +935,7 @@ if __name__ == '__main__':
             cmd = 'obabel -i pdb ' + f + ' -o mol2 -O ' + f.replace('.pdb', '.mol2')
             print(cmd)
             os.system(cmd)
+
 
     if args.nmr_dir:
         files = sort_strings(glob.glob(args.nmr_dir + '/' + args.file))
