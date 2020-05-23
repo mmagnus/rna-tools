@@ -75,7 +75,7 @@ class CommandLine:
         debug_AnalClarna_CL_Opt = False
         n = len(self.command_line)
         if (n == 0):
-            print 'ERROR: command line undefined. '
+            print('ERROR: command line undefined. ')
             sys.exit(1)
         #
         flag_refPDB = False
@@ -104,7 +104,7 @@ class CommandLine:
         i = 1
         while i < n:
             if debug_AnalClarna_CL_Opt:
-                print "index %d: \'%s\'" % (i, self.command_line[i])
+                print("index %d: \'%s\'" % (i, self.command_line[i]))
             # is it the input file?
             #  SimRNA: enter reference PDB structure
             elif self.command_line[i] == '-iref':
@@ -123,7 +123,7 @@ class CommandLine:
                 #
                 #
                 if debug_AnalClarna_CL_Opt:
-                    print "reference PDB bb structure: %s" % self.refout 
+                    print("reference PDB bb structure: %s" % self.refout) 
                 p = re.compile(self.v_ext)
                 a = p.findall(self.refout)
                 # print len(a)
@@ -149,7 +149,7 @@ class CommandLine:
                 #
                 #
                 if debug_AnalClarna_CL_Opt:
-                    print "SimRNA PDB bb structure:    %s" % self.chkout 
+                    print("SimRNA PDB bb structure:    %s" % self.chkout) 
                 p = re.compile(self.v_ext)
                 a = p.findall(self.chkout)
                 # print len(a)
@@ -166,28 +166,28 @@ class CommandLine:
                     ms = self.command_line[i] 
                     self.min_score = float(ms)
                 except:
-                    print 'ERROR: Must enter an float in requests using option \'-thresh\'.'
-                    print '       You entered \'', ms, '\'.'
+                    print('ERROR: Must enter an float in requests using option \'-thresh\'.')
+                    print('       You entered \'', ms, '\'.')
                     sys.exit(1)
                 
                 if self.min_score <= 0.0 or self.min_score >= 1.0: 
-                    print 'ERROR: \'-thresh\' only accepts 0.0 < thresh < 1.0.' 
-                    print '       You entered \'%f\'.' % self.min_score
+                    print('ERROR: \'-thresh\' only accepts 0.0 < thresh < 1.0.') 
+                    print('       You entered \'%f\'.' % self.min_score)
                     sys.exit(1)
                 
                 if debug_AnalClarna_CL_Opt:
-                    print "threshold to be displayed ", self.min_score
+                    print("threshold to be displayed ", self.min_score)
             elif (self.command_line[i] == '-details') or \
                  (self.command_line[i] == '-verbose') or \
                  (self.command_line[i] == '-v'):
                 self.details = True
                 if self.CSV:
-                    print "WARNING: \'%s\' option not supported with option \'-CSV\'" % self.command_line[i]
+                    print("WARNING: \'%s\' option not supported with option \'-CSV\'" % self.command_line[i])
                     self.CSV = False
             elif (self.command_line[i] == '-CSV'):
                 self.CSV = True
                 if self.details:
-                    print "WARNING: \'CSV\' option not supported with option \'-details,-v,-verbose\'"
+                    print("WARNING: \'CSV\' option not supported with option \'-details,-v,-verbose\'")
                     self.CSV = False
             # include results from RNAVIEW classifier
             elif (self.command_line[i] == '-w_rnaview'):
@@ -216,7 +216,7 @@ class CommandLine:
                  (self.command_line[i] == '-help'):
                 # default
                 a = Usage_AnalClarna(self.v_ext)
-                print '%s\n' % a.get_Usage_AnalClarna()
+                print('%s\n' % a.get_Usage_AnalClarna())
                 sys.exit(0)
             else:
                 emsg  = '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n'
@@ -242,8 +242,8 @@ class CommandLine:
                 self.error(emsg)
 
         if debug_AnalClarna_CL_Opt:
-            print 'input reference PDB file: *.pdb = %s' % self.refout
-            print 'input SimRNA PDB file:    *.pdb = %s' % self.chkout
+            print('input reference PDB file: *.pdb = %s' % self.refout)
+            print('input SimRNA PDB file:    *.pdb = %s' % self.chkout)
 
         return 0
     
@@ -260,12 +260,12 @@ class CommandLine:
 
     # delivers error/exit messages for this class
     def error(self, e_msg):
-        print '\n'
-        print e_msg
+        print('\n')
+        print(e_msg)
         ss = 'input command: ' + self.show_CL() + '\n'
-        print ss
+        print(ss)
         a = Usage_AnalClarna(self.v_ext)
-        print '%s' % a.get_Usage_AnalClarna()
+        print('%s' % a.get_Usage_AnalClarna())
         sys.exit(1)
 
     # separates the command line arguments into specific strings
@@ -299,7 +299,7 @@ class Data:
         try: 
             fldt = open(self.flnm, 'r')
         except IOError:
-            print "ERROR: Cannot open file %s" % flnm
+            print("ERROR: Cannot open file %s" % flnm)
             sys.exit(1)
         dlist = fldt.readlines()
         nlines = len(dlist)
@@ -308,14 +308,14 @@ class Data:
         classifier = ''
         if len(title) > 0:
             if not (title[0][0:8] == "Classifi") or not (len(title) == 2):
-                print "ERROR: Cannot understand the type of classifier"
-                print "       valid files should contain \"Classifier: <type>\""
-                print "       in the first line of the file"
+                print("ERROR: Cannot understand the type of classifier")
+                print("       valid files should contain \"Classifier: <type>\"")
+                print("       in the first line of the file")
                 sys.exit(1)
             else:
                 classifier = title[1]
         if debug_readData:
-            print "classifier: ", classifier
+            print("classifier: ", classifier)
         for i in range(1,nlines):
             # print len(dlist[i])
             if dlist[i].startswith('chains'): # skip line starting with chains
@@ -326,12 +326,12 @@ class Data:
                 if not (v == {}):
                     self.pdbdt.update(v)
         if debug_readData:
-            print 'pdbdt:          ', self.pdbdt
-            print 'pdbdt.keys():   ', self.pdbdt.keys()
-            print 'Data: verbose = ', self.verbose
+            print('pdbdt:          ', self.pdbdt)
+            print('pdbdt.keys():   ', list(self.pdbdt.keys()))
+            print('Data: verbose = ', self.verbose)
         if self.verbose:
             pd = PrintData()
-            print pd.display_bbstack(self.pdbdt)
+            print(pd.display_bbstack(self.pdbdt))
         return self.pdbdt
     
     def reconstructDict(self, strng):
@@ -372,28 +372,29 @@ class Data:
         if len(sv) >= 7:
             v = {(sv[0], int(sv[1]), sv[2], int(sv[3])) : { sv[4]: (sv[5], sv[6])} }
         else:
-            print "problems with reconstruction (%s):" % self.flnm 
-            print "sv: ", sv
+            print("problems with reconstruction (%s):" % self.flnm) 
+            print("sv: ", sv)
             sys.exit(1)
         # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         Nstructs = (len(sv) - 7)/2
-        key = v.keys()
+        key = list(v.keys())
         Nused = 0 # normally, these should equal Nstruct after the for loop.
         if debug_reconstructDict:
-            print 'new key: ', key
-            print 'nstrcts: ', Nstructs
-        for i in range(0, Nstructs):
+            print('new key: ', key)
+            print('nstrcts: ', Nstructs)
+
+        for i in range(0, int(Nstructs)):
             if (float(sv[8 + 2*i]) >= self.min_score):
                 # if does not meet the minimum score, should be rejected
                 struct = { sv[7 + 2*i] : float(sv[8 + 2*i]) }
                 v[key[0]].update(struct)
                 Nused += 1
                 if debug_reconstructDict:
-                    print 'struct:  ', struct
+                    print('struct:  ', struct)
             else:
                 # print user information if requested
                 if self.verbose:
-                    print "data below threshold (rejected sv): ", sv
+                    print("data below threshold (rejected sv): ", sv)
         if Nused == 0:
           v = {} # all entries were rejected, so v is canceled
         return v
@@ -405,30 +406,30 @@ class PrintData:
     # print out base-base stack
     def display_bbstack(self, pdbanal):
         debug_display_bbstack = False
-        bb_list = self.bubbleSort(pdbanal.keys())
+        bb_list = self.bubbleSort(list(pdbanal.keys()))
         if debug_display_bbstack:
-            print pdbanal
+            print(pdbanal)
         result = ''
         for bb_k in bb_list:
             strng = '%s %4d   %s %4d' % (bb_k[0], bb_k[1], bb_k[2], bb_k[3])
             strng += '          bp %s %s' % (pdbanal[bb_k]["bp"][0], pdbanal[bb_k]["bp"][1])
-            if len(pdbanal[bb_k].keys()) == 2:
+            if len(list(pdbanal[bb_k].keys())) == 2:
                 # print 'pdbanal: ', pdbanal[bb_k]
                 xx = self.get_other_keys(pdbanal[bb_k])
                 key = xx[0]
                 #
                 strng += '    %20s %8.4f' % (key, pdbanal[bb_k][key])
                 if debug_display_bbstack:
-                    print key
-                    print strng
+                    print(key)
+                    print(strng)
                     # print bb_k, pdbanal[bb_k], pdbanal[bb_k].keys()
             else:
                 keys = self.get_other_keys(pdbanal[bb_k])
                 for key in keys:
                     strng += '    %20s %8.4f' % (key, pdbanal[bb_k][key])
                 if debug_display_bbstack:
-                    print "MORE THAN ONE!"
-                    print strng
+                    print("MORE THAN ONE!")
+                    print(strng)
                     # print bb_k, pdbanal[bb_k], pdbanal[bb_k].keys()
             result += strng + '\n'
         return result
@@ -443,8 +444,8 @@ class PrintData:
         output."""
         debug_bubbleSort = False
         if debug_bubbleSort:
-            print 'length: ', len(key_order)
-            print 'input:  ', key_order
+            print('length: ', len(key_order))
+            print('input:  ', key_order)
         #
         for passnum in range(len(key_order)-1, 0, -1):
             for i in range(passnum):
@@ -453,13 +454,13 @@ class PrintData:
                     key_order[i] = key_order[i+1]
                     key_order[i+1] = temp
         if debug_bubbleSort:
-            print 'result: ', key_order
+            print('result: ', key_order)
         return key_order
     
     # key operations
     # when there are more than two structure keys recorded
     def get_other_keys(self,bb_struct):
-        zz = bb_struct.keys()
+        zz = list(bb_struct.keys())
         keys = []
         for zzi in zz:
             if (not zzi == "bp"):
@@ -525,13 +526,13 @@ class Analyze:
     def get_outdata(self):
         # Reference input file (*.pdb.out)
         if self.verbose:
-            print self.refflnm
+            print(self.refflnm)
         # transfer settings from CommandLine
         rdt = Data()
         rdt.verbose   = self.verbose
         rdt.min_score = self.min_score
         if self.verbose:
-            print self.refflnm
+            print(self.refflnm)
         
         self.refdata = rdt.readData(self.refflnm)        
         self.rWCbpKeys  = self.get_bbkeys(self.refdata, "WCbp")
@@ -539,7 +540,7 @@ class Analyze:
         self.rstackKeys = self.get_bbkeys(self.refdata, "stack")
         # SimRNA RESULT file (*.pdb.out)
         if self.verbose:
-            print self.chkflnm
+            print(self.chkflnm)
         cdt = Data()
         cdt.verbose =   self.verbose
         cdt.min_score = self.min_score
@@ -555,23 +556,23 @@ class Analyze:
         debug_get_bbkeys = False
         if bbtype == "stack":
             if debug_get_bbkeys:
-                print "stacking keys"
+                print("stacking keys")
         elif bbtype == "WCbp": 
             if debug_get_bbkeys:
-                print "only canonical Watson-Crick base pairs"
+                print("only canonical Watson-Crick base pairs")
         elif bbtype == "nWCbp":
             if debug_get_bbkeys:
-                print "non-Watson-Crick base pairs"
+                print("non-Watson-Crick base pairs")
 
-        keys = ddata.keys()
+        keys = list(ddata.keys())
         bbkeys = []
         self.pr = PrintData()
         for k in range(0,len(keys)):
-            kstr_k = ddata[keys[k]].keys()
+            kstr_k = list(ddata[keys[k]].keys())
             xx =  self.pr.get_other_keys(ddata[keys[k]])
             kstr = xx[0]
             if debug_get_bbkeys:
-                print 'kstr = ', kstr
+                print('kstr = ', kstr)
             if bbtype == "stack":
                 if kstr[0] == '>' or kstr[0] == '<':
                     bbkeys += [keys[k]]
@@ -580,7 +581,7 @@ class Analyze:
                     bp = ddata[keys[k]]['bp'][0] + ddata[keys[k]]['bp'][1]
                     canonical = (bp == "GC" or bp == "CG" or bp == "AU" or bp == "UA")
                     if debug_get_bbkeys:
-                        print 'bp: ', bp
+                        print('bp: ', bp)
                     if bbtype == "WCbp":
                         if canonical and (kstr == "WW_cis"):
                             bbkeys += [keys[k]]
@@ -591,42 +592,42 @@ class Analyze:
                             bbkeys += [keys[k]]
                             # print "flag_WC = False, bbtype = ", bbtype 
             if debug_get_bbkeys:
-                print kstr
-                print kstr_k
+                print(kstr)
+                print(kstr_k)
         if debug_get_bbkeys:
-            print '%s keys:    ' % (bbtype), bbkeys
+            print('%s keys:    ' % (bbtype), bbkeys)
             for bpk in bbkeys:
-                print ddata[bpk].keys()
+                print(list(ddata[bpk].keys()))
         return bbkeys
     
     def analyze_data(self):
         """Analyze data"""
         if not self.flag_pass_setup:
-            print "ERROR: input data is not properly define"
-            print "       need to run get_outdata or get_pdbdata."
+            print("ERROR: input data is not properly define")
+            print("       need to run get_outdata or get_pdbdata.")
             sys.exit(1)
         debug_analyze_data = False
         if debug_analyze_data:
-            print "organized listing of structures found"
-            print 'refdata  WCbp: '  
+            print("organized listing of structures found")
+            print('refdata  WCbp: ')  
             for k in range(0, len(self.rWCbpKeys)):
-                print self.refdata[self.rWCbpKeys[k]]
-            print 'refdata nWCbp: '  
+                print(self.refdata[self.rWCbpKeys[k]])
+            print('refdata nWCbp: ')  
             for k in range(0, len(self.rnWCbpKeys)):
-                print self.refdata[self.rnWCbpKeys[k]]
-            print 'refdata stack: '  # , self.refdata.keys()
+                print(self.refdata[self.rnWCbpKeys[k]])
+            print('refdata stack: ')  # , self.refdata.keys()
             for k in range(0, len(self.rstackKeys)):
-                print self.refdata[self.rstackKeys[k]]
+                print(self.refdata[self.rstackKeys[k]])
             
-            print 'chkdata  WCbp: '  # , self.chkdata.keys()
+            print('chkdata  WCbp: ')  # , self.chkdata.keys()
             for k in range(0, len(self.cWCbpKeys)):
-                print self.chkdata[self.cWCbpKeys[k]]
-            print 'chkdata nWCbp: '  # , self.chkdata.keys()
+                print(self.chkdata[self.cWCbpKeys[k]])
+            print('chkdata nWCbp: ')  # , self.chkdata.keys()
             for k in range(0, len(self.cnWCbpKeys)):
-                print self.chkdata[self.cnWCbpKeys[k]]
-            print 'chkdata stack: '  # , self.chkdata.keys()
+                print(self.chkdata[self.cnWCbpKeys[k]])
+            print('chkdata stack: ')  # , self.chkdata.keys()
             for k in range(0, len(self.cstackKeys)):
-                print self.chkdata[self.cstackKeys[k]]
+                print(self.chkdata[self.cstackKeys[k]])
             #
         #
         
@@ -676,18 +677,18 @@ class Analyze:
         n_match_ref = 0
         n_ref_motifs = len(refkeys)
         for k in range(0, n_ref_motifs):
-            if self.chkdata.has_key(refkeys[k]):
+            if refkeys[k] in self.chkdata:
                 refmotif = self.pr.get_other_keys(self.refdata[refkeys[k]])
                 chkmotif = self.pr.get_other_keys(self.chkdata[refkeys[k]])
                 if len(refmotif) > 1:
-                    print "WARNING: %s has more than one values %s: " % (mtype, self.refflnm), refmotif
+                    print("WARNING: %s has more than one values %s: " % (mtype, self.refflnm), refmotif)
                 if len(chkmotif) > 1:
-                    print "WARNING: %s has more than one values %s: " % (mtype, self.chkflnm), chkmotif
+                    print("WARNING: %s has more than one values %s: " % (mtype, self.chkflnm), chkmotif)
                 if debug_this:
-                    print refmotif, " <-> ", chkmotif
+                    print(refmotif, " <-> ", chkmotif)
                 n_match_ref += 1
         if debug_this:
-            print "%5s    ref: %5d   pred match: %5d" % (mtype, n_ref_motifs, n_match_ref)
+            print("%5s    ref: %5d   pred match: %5d" % (mtype, n_ref_motifs, n_match_ref))
         return [n_ref_motifs, n_match_ref]
     
     def test_against_predicted_motifs(self, chkkeys, mtype):
@@ -706,20 +707,20 @@ class Analyze:
         n_match_chk = 0
         n_chk_motifs = len(chkkeys)
         for k in range(0, n_chk_motifs):
-            if self.refdata.has_key(chkkeys[k]):
+            if chkkeys[k] in self.refdata:
                 refmotif = self.pr.get_other_keys(self.refdata[chkkeys[k]])
                 chkmotif = self.pr.get_other_keys(self.chkdata[chkkeys[k]])
                 if len(refmotif) > 1:
-                    print "WARNING: %s has more than one values %s: " % (mtype, self.refflnm), refmotif
+                    print("WARNING: %s has more than one values %s: " % (mtype, self.refflnm), refmotif)
                 if len(chkmotif) > 1:
-                    print "WARNING: %s has more than one values %s: " % (mtype, self.chkflnm), chkmotif
+                    print("WARNING: %s has more than one values %s: " % (mtype, self.chkflnm), chkmotif)
                 if debug_this:
-                    print refmotif, " <-> ", chkmotif
+                    print(refmotif, " <-> ", chkmotif)
                 n_match_chk += 1
             #
         #
         if debug_this:
-            print "%5s   pred: %5d    ref match: %5d" % (mtype, n_chk_motifs, n_match_chk)
+            print("%5s   pred: %5d    ref match: %5d" % (mtype, n_chk_motifs, n_match_chk))
         return [n_chk_motifs, n_match_chk]
 
     def calc_inf(self, TP, FP, FN, verbose=False):
@@ -733,7 +734,7 @@ class Analyze:
         inf = 0 # -999.999
         x = TP + FP
         y = TP + FN
-        if verbose: print 'TP:', TP, 'FP:', FP, 'FN:', FN
+        if verbose: print('TP:', TP, 'FP:', FP, 'FN:', FN)
         if x > 0.0 and y > 0.0:
             inf = math.sqrt(TP**2/((TP + FP)*(TP + FN)))
         if x == 0 and y == 0:
@@ -850,10 +851,10 @@ class Analyze:
         p = re.compile('/')
         mcf = p.findall(self.chkflnm)
         if debug_summarize_analysis:
-            print '# matchings of ref file with / path', len(mcf)
+            print('# matchings of ref file with / path', len(mcf))
         mrf = p.findall(self.refflnm)
         if debug_summarize_analysis:
-            print '# matchings of ref file with / path', len(mrf)
+            print('# matchings of ref file with / path', len(mrf))
         refflnm = self.refflnm
         if (len(mcf) > 0):
             rf = self.refflnm.split("/")
@@ -895,7 +896,7 @@ class Analyze:
         # FN      number_of_reference_motifs  - number_of_predicted_motifs
         FN_all     = float(self.nref - self.nchk_match)
         if debug_summarize_analysis:
-            print "compare: ", self.nref - self.nchk_match, self.nFN
+            print("compare: ", self.nref - self.nchk_match, self.nFN)
         FN_WC      = float(self.r_vs_p_WC[0]    - self.r_vs_p_WC[1])
         FN_nWC     = float(self.r_vs_p_nWC[0]   - self.r_vs_p_nWC[1])
         FN_stack   = float(self.r_vs_p_stack[0] - self.r_vs_p_stack[1])
@@ -903,7 +904,7 @@ class Analyze:
         # FP = (n_chk_motifs - n_match_chk)/n_chk_motifs
         FP_all     = float(self.nchk - self.nref_match)
         if debug_summarize_analysis:
-            print "compare: ", self.nchk - self.nref_match, self.nFP
+            print("compare: ", self.nchk - self.nref_match, self.nFP)
         FP_WC      = float(self.p_vs_r_WC[0]    - self.p_vs_r_WC[1])
         FP_nWC     = float(self.p_vs_r_nWC[0]   - self.p_vs_r_nWC[1])
         FP_stack   = float(self.p_vs_r_stack[0] - self.p_vs_r_stack[1])
@@ -1145,6 +1146,6 @@ if __name__ == '__main__':
             anal_fr3d.get_outdata()
             s_clarna +=  anal_fr3d.analyze_data()
         else:
-            print "no information!"
+            print("no information!")
 
-    print s_clarna
+    print(s_clarna)

@@ -41,14 +41,14 @@ BR_INTERACTIONS = PH_INTERACTIONS
 ARCPI = 180.0/np.pi
 
 def normalize_points(points, n_type):
-    assert NORMALIZED_BASE.has_key(n_type)
-    assert BASE_ATOMS.has_key(n_type)
+    assert n_type in NORMALIZED_BASE
+    assert n_type in BASE_ATOMS
     p1,p2 = points
     norm_vec = []
     p_vec = []
     for a in BASE_ATOMS[n_type]:
-        assert NORMALIZED_BASE[n_type].has_key(a)
-        if p1.has_key(a):
+        assert a in NORMALIZED_BASE[n_type]
+        if a in p1:
             norm_vec.append(NORMALIZED_BASE[n_type][a])
             p_vec.append(p1[a])
     if len(p_vec)<3:
@@ -59,19 +59,19 @@ def normalize_points(points, n_type):
     (rot,tran) = sup.get_rotran()
     new_points = []
     for p in (p1,p2):
-        atoms = p.keys()
+        atoms = list(p.keys())
         vec = []
         for a in atoms:
             vec.append(p[a])
         new_vec = np.dot(np.array(vec,'f'), rot)+tran
-        new_points.append(dict(zip(atoms,new_vec)))
+        new_points.append(dict(list(zip(atoms,new_vec))))
     return new_points
 
 def _apply_rot_tran(points, rot, tran):
-    all_atoms = points.keys()
+    all_atoms = list(points.keys())
     all_vec = np.array([points[x] for x in all_atoms])
     all_vec = np.dot(all_vec, rot)+tran
-    return dict(zip(all_atoms,all_vec))
+    return dict(list(zip(all_atoms,all_vec)))
 
 def _superimpose_atoms(ref_points, points, atoms):
     if ref_points is None or points is None or atoms is None:
@@ -79,7 +79,7 @@ def _superimpose_atoms(ref_points, points, atoms):
     ref_vec = []
     vec = []
     for a in atoms:
-        if ref_points.has_key(a) and points.has_key(a):
+        if a in ref_points and a in points:
             ref_vec.append(ref_points[a])
             vec.append(points[a])
     if len(vec)<3:
@@ -92,16 +92,16 @@ def _superimpose_atoms(ref_points, points, atoms):
     return (_apply_rot_tran(points,rot,tran), rot, tran, rms)
 
 def fit_points(points, n_type):
-    assert NORMALIZED_BASE.has_key(n_type[0])
-    assert NORMALIZED_BASE.has_key(n_type[1])
-    assert BASE_ATOMS.has_key(n_type[0])
-    assert BASE_ATOMS.has_key(n_type[1])
+    assert n_type[0] in NORMALIZED_BASE
+    assert n_type[1] in NORMALIZED_BASE
+    assert n_type[0] in BASE_ATOMS
+    assert n_type[1] in BASE_ATOMS
     
     p1,p2 = points
     p1,rot,tran,_rms = _superimpose_atoms(NORMALIZED_BASE[n_type[0]], p1, BASE_ATOMS[n_type[0]])
     p2 = _apply_rot_tran(p2,rot,tran)
     
-    res_p1 = dict([(k,np.array(v,'f')) for k,v in NORMALIZED_BASE[n_type[0]].items() ])
+    res_p1 = dict([(k,np.array(v,'f')) for k,v in list(NORMALIZED_BASE[n_type[0]].items()) ])
     res_p2,_new_rot,_new_tran,_rms = _superimpose_atoms(p2, NORMALIZED_BASE[n_type[1]], BASE_ATOMS[n_type[1]])
     return (res_p1,res_p2)
 
@@ -112,12 +112,12 @@ def _rmsd_formula(points, ref_points, rot, tran, rmsd_atoms):
     vec1 = []
     vec2 = []
     for a in r1:
-        if not p1.has_key(a) or not c1.has_key(a):
+        if a not in p1 or a not in c1:
             return 1000.0
         vec1.append(p1[a])
         vec2.append(c1[a])
     for a in r2:
-        if not p2.has_key(a) or not c2.has_key(a):
+        if a not in p2 or a not in c2:
             return 1000.0
         vec1.append(p2[a])
         vec2.append(c2[a])
@@ -131,7 +131,7 @@ def rmsd_distance(points, ref_points, sup_atoms, rmsd_atoms=None, multiple_rmsd_
     (p1,p2) = ref_points  
     for atoms_list,c_res,p_res in (sup_atoms[0],c1,p1), (sup_atoms[1],c2,p2):
         for a in atoms_list:
-            if not c_res.has_key(a) or not p_res.has_key(a):
+            if a not in c_res or a not in p_res:
                 return 1000.0
     ref_p = [p1[a] for a in sup_atoms[0]] + [p2[a] for a in sup_atoms[1]]
     cur_p = [c1[a] for a in sup_atoms[0]] + [c2[a] for a in sup_atoms[1]]
@@ -162,9 +162,9 @@ def bp_distance2(points, ref_points, n_type, already_normalized=False, zfactor=0
     else:
         n_points = points[1]
         n_ref_points = ref_points[1]
-    if any([not n_points.has_key(x) for x in rmsd_atoms]):
+    if any([x not in n_points for x in rmsd_atoms]):
         return 999.0
-    if any([not n_ref_points.has_key(x) for x in rmsd_atoms]):
+    if any([x not in n_ref_points for x in rmsd_atoms]):
         return 999.0
     vec1 = np.array([n_points[x] for x in rmsd_atoms],'f')
     vec2 = np.array([n_ref_points[x] for x in rmsd_atoms],'f')
@@ -183,11 +183,11 @@ def bp_distance3(points, ref_points, n_type, already_normalized=False, zfactor=0
     else:
         n_points = points[1]
         n_ref_points = ref_points[1]
-    if not n_points.has_key("C1'") or not n_ref_points.has_key("C1'"):
+    if "C1'" not in n_points or "C1'" not in n_ref_points:
         rmsd_atoms = ['C2','C4','C6']
-    if any([not n_points.has_key(x) for x in rmsd_atoms]):
+    if any([x not in n_points for x in rmsd_atoms]):
         return 999.0
-    if any([not n_ref_points.has_key(x) for x in rmsd_atoms]):
+    if any([x not in n_ref_points for x in rmsd_atoms]):
         return 999.0
     c1_vec = center_vector(n_points,n_type1)
     c2_vec = center_vector(n_ref_points,n_type1)
@@ -211,7 +211,7 @@ def bph_distance(points, ref_points, n_type):
     c = 0
     dist_sum = 0.0
     oxygens = list(set(PH_OXYGENS).intersection(set(n_points.keys())).intersection(set(n_ref_points)))
-    if len(oxygens)<3 or not n_points.has_key('P') or not n_ref_points.has_key('P'):
+    if len(oxygens)<3 or 'P' not in n_points or 'P' not in n_ref_points:
         return 999.0
     res = 999.0
     p_diff = n_points['P']-n_ref_points['P']
@@ -285,7 +285,7 @@ def center_vector(atoms,n_type):
         return None
     asum = np.array([0.0, 0.0, 0.0])
     for atomname in normal_set:
-        if not atoms.has_key(atomname):
+        if atomname not in atoms:
             return None
         asum += atoms[atomname]
     return asum / 6.0
@@ -296,7 +296,7 @@ def ribose_center_vector(atoms):
     normal_set = ["C4'","C3'","C2'","C1'","O4'"]
     asum = np.array([0.0, 0.0, 0.0])
     for atomname in normal_set:
-        if not atoms.has_key(atomname):
+        if atomname not in atoms:
             return None
         asum += atoms[atomname]
     return asum / 5.0
@@ -307,13 +307,13 @@ def sugar_vector(atoms):
     normal_set = ["O2'","O3'","O4'"]
     asum = np.array([0.0, 0.0, 0.0])
     for atomname in normal_set:
-        if not atoms.has_key(atomname):
+        if atomname not in atoms:
             return None
         asum += atoms[atomname]
     return asum / len(normal_set)
 
 def phosphate_vector(atoms):
-    if not atoms.has_key('P'):
+    if 'P' not in atoms:
         return None
     return atoms['P']
 
@@ -326,7 +326,7 @@ def gl_start_vector(atoms,n_type):
         a1 = 'N9'
     else:
         return None
-    if not atoms.has_key(a1):
+    if a1 not in atoms:
         return None
     return np.array(atoms[a1],'f')
 
@@ -338,7 +338,7 @@ def gl_vector(atoms,n_type):
     else:
         return None
     a2 = "C1'"
-    if not atoms.has_key(a1) or not atoms.has_key(a2):
+    if a1 not in atoms or a2 not in atoms:
         return None
     return np.array(atoms[a2],'f')-np.array(atoms[a1],'f')
 
@@ -352,8 +352,8 @@ def base_normal_vector(atoms, n_type):
     normal_set = NORMAL_SUPPORT.get(n_type.upper())
     if normal_set is None:
         return None
-    for i in xrange(4):
-        if not atoms.has_key(normal_set[i]):
+    for i in range(4):
+        if normal_set[i] not in atoms:
             return None
     atoma = np.array(atoms[normal_set[1]],'f') - np.array(atoms[normal_set[0]],'f')
     atomb = np.array(atoms[normal_set[3]],'f') - np.array(atoms[normal_set[2]],'f')
@@ -373,7 +373,7 @@ def residue_conformation(atoms, n_type, strict_definition=True):
         return None
     r_atoms = ["C1'","O4'"]
     
-    if any([not atoms.has_key(a) for a in base_atoms+r_atoms]):
+    if any([a not in atoms for a in base_atoms+r_atoms]):
         return None
 
     chi = torsion_angle(atoms[r_atoms[1]], atoms[r_atoms[0]], atoms[base_atoms[0]], atoms[base_atoms[1]])
@@ -394,7 +394,8 @@ def _stacking_overlap(points, n_type, already_fitted=False):
     
         return sum1 - sum2
     
-    def _isRightTurn((p, q, r)):
+    def _isRightTurn(xxx_todo_changeme):
+        (p, q, r) = xxx_todo_changeme
         assert p != q and q != r and p != r
         if _myDet(p, q, r) < 0:
             return 1
@@ -403,7 +404,7 @@ def _stacking_overlap(points, n_type, already_fitted=False):
     
     def _isPointInPolygon(r, P):
         # list of points is lister counter-closewise
-        for i in xrange(len(P[:-1])):
+        for i in range(len(P[:-1])):
             p, q = P[i], P[i+1]
             if _isRightTurn((p, q, r)):
                 return False
@@ -419,25 +420,25 @@ def _stacking_overlap(points, n_type, already_fitted=False):
         pp1,pp2 = fit_points((p1,p2), n_type)
         
     convex_points = {
-        'A': zip(
+        'A': list(zip(
                 [ -2.100463,  0.000000,  4.271447,  1.920945,  0.230436, -2.100463],
                 [  0.447145, -1.009320,  1.317924,  5.150733,  4.699718,  0.447145]
-             ),
-        'C': zip(
+             )),
+        'C': list(zip(
                 [ -2.082733,  0.000000,  2.269450,  1.203833, -0.527970, -2.036772, -2.082733],
                 [  0.123632, -1.010259, -0.120783,  4.411996,  4.602202,  2.647095,  0.123632]
-             ),
-        'G': zip(
+             )),
+        'G': list(zip(
                 [ -2.101572,  0.000000,  4.872516,  5.295175,  3.613335,  1.396986, -0.751391, -2.101572],
                 [  0.463584, -1.009529,  0.097781,  1.782283,  3.374547,  4.394213,  2.120132,  0.463584]
-             ),
-        'U': zip(
+             )),
+        'U': list(zip(
                 [ -2.082780,  0.000000,  2.292490,  2.092152,  0.177156, -2.124577, -2.082780],
                 [  0.111836, -1.008947, -0.048394,  2.445179,  4.020060,  2.616537,  0.111836]
-             ),
+             )),
     }
     res = []
-    for atom_name,(x,y,z) in pp2.items():
+    for atom_name,(x,y,z) in list(pp2.items()):
         if _isPointInPolygon((x,y), convex_points[n_type[0]]):
             res.append(atom_name)
     return len(res)
@@ -453,7 +454,7 @@ def base_min_dist(points, n_type, already_fitted=False):
         pp1,pp2 = p1,p2
     else:
         pp1,pp2 = fit_points((p1,p2), n_type)
-    return np.min( scipy.spatial.distance.cdist(np.array(pp1.values(),'f'), np.array(pp2.values(),'f')) )
+    return np.min( scipy.spatial.distance.cdist(np.array(list(pp1.values()),'f'), np.array(list(pp2.values()),'f')) )
 
 def rotation_to_axis_angle(matrix):
     """Convert the rotation matrix into the axis-angle notation.
@@ -650,7 +651,7 @@ def _compute_oxygen_interactions(p1,p2,ph_set,ox_set):
     res = {}
     i_oxygens = set()
     for m_atom,h_atom in ph_set:
-        if p1.has_key(m_atom) and p1.has_key(h_atom):
+        if m_atom in p1 and h_atom in p1:
             min_dist = None
             i_count = 0
             i_atom = None
@@ -659,7 +660,7 @@ def _compute_oxygen_interactions(p1,p2,ph_set,ox_set):
             h_vec = np.array(p1[h_atom],'f')
             # print h_atom,h_vec
             for o_atom in ox_set:
-                if not p2.has_key(o_atom):
+                if o_atom not in p2:
                     continue
                 o_vec = np.array(p2[o_atom],'f')
                 cur_dist = vector_length(o_vec-m_vec)
@@ -788,7 +789,7 @@ def expected_stack_orient(desc):
 def method_cache(f):
     from functools import wraps
     # print("cacher called")
-    cache_attr = "_"+f.func_name
+    cache_attr = "_"+f.__name__
     @wraps(f)
     def wrapped(self,*args, **kwds):
         # print "wrapped called %s, args=%s"%(f.func_name,args)
@@ -859,18 +860,18 @@ class Residue:
         else:
             self.pdb_id,self.chain,self.res_num = (tmp[0],tmp[1][0],tmp[1][1:])
         self.n_type = n_type
-        self.points_dict = dict([(k,np.array(p,'f')) for k,p in points.items()])
+        self.points_dict = dict([(k,np.array(p,'f')) for k,p in list(points.items())])
         
         norm2points, self.fit_rot2, self.fit_tran2, rms = _superimpose_atoms(self.points_dict, NORMALIZED_BASE.get(n_type), BASE_ATOMS.get(n_type))
 
-        common_base_atoms = set(BASE_ATOMS.get(self.n_type,[])).intersection(self.points_dict.keys())
+        common_base_atoms = set(BASE_ATOMS.get(self.n_type,[])).intersection(list(self.points_dict.keys()))
         if repair_missing and norm2points is not None:
             if rms>0.3:
-                for k,v in norm2points.items():
+                for k,v in list(norm2points.items()):
                     self.points_dict[k] = v
             elif norm2points is not None and len(common_base_atoms)!=len(BASE_ATOMS.get(self.n_type,[])):
-                for k,v in norm2points.items():
-                    if not self.points_dict.has_key(k):
+                for k,v in list(norm2points.items()):
+                    if k not in self.points_dict:
                         self.points_dict[k] = v
         self.normalized_points, self.fit_rot, self.fit_tran, _rms = _superimpose_atoms(NORMALIZED_BASE.get(n_type), self.points_dict, BASE_ATOMS.get(n_type))
         
@@ -919,7 +920,7 @@ class Residue:
     def br_vec(self):
         return ribose_center_vector(self.points)
 
-NORMALIZED_RESIDUES = dict([(n_type,Residue("A1",n_type,p)) for n_type,p in NORMALIZED_BASE.items()])
+NORMALIZED_RESIDUES = dict([(n_type,Residue("A1",n_type,p)) for n_type,p in list(NORMALIZED_BASE.items())])
     
 class Doublet:
 
@@ -1060,8 +1061,8 @@ class Doublet:
     @method_cache
     def min_dist(self):
         """minimal distance between atoms in r1 & r2"""
-        p1 = np.array(self.fit1.points.values(),'f')
-        p2 = np.array(self.fit2.points.values(),'f')
+        p1 = np.array(list(self.fit1.points.values()),'f')
+        p2 = np.array(list(self.fit2.points.values()),'f')
         return np.min( scipy.spatial.distance.cdist(p1, p2) )
         
     @property

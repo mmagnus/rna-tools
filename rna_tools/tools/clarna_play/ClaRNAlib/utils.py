@@ -3,10 +3,10 @@ import os
 import re
 import math
 import simplejson as json
-import urllib
-import StringIO
+import urllib.request, urllib.parse, urllib.error
+import io
 import gzip
-import cPickle
+import pickle
 import hashlib
 import itertools
 from datetime import datetime
@@ -17,9 +17,9 @@ from Bio import PDB
 from Bio.SVDSuperimposer import SVDSuperimposer
 from scipy.spatial import KDTree
 import tempfile
-from distances import normalize_points, fit_points
 
-from cl_settings import *
+from rna_tools.tools.clarna_play.ClaRNAlib.distances import normalize_points, fit_points
+from rna_tools.tools.clarna_play.ClaRNAlib.cl_settings_global import *
 
 # deprecated
 FR3D_URL = "http://rna.bgsu.edu/FR3D/AnalyzedStructures"
@@ -89,9 +89,9 @@ REQ_ATOMS_LIST = ('C2','C4','C6',"C1'",'P',"O3'")
 
 def status_msg(msg,new_line=True):
     if new_line:
-        print msg
+        print(msg)
     else:
-        print msg,
+        print(msg, end=' ')
     sys.stdout.flush()
 
 def bench_start(msg,new_line=False):
@@ -148,10 +148,10 @@ def pdb_files(dirname,include_positive=True,include_negative=False):
 def simplify_residue(r):
     res = {}
     for a in r:
-        if res.has_key(a.id):
-            print "duplicate atom a.id=%s" % (a.id)
+        if a.id in res:
+            print("duplicate atom a.id=%s" % (a.id))
             return None
-        assert(res.has_key(a.id) == False)
+        assert((a.id in res) == False)
         res[a.id] = a.get_coord()
     return res
 
@@ -187,13 +187,13 @@ def simplify_structure(s):
     for (chain_num,chain) in enumerate(l):
         for r in chain:
             rr = simplify_residue(r)
-            if rr.has_key("C1'"):
+            if "C1'" in rr:
                 cat = 0
-            elif rr.has_key("O3'"):
+            elif "O3'" in rr:
                 cat = 1
             else:
                 cat = 2
-            for a in rr.keys():
+            for a in list(rr.keys()):
                 key = "%d%d-%s" % (chain_num,cat, a)
                 res[key]=rr[a]
     return res
@@ -205,7 +205,7 @@ def load_clusters(fn):
     return res
 
 def parse_pdb(s):
-    f = StringIO.StringIO(s)
+    f = io.StringIO(s)
     parser = PDB.PDBParser()
     return parser.get_structure("c",f)
 
@@ -269,10 +269,10 @@ def cache(prefix):
             file_name = os.path.join(CACHE_DIR, prefix + '_' + cache_key)
 
             try:
-                return cPickle.load(open(file_name))
+                return pickle.load(open(file_name))
             except IOError:
                 value = f(*args)
-                cPickle.dump(value, open(file_name, 'w'))
+                pickle.dump(value, open(file_name, 'w'))
             return value
         return new_f
 
@@ -280,18 +280,18 @@ def cache(prefix):
 
 def pickle_save(fn, value):
     ensure_dir(fn)
-    cPickle.dump(value, open(fn, 'w'))
+    pickle.dump(value, open(fn, 'w'))
 
 def pickle_load(fn):
     if not os.path.isfile(fn):
         return None
-    return cPickle.load(open(fn))
+    return pickle.load(open(fn))
 
 @cache("get_pdb")
 def _get_pdb_web_page(pdb_id):
     pdb_id = pdb_id.lower()
     assert len(pdb_id)==4
-    f = urllib.urlopen("http://www.pdb.org/pdb/explore/explore.do?structureId="+pdb_id.lower())
+    f = urllib.request.urlopen("http://www.pdb.org/pdb/explore/explore.do?structureId="+pdb_id.lower())
     data = f.read()
     f.close()
     return data
@@ -312,7 +312,7 @@ def get_pdb_info(pdb_id):
         m = regex.search(data)
         if m:
             res[field] = m.group(1)
-    if res.has_key('em_resolution') and not res.has_key('resolution'):
+    if 'em_resolution' in res and 'resolution' not in res:
         res['resolution'] = res['em_resolution']
     return res
 
@@ -340,15 +340,15 @@ def load_motifs(dirname,include_positive=True,include_negative=False):
         ff = os.path.basename(f)
         key1 = ff[0:2]
         key2 = re.sub(r"^(..)_(desc|negative)_(.*)_from.*$",r"\3",ff)
-        if not res.has_key(key1):
+        if key1 not in res:
             res[key1] = {}
-        if not res[key1].has_key(key2):
+        if key2 not in res[key1]:
             res[key1][key2]=[]
         # print "loading %s/%s" % (key1,key2)
         s = parser.get_structure("c",f)
         s = simplify_structure(s,key1)
         if s is None:
-            print "ignoring: %s" % f
+            print("ignoring: %s" % f)
             continue
         res[key1][key2].append(s)
     return res
@@ -364,25 +364,25 @@ def sq_dist(p1, p2):
             (p1[2]-p2[2])*(p1[2]-p2[2]))
 
 def res_p_distance(r1, r2):
-    if not r1.has_key('P') or not r2.has_key('P'):
+    if 'P' not in r1 or 'P' not in r2:
         return 1000
     return dist(r1['P'], r2['P'])
 
 def res_atom_distance(r1, r2, from_atom, to_atom=None):
     if to_atom is None:
         to_atom = from_atom
-    if not r1.has_key(from_atom) or not r2.has_key(to_atom):
+    if from_atom not in r1 or to_atom not in r2:
         return 1000
     return dist(r1[from_atom], r2[to_atom])
 
 
 def res_c1p_distance(r1, r2):
-    if not r1.has_key("C1'") or not r2.has_key("C1'"):
+    if "C1'" not in r1 or "C1'" not in r2:
         return 1000
     return dist(r1["C1'"], r2["C1'"])
 
 def res_c2_distance(r1, r2):
-    if not r1.has_key("C2") or not r2.has_key("C2"):
+    if "C2" not in r1 or "C2" not in r2:
         return 1000
     return dist(r1["C2'"], r2["C2'"])
 
@@ -441,11 +441,11 @@ def run_fr3d_old(fn):
     for t in ['basepairs','stacking','base_phosphate']:
         fn = os.path.join(FR3D_CACHE,pdb_id + "_" + t + ".html")
         if os.path.isfile(fn):
-            print "using cache"
+            print("using cache")
             f = open(fn)
         else:
             url = FR3D_URL + "/" + pdb_id + "/" + pdb_id + "_" + t + ".html"
-            f = urllib.urlopen(url)
+            f = urllib.request.urlopen(url)
         html = f.read()
         f.close()
         # extract pre fragment
@@ -487,12 +487,12 @@ def run_fr3d(fn):
 def download_rna_hub(pdb_id):
     cache_fn = os.path.join(FR3D_CACHE,pdb_id.lower() +".csv")
     if os.path.isfile(cache_fn):
-        print "using cache"
+        print("using cache")
         f = open(cache_fn)
     else:
         url = "http://rna.bgsu.edu/rna3dhub/pdb/%s/interactions/fr3d/all/csv" % pdb_id.upper()
-        print url
-        f = urllib.urlopen(url)
+        print(url)
+        f = urllib.request.urlopen(url)
     res = f.read()
     f.close()
     new = []
@@ -752,7 +752,7 @@ def parse_fr3d(output,base_pairs=True,stackings=False,use_chain=True):
 
 
 def structure2string(structure):
-    output = StringIO.StringIO()
+    output = io.StringIO()
     io = PDB.PDBIO()
     io.set_structure(structure)
     io.save(output)
@@ -762,7 +762,7 @@ def structure2string(structure):
 
 def confusion_matrix_params(m):
     result = {}
-    for k,v in m.items():
+    for k,v in list(m.items()):
         result[k] = v
     result['p'] = result['tp']+result['fn']
     result['n'] = result['fp']+result['tn']
@@ -787,14 +787,14 @@ def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
     residues_atoms = []
     residues_coords = []
     residues_num = []
-    for i in xrange(n):
+    for i in range(n):
         a_dict = {}
         if residues[i] is not None:
             for a in residues[i]:
                 a_dict[a.id] = a.get_coord()
         p = None
         for a in ["C1'","C2","C4","C6","P"]:
-            if a_dict.has_key(a):
+            if a in a_dict:
                 p = a_dict[a]
                 break
         if p is not None:
@@ -804,7 +804,7 @@ def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
     if len(residues_coords)==0:
       return []
     t = KDTree(residues_coords)
-    for ii in xrange(len(residues_num)):
+    for ii in range(len(residues_num)):
         i = residues_num[ii]
         if residues[i] is None:
             continue
@@ -816,8 +816,8 @@ def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
             if j<=i or j>=len(residues_atoms) or residues[j] is None:
                 continue
             d = 1000
-            for a1,p1 in residues_atoms[ii].items():
-                for a2,p2 in residues_atoms[jj].items():
+            for a1,p1 in list(residues_atoms[ii].items()):
+                for a2,p2 in list(residues_atoms[jj].items()):
                     d = min(d, dist(p1,p2))
             if d>=min_distance and d<=max_distance:
                 result.append((i,j))
@@ -962,12 +962,12 @@ class GraphTool(object):
                 desc = data['desc']
                 if not accept_fuzzy and re.match(r'^\?',desc):
                     continue
-                if not tmp_contacts.has_key(_id):
+                if _id not in tmp_contacts:
                     tmp_contacts[_id] = {}
                 tmp_contacts[_id][desc] = data
         contacts = {}
-        for _id,elems_dict in tmp_contacts.items():
-            contacts[_id] = elems_dict.values()
+        for _id,elems_dict in list(tmp_contacts.items()):
+            contacts[_id] = list(elems_dict.values())
         return contacts
 
     def load_graph(self, filename, edge_type='contact', accept_fuzzy=True, filter_doublets=None):
@@ -1049,7 +1049,7 @@ class GroupsTool(object):
         self.all = set()
         self.n_types = {}
         self.recognized_by = {}
-        for group_name, group_elems in gr.items():
+        for group_name, group_elems in list(gr.items()):
             if filter_doublets is not None:
                 group_elems = [x for x in group_elems if re.sub("^[^:]*:","",x) in filter_doublets]
             if re.match("^classifier/",group_name):
@@ -1061,7 +1061,7 @@ class GroupsTool(object):
                 if sub_category in ['bp','stacking'] and n_type==rev_n_type and desc==rev_desc:
                     rev_group_elems = [GroupsTool.reverse_id(i) for i in group_elems]
 
-                if not self.ref.has_key(sub_category):
+                if sub_category not in self.ref:
                     self.ref[sub_category] = {}
                     if sub_category=='bp':
                         self.ref['bp-classic'] = {}
@@ -1069,8 +1069,8 @@ class GroupsTool(object):
 
                 for _id in group_elems+rev_group_elems:
                     # _id = re.sub("^([^:]):([^:]):([^:])$",r"\2:\3",full_id)
-                    if self.ref[sub_category].has_key(_id) and desc!=self.ref[sub_category][_id]:
-                        print "reference description conflict: %s, %s <-> %s" % (_id, desc, self.ref[sub_category][_id])
+                    if _id in self.ref[sub_category] and desc!=self.ref[sub_category][_id]:
+                        print("reference description conflict: %s, %s <-> %s" % (_id, desc, self.ref[sub_category][_id]))
                         continue
                     # assert self.ref[sub_category].has_key(_id)==False
                     self.ref[sub_category][_id]=desc
@@ -1088,11 +1088,11 @@ class GroupsTool(object):
                 if sub_category in ['bp','stacking'] and n_type==rev_n_type and desc==rev_desc:
                     rev_group_elems = [GroupsTool.reverse_id(i) for i in group_elems]
 
-                if not self.fuzzy.has_key(sub_category):
+                if sub_category not in self.fuzzy:
                     self.fuzzy[sub_category] = {}
                 for _id in group_elems+rev_group_elems:
                     # _id = re.sub("^([^:]):([^:]):([^:])$",r"\2:\3",full_id)
-                    if not self.fuzzy[sub_category].has_key(_id):
+                    if _id not in self.fuzzy[sub_category]:
                         self.fuzzy[sub_category][_id]=[]
                     self.fuzzy[sub_category][_id].append(desc)
             if re.match("^all/all/all$",group_name):
@@ -1131,22 +1131,22 @@ class GroupsTool(object):
         return self.all
 
     def get_n_type(self,doublet_id):
-        if self.n_types.has_key(doublet_id):
+        if doublet_id in self.n_types:
             return self.n_types[doublet_id]
         rev_doublet_id = re.sub("^([^:]+):([^:]+):([^:]+)$",r"\1:\3:\2", doublet_id)
-        if self.n_types.has_key(rev_doublet_id):
+        if rev_doublet_id in self.n_types:
             return self.n_types[rev_doublet_id][::-1]
         return '??'
 
     def get_ref_ids(self,sub_category):
-        if not self.ref.has_key(sub_category):
+        if sub_category not in self.ref:
             return []
-        return self.ref[sub_category].keys()
+        return list(self.ref[sub_category].keys())
 
     def get_fuzzy_ids(self,sub_category):
-        if not self.fuzzy.has_key(sub_category):
+        if sub_category not in self.fuzzy:
             return []
-        return self.fuzzy[sub_category].keys()
+        return list(self.fuzzy[sub_category].keys())
 
     def get_ref_desc(self,doublet_id,sub_category):
         if sub_category in ['bp-classic','bp-non-classic']:
@@ -1159,12 +1159,12 @@ class GroupsTool(object):
                 return tmp_res
             else:
                 return ''
-        if not self.ref.has_key(sub_category):
+        if sub_category not in self.ref:
             return ''
         return self.ref[sub_category].get(doublet_id,'')
 
     def get_fuzzy_desc(self,doublet_id,sub_category):
-        if not self.fuzzy.has_key(sub_category):
+        if sub_category not in self.fuzzy:
             return []
         return self.fuzzy[sub_category].get(doublet_id,[])
 
@@ -1172,7 +1172,7 @@ class GroupsTool(object):
         return doublet_id in self.all
 
     def get_recognized_by(self,prg):
-        if not self.recognized_by.has_key(prg):
+        if prg not in self.recognized_by:
             return set([])
         else:
             return self.recognized_by[prg]
@@ -1198,14 +1198,14 @@ class ResiduesDict(object):
         fn = PDBObject.pdb_fn(pdbid,"residues",data_dir=self.data_dir)
         json = load_json(fn)
         if self.full_atoms:
-            data = dict([(k,v['atoms']) for k,v in json.items()])
+            data = dict([(k,v['atoms']) for k,v in list(json.items())])
         else:
-            data = dict([(k,self._reduce_atoms(v['atoms'])) for k,v in json.items()])
-        data_name = dict([(k,v['resname']) for k,v in json.items()])
-        data_org_id = dict([(k,v.get('org_id')) for k,v in json.items()])
+            data = dict([(k,self._reduce_atoms(v['atoms'])) for k,v in list(json.items())])
+        data_name = dict([(k,v['resname']) for k,v in list(json.items())])
+        data_org_id = dict([(k,v.get('org_id')) for k,v in list(json.items())])
         json = None
         if residues is not None:
-            for k in data.keys():
+            for k in list(data.keys()):
                 if k not in residues:
                     del data[k]
                     del data_name[k]
@@ -1215,24 +1215,24 @@ class ResiduesDict(object):
         self.residues_org_id[pdbid] = data_org_id
 
     def _reduce_atoms(self,atoms):
-        return dict([(k,v) for k,v in atoms.items() if k in self.reduced_atoms])
+        return dict([(k,v) for k,v in list(atoms.items()) if k in self.reduced_atoms])
 
     def get(self,rid):
         (pdbid,num) = rid.split(":")
-        if not self.residues.has_key(pdbid):
+        if pdbid not in self.residues:
             self.load_pdb(pdbid)
         res = self.residues[pdbid].get(num)
         return res
 
     def get_resname(self,rid):
         (pdbid,num) = rid.split(":")
-        if not self.residues_name.has_key(pdbid):
+        if pdbid not in self.residues_name:
             self.load_pdb(pdbid)
         return self.residues_name[pdbid].get(num)
 
     def get_org_id(self,rid,full_id=True):
         (pdbid,num) = rid.split(":")
-        if not self.residues_org_id.has_key(pdbid):
+        if pdbid not in self.residues_org_id:
             self.load_pdb(pdbid)
         r = self.residues_org_id[pdbid].get(num,None)
         if r is not None:
@@ -1259,19 +1259,19 @@ class DoubletsDict(object):
         self.rd.load_pdb(pdbid,residues)
 
     def load_pdb_files(self,ids,verbose=False):
-        from progressbar import ProgressBar, Percentage, Bar, ETA
+        from .progressbar import ProgressBar, Percentage, Bar, ETA
 
         all_pdbs = {}
         for d_id in ids:
             pdb_id = d_id.split(":")[0]
-            if not all_pdbs.has_key(pdb_id):
+            if pdb_id not in all_pdbs:
                 all_pdbs[pdb_id]=[]
             all_pdbs[pdb_id].append(d_id)
         if len(all_pdbs)==0:
             return
         if verbose:
             widgets = ['load residues',' ', Percentage(), ' ', Bar(), ' ', ETA()]
-            pbar = ProgressBar(widgets=widgets, maxval=len(all_pdbs.keys())).start()
+            pbar = ProgressBar(widgets=widgets, maxval=len(list(all_pdbs.keys()))).start()
         for i,(pdb_id,doublets) in enumerate(all_pdbs.items()):
             self.load_pdb(pdb_id,doublets)
             if verbose:

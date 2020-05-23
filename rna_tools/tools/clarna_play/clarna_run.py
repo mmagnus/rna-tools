@@ -1,35 +1,39 @@
 #!/usr/bin/env python
+"""
+Cite & authors:
 
+[1]	T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifier of contacts in RNA 3D structures based on a comparative analysis of various classification schemes.,” Nucleic Acids Research, vol. 42, no. 19, pp. e151–e151, Oct. 2014.
+
+"""
 # this is a basic way to access the clarna program with a minimum of
 # pain.
 
 PROGRAM = "run_clarna.py"
 
 import sys, os, re
-import urllib2, urllib
+import urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
 import string
 from Bio import SeqIO
 from optparse import OptionParser
-from lib.rna_pdb_tools.pdb_parser_lib import StrucFile
 
 ####### ClaRNA related imports  ########
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 ########################################
-CLARNA_PATH = os.environ['ClaRNAlib']
-
-sys.path.append(CLARNA_PATH)
 from Bio import PDB
-from structure_ciach import StructureCiachCiach
+
+from rna_tools.tools.clarna_play.ClaRNAlib.structure_ciach import StructureCiachCiach
+from rna_tools.tools.clarna_play.lib.rna_pdb_tools.pdb_parser_lib import StrucFile
+from rna_tools import rna_tools_lib
 
 # The Original settings of this import operation before adding
 # MC-Annotate and rnaview
 
-from utils import simplify_residue, compute_close_doublets, bench_start, bench_stop, load_json
+from rna_tools.tools.clarna_play.ClaRNAlib.utils import simplify_residue, compute_close_doublets, bench_start, bench_stop, load_json
 # from utils import *
 # ....there are quite a few functions involved in this module.
 
-from distances import Residue
-from clarna import MAX_RES_DIST, _find_contacts_using_library, ContactProgram, run_rnaview, parse_rnaview, run_mc_annotate, parse_mc_annotate, run_fr3d, parse_fr3d 
+from rna_tools.tools.clarna_play.ClaRNAlib.distances import Residue
+from rna_tools.tools.clarna_play.ClaRNAlib.clarna import MAX_RES_DIST, _find_contacts_using_library, ContactProgram, run_rnaview, parse_rnaview, run_mc_annotate, parse_mc_annotate, run_fr3d, parse_fr3d 
 # NOTE: the programs run_rnaview, parse_rnaview, run_mc_annotate and
 # parse_mc_annotate are actually from clarna_utils. The reason we can
 # call it from here is because it was imported in clarna by the
@@ -113,7 +117,7 @@ class CommandLine:
         debug_Clarna_CL_Opt = False
         n = len(self.command_line)
         if (n == 0):
-            print 'ERROR: command line undefined. '
+            print('ERROR: command line undefined. ')
             sys.exit(1)
         flag_refPDB = False
         flag_chkPDB = False
@@ -121,7 +125,7 @@ class CommandLine:
         i = 1
         while i < n:
             if debug_Clarna_CL_Opt:
-                print "index %d: \'%s\'" % (i, self.command_line[i])
+                print("index %d: \'%s\'" % (i, self.command_line[i]))
             # is it the input file?
             if self.command_line[i] == '-ipdb':
                 #
@@ -136,7 +140,7 @@ class CommandLine:
                 #
                 #
                 if debug_Clarna_CL_Opt:
-                    print "flnm_pdb name: %s" % self.flnm_pdb 
+                    print("flnm_pdb name: %s" % self.flnm_pdb) 
                 p = re.compile('.pdb$')
                 a = p.findall(self.flnm_pdb)
                 # print len(a)
@@ -154,17 +158,17 @@ class CommandLine:
                     ms = self.command_line[i] 
                     self.min_score = float(ms)
                 except:
-                    print 'ERROR: Must enter an float in requests using option \'-thresh\'.'
-                    print '       You entered \'', ms, '\'.'
+                    print('ERROR: Must enter an float in requests using option \'-thresh\'.')
+                    print('       You entered \'', ms, '\'.')
                     sys.exit(1)
                 
                 if self.min_score <= 0.0 or self.min_score >= 1.0: 
-                    print 'ERROR: \'-thresh\' only accepts 0.0 < thresh < 1.0.' 
-                    print '       You entered \'%f\'.' % self.min_score
+                    print('ERROR: \'-thresh\' only accepts 0.0 < thresh < 1.0.') 
+                    print('       You entered \'%f\'.' % self.min_score)
                     sys.exit(1)
                 
                 if debug_Clarna_CL_Opt:
-                    print "threshold to be displayed ", self.min_score
+                    print("threshold to be displayed ", self.min_score)
                 #
                 #
             
@@ -175,7 +179,7 @@ class CommandLine:
                 self.clarna_opts = "bps"
                 self.opt_cnt += 1
                 if debug_Clarna_CL_Opt:
-                    print "search base pairs requested."
+                    print("search base pairs requested.")
                 #
             # option for stacking interactions
             # self.stack  = 'lib/classifier.stacking.json.gz'
@@ -184,14 +188,14 @@ class CommandLine:
                 self.opt_cnt += 1
                 
                 if debug_Clarna_CL_Opt:
-                    print "search for stacking interactions requested."
+                    print("search for stacking interactions requested.")
                 #
             elif self.command_line[i] == '-bp+stack':
                 self.clarna_opts = "bp+stack"
                 self.opt_cnt += 1
                 
                 if debug_Clarna_CL_Opt:
-                    print "search for stacking interactions requested."
+                    print("search for stacking interactions requested.")
                 #
             # option for analyzing phosphate/sugar base interactions (currently not *greatly* supported)
             # self.basePS = 'lib/classifier.base-phosphate.json.gz,lib/classifier.base-ribose.json.gz'
@@ -200,7 +204,7 @@ class CommandLine:
                 self.opt_cnt += 1
                 
                 if debug_Clarna_CL_Opt:
-                    print "search base phosphate/sugar requested."
+                    print("search base phosphate/sugar requested.")
                 #
             # option for "other" types of interactions (currently not *greatly* supported)
             # self.other  = 'lib/classifier.other.json.gz,lib/classifier.other2.json.gz,lib/classifier.other3.json.gz'
@@ -209,31 +213,31 @@ class CommandLine:
                 
                 self.opt_cnt += 1
                 if debug_Clarna_CL_Opt:
-                    print "search for \'all other\' interactions requested."
+                    print("search for \'all other\' interactions requested.")
                 #
             # use Clarna (default)
             elif self.command_line[i] == '-Clarna':
                 self.analPDB_opts = "Clarna"
                 if debug_Clarna_CL_Opt:
-                    print "requested to analyze using \'Clarna\'."
+                    print("requested to analyze using \'Clarna\'.")
                 #
             # use RNAVIEW
             elif self.command_line[i] == '-rnaview':
                 self.analPDB_opts = "rnaview"
                 if debug_Clarna_CL_Opt:
-                    print "requested to analyze using \'RNAVIEW\'."
+                    print("requested to analyze using \'RNAVIEW\'.")
                 #
             # use MC-Annotate
             elif self.command_line[i] == '-mc_annotate':
                 self.analPDB_opts = "mc_annotate"
                 if debug_Clarna_CL_Opt:
-                    print "requested to analyze using \'MC-Annotate\'."
+                    print("requested to analyze using \'MC-Annotate\'.")
                 #
             # use FR3D
             elif self.command_line[i] == '-fr3d':
                 self.analPDB_opts = "fr3d"
                 if debug_Clarna_CL_Opt:
-                    print "requested to analyze using \'FR3D\'."
+                    print("requested to analyze using \'FR3D\'.")
                 #
             # is it a plea for help? (in one of its many different versions ...)
             elif (self.command_line[i] == '-h') or \
@@ -241,7 +245,7 @@ class CommandLine:
                  (self.command_line[i] == '-help'):
                 # default
                 a = Usage_Clarna()
-                print '%s\n' % a.get_Usage_Clarna()
+                print('%s\n' % a.get_Usage_Clarna())
                 sys.exit(0)
                 #
             #
@@ -265,10 +269,10 @@ class CommandLine:
             self.error(emsg)
         #
         if debug_Clarna_CL_Opt:
-            print "INFORMATION: classification will be done using %s" % self.analPDB_opts
-            print "             all Clarna options will be ignored"
+            print("INFORMATION: classification will be done using %s" % self.analPDB_opts)
+            print("             all Clarna options will be ignored")
         
-        print "Classifier: %s" % self.analPDB_opts
+        print("Classifier: %s" % self.analPDB_opts)
         #
         
         # sys.exit(0)
@@ -288,12 +292,12 @@ class CommandLine:
     
     def error(self, e_msg):
         """delivers error/exit messages for this class"""
-        print '\n'
-        print e_msg
+        print('\n')
+        print(e_msg)
         ss = 'input command: ' + self.show_CL() + '\n'
-        print ss
+        print(ss)
         a = Usage_Clarna()
-        print '%s' % a.get_Usage_Clarna()
+        print('%s' % a.get_Usage_Clarna())
         sys.exit(1)
 
         
@@ -363,14 +367,14 @@ class Clarna_utils:
         self.set_library("bps")
 
         # assign options for varies keys (not so helpful I know)
-        for key,val in self.init_opts.items():
+        for key,val in list(self.init_opts.items()):
             self.options[key] = val
         
         #bench_start("loading classifier libraries")
         self.libs = []
         for lib_fn in self.options['lib'].split(","):
             if not os.path.isfile(lib_fn):
-                print "library %s does not exists" % lib_fn
+                print("library %s does not exists" % lib_fn)
                 exit(1)
             lib = ContactProgram()
             lib.load_from_json(lib_fn)
@@ -405,9 +409,9 @@ class Clarna_utils:
             self.init_opts['lib'] = self.other
             self.clarna_opts        = "other" 
         else: 
-            print "don't recognize library (%s)" % libnm
+            print("don't recognize library (%s)" % libnm)
             a = Usage_Clarna()
-            print '%s' % a.get_Usage_Clarna()
+            print('%s' % a.get_Usage_Clarna())
             sys.exit(1)
         #
         # reduce classifier database (standard baspairs and stacking only)
@@ -416,16 +420,18 @@ class Clarna_utils:
         # self.init_opts['lib'] = 'lib/classifier.bp.json.gz'  
         
         # update ClaRNA paths
+
+        CLARNA_PATH = rna_tools_lib.get_rna_tools_path() + '/tools/clarna_play/ClaRNAlib/'
         self.init_opts['lib'] = ",".join([CLARNA_PATH+item for item in self.init_opts['lib'].split(',')])
         
-        for key,val in self.init_opts.items():
+        for key,val in list(self.init_opts.items()):
             self.options[key] = val
         
         #bench_start("loading classifier libraries")
         self.libs = []
         for lib_fn in self.options['lib'].split(","):
             if not os.path.isfile(lib_fn):
-                print "library %s does not exists" % lib_fn
+                print("library %s does not exists" % lib_fn)
                 exit(1)
             lib = ContactProgram()
             lib.load_from_json(lib_fn)
@@ -479,7 +485,7 @@ class Clarna_utils:
                         else:
                             s.append([chain.id, _resname, _num, rr, _id])
                     else:
-                        print "ignoring %s (missing atoms)" % _id
+                        print("ignoring %s (missing atoms)" % _id)
             s_end = len(s)
 
             if ids is None:
@@ -494,7 +500,7 @@ class Clarna_utils:
                 i = res_num.get(id1)
                 j = res_num.get(id2)
                 if i is None or j is None:
-                    print "UNKNOWN doublet %s" % id
+                    print("UNKNOWN doublet %s" % id)
                     continue
                 close_doublets.append((i,j,0))
         return ("dummy_id", s, close_doublets)
@@ -528,8 +534,8 @@ class Clarna_utils:
         # 
         rv_res = parse_rnaview(rv_data, stackings=True,use_chain=True)
         if debug_start_rnaview:
-            print 'rv_res:'
-            print rv_res
+            print('rv_res:')
+            print(rv_res)
         # rv_res is a list
             
         # [[('A1', 'A41'), ('G', 'C'), 'PP_cis_XIX'], 
@@ -542,25 +548,25 @@ class Clarna_utils:
         # translate into something that can be compared with Clarna
         cb = ClarnaBabbel()
         
-        if not cb.descriptions.has_key("RV"): 
-            print "ERROR: no definitions available for RNAview"
-            print "       .... don't know what to do."
+        if "RV" not in cb.descriptions: 
+            print("ERROR: no definitions available for RNAview")
+            print("       .... don't know what to do.")
             sys.exit(1)
         #
         
         rv_dict = {}
         for rv_res_k in rv_res:
             bb = rv_res_k[2]
-            if cb.descriptions["RV"].has_key(bb):
+            if bb in cb.descriptions["RV"]:
                 # print cb.descriptions["RV"][bb]
                 rv2c = cb.rnaview2clarna(rv_res_k)
                 if debug_start_rnaview:
-                    print rv2c
+                    print(rv2c)
                 #
                 rv_dict.update(rv2c)
             else:
                 if flag_show_warning:
-                    print "INFORMATION: ignoring MC-Annotate key {%s:}..." % bb
+                    print("INFORMATION: ignoring MC-Annotate key {%s:}..." % bb)
                 #
                 # print "trouble!!!, no key like \"%s\" exists!" % bb
                 # sys.exit(1)
@@ -574,8 +580,8 @@ class Clarna_utils:
         debug_rnaview_get_stacks = False
         flag_show_warnings = False
         if debug_rnaview_get_stacks:
-            print "stacking"
-            print rv_res
+            print("stacking")
+            print(rv_res)
         #
         
         # There is the VERY REAL PROBLEM that there is overlap here.
@@ -598,8 +604,8 @@ class Clarna_utils:
         if flag_show_warnings:
             # list all the keys already associated with stacking
             for bb in bbclarna:
-                if bbclarna[bb].has_key(">>"):
-                    print bb, bbclarna[bb]
+                if ">>" in bbclarna[bb]:
+                    print(bb, bbclarna[bb])
         
         # data format of rv_res: 
         
@@ -613,7 +619,7 @@ class Clarna_utils:
             bbk1 = rv_res[k]
             bbk2 = rv_res[k+1]
             if debug_rnaview_get_stacks:
-                print "bbk12: ", bbk1, bbk2
+                print("bbk12: ", bbk1, bbk2)
             
             # RNAview does, fortunately, list the base-base
             # interactions sequentially in the keys.  Therefore, it is
@@ -645,45 +651,45 @@ class Clarna_utils:
             nt2_3p = bbk2[1][1]
             
             if debug_rnaview_get_stacks:
-                print "dt15/13/25/23: ", dt15, dt13, dt25, dt23
+                print("dt15/13/25/23: ", dt15, dt13, dt25, dt23)
             
             # add stacking on the 5' end of the chain if the nearest
             # neighbor is one residue away.
             if debug_rnaview_get_stacks:
-                print "rs1_5p, rs2_5p: ", rs1_5p, rs2_5p
+                print("rs1_5p, rs2_5p: ", rs1_5p, rs2_5p)
             if rs1_5p == rs2_5p - 1:
                 key = (ch1_5p, rs1_5p, ch2_5p, rs2_5p)
-                if not bbclarna.has_key(key):
+                if key not in bbclarna:
                     bb_5p = { key : { "bp": (nt1_5p, nt2_5p), ">>": 1.0 } }
                     bbclarna.update(bb_5p)
                     if debug_rnaview_get_stacks:
-                        print "bb_5p: ",  bb_5p
+                        print("bb_5p: ",  bb_5p)
                 else:
                     if flag_show_warnings:
                         # Option to show this warning if the stacking
                         # keys already exists
-                        print "Warning: found a key already in the dictionary"
+                        print("Warning: found a key already in the dictionary")
                         bb_5p = { key : { "bp": (nt1_5p, nt2_5p), ">>": 1.0 } }
-                        print "bb_5p: ",  bb_5p
+                        print("bb_5p: ",  bb_5p)
             #
             # add stacking on the 3' end of the chain if the nearest
             # neighbor is one residue away.
             if debug_rnaview_get_stacks:
-                print "rs1_3p, rs2_3p: ", rs1_3p, rs2_3p
+                print("rs1_3p, rs2_3p: ", rs1_3p, rs2_3p)
             if rs1_3p - 1 == rs2_3p:
                 key = (ch2_3p, rs2_3p, ch1_3p, rs1_3p)
-                if not bbclarna.has_key(key):
+                if key not in bbclarna:
                     bb_3p = { key : { "bp": (nt2_3p, nt1_3p), ">>": 1.0 } }
                     bbclarna.update(bb_3p)
                     if debug_rnaview_get_stacks:
-                        print "bb_3p: ",  bb_3p
+                        print("bb_3p: ",  bb_3p)
                 else:
                     if flag_show_warnings:
                         # Option to show this warning if the stacking
                         # keys already exists
-                        print "Warning: found a key already in the dictionary"
+                        print("Warning: found a key already in the dictionary")
                         bb_3p = { key : { "bp": (nt2_3p, nt1_3p), ">>": 1.0 } }
-                        print "bb_3p: ",  bb_3p
+                        print("bb_3p: ",  bb_3p)
             #
         #
         return bbclarna
@@ -714,9 +720,9 @@ class Clarna_utils:
         # 
         
         if debug_start_mc_annotate:
-            print 'mc_res:', len(mc_res)
+            print('mc_res:', len(mc_res))
             for mc_i in mc_res:
-                print "mcx: ", mc_i
+                print("mcx: ", mc_i)
             #
         #
         
@@ -733,9 +739,9 @@ class Clarna_utils:
         # translate into something that can be compared with Clarna
         cb = ClarnaBabbel()
         
-        if not cb.descriptions.has_key("MC"): 
-            print "ERROR: no definitions available for MC-Annotate"
-            print "       .... don't know what to do."
+        if "MC" not in cb.descriptions: 
+            print("ERROR: no definitions available for MC-Annotate")
+            print("       .... don't know what to do.")
             sys.exit(1)
         #
         
@@ -743,17 +749,17 @@ class Clarna_utils:
         # first go through the base base interactions
         for mc_bbres_k in mc_bbres:
             bb = mc_bbres_k[2]
-            if cb.descriptions["MC"].has_key(bb):
+            if bb in cb.descriptions["MC"]:
                 # print cb.descriptions["MC"][bb]
                 mc2c = cb.mc_annotate2clarna(mc_bbres_k, mc_ntinfo)
                 if debug_start_mc_annotate:
-                    print mc2c
+                    print(mc2c)
                 #
                 mc_dict.update(mc2c)
             #
             else:
                 if flag_show_warning:
-                    print "INFORMATION: ignoring MC-Annotate key {%s:}..." % bb
+                    print("INFORMATION: ignoring MC-Annotate key {%s:}..." % bb)
                 #
             #
         #
@@ -785,9 +791,9 @@ class Clarna_utils:
         # [('A299', 'A298'), ('C', 'U'), 'n0BR']]
         
         if debug_start_fr3d:
-            print 'fr_res:', len(fr_res)
+            print('fr_res:', len(fr_res))
             for fr_i in fr_res:
-                print "frx: ", fr_i
+                print("frx: ", fr_i)
             #
         #
         
@@ -795,33 +801,33 @@ class Clarna_utils:
         # translate into something that can be compared with Clarna
         cb = ClarnaBabbel()
         
-        if not cb.descriptions.has_key("RV"): 
-            print "ERROR: no definitions available for FR3D"
-            print "       .... don't know what to do."
+        if "RV" not in cb.descriptions: 
+            print("ERROR: no definitions available for FR3D")
+            print("       .... don't know what to do.")
             sys.exit(1)
         #
         
         fr_dict = {}
         for fr_res_k in fr_res:
             bb = fr_res_k[2]
-            if cb.descriptions["FR"].has_key(bb):
+            if bb in cb.descriptions["FR"]:
                 if re.match('^[HSW][HSW]_', cb.descriptions["FR"][bb]) \
                    or re.match('^[<>][<>]$', cb.descriptions["FR"][bb]):
                     # print cb.descriptions["FR"][bb]
                     fr2c = cb.fr3d2clarna(fr_res_k)
                     if debug_start_fr3d:
-                        print fr2c
+                        print(fr2c)
                     #
                     fr_dict.update(fr2c)
                     #
                 else:
                     if flag_show_warning:
-                        print "INFORMATION: skipping unrelated FR3D key {%s:}..." % bb
+                        print("INFORMATION: skipping unrelated FR3D key {%s:}..." % bb)
                     #
                 #
             else:
                 if flag_show_warning:
-                    print "INFORMATION: ignoring untranslatable FR3D key {%s:}..." % bb
+                    print("INFORMATION: ignoring untranslatable FR3D key {%s:}..." % bb)
                 #
                 # print "trouble!!!, no key like \"%s\" exists!" % bb
                 # sys.exit(1)
@@ -952,7 +958,7 @@ class SeeClarna:
     
     # when there is only one structure key recorded
     def get_RNAstruct_key(self,pdbdt):
-        zz = pdbdt.keys()
+        zz = list(pdbdt.keys())
         key = ''
         for zzi in zz:
             if (not zzi == "bp"):
@@ -964,7 +970,7 @@ class SeeClarna:
 
     # when there are more than two structure keys recorded
     def get_other_keys(self,pdbdt):
-        zz = pdbdt.keys()
+        zz = list(pdbdt.keys())
         keys = []
         for zzi in zz:
             if (not zzi == "bp"):
@@ -1033,9 +1039,9 @@ class SeeClarna:
             #
             
         # Does (ux,vx) already exist
-        if pdbdict.has_key((uc,ux,vc,vx)):
+        if (uc,ux,vc,vx) in pdbdict:
             # Does pdbdict[(ux,vx)] already have configuration tt?
-            if pdbdict[(uc,ux,vc,vx)].has_key(t):
+            if t in pdbdict[(uc,ux,vc,vx)]:
                 pdbdict[(uc,ux,vc,vx)][t] += w
                 pdbdict[(uc,ux,vc,vx)][t] *= 0.5
             else:
@@ -1052,11 +1058,11 @@ class SeeClarna:
             # other, but for the sake of printing something, I allow
             # this. Presently, the real analysis and comparisons are
             # restricted to bps and stacking.
-            print "%s (%3d,%3d), bb %s-%s, %15s, (%8.5f -> %8.5f)" % \
+            print("%s (%3d,%3d), bb %s-%s, %15s, (%8.5f -> %8.5f)" % \
                 (tag, ux,vx, \
                  pdbdict[(uc, ux, vc, vx)]['bp'][0], \
                  pdbdict[(uc, ux, vc, vx)]['bp'][1], \
-                 t, w, pdbdict[(uc, ux, vc, vx)][t])
+                 t, w, pdbdict[(uc, ux, vc, vx)][t]))
                 
         #else:
         #print "%s %s:%s(%3d) -- %s:%s(%3d)    %20s   %8.5f (%s)"\
@@ -1105,18 +1111,18 @@ class SeeClarna:
             # calculate using FR3D
             self.pdbclasslist = self.cutils.start_fr3d(flnm)
         else:
-            print "ERROR: selected option (%s) not available" % analPDB_opts
+            print("ERROR: selected option (%s) not available" % analPDB_opts)
             sys.exit(1)
         #
-        print self.display_bbstack(self.pdbclasslist)
+        print(self.display_bbstack(self.pdbclasslist))
     #
 
     #
     def bubbleSort(self, key_order):
         debug_bubbleSort = False
         if debug_bubbleSort:
-            print 'length: ', len(key_order)
-            print 'input:  ', key_order
+            print('length: ', len(key_order))
+            print('input:  ', key_order)
         #
         for passnum in range(len(key_order)-1, 0, -1):
             for i in range(passnum):
@@ -1128,34 +1134,34 @@ class SeeClarna:
             #
         #
         if debug_bubbleSort:
-            print 'result: ', key_order
+            print('result: ', key_order)
         return key_order
     #
 
     def display_bbstack(self, pdbanal):
         debug_display_bbstack = False
-        bb_list = self.bubbleSort(pdbanal.keys())
+        bb_list = self.bubbleSort(list(pdbanal.keys()))
         if debug_display_bbstack:
-            print pdbanal
+            print(pdbanal)
         result = ''
         for bb_k in bb_list:
             strng = '%s %4d   %s %4d' % (bb_k[0], bb_k[1], bb_k[2], bb_k[3])
             strng += '          bp %s %s' % (pdbanal[bb_k]["bp"][0], pdbanal[bb_k]["bp"][1])
-            if len(pdbanal[bb_k].keys()) == 2:
+            if len(list(pdbanal[bb_k].keys())) == 2:
                 key = self.get_RNAstruct_key(pdbanal[bb_k])
                 #
                 strng += '    %20s %8.4f' % (key, pdbanal[bb_k][key])
                 if debug_display_bbstack:
-                    print key
-                    print strng
+                    print(key)
+                    print(strng)
                     # print bb_k, pdbanal[bb_k], pdbanal[bb_k].keys()
             else:
                 keys = self.get_other_keys(pdbanal[bb_k])
                 for key in keys:
                     strng += '    %20s %8.4f' % (key, pdbanal[bb_k][key])
                 if debug_display_bbstack:
-                    print "MORE THAN ONE!"
-                    print strng
+                    print("MORE THAN ONE!")
+                    print(strng)
                     # print bb_k, pdbanal[bb_k], pdbanal[bb_k].keys()
             #
             result += strng + '\n'
@@ -1171,25 +1177,25 @@ class testClarna:
     
     def test_clarna(pdbid="1ehz", min_score=0.5):
 
-        url = urllib2.urlopen(url="http://www.rcsb.org/pdb/files/%s.pdb"%pdbid.upper())
+        url = urllib.request.urlopen(url="http://www.rcsb.org/pdb/files/%s.pdb"%pdbid.upper())
 
         self.cutils = Clarna_utils()
         res_graph = self.cutils.start(url)
         for (u,v,d) in res_graph.edges(data=True):
-            if d['type']=='contact' and d['weight']>min_score: print u,v, d['n_type'], d['desc'], d['weight']
+            if d['type']=='contact' and d['weight']>min_score: print(u,v, d['n_type'], d['desc'], d['weight'])
         #
     #
 #main
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "ERROR: %s requires at least one argument!" % PROGRAM
+        print("ERROR: %s requires at least one argument!" % PROGRAM)
         a = Usage_Clarna()
-        print '%s' % a.get_Usage_Clarna()
+        print('%s' % a.get_Usage_Clarna())
         sys.exit(1)
     
     cl = CommandLine()
     cl.parse_Clarna_CL(sys.argv)
-    print 'chains: ', StrucFile(cl.flnm_pdb).get_info_chains()
+    print('chains: ', StrucFile(cl.flnm_pdb).get_info_chains())
     seeClarna = SeeClarna()
 
     seeClarna.eval_PDB(cl)

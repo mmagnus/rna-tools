@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+"""
+Cite & authors:
+
+[1]	T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifier of contacts in RNA 3D structures based on a comparative analysis of various classification schemes.,” Nucleic Acids Research, vol. 42, no. 19, pp. e151–e151, Oct. 2014.
+"""
 import sys
 import os
 import re
@@ -18,10 +23,10 @@ from numpy import array, dot, sqrt
 from Bio import PDB
 from Bio.SVDSuperimposer import SVDSuperimposer
 
-from distances import range_value_distance, rmsd_distance, doublet_params_dict, center_vector, bp_distance, vector_length, Residue, Doublet
-from structure_ciach import StructureCiachCiach
-from utils import *
-from cl_settings import *
+from rna_tools.tools.clarna_play.ClaRNAlib.distances import range_value_distance, rmsd_distance, doublet_params_dict, center_vector, bp_distance, vector_length, Residue, Doublet
+from rna_tools.tools.clarna_play.ClaRNAlib.structure_ciach import StructureCiachCiach
+from rna_tools.tools.clarna_play.ClaRNAlib.utils import *
+from rna_tools.tools.clarna_play.ClaRNAlib.cl_settings_global import *
 
 MAX_RES_DIST = 7.0
 MAX_C1P_DIST = 14
@@ -194,7 +199,7 @@ class ContactProgramState(object):
     @property
     def dist_matrix(self):
         if not hasattr(self,'_dist_matrix'):
-             self._dist_matrix = self._compute_distances(self.r1.keys(), self.r2.keys())
+             self._dist_matrix = self._compute_distances(list(self.r1.keys()), list(self.r2.keys()))
         return self._dist_matrix
 
     def is_consecutive(self,r1,r2):
@@ -342,10 +347,10 @@ class ContactProgramState(object):
         if self.options and self.options.disable_compare_distances:
             return self
 
-        keys1 = list(set(dist_matrix.keys()).intersection(self.r1.keys()))
+        keys1 = list(set(dist_matrix.keys()).intersection(list(self.r1.keys())))
         if len(keys1)==0:
             return self
-        keys2 = list(set(dist_matrix[keys1[0]].keys()).intersection(self.r2.keys()))
+        keys2 = list(set(dist_matrix[keys1[0]].keys()).intersection(list(self.r2.keys())))
         if len(keys2)==0:
             return self
 
@@ -366,7 +371,7 @@ class ContactProgramState(object):
 class EmptyContactProgramState(ContactProgramState):
 
     def __init__(self,**kwargs):
-        for k,v in kwargs.items():
+        for k,v in list(kwargs.items()):
             setattr(self,k,v)
         for k,default_value in (('save_all_scores',False),('rmsd',None),('reference_doublet_id',None),('dist_score',None),):
             if not hasattr(self,k):
@@ -610,8 +615,8 @@ def valid_pair_new2(curr_points, points, attrs):
     atoms1 = ["00-%s"%a for a in atoms]+["10-%s"%a for a in atoms]
     # print atoms1, curr_points.keys(), points.keys()
     for a in atoms1:
-        if not curr_points.has_key(a) or not points.has_key(a):
-            print "missing atom %s" % a
+        if a not in curr_points or a not in points:
+            print("missing atom %s" % a)
             return (0,1000,1000,1000)
     p1 = array([points[k] for k in atoms1],'f')
     p2 = array([curr_points[k] for k in atoms1],'f')
@@ -643,9 +648,9 @@ def aggregate_results(res):
         if re.match(r'^\!',r.desc):
             continue
         d = r.desc.replace('?',"")
-        if not ares.has_key(d) or r.score > ares[d].score:
+        if d not in ares or r.score > ares[d].score:
             ares[d] = r
-    ares = [ares[k] for k in sorted(ares.keys(), key=lambda x: (-ares[x].score, ares[x].real_score))]
+    ares = [ares[k] for k in sorted(list(ares.keys()), key=lambda x: (-ares[x].score, ares[x].real_score))]
     return ares
 
 def single_result(res):
@@ -720,7 +725,7 @@ def extract_close_doublets_from_file(name,ids=None,use_old_params=False):
                     if ids is not None:
                         res_num[_id] = len(s) 
                     if not _resname in ['A','C','G','U']:
-                        print "ignoring %s (bad resname: %s)" % (_id,_resname)
+                        print("ignoring %s (bad resname: %s)" % (_id,_resname))
                         residues.append(None)
                     else:
                         residues.append(r)
@@ -729,7 +734,7 @@ def extract_close_doublets_from_file(name,ids=None,use_old_params=False):
                     else:
                         s.append([chain.id, _resname, _num, rr, _id])
                 else:
-                    print "ignoring %s (missing atoms)" % _id
+                    print("ignoring %s (missing atoms)" % _id)
         s_end = len(s)
         
         if ids is None:
@@ -744,7 +749,7 @@ def extract_close_doublets_from_file(name,ids=None,use_old_params=False):
             i = res_num.get(id1)
             j = res_num.get(id2)
             if i is None or j is None:
-                print "UNKNOWN doublet %s" % id
+                print("UNKNOWN doublet %s" % id)
                 continue
             close_doublets.append((i,j,0))
     return (pdb_id, s, close_doublets)
@@ -757,10 +762,10 @@ def divide_results_by_cat(res):
         return res_by_cat
     for r in res:
         c = DoubletDescTool.get_desc_category(r.desc)
-        if res_by_cat.has_key(c):
+        if c in res_by_cat:
             res_by_cat[c].append(r)
         else:
-            if not res_by_cat.has_key('unk'):
+            if 'unk' not in res_by_cat:
                 res_by_cat['unk']=[]
             res_by_cat['unk'].append(r)
     return res_by_cat
@@ -776,13 +781,13 @@ def update_scores_old(scores, n_type, res, other, desc_tool):
     
     for r in res:
         short_desc = re.sub('^[\?\!]','',r.desc.split(" ")[0])+"/"+r.ret_score_id
-        if not row.has_key(short_desc) or row[short_desc][0]>r.real_score:
+        if short_desc not in row or row[short_desc][0]>r.real_score:
             row[short_desc]=(r.real_score,r.ret_score_id.replace("$",""))
             
-    for short_desc_tmp,(score,score_id) in row.items():
+    for short_desc_tmp,(score,score_id) in list(row.items()):
         short_desc = short_desc_tmp.split("/")[0]
         key = short_desc + "/" + n_type + "/" + score_id
-        if not scores.has_key(key):
+        if key not in scores:
             scores[key] = {'valid':[],'possible':[],'invalid':[],'unclassified':[]}
         if o_group=='valid':
             if o_desc==short_desc:
@@ -810,10 +815,10 @@ def update_scores(scores, doublet_id, n_type, res, groups_tool):
             ret_score_id = ""
         ret_score_id = ret_score_id.replace("$","")
         key = (short_desc,ret_score_id)
-        if not res_dict.has_key(key):
+        if key not in res_dict:
             res_dict[key] = []
         res_dict[key].append(r)
-    for (short_desc, ret_score_id),res_elems in res_dict.items():
+    for (short_desc, ret_score_id),res_elems in list(res_dict.items()):
         res_elems.sort(key=lambda x: x.real_score)
         category = DoubletDescTool.get_desc_category(short_desc)
         exp_desc = groups_tool.get_ref_desc(doublet_id, category)
@@ -821,7 +826,7 @@ def update_scores(scores, doublet_id, n_type, res, groups_tool):
         is_classified = exp_desc!='' or len(fuzzy_exp_desc)>0
         for i,r in enumerate(res_elems):
             key = re.sub('^[\?\!]','',r.desc) + "/" + n_type + "/" + ret_score_id
-            if not scores.has_key(key):
+            if key not in scores:
                 scores[key] = {'valid':[],'possible':[],'invalid':[],'unclassified':[]}
             if exp_desc != '' and exp_desc == short_desc:
                 if i==0:
@@ -863,7 +868,7 @@ def normalize_graph(g):
         k = (source,target)
         key = (min(source,target), max(source,target))
         unique_edges.add(key)
-        if not all_edges.has_key(k):
+        if k not in all_edges:
             all_edges[k] = []
         all_edges[k].append(data)
     for source,target in unique_edges:
@@ -893,31 +898,31 @@ def normalize_graph(g):
             e2 = edge2.get(sc)
                 
             b = better_desc(d1,d2)
-            print "# conflict %s:%s - d1=%s d2=%s b=%s" % (source,target,d1,d2,b)
+            print("# conflict %s:%s - d1=%s d2=%s b=%s" % (source,target,d1,d2,b))
             if b==1:
                 if d2 is not None:
-                    print "NORM: removing contact %s:%s - %s" % (target,source,d2)
+                    print("NORM: removing contact %s:%s - %s" % (target,source,d2))
                     g.remove_edge(target, source, key=d2)
-                print "NORM: adding contact %s:%s - %s" % (target,source,rev_d1)
+                print("NORM: adding contact %s:%s - %s" % (target,source,rev_d1))
                 g.add_edge(target, source, type='contact', prg='MY', n_type=DoubletDescTool.reverse_n_type(e1['n_type']),
                            desc=rev_d1, full_desc="%s (r)"%rev_d1, key=rev_d1, weight=e1['weight'])
             elif b==2:
                 if d1 is not None:
-                    print "NORM: removing contact %s:%s - %s" % (source,target,d1)
+                    print("NORM: removing contact %s:%s - %s" % (source,target,d1))
                     g.remove_edge(source,target, key=d1)
-                print "NORM: adding contact %s:%s - %s" % (source,target,rev_d2)
+                print("NORM: adding contact %s:%s - %s" % (source,target,rev_d2))
                 g.add_edge(source,target, type='contact', prg='MY', n_type=DoubletDescTool.reverse_n_type(e2['n_type']),
                            desc=rev_d2, full_desc="%s (r)"%rev_d2, key=rev_d2, weight=e2['weight'])
     for source in g.nodes():
         out_edges = [(v1,v2,x) for v1,v2,x in g.out_edges([source], data=True) if x.get('type')=='contact' and not re.match('^\?',x.get('desc',''))]
         out_edges = [(v1,v2,x) for v1,v2,x in out_edges if DoubletDescTool.get_desc_category(x.get('desc',''))=='bp']
         if len(out_edges)>1:
-            print "NORM: potential conflict on residue %s, got following contacts: %s"  % (source, ["%s:%s=%s"%(v1,v2,x['desc']) for v1,v2,x in out_edges])
+            print("NORM: potential conflict on residue %s, got following contacts: %s"  % (source, ["%s:%s=%s"%(v1,v2,x['desc']) for v1,v2,x in out_edges]))
             if False:
                 if any([x['desc']=='WW_cis' for v1,v2,x in out_edges]):
                     for (v1,v2,x) in out_edges:
                         if x['desc']!='WW_cis' and re.match('^(W[HS]|SH|SW)_.*',x['desc']):
-                            print "NORM: removing contact %s:%s - %s (conflict with WW_cis)" % (v1,v2,x['desc'])
+                            print("NORM: removing contact %s:%s - %s (conflict with WW_cis)" % (v1,v2,x['desc']))
                             g.remove_edge(v1,v2, key=x['desc'])
     return g
 
@@ -941,7 +946,7 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
 
     n = len(s)
     g = nx.MultiDiGraph()
-    for i in xrange(n):
+    for i in range(n):
         g.add_node(s[i][4],resname=s[i][1])
 
     scores = {}
@@ -956,22 +961,22 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
 
         pool = Pool(options.threads)
         try:
-            r = [(i,j,l) for (i,j),l in itertools.product([(i,j) for i,j,_d in close_doublets],range(libs_num))]
+            r = [(i,j,l) for (i,j),l in itertools.product([(i,j) for i,j,_d in close_doublets],list(range(libs_num)))]
             _result = pool.map(_run_cl, r)
             result = {}
-            for z in xrange(len(r)):
+            for z in range(len(r)):
                 result[r[z]] = _result[z]
             _result = None
             pool.close()
         except KeyboardInterrupt:
-            print 'control-c pressed'
+            print('control-c pressed')
             pool.terminate()
-            print 'pool is terminated'
-        except Exception, e:
-            print 'got exception: %r, terminating the pool' % (e,)
+            print('pool is terminated')
+        except Exception as e:
+            print('got exception: %r, terminating the pool' % (e,))
             traceback.print_exc()
             pool.terminate()
-            print 'pool is terminated'
+            print('pool is terminated')
         finally:
             pool.join()
             
@@ -987,7 +992,7 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
         
         if options.ignore_bad_doublets:
             if not (s[i][1] in N_TYPES) or not (s[j][1] in N_TYPES):
-                print "ignoring %s, invalid n_type %s" % (curr_id, n_type)
+                print("ignoring %s, invalid n_type %s" % (curr_id, n_type))
                 continue
             if re.match('^[zZ]{2}',pdb_id):
                 req_atoms = set(['C2','C4','C6'])
@@ -996,11 +1001,11 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
             ok = True
             for rid,ratoms in (res_i_id, s[i][3]),(res_j_id, s[j][3]):
                 if not options.use_old_params:
-                    missing_atoms = req_atoms.difference(ratoms.points.keys())
+                    missing_atoms = req_atoms.difference(list(ratoms.points.keys()))
                 else:
-                    missing_atoms = req_atoms.difference(ratoms.keys())
+                    missing_atoms = req_atoms.difference(list(ratoms.keys()))
                 if len(missing_atoms)!=0:
-                    print "ignoring %s, residue %s, missing atoms: %s" % (curr_id, rid, list(missing_atoms))
+                    print("ignoring %s, residue %s, missing atoms: %s" % (curr_id, rid, list(missing_atoms)))
                     ok = False
                     break
             if not ok:
@@ -1012,7 +1017,7 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
         if options.show_pair and options.show_pair!=pair_id:
             continue
 
-        for l in xrange(libs_num):
+        for l in range(libs_num):
             if options.threads > 1:
                 res = result[(i,j,l)]
             else:
@@ -1030,7 +1035,7 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
             res_by_cat = divide_results_by_cat(res)
             cur_res_short_dict = {}
             alt_res_short_dict = {}
-            for category,results in res_by_cat.items():
+            for category,results in list(res_by_cat.items()):
                 if len(results)>0:
                     cur = single_result(results)
                     cur_res_short_dict[category] = cur
@@ -1051,10 +1056,10 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
                 if groups_tool.is_valid(curr_id) or groups_tool.is_valid(curr_id_rev):
                     update_scores(scores, curr_id, n_type, res, groups_tool)
                 else:
-                    print "ignoring %s in updating scores (no info in groups file)" % (curr_id)
+                    print("ignoring %s in updating scores (no info in groups file)" % (curr_id))
 
             for is_alt,res_dict in (False,cur_res_short_dict),(True,alt_res_short_dict):
-                for category,res_short in res_dict.items():
+                for category,res_short in list(res_dict.items()):
                     if res_short is not None:
                         '''
                         print "%9s, %s: %5s %s-%s %5s %s: %-30s" % (
@@ -1073,7 +1078,7 @@ def _find_contacts_using_library(pdb_id, s, close_doublets, libs, options):
                                    key=d, desc=d, full_desc=res_short.desc, weight=res_short.score,
                                    reference=res_short.reference_id,is_alt=is_alt)
             if (options.show_pair or options.show_scores_for) and res is not None:
-                print "all res: %s" % sorted(res, key=lambda x: (x.score,x.real_score))
+                print("all res: %s" % sorted(res, key=lambda x: (x.score,x.real_score)))
                 
     if options.save_scores:
         save_json(options.save_scores, scores, indent=2)
@@ -1089,7 +1094,7 @@ def find_contacts_using_library_from_doublet_ids(doublet_ids, libs, options):
     for id in doublet_ids:
         tmp = id.split(":")
         p = tmp[0].upper()
-        if not ids_by_pdb.has_key(p):
+        if p not in ids_by_pdb:
             ids_by_pdb[p]=[]
         ids_by_pdb[p].append(id)
     pdb_id = None
@@ -1099,7 +1104,7 @@ def find_contacts_using_library_from_doublet_ids(doublet_ids, libs, options):
     for _pdb_id in sorted(ids_by_pdb.keys()):
         ids = ids_by_pdb[_pdb_id]
         name = os.path.join(options.data_dir, "%s_rna.pdb.gz" % _pdb_id.lower())
-        print "loading %s doublets from %s" % (len(ids), name)
+        print("loading %s doublets from %s" % (len(ids), name))
         (_p, ss, cc) = extract_close_doublets_from_file(name,ids,use_old_params=options.use_old_params)
         s += ss
         for (i,j,d) in cc:
@@ -1112,7 +1117,7 @@ def find_contacts_using_library_from_doublet_ids(doublet_ids, libs, options):
     return _find_contacts_using_library(pdb_id, s, close_doublets, libs, options)
 
 def find_contacts_using_library_from_file(filename, libs, options):
-    print "processing file: %s" % filename
+    print("processing file: %s" % filename)
     bench_start("finding close doublets")
     (pdb_id, s, close_doublets) = extract_close_doublets_from_file(filename,use_old_params=options.use_old_params)
     bench_stop("(found %d close doublets)" % len(close_doublets))
@@ -1172,7 +1177,7 @@ def parse_args():
 
     (options, args)  = parser.parse_args()
     if not options.lib:
-        lib_dir = os.path.join(os.path.dirname(__file__),"lib")
+        lib_dir = os.path.join(os.path.dirname(__file__), "lib")
         cl_groups = ['bp','stacking','base-phosphate','base-ribose','other','other2','other3']
         options.lib = ",".join([os.path.join(lib_dir,"classifier."+x+".json.gz") for x in cl_groups])
     if not options.descriptions_dict:
@@ -1185,7 +1190,7 @@ def main():
     if len(args) == 1:
         options.input = args[0]
     if not options.input and not options.input_doublet_id and not options.input_doublet_ids:
-        print "specify input"
+        print("specify input")
         parser.print_help()
         exit(1)
     # bench_start("loading descriptions dict")
@@ -1197,7 +1202,7 @@ def main():
     libs = []
     for lib_fn in options.lib.split(","):
         if not os.path.isfile(lib_fn):
-            print "library %s does not exists" % lib_fn
+            print("library %s does not exists" % lib_fn)
             parser.print_help()
             exit(1)
         lib = ContactProgram()

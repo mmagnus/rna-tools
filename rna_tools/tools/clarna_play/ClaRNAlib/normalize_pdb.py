@@ -92,7 +92,7 @@ def normalize_pdb(inp_fn, out_fn, reverse=False, reverse_id=False, limit=None):
         s = reverse_structure(s)
     if limit is not None:
         c = len(list(s.get_residues()))
-        print "number of residues=%s" % c
+        print("number of residues=%s" % c)
         assert c<=limit
 
     # from http://biopython.org/wiki/Remove_PDB_disordered_atoms
@@ -114,7 +114,7 @@ def main():
             limit = int(options.residues_limit)
         normalize_pdb(options.input, options.output, options.reverse, options.reverse_id, limit=limit)
     else:
-        print "specify input and output"
+        print("specify input and output")
         parser.print_help()
         exit(1)
 
