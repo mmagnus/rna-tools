@@ -31,17 +31,17 @@ def get_version(currfn='', verbose=False): #dupa
     If currfn is empty, then the path is '.'. Hmm.. I think it will work. We will see.
     The version is not printed!
     https://github.com/m4rx9/curr_version/"""
-    from commands import getoutput
+    from subprocess import getoutput
 
     if currfn == '':
         path = '.'
     else:
         path = os.path.dirname(currfn)
-    if verbose: print 'get_version::path', path
+    if verbose: print('get_version::path', path)
     if os.path.islink(currfn):#path + os.sep + os.path.basename(__file__)):
         path = os.path.dirname(os.readlink(path + os.sep + os.path.basename(currfn)))
     if not path: path = '.'
-    if verbose: print 'get_version::path2', path
+    if verbose: print('get_version::path2', path)
     curr_path = os.getcwd()
     os.chdir(os.path.abspath(path))
     version = getoutput('git describe --long --tags --dirty --always')
@@ -124,7 +124,7 @@ class StrucFile:
         try:
             import pybel
         except ImportError:
-            print 'pybel is needed for mol2 to pdb convertion'
+            print('pybel is needed for mol2 to pdb convertion')
             #sys.exit(1)
             sys.exit(0)
 
@@ -134,7 +134,7 @@ class StrucFile:
         for mol in pybel.readfile("mol2", self.fn):
             mol.write("pdb", outfn, overwrite=True)
 
-        print 'outfn: ', outfn
+        print('outfn: ', outfn)
         self.report.append('  Converted from mol2 to PDB')
         return outfn
 
@@ -200,7 +200,7 @@ class StrucFile:
                     chain_curr = l[21]
                     if chain_prev != chain_curr and chain_prev:
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
-                    if chains.has_key(chain_curr):                
+                    if chain_curr in chains:                
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
@@ -211,7 +211,7 @@ class StrucFile:
                 curri = resi
         chains[chain_prev]['header'] += '-' + str(resi_prev)
         seq = ''
-        for c in chains.keys():
+        for c in list(chains.keys()):
             seq += '> ' + os.path.basename(self.fn) + ' ' + chains[c]['header'] + '\n'
             seq += chains[c]['seq'] + '\n'
         return seq.strip()
@@ -238,7 +238,7 @@ class StrucFile:
                     chain_curr = l[21]
                     if chain_prev != chain_curr and chain_prev:
                         chains[chain_prev]['header'] += '-' + str(resi_prev)
-                    if chains.has_key(chain_curr):                
+                    if chain_curr in chains:                
                         chains[chain_curr]['seq'] += resname
                     else:
                         chains[chain_curr] = dict()
@@ -249,7 +249,7 @@ class StrucFile:
                 curri = resi
         chains[chain_prev]['header'] += '-' + str(resi_prev)
         seq = ''
-        for c in chains.keys():
+        for c in list(chains.keys()):
             seq += chains[c]['header'].replace(':', ' ').replace('-', ' ') + ' '
         return seq.strip()
 
@@ -345,7 +345,7 @@ class StrucFile:
             #l = l.replace(' A   ', '   A ')
             #l = l.replace(' C   ', '   C ')
             lines.append(l)
-        print 'fixU__to__U OK'
+        print('fixU__to__U OK')
         self.report.append('  Fix: U__ -> __U')
         self.lines = lines
 
@@ -400,7 +400,7 @@ class StrucFile:
             if l.startswith("END") or l.startswith("TER"):
                 lines.append(l)
 
-        print 'resn_as_dna'
+        print('resn_as_dna')
         self.report.append('  resn_as_dna')
         self.lines = lines
 
@@ -527,7 +527,7 @@ class StrucFile:
             f.write('END')
         f.close()
         if v:
-            print 'Write %s' % outfn
+            print('Write %s' % outfn)
 
     def get_rnapuzzle_ready(self, renumber_residues=True):
         """Get rnapuzzle ready structure.
@@ -656,9 +656,9 @@ class StrucFile:
         io.save(fout)
         
         if missing:
-            print 'REMARK 000 Missing atoms:'
+            print('REMARK 000 Missing atoms:')
             for i in missing:
-                print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
+                print('REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3])
             #raise Exception('Missing atoms in %s' % self.fn)
         s = StrucFile(fout)
         self.lines = s.lines
@@ -871,9 +871,9 @@ class StrucFile:
         io.save(fout)
         
         if missing:
-            print 'REMARK 000 Missing atoms:'
+            print('REMARK 000 Missing atoms:')
             for i in missing:
-                print 'REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3]
+                print('REMARK 000  +', i[0], i[1], i[2], 'residue #', i[3])
             #raise Exception('Missing atoms in %s' % self.fn)
         s = StrucFile(fout)
         self.lines = s.lines
@@ -885,9 +885,9 @@ class StrucFile:
         struc = PDB.PDBParser().get_structure('struc', pdb)
 
         txt = txt.replace(' ','')
-        if v:print txt
+        if v:print(txt)
         l = re.split('[,:;]', txt)
-        if v:print l 
+        if v:print(l) 
 
         for s in struc:
             for c in s:
@@ -898,16 +898,16 @@ class StrucFile:
         for i in l: # ['A', '1-10', '15', '25-30', 'B', '1-10']
 
             if i in string.ascii_letters:
-                if v:print 'chain', i
+                if v:print('chain', i)
                 chain_curr = i
                 continue
 
             if i.find('-') > -1:
                 start, ends = i.split('-')
                 if start > ends:
-                    print >>sys.stderr, 'Error: range start > end ' + i
+                    print('Error: range start > end ' + i, file=sys.stderr)
                     return False
-                index = range(int(start), int(ends)+1)
+                index = list(range(int(start), int(ends)+1))
             else:
                 index=[int(i)]
 
@@ -917,9 +917,9 @@ class StrucFile:
                     atoms = struc[0][chain_curr][i]
                 except KeyError:
                     if i == chain_curr:
-                        print >>sys.stderr, 'Error: Chain ' + chain_curr + ' not found in the PDB structure'
+                        print('Error: Chain ' + chain_curr + ' not found in the PDB structure', file=sys.stderr)
                     else:
-                        print >>sys.stderr, 'Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure'
+                        print('Error: Residue ' + chain_curr + ':' + str(i) + ' found in the PDB structure', file=sys.stderr)
                         return False
                 for a in atoms:
                     a.set_occupancy(0)
@@ -927,45 +927,45 @@ class StrucFile:
         io = PDBIO()
         io.set_structure(struc)
         io.save(pdb_out)
-        print 'Saved ', pdb_out
+        print('Saved ', pdb_out)
         return True
 
 # main
 if '__main__' == __name__:
     fn = 'input/image'
-    print 'fn:', fn
+    print('fn:', fn)
     struc = StrucFile(fn)
-    print ' pdb?:', struc.is_it_pdb()
-    print ' # atoms:', struc.get_no_lines()
+    print(' pdb?:', struc.is_it_pdb())
+    print(' # atoms:', struc.get_no_lines())
 
     fn = 'input/na.pdb'
     s = StrucFile(fn)
-    print s.detect_molecule_type()
+    print(s.detect_molecule_type())
     #res = get_all_res(na)
     #print 'what is?', what_is(res)
     #print res
-    print 'non standard:', s.check_res_if_std_na()
-    print 'is protein:', s.detect_molecule_type()
+    print('non standard:', s.check_res_if_std_na())
+    print('is protein:', s.detect_molecule_type())
 
     fn = 'input/prot.pdb'
     s = StrucFile(fn)
-    print 'non standard:', s.check_res_if_std_prot()
-    print 'is protein:',  s.detect_molecule_type()
+    print('non standard:', s.check_res_if_std_prot())
+    print('is protein:',  s.detect_molecule_type())
 
 
     fn = 'input/rna-ru.pdb'
     s = StrucFile(fn)
-    print 'non standard:', s.check_res_if_supid_rna()
-    print 'is protein:', s.detect_molecule_type()
+    print('non standard:', s.check_res_if_supid_rna())
+    print('is protein:', s.detect_molecule_type())
 
     fn = 'input/na_highAtomNum.pdb'
-    print fn
+    print(fn)
     s = StrucFile(fn)
     s.renum_atoms()
     s.write('output/na_highAtomNum.pdb')
 
     fn = 'input/na_solvet_old_format.pdb'
-    print fn
+    print(fn)
     s = StrucFile(fn)
     s.fix_op_atoms()
     s.remove_hydrogen()
@@ -974,7 +974,7 @@ if '__main__' == __name__:
     s.write('output/na_solvet_old_format.pdb')
 
     fn = 'input/na_solvet_old_format.pdb'
-    print fn
+    print(fn)
     s = StrucFile(fn)
     s.fix_resn()
     s.remove_hydrogen()
@@ -1003,7 +1003,7 @@ if '__main__' == __name__:
     s.write('output/1xjr.pdb')
 
     fn = 'input/decoy0165_amb.pdb'
-    print fn
+    print(fn)
     s = StrucFile(fn)
     s.fix_resn()
     s.remove_hydrogen()
@@ -1015,7 +1015,7 @@ if '__main__' == __name__:
     s.write('output/decoy0165_amb_clx.pdb')
 
     fn = 'input/farna.pdb'
-    print fn
+    print(fn)
     s = StrucFile(fn)
     s.fix_resn()
     s.remove_hydrogen()
@@ -1026,20 +1026,20 @@ if '__main__' == __name__:
     s.write('output/farna.pdb')
 
     fn = 'input/farna.pdb'
-    print fn
+    print(fn)
 
     r = StrucFile(fn)
-    print r.is_mol2()
+    print(r.is_mol2())
 
     if True:
-        print '================================================'
-        print "input/1xjr_clx_fChimera_noIncludeNumbers.mol2"
+        print('================================================')
+        print("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
         r = StrucFile("input/1xjr_clx_fChimera_noIncludeNumbers.mol2")
-        print r.is_mol2()
+        print(r.is_mol2())
         r.mol2toPDB('/tmp/x.pdb')
 
         r = StrucFile('/tmp/x.pdb')
-        print r.get_report()
+        print(r.get_report())
         r.fix_resn()
         r.remove_hydrogen()
         r.remove_ion()
@@ -1051,23 +1051,23 @@ if '__main__' == __name__:
 
     if True:
         r = StrucFile("input/2du3_prot_bound.mol2")
-        print r.is_mol2()
+        print(r.is_mol2())
         outfn = r.mol2toPDB()
-        print r.get_report()
+        print(r.get_report())
 
-    print '================================================'
+    print('================================================')
     fn = "input/3e5fA-nogtp_processed_zephyr.pdb"
     r = StrucFile(fn)
-    print r.is_mol2()
+    print(r.is_mol2())
     #outfn = r.mol2toPDB()
-    print r.is_amber_like()
-    print r.get_report()
+    print(r.is_amber_like())
+    print(r.get_report())
 
-    print r.get_preview()
+    print(r.get_preview())
 
     r.fix_resn()
 
-    print r.get_preview()
+    print(r.get_preview())
 
     r.remove_hydrogen()
     r.remove_ion()
@@ -1077,9 +1077,9 @@ if '__main__' == __name__:
     #fix_op_atoms(t, t)
     r.write('output/3e5fA-nogtp_processed_zephyr.pdb')
 
-    print
+    print()
     fn = "input/1xjr_clx_charmm.pdb"
-    print fn
+    print(fn)
     s = StrucFile(fn)
     s.fix_resn()
     s.remove_hydrogen()
@@ -1091,9 +1091,9 @@ if '__main__' == __name__:
     #fix_O_in_UC(t, t)
     #fix_op_atoms(t, t)
 
-    print
+    print()
     fn = "input/dna_fconvpdb_charmm22.pdb"
-    print fn
+    print(fn)
     r = StrucFile(fn)
     r.get_preview()
     r.resn_as_dna()
@@ -1101,15 +1101,15 @@ if '__main__' == __name__:
     r.remove_ion()
     r.remove_water()
     r.fix_resn()
-    print r.get_head()
-    print r.get_tail()
-    print r.get_preview()
+    print(r.get_head())
+    print(r.get_tail())
+    print(r.get_preview())
     r.write("output/dna_fconvpdb_charmm22.pdb")
 
 
-    print
+    print()
     fn = "input/1a9l_NMR_1_2_models.pdb"
-    print fn
+    print(fn)
     r = StrucFile(fn)
     r.write("output/1a9l_NMR_1_2_models_lib.pdb")
     #r.get_text() # get #1 model

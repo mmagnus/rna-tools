@@ -6,18 +6,23 @@ import sys
 import os
 import re
 import shutil
-import StringIO
+try:
+    from io import StringIO ## for Python 2
+except ImportError:
+    from io import StringIO ## for Python 3
 #import simplejson
 import gzip
 import tempfile
 from optparse import OptionParser
-from normalize_pdb import normalize_pdb
 from itertools import combinations
 from scipy.spatial import KDTree
 from Bio import PDB
-from utils import dist, REQ_ATOMS_LIST, simplify_residue
 import numpy as np
 from numpy import array
+
+
+from rna_tools.tools.clarna_play.ClaRNAlib.normalize_pdb import normalize_pdb
+from rna_tools.tools.clarna_play.ClaRNAlib.utils import dist, REQ_ATOMS_LIST, simplify_residue
 
 class StructureCiachCiach(object):
 
@@ -40,13 +45,13 @@ class StructureCiachCiach(object):
         p_coord = []
         o3p_coord = []
         c1p_coord = []
-        for (key,r) in self.res_dict.items():
+        for (key,r) in list(self.res_dict.items()):
             resname = r.get_resname().strip()
             if len(resname)!=1:
                 continue
                 
             atoms = simplify_residue(r)
-            if atoms is None or not all([atoms.has_key(a) for a in req_atoms_list]):
+            if atoms is None or not all([a in atoms for a in req_atoms_list]):
                 continue
 
             p_atom = self._locate_atom(r, 'P')
@@ -84,12 +89,12 @@ class StructureCiachCiach(object):
 
 
     def get_resname(self, num):
-        if not self.res_dict.has_key(num):
+        if num not in self.res_dict:
             return '?'
         return self.res_dict[num].get_resname().strip()
 
     def get_res_atoms_dict(self, num):
-        if not self.res_dict.has_key(num):
+        if num not in self.res_dict:
             return None
         res = {}
         for a in self.res_dict[num]:
@@ -138,7 +143,7 @@ class StructureCiachCiach(object):
     def initalize_get_neighbours_other():
         self.all_atoms_coords = []
         self.all_atoms_res = []
-        for (key,r) in self.res_dict.items():
+        for (key,r) in list(self.res_dict.items()):
             for a in r:
                 self.all_atoms_coords.append(a.get_coord())
                 self.all_atoms_res.append(key)
@@ -146,7 +151,7 @@ class StructureCiachCiach(object):
 
     def residue_distance(self, num1, num2, max_distance=100):
         d = 1000
-        if not self.res_dict.has_key(num1) or not self.res_dict.has_key(num2):
+        if num1 not in self.res_dict or num2 not in self.res_dict:
             return d
         for a1 in self.res_dict[num1]:
            p1 = a1.get_coord()
@@ -158,7 +163,7 @@ class StructureCiachCiach(object):
         return d
 
     def get_neighbours(self, num, max_distance=4.0):
-        if not self.good_residues_num.has_key(num):
+        if num not in self.good_residues_num:
             return []
         i = self.good_residues_num[num]
         res = []
@@ -172,7 +177,7 @@ class StructureCiachCiach(object):
         return res
 
     def get_neighbours_other(self, num, max_distance=4.0):
-        if not self.res_dict.has_key(num):
+        if num not in self.res_dict:
             return []
         res = set()
         for a in self.res_dict[num]:
@@ -189,7 +194,7 @@ class StructureCiachCiach(object):
 
 
     def get_single_residue(self, num, with_backbone=False):
-        if not self.res_dict.has_key(num):
+        if num not in self.res_dict:
             return None
 
         r1 = self.res_dict[num]
@@ -213,10 +218,10 @@ class StructureCiachCiach(object):
 
 
     def extract(self,fn, num1, num2, desc, n_type, prg, with_backbone=False):
-        if not self.res_dict.has_key(num1):
+        if num1 not in self.res_dict:
             return False
         r1 = self.res_dict[num1]
-        if not self.res_dict.has_key(num2):
+        if num2 not in self.res_dict:
             return False
         r2 = self.res_dict[num2]
 

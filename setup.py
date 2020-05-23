@@ -93,6 +93,10 @@ setup(
              'rna_tools/tools/rna_binding_affinity/rna_kd2pkd.py',
              'rna_tools/tools/rna_binding_affinity/rna_pkd2dG.py',
              'rna_tools/tools/rna_binding_affinity/rna_pkd2kd.py',
+
+             'rna_tools/tools/clarna_play/clarna_compare.py',
+             'rna_tools/tools/clarna_play/clarna_run.py',
+             'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
              ],
     license='GPLv3',
     author='Marcin Magnus',
