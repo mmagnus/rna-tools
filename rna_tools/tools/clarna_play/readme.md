@@ -16,8 +16,9 @@ To install ClaRNA_play, put add something like this in your `~/.bashrc` file
     
 ClaRNA requires:
 
-    sudo pip install simplejson==2.6.1 networkx==1.8.1 scipy
-
+    pip install simplejson networkx==1.8.1 scipy
+    # tested with simplejson==3.17.0
+    
 # Start
 To start:
 
