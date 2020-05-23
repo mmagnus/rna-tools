@@ -8,33 +8,26 @@ T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifie
 Integrate/tested by @mmagnus
 
 # Install 
-Quick and dirty install (only ClaRNA will work)
 
-To install ClaRNA_play, put add something like this in your `~/.bashrc` file
-
-    export ClaRNAlib=/home/calmeida/Software/ClaRNA_play/ClaRNAlib/
-    
-ClaRNA requires:
-
-    pip install simplejson networkx==1.8.1 scipy
+    pip install rna-tools simplejson networkx==1.8.1 scipy
     # tested with simplejson==3.17.0
-    
+
 # Start
 To start:
 
-    $ ./clarna_run.py -ipdb test_data/3e5fA_M15_c.pdb > test_output/3e5fA_M15_c.pdb.outCR
-    $ ./clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb > test_output/3e5fA_M500_c.pdb.outCR
+    $ rna_clarna_run.py -ipdb test_data/3e5fA_M15_c.pdb > test_output/3e5fA_M15_c.pdb.outCR
+    $ rna_clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb > test_output/3e5fA_M500_c.pdb.outCR
 
 to analyze:
 
-    $ ./clarna_compare.py -iref test_output/3e5fA_M15_c.pdb.outCR -ichk test_output/3e5fA_M500_c.pdb.outCR
+    $ rna_clarna_compare.py -iref test_output/3e5fA_M15_c.pdb.outCR -ichk test_output/3e5fA_M500_c.pdb.outCR
     3e5A_M15_c.pdb.outCR                       3e5fA_M500_c.pdb.outCR      0.662      NA         0.647      0.707      0.538      0.778      0.500      1.000
 
 ![](docs/clarna_run.png)
 
 Tested with ClaRNA only.
 
-    $ ./clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb
+    $ rna_clarna_run.py -ipdb test_data/3e5fA_M500_c.pdb
     Classifier: Clarna
     A    5   A   49          bp C G                  WW_cis   0.6965
     A    6   A   48          bp C G                  WW_cis   0.6878
@@ -50,6 +43,7 @@ Tested with ClaRNA only.
     A   41   A   46          bp C G                  WW_cis   0.8555
 
 ## Get secondary structure
+
 First, you have to make a binary file of Michal's program. Go to `lib/ClaRNAwd_to_vienaSS/` and run `make` you should get a binary file. Now you can run:
 
     $ lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS test_output/3e5fA_M15_c.pdb.outCR
@@ -62,11 +56,12 @@ or
 	.....((((((......................))))))........ ...........
 
 To "re-make" the installation do `make clean` and `make` again.
+
 ## Compare two structures
 
-.. `clarna_compare.py -v`:
+.. `rna_clarna_compare.py -v`:
     
-    ./clarna_compare.py -v -iref test_output/3e5fA_M15_c.pdb.outCR -ichk test_output/3e5fA_M500_c.pdb.outCR 
+    $ rna_clarna_compare.py -v -iref test_output/3e5fA_M15_c.pdb.outCR -ichk test_output/3e5fA_M500_c.pdb.outCR 
     test_output/3e5fA_M15_c.pdb.outCR
     test_output/3e5fA_M15_c.pdb.outCR
     A    2   A   52          bp U A                  WW_cis   0.9511
@@ -131,7 +126,7 @@ To "re-make" the installation do `make clean` and `make` again.
 	
 ## Example with two chains
 
-    python clarna_run.py -ipdb test_data/5k7c_clean_onechain_renumber_as_puzzle_srr_AB.pdb
+    $ rna_clarna_run.py -ipdb test_data/5k7c_clean_onechain_renumber_as_puzzle_srr_AB.pdb
     Classifier: Clarna
     # A:1-47 B:52-62
     A    1   A   16          bp C G                  WW_cis   0.8667
