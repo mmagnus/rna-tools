@@ -35,13 +35,15 @@ try:
 except:
     print('you need to set up ClaRNA_play_path in your .bashrc')
 
-def clarna_run(fn, force=True, stacking=True):
+def clarna_run(fn, force=True, stacking=True, verbose=False):
     """Run ClaRNA run
 
     fn: str
      filename to analyze
 
     :return: a filename to ClaRNA output (fn + '.outCR')"""
+    if verbose:
+        print('stacking', stacking)
     fn_out = fn + '.outCR'
     if os.path.isfile(fn_out) and not force:
         pass
@@ -49,7 +51,6 @@ def clarna_run(fn, force=True, stacking=True):
         opts = ''
         if stacking:
             opts = ' -bp+stack '
-
         cmd = 'clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
         os.system(cmd)
     if os.stat(fn_out).st_size == 0: # if file is empty also run
