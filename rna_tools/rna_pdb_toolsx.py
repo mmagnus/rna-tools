@@ -53,6 +53,9 @@ def get_parser():
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
                         action='store_true')
 
+    parser.add_argument('--to-mol2', help='fix a PDB file, ! external program, pdbfixer used to fix missing atoms',
+                        action='store_true')
+
     parser.add_argument('--split-alt-locations', help='@todo',
                         action='store_true')
 
@@ -905,6 +908,16 @@ if __name__ == '__main__':
             for r in c[2]:
                 t.append('** ' + c[0] + ':' + r)
         print('\n'.join(t))
+
+    if args.to_mol2:
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            cmd = 'obabel -i pdb ' + f + ' -o mol2 -O ' + f.replace('.pdb', '.mol2')
+            print(cmd)
+            os.system(cmd)
 
     if args.nmr_dir:
         files = sort_strings(glob.glob(args.nmr_dir + '/' + args.file))
