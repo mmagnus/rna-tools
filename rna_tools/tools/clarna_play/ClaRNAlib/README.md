@@ -1,6 +1,10 @@
 ClaRNA 2.0
 ===========================================================
 
+Cite & authors:
+
+[1]	T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifier of contacts in RNA 3D structures based on a comparative analysis of various classification schemes.,” Nucleic Acids Research, vol. 42, no. 19, pp. e151–e151, Oct. 2014.
+
 `--save-graph=some-file.json`
 -----------------------------------------------------------
 
