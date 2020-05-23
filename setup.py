@@ -30,8 +30,6 @@ setup(
              'rna_tools/tools/misc/rna_add_chain.py',
              'rna_tools/tools/rna_sali2dotbracket/rna_sali2dotbracket.py',
 
-
-
              'rna_tools/tools/rna_rosetta/rna_rosetta_run.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_cluster.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_min.py',
@@ -94,8 +92,8 @@ setup(
              'rna_tools/tools/rna_binding_affinity/rna_pkd2dG.py',
              'rna_tools/tools/rna_binding_affinity/rna_pkd2kd.py',
 
-             'rna_tools/tools/clarna_play/clarna_compare.py',
-             'rna_tools/tools/clarna_play/clarna_run.py',
+             'rna_tools/tools/clarna_play/rna_clarna_compare.py',
+             'rna_tools/tools/clarna_play/rna_clarna_run.py',
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
              ],
     license='GPLv3',
