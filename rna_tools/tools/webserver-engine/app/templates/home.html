@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<title>RNAMasonry</title>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.carousel').carousel({interval: 5000});
+});
+</script>
+
+<script type="text/javascript">
+$(function() {
+    $('#myTab a').click(function (e) {
+	e.preventDefault();
+	$(this).tab('show');
+    })
+    $().acknowledgeinput();
+});
+</script>
+
+<style type="text/css">
+.jumbotron {
+background-color: white !important;
+padding:0px !important;
+margin:0px !important;
+}
+
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
+
+
+.carousel-indicators li {
+ border: 1px solid grey !important;
+width:5px;
+height:5px;
+}
+.carousel-indicators .active {
+  background-color: #33CCFF;
+width:5px;
+height:5px;
+}
+
+.carousel-caption{
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
+    bottom: 0;
+    left: 0;
+    padding: 15px;
+    position: absolute;
+    right: 0;
+}
+</style>
+
+{%comment%}
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="color:white">
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+      <div class="item active">
+          <img src="{{ STATIC_URL }}app/img/01.png" height="" alt="">
+          <div class="carousel-caption">
+              <!--<h4>SimRNA predicts RNA stucture based on the sequence.</h4>-->
+	      <h4>RNAMasonry</h4>
+	      3D motifs available in RNA Bricks database
+          </div>
+      </div>
+  </div>
+</div> 
+{%endcomment%}
+<p class="lead" style="margin-top:20px;font-size:16px;text-align: justify;">
+    <strong style="font-size:20px">RNAMasonry builds RNA models from recurrent 3D motifs</strong>
+    <br />
+    RNA Masonry builds atomic models of RNA molecules using recurrent 3D motifs available in <a href="http://iimcb.genesilico.pl/rnabricks2">RNA Bricks</a> database. The program exploits hierarchical organization of RNA structures composed of regularly shaped double-stranded helices and irregularly shaped loop motifs. Algorithms implemented in RNA Masonry merge these motifs to build a model that has the user-provided secondary structure and plausible local geometry that maximizes the <a href="http://genesilico.pl/simrna/">SimRNA</a> energy function. RNA Masonry can also use additional restraints like tertiary contacts or small angle scattering data.
+</p>
+
+<p class="lead" style="margin-top:20px;font-size:16px;text-align: justify;">
+    <strong>An exemplary results can be found <a href="/rnamasonry/jobs/tRNA_with_SAXS-434e1522">here</a>.</strong>
+</p>
+
+<a class="btn btn-large btn-success" href="/rnamasonry/submit">Submit your job</a>
+
+<hr />
+<p>
+    To <b>download a standalone version</b> of RNAMasonry, visit <a href="https://gitlab.com/gchojnowski/rnamasonry">https://gitlab.com/gchojnowski/rnamasonry</a>
+</p>
+
+<hr />
+  
+<script>
+$(document).ready(function() {
+    $("#demo_panel").hide();
+    $("#demo").val('false');
+    $("#demo2").val('false');
+});
+
+$("#load_example").click(function() {
+    $("#demo_panel").slideDown("slow");
+    $("#form").slideUp("slow");
+    $("#demo").val('true');
+}); 
+
+$("#load_example2").click(function() {
+    $("#demo_panel").slideDown("slow");
+    $("#form").slideUp("slow");
+    $("#demo2").val('true');
+}); 
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,879 @@
+{% extends "base.html" %}
+{% block content %}
+<title>RNAMasonry</title>
+
+<h2 id="things_to_prepare_before_using_simrna" >Demo</h2>
+The exemplary output with explanations for the demo input can be found <a href="/rnamasonry/jobs/6ol3_xtal_pknot_tsd2-345aaa25/">here</a>.
+
+<h2>Documentation</h2>
+
+<p><div id="tableofcontent"></div>
+    <ul class="table_of_content" id="tableofcontent_"><li class="table_of_content_h1">
+        <a href="#things_to_prepare_before_using_simrna">Things to prepare before using SimRNAweb</a></li>
+    </ul>
+
+    <ul class="table_of_content" id="tableofcontent_"><li class="table_of_content_h1">
+        <a href="#example_input">Example input</a></li>
+        <ul><a href="#seq_alone">1. Sequence alone</a></ul>
+        <ul><a href="#seq_ss">2. Sequence and secondary structure</a></ul>
+        <ul><a href="#refine_3d">3. Refining a 3D structure</a></ul>
+        <ul><a href="#restraints_with_pdb">4. Including all types of restraints with a PDB file</a></ul>
+        <ul><a href="#restraints_with_seq">5. Including all types of restraints with sequence files</a></ul>
+        <ul><a href="#missing_residues">6. When several missing residues must be inserted) ADVANCED!</a></ul>
+    </ul>
+    </ul>
+    <ul class="table_of_content" id="tableofcontent_"><li class="table_of_content_h1">
+        <a href="#detailed_desc_input">Detailed description of inputs</a></li>
+        <ul><a href="#format_seq">1. Format of sequence input files</a></ul>
+        <ul><a href="#format_ss">2. Format of secondary structure restraint files</a></ul>
+        <ul><a href="#format_pdb">3. Format of structure input files</a></ul>
+        <ul><a href="#format_restraints">4. Restraint command formats</a></ul>
+    </ul>
+    
+    <ul class="table_of_content" id="tableofcontent_">
+        <li class="table_of_content_h1">
+            <a href="#options_of_submit">Options of Submit</a></li>
+    </ul>
+
+    <ul class="table_of_content" id="tableofcontent_">
+        <li class="table_of_content_h1">
+            <a href="#workflow">[VIDEO] Workflow of modeling your sequence using a fragment for the tetraloop motif</a></li>
+    </ul>
+
+    <hr />
+    
+</p>
+
+<h2 id="things_to_prepare_before_using_simrna" >Things to prepare before using SimRNAweb</h2>
+
+<p>It is best to gather as much information as possible before using <b>SimRNAweb</b> to do a simulation. <b>SimRNAweb</b> can do <i>de novo</i> folding and can often solve a short hairpin sequence quite successfully. However, most of the interesting RNA structures are complex. Secondary structure information alone may not be adequate to ensure that a correct prediction is obtained. Therefore, it may be necessary to obtain information on tertiary structure.</p>
+
+<ul>
+    <li><b>[REQUIRED]</b> an RNA sequence or a PDB file containing an RNA structure.</li>
+    <li>[Facultative] secondary structure (base pairing information) of the RNA, if available. This can come from either an experimental source (better) or a calculated result from a secondary structure prediction program (less reliable). Note: please read the explanation below for information on how to express pseudoknots with the dot bracket notation.</li>
+    <li>[Facultative] any tertiary structure information (long range distance interactions), if available.</li>
+    <li>[(For advanced users) REQUIRED] If the input PDB file contains labels for modified bases, these locations <i>must</i> be found in the PDB file and modified such that the residue <i>name</i> is read as one of the standard bases (A, C, G or U). This means that the HETATM tag must be changed to ATOM when this is the case. In general, this action should be sufficient as long as the modified residues have the following essential atoms: C4', P, N1, C2 and C4 (for pyrimidines) or C4', P, N9, C2, C6 (for purines). If any of these atoms are missing, then it is probably better to delete the modified residue altogether and submit the structure with the complete sequence; i.e, the sequence must contain the missing residue(s).
+    </li>
+</ul>
+
+The more information is available, the more reliable the prediction will be. Nevertheless, when nothing is known, then the only option is to fold the sequence <i>de novo</i>. It should be recognized that the reliability of such predictions depends strongly on how much information can be assembled beforehand.
+
+<hr />
+
+<h2 id="example_input">Example input</h2>
+<p>
+    In <b>Figures 1a-g</b>, we show various examples of using restraints with sequences and PDB files under various circumstances for PDB id 1L2X.
+</p>
+<p>
+
+    <table width="100%">
+        <tr>
+            <td width="40%">
+                <p style="text-align: justify">
+	            <b id="seq_alone">(1. Sequence alone)</b> When only the sequence is submitted
+                    to <b>SimRNAweb</b>, the RNA sequence should be pasted into
+                    Box (3):
+                </p>
+                <pre>GGCGCGGCACCGUCCGCGGAACAAACGG</pre>
+            </td>
+            <td width="5%">
+            </td>
+            <td>
+                <p>
+	            <img SRC="/SimRNAweb/static/app/help/submit_seq_only.png" width=450 align=CENTER>
+                </p>
+                <p>
+	            <b>Figure 1a</b>. Submitting sequence alone to <b>SimRNAweb</b>.
+                </p>
+                <td width="5%">
+                </td>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    
+    <table width="100%">
+        <tr>
+            <td width="40%">
+                <p style="text-align: justify">
+                    <b id="seq_ss">(2. Sequence and secondary structure)</b> When the sequence is
+                    submitted along with the structure of a pseudoknot (perhaps obtained
+                    from RFAM or from SHAPE data), Boxes (3) and (4) are used.  The
+                    sequence above is submitted in Box (3), as above
+                </p>
+                <pre>
+GGCGCGGCACCGUCCGCGGAACAAACGG
+                </pre>
+                and the pseudoknot structure is introduced by submitting two lines of
+                secondary structure corresponding to the two overlapping helices in
+                the secondary structure field (Box (4)),
+</p>
+<pre>
+..(((((......)))))..........
+.........(((.............)))
+</pre>
+<p style="color: red">
+    <b>Note</b> that pseudoknot restraints are expressed by including an
+    additional line with the entangled helix on a second line. This can
+    be done up to as many lines as needed to specify any very deeply
+    entangled pseudoknots. This notation allows clear specification for
+    more than one pseudoknot, as opposed to the usual notation
+    <code>"..(((((..[[[.))))).......]]]"</code>.
+</p>
+            </td>
+            <td width="5%">
+            </td>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/submit_seq_w_ss_restraints.png" width=500 align=CENTER>
+                <br><b>Figure 1b.</b> Submitting sequence along with secondary structure restraints to <b>SimRNAweb</b>.
+            </td>
+        </tr>
+    </table>  
+
+    <hr />
+
+    <!-- use PDB file with secondary structure -->
+    <table width="100%">
+        <tr>
+            <td width="40%">
+                <p style="text-align: justify">
+                    <b id="refine_3d">(3. Refining a 3D structure)</b> When starting with a structure
+                    from a PDB file
+                    (e.g., <a href="/SimRNAweb/static/app/help//1l2x_rna_clust0.pdb">1l2x_rna_clust0.pdb</a>),
+                    one should upload the PDB file in Box (5) of the submission form. In
+                    principle, the secondary structure restraints listed in Box (4) are
+                    not absolutely required. However, in general, unless one wishes to
+                    continue (or restart) a simulation from some intermediate point
+                    without restraints, there is little reason to submit a correct PDB
+                    structure and do a simulation on it. Maybe there is a situation
+                    where this might be necessary, but in general, the purpose would
+                    (probably) be refinement.
+                </p>
+                <p>
+                    The secondary structure information is entered in Box (4) as before,
+                </p>
+                <pre>
+..(((((......)))))..........
+.........(((.............)))
+                </pre>
+                <p>
+                    and the input PDB structure
+                    file: <a href="/SimRNAweb/static/app/help/1l2x_rna_clust0.pdb">1l2x_rna_clust0.pdb</a>
+                    is entered in Box (5).
+                </p>
+
+            </td>
+            <td width="5%">
+            </td>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/submit_PDB_w_ss_restraints.png" width=500>
+                <br><b>Figure 1c.</b> Submitting a PDB file along with secondary structure restraints to <b>SimRNAweb</b>.
+            </td>
+        </tr>
+    </table>  
+
+    <hr />
+
+    <!-- use PDB file with secondary structure, frozen residues and distance restraints -->
+    <table width="100%">
+        <tr>
+            <td width="40%">
+                <p style="text-align: justify">
+                    <b id="restraints_with_pdb">(4. Including all types of restraints with a PDB file)</b> It is
+                    also possible to submit a PDB file (Box (5)) with secondary
+                    structure restraints (Box (4)),
+                </p>  
+                <pre>
+..(((((......)))))..........
+.........(((.............)))
+                </pre>
+                <p>
+                    include the PDB structure file
+                    (<a href="/SimRNAweb/static/app/help/1l2x_rna_clust0.pdb">1l2x_rna_clust0.pdb</a>)
+                    for refinement in Box (5), specify frozen residues in the PDB file
+                    in Box (6),
+                </p>
+                <pre>
+A:3-7, 14-18
+                </pre>  
+                <p>
+                    and upload any additional distance restraints into Box (7) using a
+                    text file with the appropriate syntax
+                    (e.g., <a href="/SimRNAweb/static/app/help/1l2x_restraints.txt">1l2x_restraints.txt</a>)
+                </p>
+                <pre><small>SLOPE   A/14/C4' A/7/P    3.0  4.0    1.0
+                    WELL    A/14/C4' A/7/P    3.0  4.0    1.0
+                </small></pre>
+                <p style="color: blue">
+                    <b>NOTE:</b> Please see the last Section of this help document to
+                    find more information on formatting and combining distance
+                    restraints (including some applied examples).
+                </p>
+
+            </td>
+            <td width="5%">
+            </td>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/submit_PDB_w_ss_n_frozenparts.png" width=500>
+                <br><b>Figure 1d.</b> Submitting a PDB file to <b>SimRNAweb</b> along with secondary
+                structure restraints, distance restraints, and frozen parts of
+                the structure (based on the PDB file).
+            </td>
+        </tr>
+    </table>  
+
+    <hr />
+
+    <!-- use sequence with secondary structure and distance restraints -->
+    <table width="100%">
+        <tr>
+            <td width="40%">
+
+                <p style="text-align: justify">
+                    <b id="restraints_with_seq">(5. Including all types of restraints with sequence files)</b>
+                    Similar to example (4), when submitting sequence alone with all
+                    types of restraints, first paste the RNA sequence
+                </p>
+                <pre>
+  GGCGCGGCACCGUCCGCGGAACAAACGG
+                </pre>
+                into Box (3), paste the secondary structure restraints (with
+                pseudoknot) into Box (4)
+</p>
+<pre>
+..(((((......)))))..........
+.........(((.............)))
+</pre>
+<p>
+    and, as with the PDB file, the distance restraints should be
+    submitted using the text file
+    (<a href="/SimRNAweb/static/app/help/1l2x_restraints.txt">1l2x_restraints.txt</a>),
+    where, in this example, the restraints are
+</p>
+<pre><small>
+    SLOPE   A/14/C4' A/7/P    3.0  4.0    1.0
+    WELL    A/14/C4' A/7/P    3.0  4.0    1.0
+</small></pre>
+
+<p>
+    in Box (7).
+</p>
+            </td>
+            <td width="5%">
+            </td>
+            <td>
+                <font size="3">
+                    <img SRC="/SimRNAweb/static/app/help/submit_PDB_w_ss_n_frozenparts.png" width=500>
+                    <br><b>Figure 1e.</b> submitting a sequence to <b>SimRNAweb</b> along with secondary
+                    structure restraints and distance restraints.
+                </font>
+            </td>
+        </tr>
+    </table>  
+
+    <hr />
+
+    <!--<p>
+         These five examples are relatively simple. When it comes to missing
+         parts of a sequence in the PDB file, <b>SimRNAweb</b> was also used to
+         add missing sequence in such structures as RNase P (PDB id: 3DHS),
+         <b>Figure 2ab</b>. Note, because the sequence length was 250 nt, the
+         structure had to be built in two fragments and the parts reassembled
+         at the end.
+         </p>
+    -->
+
+    <!-- display 3dhs original and with insert -->
+    <p>
+        <b id="missing_residues">(6. When several missing residues must be inserted) ADVANCED!</b>
+    </p>
+
+    <p>
+        SimRNAweb can be used to add missing sequence in such structures as RNase P (PDB id: <a target="_blank" href="http://www.rcsb.org/pdb/explore.do?structureId=3DHS">3DHS</a>), Figure 2ab. Here, the PDB file presents a molecule that has incomplete sequence due to unresolved fragments.
+    </p>
+
+    <p>
+        The PDB file 3DHS presents a single chain (A) with atomic coordinates for residues in the range 1-81, 250-263, 271-351, and 376-414. The PDB file indicates that the following residues are missing: 231-249, 264-270, 352-375, and 415-417, and the missing residue names are indicated. It also indicates missing P atoms for residues 250, 271, 376.
+    </p>
+
+    <p>
+        First, a full length sequence of the molecule to be modeled must be reconstructed. This task can be achieved e.g. with a text editor by combining the sequence extracted from the coordinates, with the missing parts inserted or appended terminally in appropriate places. This sequence should be split into two chains corresponding effectively to residue ranges 1-81 and 231-417. As a result, all residues numbered 231-417, originally in chain A, shall become a new chain (B), and be renumbered 1-187 (original number minus 230), as sequence input requires the residue numbering to restart from 1 for every chain.
+    </p>
+
+    <p>
+        Second, the PDB file should be prepared. This task can be achieved e.g. with a macromolecular structure viewer/editor such as PyMOL, UCSF Chimera, Swiss PDB Viewer, Rasmol etc. Residues with missing atoms (250, 271, 376) should be removed from the PDB file, and all remaining residues in the range 231-417 (251-263, 272-351, and 377-414) should be renumbered by subtracting 230 (to number them as 21-33, 42-121, and 147-184, respectively) and their chain identifier should be modified from A to B. Only then, the sequence in the PDB file will correspond in numbering to that in the sequence input file.
+    </p>
+    <p>
+        The modeling of missing sequences with SimRNAweb should be executed with the residues from the PDB input frozen, and the remaining residues (added from sequence input) free to fold.
+    </p>
+
+    <table >
+        <tr>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/3dhs_framework-fitted-free-rs_1.png" height=350 width=400 align=CENTER>
+                <br><b>Figure 2a.</b> Original PDB structure (PDB id: 3DHS) with the
+                missing sequence. Red residues indicate points where a part
+                of the sequence is missing.
+            </td>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/3dhs_framework-fitted-free-rs_2.png" height=350 width=400 align=CENTER>
+                <br><b>Figure 2b.</b> Example of the result of inserting the missing
+                sequence into the original PDB structure (PDB id: 3DHS).
+            </td>
+        </tr>
+    </table>
+
+
+    <hr />
+
+    <h2 id="detailed_desc_input">Detailed description of inputs</h2>
+
+    <h4 id="format_seq">1. Format of sequence input files</h4>
+
+    <p>
+        The input data is written in a single line in a basic text file with
+        the sequence of RNA (both upper and lower cases are acceptable). For
+        example:
+    </p>
+    <pre>AGACUGCUGAGAGACC</pre>
+    <p>
+        There should be nothing but the desired sequence or sequences
+        contained in the file because the program will read everything in
+        the file as though it were part of a sequence. There should be no
+        additional spaces either.
+    </p>
+    <p>
+        To have more than one RNA chain as input an input, the user must
+        separate the different chains by white spaces.  For example:
+    </p>
+    <pre>AAGCUA AAAGCUGGGCU
+    </pre>
+
+    <h4 id="format_ss">2. Format of secondary structure restraint files</h4>
+    <p>
+        If the user wants to provide secondary structure restraints, the
+        contents of the restraint file should be in the following one-line
+        format:
+    </p>
+    <pre>.((((......)))).</pre>
+    <p>
+        Or, when pseudoknots are involved, several lines can be provided
+        depending on the characteristics of the pseudoknot. For example, if
+        there is only one pseudoknot, then the following is sufficient:
+    </p>
+    <pre>
+.((((......)))).
+......(........)</pre>
+    <p>
+        If more than one pseudoknot is involved, each one should be written
+        on a separate line. For example, the following structure would
+        involve two pseudoknots:
+    </p>
+    <pre>
+((((.......))))...............((((.........))))).
+......((((.............))))......................
+..................((((..............)))).........</pre>  
+
+    <b>Comments:</b>
+
+    <ul>
+        <li>
+            In general, it is good policy to write the dominant secondary
+            structure on the first line and place only single hairpin loops
+            closing the pseudoknots on subsequent lines; however, this is not
+            strictly required.
+        </li>
+        <li>
+            The program reads in the constraints line by line. Therefore, the
+            following input
+            <pre>(((......)))    </pre>
+            can also be written as follows
+            <pre>(..........)
+.(........).
+..(......)..    </pre>
+            It is important to emphasize that the data for secondary structure
+            and pseudoknots must be listed on subsequent lines regardless of
+            how the data is specified. Otherwise, SimRNA will assume that
+            there is a second chain, and it is likely that an error will occur.
+        </li>
+        <li>
+            <p>
+                Constraints can also be applied to multichain problems. For
+                example, in the case of two chains, restraints can be written as
+                follows:
+            </p>
+
+            <pre>AAAACCCCUUUU AAAACCCCUUUU
+((((....(((( ))))....))))    </pre>
+            <p>
+                The above example will form a double-stranded RNA (dsRNA) stem
+                with an interior loop containing poly(C). When the sequence is
+                written as above in the restraint file, the first line is
+                ignored.
+            </p>
+            <p>
+        </li>
+        <li>
+            <p>
+                If more than two chains are involved, this can also be
+                accommodated by the above scheme. For example, constraints on
+                four chains could be written as follows
+            </p>
+            <pre>AAAACCCCUUUU AAAACCCCUUUU AAAAGGGGAAAA AAAAGGGGAAAA
+((((....(((( ))))....)))) ............ ............
+............ ....((((.... ....)))).... ............
+....((((.... ............ ............ ....))))....    </pre>
+            <center>
+                <br><img SRC="/SimRNAweb/static/app/help/seeknfind_clusters.jpg" height=400 width=500
+	                 align=CENTER>
+                <p><br><b>Figure 3.</b> A possible 3D structure of the four sequence shown
+                    above folded under the proposed restraints using SimRNA.
+                </p>
+                <p> </p>
+            </center>
+        </li>
+        <li>
+            <p>
+                In general, there is a variety of ways that this file can be
+                written. However, clarity is probably the most important thing
+                to remember.
+            </p>
+        </li>
+        <li>
+            <p>
+                Finally, please note that <b>SimRNAweb</b> doesn’t allow the
+                user to exclude the possibility of base pairing using the
+                secondary structure constraints file. Thus, even the dot “.”
+                does not prohibit the formation of base pairing.
+            </p>
+        </li>
+    </ul>
+    
+    <p>
+    </p>
+
+    <h4 id="format_pdb">3. Format of structure input files</h4>
+    <p>
+        The user requests starting the calculation with a structure provided
+        by the user in PDB format.
+    </p>
+    <p>
+        Essentially, a PDB file is cleaned (water, ions, non-standard
+        residues are removed)
+        with <a href="https://github.com/m4rx9/rna-pdb-tools">`rna-pdb-tools`</a>
+        to get a file "SimRNA ready". However, these tools simply follow
+        orders (all muscle and no brain). Therefore, it is wise when the
+        user prepares the PDB files to avoid any inadvertent misinterpretation of
+        desired structural information on the part of the automated tools.
+    </p>
+    <p>
+        Hence, although a fair amount of flexibility is built
+        into <b>SimRNAweb</b>, there are some important caveats to keep in
+        mind.
+    </p>
+    <ul>
+        <li>
+            <b>SimRNAweb</b> can read the HETATM tags. Therefore, most of the
+            time, it is sufficient to simply change a modified residue name to
+            its unmodified name (A, C, G or U) without any additional effort
+            on editing the PDB file. However, the user should make sure that
+            the HETATM references point to <em>desired parts of the RNA
+                structure</em>: not ligands or other molecules that may have been
+            needed to crystallize the RNA structure in a particular state or
+            are part of the crystal structure that was obtained. The outcome
+            of a job submission for such uninspected PDB files
+            simply <em>cannot</em> be predicted. Therefore, it is the user's
+            responsibility to be sure that <b>SimRNAweb</b> is being fed the
+            intended RNA structure and not garbage.
+
+        </li>
+        <li>
+            Sometimes, some of the backbone atoms are present for a residue,
+            but important parts (or all) of the base are missing. Also,
+            sometimes, to crystallize the structure, very special residues are
+            constructed that do not have the same essential atoms needed
+            by <b>SimRNA</b>. The essential atoms are C4′,P,N1,C2,C4 (for any
+            pyrimidine residues) or C4′,P,N9,C2,C6 (for any purine
+            residues). If any of these critical atoms are missing,
+            then <em>all</em> of the atoms of the residue (including the
+            backbone) should be removed from the PDB file, and the correct
+            sequence (including the missing base) should be inserted in Box
+            (3), as in the examples shown above. Therefore, it is important to
+            examine the PDB file for missing or incomplete information. If any
+            part of this information is missing, the structure is inadequately
+            defined and will be rejected by <b>SimRNAweb</b>.
+        </li>
+        <li>
+            Another problem is modified bases. In some cases, simply changing
+            HETATM to ATOM and changing the residue name to the unmodified
+            base (A, C, G or U) is sufficient. However, if the modification
+            changes the name of any one of the essential atoms that are used
+            by <b>SimRNA</b>, this will be the same as having an incompletely
+            defined residue. After changing the tag and the name of the
+            residue, the residue atoms should be inspected to verify that the
+            critical atoms C4′,P,N1,C2,C4 (for a pyrimidine) or C4′,P,N9,C2,C6
+            (for a purine) are present. If <em>any</em> of these are missing,
+            the residue should be removed from the PDB file and only specified
+            in the sequence (submitted in Box (3), as explained above).
+        </li>
+        <li>
+            <b>SimRNAweb</b> will insert the 5′ most phospate if it is
+            missing. However, it does not hurt to verify whether it is present
+            or not, because the way of doing this insertion presently is to
+            rename the O5' atom to a P atom at the 5′-most position. In
+            general, this should not introduce any issues, particularly when
+            SimRNA is converted from its reduced representation to the all
+            atom representation after a brief simulation. Nevertheless, it
+            should be kept in mind that this amounts to a "quick fix" and may
+            not be what the user genuinely wants. If so, then the user will
+            need to find a way to insert the desired 5′ P in a more amenable
+            position.
+        </li>
+    </ul>
+
+    <!--
+         <h3>Restraint</h3>
+
+         Distance restraints implemented in SimRNA. (A) immobilization of one atom; (B) flexible pinning of one atom; (C) flexible tethering of two atoms; (D) canonical base-pairing of two residues.
+
+         <img src="/SimRNAweb/static/app/img/restraints.png" style="width:50%">
+         restraints_man.png
+    -->
+
+    <h4 id="format_restraints">4. Restraint command formats</h4>
+    <p>
+        In SimRNA, distance restraints can be defined for any pair of atoms
+        used in SimRNA representation, as well as to the central point of
+        the nucleic acid base: for pyrimidines P, C4′, N (N1, N9), C2, C4
+        and for purines P, C4′, N9, C2, C4 and C6 (for purines) and the
+        the middle of the base (label MB).
+    </p>
+    <p>
+        The restraints come in two basic forms: <code>WELL</code>
+        and <code>SLOPE</code>. A typical <code>WELL</code> restraint
+        effectively "captures" the two beads when they come within a
+        prescribed distance from each other as in Figure 4a, where the
+        penalty is zero when the distance between the orange and red bead is
+        outside of the well, and some negative number when inside the
+        well. This means nothing happens until it finds the hole. A
+        typical <code>SLOPE</code> restraint penalizes any region outside
+        the zone where the penalty is zero as in Figure 4b.
+    </p>
+
+    <img src="/SimRNAweb/static/app/help/restraints_cartoon.png" height=800 width=800>
+    <p style="font-size:12px">
+        <b>Figure 4.</b> A cartoon describing the way restraints affect the
+        interaction between two beads: here orange is the reference bead and
+        the red bead is shown moving relative to the orange bead. a)
+        A <code>WELL</code> restraint where outside the hole, the red bead
+        moves freely and inside the hole, it is trapped to a specific range.
+        b) A <code>SLOPE</code> restraint where the penalty is zero when the
+        distance between the beads is inside the zone, and outside this, the
+        beads are either pulled together or pushed away.
+    </p>
+
+
+
+    <p>
+        The <code>WELL</code> restraint is expressed by a single line in the restraints
+        file as follows:
+    </p>
+    <pre>WELL atom_1_id atom_2_id min_dist max_dist weight
+    </pre>
+    <p>
+        The <code>SLOPE</code> restraint is expressed similarly as follows:
+        <pre>SLOPE atom_1_id atom_2_id min_dist max_dist weight </pre>
+        <p>
+            or (alternative for <code>SLOPE</code>):
+        </p>
+        <pre>DISTANCE atom_1_id atom_2_id min_dist max_dist weight  </pre>
+        <p>
+            Example line in a restraints file:
+        </p>
+        <pre>SLOPE A/23/C4' C/45/P 5.5 8.5 1.0
+WELL A/23/C4' C/45/P 6.5 7.5 1.0  </pre>
+        <p>
+            where
+            <br />
+            <br />
+            A/23/C4' means atom C4' of nucleotide 23 in chain A
+            <br />
+            C/45/P means atom P in nucleotide 45 in chain C
+            <br /><br />
+            5.5 [Å]: minimal distance where the weight is zero (for <code>SLOPE</code>)<br />
+            6.5 [Å]: minimal distance where the weight is -1 (for <code>WELL</code>)<br />
+            7.5 [Å]: maximal distance where the weight is -1 (for <code>WELL</code>)<br />
+            8.5 [Å]: maximal distance where the weight is zero (for <code>SLOPE</code>)<br />
+            1.0 weight of this restraint weight for both <code>SLOPE</code>
+            and <code>WELL</code>. For <code>WELL</code>, the value is -1
+            between 6.5 and 7.5 [Å], for SLOPE the value increases for distances
+            greater than 8.5 or less than 5.5 [Å].
+        </p>
+
+        <p>
+            This is an example of a multifunctional restraint that resembles
+            <b>Figure 5e</b>.
+        </p>
+
+        <h4>Comments:</h4>
+
+        <ul>
+            <li>
+                If the input file is a PDB file, then the nucleotide numbers
+                specified in the restraints file are according to numbering in
+                input PDB file!
+            </li>
+            <li>
+                In SimRNA representation, the atom name N represents the nitrogen
+                that binds the base to the backbone. Hence,N corresponds to N1 for
+                pyrimidines and N9 for purines! This label can also be used
+                instead of N9 for purines and N1 for pyrimidines. SimRNA also
+                permits the user to restrain the C2 atom or and also the C6 atom
+                for purines or the C4 atom for pyrimidines.
+            </li>
+            <li>
+                The user can also apply restraints for a middle atom of the base
+                (pseudo atom) which is named MB! This is useful for restraining
+                the bases such that they are only in contact but not specifically
+                tied to some prescribed orientation such as Watson-Crick, or
+                Hoogsteen edge, or whatever.</li>
+        </ul>
+
+        <h4>Restraint options</h4>
+
+        <img src="/SimRNAweb/static/app/help/restraints_man.png" height=800 width=800>
+        <p style="font-size:12px">
+            <b>Figure 5.</b> Examples of types of constraints. a) An elementary
+            function of type <code>SLOPE</code> that depends on the following
+            three parameters: the minimum distance, the maximum distance and the
+            slope. b) An elementary function of type <code>WELL</code> that
+            depends on three parameters: the minimum and maximum distance and
+            the depth of the well. c) A single <code>SLOPE</code> function with
+            negative weight. d) A single <code>WELL</code> function with
+            negative weight. e) A combination one <code>SLOPE</code> function
+            and one <code>WELL</code> function. f) A combination of
+            three <code>SLOPE</code> and two <code>WELL</code> functions, both
+            one <code>WELL</code> function and one <code>SLOPE</code> function
+            with negative weights.
+        </p>
+        <br />
+        <p>
+            A restraint can be thought of as a flexible tether that drives the
+            selected atoms towards a certain distance by applying a penalty for
+            distances that deviate from that range. It can also provide a reward
+            when a desired distance is achieved. The penalty and reward are
+            positive and negative contributions to the total energy of the
+            simulated system, respectively.
+        </p>
+        <p>
+            There are two types of distance restraints: <code>WELL</code>
+            and <code>SLOPE</code> (the keyword <code>DISTANCE</code> can also
+            be used in the place of <code>SLOPE</code>). Both restraints
+            describe an inner zone between the specified minimum number and
+            maximum number (which can be the same
+            number). For <code>SLOPE</code>, the penalty within the inner zone
+            is zero, and all regions outside change linearly with distance by
+            the weight outside this zone. When the weight is positive,
+            the <code>SLOPE</code> forms a "V" shape or a "\_/" shape depending
+            on the size of the inner zone (<b>Figure 5a</b>). If the weight is
+            negative, the shape will be inverted, but the penalty in the inner
+            zone is always zero (for <code>SLOPE</code>). In the case
+            of <code>WELL</code>, a positive weight produces a divot "|_|" where
+            outside the zone, the value is zero and inside the well, the energy
+            is negative (<b>Figure 5a</b>). Changing the sign of the weight
+            for <code>WELL</code> means we create a wall or a stumbling block (a
+            positive penalty) in the inner zone.
+        </p>
+    </p>
+    <p>
+        The basic forms for <code>SLOPE</code> and <code>WELL</code>, where
+        the weight is positive, are shown in <b>Figure 5a and b</b>.
+    </p>
+    <p>
+        In the case of a <code>SLOPE</code>-type restraint, the two atoms
+        are tethered towards the region by applying a linear penalty that
+        corresponds to the degree of violation of the distance from the
+        desired region. When the distance between the atoms becomes equal to
+        the desired value, the value of the function reaches zero. The shape
+        of the function resembles a <code>V</code>, with a bottom that can
+        correspond to a single point or to a “flat” region (<b>Figure
+        5a</b>).
+    </p>
+    <p>
+        In case of a <code>WELL</code>-type restraint, the function is flat
+        and equals zero for any distance outside the desired range, while
+        the distances within the desired range correspond to the negative
+        value of the weight (<b>Figure 5b</b>).
+    </p>
+    <p>
+        Both the <code>SLOPE</code> and <code>WELL</code> restraint
+        functions can be “reversed” when a negative weight is applied
+        (c.f., <b>Figures 5c and d</b>). For example, applying
+        a <code>SLOPE</code>-type function with a negative weight can be
+        used as a repelling function (<b>Figure 5c</b>). This function can
+        be useful in simulations in which the user desires to study molecule
+        stretching between terminal residues, for example. On the other
+        hand, the <code>WELL</code>-type function can be applied with a
+        negative weight when the user wishes to define a distance range that
+        the atoms should avoid. When atoms are in the distance range
+        specified by <code>WELL</code>, an additional penalty is applied
+        (<b>Figure 5d</b>).
+    </p>
+    <p>
+        Any number of these two types of functions can be also combined in
+        order to define complex restraints. The resulting function can adopt
+        various shapes (<b>Figures 5e and f</b>). Therefore, the relative
+        distance of two atoms under consideration can be described by a
+        dedicated function or a linear combination of functions used as a
+        part of the total scoring of the energy.
+    </p>
+    <p>
+        For both types of restraints, the user must specify the restraints
+        in subsequent lines of the restraint file in the following format
+    </p>
+    <pre>ChX/i/atom_i ChY/j/atom_jmin_distmax_distweight</pre>
+    <p>
+        where examples are provided in the next
+        section. Here, <code>ChX</code> and <code>ChY</code> specify the
+        chain index (chain name can be the same or
+        different), <code>i</code> and <code>j</code> refer to the index of
+        the particular residue on the respective chain,
+        and <code>atom_i</code> and <code>atom_j</code> refer to the atom on
+        which the constraint is applied. Restraints of
+        type <code>WELL</code> are 0 except for the range
+        between <code>min_dist</code> and <code>max_dist</code>. For the
+        region between min/max
+        (<code>min_dist</code>&#8596<code>max_dist</code>), the value
+        becomes -1*<code>weight</code>.
+    </p>
+    <p>
+        Restraints of type <code>SLOPE</code> are 0 within the
+        range, <code>min_dist</code>&#8596<code>max_dist</code>. Outside
+        that range, a linear increasing positive penalty is added (the pair
+        of atoms are attracted to each other because there is less penalty
+        as they approach the region between <code>min_dist</code>
+        and <code>max_dist</code>). The value for the penalty is
+        dist_violation*<code>weight</code>.
+    </p>
+    <p>
+        Restraints for a given pair of atoms can be combined (added). It
+        requires two (or more) lines to specify subsequent contributions.
+    </p>
+    <p>
+        For an applied example of using the above described restraints,
+        <b>Figure 6</b> shows two examples where the secondary structure
+        restraints and distance restraints (<code>WELL</code>
+        and <code>SLOPE</code>) were used to improve the fit of the 3D
+        structure for two tRNA structures. The necessary restraint files and
+        sequence for folding 3L0U are also provided as an example on the
+        submission page of <b>SimRNAweb</b>, where the best structure using
+        this combination of restraints was 6.1 Angstroms RMSD (<b>Figure
+            6a</b>). <b>Figure 6b</b> provides the requisite files for PDB
+        structure 1EVV, where <b>SimRNAweb</b> produced one cluster with 6.5
+        Angstroms RMSD.
+    </p>
+
+    <!-- example of tRNA structure  -->
+    <table columns="2" width="96%" cellpadding="8">
+        <tr>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/3l0u-ss-w06rst_A.png" height=250 width=300 align=CENTER>
+                <br><b>Figure 6a.</b> Results of folding
+                the <a href="/SimRNAweb/static/app/help/3l0u_A.seq">sequence</a> for
+                PDB id 3L0U
+                with <a href="/SimRNAweb/static/app/help/3l0u-ss-w06rst_A.ss">secondary
+	            structure</a> restraints
+                and <a href="/SimRNAweb/static/app/help/3l0u-ss-w06rst_A.rest">distance</a>
+                restraints using <code>SLOPE</code> and <code>WELL</code>. The
+                native structure is shown in green. The blue region shows
+                where the distance restraints were applied. The tRNA structure
+                has modified bases in this region of the structure.
+            </td>
+            <td>
+                <img SRC="/SimRNAweb/static/app/help/1evv-ss-w11rst2_A_clust02.png" height=350 width=400 align=CENTER>
+                <br><b>Figure 6b.</b> Results of folding
+                the <a href="/SimRNAweb/static/app/help/1evv_A.seq">sequence</a>
+                for PDB id 1EVV
+                with <a href="/SimRNAweb/static/app/help/1evv-ss-w11rst2_A.ss">secondary
+	            structure</a> restraints
+                and <a href="/SimRNAweb/static/app/help/1evv-ss-w11rst2_A.rest">distance</a>
+                restraints using <code>SLOPE</code> and <code>WELL</code>. The
+                native structure is shown in green. Here also, the tRNA
+                structure has modified bases in this region of the structure.
+            </td>
+        </tr>
+    </table>
+
+    <h2 id="options_of_submit">Submit options</h2>
+    <style>
+     p {text-align:justify}
+    </style>
+    <p>
+        <strong>Job title</strong> – letters, digits, and <code>+_-.()</code>, 20 first characters of a title will make a job id so pick something short, sweet, and to the point.
+    </p>
+
+    <p>
+        <strong>E-mail address</strong> – the email address will be used to
+        send results, but is not required of the user. However, for long
+        sequences, the simulation can take many hours, so if the page is
+        lost, there is no way to find it again.
+    </p>
+    <p>
+        <strong>RNA sequence</strong> – see above
+    </p>
+    <p>
+        <strong>Secondary structure</strong> – see above
+    </p>
+
+    <br>
+
+
+    <h2 id="workflow">Workflow of modeling your sequence using a fragment of the tetraloop motif</h2>
+
+    <p style="text-align:center;font-size:15px;">
+        <b>This is a more advanced demo on how SimRANweb can be used to give you a feel of the usability of the server.</b>
+    </p>
+
+    <iframe width="800" height="500" src="https://www.youtube.com/embed/fdQ9z5NLDes" frameborder="0" allowfullscreen></iframe>
+
+    <h4>Prepare a PDB file used as a fragment to model a tetraloop motif of your sequence</h4> 
+
+    To model your RNA sequence of interest (<code>CGCGCAAGCG</code>) using a tetraloop PDB motif taken from the PDB database, first we have to prepare the PDB file.
+
+    <pre>
+   XXXX    <- use the tetraloop from 1zih to model your RNA
+1234567890 # numbering of your RNA sequence
+CGCGCAAGCG # your RNA sequence
+(((....))) # secondary structure of your RNA sequence
+    </pre>
+
+    Start PyMOL (<a href="https://www.pymol.org/">https://www.pymol.org/</a>) and fetch a structure 1zih (<code>fetch 1zih</code>).
+
+    <br><br>
+
+    <p>
+        <b>Remember, it is absolutely essential to examine the PDB file (e.g. with PyMOL), check for missing parts, gaps (or unusual numbering), ions, water, or anything else that looks suspicious.</b>
+    </p>
+
+    <p>
+        Note that this PDB structure has hydrogen atoms, please remove them (<code>Action -> hydrogen -> remove</code>). Select the tetraloop ('GCAA') and extract it to a new object and rename this object to <code>set_name 1zih, tetraloop</code>. Since the number of the tetraloop is slightly different than in the RNA sequence, the numbering must be shifted by 1 (the 5th residue becomes the 4th etc) using <code>alter (sele), resv-=1</code>. Note that this PDB file has 10 states, we need only one to use with SimRNAweb. The easiest way to get rid of additional states is to save the molecule to a new PDB file. Now you can use this file to model your sequence.
+    </p>
+
+    <h4>SimRNAweb</h4> 
+
+    Now you are ready to run SimRNAweb. Type a sequence, secondary structure and residues to freeze (i.e., residues that should not move during the simulation).
+    <pre>
+seq: CGCGCAAGCG
+secondary structure: (((....)))
+freeze: A:4-7
+    </pre>
+    upload the file <code>tetraloop.pdb</code> and click Submit!</a>
+                </pre>
+
+                <p>
+                    The result is in <a href="http://iimcb.genesilico.pl/SimRNAweb/jobs/4371aff4-cea1-4deb-88ce-fbb9dc6ae5a4">http://iimcb.genesilico.pl/SimRNAweb/jobs/4371aff4-cea1-4deb-88ce-fbb9dc6ae5a4</a>.
+</p>
+ <i>Happy prediction!</i>
+
+{% endblock %}

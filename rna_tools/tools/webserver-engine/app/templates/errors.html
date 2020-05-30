@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<title>RNAmasonry {{ j.job_title }}</title>
+<h3>Results for job: {{ j.job_id }} ({{j.job_title}})</h3>
+<p>
+  This job has <b>finished with errors</b>.
+
+<strong>Input: </strong>
+
+<pre style="font-size:11px;overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{% if j.seq %}{{ j.seq }}{% endif %}
+{% if j.ss %}{{ j.ss }}{% endif %}</pre>
+
+{% if j.pdb_fn %}
+<pre>{{ j.pdb_fn }} {% if j.residues_to_freeze %} frozen: {{ j.residues_to_freeze }}{% endif %}</pre>
+{% endif %}
+{% if j.restraints_fn %}
+<pre>{{ j.restraints_fn }}</pre>
+{% endif %}
+<pre>Number of folding steps: {{ j.nsteps }}</pre>
+
+</p>
+    <div class="alert alert-error" style="font-family:Monospace;">
+     {{ j.get_error }}
+    </div>
+
+    <p>
+        Please contact: <a href="mailto:magnus@genesilico.pl">magnus@genesilico.pl</a> for help!
+    </p>
+
+    <p>
+        The raw output files for each step of the pipeline can be found <a target="_blank" href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>
+    </p>
+
+<br />
+<br />
+
+<span class="pull-right">
+  <button class="btn btn-small" style="margin-bottom:10px;" id="button2">Show the full log</button>
+</span>
+
+<div id="logx">
+{%comment%}
+<a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt"><i class="icon-circle-arrow-down"></i></a>
+  <br />
+  <pre style="font-size:10px;	overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{{ j.get_log }}
+{%endcomment%}
+
+<strong>Log file:</strong> 
+<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
+</div>
+
+<script>
+
+ function checkProgress() {
+     $.ajax({
+         url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+         success: function(d) {
+             $("#log_txt").html(d['log']);
+         }
+     })
+ }
+
+
+$(document).ready(function() {
+	checkProgress();
+	$("#logx").hide();
+});
+</script>
+
+<script>
+$("#button2").click(function() {
+    $("#logx").slideToggle();
+});
+</script>
+
+
+{% endblock %}

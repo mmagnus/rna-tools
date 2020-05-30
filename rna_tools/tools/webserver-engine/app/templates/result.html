@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% block content %}
+<title>RNAMasonry ({{j.job_title}})</title>
+
+<script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
+<script src="{{ STATIC_URL }}app/jsmol/j2s/core/package.js"></script>
+
+<script type="text/javascript">
+ var jmolApplet0; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;echo loading {{ j.get_dars_to_mc.0 }}...;refresh;'
+	 +'load {{ MEDIA_URL }}jobs/{{ job_id }}/rms_input_fa/final_model_refined.pdb;set echo top center;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;color group;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 400,
+     height: 400,
+     debug: true,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
+
+
+ function checkProgress() {
+     $.ajax({
+         url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+         success: function(d) {
+             $("#log_txt").html(d['log']);
+         }
+     })
+ }
+
+
+
+</script>
+
+<h3>RNA model for: {{ job_id }} ({{ j.job_title }})</h3>
+
+{% if j.get_status == 'stopped' %}
+<div class="alert alert-info">
+    <b style="">This job has been stopped by the user.</b>
+</div>
+{% endif %}
+
+{% if j.get_status != 'stopped' %}
+<center>
+    <!--Job: {{ job_id }} <a href="{{ MEDIA_URL }}jobs/{{ job_id }}/"><img src="{{ STATIC_URL }}/app/img/folder.gif"/></a>-->
+    <!--<tr style="width:50%">
+         <td >
+         <!--Dear User, you submited two files X.pdb and Y.pdb. Full atom rmsd of between them is X (based on biopython). Take a look that X is not X. RNAcompere detect two seconday structures: ..
+         <span class="label label-success">DONE</span> raw data <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/ref_struc/{{ s }}/"><img src="{{ STATIC_URL }}app/img/folder.gif"></a>
+         <pre style="font-size:10px;line-height: 10px;">
+         {{ txt | safe }}
+         </pre>
+         </td>
+    -->
+    <script type="text/javascript">
+     jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+    </script>
+    Downlod <a href="{{ MEDIA_URL }}jobs/{{ job_id }}/rms_input_fa/final_model_refined.pdb">the model</a>.
+</center>
+{% endif %}
+
+{% if j.get_dars_to_mc %} <!-- error msg -->
+<p>
+    This job has <b>finished with errors (see the log below -- missing output files)</b>
+</p>
+<p>
+    Please, re-run your job with correct parameters or contact  please contact: <a href="mailto:magnus@genesilico.pl">magnus@genesilico.pl</a> for help!
+</p>
+<p>
+    The raw output files for each step of the pipeline can be found <a target="_blank" href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>.
+    <br />
+    <br />
+    {% else %}
+    <p>
+        <b>Input: sequence and secondary structure:</b> 
+        <pre style="font-size:11px;overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{% if j.seq %}{{ j.seq }}{% endif %}
+{% if j.ss %}{{ j.ss }}{% endif %}</pre>
+        {% if j.email %}<small>
+            <b>Mail:</b> 
+            <pre>{{ j.email }}</pre>{% endif %}
+            {% if j.pdb_fn %}
+            <b>Input PDB/mmcif file:</b>
+            <pre>{{ j.pdb_fn }} {% if j.residues_to_freeze %} frozen: {{ j.residues_to_freeze }}{% endif %}</pre>
+            {% endif %}
+            {% if j.restraints_fn %}
+            <b>SAXS restraint file in the {{ j.get_saxs_format }} format:</b>
+            <pre>{{ j.get_restraints }}</pre>
+            {% endif %}
+            <hr/>
+    </p>
+    {% endif %}
+
+    <p>
+        <p>
+            The raw output files for each step of the pipeline can be found <a target="_blank" href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>
+
+            <table>
+                <tr>
+                    <td>
+
+                    {% if j.get_aa_files.1 %}
+                    <td>
+
+                        <script type="text/javascript">
+                         var jmolApplet1; // set up in HTML table, below
+                         // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+                         var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+                         jmol_isReady = function(applet) {
+	                     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+                         }		
+
+                         script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
+	                         +'set errorCallback "myCallback";'
+	                         +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	                         +'set zoomlarge true;set echo top left;echo loading {{ j.get_aa_files.1 }}...;refresh;'
+	                         +'load {{ MEDIA_URL }}jobs/{{ job_id }}/output_PDBS/{{ j.get_aa_files.1 }};set echo top center;'
+	                         +'spacefill off;spin off;wireframe off;cartoons on;color group;'
+
+                         var Info = {
+                             width: 250,
+                             height: 300,
+                             debug: true,
+                             color: "white",
+                             addSelectionOptions: false,
+                             serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+                             use: "HTML5",
+                             j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+                             reagdyFunction: jmol_isReady,
+                             script: script,
+                             disableJ2SLoadMonitor: true,
+                             disableInitialConsole: true
+                         }
+
+                        </script>
+<h4>#2 cluster:</small></h4>
+
+    <script type="text/javascript">
+      jmolApplet1 = Jmol.getApplet("jmolApplet1", Info)
+    </script>
+
+</td>
+{% endif %}
+
+{% if j.get_aa_files.2 %}
+<td>
+
+<script type="text/javascript">
+var jmolApplet1; // set up in HTML table, below
+// logic is set by indicating order of USE -- default is HTML5 for this test page, though
+var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+jmol_isReady = function(applet) {
+	Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+}		
+
+script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
+	+'set errorCallback "myCallback";'
+	+'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	+'set zoomlarge true;set echo top left;echo loading {{ j.get_aa_files.1 }}...;refresh;'
+	+'load {{ MEDIA_URL }}jobs/{{ job_id }}/output_PDBS/{{ j.get_aa_files.2 }};set echo top center;'
+	+'spacefill off;spin off;wireframe off;cartoons on;color group;'
+
+var Info = {
+width: 250,
+height: 300,
+debug: true,
+color: "white",
+addSelectionOptions: false,
+serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+use: "HTML5",
+j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+reagdyFunction: jmol_isReady,
+script: script,
+disableJ2SLoadMonitor: true,
+disableInitialConsole: true
+}
+
+</script>
+
+<h4>#3 cluster:</small></h4>
+
+<script type="text/javascript">
+  jmolApplet2 = Jmol.getApplet("jmolApplet2", Info)
+</script>
+
+
+<!--<p>
+  <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/output_PDBS/{{ j.get_aa_files.2 }}"><i class="icon-circle-arrow-down"></i> Download</a>
+</p>-->
+
+{% endif %}
+</tr>
+</table>
+
+<style>
+pre {
+    font-size: 10px;
+    line-height: 14px;
+white-space: pre;
+overflow: auto;
+}
+</style>
+
+<span class="pull-right">
+  <button class="btn btn-small" style="margin-bottom:10px;" id="button2">Show the full log</button>
+</span>
+
+<div id="logx">
+{% comment %}
+<p>The log of the data processing. </p>
+{%if j.get_processing %}
+<strong>Processing log:</strong>
+    <pre style="font-size:10px;	overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{{ j.get_processing }}</pre>
+{%endif%}
+
+    {%if j.get_log %}
+    <strong>Job log:</strong>
+    <pre style="font-size:10px;	overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{{ j.get_log }}</pre>
+    {%endif%}
+{% endcomment %}
+<strong>Job log:</strong>
+<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
+</div>
+<script>
+ $(document).ready(function() {
+     checkProgress()
+     $("#logx").hide();
+ });
+</script>
+
+<script>
+ $("#button2").click(function() {
+     $("#logx").slideToggle();
+ });
+</script>
+
+<!--
+
+     <pre><font color="#5e4fa2">G</font><font color="#535ca9">G</font><font color="#496aaf">C</font><font color="#3f77b5">G</font><font color="#3485bc">G</font><font color="#3b92b9">A</font><font color="#47a0b3">A</font><font color="#53aeae">C</font><font color="#60bba8">C</font><font color="#6ec5a5">G</font><font color="#7ecca5">G</font><font color="#91d3a5">U</font><font color="#a2daa4">G</font><font color="#b1e0a3">A</font><font color="#bfe5a0">G</font><font color="#cdeb9d">U</font><font color="#dbf19a">A</font><font color="#e7f69a">C</font><font color="#edf8a3">A</font><font color="#f3fbac">C</font><font color="#f9fdb5">C</font><font color="#ffffbe">G</font><font color="#fff8b2">G</font><font color="#fff0a6">A</font><font color="#ffe999">A</font><font color="#ffe28d">U</font><font color="#fed783">C</font><font color="#fecb79">C</font><font color="#febf6f">G</font><font color="#feb365">A</font><font color="#fca55d">A</font><font color="#fa9656">A</font><font color="#f8844d">G</font><font color="#f67546">G</font><font color="#f16744">A</font><font color="#e95c47">U</font><font color="#e2514a">U</font><font color="#db464d">U</font><font color="#d23a4e">G</font><font color="#c52c4b">G</font><font color="#b81d48">G</font><font color="#ab0f45">C</font><font color="#9e0142">G</font></pre>
+-->
+
+  {% endblock %}

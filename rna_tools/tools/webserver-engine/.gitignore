@@ -1,0 +1,14 @@
+media/
+.ropeproject
+*~
+*.pyc
+*#
+._*
+.DS_Store
+.directory
+.fuse*
+cluster_load.txt
+*sqlite3*bak*
+docs/build
+lig/
+*secret*

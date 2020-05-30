@@ -1,0 +1,3 @@
+> 1ehz The crystal structure of yeast phenylalanine tRNA at 1.93 A resolution
+GCGGAUUUAgCUCAGuuGGGAGAGCgCCAGAcUgAAgAucUGGAGgUCcUGUGuuCGaUCCACAGAAUUCGCACCA
+(((((((...(((........)))..(((...........)))......((((.......)))).)))))))....
