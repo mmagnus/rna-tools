@@ -1,0 +1,3 @@
+>2gdi, RNAfold prediction (MFE)
+gGACUCGGGGUGCCCUUCUGCGUGAAGGCUGAGAAAUACCCGUAUCACCUGAUCUGGAUAAUGCCAGCGUAGGGAAGUUc
+.((..((((..(((.(((.....)))))).........))))..)).((((..((((......))))..)))).......

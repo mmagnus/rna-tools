@@ -1,0 +1,6 @@
+SLOPE A/8/P    A/13/P   9.1  10.1  0.2
+SLOPE A/8/P    A/14/P   9.6  10.6  0.2
+SLOPE A/8/N1   A/13/N1  6.3   6.9  0.6
+SLOPE A/8/N1   A/14/N9  6.8   7.4  0.6
+SLOPE A/48/P   A/50/P   5.0   5.6  0.6
+SLOPE A/8/P    A/49/P   6.0   7.0  0.2
