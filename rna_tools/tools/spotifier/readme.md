@@ -49,4 +49,13 @@ The results should be like this:
 
 and the file `s02_30_spots.png` should be created in the folder next to the input file (in this case `testdata/s02/s02_30_spots.png`)
 
+# Customization
+
+If you want to move single dots, use Preview and just move them around, save it (if you open a JPG, you will be asked if you want to convert the file to PNG, yeah, do it, remember only to change the file name in the command, `18_X.png`).
+
+![](imgs/fix.png)
+
+and re-run:
+
+	python spotifier.py testdata/02/18_X.png -t -m testdata/02/map.txt
 
