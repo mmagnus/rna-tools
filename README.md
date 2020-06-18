@@ -23,7 +23,7 @@
 The latest
 --------------------------------------------------------------------
 
-**20-05-06** Some new cool changes to [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome)
+**20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
 
 **20-03-23** Finally, to install rna-tools simply type in the terminal: `pip install rna-tools`
 
