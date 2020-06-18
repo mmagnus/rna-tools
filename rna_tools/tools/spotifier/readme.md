@@ -1,4 +1,31 @@
 # Spotifier
+This script to covert pre-processed plates image into figures.
+![](imgs/yWwr8DqnXT.gif)
+
+## Options
+
+    $ python spotifier.py -h 	
+	usage: spotifier.py [-h] [-v] [-d] [-m MAP] [-t] [-x X] [-y Y]
+	                    [--trim-rms TRIM_RMS] [--size SIZE]
+	                    file
+	
+	positional arguments:
+	  file                 pre-processed image
+	
+	optional arguments:
+	  -h, --help           show this help message and exit
+	  -v, --verbose        be verbose
+	  -d, --debug          be verbose
+	  -m MAP, --map MAP    map
+	  -t, --trim           be verbose
+	  -x X
+	  -y Y
+	  --trim-rms TRIM_RMS
+	  --size SIZE
+
+![](imgs/jyvsjrgxpe.gif)
+
+Fig. `-t`,  trim background to get nicely formatted dots.
 
 ## Prepare image
 Open the image:
