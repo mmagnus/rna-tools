@@ -4,7 +4,7 @@
 Open the image:
 ![](imgs/200618_Screen_Shot_2020-06-18_at_2.08.30_PM.png)
 
-Image -> Adjustmenst -> Black & white
+Image -> Adjustments -> Black & white
 
 Inverse color (cmd+i) 
 
@@ -19,7 +19,7 @@ Crop image and Edit -> Image Rotation -> Flip Canvas Horizontal.
 Open template.psd and drag and drop plate photo
 ![](imgs/200618_Screen_Shot_2020-06-18_at_2.13.27_PM.png)
 
-Lower opacity for the imported image, to aroud 30% and 
+Lower opacity for the imported image, to around 30%, to see the template in the background.
 ![](imgs/200618_Screen_Shot_2020-06-18_at_2.14.06_PM.png)
 
 Use Move tool and Free transform fit the image to the template.
@@ -28,7 +28,7 @@ Use Move tool and Free transform fit the image to the template.
 Use Move tool and Free transform to move "Rectangle" to cover the plate.
 ![](imgs/200618_Screen_Shot_2020-06-18_at_2.23.08_PM.png)
 
-Switch off Backgroud layer, set Opacity to 100.
+Switch off the Backgroud layer, set Opacity to 100.
 ![](imgs/200618_Screen_Shot_2020-06-18_at_2.24.11_PM.png)
 
 Save as JPG, e.g., s02_30.jpg.
