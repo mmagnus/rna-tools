@@ -50,6 +50,8 @@ def get_parser():
 
     parser.add_argument('--renum-residues-dirty', help='',  action='store_true')
 
+    parser.add_argument('--undo', help='undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)',  action='store_true')
+
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
                         action='store_true')
 
@@ -85,8 +87,7 @@ def get_parser():
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get-seq', help='get seq', action='store_true')
-    parser.add_argument('--hide-warnings', help='hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file', action='store_true')
-
+    
     parser.add_argument('--compact',
                         help=textwrap.dedent("""with --get-seq, get it in compact view'
 $ rna_pdb_toolsx.py --get-seq --compact *.pdb
@@ -99,6 +100,8 @@ ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
 # 20_Bujnicki_4
 
 """), action='store_true')
+
+    parser.add_argument('--hide-warnings', help='hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file', action='store_true')
 
     parser.add_argument('--get-ss', help='get secondary structure', action='store_true')
 
@@ -149,6 +152,8 @@ By default:
     parser.add_argument('--inplace', help=textwrap.dedent("""in place edit the file! [experimental,
 only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]"""),
                         action='store_true')
+
+    parser.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""))
 
     parser.add_argument('--mutate', help=textwrap.dedent("""mutate residues,
 e.g.,
@@ -480,6 +485,13 @@ if __name__ == '__main__':
                     pass
 
 
+    if args.undo:
+        # quick fix - make a list on the spot
+        dir = args.file #os.path.abso(os.path.dirname(args.file))
+        for f in glob.glob(dir + '/*.pdb~'):
+            if args.verbose:
+                print(f, '->',f.replace('.pdb~', '.pdb'))
+            os.rename(f, f.replace('.pdb~', '.pdb'))
 
     if args.delete:
         # quick fix - make a list on the spot
@@ -508,6 +520,8 @@ if __name__ == '__main__':
 
             # write: inplace
             if args.inplace:
+                if args.suffix:
+                    f = f.replace('.pdb', '_' + args.suffix + '.pdb')
                 with open(f, 'w') as f:
                     f.write(output)
             else:  # write: to stdout
