@@ -1679,8 +1679,13 @@ def collapsed_view(args):
 def fetch(pdb_id, path="."):
     """fetch pdb file from RCSB.org
     https://files.rcsb.org/download/1Y26.pdb"""
+    if pdb_id == 'rp':
+        os.system('wget https://github.com/RNA-Puzzles/standardized_dataset/archive/master.tar.gz -O - | tar -xz')
+        return
+    
     import urllib3
     http = urllib3.PoolManager()
+
     # try:
     pdb_id = pdb_id.replace('.pdb', '')
     response = http.request('GET', 'https://files.rcsb.org/download/' + pdb_id + '.pdb')
