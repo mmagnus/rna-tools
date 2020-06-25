@@ -9,6 +9,13 @@ You can get rna-tools and install them from the current directory with this pip:
 
 This way is better (than ``pip install rna-tools``) if you're going to do some coding in the tools.
 
+You can even first get rna-tools with git and then do::
+
+    $ pip install -e .
+    Obtaining file:///Users/magnus/work/src/rna-tools
+
+to "install" with pip rna-tools based on a set of links to the current directory.
+
 Configuration
 ------------------------------------------
 To set up your own configuration, create ~/.rna_tools.py in your HOME directory and redefine variables, e.g.::
