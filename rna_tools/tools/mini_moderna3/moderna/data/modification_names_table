@@ -1,0 +1,295 @@
+#Order number	Originating base	Long abbreviation	Full name	Oneletter-HTML	PDB abbreviation	Category
+
+A	A	A	adenosine	A	A	standard RNA
+0A	A	Am	2-O-methyladenosine	:	MRA	modified
+1A	A	m1A	1-methyladenosine	"	1MA	modified
+2A	A	m2A	2-methyladenosine	/	2MA	modified
+3A	A	Arp	2-O-ribosyladenosine(phosphate)	^	RIA	modified
+4A	A	m1Am	1,2-O-dimethyladenosine	&oelig;	M2A	modified
+5A	A	g6A	N6-glycinylcarbamoyladenosine	&equiv;	UNK	modified
+6A	A	m6A	N6-methyladenosine	=	6MA	modified
+7A	A	m66A	N6,N6-dimethyladenosine	&zeta;	MA6	modified
+7A	A	m62A	N6,N6-dimethyladenosine	&zeta;	UNK	modified
+8A	A	m6Am	N6,2-O-dimethyladenosine	&chi;	MMA	modified
+9A	A	m66Am	N6,N6,O-2-trimethyladenosine	&eta;	MTA	modified
+9A	A	m62Am	N6,N6,O-2-trimethyladenosine	&eta;	MTA	modified
+10A	A	I	inosine	I	MRI	modified
+11A	A	m1I	1-methylinosine	O	UNK	modified
+12A	A	Im	2-O-methylinosine	&le;	1MI	modified
+13A	A	m1Im	1,2-O-dimethylinosine	&xi;	UNK	modified
+14A	A	t6A	N6-threonylcarbamoyladenosine	6	T6A	modified
+15A	A	m6t6A	N6-methyl-N6-threonylcarbamoyladenosine	E	66A	modified
+16A	A	ms2t6A	2-methylthio-N6-threonyl_carbamoyladenosine	[	UNK	modified
+17A	A	ms2m6A	2-methylthio-N6-methyladenosine	&infin;	SMA	modified
+18A	A	ms2hn6A	2-methylthio-N6-hydroxynorvalyl_carbamoyladenosine	&asymp;	UNK	modified
+19A	A	i6A	N6-isopentenyladenosine	+	6IA	modified
+20A	A	ms2io6A	2-methylthio-N6-(cis-hydroxyisopentenyl) adenosine	&ne;	SIA	modified
+21A	A	ms2i6A	2-methylthio-N6-isopentenyladenosine	*	SPA	modified
+22A	A	io6A	N6-(cis-hydroxyisopentenyl)adenosine	`	UNK	modified
+23A	A	hn6A	N6-hydroxynorvalylcarbamoyladenosine	&radic;	HNA	modified
+24A	A	ac6A	N6-acetyladenosine	@	6AA	modified
+25A	A	m8A	C8-methyladenosine	@	UNK	modified
+
+C	C	C	cytidine	C	C	standard RNA
+0C	C	Cm	2-O-methylcytidine	B	MRC	modified
+1C	C	k2C	lysidine	}	UNK	modified
+2C	C	s2C	2-thiocytidine	%	2SC	modified
+3C	C	m3C	3-methylcytidine	'	3MC	modified
+4C	C	m4C	N4-methylcytidine	&nu;	4MC	modified
+5C	C	m5C	5-methylcytidine	?	M5C	modified
+6C	C	ac4C	N4-acetylcytidine	M	4AC	modified
+7C	C	ac4Cm	N4-acetyl-2-O-methylcytidine	&alefsym;	MAC	modified
+8C	C	m4Cm	N4,2-O-dimethylcytidine	&lambda;	UNK	modified
+9C	C	m44C	N4,N4-dimethylcytidine	@	UNK	modified
+9C	C	m42C	N4,N4-dimethylcytidine	@	UNK	modified
+10C	C	m44Cm	N4,N4,2-O-trimethylcytidine	&beta;	UNK	modified
+10C	C	m42Cm	N4,N4,2-O-trimethylcytidine	&beta;	UNK	modified
+11C	C	m5Cm	5,2-O-dimethylcytidine	&tau;	UNK	modified
+12C	C	f5C	5-formylcytidine	>	5FC	modified
+13C	C	f5Cm	5-formyl-2-O-methylcytidine	째	UNK	modified
+14C	C	hm5C	5-hydroxymethylcytidine	&empty;	HMC	modified
+
+G	G	G	guanosine	G	G	standard RNA
+0G	G	Gm	2-O-methylguanosine	#	MRG	modified
+1G	G	m1G	1-methylguanosine	K	1MG	modified
+2G	G	m2G	N2-methylguanosine	L	2MG	modified
+3G	G	m22G	N2,N2-dimethylguanosine	R	M2G	modified
+4G	G	m22Gm	N2,N2,2-O-trimethylguanosine	|	MTG	modified
+5G	G	Grp	2-O-ribosylguanosine(phosphate)	&image;	UNK	modified
+6G	G	G+	archaeosine	(	UNK	modified
+6G	G	fa7d7G	archaeosine	(	UNK	modified
+7G	G	m7G	7-methylguanosine	7	7MG	modified
+8G	G	m7m2G	N2,7-dimethylguanosine	&or;	27G	modified
+9G	G	m7m22G	N2,N2,7-trimethylguanosine	&ang;	N2G	modified
+10G	G	imG	wyosine	&Yuml;	UNK	modified
+11G	G	m1Gm	1,2-O-dimethylguanosine	&epsilon;	UNK	modified
+12G	G	m2Gm	N2,2-O-dimethylguanosine	&gamma;	MMG	modified
+13G	G	mimG	methylwyosine	&sum;	UNK	modified
+14G	G	imG-14	4-demethylwyosine	&dagger;	DWG	modified
+15G	G	imG2	isowyosine	&supe;	UNK	modified
+16G	G	yW	wybutosine	Y	WBG	modified
+17G	G	oHyW	hydroxywybutosine	&sube;	UNK	modified
+18G	G	oHyWx	undermodified hydroxywybutosine	&scaron;	UNK	modified
+19G	G	o2yW	peroxywybutosine	W	UNK	modified
+58G	G	yW-58	10-glutamylmethylesterwyosine	@	UNK	modified
+72G 	G	yW-72	10-glutamylwyosine	@	UNK	modified
+86G 	G	yW-86	10-glutamyl-4-demethylwyosine	@	UNK	modified
+
+Q	G	QtRNA	queuosine	Q	Q	modified
+1Q	G	Qbase	Qbase	&there4;	UNK	modified
+2Q	G	preQ0tRNA	7-cyano-7-deazaguanosine	&phi;	DCG	modified
+3Q	G	preQ1base	preQ1base	&nabla;	UNK	modified
+4Q	G	preQ1tRNA	7-aminomethyl-7-deazaguanosine	&notin;	PQ1	modified
+5Q	G	oQtRNA	epoxyqueuosine	&sigma;	UNK	modified
+6Q	G	galQtRNA	galactosyl-queuosine	9	UNK	modified
+7Q	G	manQtRNA	mannosyl-queuosine	8	UNK	modified
+8Q	G	gluQtRNA	gluQtRNA	&nsub;	UNK	modified
+9Q	G	preQ0base	preQ0base	&psi;	UNK	modified
+
+U	U	U	uridine	U	U	standard RNA
+0U	U	Um	2-O-methyluridine	J	MRU	modified
+1U	U	Y	pseudouridine	P	13P	modified
+2U	U	s2U	2-thiouridine	2	2SU	modified
+3U	U	m3U	3-methyluridine	&delta;	3MU	modified
+4U	U	s4U	4-thiouridine	4	4SU	modified
+5U	U	m5U	5-methyluridine	T	5MU	modified
+6U	U	D	dihydrouridine	D	H2U	modified
+7U	U	m1Y	1-methylpseudouridine	]	1MP	modified
+8U	U	m1acp3Y	1-methyl-3-(3-amino-3-carboxypropyl)pseudouridine	&alpha;	OCU	modified
+9U	U	Ym	2-O-methylpseudouridine	Z	MRP	modified
+10U	U	m3Y	3-methylpseudouridine	&kappa;	3MP	modified
+11U	U	se2U	se2U	&omega;	UNK	modified
+12U	U	s2Um	2-thio-2-O-methyluridine	&prod;	MSU	modified
+13U	U	m3Um	3,2-O-dimethyluridine	&sigma;	UNK	modified
+14U	U	acp3U	3-(3-amino-3-carboxypropyl)uridine	X	UNK	modified
+15U	U	acp3Um	3-(3-amino-3-carboxypropyl)methyluridine	&dagger;	UNK	modified
+16U	U	m5Um	5,2-O-dimethyluridine	\	2MU	modified
+17U	U	m5s2U	5-methyl-2-thiouridine	F	52U	modified
+18U	U	f5U	5-formyl-methyluridine	&sub;	UNK	modified
+19U	U	f5Um	5-formyl-O-dimethyluridine	&sup;	UNK	modified
+20U	U	f5s2U	5-formyl-2-thiouridine	&otimes;	UNK	modified
+21U	U	f5se2U	5-formyl-2-selenuoridine	&oplus;	UNK	modified
+22U	U	ho5U	5-hydroxyuridine	&prop;	5HU	modified
+23U	U	mo5U	5-methoxyuridine	5	UNK	modified
+24U	U	nm5U	5-methylaminouridine	&cup;	UNK	modified
+25U	U	nm5s2U	5-aminomethyl-2-thiouridine	&int;	SAU	modified
+26U	U	nm5se2U	5-aminomethyl-2-selenouridine	&pi;	UNK	modified
+27U	U	mnm5U	5-methylaminomethyluridine	{	5AU	modified
+28U	U	mnm5s2U	5-methylaminomethyl-2-thiouridine	S	ESU	modified
+29U	U	mnm5se2U	5-methylaminomethyl-2-selenouridine	&cong;	SEU	modified
+30U	U	cmnm5U	5-carboxymethylaminomethyluridine	!	5DU	modified
+31U	U	cmnm5Um	5-carboxymethylaminomethyl-2-O-methyluridine	)	UNK	modified
+32U	U	cmnm5s2U	5-carboxymethylaminomethyl-2-thiouridine	$	SCU	modified
+33U	U	cmnm5se2U	5-carboxymethylaminomethyl-2-selenouridine	&perp;	UNK	modified
+34U	U	cm5U	5-carboxymethyluridine	&loz;	5CU	modified
+35U	U	cm5s2U	5-carboxymethyl-2-thiouridine	&weierp;	UNK	modified
+36U	U	chm5U	5-(carboxyhydroxymethyl)uridine	&ge;	HCU	modified
+37U	U	mcm5U	5-methoxycarbonylmethyluridine	1	MEU	modified
+38U	U	mcmo5U	uridine 5-oxyacetic acid methyl ester	&upsilon;	OEU	modified
+39U	U	mcm5Um	5-methoxycarbonylmethyl-2-O-methyluridine	&cap;	UNK	modified
+40U	U	mcm5s2U	5-methoxycarbonylmethyl-2-thiouridine	3	SMU	modified
+41U	U	mchm5U	5-(carboxyhydroxymethyl)uridine methyl ester	,	UNK	modified
+42U	U	ncm5U	5-carbamoylmethyluridine	&	BCU	modified
+43U	U	ncm5Um	5-carbamoylmethyl-2-O-methyluridine	~	UNK	modified
+44U	U	tm5U	5-taurinomethyluridine	&forall;	5TU	modified
+45U	U	tm5s2U	5-taurinomethyl-2-thiouridine	&exist;	STU	modified
+46U	U	cmo5U	uridine 5-oxyacetic acid	V	OEU	modified
+47U	U	m5D	5-methyldihydrouridine	&rho;	DMU	modified
+
+# unknown
+UNK	A	?A	Unknown modified adenosine	H	UNK	unknown
+UNK	C	?C	Unknown modified cytidine	<	UNK	unknown
+UNK	G	?G	Unknown modified guanosine	;	UNK	unknown
+UNK	U	?U	Unknown modified uridine	N	UNK	unknown
+UNK	A	?dA	Unknown modified desoxyadenosine	H	UNK	unknown
+UNK	C	?dC	Unknown modified desoxycytidine	<	UNK	unknown
+UNK	G	?dG	Unknown modified desoxyguanosine	;	UNK	unknown
+UNK	U	?dU	Unknown modified desoxyuridine	N	UNK	unknown
+UNK	X	X	Unknown	.	UNK	unknown
+UNK	x	x	No one-letter-abbrev	x	x	unknown
+UNK	X	Xm	Unknown 2'OH methylated base	@	UNK	unknown
+
+# Desoxynucleotides
+a	A	dA	desoxyadenosine	a	a	standard DNA
+g	G	dG	desoxyguanosine	g	g	standard DNA
+c	C	dC	desoxycytosine	c	c	standard DNA
+t	U	dT	desoxythymidine	t	t	standard DNA
+
+# phosphorylated nucleotides
+AMP	A	AMP	Adenosine monophosphate	H	AMP	ligand
+ADP	A	ADP	Adenosine diphosphate	H	ADP	ligand
+ATP	A	ATP	Adenosine triphosphate	H	ATP	ligand
+CMP	C	CMP	Cytidine monophosphate	<	CMP	ligand
+CDP	C	CDP	Cytidine diphosphate	<	CDP	ligand
+CTP	C	CTP	Cytidine triphosphate	<	CTP	ligand
+GMP	G	GMP	Guanosine monophosphate	;	GMP	ligand
+GDP	G	GDP	Guanosine diphosphate	;	GDP	ligand
+GTP	G	GTP	Guanosine triphosphate	;	GTP	ligand
+UMP	U	UMP	Uridine monophosphate	N	UMP	ligand
+UDP	U	UDP	Uridine monophosphate	N	UDP	ligand
+UTP	U	UTP	Uridine monophosphate	N	UTP	ligand
+IMP	G	IMP	Inosine monophosphate	;	IMP	ligand
+IDP	G	IDP	Inosine diphosphate	;	IDP	ligand
+ITP	G	ITP	Inosine triphosphate	;	ITP	ligand
+TMP	U	TMP	Thymine monophosphate	N	TMP	ligand
+TDP	U	TDP	Thymine diphosphate	N	TDP	ligand
+TTP	U	TTP	Thymine triphosphate	N	TTP	ligand
+
+# desoxy phosphates
+AMP	A	dAMP	Deoxyadenosine monophosphate	H	AMP	ligand
+ADP	A	dADP	Deoxyadenosine diphosphate	H	ADP	ligand
+ATP	A	dATP	Deoxyadenosine triphosphate	H	ATP	ligand
+GMP	G	dGMP	Deoxyguanosine monophosphate	;	GMP	ligand
+GDP	G	dGDP	Deoxyguanosine diphosphate	;	GDP	ligand
+GTP	G	dGTP	Deoxyguanosine triphosphate	;	GTP	ligand
+CMP	C	dCMP	Deoxycytydine monophosphate	<	CMP	ligand
+CDP	C	dCDP	Deoxycytydine diphosphate	<	CDP	ligand
+CTP	C	dCTP	Deoxycytydine triphosphate	<	CTP	ligand
+UMP	U	dUMP	Deoxyuridine monophosphate	N	UMP	ligand
+UDP	U	dUDP	Deoxyuridine diphosphate	N	UDP	ligand
+UTP	U	dUTP	Deoxyuridine triphosphate	N	UTP	ligand
+TMP	U	dTMP	Deoxythymine monophosphate	N	TMP	ligand
+TDP	U	dTDP	Deoxythymine diphosphate	N	TDP	ligand
+TTP	U	dTTP	Deoxythymine triphosphate	N	TTP	ligand
+
+# mRNA-caps
+M7GPP_CAP	G	m7Gpp_cap	m7G-diphosphate-cap	x	GDP	cap
+
+# modified phosphate groups
+UNK	A	?A_mod_phos	Unknown adenosine phosphate modification	H	UNK	ligand
+UNK	C	?C_mod_phos	Unknown cytidine phosphate modification	<	UNK	ligand
+UNK	G	?G_mod_phos	Unknown guanosine phosphate modification	;	UNK	ligand
+UNK	U	?U_mod_phos	Unknown uridine phosphate modification	N	UNK	ligand
+UNK	U	?T_mod_phos	Unknown thymine phosphate modification	N	UNK	ligand
+
+UNK	A	?A_5'amino	Unknown adenosine phosphate modification	H	UNK	ligand
+UNK	C	?C_5'amino	Unknown cytidine phosphate modification	<	UNK	ligand
+UNK	G	?G_5'amino	Unknown guanosine phosphate modification	;	UNK	ligand
+UNK	U	?U_5'amino	Unknown uridine phosphate modification	N	UNK	ligand
+UNK	U	?T_5'amino	Unknown thymine phosphate modification	N	UNK	ligand
+UNK	U	?Tm_5'amino	Unknown thymine phosphate modification	N	UNK	ligand
+
+UNK	A	?dA_mod_phos	Unknown adenosine phosphate modification	H	UNK	ligand
+UNK	C	?dC_mod_phos	Unknown cytidine phosphate modification	<	UNK	ligand
+UNK	G	?dG_mod_phos	Unknown guanosine phosphate modification	;	UNK	ligand
+UNK	U	?dU_mod_phos	Unknown uridine phosphate modification	N	UNK	ligand
+UNK	U	?dT_mod_phos	Unknown thymine phosphate modification	N	UNK	ligand
+
+UNK	A	?A_mod_diphos	Unknown adenosine phosphate modification	H	UNK	ligand
+UNK	C	?C_mod_diphos	Unknown cytidine phosphate modification	<	UNK	ligand
+UNK	G	?G_mod_diphos	Unknown guanosine phosphate modification	;	UNK	ligand
+UNK	U	?U_mod_diphos	Unknown uridine phosphate modification	N	UNK	ligand
+UNK	U	?T_mod_diphos	tUnknown thymine phosphate modification	N	UNK	ligand
+
+UNK	A	?dA_mod_diphos	Unknown adenosine phosphate modification	H	UNK	ligand
+UNK	C	?dC_mod_diphos	Unknown cytidine phosphate modification	<	UNK	ligand
+UNK	G	?dG_mod_diphos	Unknown guanosine phosphate modification	;	UNK	ligand
+UNK	U	?dU_mod_diphos	Unknown uridine phosphate modification	N	UNK	ligand
+UNK	U	?dT_mod_diphos	Unknown thymine phosphate modification	N	UNK	ligand
+
+# synthetic
+#	ms2i6A	A	ms2i6A	2-methylthio-N-6(A2-isopentenyl)-adenosine	x	UNK	synthetic
+UNK	G	d8fG	d8fG	x	UNK	synthetic
+UNK	G	d8oG	d8oG	x	UNK	synthetic
+UNK	U	3meo5mU	3meo5mU	x	UNK	synthetic
+UNK	C	3meo5mC	3meo5mC	x	UNK	synthetic
+UNK	A	3meoA	3meoA	x	UNK	synthetic
+UNK	G	3meoG	3meoG	x	UNK	synthetic
+UNK	G	dN72G	dN72G	x	UNK	synthetic
+UNK	C	dm5C	dm5C	x	UNK	synthetic
+UNK	G	dm8G	dm8G	x	UNK	synthetic
+UNK	U	dmo5U	dmo5U	x	UNK	synthetic
+UNK	G	dm6G	dm6G	x	UNK	synthetic
+UNK	U	tfT	tfT	x	UNK	synthetic
+UNK	A	tfA	tfA	x	UNK	synthetic
+UNK	C	5nitroC	5nitroC	x	UNK	synthetic
+UNK	U	d5nitroU	d5nitroU	x	UNK	synthetic
+UNK	U	2mcrabT	2mcrabT	x	UNK	synthetic
+UNK	A	N2A	N2A	x	UNK	synthetic
+UNK	A	dN2A	dN2A	x	UNK	synthetic
+UNK	U	5propU	5propU	x	UNK	synthetic
+UNK	U	5propnU	5propnU	x	UNK	synthetic
+UNK	U	5propU	5propU	x	UNK	synthetic
+UNK	U	2ofluore-m5U	2ofluore-m5U	x	UNK	synthetic
+UNK	G	2ofluore-m7G	2ofluore-m7G	x	UNK	synthetic
+UNK	C	dethC	dethC	x	UNK	synthetic
+UNK	U	5fluoroU	5fluoroU	x	UNK	synthetic
+UNK	C	5fluoroC	5fluoroC	x	UNK	synthetic
+UNK	X	dhOroP	dhOroP	x	UNK	synthetic
+UNK	G	7fluorobenzylG	7fluorobenzylG	x	UNK	synthetic
+UNK	C	2oNC	2oNC	x	UNK	synthetic
+UNK	C	2oNAcC	2oNAcC	x	UNK	synthetic
+UNK	G	disoG	disoG	x	UNK	synthetic
+UNK	U	de3T	de3T	x	UNK	synthetic
+UNK	U	o6U	o6U	x	UNK	synthetic
+UNK	G	2ofluoro-8oG	2ofluoro-8oG	x	UNK	synthetic
+UNK	A	3pADP	3pADP	x	UNK	synthetic
+UNK	C	23pC	23pC	x	UNK	synthetic
+UNK	A	23pA	23pA	x	UNK	synthetic
+UNK	G	35pG	35pG	x	UNK	synthetic
+UNK	G	d35pG	d35pG	x	UNK	synthetic
+UNK	U	d3pT	d3pT	x	UNK	synthetic
+UNK	A	d5mpA	d5mpA	x	UNK	synthetic
+UNK	A	VA	VA	x	UNK	synthetic
+UNK	C	d5mpC	d5mpC	x	UNK	synthetic
+UNK	G	phosphonoG	phosphonoG	x	UNK	synthetic
+UNK	U	m5Ueth	m5Ueth	x	UNK	synthetic
+UNK	U	dmo5U	dmo5U	x	UNK	synthetic
+UNK	U	dmh5U	dmh5U	x	UNK	synthetic
+
+#stereoisomers
+UNK	U	arabinoseU	Uridine stereoisomer	N	UNK	stereoisomer
+UNK	A	arabinoseA	Adenosine stereoisomer	H	UNK	stereoisomer
+UNK	G	arabinoseG	Guanosine stereoisomer	;	UNK	stereoisomer
+UNK	C	arabinoseC	Cytidine stereoisomer	<	UNK	stereoisomer
+UNK	A	alpha-dA	Adenosine stereoisomer	H	UNK	stereoisomer
+
+# Insertion
+_	_	_	insertion	_	_	insertion
+
+# Missing residue
+-	-	-	missing residue	-	-	missing
+
+# empty space for representing modifications in new nomenclature
+# 	 	 	empty space	 	 	 
+

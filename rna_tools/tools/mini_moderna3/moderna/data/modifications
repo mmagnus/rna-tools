@@ -1,0 +1,215 @@
+# modified base name | base name | removed atoms | link atoms from fragment | link atoms from normal base  | pdb file with fragment name | new name for modified residue in pdb
+#
+#
+#
+# ADENINE
+#
+Am | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m1A | A |  | C2,N1,C6 | C2,N1,C6 | C2N1C6_m.pdb | UNK
+m2A | A |  | N1,C2,N3 | N1,C2,N3 | N1C2N3_m.pdb | UNK
+Arp | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_rp.pdb | UNK
+m1Am | A |  | C2,N1,C6 | C2,N1,C6 | C2N1C6_m.pdb | UNK
+m1Am | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+g6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_g.pdb | UNK
+m6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_m.pdb | UNK
+m62A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_mm.pdb | UNK
+m66A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_mm.pdb | UNK
+m6Am | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_m.pdb | UNK
+m6Am | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m62Am | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_mm.pdb | UNK
+m62Am | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m66Am | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_mm.pdb | UNK
+m66Am | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+I | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_O.pdb | UNK
+m1I | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_O.pdb | UNK
+m1I | A |  | C2,N1,C6 | C2,N1,C6 | C2N1C6_m.pdb | UNK
+Im | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_O.pdb | UNK
+Im | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m1Im | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_O.pdb | UNK
+m1Im | A |  | C2,N1,C6 | C2,N1,C6 | C2N1C6_m.pdb | UNK
+m1Im | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+t6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_t.pdb | UNK
+m6t6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_m_t.pdb | UNK
+ms2t6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_t.pdb | UNK
+ms2t6A | A |  | N1,C2,N3 | N1,C2,N3 | N1C2N3_sm.pdb | UNK
+ms2m6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_m.pdb | UNK
+ms2m6A | A |  | N1,C2,N3 | N1,C2,N3 | N1C2N3_sm.pdb | UNK
+ms2hn6A | A |  | N1,C2,N3 | N1,C2,N3 | N1C2N3_sm.pdb | UNK
+ms2hn6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_hn.pdb | UNK
+i6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_i.pdb | UNK
+ms2io6A | A |  | N1,C2,N3 | N1,C2,N3 | N1C2N3_sm.pdb | UNK
+ms2io6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_io.pdb | UNK
+ms2i6A | A |  | N1,C2,N3 | N1,C2,N3 | N1C2N3_sm.pdb | UNK
+ms2i6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_i.pdb | UNK
+io6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_io.pdb | UNK
+hn6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_N6_hn.pdb | UNK
+ac6A | A | N6 | N1,C6,C5 | N1,C6,C5 | N1C6C5_ac.pdb | UNK
+dA | A | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+?A | A |  | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+#
+#
+#
+# CYTOSINE
+#
+Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+k2C | C | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_k.pdb | UNK
+s2C | C | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+m3C | C |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+m4C | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_m.pdb | UNK
+m5C | C |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_m.pdb | UNK
+ac4C | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_ac.pdb | UNK
+ac4Cm | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_ac.pdb | UNK
+ac4Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m4Cm | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_m.pdb | UNK
+m4Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m42C | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_mm.pdb | UNK
+m44C | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_mm.pdb | UNK
+m42Cm | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_mm.pdb | UNK
+m42Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m44Cm | C | N4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_N4_mm.pdb | UNK
+m44Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m5Cm | C |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_m.pdb | UNK
+m5Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+f5C | C |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_f.pdb | UNK
+f5Cm | C |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_f.pdb | UNK
+f5Cm | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+hm5C | C |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mh.pdb | UNK
+dC | C | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+?C | C |  | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+#
+#
+#
+# GUANINE
+#
+Gm | G | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m1G | G |  | C2,N1,C6 | C2,N1,C6 | C2N1C6_m.pdb | UNK
+m2G | G | N2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_N2_m.pdb | UNK
+m22G | G | N2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_N2_mm.pdb | UNK
+m22Gm | G | N2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_N2_mm.pdb | UNK
+m22Gm | G | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+Grp | G | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_rp.pdb | UNK
+m7G | G |  | C5,N7,C8 | C5,N7,C8 | C5N7C8_m.pdb | UNK
+m7m2G | G |  | C5,N7,C8 | C5,N7,C8 | C5N7C8_m.pdb | UNK
+m7m2G | G | N2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_N2_m.pdb | UNK
+m7m22G | G |  | C5,N7,C8 | C5,N7,C8 | C5N7C8_m.pdb | UNK
+m7m22G | G | N2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_N2_mm.pdb | UNK
+imG | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_i.pdb | UNK
+imG | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+m1Gm | G |  | C2,N1,C6 | C2,N1,C6 | C2N1C6_m.pdb | UNK
+m1Gm | G | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m2Gm | G | N2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_N2_m.pdb | UNK
+m2Gm | G | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+mimG | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_mi.pdb | UNK
+mimG | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+imG-14 | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_i.pdb | UNK
+imG2 | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_mi.pdb | UNK
+yW | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_yW.pdb | UNK
+yW | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+oHyW | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_ohyW.pdb | UNK
+oHyW | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+oHyW* | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_ohyW_star.pdb | UNK
+oHyW* | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+oHyWx | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_ohyW_star.pdb | UNK
+oHyWx | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+o2yW | G |  | N1,C2,N2 | N1,C2,N2 | N1C2N2_o2yW.pdb | UNK
+o2yW | G |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+dG | G | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+G+ | G | N7 | C4,C5,C8 | C4,C5,C8 | C5C7C8_arch.pdb | UNK
+?G | G |  | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+#
+#
+#
+# URACIL
+#
+Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+Y | U | N1,C2,N3,O2,O4 | C4,C5,C6 | C2,N1,C6 | C4C5C6_Y.pdb | UNK
+s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+m3U | U |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+s4U | U | O4 | N3,C4,C5 | N3,C4,C5 | N3C4C5_s.pdb | UNK
+m5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_m.pdb | UNK
+D | U | N3,C4,C5,O2,O4 | C2,N1,C6 | C2,N1,C6 | C2N1C6_D.pdb | UNK
+m1Y | U | N1,C2,N3,O2,O4 | C4,C5,C6 | C2,N1,C6 | C4C5C6_m1Y.pdb | UNK
+m1acp3Y | U | N1,C2,N3,O2,O4 | C4,C5,C6 | C2,N1,C6 | C4C5C6_m1acp3Y.pdb | UNK
+Ym | U | N1,C2,N3,O2,O4 | C4,C5,C6 | C2,N1,C6 | C4C5C6_Y.pdb | UNK
+Ym | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m3Y | U | N1,C2,N3,O2,O4 | C4,C5,C6 | C2,N1,C6 | C4C5C6_m3Y.pdb | UNK
+se2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_se.pdb | UNK
+s2Um | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+s2Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m3Um | U |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_m.pdb | UNK
+m3Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+acp3U | U |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_acp.pdb | UNK
+acp3Um | U |  | C2,N3,C4 | C2,N3,C4 | C2N3C4_acp.pdb | UNK
+acp3Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m5Um | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_m.pdb | UNK
+m5Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+m5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_m.pdb | UNK
+m5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+f5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_f.pdb | UNK
+f5Um | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_f.pdb | UNK 
+f5Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+f5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_f.pdb | UNK
+f5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+f5se2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_f.pdb | UNK
+f5se2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_se.pdb | UNK
+ho5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_oh.pdb | UNK
+mo5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_om.pdb | UNK
+nm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mn.pdb | UNK
+nm5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mn.pdb | UNK
+nm5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+nm5se2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mn.pdb | UNK
+nm5se2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_se.pdb | UNK
+mnm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnm.pdb | UNK
+mnm5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnm.pdb | UNK
+mnm5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+mnm5se2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnm.pdb | UNK
+mnm5se2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_se.pdb | UNK
+cmnm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnmc.pdb | UNK
+cmnm5Um | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnmc.pdb | UNK
+cmnm5Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+cmnm5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnmc.pdb | UNK
+cmnm5s2U |  U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+cmnm5se2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mnmc.pdb | UNK
+cmnm5se2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_se.pdb | UNK
+cm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mc.pdb | UNK
+cm5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mc.pdb | UNK
+cm5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+chm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mhc.pdb | UNK
+mcm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mcm.pdb | UNK
+mcmo5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_omcm.pdb | UNK
+mcm5Um | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mcm.pdb | UNK
+mcm5Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+mcm5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mcm.pdb | UNK
+mcm5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+mchm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mhcm.pdb | UNK
+ncm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mcn.pdb | UNK
+ncm5Um | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mcn.pdb | UNK
+ncm5Um | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p_O2p_m.pdb | UNK
+tm5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mt.pdb | UNK
+tm5s2U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_mt.pdb | UNK
+tm5s2U | U | O2 | N1,C2,N3 | N1,C2,N3 | N1C2N3_s.pdb | UNK
+cmo5U | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_omc.pdb | UNK
+m5D | U | N3,C4,C5,O2,O4 | C2,N1,C6 | C2,N1,C6 | C2N1C6_m5D.pdb | UNK
+dT | U |  | C4,C5,C6 | C4,C5,C6 | C4C5C6_C7.pdb | UNK
+dT | U | O2' | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+?U | U |  | C1',C2',C3' | C1',C2',C3' | C1pC2pC3p.pdb | UNK
+#
+#
+#
+# QUEOSINE
+#
+QtRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_QtRNA.pdb | UNK
+preQ0tRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_preQ0tRNA.pdb | UNK
+preQ1tRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_preQ1tRNA.pdb | UNK
+oQtRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_oQtRNA.pdb | UNK
+galQtRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_galQtRNA.pdb | UNK
+manQtRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_manQtRNA.pdb | UNK
+gluQtRNA | G | N1,C2,N2,N3,C5,C6,O6,N7 | C4,N9,C8 | C4,N9,C8 | C4N9C8_gluQtRNA.pdb | UNK
+#
+#
+#
+# MISSING
+#
+# Qbase
+# preQ1base
+# preQ0base

@@ -1,0 +1,12 @@
+HETATM    1  C6  UNK A   1      -1.442   2.005   4.145  0.00  0.00           C
+HETATM    2  C5  UNK A   1      -2.016   2.901   5.073  0.00  0.00           C
+HETATM    3  C4  UNK A   1      -1.108   3.718   5.782  0.00  0.00           C
+HETATM    4  C7  UNK A   1      -3.486   2.946   5.272  0.00  0.00           C
+CONECT    1    2
+CONECT    1    2
+CONECT    2    1
+CONECT    2    1
+CONECT    2    3    4
+CONECT    3    2
+CONECT    4    2
+END
