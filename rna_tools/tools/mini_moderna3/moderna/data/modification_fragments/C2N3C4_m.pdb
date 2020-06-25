@@ -1,0 +1,9 @@
+HETATM    1  N3  UNK A   1       0.262   3.621   5.595  0.00  0.00           N
+HETATM    2  C2  UNK A   1       0.731   2.668   4.752  0.00  0.00           C
+HETATM    3  C4  UNK A   1      -1.098   3.782   5.746  0.00  0.00           C
+HETATM    4  C3  UNK A   1       1.157   4.499   6.335  0.00  0.00           C
+CONECT    1    2    3    4
+CONECT    2    1
+CONECT    3    1
+CONECT    4    1
+END

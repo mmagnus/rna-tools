@@ -1,0 +1,39 @@
+HETATM    1  C1' UNK A   1      -3.177   1.501  -1.303  0.00  0.00           C
+HETATM    2  C2' UNK A   1      -1.716   1.052  -1.602  0.00  0.00           C
+HETATM    3  O2' UNK A   1      -0.775   1.943  -0.944  0.00  0.00           O
+HETATM    4  C3' UNK A   1      -1.718   1.056  -3.152  0.00  0.00           C
+HETATM    5  C1R UNK A   1       0.619   1.642  -1.163  0.00  0.00           C
+HETATM    6  C2R UNK A   1       1.504   2.626  -0.406  0.00  0.00           C
+HETATM    7  O2R UNK A   1       2.792   2.543  -0.995  0.00  0.00           O
+HETATM    8  C3R UNK A   1       1.494   2.016   1.000  0.00  0.00           C
+HETATM    9  O3R UNK A   1       2.782   2.200   1.572  0.00  0.00           O
+HETATM   10  C4R UNK A   1       1.321   0.498   0.752  0.00  0.00           C
+HETATM   11  O4R UNK A   1       1.027   0.371  -0.646  0.00  0.00           O
+HETATM   12  C5R UNK A   1       0.235  -0.061   1.704  0.00  0.00           C
+HETATM   13  O5R UNK A   1       0.668   0.059   2.967  0.00  0.00           O
+HETATM   14  OPx UNK A   1      -1.351   0.601   4.313  0.00  0.00           O
+HETATM   15  OPy UNK A   1       0.912  -0.070   5.379  0.00  0.00           O
+HETATM   16  OPz UNK A   1      -0.577  -1.771   4.117  0.00  0.00           O
+HETATM   17  PR  UNK A   1      -0.082  -0.301   4.259  0.00  0.00           P
+CONECT    1    2
+CONECT    2    1    3    4
+CONECT    3    2    5
+CONECT    4    2
+CONECT    5    3    6   11
+CONECT    6    5    7    8
+CONECT    7    6
+CONECT    8    6    9   10
+CONECT    9    8
+CONECT   10    8   11   12
+CONECT   11    5   10
+CONECT   12   10   13
+CONECT   13   12   17
+CONECT   14   17
+CONECT   15   17
+CONECT   15   17
+CONECT   16   17
+CONECT   17   13   14
+CONECT   17   15
+CONECT   17   15
+CONECT   17   16
+END

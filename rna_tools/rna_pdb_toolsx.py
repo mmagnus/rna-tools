@@ -560,10 +560,7 @@ if __name__ == '__main__':
         if list != type(args.file):
             args.file = [args.file]
         ##################################
-        try:
-            from moderna import *
-        except ImportError:
-            raise Exception('To use this functionality please install ModeRNA, e.g. pip install moderna')
+        from rna_tools.tools.mini_moderna3.moderna import *
 
         for f in args.file:
             if args.inplace:

@@ -1,0 +1,158 @@
+ah0001Ha.pdb	A
+ah0005Hb.pdb	B
+ah0010Hb.pdb	B
+ah0012Ha.pdb	A
+ahh0114Ha.pdb	A
+ar0001H.pdb	A	B
+ar0002H.pdb	A	B
+ar0004Hab.pdb	A	B
+ar0005H.pdb	A
+ar0006H.pdb	A	B
+ar0007H.pdb	A	B
+ar0008H.pdb	A	B
+ar0009Hab.pdb	A	B
+ar0011H.pdb	A	B
+ar0012H.pdb	A	B
+ar0013Hab.pdb	A	B
+ar0021Hcd.pdb	C	D
+ar0022H.pdb	A	B
+ar0023H.pdb	A	B
+ar0024Hab.pdb	A	B
+ar0026H.pdb	A	B
+ar0027H.pdb	A	B
+ar0028Hab.pdb	A	B
+ar0030H.pdb	A
+ar0032H.pdb	A	B
+ar0035Hab.pdb	A	B
+ar0038H.pdb	A	B
+ar0040H.pdb	A	B
+ar0041H.pdb	A	B
+ar0044H.pdb	A	B
+ar0048Hab.pdb	A	B
+ar0049Hab.pdb	A	B
+arb002H.pdb	A	B
+arb003Hab.pdb	A	B
+arb004H.pdb	A
+arb005H.pdb	A
+arh074H.pdb	A	B
+arhb90H.pdb	A
+arl037H.pdb	A
+arl048H.pdb	A	B
+arl062Hab.pdb	A	B
+arn035H.pdb	A	B
+dr0004Ha.pdb	A
+dr0005H.pdb	A	B
+dr0007H.pdb	A	B
+dr0008H.pdb	A	B
+dr0010H.pdb	A	B
+drb002H.pdb	A
+drb003H.pdb	A
+drb005H.pdb	A
+drb007H.pdb	A	B
+drb008H.pdb	A
+drb018H.pdb	A	B
+drd004H.pdb	A	B
+pd0345Hr.pdb	R
+ph0002Hr.pdb	R
+ph0003He.pdb	E
+ph0009Hr.pdb	R
+pr0001Hrs.pdb	R	S
+pr0002Hrs.pdb	R	S
+pr0007Hm.pdb	M
+pr0008Hde.pdb	D	E
+pr0009Hwpart.pdb	W
+pr0010Hb.pdb	B
+pr0011Hp.pdb	P
+pr0017Hde.pdb	D	E
+pr0018Hmn.pdb	M	N
+pr0020Hcd.pdb	C	D
+pr0022Hcd.pdb	C	D
+pr0033Hb.pdb	B
+pr0034Hb.pdb	B
+pr0036Hr.pdb	R
+pr0037Hb.pdb	B
+pr0046Huy.pdb	U	Y
+pr0047Hc.pdb	C
+pr0051Hd.pdb	D
+pr0055Hc.pdb	C
+pr0058Hd.pdb	D
+pr0060Hb.pdb	B
+pr0063Hz.pdb	Z
+pr0065Hr.pdb	R
+pr0067Hb.pdb	B
+pr0071Hwpart.pdb	W
+pr0072Hwpart.pdb	W
+pr0073Hb.pdb	B
+pr0075Hab.pdb	A	B
+pr0078Ho.pdb	O
+pr0080Hc.pdb	C
+pr0081Hc.pdb	C
+pr0087Hbc.pdb	B	C
+pr0091He.pdb	E
+pr0094Hc.pdb	C
+pr0099H3.pdb	3
+pr0100Hg.pdb	G
+pr0101Hef.pdb	E	F
+pr0105Hcde.pdb	C	D	E
+pr0106Hbc.pdb	B	C
+pr0107Hbcde.pdb	B	C	D	E
+pr0108Hc.pdb	C
+pr0109Hcd.pdb	C	D
+pr0111Ha.pdb	A
+pr0112Hb.pdb	B
+pr0113Hd.pdb	D
+pr0122Hr.pdb	R
+pr0124Hc.pdb	C
+pr0128Hgj.pdb	G	J
+pr0131Hcd.pdb	C	D
+pr0134Hbc.pdb	B	C
+pr0141Hab.pdb	A	B
+pr0143He.pdb	E
+prv001Hm.pdb	M
+prv002Hp.pdb	P
+prv004Hn.pdb	N
+prv007Hb.pdb	B
+prv010Hrs.pdb	R	S
+prv020Hbcd.pdb	B	C
+prv021Hrs.pdb	R	S
+ptr004Ht.pdb	T
+ptr016Hq.pdb	Q
+rr0005Hb.pdb	B
+rr0009Hc.pdb	C
+rr0012Hbc.pdb	B	C
+rr0019Hde.pdb	D	E
+rr0082H09.pdb	0	9
+rr0096Hawx.pdb	A	W	X
+uh0001Ha.pdb	A
+uh0006Ha.pdb	A
+uhj055Ha.pdb	A
+uhx026Ha.pdb	A
+ur0009H.pdb	A
+ur0012Ha.pdb	A
+ur0014H.pdb	A	B	C	D
+ur0015H.pdb	A	B
+ur0019H.pdb	A
+ur0020H.pdb	A
+ur0025H.pdb	S	L
+ur0026H.pdb	A
+ur0028Hab.pdb	A	B
+ur0029H.pdb	A	B
+ur0031H.pdb	A
+ur0035H.pdb	A
+ur0038H.pdb	A	C
+ur0039H.pdb	A
+ur0040H.pdb	A
+ur0044H.pdb	A
+ur0051H.pdb	X
+ur0052H.pdb	X
+urb003H.pdb	A
+urb008H.pdb	A	B
+urb016H.pdb	A	B
+urc002H.pdb	A
+urf042H.pdb	A
+url029H.pdb	A	B
+url050Hab.pdb	A	B
+url051H.pdb	A
+url064Ha.pdb	A
+urx063H.pdb	A	B
+urx075H.pdb	A	B
