@@ -319,17 +319,19 @@ Nucleic Acids Research. 2019
 
 ## Used in papers
 
-1. M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). *RNA 3D structure prediction guided by independent folding of homologous sequences*, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA
+[7] Z. Miao, R. W. Adamiak, M. Antczak, M. J. Boniecki, J. M. Bujnicki, S.-J. Chen, C. Y. Cheng, Y. Cheng, F.-C. Chou, R. Das, N. V. Dokholyan, F. Ding, C. Geniesse, Y. Jiang, A. Joshi, A. Krokhotin, M. Magnus, O. Mailhot, F. Major, T. H. Mann, P. Piatkowski, R. Pluta, M. Popenda, J. Sarzynska, L. Sun, M. Szachniuk, S. Tian, J. Wang, J. Wang, A. M. Watkins, J. Wiedemann, Y. Xiao, X. Xu, J. D. Yesselman, D. Zhang, Y. Zhang, Z. Zhang, C. Zhao, P. Zhao, Y. Zhou, T. Zok, A. Zyła, A. Ren, R. T. Batey, B. L. Golden, L. Huang, D. M. Lilley, Y. Liu, D. J. Patel, and E. Westhof, “RNA-Puzzles Round IV: 3D structure predictions of four ribozymes and two aptamers.,” RNA, p. rna.075341.120, May 2020.
 
-2. Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell
+[6] M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). *RNA 3D structure prediction guided by independent folding of homologous sequences*, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA
 
-3. Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
+[5] Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell
 
-4. Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
+[4] Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
 
-5. Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling 4with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
+[3] Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
 
-6. Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
+[2] Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling 4with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
+
+[1] Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
 
 ## RNA Puzzle Submission
 
@@ -496,3 +498,13 @@ The index in a form of a searchable table can be found [here](https://github.com
 
 - https://github.com/mmagnus/rna-tools/blob/master/notes/fig3-manuscript.ipynb
 - https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb
+## References
+Components of rna-tools are based upon the following pieces of scientific literature:
+
+P. J. A. Cock, T. Antao, J. T. Chang, B. A. Chapman, C. J. Cox, A. Dalke, I. Friedberg, T. Hamelryck, F. Kauff, B. Wilczynski, and M. J. L. de Hoon, “Biopython: freely available Python tools for computational molecular biology and bioinformatics.,” Bioinformatics, vol. 25, no. 11, pp. 1422–1423, Jun. 2009.
+
+M. Rother, K. M. Rother, T. Puton, and J. M. Bujnicki, “ModeRNA: a tool for comparative modeling of RNA 3D structure.,” Nucleic Acids Research, vol. 39, no. 10, pp. 4007–4022, May 2011.
+
+T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifier of contacts in RNA 3D structures ased on a comparative analysis of various classification schemes.,” Nucleic Acids Research, vol. 42, no. 19, pp. e151–e151, Oct. 2014.
+
+and more, see seperate readmes.

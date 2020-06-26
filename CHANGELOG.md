@@ -4,8 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# Current
+# 3.4 200626
 
+200626
+
+- rna_pdb_toolsx.py: --undo --suffix --hide-warnings
+- rna_pdb_toolsx.py: add fetch RNA-Puzzles standardized_dataset
+- rna_pdb_toolsx.py: --to-mol2
+- include mini-moderna3
+- add spotifier https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier 
+- add webserver-engine https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/webserver-engine 
+
+# 3.2
+
+- 200330 read the docs py3 now https://readthedocs.org/projects/rna-tools/builds/
 - 190821
     - Add `rna_alignment/rna_align_foldability.py`
     - Seq.py now you can set .name
