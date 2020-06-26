@@ -94,6 +94,10 @@ def get_parser():
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--get-seq', help='get seq', action='store_true')
+
+    parser.add_argument('--color-seq', help='color seq, works with --get-seq', action='store_true')
+
+    parser.add_argument('--ignore-files', help='files to be ingored, .e.g, \'solution\'')
     
     parser.add_argument('--compact',
                         help=textwrap.dedent("""with --get-seq, get it in compact view'
@@ -296,12 +300,12 @@ if __name__ == '__main__':
 
             # with # is easier to grep this out
             if args.fasta:
-                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta, addfn=s.fn) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta, addfn=s.fn, color=args.color_seq) + '\n'
             elif args.oneline:
-                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first).strip() + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, color=args.color_seq).strip() + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
             else:
                 output += '# ' + os.path.basename(f.replace('.pdb', '')) + '\n'
-                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first) + '\n'
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, color=args.color_seq) + '\n'
 
             try:
                 sys.stdout.write(output)
@@ -563,6 +567,10 @@ if __name__ == '__main__':
         from rna_tools.tools.mini_moderna3.moderna import *
 
         for f in args.file:
+            if args.ignore_files:
+                if args.ignore_files in f:
+                    continue
+                
             if args.inplace:
                 shutil.copy(f, f + '~')  # create a backup copy if inplace
 
@@ -597,6 +605,8 @@ if __name__ == '__main__':
             # write: inplace
             if args.inplace:
                 # ftf now is f, get ready for the final output
+                if args.suffix:
+                    f = f.replace('.pdb', '_' + args.suffix + '.pdb')
                 shutil.copy(ftf, f)
             else:  # write: to stdout
                 try:

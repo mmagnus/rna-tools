@@ -60,6 +60,10 @@ Example::
     > H:1-10
     CCGGCAGCCU
 
+in some more fancy way ;-)
+
+.. image:: ../pngs/getseqcolor.png
+
 get secondary structures of your PDB files
 --------------------------------------------
 

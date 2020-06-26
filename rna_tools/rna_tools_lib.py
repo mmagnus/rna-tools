@@ -345,7 +345,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def get_seq(self, compact=False, chainfirst=False, fasta=False, addfn=''):
+    def get_seq(self, compact=False, chainfirst=False, fasta=False, addfn='', color=False):
         """Get seq (v2) gets segments of chains with correct numbering
 
         Run::
@@ -397,6 +397,24 @@ class RNAStructure:
                     resi_prev = resi
                     chain_prev = chain_curr
                     
+        def color_seq(seq, color):
+            if not color:
+                return seq
+            else:
+                from termcolor import colored
+                seqc = ''
+                for s in seq:
+                    if s in ['G']:
+                        seqc += colored(s, 'green')
+                    if s in ['G']:
+                        seqc += colored(s, 'red')
+                    if s in ['T', 'U']:
+                        seqc += colored(s, 'blue')                        
+                    if s in ['C']:
+                        seqc += colored(s, 'yellow')                        
+                return seqc
+            
+
         for c in list(chains.keys()):
             header = c + ':' + str(chains[c]['resi'][0]) + '-'  # add A:1-
             for i in range(1, len(chains[c]['resi'])):  # start from second element
@@ -410,18 +428,17 @@ class RNAStructure:
             txt = ''
             for c in list(chains.keys()):
                 if chainfirst:
-                    txt += '' + chains[c]['header'].ljust(15) + ''.join(chains[c]['seq']) + ' '
+                    txt += '' + chains[c]['header'].ljust(15) + color_seq(''.join(chains[c]['seq']), color) + ' '
                 elif fasta:
-                    txt += ''.join(chains[c]['seq']) + ' '
+                    txt += color_seq(''.join(chains[c]['seq']), color) + ' '
                 else:
-                    txt += ''.join(chains[c]['seq']) + ' # ' + chains[c]['header'] + ' '
-
+                    txt += color_seq(''.join(chains[c]['seq']), color) + ' # ' + chains[c]['header'] + ' '
             return txt.strip()
         else:
             txt = ''
             for c in list(chains.keys()):
                 txt += '>' + addfn + chains[c]['header'] + '\n'
-                txt += ''.join(chains[c]['seq']) + '\n'
+                txt += color_seq(''.join(chains[c]['seq']), color) + '\n' # color ;-)
             return txt.strip()
 
     def __get_seq(self):
