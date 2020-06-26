@@ -77,8 +77,8 @@ for atom in mol:
 
 """
 import os, re
-from .MolTopologies import *
-from .MolGraphParser import *
+from rna_tools.tools.mini_moderna3.moderna.analyze.MolTopologies import *
+from rna_tools.tools.mini_moderna3.moderna.analyze.MolGraphParser import *
 
 PERMUTATIONS = (
     [[0]],
