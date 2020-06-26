@@ -1,4 +1,6 @@
-ClaRNA 2.0
+This is ClaRNA 3.0 , prepared by @mmagnus for rna-tools that works with Python3.
+
+ClaRNA
 ===========================================================
 
 Cite & authors:
