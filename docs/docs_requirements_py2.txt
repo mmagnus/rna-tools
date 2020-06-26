@@ -1,5 +1,5 @@
 numpy
-biopython
+biopython==1.74
 forgi
 progressbar2
 

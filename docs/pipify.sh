@@ -1,6 +1,9 @@
 #!/bin/zsh
 
-cd ../rna-tools-pip # run this script from the root package level
+# created with git clone rna-tools rna-tools-pip
+cd ..
+git clone rna-tools rna-tools-pip
+cd rna-tools-pip # run this script from the root package level
 git pull --all
 
 # strip some data for pip package to keep it under 60 MB
