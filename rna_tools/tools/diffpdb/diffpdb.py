@@ -88,7 +88,7 @@ def do_file(fn):
 def get_parser():
     parser = argparse.ArgumentParser(description=__doc__ + '\n' + '  method: %s ' % DIFF_TOOL, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--names', help='take only atom residues names', action='store_true')
-    parser.add_argument('--names_and_resi', help='take only atom residues names', action='store_true')
+    parser.add_argument('--names-and-resi', help='take only atom residues names', action='store_true')
     parser.add_argument('--htmlout', help='take only atom residues names', action='store_true')
     parser.add_argument('--method', help='method e.g. `diff`')#, action='store_true')
     parser.add_argument('--verbose', help='be verbose', action='store_true')
