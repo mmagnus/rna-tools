@@ -611,7 +611,9 @@ if __name__ == '__main__':
                 # ftf now is f, get ready for the final output
                 if args.suffix:
                     f = f.replace('.pdb', '_' + args.suffix + '.pdb')
+                # rpr on the file
                 shutil.copy(ftf, f)
+                os.system('rna_pdb_toolsx.py --rpr --no-progress-bar --inplace ' + f)
             else:  # write: to stdout
                 try:
                     sys.stdout.write(output)
