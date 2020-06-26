@@ -129,7 +129,7 @@ Table of Contents
       * [Python Classes](#python-classes)
       * [Other](#other)
    * [Index of Jupyter Notebooks](#index-of-jupyters)   
-
+   * [References](#references)
 
 ## Tour
 
