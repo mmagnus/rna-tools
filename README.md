@@ -139,23 +139,27 @@ Take a tour http://mmagnus.github.io/rna-tools/#/
 
 ```
 usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]
-usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]
-                         [--renum-residues-dirty] [--delete-anisou]
+usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
+                         [--renum-atoms] [--renum-residues-dirty] [--undo]
+                         [--delete-anisou] [--fix] [--to-mol2]
                          [--split-alt-locations] [-c] [--is-pdb] [--is-nmr]
                          [--nmr-dir NMR_DIR] [--un-nmr] [--orgmode]
                          [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
-                         [--get-seq] [--hide-warnings] [--compact] [--get-ss]
-                         [--rosetta2generic] [--get-rnapuzzle-ready] [--rpr]
-                         [--no-hr] [--renumber-residues]
-                         [--dont-rename-chains] [--dont-fix-missing-atoms]
+                         [--get-seq] [--color-seq]
+                         [--ignore-files IGNORE_FILES] [--compact]
+                         [--hide-warnings] [--get-ss] [--rosetta2generic]
+                         [--get-rnapuzzle-ready] [--rpr] [--no-hr]
+                         [--renumber-residues] [--dont-rename-chains]
+                         [--dont-fix-missing-atoms]
                          [--dont-report-missing-atoms] [--collapsed-view]
                          [--cv] [-v] [--replace-hetatm] [--inplace]
-                         [--mutate MUTATE] [--edit EDIT]
+                         [--suffix SUFFIX] [--mutate MUTATE] [--edit EDIT]
                          [--rename-chain RENAME_CHAIN]
                          [--swap-chains SWAP_CHAINS]
                          [--replace-chain REPLACE_CHAIN] [--delete DELETE]
                          [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
                          [--uniq UNIQ] [--chain-first] [--oneline] [--fasta]
+                         [--cif2pdb] [--pdb2cif]
                          file [file ...]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
@@ -183,9 +187,13 @@ optional arguments:
   -h, --help            show this help message and exit
   --version
   -r, --report          get report
+  --no-progress-bar     for --no-progress-bar for --rpr
   --renum-atoms         renumber atoms, tested with --get-seq
   --renum-residues-dirty
+  --undo                undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)
   --delete-anisou       remove files with ANISOU records, works with --inplace
+  --fix                 fix a PDB file, ! external program, pdbfixer used to fix missing atoms
+  --to-mol2             fix a PDB file, ! external program, pdbfixer used to fix missing atoms
   --split-alt-locations
                         @todo
   -c, --clean           get clean structure
@@ -202,10 +210,13 @@ optional arguments:
   --orgmode             get a structure in org-mode format <sick!>
   --get-chain GET_CHAIN
                         get chain, one or many, e.g, A, but now also ABC works
-  --fetch               fetch file from the PDB db
+  --fetch               fetch file from the PDB db, e.g., 1xjr,
+                        use 'rp' to fetchthe RNA-Puzzles standardized_dataset [around 100 MB]
   --fetch-ba            fetch biological assembly from the PDB db
   --get-seq             get seq
-  --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
+  --color-seq           color seq, works with --get-seq
+  --ignore-files IGNORE_FILES
+                        files to be ingored, .e.g, 'solution'
   --compact             with --get-seq, get it in compact view'
                         $ rna_pdb_toolsx.py --get-seq --compact *.pdb
                         # 20_Bujnicki_1
@@ -216,6 +227,7 @@ optional arguments:
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_4
                         
+  --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
   --get-ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
   --get-rnapuzzle-ready
@@ -238,6 +250,7 @@ optional arguments:
   --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
   --inplace             in place edit the file! [experimental,
                         only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]
+  --suffix SUFFIX       when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)
   --mutate MUTATE       mutate residues,
                         e.g.,
                               --mutate "A:1A+2A+3A+4A,B:1A"
@@ -270,6 +283,10 @@ optional arguments:
                         $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
                         > 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
+                        
+  --cif2pdb             [PyMOL Python package required]
+  --pdb2cif             [PyMOL Python package required]
+
                         
 ```
 

@@ -45,6 +45,8 @@ def get_parser():
     parser.add_argument('-r', '--report', help='get report',
                         action='store_true')
 
+    parser.add_argument('--no-progress-bar', help='for --no-progress-bar for --rpr', action='store_true')
+
     parser.add_argument('--renum-atoms', help='renumber atoms, tested with --get-seq',
                         action='store_true')
 
@@ -372,9 +374,10 @@ if __name__ == '__main__':
         ##################################
         # progress bar only in --inplace mode!
         if args.inplace:
-            import progressbar
-            bar = progressbar.ProgressBar(max_value=len(args.file))
-            bar.update(0)
+            if not args.no_progress_bar:
+                import progressbar
+                bar = progressbar.ProgressBar(max_value=len(args.file))
+                bar.update(0)
 
         for c, f in enumerate(args.file):
             if args.verbose:
@@ -424,7 +427,8 @@ if __name__ == '__main__':
                     f.write(s.get_text())
 
                 # progress bar only in --inplace mode!
-                bar.update(c)
+                if not args.no_progress_bar:
+                   bar.update(c)
 
             else:
                 output = ''
