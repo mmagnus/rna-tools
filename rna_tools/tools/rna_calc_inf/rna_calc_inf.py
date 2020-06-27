@@ -15,13 +15,6 @@ https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server). Contac
 import progressbar (in version 2) is required! """
 from __future__ import print_function
 
-import sys
-if (sys.version_info > (3, 0)):
-    print('rna_calc_inf.py can be only used with Python 2 because ClaRNA written in Python 2!')
-    sys.exit(1)
-else:
-    pass
-
 import progressbar
 import argparse
 import sys
@@ -42,7 +35,6 @@ pd.set_option('display.max_rows', 1000)
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
-
     parser.add_argument('-t',"--target_fn",
                            dest="target_fn",
                          default='',
@@ -54,10 +46,12 @@ def get_parser():
                          help="number of threads used for multiprocessing, if 1 then mp is not used \
                          (useful for debugging)!")
 
+    parser.add_argument('--ignore-files', help='files to be ingored, .e.g, \'solution\'', default='')
+
     parser.add_argument('-s',"--ss",
                          dest="ss",
                          default='',
-                         help="A:(([[))]]")
+                         help="A:(([[))]], works only for single chain (the chain is A by default)")
 
     parser.add_argument('--no-stacking',
                          action="store_true",
@@ -73,6 +67,14 @@ def get_parser():
                          action="store_true")
 
     parser.add_argument('--method', default="clarna", help="you can use mcannotate or clarna")
+
+    parser.add_argument("--target-selection",
+                            default='',
+                         help="selection, e.g. A:10-16+20, where #16 residue is included")
+
+    parser.add_argument("--model-selection",
+                            default='',
+                         help="selection, e.g. A:10-16+20, where #16 residue is included")
 
     parser.add_argument('-f',"--force",
                          dest="force",
@@ -96,15 +98,14 @@ def get_parser():
 from ctypes import c_int
 lock = Lock()
 counter = Value(c_int)
-DEBUG = False
 
-def do_job(i):  # , method='clarna'):
+def do_job(i, method='clarna'):
     """Run ClaRNA & Compare, add 1 to the counter, write output
     to csv file (keeping it locked)"""
     #if method == 'clarna':
         # run clarna & compare
     i_cl_fn = clarna_app.clarna_run(i, args.force,not args.no_stacking)
-    output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, DEBUG)
+    output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, verbose=DEBUG)
     if args.verbose:
         print(output)
     ## else:
@@ -135,14 +136,27 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
+    DEBUG = False
     if args.debug:
+        DEBUG = True
+        args.verbose = True
         print(args)
-
+        
     if len(sys.argv) == 1:
         print((parser.print_help()))
         sys.exit(1)
 
     input_files = args.files
+    ####################################
+    # implement ignore files
+    tmp = []
+    if args.ignore_files:
+        for f in input_files:
+            if args.ignore_files in f:
+                continue
+            tmp.append(f)
+        input_files = tmp
+    ####################################
     target_fn = args.target_fn
     ss = args.ss
     if ss:
@@ -159,7 +173,6 @@ if __name__ == '__main__':
     tmp_target_cl_fn = d + os.sep + os.path.basename(target_cl_fn)
     shutil.copyfile(target_cl_fn, tmp_target_cl_fn)
     target_cl_fn = tmp_target_cl_fn
-    ##
 
     out_fn = args.out_fn
 
@@ -191,7 +204,7 @@ if __name__ == '__main__':
     else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
             do_job(i, args.method)
-    print('csv was created! ', out_fn)
+    print('\ncsv was created! ', out_fn)
     
     # hack with pandas
     csv_file.close()

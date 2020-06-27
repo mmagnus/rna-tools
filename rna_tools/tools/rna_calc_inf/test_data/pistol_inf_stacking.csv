@@ -1,0 +1,5 @@
+target,fn,inf_all,inf_stack,inf_WC,inf_nWC,sns_WC,ppv_WC,sns_nWC,ppv_nWC
+5k7c_clean_onechain_renumber_as_puzzle_srr.pdb,5k7c_clean_onechain_renumber_as_puzzle_srr.pdb,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+5k7c_clean_onechain_renumber_as_puzzle_srr.pdb,pistol_thrs0.50A_clust01-000001_AA.pdb,0.77,0.79,0.87,0.35,0.94,0.81,0.33,0.38
+5k7c_clean_onechain_renumber_as_puzzle_srr.pdb,pistol_thrs0.50A_clust02-000001_AA.pdb,0.75,0.76,0.86,0.38,0.89,0.84,0.33,0.43
+5k7c_clean_onechain_renumber_as_puzzle_srr.pdb,pistol_thrs0.50A_clust03-000001_AA.pdb,0.68,0.69,0.77,0.3,0.83,0.71,0.22,0.4

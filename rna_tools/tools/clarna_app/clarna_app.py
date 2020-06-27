@@ -3,8 +3,8 @@
 """
 usage::
 
-  ./clarna_app.py ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
-  ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+  $ rna_clarna_app.py ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb \
+            ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
   ((((([[[[[[)))))........(.((....(]]]]]].)..(((......)))...)).)
 
 Example:
@@ -30,18 +30,16 @@ import os
 import tempfile
 from rna_tools.tools.rna_convert_pseudoknot_formats.rna_pk_simrna_to_one_line import get_one_line
 
-try:
-    ClaRNA_play_path = os.environ['ClaRNA_play_path']
-except:
-    print('you need to set up ClaRNA_play_path in your .bashrc')
 
 def clarna_run(fn, force=True, stacking=True, verbose=False):
     """Run ClaRNA run
 
-    fn: str
-     filename to analyze
+    Args:
+        fn (str): filename to analyze
 
-    :return: a filename to ClaRNA output (fn + '.outCR')"""
+    Return:
+        str: a filename to ClaRNA output (fn + '.outCR')"""
+
     if verbose:
         print('stacking', stacking)
     fn_out = fn + '.outCR'
@@ -51,10 +49,12 @@ def clarna_run(fn, force=True, stacking=True, verbose=False):
         opts = ''
         if stacking:
             opts = ' -bp+stack '
-        cmd = 'clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
+        cmd = 'rna_clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
+        if verbose: print(cmd)
         os.system(cmd)
     if os.stat(fn_out).st_size == 0: # if file is empty also run
-        cmd = 'clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
+        cmd = 'rna_clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
+        if verbose: print(cmd)
         os.system(cmd)
     return fn_out
 
@@ -89,10 +89,10 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
 
     use ``results.split()[4]`` to get inf_WC"""
 
-    cmd = 'clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
+    cmd = 'rna_clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
     if verbose: print('clarna_app::cmd', cmd)
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    std = o.stdout.read().strip()
+    std = o.stdout.read().strip().decode()
     if not std:
         raise Exception('ClaRNA output is empty, something went wrong:\n\t %s \n %s' % (cmd, std))
     if verbose: 'clarna_app::o.stderr',o.stderr.read()
@@ -100,7 +100,9 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
     #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
     #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
     #1i6uD_M1.pdb.outCR                         1i6uD_M425.pdb.outCR      0.707      0.000      0.756      0.500      0.571      1.000      0.250      1.000
+        
     return std.split('\n')[-1] # solution for this ^, keep the clarna_compare quite
+
 
 def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     """
