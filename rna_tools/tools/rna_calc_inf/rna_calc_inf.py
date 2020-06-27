@@ -76,7 +76,7 @@ def get_parser():
     parser.add_argument('-f',"--force",
                          dest="force",
                          action="store_true",
-                         help="force to run ClaRNA even if <pdb>.outCR file is there")
+                         help="force to run ClaRNA even if <pdb>.outCR file is there, for will be auto True when selection defined")
 
     parser.add_argument('-v',"--verbose",
                          dest="verbose",
@@ -154,6 +154,9 @@ if __name__ == '__main__':
             tmp.append(f)
         input_files = tmp
 
+    if args.model_selection or args.target_selection:
+        args.force = True
+        
     if args.model_selection:
         tmp = []
         for f in input_files:
