@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 3.4.6 200627
+
+- **Fix problems with rna_calc_inf.py, re-write tests, add docs**
+- rna_pdb_toolsx.py: 
+    - add --no-progress-bar
+    - add --color-seq
+- rna_pdb_toolsx.py: add --rpr for --mutate
+- diffpdb.py: fix --names-and-resi
+- Update update_readme.py and update readme (Used in papers)
+
 # 3.4 200626
 
 200626
