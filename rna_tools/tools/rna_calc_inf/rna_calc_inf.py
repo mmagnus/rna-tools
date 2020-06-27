@@ -73,6 +73,10 @@ def get_parser():
                          default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
+    parser.add_argument('--dont-remove-sel-files',
+                         action="store_true",
+                         help="don't remove temp files created based on target|model-selectionforce")
+     
     parser.add_argument('-f',"--force",
                          dest="force",
                          action="store_true",
@@ -236,3 +240,13 @@ if __name__ == '__main__':
     if args.print_results:
         print(df)
     df.to_csv(out_fn, sep=',', index=False)
+
+    # remove temp files
+    if not args.dont_remove_sel_files:
+        if args.target_selection:
+            os.remove(os.path.abspath(target_fn))
+        if args.model_selection:
+            for f in input_files:
+                if f == target_fn:
+                    continue
+                os.remove(os.path.abspath(f))
