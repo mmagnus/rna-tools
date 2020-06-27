@@ -335,6 +335,11 @@ Nucleic Acids Research. 2019
 <https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkz1108/5651330>
 
 ## Used in papers
+The papers in which the rna-tools package was used or one of spin-off projects, e.g. RNA-Puzzles-Normalized-submissions:
+
+[9]	G. Chojnowski, M. Magnus, and J. M. Bujnicki, “RNA fragment assembly with experimental restraints,” (in progress) Jun. 2020. http://iimcb.genesilico.pl/rnamasonry
+
+[8]	A. M. Watkins, R. Rangan, and R. Das, “FARFAR2: Improved De Novo Rosetta Prediction of Complex Global RNA Folds.,” Structure, Jun. 2020.
 
 [7] Z. Miao, R. W. Adamiak, M. Antczak, M. J. Boniecki, J. M. Bujnicki, S.-J. Chen, C. Y. Cheng, Y. Cheng, F.-C. Chou, R. Das, N. V. Dokholyan, F. Ding, C. Geniesse, Y. Jiang, A. Joshi, A. Krokhotin, M. Magnus, O. Mailhot, F. Major, T. H. Mann, P. Piatkowski, R. Pluta, M. Popenda, J. Sarzynska, L. Sun, M. Szachniuk, S. Tian, J. Wang, J. Wang, A. M. Watkins, J. Wiedemann, Y. Xiao, X. Xu, J. D. Yesselman, D. Zhang, Y. Zhang, Z. Zhang, C. Zhao, P. Zhao, Y. Zhou, T. Zok, A. Zyła, A. Ren, R. T. Batey, B. L. Golden, L. Huang, D. M. Lilley, Y. Liu, D. J. Patel, and E. Westhof, “RNA-Puzzles Round IV: 3D structure predictions of four ribozymes and two aptamers.,” RNA, p. rna.075341.120, May 2020.
 
@@ -344,11 +349,11 @@ Nucleic Acids Research. 2019
 
 [4] Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
 
-[3] Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. http://doi.org/10.1093/nar/gkx966
+[3] Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. https://iimcb.genesilico.pl/RNArchitecture/
 
-[2] Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling 4with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. http://doi.org/10.1093/nar/gkw279
+[2] Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling 4with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. https://iimcb.genesilico.pl/SimRNAweb/
 
-[1] Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://doi.org/10.1093/nar/gkv493
+[1] Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://iimcb.genesilico.pl/NPDock/
 
 ## RNA Puzzle Submission
 
