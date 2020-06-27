@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - diffpdb.py: fix --names-and-resi
 - Update update_readme.py and update readme (Used in papers)
 
-# 3.4 200626
+# 3.4.x 200626
 
 200626
 
