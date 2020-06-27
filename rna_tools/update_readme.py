@@ -5,7 +5,8 @@ import subprocess
 
 if __name__ == '__main__':
     start_tag = "usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--renum-atoms]"
-    end_tag = "ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU"
+    end_tag = "Tricks:"
+
     #
     doc = subprocess.Popen('python rna_pdb_toolsx.py -h', shell=True, stdout=subprocess.PIPE).stdout.read().decode()
     print(doc)
@@ -19,6 +20,7 @@ if __name__ == '__main__':
             fn += doc + '\n'
             copy_line_flag = False
         if l.strip().startswith(end_tag):
+            fn += '\n\nTricks:\n' 
             copy_line_flag = True
 
     f = open('../README.md', 'w')

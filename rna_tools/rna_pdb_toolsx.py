@@ -3,13 +3,9 @@
 
 """rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
-Tricks:
-
-   for i in *pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i >  ${i/.pdb/_rpr.pdb}; done
-
 Usage::
 
-   $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+   $ rna_pdb_toolsx.py --delete A:46-56 --inplace *.pdb
 
     $ rna_pdb_toolsx.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound

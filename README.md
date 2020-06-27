@@ -164,6 +164,127 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
+Usage::
+
+   $ rna_pdb_toolsx.py --delete A:46-56 --inplace *.pdb
+
+    $ rna_pdb_toolsx.py --get-seq *
+    # BujnickiLab_RNApuzzle14_n01bound
+    > A:1-61
+    # BujnickiLab_RNApuzzle14_n02bound
+    > A:1-61
+    CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
+    [...]
+
+positional arguments:
+  file                  file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --version
+  -r, --report          get report
+  --no-progress-bar     for --no-progress-bar for --rpr
+  --renum-atoms         renumber atoms, tested with --get-seq
+  --renum-residues-dirty
+  --undo                undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)
+  --delete-anisou       remove files with ANISOU records, works with --inplace
+  --fix                 fix a PDB file, ! external program, pdbfixer used to fix missing atoms
+  --to-mol2             fix a PDB file, ! external program, pdbfixer used to fix missing atoms
+  --split-alt-locations
+                        @todo
+  -c, --clean           get clean structure
+  --is-pdb              check if a file is in the pdb format
+  --is-nmr              check if a file is NMR-style multiple model pdb
+  --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files 
+                        
+                          rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
+                        
+                        please use '' for pattern file recognition, this is a hack to deal with folders with
+                        thousands of models, if you used only *.pdb then the terminal will complain that you
+                        selected to many files.
+  --un-nmr              split NMR-style multiple model pdb files into individual models [biopython]
+  --orgmode             get a structure in org-mode format <sick!>
+  --get-chain GET_CHAIN
+                        get chain, one or many, e.g, A, but now also ABC works
+  --fetch               fetch file from the PDB db, e.g., 1xjr,
+                        use 'rp' to fetchthe RNA-Puzzles standardized_dataset [around 100 MB]
+  --fetch-ba            fetch biological assembly from the PDB db
+  --get-seq             get seq
+  --color-seq           color seq, works with --get-seq
+  --ignore-files IGNORE_FILES
+                        files to be ingored, .e.g, 'solution'
+  --compact             with --get-seq, get it in compact view'
+                        $ rna_pdb_toolsx.py --get-seq --compact *.pdb
+                        # 20_Bujnicki_1
+                        ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
+                        # 20_Bujnicki_2
+                        ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
+                        # 20_Bujnicki_3
+                        ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
+                        # 20_Bujnicki_4
+                        
+  --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
+  --get-ss              get secondary structure
+  --rosetta2generic     convert ROSETTA-like format to a generic pdb
+  --get-rnapuzzle-ready
+                        get RNApuzzle ready (keep only standard atoms).'
+                        Be default it does not renumber residues, use --renumber-residues
+                        [requires BioPython]
+  --rpr                 alias to get_rnapuzzle ready)
+  --no-hr               do not insert the header into files
+  --renumber-residues   by defult is false
+  --dont-rename-chains  used only with --get-rnapuzzle-ready.
+                        By default:
+                           --get-rnapuzzle-ready rename chains from ABC.. to stop behavior switch on this option
+  --dont-fix-missing-atoms
+                        used only with --get-rnapuzzle-ready
+  --dont-report-missing-atoms
+                        used only with --get-rnapuzzle-ready
+  --collapsed-view
+  --cv                  alias to collapsed_view
+  -v, --verbose         tell me more what you're doing, please!
+  --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
+  --inplace             in place edit the file! [experimental,
+                        only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]
+  --suffix SUFFIX       when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)
+  --mutate MUTATE       mutate residues,
+                        e.g.,
+                              --mutate "A:1A+2A+3A+4A,B:1A"
+                        to mutate to adenines the first four nucleotides of the chain A
+                        and the first nucleotide of the chain B
+  --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
+  --rename-chain RENAME_CHAIN
+                        edit 'A>B' to rename chain A to chain B
+  --swap-chains SWAP_CHAINS
+                        B>A, rename A to _, then B to A, then _ to B
+  --replace-chain REPLACE_CHAIN
+                        a file PDB name with one chain that will be used to
+                        replace the chain in the original PDB file,
+                        the chain id in this file has to be the same with the chain id of the original chain
+  --delete DELETE       delete the selected fragment, e.g. A:10-16, or for more than one fragment --delete 'A:1-25+30-57'
+  --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
+  --extract-chain EXTRACT_CHAIN
+                        extract chain, e.g. A
+  --uniq UNIQ           
+                        rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
+                        A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
+                        A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
+                        A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # zcp_6537608a_ALL-000001_AA
+                        A:1-45 57-71   GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCGCCGCCCGCCUGGGC # solution
+  --chain-first
+  --oneline
+  --fasta               with --get-seq, show sequences in fasta format,
+                        can be combined with --compact (mind, chains will be separated with ' ' in one line)
+                        
+                        $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
+                        > 20_Bujnicki_1
+                        ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
+                        
+  --cif2pdb             [PyMOL Python package required]
+  --pdb2cif             [PyMOL Python package required]
+
+
+
 Tricks:
 
    for i in *pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i >  ${i/.pdb/_rpr.pdb}; done
@@ -289,6 +410,9 @@ optional arguments:
 
                         
 ```
+
+Tricks:
+
 
 Tricks:
 
