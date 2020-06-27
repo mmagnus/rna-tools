@@ -66,14 +66,14 @@ def get_parser():
     parser.add_argument('-sr', '--sort-results',
                          action="store_true")
 
-    parser.add_argument('--method', default="clarna", help="you can use mcannotate or clarna")
+    parser.add_argument('--method', default="clarna", help="you can use mcannotate* or clarna (right now only clarna is tested)")
 
     parser.add_argument("--target-selection",
-                            default='',
+                         default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
     parser.add_argument("--model-selection",
-                            default='',
+                         default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
     parser.add_argument('-f',"--force",
@@ -156,8 +156,23 @@ if __name__ == '__main__':
                 continue
             tmp.append(f)
         input_files = tmp
-    ####################################
+
+    if args.model_selection:
+        tmp = []
+        for f in input_files:
+            new_f = f.replace('.pdb', '_sel.pdb')
+            cmd =  "rna_pdb_toolsx.py --extract '" + args.model_selection + "' " + f + ' > ' + new_f
+            os.system(cmd)
+            tmp.append(new_f)
+        input_files = tmp
+
     target_fn = args.target_fn
+    if args.target_selection:
+        new_target_fn = target_fn.replace('.pdb', '_sel.pdb')
+        cmd =  "rna_pdb_toolsx.py --extract '" + args.target_selection + "' " + target_fn + ' > ' + new_target_fn
+        os.system(cmd)
+        target_fn = new_target_fn
+
     ss = args.ss
     if ss:
         # generate target_fn
@@ -165,6 +180,9 @@ if __name__ == '__main__':
         target_cl_fn = clarna_app.get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
     else:
         target_cl_fn = clarna_app.clarna_run(target_fn, args.force)
+        
+        
+        
 
     # keep target save, don't overwrite it when force and
     # target is in the folder that you are running ClaRNA on
