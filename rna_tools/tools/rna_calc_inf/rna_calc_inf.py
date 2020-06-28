@@ -73,6 +73,10 @@ def get_parser():
                          default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
 
+    parser.add_argument('--renumber-residues', help='renumber residues from 1 to X for comparison with selection',
+                        default='',
+                        action="store_true")
+
     parser.add_argument('--dont-remove-sel-files',
                          action="store_true",
                          help="don't remove temp files created based on target|model-selectionforce")
@@ -167,6 +171,9 @@ if __name__ == '__main__':
             new_f = f.replace('.pdb', '_sel.pdb')
             cmd =  "rna_pdb_toolsx.py --extract '" + args.model_selection + "' " + f + ' > ' + new_f
             os.system(cmd)
+            if args.renumber_residues:
+                cmd = "rna_pdb_toolsx.py --no-hr --rpr --inplace --renumber-residues " + new_f
+                os.system(cmd)
             tmp.append(new_f)
         input_files = tmp
 
@@ -175,6 +182,9 @@ if __name__ == '__main__':
         new_target_fn = target_fn.replace('.pdb', '_sel.pdb')
         cmd =  "rna_pdb_toolsx.py --extract '" + args.target_selection + "' " + target_fn + ' > ' + new_target_fn
         os.system(cmd)
+        if args.renumber_residues:
+            cmd = "rna_pdb_toolsx.py --no-hr --rpr --inplace --renumber-residues " + new_target_fn
+            os.system(cmd)
         target_fn = new_target_fn
 
     ss = args.ss
