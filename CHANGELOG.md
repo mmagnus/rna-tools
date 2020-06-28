@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 3.4.8
+
+    rna_calc_inf.py: --renumber-residues
+    rna_calc_inf.py: clean sel pdb files, and --dont-remove-sel-files
+    rna_calc_inf.py: force to run ClaRNA even if <pdb>.outCR file is there, for will be auto True when selection defined
+    rna_calc_inf.py: up readme
+    rna_calc_inf.py: with model_selection and target_selection
+
 # 3.4.6 200627
 
 - **Fix problems with rna_calc_inf.py, re-write tests, add docs**
@@ -14,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - diffpdb.py: fix --names-and-resi
 - Update update_readme.py and update readme (Used in papers)
 
-# 3.4.x 200626
+# 3.4 200626
 
 200626
 
