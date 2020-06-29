@@ -19,12 +19,12 @@ def get_restraints(filename):
         j = row[1]["j"]
         txt += 'SLOPE A/' + str(i) + '/MB A/' + str(j) + '/MB 3 8 0.5 \n' # energy values about restrains. slope <-> penalty
         txt += 'WELL A/' + str(i) + '/MB A/' + str(j) + '/MB 3 8 0.5 \n' # well <-> reward # check paper
-    print txt.strip()
+    print(txt.strip())
 
 def usage():
     if len(sys.argv)<2:
-        print sys.argv[0] + " <interactions_parsed_mapped.csv> "
-        print '           output goes to stdout'
+        print(sys.argv[0] + " <interactions_parsed_mapped.csv> ")
+        print('           output goes to stdout')
         sys.exit()
 
 if __name__=="__main__":

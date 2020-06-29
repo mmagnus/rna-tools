@@ -93,23 +93,23 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss
     gss = f.readline().strip()
     # DCA
     df = pd.read_csv(file_interactions,sep=" ")
-    interactions = zip(df['i'].tolist(), df['j'].tolist())
+    interactions = list(zip(df['i'].tolist(), df['j'].tolist()))
     #
     # Show input
     #
     # [(38, 51), (7, 110), (37, 52) from the input
     interactions.sort()
-    print 'interactions:\n', interactions
+    print('interactions:\n', interactions)
     #
     # Process unmapped scores on gaped sequence
     # I panel
     #
     pairs = parse_vienna_to_pairs(gss)[0]
-    print 'pairs', pairs
-    print 'UNMAPPED SCORES ' + '/' * len(gseq)
-    print '123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789'
-    print gseq
-    print gss
+    print('pairs', pairs)
+    print('UNMAPPED SCORES ' + '/' * len(gseq))
+    print('123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789')
+    print(gseq)
+    print(gss)
 
     for i in interactions:
         # form 0 or from 1 ?! ## be careful here! scores starts from 0 or 1 !?
@@ -132,39 +132,39 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss
                 continue
 
         line_new = 'x'.rjust(i[0]) + 'x'.rjust(i[1] - i[0]) + str(i).rjust(len(gseq) - i[1] + 10)
-        print line_new
+        print(line_new)
     #
     # How this mapping works, kurwa?
     # II panel
     #
-    print 'MAPPED SCORES //' + '/' * len(gseq)
+    print('MAPPED SCORES //' + '/' * len(gseq))
     mapped_interactions = []
     for i in interactions:
         ij = i
         #ij = [0,0]
         #ij[0] = i[0] - 1
         #ij[1] = i[1] - 1
-        if v: print 'ij:', ij
-        if v: print gseq[ij[0]], gseq[ij[1]]
+        if v: print('ij:', ij)
+        if v: print(gseq[ij[0]], gseq[ij[1]])
 
         # ok, here I test if this pair comes from gaps, . -> -
         if gseq[ij[0]] == '-' or gseq[ij[1]] == '-':
-            if v: print 'Removed Interaction:', ij
+            if v: print('Removed Interaction:', ij)
         else:
             [a,b]=[ij[0] - gseq[:ij[0]].count('-') +1, ij[1] - gseq[:ij[1]].count('-') + 1,]
-            if v: print i, '->', a, b
+            if v: print(i, '->', a, b)
             mapped_interactions.append([a, b])
 
-    print 'Mapped Interactions:\n', mapped_interactions
+    print('Mapped Interactions:\n', mapped_interactions)
     if v:
         for i in mapped_interactions:
-            print str(i)
+            print(str(i))
 
     pairs = parse_vienna_to_pairs(gss)[0]
-    print 'pairs', pairs
-    print '123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789'
-    print gseq.replace('-','')  # what is the gap character, - or . ?
-    print gss.replace('-', '')
+    print('pairs', pairs)
+    print('123456789112345678921234567893123456789412345678951234567896123456789712345678981234567899123456789')
+    print(gseq.replace('-',''))  # what is the gap character, - or . ?
+    print(gss.replace('-', ''))
     mapped_interactions.sort()
 
     filtered_interactions = []
@@ -184,13 +184,13 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss
                 continue
 
         line_new = 'x'.rjust(i[0]) + 'x'.rjust(i[1] - i[0]) + str(i).rjust(len(seq) - i[1] + 10)
-        print line_new
+        print(line_new)
     #
     # How to include a gap in the mapping?
     # III panel, the final
     #
-    print seq
-    print ss
+    print(seq)
+    print(ss)
 
     pairs = parse_vienna_to_pairs(ss.replace('-', ''))[0]
 
@@ -198,16 +198,16 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss
         """ https://stackoverflow.com/questions/10953189/count-lower-case-characters-in-a-string """
         return sum(1 for c in string if c.islower())
 
-    print 'FINAL MAPPING //' + '/' * len(seq)
+    print('FINAL MAPPING //' + '/' * len(seq))
     nmapped_interactions = []
     for i in mapped_interactions:
         ij = i
-        if v: print 'ij:', ij
-        if v: print seq[ij[0] - 1], seq[ij[1] - 1]
+        if v: print('ij:', ij)
+        if v: print(seq[ij[0] - 1], seq[ij[1] - 1])
         # gap mapping
         a = ij[0] + n_lower_chars(seq[:ij[0]])
         b = ij[1] + n_lower_chars(seq[:ij[1]])
-        if v: print i, '->', a,b
+        if v: print(i, '->', a,b)
         nmapped_interactions.append([a,b])
     mapped_interactions = nmapped_interactions
 
@@ -230,7 +230,7 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss
 
         line_new = 'x'.rjust(i[0]) + 'x'.rjust(i[1] - i[0]) + str(i).rjust(len(seq) - i[1] + 10)
         nmapped_interactions.append([i[0], i[1]])
-        print line_new
+        print(line_new)
         if mss:
             print(ss)
     mapped_interactions = nmapped_interactions
@@ -240,9 +240,9 @@ def rna_dca_mapping(seqfn, gseqfn, file_interactions, noss, noshort, offset, mss
         nmapped_interactions = [[x[0] + offset, x[1] + offset] for x in mapped_interactions]
     mapped_interactions = nmapped_interactions
 
-    print mapped_interactions
-    print 'draw_dists(' + str(mapped_interactions) + ')'
-    print 'output file:', file_interactions+"_mapped.csv"
+    print(mapped_interactions)
+    print('draw_dists(' + str(mapped_interactions) + ')')
+    print('output file:', file_interactions+"_mapped.csv")
     a = pd.DataFrame(list(mapped_interactions), columns=["i","j"])
     a.to_csv(file_interactions+"_mapped.csv",sep=" ")
 
