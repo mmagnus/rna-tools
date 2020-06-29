@@ -10,6 +10,7 @@ setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(),
+    test_suite="tests",
     url='https://github.com/mmagnus/rna-tools',
     scripts=['rna_tools/rna_pdb_toolsx.py',
              'rna_tools/rna_calc_fenergy.py',
