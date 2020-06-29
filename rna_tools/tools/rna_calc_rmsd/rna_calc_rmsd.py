@@ -69,7 +69,7 @@ import glob
 import re
 import os
 import pandas as pd
-
+pd.set_option('display.max_rows', 1000)
 
 def get_rna_models_from_dir(files):
     """
@@ -161,6 +161,12 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
 
 def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, model_ignore_selection, verbose):
     """
+    Calculate RMSD between two XYZ files
+
+    by: Jimmy Charnley Kromann <jimmy@charnley.dk> and Lars Andersen Bratholm <larsbratholm@gmail.com>
+    project: https://github.com/charnley/rmsd
+    license: https://github.com/charnley/rmsd/blob/master/LICENSE
+
     a is model
     b is target
 
@@ -263,10 +269,11 @@ if __name__ == '__main__':
                 continue
             tmp.append(f)
         input_files = tmp
+
     rmsds_fn = args.rmsds_fn
     target_fn = args.target_fn
     method = args.method
-
+        
     print('# method:', method)
 
     target_selection = select_pdb_fragment(args.target_selection)
