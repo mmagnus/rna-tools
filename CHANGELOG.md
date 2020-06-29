@@ -6,21 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # 3.5 200629
 
-    rna_calc_inf.py: --renumber-residues
-    rna_calc_inf.py: clean sel pdb files, and --dont-remove-sel-files
-    rna_calc_inf.py: force to run ClaRNA even if <pdb>.outCR file is there, for will be auto True when selection defined
-    rna_calc_inf.py: up readme
-    rna_calc_inf.py: with model_selection and target_selection
-
-    Fix problems with rna_calc_inf.py, re-write tests, add docs
-    rna_pdb_toolsx.py: 
-      - add --no-progress-bar
-      - add --color-seq
-    rna_pdb_toolsx.py: add --rpr for --mutate
-    diffpdb.py: fix --names-and-resi
-    Update update_readme.py and update readme (Used in papers)
+- rna_calc_inf.py: 
+    - --renumber-residues
+    - clean sel pdb files, and --dont-remove-sel-files
+    - force to run ClaRNA even if <pdb>.outCR file is there, for will be auto True when selection defined
+    - rna_calc_inf.py: up readme
+    - rna_calc_inf.py: with model_selection and target_selection
+    - Fix problems with rna_calc_inf.py, re-write tests, add docs
     
-    Bug fixes and small improvements.
+- rna_pdb_toolsx.py: 
+    - add --no-progress-bar
+    - add --color-seq
+    - add --rpr for --mutate
+    
+- diffpdb.py: fix --names-and-resi
+    
+Update update_readme.py and update readme (Used in papers)
+    
+Bug fixes and small improvements.
 
 # 3.4 200626
 
