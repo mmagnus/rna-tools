@@ -100,7 +100,7 @@ if __name__ == '__main__':
     if not args.outfn:
         args.outfn = args.Seqfn.replace('.fasta', '_out.fasta')
 
-    print "If your  database of sequence is big, patience you must have, my dear user :) "
+    print("If your  database of sequence is big, patience you must have, my dear user :) ")
 
     Seqfn=args.Seqfn
     blastn_out6 = open(args.blastn_out6)
@@ -118,10 +118,10 @@ if __name__ == '__main__':
 
     sequences = get_records(sequences_file,headers, seq_start,seq_end) #
     if sequences == []:
-        print "Warning: No sequences found!"
+        print("Warning: No sequences found!")
     else:
         #print sequences
         SeqIO.write(sequences, args.outfn, "fasta")
-        print 'DONE \nSaved to:', args.outfn
+        print('DONE \nSaved to:', args.outfn)
 
 
