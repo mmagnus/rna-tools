@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     rna_calc_inf.py: up readme
     rna_calc_inf.py: with model_selection and target_selection
 
-    **Fix problems with rna_calc_inf.py, re-write tests, add docs**
+    Fix problems with rna_calc_inf.py, re-write tests, add docs
     rna_pdb_toolsx.py: 
       - add --no-progress-bar
       - add --color-seq
