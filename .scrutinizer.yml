@@ -1,0 +1,17 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+
+build:
+    environment:
+        python: 3.7.4
+
+filter:
+    excluded_paths:
+        - '*/test/*'
+        - '*.min.js'
+        - '*.js'
+        - '*PyMOL4RNA.py'
+    dependency_paths:
+        - 'lib/*'
