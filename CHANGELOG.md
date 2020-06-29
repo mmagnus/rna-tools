@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     rna_pdb_toolsx.py: add --rpr for --mutate
     diffpdb.py: fix --names-and-resi
     Update update_readme.py and update readme (Used in papers)
+    
+    Bug fixes and small improvements.
 
 # 3.4 200626
 
