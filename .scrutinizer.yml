@@ -13,5 +13,8 @@ filter:
         - '*.min.js'
         - '*.js'
         - '*PyMOL4RNA.py'
+        - 'docs/js/*'
+        - '*/lib/*'        
+        - '*/plugin/*'        
     dependency_paths:
         - 'lib/*'
