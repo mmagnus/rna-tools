@@ -4,10 +4,10 @@
 """
 rna_calc_rmsd_multi_targets.py - calculate RMSDs of structures to multiple targets::
 
-   $ rna_calc_rmsd_multi_targets.py --models multi-targets/rp21/*.pdb 
-                                    --targets multi-targets/rp21/solutions/*.pdb 
-                                    --target-selection A:1-27+29-41 
-                                    --model-selection A:1-27+29-41
+   $ rna_calc_rmsd_multi_targets.py --models multi-targets/rp21/*.pdb \
+                                    --targets multi-targets/rp21/solutions/*.pdb \
+                                    --target-selection A:1-27+29-41 \
+                                    --model-selection A:1-27+29-41 
 
 CSV table produced::
 
