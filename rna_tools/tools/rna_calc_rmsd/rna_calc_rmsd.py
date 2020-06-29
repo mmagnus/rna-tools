@@ -205,6 +205,8 @@ def get_parser():
                             default='',
                          help="pdb file")
 
+    parser.add_argument('--ignore-files', help='files to be ingored, .e.g, \'solution\'', default='')
+
     parser.add_argument("--target-selection",
                             default='',
                          help="selection, e.g. A:10-16+20, where #16 residue is included")
@@ -254,6 +256,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     input_files = args.files  # opts.input_dir
+    tmp = []
+    if args.ignore_files:
+        for f in input_files:
+            if args.ignore_files in f:
+                continue
+            tmp.append(f)
+        input_files = tmp
     rmsds_fn = args.rmsds_fn
     target_fn = args.target_fn
     method = args.method
