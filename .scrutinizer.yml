@@ -7,6 +7,9 @@ filter:
     excluded_paths:
         - '*/test/*'
         - '*.min.js'
+    dependency_paths:		
+        - 'rna_tools/tools/clarna_play/*'
+        - 'rna_tools/tools/mini_moderna3/*'
 build:
     environment:
         python: 3.7.4
