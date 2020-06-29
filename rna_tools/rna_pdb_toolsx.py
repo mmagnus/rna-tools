@@ -413,6 +413,8 @@ if __name__ == '__main__':
                                             verbose=args.verbose)
 
             if args.inplace:
+                if args.suffix:
+                    f = f.replace('.pdb', '_' + args.suffix + '.pdb')
                 with open(f, 'w') as f:
                     if not args.no_hr:
                         f.write(add_header(version) + '\n')
@@ -421,7 +423,6 @@ if __name__ == '__main__':
                     if remarks:
                         f.write('\n'.join(remarks) + '\n')
                     f.write(s.get_text())
-
                 # progress bar only in --inplace mode!
                 if not args.no_progress_bar:
                    bar.update(c)
