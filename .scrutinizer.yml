@@ -7,6 +7,6 @@ filter:
     excluded_paths:
         - '*/test/*'
         - '*.min.js'
-build: true
+build:
     environment:
         python: 3.7.4
