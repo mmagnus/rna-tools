@@ -14,8 +14,11 @@ Quick reference:
 - rs: @todo
 - rib: @todo
 - select br. all within 12 of resi 574
--
-If you want more, read for interesting functions https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
+
+If you want more, read for interesting functions <https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf>
+
+Tips; cmd.do
+
 """
 # imports
 import tempfile
@@ -27,6 +30,16 @@ import sys
 import getpass
 user = getpass.getuser()
 
+import os
+import sys
+sys.path.insert(0, '/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA')#
+#(os.path.abspath(os.path.dirname(__file__))))
+print(sys.path)
+
+from bucket.show_contacts import show_contacts
+from bucket.get_raw_distances import get_raw_distances
+
+from pymol import cmd
 try:
     from pymol import cmd
 except ImportError:
@@ -38,10 +51,10 @@ try:
     from rna_tools.rna_tools_lib import RNAStructure
     from rna_tools.tools.PyMOL4RNA import code_for_spl
     imp.reload(code_for_spl)
+    print('code_for_spl loaded...')
     from rna_tools.tools.PyMOL4RNA import code_for_color_spl
     imp.reload(code_for_color_spl)
-    from rna_tools.tools.PyMOL4RNA import code_for_color_spl_objects
-    imp.reload(code_for_color_spl_objects)
+    print('code_for_color_spl loaded...')
     import rna_tools
     RNA_TOOLS_PATH = rna_tools.rna_tools_lib.get_rna_tools_path()
 except ImportError:
@@ -208,6 +221,42 @@ def rs():
            i = 0
 
 
+def get_intrs_all_vs_all(verbose=True, redundant=True):
+    """
+    get_intrs_all_vs_all()
+    get_raw_distances contacts_all # U6_C-CWC2_C_all
+
+        # if true all vs all (a-b and b-a) then set redundant to True
+        # this is sometimes useful if you want to have interactions of b in form of
+        # b-a
+        # b-c
+        # if redundant False then you will have only
+        # a-b
+        # b-c
+
+    """
+    # cmd.delete('contacts')
+    objs = cmd.get_names_of_type("object:molecule")
+    if verbose:
+        print(objs)
+    # objs = ['U6_C', 'CWC25_C']
+    objs2 = objs.copy()
+    for o in objs:
+        if not redundant:
+            objs2.pop(0)
+        if verbose:
+            print(' ', objs2)
+        for o2 in objs2:
+            if o != o2:  # don't compare object to itself
+                print(o,'<>',o2)
+                results = o + '-' + o2
+                if show_contacts(o, o2, results): #, 'contacts) #) # results to U6_C-CWC15_C
+                    # if not None
+                    p = '/Users/magnus/Desktop/spl-csv/'  # TODO
+                    # _all or 
+                    get_raw_distances(results + '_all', filename=p + results + '.csv')
+            
+cmd.extend('get_intrs_all_vs_all', get_intrs_all_vs_all)
 
 def align_all():
     """
@@ -254,6 +303,18 @@ def align_all():
               #f.write(i[0] + '-' + i[1] + ' ' + str(i[2]) + '\n')
 
 cmd.extend('align_all', align_all)
+
+def save_all(dir=''):
+    """save_all molecule objects as pdb files. Use `cd` to get to the right folder
+       or use dir argument"""
+    if dir:
+        dir += '/'
+    molecules = cmd.get_names_of_type("object:molecule")
+    for molecule in molecules:
+        print('Saving %s ...' % molecule)
+        cmd.save(dir + molecule + '.pdb', molecule)
+
+cmd.extend('save_all', save_all)
 
 def save_each_object(folder='', prefix=''):
     """
@@ -310,40 +371,6 @@ def rcomp():
         i = i+1
         if(i == ncolours):
            i = 0
-
-
-def align_all2( subset = [] ):
-  """
-  Superimpose all open models onto the first one.
-  This may not work well with selections.
-
-  This function is probably taken from https://daslab.stanford.edu/site_data/docs_pymol_rhiju.pdf
-  """
-  print("""This returns a list with 7 items:
-
-    RMSD after refinement
-    Number of aligned atoms after refinement
-    Number of refinement cycles
-    RMSD before refinement
-    Number of aligned atoms before refinement
-    Raw alignment score
-    Number of residues aligned """)
-
-  AllObj=cmd.get_names("all")
-  for x in AllObj[1:]:
-    #print(AllObj[0],x)
-    subset_tag = ''
-    if isinstance( subset, int ):
-      subset_tag = ' and resi %d' % subset
-    elif isinstance( subset, list ) and len( subset ) > 0:
-      subset_tag = ' and resi %d' % (subset[0])
-      for m in range( 1,len(subset)): subset_tag += '+%d' % subset[m]
-    elif isinstance( subset, str ) and len( subset ) > 0:
-      subset_tag = ' and %s' % subset
-    values = cmd.align(x+subset_tag,AllObj[0]+subset_tag)
-    print(AllObj[0], x, ' '.join([str(v) for v in values]), '-- RMSD', values[3], ' of ', values[6], 'residues')
-    cmd.zoom()
-
 
 def pdb():
     """Get PDB content of selection.
@@ -676,7 +703,6 @@ def spl(arg=''):
         spl_help()
     elif action == 'color' or arg=='c':
         code_for_color_spl.spl_color()
-        code_for_color_spl_objects.spl_color()
     elif arg == 'extract all' or arg == 'e':
         code_for_spl.spl_extract()
     elif arg == 'align' or arg=='a':
@@ -1000,10 +1026,24 @@ def rlabel():
 
 
 def sav(name):
-    cmd.bg_color( "white" )
-    cmd.save('/home/magnus/Desktop/' + name + '.png')
-    cmd.save('/home/magnus/Desktop/' + name + '.pse')
+    # cmd.bg_color( "white" )
+    tf = tempfile.NamedTemporaryFile(delete=False)
+    fn = tf.name + '.png'
+    tf = tempfile.NamedTemporaryFile(delete=False)
+    cfn = tf.name + '.png'
 
+    psefn = '~/Desktop/' + name + '.pse'
+    cmd.save(psefn)
+
+    cmd.save(fn)
+
+    cmdline= "/usr/local/bin/convert " + fn + " -gravity center -crop 3:3 +repage " + cfn
+    os.system(cmdline)
+
+    os.system('/usr/local/bin/fileicon set ' + psefn + ' ' + cfn)
+
+    #cmd.png(coverfn, 576,576)
+    #cmd.ray(576,576)
 def hide_rna():
     cmd.hide('(polymer.nucleic)')
 cmd.extend('rna-hide', hide_rna)
@@ -1059,6 +1099,23 @@ def load_tmp():
     print('Load...')
     cmd.load(TMP_FOLDER + '/last.pse')
 
+
+def findN(r):
+    c = 'select br. all within ' + str(r) + ' of (sele)'
+    cmd.do(c)
+
+
+def desc(t='', width=80):
+    print()
+    print()
+    print()
+    print(t.center(int(width)))
+    print()
+    print()
+    print()
+cmd.extend('desc', desc)
+cmd.do('set overlay, 1')
+    
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -1080,6 +1137,7 @@ def quickref():
     print('  color_obj')
     print('  color_rbw')
     print('  aa')
+    print('  findN')
     print('  savt - save_transformed <object>, <file>')
     #print('  spl - color snRNAs of the spliceosome:'
     #    green: U2,  blue: U5, red:U6, orange:U2""")
@@ -1132,6 +1190,8 @@ else:
     cmd.extend('color_aa_types', color_aa_types)
 
     cmd.extend('names', names)
+
+    cmd.extend('findX', findN)
 
     # set dash lines
     cmd.set('dash_color', 'red')
