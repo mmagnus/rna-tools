@@ -208,6 +208,53 @@ def rs():
            i = 0
 
 
+
+def align_all():
+    """
+    This returns a list with 7 items:
+ 
+    RMSD after refinement
+    Number of aligned atoms after refinement
+    Number of refinement cycles
+    RMSD before refinement
+    Number of aligned atoms before refinement
+    Raw alignment score
+    Number of residues aligned 
+
+    old version:
+
+          1_solution_0_rpr 1_santalucia_1_rpr 5.60600471496582 958 4 5.763411521911621 974 416.0 46 -- RMSD 5.76  of  46 residues
+
+"""
+    molecules = cmd.get_names_of_type("object:molecule")
+    ref = molecules.pop(0)
+    report = []
+    print('Ref                  Model                RaR  #AA  CoR  RbR  #AbR RS   AR')
+    for molecule in molecules:
+        values = cmd.align(molecule, ref)
+        print(ref[:20].ljust(20), molecule[:20].ljust(20),
+              str(round(values[0], 2)).ljust(4),
+              str(round(values[1], 2)).ljust(4),
+              str(round(values[2], 2)).ljust(4),
+              str(round(values[3], 2)).ljust(4),
+              str(round(values[4], 2)).ljust(4),
+              str(round(values[5])).ljust(4),
+              str(round(values[6], 2)).ljust(4),
+              )
+              #' '.join([str(v) for v in values]), '-- RMSD', round(values[3], 2), ' of ', values[6], 'residues')
+        #print(ref, molecule, 'RMSD: ', round(values[3], 2), ' of ', values[6], 'residues')
+        report.append([ref, molecule, values[3], values[6]])
+
+    for l in report:
+       if not l[1].startswith('_align'):
+         # rp14_5ddp_bound_clean_ligand rp14_farna_eloop_nol2fixed_cst.out.1 RMSD:  4.49360132217 of 52 residues
+         if l[1] not in ['sele', 'rov_pc']: # skip them
+              #print(l[0], l[1], 'RMSD:', round(l[2],2), str(l[3]) + 'nt')
+              pass
+              #f.write(i[0] + '-' + i[1] + ' ' + str(i[2]) + '\n')
+
+cmd.extend('align_all', align_all)
+
 def save_each_object(folder='', prefix=''):
     """
 
@@ -265,7 +312,7 @@ def rcomp():
            i = 0
 
 
-def align_all( subset = [] ):
+def align_all2( subset = [] ):
   """
   Superimpose all open models onto the first one.
   This may not work well with selections.
@@ -324,14 +371,19 @@ def clarna():
 
     .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
-    f = tempfile.NamedTemporaryFile(delete=False) # True)
-    #cmd.save(f.name + '.pdb', '(backbone_)')
-    cmd.save(f.name + '.pdb', '(sele)')
-    out, err = exe(SOURCE + " && " + CLARNA_RUN + " -ipdb " + f.name + '.pdb -bp+stack')
-    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
-    if err:
-        print(err)
-    f.close()
+    AllObj = cmd.get_names("objects")
+    # print AllObj
+    for name in AllObj[:]:
+        print(name + ' ' + '-' * (70 - len(name)))
+        f = tempfile.NamedTemporaryFile(delete=False) # True)
+        #cmd.save(f.name + '.pdb', '(backbone_)')
+        cmd.save(f.name + '.pdb', '(sele) and "' + name + '"')
+        CLARNA_RUN = 'rna_clarna_run.py'
+        out, err = exe(SOURCE + " && " + CLARNA_RUN + " -ipdb " + f.name + '.pdb -bp+stack')
+        print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+        if err:
+            print(err)
+        f.close()
 
 
 def seq():
