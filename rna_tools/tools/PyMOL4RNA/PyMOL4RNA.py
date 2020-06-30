@@ -398,9 +398,8 @@ def clarna():
 
     .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
-    AllObj = cmd.get_names("objects")
-    # print AllObj
-    for name in AllObj[:]:
+    objs = cmd.get_names("objects")
+    for name in objs[:]:
         print(name + ' ' + '-' * (70 - len(name)))
         f = tempfile.NamedTemporaryFile(delete=False) # True)
         #cmd.save(f.name + '.pdb', '(backbone_)')
