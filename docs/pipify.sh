@@ -4,7 +4,7 @@
 cd ..
 git clone rna-tools rna-tools-pip
 cd rna-tools-pip # run this script from the root package level
-git pull --all
+git pull --tags
 
 # strip some data for pip package to keep it under 60 MB
 trash rna_tools/input
@@ -18,7 +18,10 @@ trash rna_tools/tools/spotifier/imgs/
 
 python setup.py bdist_wheel
 
-unset PYTHONPATH
-conda activate base
-python setup.py bdist_wheel
+
+# py3
+#unset PYTHONPATH
+#conda activate base
+#python setup.py bdist_wheel
+
 twine upload dist/* --verbose
