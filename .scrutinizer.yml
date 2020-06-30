@@ -7,6 +7,19 @@ filter:
     excluded_paths:
         - '*/test/*'
         - '*.min.js'
+    dependency_paths:		
+        - 'rna_tools/tools/clarna_play/*'
+        - 'rna_tools/tools/mini_moderna3/*'
+        - 'rna_tools/tools/webserver-engine/*'
+        
 build:
     environment:
         python: 3.7.4
+
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - py-scrutinizer-run
