@@ -5,9 +5,11 @@
 Mind, that ClaRNA is pretty slow, it takes even a few seconds to analyze a structure,
 so for, say, 1000 models you need a few hours.
 
-How to make it faster? First, you can use ``--number_of_threads`` to specify the number of cores used for multiprocessing.
+How to make it faster? 
 
-Second, the procedure implemented in here is composed of two steps, first for each structure ClaRNA is used to generate an output with contacts, then these files are used for comparisons. So, if you want to re-run your analysis, you don't have to run re-run ClaRNA itself. Thus, be default ClaRNA is not executed if <model>.outCR is found next to the analyzed files.  To change this behavior force (``--force``) rna_cal_inf.py to re-run ClaRNA.
+First, you can use ``--number-of-threads`` to specify the number of cores used for multiprocessing.
+
+Second, the procedure implemented in here is composed of two steps, first for each structure ClaRNA is used to generate an output with contacts, then these files are used for comparisons. So, if you want to re-run your analysis, you don't have to re-run ClaRNA itself. Thus, be default ClaRNA is not executed if <model>.outCR is found next to the analyzed files.  To change this behavior, force (``--force``) rna_calc_inf.py to re-run ClaRNA.
 
 """
 from __future__ import print_function
@@ -37,7 +39,7 @@ def get_parser():
                          default='',
                          help="pdb file")
 
-    parser.add_argument('-m',"--number_of_threads",
+    parser.add_argument('-m',"--number-of-threads",
                          dest="nt",
                          default=3,
                          help="number of threads used for multiprocessing, if 1 then mp is not used \
