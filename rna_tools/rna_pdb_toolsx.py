@@ -532,6 +532,7 @@ if __name__ == '__main__':
 
             # write: inplace
             if args.inplace:
+                os.rename(f, f.replace('.pdb', '.pdb~'))                
                 if args.suffix:
                     f = f.replace('.pdb', '_' + args.suffix + '.pdb')
                 with open(f, 'w') as f:
