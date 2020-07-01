@@ -35,7 +35,7 @@ get sequences of a bunch of PDB files
 
 Example::
 
-    rna_pdb_toolsx.py --get-seq *.pdb
+    $ rna_pdb_toolsx.py --get-seq *.pdb
     # 1xjr
     > A:1-47
     GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
@@ -60,7 +60,11 @@ Example::
     > H:1-10
     CCGGCAGCCU
 
-in some more fancy way ;-)
+in some more fancy way ;-) ::
+
+    $ rna_pdb_toolsx.py --get-seq \
+              --oneline 3_bujnicki_1_rpr* \
+              --color-seq --compact
 
 .. image:: ../pngs/getseqcolor.png
 
