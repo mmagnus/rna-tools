@@ -10,7 +10,7 @@ Download one PyMOL session with structures for each step.
 
 See own project https://github.com/mmagnus/PyMOL4Spliceosome
 
-PyMOL: color by conservation
+PyMOL: Color by conservation
 ----------------------------------------------------------------------
 
 Show conserved regions of proteins in PyMOL.
@@ -19,6 +19,10 @@ Show conserved regions of proteins in PyMOL.
 
 See more: https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_color_by_conserv
 
+.. automodule:: rna_tools.tools.PyMOL4RNA.PyMOL4RNA
+   :members:
+   :undoc-members:
+      
 PyMOL Drawing
 -----------------------------------------
 
