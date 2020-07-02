@@ -26,7 +26,7 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("-d", "--debug",
                         action="store_true", help="be verbose")
-    parser.add_argument("-m", "--map", help='map')
+    parser.add_argument("-m", "--map", help='map', required=True)
     parser.add_argument("-t", "--trim",
                         action="store_true", help="be verbose")
     parser.add_argument("-x", default=30, type=int)
