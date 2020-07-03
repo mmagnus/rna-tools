@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# 3.5.2 200703
+
+- spotifier.py: 
+    - deal better with fonts
+    - spotifier.py: add to setup.py program
+
+# 3.5.1 200702
+
+- spotifier.py: 
+    - "--map" should be required=True
+    - trim -> dont-align, works on PSD, clean
+
 # 3.5 200629
 
 - rna_calc_inf.py: 
