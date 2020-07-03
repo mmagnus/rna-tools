@@ -22,8 +22,13 @@
 
 The latest
 -------------------------------------------------------------------------------
+(see [CHANGELOG](https://github.com/mmagnus/rna-tools/tree/master/CHANGELOG.md) for more detailed description)
+
+
 
 **20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
+
+**20-05-15** ClaRNA and ModeRNA hacked to be used in the script with Python3
 
 **20-03-23** Finally, to install rna-tools simply type in the terminal: `pip install rna-tools`
 
