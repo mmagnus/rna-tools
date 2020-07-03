@@ -29,8 +29,6 @@ The latest
 
 **20-03-21** [PyMOL Preview Generator](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_preview_generator) a new tool for generation of previews in Finders created :-)
 
-**20-02-17** Release v3.1 some cool new features https://github.com/mmagnus/rna-tools/releases/tag/v3.1
-
 **19-11-08** The RNA-Puzzles toolkit paper has been accepted for publication in Nucleic Acid Research :-) Release v3
 
 RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools
