@@ -215,11 +215,19 @@ if __name__ == '__main__':
     draw = ImageDraw.Draw(fig)
     x = 0; y = 0
 
+    # LOAD FONT
     # font = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 40)
-    fnt = '/usr/local/lib/python2.7/site-packages/matplotlib/mpl-data/fonts/ttf/Helvetica.ttf'
-    font = ImageFont.truetype(fnt, size=40)#, encoding="unic") # "/usr/share/fonts/truetype/freefont/FreeMono.ttf",
+    # should work for OSX
+    try:
+        fnt = 'Helvetica.ttc'
+        font = ImageFont.truetype(fnt, size=40)
+    except OSError:
+        font = ImageFont.load_default() # should work for everything else
     font_bar = ImageFont.truetype(fnt, size=100)
+    #####################################################
+
     picked_wt = False
+
     for i, row in enumerate(figure):
         spots_text = ''
         row_fig = Image.new('RGB', (len(figure[0]) * 100, len(figure) * 100)) # for calculations, for each raw new one
