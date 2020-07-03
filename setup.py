@@ -96,6 +96,8 @@ setup(
              'rna_tools/tools/clarna_play/rna_clarna_compare.py',
              'rna_tools/tools/clarna_play/rna_clarna_run.py',
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
+
+             'rna_tools/tools/spotifier/spotifier.py'
              ],
     license='GPLv3',
     author='Marcin Magnus',
