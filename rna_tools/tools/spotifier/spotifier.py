@@ -54,8 +54,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     args.trim = not args.dont_align
-    if args.trim:
-        print('trim on')
     if args.file.endswith('.psd'):
          try:
              from psd_tools import PSDImage
