@@ -61,7 +61,6 @@ An output of this tool can be viewed using CLANS.
 
 Frickey, T., & Lupas, A. (2004). CLANS: a Java application for visualizing protein families based on pairwise similarity. Bioinformatics (Oxford, England), 20(18), 3702–4. doi:10.1093/bioinformatics/bth444
 """
-
 from __future__ import print_function
 import argparse
 import rna_tools.tools.rna_prediction_significance.rna_prediction_significance as pv
@@ -142,7 +141,7 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
             raise Exception('n != ids')
         self.txt += t
 
-    def dist_from_matrix(self, rmsds, matrix=0, use_pv=False, dont_calc=False, debug=False):
+    def dist_from_matrix(self, rmsds, matrix=0, use_pv=False, use_input_values=False, dont_calc=False, debug=False):
         if dont_calc:
             print('Everything but the dists are generated. Use it to edit the original clans input file.')
             return # for some hardcore debugging ;-)
@@ -153,7 +152,9 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
         for row in rmsds:
             for rmsd in row:
                 if c != c2:
-                    if use_pv:
+                    if use_input_values:
+                        dist = float(str(rmsd).replace('e', 'E'))
+                    elif use_pv:
                         dist = pv.get_p_value(rmsd, 1 * 38)[0]  # r.get_rmsd_to(r2), 3)
                     else:
                         # 1e-06 10-1 = 9 10-10 0
@@ -165,20 +166,23 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
 
         t += '</hsp>\n'
 
-        max = math.ceil(matrix.max())
-        min = matrix[matrix>0].min()
-        self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
-        self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
-        self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
-        self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
-        for i in range(1,20):
-            self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
-        # 1E-11 = 0
-        # 1E-10 = 1-0
-        # 1E-9 = 2-1
-        self.txt += t
+        if not use_input_values:
+            max = math.ceil(matrix.max())
+            min = matrix[matrix>0].min()
 
-    def dist_from_matrix_mp(self, output_pmatrix_fn, max, min, lines, pmat=False, use_pv=False, debug=False):
+            self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
+            self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
+            self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
+            self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
+            for i in range(1,20):
+                self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
+            # 1E-11 = 0
+            # 1E-10 = 1-0
+            # 1E-9 = 2-1
+        self.txt += t
+        print(t)
+
+    def dist_from_matrix_mp(self, output_pmatrix_fn, max, min, lines, pmat=False, use_pv=False, use_input_values=False, debug=False):
         if debug:
             print('Everything but the dists are generated. Use it to edit the original clans input file.')
             return # for some hardcore debugging ;-)
@@ -189,6 +193,8 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
         for l in lines:
             for rmsd in l:
                 if c != c2:
+                    if use_input_values:
+                        dist = rmsd.replace('e', 'E')
                     if use_pv:
                         dist = pv.get_p_value(rmsd, 1 * 38)[0]  # r.get_rmsd_to(r2), 3)
                     else:
@@ -205,17 +211,20 @@ colorarr=(230;230;230):(207;207;207):(184;184;184):(161;161;161):(138;138;138):(
 
         t += '</hsp>\n'
 
-        max = math.ceil(matrix.max())
-        min = matrix[matrix>0].min()
-        self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
-        self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
-        self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
-        self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
-        for i in range(1,20):
-            self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
-        # 1E-11 = 0
-        # 1E-10 = 1-0
-        # 1E-9 = 2-1
+        if not use_input_values:
+            max = math.ceil(matrix.max())
+            min = matrix[matrix>0].min()
+
+            self.comment = '# max: %f min (non-zero): %f\n' % (max, min)
+            self.comment += '# 1/4 ' + str((max - min) / 4) + ' ' + str(round((max - min) / 4, 0)) + '\n'
+            self.comment += '# 1/2 ' + str((max - min) / 2) + ' ' + str(round((max - min) / 2, 0)) + '\n'
+            self.comment += '# 1/3 ' + str(((max - min) / 4 ) * 3 ) + ' ' + str(round(((max - min) / 4) * 3, 0)) + '\n'
+            for i in range(1,20):
+                self.comment += '# connected points with RMSD lower than %iA 1.0E-%i\n' % (i, math.ceil(matrix.max()) - i)
+            # 1E-11 = 0
+            # 1E-10 = 1-0
+            # 1E-9 = 2-1
+
         self.txt += t
 
         if pmat:
@@ -261,8 +270,10 @@ def get_parser():
                         "(easy to be changed in the future)")
 
     parser.add_argument('--use-pvalue', action='store_true', help="")
+    parser.add_argument('--use-input-values', action='store_true', help="")
 
     parser.add_argument('--pvalue', default="1.0E-15", help="set p-value for clans.input, default: 1.0E-15")
+
 
     parser.add_argument('--output', help="input file for clans, e.g., clans.input", default="clans.input")
     parser.add_argument('--output-pmatrix', action='store_true', help="p value matrix will be saved, see --output-matrix-fn to define name")
@@ -283,6 +294,8 @@ if __name__ == '__main__':
     if headers.strip().startswith('#'):
         # if yes, then split remove # and split into lists
         ids = headers.replace('#', '').split()
+        for i in ids:
+            print(i)
     else:
         # if no, then make a list form [0, # of items in the first line]
         ids = [str(i) for i in range(0, len(headers.split()))]
@@ -333,7 +346,7 @@ if __name__ == '__main__':
         for i in x:
             clans_list_of_pvalues = clans_list_of_pvalues.join(i)
     else:
-        c.dist_from_matrix(rmsds, matrix, args.use_pvalue, args.dont_calc, args.debug)
+        c.dist_from_matrix(rmsds, matrix, args.use_pvalue, args.use_input_values, args.dont_calc, args.debug)
         if debug:
             print('process the matrix...')
     #
