@@ -28,14 +28,15 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("-d", "--debug",
                         action="store_true", help="be verbose")
-    parser.add_argument("-m", "--map", help='map', required=True)
+
     parser.add_argument("--dont-align",
                         action="store_true", help="be verbose")
     parser.add_argument("-x", default=30, type=int)
     parser.add_argument("-y", default=30, type=int)
     parser.add_argument("--trim-rms", default=50, type=int)
     parser.add_argument("--size", default=110, type=int)
-    parser.add_argument("file", help="pre-processed image", default="")# , nargs='+')
+    parser.add_argument("map", help='map')
+    parser.add_argument("file", help="pre-processed image")
     return parser
 
 
