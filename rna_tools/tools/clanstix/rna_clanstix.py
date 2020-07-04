@@ -490,19 +490,27 @@ if __name__ == '__main__':
                 name = 'foo'
 
             # color is set in the args.color_by_homologs
-
             # craft seqgroups
+            seqgroups += '\n'
             seqgroups += "name=%s\n" % name
-            seqgroups += "type=%i\n" % dottype
+
             # color hack
             if color:  # this color is fixed for native right now
                 seqgroups += "color=%s\n" % color
             else:
+                # if beyond index, use different shape
+                #try:
+                #print(index, len(colors))
+                if index >= len(colors):
+                    index = index - len(colors) # reset color index
+                    dottype = 6  # set dottype when the colors are done 
                 seqgroups += "color=%s\n" % colors[index]
 
+            seqgroups += "type=%i\n" % dottype
             # color hack
             seqgroups += "size=%i\n" % size
             seqgroups += "hide=0\n"
+
             if debug:
                 print('name: ' + name + ' ' + colors[index])
             # get numbers - convert nstruc into numbers in Clans format 0;1; etc.
