@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# Master
+
+- rna_clanstix.py: dleal with colors using shapes (type)
+- spotifier.py: clean spotifier.py, -m -> <map>
+
 # 3.5.3 200703
 
 - spotifier.py: 
     - deal better with fonts
-    - spotifier.py: add to setup.py program
+    - add to setup.py spotifier program
 
 # 3.5.2 200702
 
