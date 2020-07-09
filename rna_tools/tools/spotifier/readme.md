@@ -4,24 +4,27 @@ This script to covert pre-processed plates image into figures.
 
 ## Options
 
-    $ python spotifier.py -h 	
-	usage: spotifier.py [-h] [-v] [-d] [-m MAP] [-t] [-x X] [-y Y]
-	                    [--trim-rms TRIM_RMS] [--size SIZE]
-	                    file
-	
-	positional arguments:
-	  file                 pre-processed image
-	
-	optional arguments:
-	  -h, --help           show this help message and exit
-	  -v, --verbose        be verbose
-	  -d, --debug          be verbose
-	  -m MAP, --map MAP    map
-	  -t, --trim           be verbose
-	  -x X
-	  -y Y
-	  --trim-rms TRIM_RMS
-	  --size SIZE
+    $ spotifier.py -h
+    usage: spotifier.py [-h] [-v] [-d] [--dont-align] [-x X] [-y Y]
+                        [--trim-rms TRIM_RMS] [--size SIZE] [-a]
+                        map file [file ...]
+
+    install to work on psd files: psd-tools3
+
+    positional arguments:
+      map                  map
+      file                 pre-processed image(s)
+
+    optional arguments:
+      -h, --help           show this help message and exit
+      -v, --verbose        be verbose
+      -d, --debug          be even more verbose
+      --dont-align         don't align dots
+      -x X
+      -y Y
+      --trim-rms TRIM_RMS
+      --size SIZE
+      -a, --dont-annotate
 
 ![](imgs/jyvsjrgxpe.gif)
 
@@ -76,6 +79,11 @@ The results should be like this:
 
 and the file `s02_30_spots.png` should be created in the folder next to the input file (in this case `testdata/s02/s02_30_spots.png`)
 
+-------------------------------------------------------------------------------
+
+TIP: If you want to introduce one extra, empty line, just add an empty line to a map file.
+![](imgs/map_empty.png)
+
 # Customization
 
 If you want to move single dots, use Preview and just move them around, save it (if you open a JPG, you will be asked if you want to convert the file to PNG, yeah, do it, remember only to change the file name in the command, `18_X.png`).
@@ -85,6 +93,12 @@ If you want to move single dots, use Preview and just move them around, save it 
 and re-run:
 
 	python spotifier.py testdata/02/18_X.png -t -m testdata/02/map.txt
+
+-------------------------------------------------------------------------------
+
+Use play with Opacity to see Backgound with the template to adjust positions of your dosts.
+
+![](imgs/opacity.png)
 
 # Mappings
 Some ideas for your plates ;-):
