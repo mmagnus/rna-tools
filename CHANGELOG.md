@@ -5,9 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # Master
+# 3.5.4 200710
 
-- rna_clanstix.py: dleal with colors using shapes (type)
-- spotifier.py: clean spotifier.py, -m -> <map>
+- add digitifier.py
+- rna_clanstix.py: deal with colors using shapes (type)
+- spotifier.py: 
+    - clean spotifier.py, -m -> <map>
+    - spotifier.py: add logging, process reporters plates, add dont-anntate
 
 # 3.5.3 200703
 
