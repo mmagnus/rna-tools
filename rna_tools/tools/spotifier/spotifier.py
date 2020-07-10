@@ -282,7 +282,7 @@ if __name__ == '__main__':
 
         fig.show()
 
-        map_name = os.path.splitext(args.map)[0]
+        map_name = os.path.splitext(os.path.basename(args.map))[0]
         outfn = os.path.splitext(file)[0] + '_spots_' + map_name + '.png'
         fig.save(outfn)
         outputs.append(outfn)
