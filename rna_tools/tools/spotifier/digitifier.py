@@ -87,5 +87,6 @@ if __name__ == '__main__':
     p(df)
     df.plot.bar()
     f = os.path.splitext(args.file)[0]
-    p('Output created ' + f + '_plot.png')
-    plt.savefig(f + ".png")
+    outfn = f + '_plot.png'
+    p('Output created ' + outfn)
+    plt.savefig(outfn)
