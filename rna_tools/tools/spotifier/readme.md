@@ -1,4 +1,5 @@
 # Spotifier
+
 This script to covert pre-processed plates image into figures.
 ![](imgs/yWwr8DqnXT.gif)
 
@@ -140,3 +141,15 @@ Some ideas for your plates ;-):
     53, 54, 55
     57, 58, 59
     
+
+# Install
+
+    pip install rna-tools
+    
+or 
+
+    pip install -e git+http://github.com/mmagnus/rna-tools.git#egg=rna-tools
+
+and install requirements:
+
+    pip install pillow
