@@ -1,7 +1,7 @@
 SERVER_NAME = 'RNAMasonry'
 ADMIN_JOBS_URL = 'http://0.0.0.0:8667/admin/app/job/'
 DISK_TO_TRACK = '/dev/mapper/rnamasonry--vm--vg-root'
-import os; 
+import os
 PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)) 
 JOBS_PATH = PATH + os.sep + 'media' + os.sep + 'jobs'
 URL_JOBS = "http://iimcb.genesilico.pl/rnamsonry/jobs/"  # required /
@@ -92,7 +92,7 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-from secret_key import SECRET_KEY
+from web.secret_key import SECRET_KEY
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
