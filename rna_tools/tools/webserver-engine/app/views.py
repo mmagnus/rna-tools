@@ -19,7 +19,7 @@ from os import sep, makedirs, listdir, umask
 
 from django.db.models import Q
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import re
 import uuid
 import subprocess
@@ -29,7 +29,7 @@ import shutil
 import json
 import os,re,sys
 import zipfile
-from cStringIO import StringIO
+from io import StringIO
 
 try:
     from app.models import Job, JOB_STATUSES, SAXS_FORMATS
@@ -72,7 +72,7 @@ def display_time(seconds, granularity=2):
 
 
 def home(request):
-    print 'request.path', request.path
+    print('request.path', request.path)
     error = ''
     return render_to_response('home.html', RequestContext(request, {
         'load': ''
@@ -322,7 +322,7 @@ def submit(request):
         # create folder
         try:
             JOB_PATH = settings.JOBS_PATH + sep + j.job_id
-            umask(0002)
+            umask(0o002)
             makedirs(JOB_PATH)
         except OSError:
             pass
@@ -385,7 +385,7 @@ def submit(request):
         j.seq = request.POST['seq']
         j.seq_len = len(j.seq)
 
-        print('j.seq', j.seq)
+        print(('j.seq', j.seq))
         
         j.save()
 
