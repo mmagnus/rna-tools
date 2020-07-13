@@ -83,7 +83,7 @@ if __name__ == '__main__':
                  for l in psd.layers:
                      if l.name != 'Background':
                          i = l.as_PIL()
-                         i.save('tmp.png')
+                         #i.save('tmp.png')
                      print(l)
              img = psd.as_PIL()
             ## from PIL import Image, ImageSequence
@@ -300,5 +300,6 @@ if __name__ == '__main__':
         draw = ImageDraw.Draw(img)
         draw.line([(0, 0), (3, 3)], fill='orange', width=10)
 
-        img.save(map_name + '_all.png')
+        map_path = os.path.splitext(args.map)[0]
+        img.save(map_path + '_all.png')
         img.show()

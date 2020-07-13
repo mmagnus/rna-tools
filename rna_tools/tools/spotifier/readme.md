@@ -142,6 +142,19 @@ Some ideas for your plates ;-):
     57, 58, 59
     
 
+# For reporters
+For reporters, prepare each PSD file as described above. Run spotifier.py for each plate to check if everything is correct:
+
+    python spotifier.py testdata/repoters/2.txt testdata/repoters/1.psd
+
+![](imgs/reporter1.jpeg)
+
+and then run this cmd to process each PSD files and combine all outputs into one figure.
+
+    python spotifier.py testdata/repoters/2.txt testdata/repoters/*.psd
+
+![](imgs/reporter2.jpeg)
+
 # Install
 
     pip install rna-tools
