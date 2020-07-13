@@ -163,7 +163,6 @@ class Job(models.Model):
     def get_setup_ok(self):
         """Get the content of log file"""
         log_filename = os.path.join(JOBS_PATH,self.job_id, 'log.txt')
-        print log_filename
         if os.path.exists(log_filename):
             error_box_true = False
             error_box = ''
