@@ -155,6 +155,27 @@ and then run this cmd to process each PSD files and combine all outputs into one
 
 ![](imgs/reporter2.jpeg)
 
+# Digitifier
+Process a figure into numbers:
+
+![](testdata/digitfier/1_all.png)
+
+      python digitifier.py 8 6 testdata/digitfier/1_all.png
+    [  3.         238.12373299 434.86099169 -27.59790191  96.14306032
+     289.4862576  391.415654   242.01505869]
+              0
+    0  0.066164
+    1  0.574584
+    2  1.000000
+    3  0.000000
+    4  0.267572
+    5  0.685648
+    6  0.906056
+    7  0.582999
+    Output created testdata/digitfier/1_all_plot.png
+
+![](testdata/digitfier/1_all_plot.png)
+    
 # Install
 
     pip install rna-tools
