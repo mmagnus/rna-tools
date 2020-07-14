@@ -14,7 +14,7 @@ def trim(im):
     """
     bg = Image.new(im.mode, im.size, im.getpixel((1,1)))
     diff = ImageChops.difference(im, bg)
-    diff = ImageChops.add(diff, diff, 2.0, -100)
+    diff = ImageChops.add(diff, diff, 0.5, -100)  # 1.0
     bbox = diff.getbbox()
     if bbox:
         return im.crop(bbox)
