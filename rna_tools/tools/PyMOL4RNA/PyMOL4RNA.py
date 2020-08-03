@@ -32,12 +32,8 @@ user = getpass.getuser()
 
 import os
 import sys
-sys.path.insert(0, '/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA')#
-#(os.path.abspath(os.path.dirname(__file__))))
-print(sys.path)
-
-from bucket.show_contacts import show_contacts
-from bucket.get_raw_distances import get_raw_distances
+from rna_tools.tools.PyMOL4RNA.bucket.show_contacts import show_contacts
+from rna_tools.tools.PyMOL4RNA.bucket.get_raw_distances import get_raw_distances
 
 from pymol import cmd
 try:
@@ -57,6 +53,10 @@ try:
     print('code_for_color_spl loaded...')
     import rna_tools
     RNA_TOOLS_PATH = rna_tools.rna_tools_lib.get_rna_tools_path()
+    sys.path.insert(0, RNA_TOOLS_PATH) # '/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA')#
+    #(os.path.abspath(os.path.dirname(__file__))))
+    from rna_tools.tools.PyMOL4RNA import PyMOL4Spliceosome
+    imp.reload(PyMOL4Spliceosome)
 except ImportError:
     print("rna_tools lib is missing")
     RNA_TOOLS_PATH = ''
@@ -686,247 +686,6 @@ def ino():
 
 mapping = [[u'PRP8', 'A', u'skyblue'], [u'BRR2', 'B', u'grey60'], [u'BUD31', 'C', u'dirtyviolet'], [u'CEF1', 'D', u'raspberry'], [u'CLF1', 'E', u'raspberry'], [u'CWC15', 'F', u'dirtyviolet'], [u'CWC16/YJU2', 'G', u'lightteal'], [u'CWC2', 'H', u'ruby'], [u'CWC21', 'I', u'violetpurple'], [u'CWC22', 'J', u'bluewhite'], [u'CWC25', 'K', u'deepteal'], [u'Intron', 'L', u'black'], [u'ISY1', 'M', u'dirtyviolet'], [u'LEA1', 'N', u'palegreen'], [u'Msl1', 'O', u'palegreen'], [u'PRP45', 'P', u'lightpink'], [u'PRP16', 'Q', u'smudge'], [u'CDC40\xa0(PRP17, SLU4, XRS2)', 'R', u'dirtyviolet'], [u'PRP19 (PSO4)', 'S', u'grey70'], [u'PRP46', 'T', u'lightblue'], [u'SLT11/ECM2', 'U', u'chocolate'], [u'SNT309', 'V', u'grey70'], [u'SNU114', 'W', u'slate'], [u'SYF2', 'X', u'brightorange'], [u'SYF1', 'Y', u'brightorange'], [u'U2', 'Z', u'forest'], [u'U5', 'a', u'density'], [u'U5_SmRNP', 'b', u'deepblue'], [u'U6', 'c', u'firebrick'], [u'Intron', 'r', u'grey50'], [u'Exon', 'z', u'yellow'], [u'exon-3', 'y', u'yellow'], [u'exon-5', 'z', u'yellow'], [u'PRP4 ', 'd', u'grey50'], [u'PRP31', 'e', u'grey50'], [u'PRP6', 'f', u'grey50'], [u'PRP3', 'g', u'grey50'], [u'DIB1', 'h', u'grey50'], [u'SNU13', 'i', u'grey50'], [u'LSM8', 'j', u'grey50'], [u'LSM2', 'k', u'grey50'], [u'LSM3', 'l', u'grey50'], [u'LSM6', 'm', u'grey50'], [u'LSM5', 'n', u'grey50'], [u'LSM7', 'o', u'grey50'], [u'LSM4', 'p', u'grey50'], [u'SNU66', 'q', u'grey50'], [u'RNA (intron or U6 snRNA)', 'r', u'grey50'], [u'5EXON', 's', u'grey50'], [u'BUD13', 't', u'grey60'], [u'CLF2', 'u', u'rasberry'], [u'Cus1', 'v', u'palegreen'], [u'CWC24', 'w', u'grey60'], [u'CWC27', 'x', u'grey60'], [u'HSH155', '1', u'smudge'], [u'HSH49', '2', u'sand'], [u'PML1', '3', u'grey60'], [u'PRP11', '4', u'palegreen'], [u'PRP2', '5', u'palegreen'], [u'RDS3', '6', u'palegreen'], [u'RSE1', '7', u'smudge'], [u'SNU17', '8', u'grey60'], [u'Ysf3', '9', u'palegreen'], [u'cwc23', 'd', u'grey50'], [u'SPP382\xa0(CCF8, NTR1)', 'e', u'grey50'], [u'NTR2', 'f', u'grey50'], [u'PRP43', 'g', u'grey50'], [u'SMB1', 'h', u'grey50'], [u'SME1', 'i', u'grey50'], [u'SMX3', 'j', u'grey50'], [u'SMX2\xa0(SNP2)', 'k', u'grey50'], [u'SMD3', 'l', u'grey50'], [u'SMD1', 'm', u'grey50'], [u'SMD2', 'n', u'grey50'], [u'PRP22', 'o', u'grey50'], [u'PRP18', 'p', u'grey50'], [u'SLU7', 'q', u'grey50'], [u'SMF', 'd', u'grey50'], [u'SMG', 'e', u'grey50'], [u'PRP9', 'f', u'grey50'], [u'PRP21', 'g', u'grey50'], [u'SNU23', 'r', u'grey50'], [u'PRP38', 's', u'grey50'], [u'SPP381', 'w', u'grey50']]
 
-def spl(arg=''):
-    """
-    action='', name=''
-    """
-    if ' ' in arg:
-        action, name = arg.split()
-        name = name.lower()
-    else:
-        action = arg
-        name = ''
-    #import pandas as pd
-    #df = pd.read_excel("/home/magnus/Desktop/pyMoL_colors-EMX.xlsx")
-    if not action or action == 'help':
-        spl_help()
-    elif action == 'color' or arg=='c':
-        code_for_color_spl.spl_color()
-    elif arg == 'extract all' or arg == 'e':
-        code_for_spl.spl_extract()
-    elif arg == 'align' or arg=='a':
-        cmd.do("""
-    align /5gm6//6, /5lj3//V;
-    align /5mps//6, /5lj3//V;
-    align /6exn//6, /5lj3//V;
-    align /5y88//D, /5lj3//V;
-    align /5ylz//D, /5lj3//V;
-    """)
-    else:
-        spl_help()
-
-cmd.extend('spl', spl)
-
-def spl_help():
-    print("""################ SPL #################
-extract all (ea)  - show
-colors            - list all colors
-######################################
-""")
-
-spl_help()
-
-
-def __spl_color():
-    for m in mapping:
-        protein = m[0]
-        chain = m[1]
-        color = m[2]
-        print('\_' + ' '.join([protein, chain, color]))
-        cmd.do('color ' + color + ', chain ' + chain)
-        # cmd.do('color firebrick, chain V') # U6
-
-def _spl_color():
-    """Color spl RNAs (for only color spl RNA and use 4-color code for residues see `spl2`)
-    """
-    AllObj = cmd.get_names("all")
-    for name in AllObj:
-        if 'Exon' in name or 'exon' in name:
-            cmd.color('yellow', name)
-        if 'Intron' in name or 'intron' in name or '5splicing-site' in name:
-            cmd.color('gray40', name)
-        if '3exon-intron' in name.lower():
-            cmd.color('gray20', name)
-        if name.startswith("U2_snRNA"):
-            cmd.color('forest', name)
-        if name.startswith("U5_snRNA"):
-            cmd.color('blue', name)
-        if name.startswith("U4_snRNA"):
-            cmd.color('orange', name)
-        if name.startswith("U6_snRNA"):
-            cmd.color('red', name)
-
-    cmd.do('color gray')
-
-    # trisnrp
-    cmd.do('color orange, chain V') # conflict
-    cmd.do('color red, chain W')
-    cmd.do('color blue, chain U')
-    #
-    cmd.do('color blue, chain 5')
-    cmd.do('color forest, chain 2')
-    cmd.do('color red, chain 6')
-    cmd.do('color orange, chain 4')
-    cmd.do('color yellow, chain Y')
-    # shi
-    cmd.do('color blue, chain D') # u5
-    cmd.do('color forest, chain L') # u2
-    cmd.do('color red, chain E') # u6
-    cmd.do('color yellow, chain M')
-    cmd.do('color yellow, chain N')
-    # afte branch
-    cmd.do('color blue, chain U') # u5
-    cmd.do('color forest, chain Z') # u2
-    cmd.do('color red, chain V') # u6
-    cmd.do('color yellow, chain E')
-    cmd.do('color black, chain I')
-    # 5WSG
-    # Cryo-EM structure of the Catalytic Step II spliceosome (C* complex) at 4.0 angstrom resolution
-    cmd.do('color blue, chain D') # u5
-    #cmd.do('color forest, chain L') # u2
-    cmd.do('color yellow, chain B')
-    cmd.do('color yellow, chain b')
-    cmd.do('color black, chain N')
-    cmd.do('color black, chain M')
-
-    cmd.do('color black, chain 3') # orange
-    cmd.do('color black, chain E') # yellow
-    cmd.do('color black, chain i')
-    cmd.do('color black, chain e')
-
-    cmd.do('color black, chain e')
-
-    cmd.do('color dirtyviolet, chain L') # bud31
-    cmd.do('color rasberry, chain L') # CERF1
-
-    cmd.do('color skyblue, chain A') # PRP8
-    cmd.do('color grey60, chain B') # BRR2
-    cmd.do('color dirtyiolet, chain L') # BUD31
-    cmd.do('color rasberry, chain O') # CEF1
-    cmd.do('color rasberry, chain S') # CLF1
-    cmd.do('color dirtyviolet, chain P') # CWC15
-    cmd.do('color lightteal, chain D') # CWC16/YJU2
-    cmd.do('color ruby, chain M') # CWC2
-    cmd.do('color violetpurple, chain R') # CWC21
-    cmd.do('color bluewhite, chain H') # CWC22
-    cmd.do('color deepteal, chain F') # CWC25
-    cmd.do('color black, chain I') # Intron
-    cmd.do('color dirtyviolet, chain G') # ISY1
-    cmd.do('color palegreen, chain W') # LEA1
-    cmd.do('color palegreen, chain Y') # Msl1
-    cmd.do('color lightpink, chain K') # PRP45
-    cmd.do('color smudge, chain Q') # Prp16
-    cmd.do('color grey70, chain t') # Prp19
-    cmd.do('color lightblue, chain J') # PRP46
-    cmd.do('color chocolate, chain N') # SLT11/ECM2
-    cmd.do('color grey70, chain s') # Snt309
-    cmd.do('color slate, chain C') # SNU114
-    cmd.do('color brightorange, chain T') # SYF1
-    cmd.do('color forest, chain Z') # U2
-    cmd.do('color density, chain U') # U5
-    cmd.do('color deepblue, chain b') # U5_Sm
-
-    cmd.do('bg gray')
-    # cmd.do('remove (polymer.protein)')
-
-    cmd.set("cartoon_tube_radius", 1.0)
-    ino()
-
-def spl2():
-    """Color spl RNAs and use 4-color code for residues (for only color spl RNA see `spl`)
-    """
-
-    AllObj = cmd.get_names("all")
-    for name in AllObj:
-        if 'Exon' in name or 'exon' in name:
-            cmd.color('yellow', name)
-        if 'Intron' in name or 'intron' in name or '5splicing-site' in name:
-            cmd.color('gray40', name)
-        if '3exon-intron' in name.lower():
-            cmd.color('gray20', name)
-        if name.startswith("U2_snRNA"):
-            cmd.color('forest', name)
-        if name.startswith("U5_snRNA"):
-            cmd.color('blue', name)
-        if name.startswith("U4_snRNA"):
-            cmd.color('orange', name)
-        if name.startswith("U6_snRNA"):
-            cmd.color('red', name)
-
-    cmd.do('color gray')
-
-    # trisnrp
-    cmd.do('color orange, chain V') # conflict
-    cmd.do('color red, chain W')
-    cmd.do('color blue, chain U')
-    #
-    cmd.do('color blue, chain 5')
-    cmd.do('color forest, chain 2')
-    cmd.do('color red, chain 6')
-    cmd.do('color orange, chain 4')
-    cmd.do('color yellow, chain Y')
-    # shi
-    cmd.do('color blue, chain D') # u5
-    cmd.do('color forest, chain L') # u2
-    cmd.do('color red, chain E') # u6
-    cmd.do('color yellow, chain M')
-    cmd.do('color yellow, chain N')
-    # afte branch
-    cmd.do('color blue, chain U') # u5
-    cmd.do('color forest, chain Z') # u2
-    cmd.do('color red, chain V') # u6
-    cmd.do('color yellow, chain E')
-    cmd.do('color black, chain I')
-    # 5WSG
-    # Cryo-EM structure of the Catalytic Step II spliceosome (C* complex) at 4.0 angstrom resolution
-    cmd.do('color blue, chain D') # u5
-    #cmd.do('color forest, chain L') # u2
-    cmd.do('color yellow, chain B')
-    cmd.do('color yellow, chain b')
-    cmd.do('color black, chain N')
-    cmd.do('color black, chain M')
-
-    cmd.do('color black, chain 3') # orange
-    cmd.do('color black, chain E') # yellow
-    cmd.do('color black, chain i')
-    cmd.do('color black, chain e')
-
-    cmd.do('bg gray')
-    cmd.do('remove (polymer.protein)')
-
-    cmd.color("red",'resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-    cmd.color("forest",'resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
-    cmd.color("orange",'resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-    cmd.color("blue",'resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
-    cmd.set("cartoon_tube_radius", 1.0)
-    ino()
-
-
-def _spli():
-    """
-    # this trick is taken from Rhiju's Das code
-    color red,resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2
-    color forest,resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6
-    color orange, resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2
-    color blue, resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2
-
-    #
-    #cmd.color("yellow", "*intron*")
-    #cmd.color("yellow", "*exon*")
-
-    #cmd.show("spheres", "inorganic")
-    #cmd.color("yellow", "inorganic")
-    """
-    cmd.color("orange", "U4_snRNA*")
-    cmd.color("red", "U6_snRNA*")
-    cmd.color("blue", "U5_snRNA*")
-    cmd.color("green", "U2_snRNA*")
-    cmd.color("red",'resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-    cmd.color("forest",'resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
-    cmd.color("orange",'resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-    cmd.color("blue",'resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
-
-
 def g2():
     txt = """color gray, all;
     color yellow, chain B;
@@ -1114,7 +873,7 @@ def desc(t='', width=80):
     print()
 cmd.extend('desc', desc)
 cmd.do('set overlay, 1')
-    
+
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -1178,8 +937,6 @@ else:
     cmd.extend('clarna', clarna)
     cmd.extend('x3dna', x3dna)
     cmd.extend("rgyration", rgyration)
-    #cmd.extend("spl", spl)
-    cmd.extend("spl2", spl2)
     cmd.extend('rlabel', 'rlabel')
 
     cmd.extend('grid_on', grid_on)
@@ -1207,3 +964,4 @@ else:
     #cmd.extend('spl_select', spl_select)
     #    print('ignore_case made off')
     print('\_ PYMOL4RNA loading .... [ok]')
+
