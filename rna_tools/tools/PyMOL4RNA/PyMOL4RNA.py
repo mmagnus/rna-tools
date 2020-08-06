@@ -871,9 +871,6 @@ def desc(t='', width=80):
     print()
     print()
     print()
-cmd.extend('desc', desc)
-cmd.do('set overlay, 1')
-
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -964,4 +961,7 @@ else:
     #cmd.extend('spl_select', spl_select)
     #    print('ignore_case made off')
     print('\_ PYMOL4RNA loading .... [ok]')
+
+    cmd.extend('desc', desc)
+    #cmd.do('set overlay, 1')
 
