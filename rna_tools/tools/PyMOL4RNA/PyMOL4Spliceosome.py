@@ -2,11 +2,16 @@
 See the PyMOL Sessions processed with this code here <https://github.com/mmagnus/PyMOL4Spliceosome>
 """
 from pymol import cmd
+from rna_tools.tools.PyMOL4RNA import code_for_color_spl
+from rna_tools.tools.PyMOL4RNA import code_for_spl
+
 try:
     from pymol import cmd
 except ImportError:
     print("PyMOL Python lib is missing")
     # sys.exit(0)
+
+
 
 def spl(arg=''):
     """
@@ -24,12 +29,15 @@ def spl(arg=''):
         spl_help()
     elif action == 'color' or arg=='c':
         code_for_color_spl.spl_color()
-    elif arg == 'extract all' or arg == 'e':
+    elif arg == 'extract all' or arg == 'ea' or arg == 'e':
         code_for_spl.spl_extract()
+    elif arg.startswith('hprp28'):
+        cmd.do("color purple, PRP28_h* and resi 240-361") # RecA1
+        cmd.do("color blue, PRP28_h* and resi 361-631") # RecA1
+        cmd.do("color orange, PRP28_h* and resi 631-811")  # RecA2
     elif arg.startswith('hprp8'):
         print("RT, skyblue, 885-1251")
         print("Thumb/X, cyan, 1257-1375")
-        
         cmd.do("color yellow, PRP8_h* and resi 1581-1752")  # rt
         cmd.do("color wheat, PRP8_h* and resi 1767-2020")   # rh
         cmd.do("color salmon, PRP8_h* and resi 2103-2234")  # jab
@@ -286,7 +294,7 @@ else:
     #cmd.extend("spl", spl)
     cmd.extend("spl2", spl2)
 
-
+    # colors taken from https://github.com/maxewilkinson/Spliceosome-PyMOL-sessions
     cmd.set_color('lightgreen', [144, 238, 144])
     cmd.set_color('darkgreen', [0, 100, 0])
     cmd.set_color('darkseagreen', [143, 188, 143])
@@ -304,4 +312,12 @@ else:
     cmd.set_color('steelblue', [70,130,180])
     cmd.set_color('lightsteelblue', [176,196,222])
     cmd.set_color('violetBlue', [40, 0, 120])
+    cmd.set_color('mediumpurple', [147,112,219])
     
+
+    print("""
+PyMOL4Spliceosome
+-----------------------
+spl hprp8
+spl prp8
+""")
