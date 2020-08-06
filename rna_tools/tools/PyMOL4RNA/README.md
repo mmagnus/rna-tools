@@ -5,7 +5,7 @@ PyMOL4RNA
 
 ![](doc/pymol4spliceosome.png)
 
-See releases for PyMOL sessions: https://github.com/mmagnus/rna-tools/releases
+See releases for PyMOL sessions: https://github.com/mmagnus/PyMOL4Spliceosome
 
 Quick ref:
 
