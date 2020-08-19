@@ -15,8 +15,7 @@ def aa3to1(aaa):
     one_letter ={'VAL':'V', 'ILE':'I', 'LEU':'L', 'GLU':'E', 'GLN':'Q', \
                  'ASP':'D', 'ASN':'N', 'HIS':'H', 'TRP':'W', 'PHE':'F', 'TYR':'Y',    \
                  'ARG':'R', 'LYS':'K', 'SER':'S', 'THR':'T', 'MET':'M', 'ALA':'A',    \
-                 'GLY':'G', 'PRO':'P', 'CYS':'C',
-    }
+                 'GLY':'G', 'PRO':'P', 'CYS':'C'}
     return one_letter[aaa]
 
 
@@ -30,6 +29,10 @@ def aa1to3(a):
 
 
 def unid(object, index, format="csv"):
+    """
+    l = [['MET', '1'], ['MET', '1'], ['MET', '1'], ['MET', '1'], ['MET', '1'], ['THR', '2'], ['MET', '1'], ['THR', '2'], ['MET', '1'], ['THR', '2'], ['MET', '1'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['THR', '2'], ['MET', '1'], ['THR', '2'], ['MET', '1'], ['THR', '2'], ['THR', '2'], ['THR', '3'], ['THR', '2'], ['THR', '3'], ['THR', '2'], ['THR', '3'], ['THR', '2'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['THR', '2'], ['THR', '3'], ['THR', '2'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['THR', '3'], ['SER', '4'], ['THR', '3'], ['SER', '4'], ['THR', '3'], ['SER', '4'], ['THR', '3'], ['SER', '4'], ['THR', '3'], ['SER', '4'], ['THR', '3'], ['SER', '4'], ['THR', '2'], ['G', '52'], ['THR', '2'], ['G', '52'], ['THR', '2'], ['G', '52'], ['THR', '2'], ['G', '52'], ['THR', '2'], ['A', '53'], ['THR', '2'], ['A', '53'], ['THR', '2'], ['A', '53'], ['THR', '2'], ['A', '53'], ['THR', '2'], ['A', '53'], ['THR', '2'], ['A', '53'], ['THR', '3'], ['A', '53'], ['THR', '3'], ['A', '53'], ['THR', '3'], ['A', '53'], ['THR', '3'], ['A', '53'], ['THR', '3'], ['A', '53'], ['THR', '3'], ['A', '53'], ['THR', '3'], ['U', '54']]
+
+"""
     # ('yC_5lj3_U6', 1413)
     #for r in
     # print(cmd.iterate(, 'print(resi)'))
@@ -42,12 +45,17 @@ def unid(object, index, format="csv"):
     if format == 'csv': 
         mol = object.split('_')[0] # yC_5lj3_Prp8 ## TODO
         if l:
-            x = mol + '-' + str(aa3to1(l[-1][0])) + str(l[-1][1])
+            # ['THR', '3'], ['A', '53'], 
+            resn = l[-1][0]
+            resi = l[-1][1]
+            if len(resn) == 3: # process aa from THR to T
+                resn = aa3to1(resn) # else keep it C, G, U, A, etc
+            x = mol + '-' + resn + str(resi)
         else:
             x = ''
     else:
         x = object + ' and resi ' +  str(aa3to1(l[-1][0])) + str(l[-1][1])
-    #print(x)
+        # print(x)
     return (x)
     #: # 'id ' + str(1411):
     #    print(r)
