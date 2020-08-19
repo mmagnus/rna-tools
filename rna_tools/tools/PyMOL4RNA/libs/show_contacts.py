@@ -2,12 +2,17 @@
 
 """
 PyMOL plugin that provides show_contacts command and GUI 
-for highlighting good and bad polar contacts. Factored out of 
-clustermols by Matthew Baumgartner.
+for highlighting good and bad polar contacts. 
+
+Factored out of clustermols by Matthew Baumgartner.
+
 The advantage of this package is it requires many fewer dependencies.
 
-Source: https://github.com/Pymol-Scripts/Pymol-script-repo
+Modified: Marcin Magnus 2020
+
+Source <https://pymolwiki.org/index.php/Pymol-script-repo>
 """
+
 from __future__ import print_function
 
 import sys,os
@@ -15,7 +20,12 @@ from pymol import cmd
 
 DEBUG=1
 
-def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff = 4.0, SC_DEBUG = DEBUG):
+def show_contacts(selection, selection2,
+                  result="contacts",
+                  cutoff=3.6,
+                  bigcutoff = 4.0,
+                  labels=False,
+                  SC_DEBUG = DEBUG):
     """
     USAGE
     
@@ -63,17 +73,32 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     ########################################
     allres = result + "_all"
     if all1_sele_count and all2_sele_count:
-        cmd.distance(allres, 'all_don_acc1_sele', 'all_don_acc2_sele', bigcutoff, mode = 0)
-        cmd.set("dash_radius", "0.05", allres)
-        cmd.set("dash_color", "purple", allres)
-        cmd.hide("labels", allres)
-    
+        #print(allres)
+        #print(cmd.get_distance(allres, 'all_don_acc1_sele', 'all_don_acc2_sele', bigcutoff, mode = 0))
+        any = cmd.distance(allres, 'all_don_acc1_sele', 'all_don_acc2_sele', bigcutoff, mode = 0)
+        # if any is 0 it seems that there is no distance!
+        if any:
+            cmd.set("dash_radius", "0.05", allres)
+            if not labels:
+                cmd.hide("labels", allres)
+        else:
+            # just do nothing and clena up
+            print('no contacts')
+            cmd.delete('all_don_acc1_sele')
+            cmd.delete('all_don_acc2_sele')
+            cmd.delete(result + "_all")
+            return None
     ########################################
     #compute good polar interactions according to pymol
     polres = result + "_polar"
     if all1_sele_count and all2_sele_count:
         cmd.distance(polres, 'all_don_acc1_sele', 'all_don_acc2_sele', cutoff, mode = 2) #hopefully this checks angles? Yes
-        cmd.set("dash_radius","0.126",polres)
+        #cmd.set("dash_color", "marine", allres)
+        #cmd.set('dash_gap', '0')
+        cmd.set("dash_radius","0.2", polres) #"0.126"
+        #cmd.set("dash_color", "marine", allres)
+        if not labels:
+            cmd.hide("labels", polres)
     
     ########################################
     #When running distance in mode=2, the cutoff parameter is ignored if set higher then the default of 3.6
@@ -88,6 +113,8 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     if all1_sele_count and all2_sele_count:
         cmd.distance(pol_ok_res, 'all_don_acc1_sele', 'all_don_acc2_sele', bigcutoff, mode = 2) 
         cmd.set("dash_radius", "0.06", pol_ok_res)
+        if not labels:
+            cmd.hide("labels", pol_ok_res)
 
     #now reset the h_bond cutoffs
     cmd.set('h_bond_cutoff_center', old_h_bond_cutoff_center)
@@ -118,23 +145,23 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
         if not onlydonors2_sele_count:
             print('Warning: onlydonors2 selection empty!')    
             
-    
+    # acceptors  acceptors
     accres = result+"_aa"
     if onlyacceptors1_sele_count and onlyacceptors2_sele_count:
         aa_dist_out = cmd.distance(accres, 'onlyacceptors1_sele', 'onlyacceptors2_sele', cutoff, 0)
-
         if aa_dist_out < 0:
             print('\n\nCaught a pymol selection error in acceptor-acceptor selection of show_contacts')
             print('accres:', accres)
             print('onlyacceptors1', onlyacceptors1)
             print('onlyacceptors2', onlyacceptors2)
             return False
-    
         cmd.set("dash_color","red",accres)
         cmd.set("dash_radius","0.125",accres)
+        if not labels:
+            cmd.hide("labels", accres)
     
     ########################################
-    
+    # donors donors
     donres = result+"_dd"
     if onlydonors1_sele_count and onlydonors2_sele_count:
         dd_dist_out = cmd.distance(donres, 'onlydonors1_sele', 'onlydonors2_sele', cutoff, 0)
@@ -150,6 +177,8 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
         
         cmd.set("dash_color","red",donres)  
         cmd.set("dash_radius","0.125",donres)
+        if not labels:
+            cmd.hide("labels", donres)
     
     ##########################################################
     ##### find the buried unpaired atoms of the receptor #####
@@ -160,6 +189,7 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     
         
     ## Group
+    print(allres) # contacts_all
     cmd.group(result,"%s %s %s %s %s %s" % (polres, allres, accres, donres, pol_ok_res, unpaired_atoms))
     
     ## Clean up the selection objects
@@ -174,6 +204,7 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     
     
     return True
+
 cmd.extend('contacts', show_contacts) #contacts to avoid clashing with cluster_mols version
 
 
