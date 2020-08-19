@@ -1,17 +1,59 @@
-'''
-http://pymolwiki.org/index.php/get_raw_distances
+"""
+Authors: (c) 2012 Takanori Nakane and Thomas Holder License: BSD-2-Clause
 
-(c) 2012 Takanori Nakane and Thomas Holder
+Modified: Marcin Magnus 2020
 
-License: BSD-2-Clause
-
-Source: https://github.com/Pymol-Scripts/Pymol-script-repo
-'''
+Source <http://pymolwiki.org/index.php/get_raw_distances>
+"""
 
 from pymol import cmd, CmdException
 
+def aa3to1(aaa):
+    """based on https://pymolwiki.org/index.php/Aa_codes"""
+    if len(aaa) != 3:  # aaa is 'G', like for RNA ;-)
+        return '' # dont do it for rna test aaa
+    one_letter ={'VAL':'V', 'ILE':'I', 'LEU':'L', 'GLU':'E', 'GLN':'Q', \
+                 'ASP':'D', 'ASN':'N', 'HIS':'H', 'TRP':'W', 'PHE':'F', 'TYR':'Y',    \
+                 'ARG':'R', 'LYS':'K', 'SER':'S', 'THR':'T', 'MET':'M', 'ALA':'A',    \
+                 'GLY':'G', 'PRO':'P', 'CYS':'C',
+    }
+    return one_letter[aaa]
 
-def get_raw_distances(names='', state=1, selection='all', quiet=1):
+
+def aa1to3(a):
+    """based on https://pymolwiki.org/index.php/Aa_codes"""
+    three_letter ={'V':'VAL', 'I':'ILE', 'L':'LEU', 'E':'GLU', 'Q':'GLN', \
+    'D':'ASP', 'N':'ASN', 'H':'HIS', 'W':'TRP', 'F':'PHE', 'Y':'TYR',    \
+    'R':'ARG', 'K':'LYS', 'S':'SER', 'T':'THR', 'M':'MET', 'A':'ALA',    \
+    'G':'GLY', 'P':'PRO', 'C':'CYS'}
+    return three_letter[a]
+
+
+def unid(object, index, format="csv"):
+    # ('yC_5lj3_U6', 1413)
+    #for r in
+    # print(cmd.iterate(, 'print(resi)'))
+    #cmd.do("python('l = [];')")
+    selection = object + ' and index ' + str(index)
+    cmd.iterate(selection, 'l.append([resn, resi])')
+    #print(l)
+    #l = cmd.do('l')
+    
+    if format == 'csv': 
+        mol = object.split('_')[0] # yC_5lj3_Prp8 ## TODO
+        if l:
+            x = mol + '-' + str(aa3to1(l[-1][0])) + str(l[-1][1])
+        else:
+            x = ''
+    else:
+        x = object + ' and resi ' +  str(aa3to1(l[-1][0])) + str(l[-1][1])
+    #print(x)
+    return (x)
+    #: # 'id ' + str(1411):
+    #    print(r)
+
+
+def get_raw_distances(names='', state=1, selection='all', quiet=1, filename='intrs.txt'):
     '''
 DESCRIPTION
 
@@ -30,10 +72,15 @@ ARGUMENTS
 
     selection = string: atom selection {default: all}
 
+    quiet = boolen
+
+    filename
+
 SEE ALSO
 
     select_distances, cmd.find_pairs, cmd.get_raw_alignment
     '''
+    foo = cmd.do('l = [];') ## ugly hack!
     from chempy import cpv
 
     state, quiet = int(state), int(quiet)
@@ -56,9 +103,12 @@ SEE ALSO
                       space=locals())
 
     r = []
+    rresi = []
     for obj in raw_objects:
         try:
             points = obj[5][2][state - 1][1]
+            if not quiet:
+                print(points)
             if points is None:
                 raise ValueError
         except (KeyError, ValueError):
@@ -68,12 +118,24 @@ SEE ALSO
             xyz2 = tuple(points[i + 3:i + 6])
             try:
                 r.append((xyz2idx[xyz1], xyz2idx[xyz2], cpv.distance(xyz1, xyz2)))
+                # (('yC_5lj3_U6', 1183)
                 if not quiet:
                     print(' get_raw_distances: ' + str(r[-1]))
+                rresi.append([unid(xyz2idx[xyz1][0], xyz2idx[xyz1][1]), unid(xyz2idx[xyz2][0], xyz2idx[xyz2][1])])
+                if not quiet:
+                    print('  ', unid(xyz2idx[xyz1][0], xyz2idx[xyz1][1]), '<->', unid(xyz2idx[xyz2][0], xyz2idx[xyz2][1]))
             except KeyError:
                 if quiet < 0:
                     print(' Debug: no index for %s %s' % (xyz1, xyz2))
-    return r
+
+    if rresi:
+        with open(filename, 'w') as f:
+            for r in rresi:
+                # not fully correct
+                # f.write('Prp8' +',' + r[0] + '\n')
+                f.write(r[0] + ',' + r[1] + '\n')
+        print('File saved:', filename)
+    return r, rresi
 
 
 def select_distances(names='', name='sele', state=1, selection='all', cutoff=-1, quiet=1):
@@ -126,5 +188,3 @@ cmd.auto_arg[0].update([
     ('get_raw_distances', _auto_arg0_distances),
     ('select_distances', _auto_arg0_distances),
 ])
-
-# vi: ts=4:sw=4:smarttab:expandtab
