@@ -24,7 +24,7 @@ The latest
 -------------------------------------------------------------------------------
 (see [CHANGELOG](https://github.com/mmagnus/rna-tools/tree/master/CHANGELOG.md) for more detailed description)
 
-
+**20-08-20** A new structures of splicesome processed with rna-tools to be easily viewed with PyMOL (or as single chains) [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome)
 
 **20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
 
