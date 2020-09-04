@@ -526,7 +526,7 @@ class RNASequence(object):
 
         elif method == "ipknot":
             self.ss_log = subprocess.check_output('ipknot ' + tf.name, shell=True)
-            return '\n'.join(self.ss_log.split('\n')[2:])
+            return '\n'.join(self.ss_log.decode().split('\n')[2:])
 
         elif method == "contextfold":
             if not CONTEXTFOLD_PATH:
@@ -622,7 +622,7 @@ if __name__ == '__main__':
                          constraints="((((...............................................................))))"))  # noqa
 
     print(seq.predict_ss("contextfold"))
-    # print seq.predict_ss(method="ipknot")
+    print(seq.predict_ss(method="ipknot"))
 
     verbose = False
     seq = RNASequence("GGGGUUUUCCC")
