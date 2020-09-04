@@ -8,6 +8,7 @@ VARNA_PATH = None
 VARNA_JAR_NAME = None
 RFAM_DB_PATH = None  # path to Rfam.cm
 CONTEXTFOLD_PATH = None
+IPKNOT_PATH = "/usr/local/opt/bin/ipknot"
 CPUS_CLUSTER = 1000
 DIFF_TOOL = "diff"
 

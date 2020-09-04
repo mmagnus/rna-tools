@@ -82,7 +82,7 @@ import tempfile
 import sys
 
 from rna_tools.SecondaryStructure import parse_vienna_to_pairs
-from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH, ENTRNA_PATH
+from rna_tools.rna_tools_config import CONTEXTFOLD_PATH, RNASTRUCTURE_PATH, ENTRNA_PATH, IPKNOT_PATH
 
 
 class MethodNotChosen(Exception):
@@ -525,7 +525,7 @@ class RNASequence(object):
         #     return self.ss_log.strip().split('\n')[-1].split()[0]
 
         elif method == "ipknot":
-            self.ss_log = subprocess.check_output('ipknot ' + tf.name, shell=True)
+            self.ss_log = subprocess.check_output(IPKNOT_PATH + ' ' + tf.name, shell=True)
             return '\n'.join(self.ss_log.decode().split('\n')[2:])
 
         elif method == "contextfold":
