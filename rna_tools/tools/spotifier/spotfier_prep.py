@@ -5,11 +5,12 @@
 """
 from __future__ import print_function
 
+
 import argparse
-from PIL import Image, ImageChops, Image, ImageDraw, ImageFont, ImageStat, ImageOps
-import logging
+import pathlib
 import os
-import argparse
+from PIL import Image, ImageChops, Image, ImageDraw, ImageFont, ImageStat, ImageOps
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -56,8 +57,19 @@ def level_image(img, a, b):
     os.system(cmd)
     img = Image.open(f2)
 
-    os.system('rm ' + f + ' ' + f2 )
+    os.remove(f)
+    os.remove(f2)
+
     return img
+
+
+def get_rms(im):
+    stat = ImageStat.Stat(im)
+    #r,g,b = stat.mean
+    ## print('bg sum', stat.sum[0])
+    ## print('bg mean', stat.mean[0])
+    ## print('bg rms', stat.rms[0])
+    return stat.rms[0]
 
 
 if __name__ == '__main__':
@@ -67,8 +79,11 @@ if __name__ == '__main__':
     for f in args.files:
         print(f)
 
+        rms = get_rms(Image.open(f))
+
         img = ImageOps.invert(Image.open(f))
-        mask = Image.open('mask.png')
+
+        mask = Image.open(str(pathlib.Path(__file__).parent.absolute()) +  '/mask.png')
         #inverted_image.save('inv.png')
 
         img = img.convert('LA')
@@ -79,11 +94,12 @@ if __name__ == '__main__':
         # img = normalized(img)
         img.paste(mask, (args.mx, args.my), mask)
 
-        img1 = level_image(img, args.levela, args.levelb)
-        img1.save(os.path.splitext(f)[0] + '_prep.png')
-        
-        img2 = level_image(img, 40, 50)
-        img2.save(os.path.splitext(f)[0] + '_prep2.png')    
+        if rms < 180:
+            img1 = level_image(img, args.levela, args.levelb)
+            img1.save(os.path.splitext(f)[0] + '_prep.png')
+        else:
+            img2 = level_image(img, 40, 50)
+            img2.save(os.path.splitext(f)[0] + '_prep.png')    
         #if args.debug: img.save('_before_trim.png')
         # img = trim(img)
         #img = img.resize([1000, 1000])
