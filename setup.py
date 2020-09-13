@@ -98,6 +98,7 @@ setup(
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
 
              'rna_tools/tools/spotifier/spotifier.py',
+             'rna_tools/tools/spotifier/spotifier2.py',
              'rna_tools/tools/spotifier/spotifier_prep.py',
              'rna_tools/tools/spotifier/digitifier.py',
              ],
