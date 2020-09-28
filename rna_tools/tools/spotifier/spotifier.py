@@ -38,6 +38,7 @@ def get_parser():
     parser.add_argument("--trim-rms", default=50, type=int)
     parser.add_argument("--size", default=110, type=int)
     parser.add_argument("-a", "--annotate", action="store_true")
+    parser.add_argument("-t", "--title")
     parser.add_argument("map", help='map')
     parser.add_argument("file", help="pre-processed image(s)", nargs='+')
     return parser
@@ -275,7 +276,7 @@ if __name__ == '__main__':
             # str(x) + '-' + str(y)
             if args.annotate:
                 draw.text((x, y), '|', font=font_bar, fill = 'darkgray')
-                txt = '  ' + str(d).rjust(5) + ' #' + str(i + 1) + ' ' +  names[i] + ' ' + spots_text
+                txt = '  ' + str(d).rjust(5) + ' #' + str(i + 1) + ' ' +  names[i] + ' ' + spots_text + '\n' + args.title
                 draw.text((x + 20, y + 10), txt, font = font, fill ="white", align="center")#, , align ="right")
             y += 100
             x = 0
