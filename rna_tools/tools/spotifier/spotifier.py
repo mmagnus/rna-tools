@@ -37,7 +37,7 @@ def get_parser():
     parser.add_argument("-y", default=30, type=int)
     parser.add_argument("--trim-rms", default=50, type=int)
     parser.add_argument("--size", default=110, type=int)
-    parser.add_argument("-a", "--dont-annotate", action="store_true")
+    parser.add_argument("-a", "--annotate", action="store_true")
     parser.add_argument("map", help='map')
     parser.add_argument("file", help="pre-processed image(s)", nargs='+')
     return parser
@@ -235,7 +235,7 @@ if __name__ == '__main__':
             x_id = 0
 
         extra = 0
-        if args.dont_annotate:
+        if args.annotate:
             extra = 600
         fig = Image.new('RGB', (len(figure[0]) * 100 + extra, len(figure) * 100))
         draw = ImageDraw.Draw(fig)
@@ -273,9 +273,9 @@ if __name__ == '__main__':
             if args.verbose: print("%.2f %.2f ∆" % (round(wt, 2), row_fig_rms), d)
             #print(round(1, 2), )
             # str(x) + '-' + str(y)
-            if args.dont_annotate:
+            if args.annotate:
                 draw.text((x, y), '|', font=font_bar, fill = 'darkgray')
-                txt = str(d) + ' #' + str(i + 1) + ' ' +  names[i] + ' ' + spots_text
+                txt = '  ' + str(d).rjust(5) + ' #' + str(i + 1) + ' ' +  names[i] + ' ' + spots_text
                 draw.text((x + 20, y + 10), txt, font = font, fill ="white", align="center")#, , align ="right")
             y += 100
             x = 0
