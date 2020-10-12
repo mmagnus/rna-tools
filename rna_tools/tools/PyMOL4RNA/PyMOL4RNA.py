@@ -858,6 +858,21 @@ def load_tmp():
     cmd.load(TMP_FOLDER + '/last.pse')
 
 
+def get_resi():
+    """
+    PyMOL>get_resi()
+    358+376+288+290+359+383+386+382+289+287+384+357+385+360+377+361
+    """
+    stored.residues = set()
+    cmd.iterate('(sele)', "stored.residues.add(resi)") # ('289') # residue only
+    print('+'.join(stored.residues))#[:-1])
+
+    #cmd.iterate('(sele)', "stored.residues.add((chain, resi))") # ('A', '289')
+    #print(r, end='+') # ('A', '289')
+    #selection = object + ' and index ' + str(index)
+    #cmd.iterate('(sele)', 'l.append([resn, resi])')
+    #rint(l)
+
 def findN(r):
     c = 'select br. all within ' + str(r) + ' of (sele)'
     cmd.do(c)
