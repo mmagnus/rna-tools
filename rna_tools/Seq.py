@@ -226,7 +226,7 @@ class RNASequence(object):
         ##   FutureWarning)
         ## cd /Users/magnus/work/evoClustRNA/rna-foldability/ENTRNA/ && python ENTRNA_predict.py --seq_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpUORegp --str_file /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmp1ERCcD
 
-    def predict_ss(self, method="RNAfold", constraints='', enforce_constraint=False, shapefn='', explore='', verbose=0):
+    def predict_ss(self, method="RNAfold", constraints='', enforce_constraint=False, shapefn='', explore='', verbose=0, path=''):
         """Predict secondary structure of the seq.
 
         Args:
@@ -529,11 +529,13 @@ class RNASequence(object):
             return '\n'.join(self.ss_log.decode().split('\n')[2:])
 
         elif method == "contextfold":
+            if path:
+                CONTEXTFOLD_PATH = path
             if not CONTEXTFOLD_PATH:
                 print('Set up CONTEXTFOLD_PATH in configuration.')
                 sys.exit(0)
             cmd = "cd " + CONTEXTFOLD_PATH + \
-                  " + && java -cp bin contextFold.app.Predict in:" + self.seq
+                  " && java -cp bin contextFold.app.Predict in:" + self.seq
             if verbose:
                 print(cmd)
             self.ss_log = subprocess.check_output(cmd, shell=True).decode()
