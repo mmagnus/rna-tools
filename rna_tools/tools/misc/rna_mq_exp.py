@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+Output goes into stdout
 
 """
 from __future__ import print_function
@@ -17,7 +18,7 @@ def get_parser():
     parser.add_argument('--sep', help="default is ,; can be also '\t'", default=",")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument('--output', help="output csv", default="merged.csv")
+    #parser.add_argument('--output', help="output csv", default="merged.csv")
     parser.add_argument('--inf', help="inf", default="inf.csv")
     return parser
 
