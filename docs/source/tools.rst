@@ -241,6 +241,8 @@ Interaction Network Fidelity (INF)
 rna_calc_inf
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. warning:: rna_calc_inf is using ClaRNA (included in the rna-tools packages). However, ClaRNA requires some extra libraires, not required by other tools in the package, that's why they are not included in the main installation configuration. To install these libraries in proper version, type "pip install rna-tools simplejson networkx==1.8.1".
+
 .. argparse::
    :ref: rna_tools.tools.rna_calc_inf.rna_calc_inf.get_parser
    :prog: rna_calc_inf
@@ -325,12 +327,17 @@ Contacts classification & secondary structure detection
 ClaRNA (contacts classification)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to calculate "Interaction Network Fidelity (INF) and not only" see rna_calc_inf in the Utils.
+.. warning:: ClaRNA requires some extra libraires, not required by other tools in the package, that's why they are not included in the main installation configuration. To install these libraries in proper version, type "pip install rna-tools simplejson networkx==1.8.1".
 
+If you want to calculate "Interaction Network Fidelity (INF) and not only" see also rna_calc_inf_.
+
+.. rna_calc_inf_: https://rna-tools.readthedocs.io/en/latest/tools.html#rna-calc-inf
+
+To run ClaRNA, see the documentaton below:
+	     
 .. automodule:: rna_tools.tools.clarna_app.clarna_app
    :members:
    :undoc-members:
-
 
 RNA 3D structure prediction
 -----------------------------------------
