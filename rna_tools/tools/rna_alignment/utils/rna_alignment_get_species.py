@@ -11,7 +11,7 @@ Example::
 
 Examples 2::
 
-    [dhcp177-lan203] Desktop$ rna_alignment_get_species.py u5_rfam_u5only.stk --verbose
+    $ rna_alignment_get_species.py u5_rfam_u5only.stk --verbose
     # STOCKHOLM 1.0
     #=GF WK U5_spliceosomal_RNA
     #=GF NC 39.90
@@ -47,6 +47,9 @@ Examples 2::
 
   This code has way more code than the name of the script says. This is customized script based on
   some script that did way more.
+
+AABX02000022.1
+
 """
 from __future__ import print_function
 
@@ -54,7 +57,8 @@ from rna_tools.tools.rna_alignment.rna_alignment import RNAalignment
 from rna_tools.Seq import RNASequence
 import pandas as pd
 import argparse
-import urllib2
+import urllib
+import sys
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -109,8 +113,9 @@ def get_species(id, ocfn, verbose=False):
             os = df[df.index == id]['os'].item()
             return os, ''  #
     # download
+    from urllib.request import urlopen
     url = "https://www.ebi.ac.uk/ena/data/view/%s&display=text&download=txt&filename=tmp.txt" % id
-    response = urllib2.urlopen(url)
+    response = urlopen(url)
     oc = ''
     os = ''
     for l in response:
