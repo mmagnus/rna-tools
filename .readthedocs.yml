@@ -9,3 +9,4 @@ requirements_file: docs/docs_requirements_py2.txt
 python:
     extra_requirements:
         - sphinx-argparse
+        - mysql-connector-python-rf
