@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-The output you simply get from the screen, save it it to a file.
+The output you simply get from the screen, redirect it to the file. This is an improved version of the script that uses the Rfam MySQL database online interface (thanks @akaped for this idea) (so you need to be connected to the Internet, of course).
+
+.. warning :: This scripts needs mysql-connector-python-rf module to connect the Rfam MySQL server, so install it before using: ``pip install mysql-connector-python-rf``.
 
 Example::
 
@@ -45,10 +47,7 @@ Examples 2::
 
 .. note::
 
-  This code has way more code than the name of the script says. This is customized script based on
-  some script that did way more.
-
-AABX02000022.1
+  This code has way more code than the name of the script says. This is a customized script based on some script that did way more than getting species for a Stokholm file.
 
 """
 from __future__ import print_function
@@ -59,6 +58,8 @@ import pandas as pd
 import argparse
 import urllib
 import sys
+import mysql.connector
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -93,17 +94,31 @@ def clean_id(id):
     return id
 
 def get_species(id, ocfn, verbose=False):
-    """
-    OS   Leishmania tarentolae
-    OC   Eukaryota; Euglenozoa; Kinetoplastida; Trypanosomatidae; Leishmaniinae;
-    OC   Leishmania; lizard Leishmania.
+    """Get the name of a species and taxonomy using the `Rfam MySQL database`_ based on the accession database (id).
 
-    link:
-    https://www.ebi.ac.uk/ena/data/view/AANU01000000&display=text&download=txt&filename=AANU01000000.txt
+    Args:
+        id: is an accession number taken from the alignment, e. g. ``AABX02000022.1``
+        ocfn: is a cache file that can be used to cache the results
+        verbose: be verbose
+
+    Returns:
+        os, oc: see below
+
+    These files are OS (species name) and OC (taxonomy)::
+
+        OS   Leishmania tarentolae
+        OC   Eukaryota; Euglenozoa; Kinetoplastida; Trypanosomatidae; Leishmaniinae;
+        OC   Leishmania; lizard Leishmania.
+
+    now this is done with MySQL (thanks akaped for this idea)
+
+    .. _Rfam MySQL database: https://docs.rfam.org/en/latest/database.html
+
     """
     # clean for AABX02000022.1/363025-363047 -> AABX02000022.1
     id = clean_id(id)
 
+    # cache
     if ocfn:
         try:
             df = pd.read_csv(ocfn, index_col=0)
@@ -112,17 +127,12 @@ def get_species(id, ocfn, verbose=False):
         if id in df.index:
             os = df[df.index == id]['os'].item()
             return os, ''  #
-    # download
-    from urllib.request import urlopen
-    url = "https://www.ebi.ac.uk/ena/data/view/%s&display=text&download=txt&filename=tmp.txt" % id
-    response = urlopen(url)
-    oc = ''
-    os = ''
-    for l in response:
-        if l.startswith('OS'):
-            os = l.replace('OS', '')
-        if l.startswith('OC'):
-            oc += l.replace('OC', '').strip()
+
+    mycursor = mydb.cursor()
+    cmd = 'select t1.species, t1.tax_string from taxonomy t1 inner join rfamseq t2 on t1.ncbi_id = t2.ncbi_id where t2.rfamseq_acc like "' + id + '%" limit 1;'
+    if verbose: print(cmd)
+    mycursor.execute(cmd)
+    os, oc = mycursor.fetchone()
 
     if not os:
         if verbose:
@@ -152,13 +162,20 @@ mapping =  [['Metazoa', 'Metazoa'],
            ['metagenomes', 'metagenomes'],
            ]
 
-
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
     a = args.alignment
     name_width = args.id_width
+
+    mydb = mysql.connector.connect(
+      host="mysql-rfam-public.ebi.ac.uk",
+      user="rfamro",
+      password="",
+      port="4497",
+      database="Rfam",
+    )
 
     if args.evo_mapping:
         mapping = eval(open(args.evo_mapping).read().replace('\n', ''))
@@ -218,7 +235,7 @@ if __name__ == '__main__':
                     ## energy, ss = seql.predict_ss(method="mcfold", constraints=cst, verbose=args.verbose)
                     ## if args.verbose: print(energy, ss)
                 ################################################################################
-                os, oc = get_species(id, args.osfn)
+                os, oc = get_species(id, args.osfn, args.verbose)
                 if not os:
                     os = id
                 os = os.replace('.', '_') # remove dots from here
