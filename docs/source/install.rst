@@ -5,11 +5,11 @@ To install kind of vanilla version rna-tools by use pip::
 
      pip install rna-tools
 
-Test if the package is installed:
+Test if the package is installed::
 
      $ python -c 'import rna_tools'
 
-if nothing appears that's good. If you see this: 
+if nothing appears that's good. If you see this::
 
      $ python -c 'import rna_tools'
      Traceback (most recent call last):
