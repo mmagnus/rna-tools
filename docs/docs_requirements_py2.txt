@@ -19,3 +19,5 @@ six
 python-Levenshtein
 
 termcolor
+
+mysql-connector-python-rf
