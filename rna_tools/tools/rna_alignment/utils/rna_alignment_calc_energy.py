@@ -15,7 +15,7 @@ Examples::
     calc-energy2.py --template u6atac-template.txt u6atac_u6only.sto -v
    ./calc-energy2.py --template alignments/u6-lower.cet --one alignments/u6-lower-stem-only.sto
 
-Takes cet files (calc-energy-templets).
+Takes cet files (calc-energy-templets)::
 
     $ rna_alignment_calc_energy.py --template test_data/u6-lower.cet --one test_data/u6-only.stk  -v # --loop-seq test_data/u6-only-loop-seq-u6-lower
     N/A% (0 of 182) |                                                                                                                            | Elapsed Time: 0:00:00 ETA:  --:--:--================================================================================
@@ -36,35 +36,34 @@ Takes cet files (calc-energy-templets).
     0  AB010698.1/46467-46488      -10.64  UGGugcgcaACA  (((((..)))))       -9.6  CCCugcgcaAGG  (((((..)))))
     Done: u6-only-loop-seq-u6-lower
 
-Is
+by parsing output from MC-Sym::
 
-domains have 5451 elements.
- 10:47:16 up 141 days, 26 min,  0 users,  load average: 1.45, 1.30, 1.56
-Score: -999.000 GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
-Total number of MB structures with 3 stems: 16041
-(overlaps: 0, !energy: 335585)
-</pre><P><H2>Sorting the structures...
-<P></H2><pre></pre><H2><P><P><P>Filtered and Sorted solutions:<P><P><P></H2><pre>
-</pre><H2><P><P><P><a HREF="http://biwww2.informatik.uni-freiburg.de/Software/MARNA/index.html" target="_blank">MARNA</a>-formatted:<P><P><P></H2><pre>
-GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
-((((((((((..))))))))))((((((((...)))))))) -33.20 ( -0.69)
-(((((((((....)))))))))((((((((...)))))))) -33.17 ( -0.69)
-((((((((((((((((...))))))))))))......)))) -32.40 ( +0.00)
+    domains have 5451 elements.
+     10:47:16 up 141 days, 26 min,  0 users,  load average: 1.45, 1.30, 1.56
+    Score: -999.000 GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
+    Total number of MB structures with 3 stems: 16041
+    (overlaps: 0, !energy: 335585)
+    </pre><P><H2>Sorting the structures...
+    <P></H2><pre></pre><H2><P><P><P>Filtered and Sorted solutions:<P><P><P></H2><pre>
+    </pre><H2><P><P><P><a HREF="http://biwww2.informatik.uni-freiburg.de/Software/MARNA/index.html" target="_blank">MARNA</a>-formatted:<P><P><P></H2><pre>
+    GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
+    ((((((((((..))))))))))((((((((...)))))))) -33.20 ( -0.69)
+    (((((((((....)))))))))((((((((...)))))))) -33.17 ( -0.69)
+    ((((((((((((((((...))))))))))))......)))) -32.40 ( +0.00)
 
-Backtracking with 2 variables (stems):
-domains have 5451 elements.
- 10:47:16 up 141 days, 26 min,  0 users,  load average: 1.45, 1.30, 1.56
-Score: -999.000 GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
-Total number of MB structures with 2 stems: 9555
-(overlaps: 0, !energy: 165582)
-</pre><P><H2>Sorting the structures...
-<P></H2><pre></pre><H2><P><P><P>Filtered and Sorted solutions:<P><P><P></H2><pre>
-</pre><H2><P><P><P><a HREF="http://biwww2.informatik.uni-freiburg.de/Software/MARNA/index.html" target="_blank">MARNA</a>-formatted:<P><P><P></H2><pre>
-GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
-((((((((((..))))))))))((((((((...)))))))) -33.20 ( -0.69)
-(((((((((....)))))))))((((((((...)))))))) -33.17 ( -0.69)
-((((((((((((((((...))))))))))))......)))) -32.40 ( +0.00)
-
+    Backtracking with 2 variables (stems):
+    domains have 5451 elements.
+     10:47:16 up 141 days, 26 min,  0 users,  load average: 1.45, 1.30, 1.56
+    Score: -999.000 GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
+    Total number of MB structures with 2 stems: 9555
+    (overlaps: 0, !energy: 165582)
+    </pre><P><H2>Sorting the structures...
+    <P></H2><pre></pre><H2><P><P><P>Filtered and Sorted solutions:<P><P><P></H2><pre>
+    </pre><H2><P><P><P><a HREF="http://biwww2.informatik.uni-freiburg.de/Software/MARNA/index.html" target="_blank">MARNA</a>-formatted:<P><P><P></H2><pre>
+    GAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUG
+    ((((((((((..))))))))))((((((((...)))))))) -33.20 ( -0.69)
+    (((((((((....)))))))))((((((((...)))))))) -33.17 ( -0.69)
+    ((((((((((((((((...))))))))))))......)))) -32.40 ( +0.00)
 
 """
 from __future__ import print_function

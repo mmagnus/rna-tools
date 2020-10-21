@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-usage::
+Usage::
 
   $ rna_clarna_app.py ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb \
             ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
@@ -21,7 +21,7 @@ Example:
         print results #
         #tmp_Z42i_..pdb.outCR     5k7c_clean_onechain_renumber_as_puzzle_srr.pdb.outCR      0.706      NA         0.865      NA         0.842      0.889      NA         0.000
 
-.. warning:: Setup a bash variable: ClaRNA_play_path, and add ClaRNA_play to your $PATH (install ClaRNA_play https://gitlab.genesilico.pl/RNA/ClaRNA_play (internal GS gitlab server)"""
+"""
 
 import argparse
 import subprocess

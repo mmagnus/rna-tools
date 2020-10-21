@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-The output you simply get from the screen, redirect it to the file. This is an improved version of the script that uses the Rfam MySQL database online interface (thanks @akaped for this idea) (so you need to be connected to the Internet, of course).
+This is an improved version of the script that uses the Rfam MySQL database online interface (thanks @akaped for this idea) (so you need to be connected to the Internet, of course). Redirect the output to the file.
+
+.. image:: ../pngs/species.png
 
 .. warning :: This scripts needs mysql-connector-python-rf module to connect the Rfam MySQL server, so install it before using: ``pip install mysql-connector-python-rf``.
 
 Example::
 
-    rna_alignment_get_species.py RF00004.stockholm.stk
+    $ rna_alignment_get_species.py RF00004.stockholm.stk
     # STOCKHOLM 1.0
     Sorex-araneus-(European-shrew)                     AUCGCU-UCU----CGGCC--UUU-U
 
@@ -53,12 +55,12 @@ def get_parser():
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     parser.add_argument("--debug", action="store_true")
-    parser.add_argument('--id-width', type=int, default=50)
+    parser.add_argument('--id-width', type=int, default=50, help="define width of ids, trim species name when longer than this")
     parser.add_argument('--evo-mapping')
     parser.add_argument('--evo-mapping-default', action="store_true")
     parser.add_argument('--one', action="store_true")
-    parser.add_argument('--osfn')
-    parser.add_argument("alignment")
+    parser.add_argument('--osfn', help="cache file")
+    parser.add_argument("alignment", help="alignment")
     return parser
 
 
