@@ -60,6 +60,7 @@ def get_parser():
     parser.add_argument('--evo-mapping-default', action="store_true")
     parser.add_argument('--one', action="store_true")
     parser.add_argument('--osfn', help="cache file")
+    parser.add_argument('--rfam', action="store_true")
     parser.add_argument("alignment", help="alignment")
     return parser
 
@@ -78,7 +79,7 @@ def clean_id(id):
     id = id.split('.')[0]
     return id
 
-def get_species(id, ocfn, verbose=False):
+def get_species(id, ocfn, rfam, verbose=False):
     """Get the name of a species and taxonomy using the `Rfam MySQL database`_ based on the accession database (id).
 
     Args:
@@ -113,11 +114,37 @@ def get_species(id, ocfn, verbose=False):
             os = df[df.index == id]['os'].item()
             return os, ''  #
 
-    mycursor = mydb.cursor()
-    cmd = 'select t1.species, t1.tax_string from taxonomy t1 inner join rfamseq t2 on t1.ncbi_id = t2.ncbi_id where t2.rfamseq_acc like "' + id + '%" limit 1;'
-    if verbose: print(cmd)
-    mycursor.execute(cmd)
-    os, oc = mycursor.fetchone()
+
+    if not rfam:
+        from Bio import Entrez, SeqIO
+        #provide your own mail here
+        Entrez.email = "A.N.Other@example.com"
+        try:
+            handle = Entrez.esearch(db="nuccore", term=id, retmax='200')
+            record = Entrez.read(handle)
+        except:
+            return id, 'Too many requsts'
+
+        ids = record['IdList']
+        for i in ids:
+            try:
+                handle = Entrez.efetch(db="nucleotide", id=i, rettype="gb", retmode="text")
+                record = SeqIO.read(handle, "genbank")
+            except:
+                return id, 'Too many requsts'
+            os = record.annotations["organism"]
+            return os.replace(' ', '-'), ''
+        return id, 'failed'
+
+    else:
+        mycursor = mydb.cursor()
+        cmd = 'select t1.species, t1.tax_string from taxonomy t1 inner join rfamseq t2 on t1.ncbi_id = t2.ncbi_id where t2.rfamseq_acc like "' + id + '%" limit 1;'
+        if verbose: print(cmd)
+        mycursor.execute(cmd)
+        try:
+            os, oc = mycursor.fetchone()
+        except:
+            os, oc = id, ''  # just return accession
 
     if not os:
         if verbose:
@@ -154,13 +181,14 @@ if __name__ == '__main__':
     a = args.alignment
     name_width = args.id_width
 
-    mydb = mysql.connector.connect(
-      host="mysql-rfam-public.ebi.ac.uk",
-      user="rfamro",
-      password="",
-      port="4497",
-      database="Rfam",
-    )
+    if args.rfam:
+           mydb = mysql.connector.connect(
+           host="mysql-rfam-public.ebi.ac.uk",
+           user="rfamro",
+           password="",
+           port="4497",
+           database="Rfam",
+        )
 
     if args.evo_mapping:
         mapping = eval(open(args.evo_mapping).read().replace('\n', ''))
@@ -183,7 +211,7 @@ if __name__ == '__main__':
                     sys.exit(1)
 
                 ################################################################################
-                os, oc = get_species(id, args.osfn, args.verbose)
+                os, oc = get_species(id, args.osfn, args.rfam, args.verbose)
                 if not os:
                     os = id
                 os = os.replace('.', '_') # remove dots from here
