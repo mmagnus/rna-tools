@@ -1,5 +1,7 @@
 position	description
 U2-A62	A62g makes ISL rigid
 U2-A25	Helices Ia and Ib show continuous base-stacking and the bulged U2 snRNA nucleotides U24 and A25 protrude from helix I and bind to the Prp8 RT domain. {Galej:2016ht} (Figs 3d, 4d, e and 5a).
-U6-U57C	U6-U57C~brC   First, a mutation, U6-U57C, that would disrupt base pairing in U2/U6 helix I nonetheless strongly suppresses a mutation of the branch site adenosine to cytosine (brC) that leads to a defect at the catalytic step of 5' splice site cleavage (McPheeters 1996). 
+U6-U57C	U6-U57C~brC   First, a mutation, U6-U57C, that would disrupt base pairing in U2/U6 helix I nonetheless strongly suppresses a mutation of the branch site adenosine to cytosine (brC) that leads to a defect at the catalytic step of 5' splice site cleavage (McPheeters 1996).
 U6-U57C	U6-U57C^5'SS  U6-U57C appears to hyperstabilize the 5' splice site cleavage conformation of the spliceosome (McPheeters 1996; Query and Konarska 2004).
+brC	brC_5'SS   which has been shown to destabilize the 5' splice site cleavage conformation of the spliceosome (Query and Konarska 2004; Liu et al. 2007).
+U6-U57A	U6-U57A_5'SS, the mutation U6-U57A, which effectively destabilizes the 5' splice site cleav- age conformation, worsens the defect of the brC substrate (Liu et al. 2007).
