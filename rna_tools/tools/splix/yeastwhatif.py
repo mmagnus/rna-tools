@@ -33,25 +33,26 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     hr('Literature:')
-    lit = open('literature.md').read()
+    lit = open('literature.tsv').read()
     g = []
     for i in lit.split('\n'):
         if i.strip():
-            x, y = i.split(';')
+            x, y = i.split('	') # tab
             if x == y:
                 continue
             e = [x, y]
             g.append(e)
 
     for m in args.mutant:
-        for n in g:
-            if n[0].upper() == m.upper():
-                print(n[0].ljust(5) + ' ' + n[1])
+        for n in g: # graph
+            if m.lower() in n[1].lower():  #
+            # if n[0].upper() == m.upper():
+                #print(n[0].ljust(5) + ' ' + n[1])
+                print(n[1])
 
     hr('Secondary structure:')
     g2 = [
         ["U2-A25", "U2-U10"],
-        #["U2-A25", "dupa"],
        ]
 
     g = g2
