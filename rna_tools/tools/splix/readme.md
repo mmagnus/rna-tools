@@ -1,6 +1,8 @@
 SpliX (a graph representation of spliceosomal interactions)
 -------------------------------------------------------------------------------
 
+![](docs/Network.png)
+
 	$ python splix.py u2-A25
 	----------------------------------- Literature: -----------------------------------
 	U2-A25  Helices Ia and Ib show continuous base-stacking and the bulged U2 snRNA nucleotides U24 and A25 protrude from helix I and bind to the Prp8 RT domain. {Galej:2016ht} (Figs 3d, 4d, e and 5a).
