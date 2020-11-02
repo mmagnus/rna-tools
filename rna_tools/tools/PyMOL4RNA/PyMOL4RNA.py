@@ -258,17 +258,25 @@ def get_intrs_all_vs_all(verbose=True, redundant=True):
             
 cmd.extend('get_intrs_all_vs_all', get_intrs_all_vs_all)
 
-def align_all():
+def align_all(cycles = 5, filename="_rmsd_.csv"):
     """
-    This returns a list with 7 items:
- 
-    RMSD after refinement
-    Number of aligned atoms after refinement
-    Number of refinement cycles
-    RMSD before refinement
-    Number of aligned atoms before refinement
-    Raw alignment score
-    Number of residues aligned 
+    Args:
+
+        cycles (int): maximum number of outlier rejection cycles {default: 5}
+
+    Returns:
+
+        Prints a table of ref vs models with 7 items:
+
+        RaR  RMSD after refinement
+        #AA  Number of aligned atoms after refinement
+        CoR  Number of refinement cycles
+        RbR  RMSD before refinement
+        #AbR Number of aligned atoms before refinement
+        RS   Raw alignment score
+        AR   Number of residues aligned 
+
+        and saves the table to filename as csv
 
     old version:
 
@@ -277,30 +285,34 @@ def align_all():
 """
     molecules = cmd.get_names_of_type("object:molecule")
     ref = molecules.pop(0)
+    print("""
+    RaR  RMSD after refinement
+    #AA  Number of aligned atoms after refinement
+    CoR  Number of refinement cycles
+    RbR  RMSD before refinement
+    #AbR Number of aligned atoms before refinement
+    RS   Raw alignment score
+    AR   Number of residues aligned 
+    """)
     report = []
-    print('Ref                  Model                RaR  #AA  CoR  RbR  #AbR RS   AR')
+    header = 'Ref                  Model                RaR  #AA  CoR  RbR  #AbR RS   AR'
+    print(header)
+    txt = ','.join([x.strip() for x in header.split()]) + '\n'
     for molecule in molecules:
-        values = cmd.align(molecule, ref)
-        print(ref[:20].ljust(20), molecule[:20].ljust(20),
-              str(round(values[0], 2)).ljust(4),
-              str(round(values[1], 2)).ljust(4),
-              str(round(values[2], 2)).ljust(4),
-              str(round(values[3], 2)).ljust(4),
-              str(round(values[4], 2)).ljust(4),
-              str(round(values[5])).ljust(4),
-              str(round(values[6], 2)).ljust(4),
-              )
-              #' '.join([str(v) for v in values]), '-- RMSD', round(values[3], 2), ' of ', values[6], 'residues')
-        #print(ref, molecule, 'RMSD: ', round(values[3], 2), ' of ', values[6], 'residues')
+        values = cmd.align(molecule, ref, cycles=cycles)
+        l = ([ref[:20].ljust(20), molecule[:20].ljust(20), str(round(values[0], 2)).ljust(4),
+            str(round(values[1], 2)).ljust(4),
+            str(round(values[2], 2)).ljust(4),
+            str(round(values[3], 2)).ljust(4),
+            str(round(values[4], 2)).ljust(4),
+            str(round(values[5])).ljust(4),
+            str(round(values[6], 2)).ljust(4)])
+        print(' '.join(l))
+        txt += ','.join([x.strip() for x in l]) + '\n'
         report.append([ref, molecule, values[3], values[6]])
 
-    for l in report:
-       if not l[1].startswith('_align'):
-         # rp14_5ddp_bound_clean_ligand rp14_farna_eloop_nol2fixed_cst.out.1 RMSD:  4.49360132217 of 52 residues
-         if l[1] not in ['sele', 'rov_pc']: # skip them
-              #print(l[0], l[1], 'RMSD:', round(l[2],2), str(l[3]) + 'nt')
-              pass
-              #f.write(i[0] + '-' + i[1] + ' ' + str(i[2]) + '\n')
+    with open(filename, 'w') as f:
+        f.write(txt)
 
 cmd.extend('align_all', align_all)
 
