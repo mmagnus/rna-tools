@@ -5,7 +5,6 @@
 PROGRAM = "run_clarna.py"
 
 import sys, os, re
-import urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
 import string
 from Bio import SeqIO
 from optparse import OptionParser
@@ -1170,9 +1169,8 @@ class testClarna:
     #
     
     def test_clarna(pdbid="1ehz", min_score=0.5):
-
+        import urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
         url = urllib.request.urlopen(url="http://www.rcsb.org/pdb/files/%s.pdb"%pdbid.upper())
-
         self.cutils = Clarna_utils()
         res_graph = self.cutils.start(url)
         for (u,v,d) in res_graph.edges(data=True):
