@@ -146,6 +146,10 @@ By default:
                         help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')
 
+    parser.add_argument('--backbone-only',
+                        help="""used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)""",
+                        action='store_true')
+
     parser.add_argument('--collapsed-view', help='',
                         action='store_true')
 
@@ -410,6 +414,7 @@ if __name__ == '__main__':
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
                                             rename_chains=rename_chains,
                                             report_missing_atoms=report_missing_atoms,
+                                            backbone_only=args.backbone_only,
                                             verbose=args.verbose)
 
             if args.inplace:

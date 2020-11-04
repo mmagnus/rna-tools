@@ -142,21 +142,21 @@ Take a tour http://mmagnus.github.io/rna-tools/#/
 
 ```
 usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
-                         [--renum-atoms] [--renum-residues-dirty] [--undo]
-                         [--delete-anisou] [--fix] [--to-mol2]
-                         [--split-alt-locations] [-c] [--is-pdb] [--is-nmr]
-                         [--nmr-dir NMR_DIR] [--un-nmr] [--orgmode]
-                         [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
-                         [--get-seq] [--color-seq]
+                         [--renum-atoms] [--renum-nmr]
+                         [--renum-residues-dirty] [--undo] [--delete-anisou]
+                         [--fix] [--to-mol2] [--split-alt-locations] [-c]
+                         [--is-pdb] [--is-nmr] [--nmr-dir NMR_DIR] [--un-nmr]
+                         [--orgmode] [--get-chain GET_CHAIN] [--fetch]
+                         [--fetch-ba] [--get-seq] [--color-seq]
                          [--ignore-files IGNORE_FILES] [--compact]
                          [--hide-warnings] [--get-ss] [--rosetta2generic]
                          [--get-rnapuzzle-ready] [--rpr] [--no-hr]
                          [--renumber-residues] [--dont-rename-chains]
                          [--dont-fix-missing-atoms]
-                         [--dont-report-missing-atoms] [--collapsed-view]
-                         [--cv] [-v] [--replace-hetatm] [--inplace]
-                         [--suffix SUFFIX] [--mutate MUTATE] [--edit EDIT]
-                         [--rename-chain RENAME_CHAIN]
+                         [--dont-report-missing-atoms] [--backbone-only]
+                         [--collapsed-view] [--cv] [-v] [--replace-hetatm]
+                         [--inplace] [--suffix SUFFIX] [--mutate MUTATE]
+                         [--edit EDIT] [--rename-chain RENAME_CHAIN]
                          [--swap-chains SWAP_CHAINS]
                          [--replace-chain REPLACE_CHAIN] [--delete DELETE]
                          [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
@@ -187,6 +187,7 @@ optional arguments:
   -r, --report          get report
   --no-progress-bar     for --no-progress-bar for --rpr
   --renum-atoms         renumber atoms, tested with --get-seq
+  --renum-nmr
   --renum-residues-dirty
   --undo                undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)
   --delete-anisou       remove files with ANISOU records, works with --inplace
@@ -197,10 +198,10 @@ optional arguments:
   -c, --clean           get clean structure
   --is-pdb              check if a file is in the pdb format
   --is-nmr              check if a file is NMR-style multiple model pdb
-  --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files 
-                        
+  --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files
+
                           rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
-                        
+
                         please use '' for pattern file recognition, this is a hack to deal with folders with
                         thousands of models, if you used only *.pdb then the terminal will complain that you
                         selected to many files.
@@ -224,7 +225,7 @@ optional arguments:
                         # 20_Bujnicki_3
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_4
-                        
+
   --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
   --get-ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
@@ -242,6 +243,7 @@ optional arguments:
                         used only with --get-rnapuzzle-ready
   --dont-report-missing-atoms
                         used only with --get-rnapuzzle-ready
+  --backbone-only       used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)
   --collapsed-view
   --cv                  alias to collapsed_view
   -v, --verbose         tell me more what you're doing, please!
@@ -267,7 +269,7 @@ optional arguments:
   --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
   --extract-chain EXTRACT_CHAIN
                         extract chain, e.g. A
-  --uniq UNIQ           
+  --uniq UNIQ
                         rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
                         A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
@@ -277,14 +279,13 @@ optional arguments:
   --oneline
   --fasta               with --get-seq, show sequences in fasta format,
                         can be combined with --compact (mind, chains will be separated with ' ' in one line)
-                        
+
                         $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
                         > 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
-                        
+
   --cif2pdb             [PyMOL Python package required]
   --pdb2cif             [PyMOL Python package required]
-
 ```
 
 Tricks:

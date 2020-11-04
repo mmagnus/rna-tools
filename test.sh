@@ -46,6 +46,8 @@ rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --renumber-residues > output/A_
 
 rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pdb
 
+rna_pdb_toolsx.py --rpr input/23s_Tth_3I8I_triple.pdb --renumber --backbone-only --no-hr > output/23s_Tth_3I8I_triple_backbone.pdb
+
 ## CCC.pdb
 rna_pdb_toolsx.py --no-hr --rpr --replace-hetatm input/CCC.pdb > output/CCC.pdb
 rna_pdb_toolsx.py --no-hr --rpr input/CCC.pdb > output/CCC_empty.pdb
