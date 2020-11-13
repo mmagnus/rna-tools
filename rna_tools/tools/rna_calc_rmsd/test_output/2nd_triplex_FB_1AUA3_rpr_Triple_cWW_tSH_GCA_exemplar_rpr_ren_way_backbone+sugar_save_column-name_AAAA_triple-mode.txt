@@ -1,0 +1,3 @@
+# of models: 1
+fn,AAAA
+Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb,1.629,CAG

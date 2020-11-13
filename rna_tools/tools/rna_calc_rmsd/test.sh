@@ -13,6 +13,10 @@ set -x
 
 mv -v test_data/triples/*aligned*pdb test_data/triples/aligned
 
+./rna_calc_rmsd_biopython.py -t test_data/triples2/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --column-name 'AAAA' --triple-mode > test_output/2nd_triplex_FB_1AUA3_rpr_Triple_cWW_tSH_GCA_exemplar_rpr_ren_way_backbone+sugar_save_column-name_AAAA_triple-mode.txt
+
+./rna_calc_rmsd_biopython.py -t test_data/triples2/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --triple-mode > test_output/2nd_triplex_FB_1AUA3_rpr_Triple_cWW_tSH_GCA_exemplar_rpr_ren_way_backbone+sugar_save_column-name_triple-mode.txt
+
 ./rna_calc_rmsd_all_vs_all.py -i test_data -o test_output/rmsd_calc_dir.tsv
 
 ./rna_calc_rmsd.py -t test_data/struc1.pdb -o test_output/rmsd_calc_dir_to_target.tsv test_data/*.pdb

@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 # Master
+
+- rna_pdb_toolsx.py: add --backbone-only
+- rna_calc_rmsd_biopython.py: 
+     - introduce way to save models after rmsd calc
+	 - add --triple-mode,--column-name
+
 # 3.5.4 200710
 
 - add digitifier.py

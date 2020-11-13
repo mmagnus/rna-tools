@@ -18,6 +18,8 @@ setup(
              'rna_tools/tools/misc/rna_tools_which.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py',
+             'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_biopython.py',
+             
              'rna_tools/tools/diffpdb/diffpdb.py',
              'rna_tools/tools/clanstix/rna_clanstix.py',
              'rna_tools/rna_dot2ct.py',

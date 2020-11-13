@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+Examples::
+
+  rna_calc_rmsd_biopython.py -t 2nd_triplex_FB_ABC.pdb  triples-all-v2-rpr/*.pdb --way backbone+sugar --save --suffix ABC --result abc.csv
+"""
+
 import Bio.PDB.PDBParser
 import Bio.PDB.Superimposer
 from Bio.PDB.PDBIO import Select
@@ -31,7 +37,7 @@ class RNAmodel:
         # [<Atom P>, <Atom C5'>, <Atom O5'>, <Atom C4'>, <Atom O4'>, <Atom C3'>, <Atom O3'>, <Atom C2'>, <Atom O2'>, <Atom C1'>, <Atom N1>, <Atom C2>, <Atom N3>, <Atom C4>, <Atom C5>, <Atom C6>, <Atom N6>, <Atom N7>, <Atom C8>, <Atom N9>, <Atom OP1>, <Atom OP2>]
         for res in self.struc.get_residues():
             for at in res:
-                #print(res.resname, res.get_id, at)
+                if args.debug: print(res.resname, res.get_id, at)
                 self.atoms.append(at)
         return self.atoms
     
@@ -48,37 +54,115 @@ class RNAmodel:
             t += ' '.join(['resi: ', str(r) ,' atom: ', str(a) , '\n' ])
         return t
 
-    def get_rmsd_to(self, other_rnamodel, way="", save=True):
+    def get_rmsd_to(self, other_rnamodel, way="", triple_mode=False, save=True):
         """Calc rmsd P-atom based rmsd to other rna model"""
         sup = Bio.PDB.Superimposer()
-
         if way == 'backbone+sugar':
             self.atoms_for_rmsd = []
             for a in self.atoms:
                 if a.name in "P,OP1,OP2,C5',O5',C4',O4',C3',O3',C2',O2',C1'".split(','):
                     self.atoms_for_rmsd.append(a)
-
+            if args.debug: print('atoms_for_rmsd', len(self.atoms_for_rmsd))
+                                 
             other_atoms_for_rmsd = []
+
             for a in other_rnamodel.atoms:
                 if a.name in "P,OP1,OP2,C5',O5',C4',O4',C3',O3',C2',O2',C1'".split(','):
                     other_atoms_for_rmsd.append(a)
+            if args.debug: print('other_atoms_for_rmsd', len(other_atoms_for_rmsd))
         else:
             self.atoms_for_rmsd = self.atoms
             other_atoms_for_rmsd = other_rnamodel.atoms
 
-        sup.set_atoms(self.atoms_for_rmsd, other_atoms_for_rmsd)
-        rms = round(sup.rms, 3)
+        if triple_mode:
+            def chunks(lst, n):
+                """Yield successive n-sized chunks from lst.
+                https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
+                """
+                for i in range(0, len(lst), n):
+                    yield lst[i:i + n]
 
-        if save:
-            ## io = Bio.PDB.PDBIO()
-            ## sup.apply(self.struc.get_atoms())
-            ## io.set_structure(self.struc)
-            ## io.save("aligned.pdb")
+            rmsd_min = 10000 # ugly
+            import itertools
+            per = list(itertools.permutations([0, 1, 2]))
+            lst = list(chunks(other_atoms_for_rmsd, 12))
+            sup_min = None
 
+            for p in per:
+                patoms = []
+                for i in p: # p=(1, 2, 3)
+                    patoms.extend(lst[i])
+                #print(self.atoms_for_rmsd)
+                ## print('patoms')
+                ## for a in patoms:
+                ##     print(a, a.get_parent().get_id())
+                ## print('self.atoms_for_rmsd')
+                ## for a in self.atoms_for_rmsd:
+                ##     print(a, a.get_parent().get_id())
+                sup.set_atoms(patoms, self.atoms_for_rmsd)
+                rms = round(sup.rms, 3)
+                
+                rt = None
+                seq = ''
+                for a in patoms:
+                    r = a.get_parent()
+                    if r != rt:
+                        rt = r
+                        seq += r.get_resname().strip()
+
+                if rms < rmsd_min:
+                    rmsd_min = rms
+                    sup_min = sup
+                    suffix = seq
+                    p_min = p
+                    seq_min = seq
+                    #print('min rmsd', end=' ')
+                    
+                if args.debug:
+                    print(p, 'GAC', [i + 1 for i in p], end=' ')
+                    print(seq, 'seq_min:', seq_min, rms)
+
+            ##for i, p in enumarte(p_min): # 2 3 1
+            #    #index[i] =
+            #    pass
+            index = [0,0,0]
+            index[0] = p_min.index(0)
+            index[1] = p_min.index(1)
+            index[2] = p_min.index(2)
+                
             io = Bio.PDB.PDBIO()
-            sup.apply(other_rnamodel.struc.get_atoms())
+            sup_min.apply(other_rnamodel.struc.get_atoms())
+            # ugly re-set 123 to crazy id ! + 100, so this will
+            # fill up 1 2 3 for the second for
+            for i, r in enumerate(other_rnamodel.struc[0]['A']):
+                r.id = (' ', index[i] + 100, ' ')
+            for i, r in enumerate(other_rnamodel.struc[0]['A']):
+                r.id = (' ', index[i] + 1, ' ')
+                if args.debug: print(r)
+
+            if args.debug: print(p_min, [i + 1 for i in p_min])
             io.set_structure(other_rnamodel.struc)
-            io.save(other_rnamodel.fpath.replace('.pdb', '_' + args.suffix + '.pdb'))
+
+            fout = other_rnamodel.fpath.replace('.pdb', '_aligned' + suffix + '.pdb')
+            if args.debug: print(fout)
+            io.save(fout)
+
+            return str(rmsd_min) + ',' + seq_min
+
+        else:
+            sup.set_atoms(self.atoms_for_rmsd, other_atoms_for_rmsd)
+            rms = round(sup.rms, 3)
+
+            if save:
+                ## io = Bio.PDB.PDBIO()
+                ## sup.apply(self.struc.get_atoms())
+                ## io.set_structure(self.struc)
+                ## io.save("aligned.pdb")
+
+                io = Bio.PDB.PDBIO()
+                sup.apply(other_rnamodel.struc.get_atoms())
+                io.set_structure(other_rnamodel.struc)
+                io.save(other_rnamodel.fpath.replace('.pdb', '_' + args.suffix + '.pdb'))
         return rms
 
 def get_rna_models_from_dir(directory):
@@ -114,6 +198,9 @@ def get_parser():
     parser.add_argument('--ignore-files', default='aligned', help="use to ignore files, .e.g. with 'aligned'")
     parser.add_argument('--suffix', default='aligned', help="used with --saved, by default: aligned")
     parser.add_argument('--way', help="e.g., backbone+sugar")
+    parser.add_argument('--triple-mode', help="same crazy strategy to align triples", action="store_true")
+    parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file",
+                        default="rmsd")
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
     parser.add_argument('files', help='files', nargs='+')
     parser.add_argument("--debug", action="store_true")
@@ -136,11 +223,12 @@ if __name__ == '__main__':
         models = tmp
     print('# of models:', len(models))
     c = 1
-    t = 'model,rmsd\n'
+    t = 'fn,' + args.column_name + '\n'
     for m in models:
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
-        rmsd = target.get_rmsd_to(mrna, args.way, args.save) #, 'tmp.pdb')
+        # print(m)
+        rmsd = target.get_rmsd_to(mrna, args.way, args.triple_mode, args.save) #, 'tmp.pdb')
         #print rmsd
         t += mrna.fn + ',' + str(rmsd) + '\n'
         #break    
