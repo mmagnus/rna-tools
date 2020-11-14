@@ -290,16 +290,16 @@ optional arguments:
 
 Tricks:
 
-    $ rna_pdb_toolsx.py --delete A:48-i --suffix=noloop --inplace
+    $ rna_pdb_toolsx.py --delete A:48-52 --suffix=noloop --inplace
     10_rp17c.out.14.pdb
     10_rp17c.out.14_out.pdb
     [..]
 
-    $ rna_pdb_toolsx.py --get_rnapuzzle_ready --inplace *.pdb
+    $ rna_pdb_toolsx.py --get-rnapuzzle-ready --inplace *.pdb
 
 .. keep original structures in original and use rpr:
 
-    ➜  bujnicki_server_ss for i in original/*.pdb; do rna_pdb_toolsx.py --get_rnapuzzle_ready $i > ${i/.pdb/_rpr.pdb}; done
+    ➜  bujnicki_server_ss for i in original/*.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done
     ➜  bujnicki_server_ss ls
     17pz_withSS_all_thrs6.00A_clust01-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust06-000001_AA_rpr.pdb
     17pz_withSS_all_thrs6.00A_clust02-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust07-000001_AA_rpr.pdb
@@ -307,9 +307,11 @@ Tricks:
     17pz_withSS_all_thrs6.00A_clust04-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust09-000001_AA_rpr.pdb
     17pz_withSS_all_thrs6.00A_clust05-000001_AA_rpr.pdb original
 
-.. or to get SimRNAready structures:
+.. or to get structures ready for SimRNA/SimRNAweb use :
 
-    $ for i in *pdb; do rna_pdb_toolsx.py --get_simrna_ready $i >  ${i/.pdb/_srr.pdb}; done
+    $ for i in *pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i >  ${i/.pdb/_srr.pdb}; done
+	# at some point there was a seperate function --get_simrna_ready but there is no need for it
+	# simply use --get-rnapuzzle-ready 
 
 ## Tools
 
@@ -331,7 +333,13 @@ Nucleic Acids Research. 2019
 <https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkz1108/5651330>
 
 ## Used in papers
-The papers in which the rna-tools package was used or one of spin-off projects, e.g. RNA-Puzzles-Normalized-submissions:
+The papers in which the rna-tools package was used or one of spin-off projects, e.g., [RNA-Puzzles-Normalized-submissions](https://github.com/mmagnus/RNA-Puzzles-Standardized-Submissions/tree/master/rp17), [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome):
+
+[12] C. van der Feltz, B. Nikolai, C. Schneider, J. C. Paulson, X. Fu, and A. A. Hoskins, “Saccharomyces cerevisiaeEcm2 Modulates the Catalytic Steps of pre-mRNA Splicing,” bioRxiv, vol. 4, pp. 2132–45, Sep. 2020.
+
+[11] T. Zhang, G. Hu, Y. Yang, J. Wang, and Y. Zhou, “All-Atom Knowledge-Based Potential for RNA Structure Discrimination Based on the Distance-Scaled Finite Ideal-Gas Reference State.,” J. Comput. Biol., vol. 27, no. 6, pp. 856–867, Jun. 2020.
+
+[10] F. Stefaniak and J. M. Bujnicki, “AnnapuRNA: a scoring function for predicting RNA-small molecule interactions.,” biorxiv.org 2020
 
 [9]	G. Chojnowski, M. Magnus, and J. M. Bujnicki, “RNA fragment assembly with experimental restraints,” (in progress) Jun. 2020. http://iimcb.genesilico.pl/rnamasonry
 
@@ -339,17 +347,17 @@ The papers in which the rna-tools package was used or one of spin-off projects, 
 
 [7] Z. Miao, R. W. Adamiak, M. Antczak, M. J. Boniecki, J. M. Bujnicki, S.-J. Chen, C. Y. Cheng, Y. Cheng, F.-C. Chou, R. Das, N. V. Dokholyan, F. Ding, C. Geniesse, Y. Jiang, A. Joshi, A. Krokhotin, M. Magnus, O. Mailhot, F. Major, T. H. Mann, P. Piatkowski, R. Pluta, M. Popenda, J. Sarzynska, L. Sun, M. Szachniuk, S. Tian, J. Wang, J. Wang, A. M. Watkins, J. Wiedemann, Y. Xiao, X. Xu, J. D. Yesselman, D. Zhang, Y. Zhang, Z. Zhang, C. Zhao, P. Zhao, Y. Zhou, T. Zok, A. Zyła, A. Ren, R. T. Batey, B. L. Golden, L. Huang, D. M. Lilley, Y. Liu, D. J. Patel, and E. Westhof, “RNA-Puzzles Round IV: 3D structure predictions of four ribozymes and two aptamers.,” RNA, p. rna.075341.120, May 2020.
 
-[6] M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). *RNA 3D structure prediction guided by independent folding of homologous sequences*, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA
+[6] M. Magnus, K. Kappel, R. Das, and J. M. Bujnicki, “RNA 3D structure prediction guided by independent folding of homologous sequences.,” BMC Bioinformatics, vol. 20, no. 1, pp. 512–15, Oct. 2019. https://github.com/mmagnus/EvoClustRNA
 
-[5] Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). *Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing*. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell
+[5] K. Eysmont, K. Matylla-Kulinska, A. Jaskulska, M. Magnus, and M. M. Konarska, “Rearrangements within the U6 snRNA Core during the Transition between the Two Catalytic Steps of Splicing.,” Molecular Cell, vol. 75, no. 3, pp. 538–548.e3, Aug. 2019. https://github.com/mmagnus/rna-tools/tree/master/U6MolCell
 
-[4] Li, J., Zhu, W., Wang, J., Li, W., Gong, S., Zhang, J., & Wang, W. (2018). *RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks*. PLoS Computational Biology, 14(11), e1006514. http://doi.org/10.1371/journal.pcbi.1006514
+[4] J. Li, W. Zhu, J. Wang, W. Li, S. Gong, J. Zhang, and W. Wang, “RNA3DCNN: Local and global quality assessments of RNA 3D structures using 3D deep convolutional neural networks.,” PLoS Comput Biol, vol. 14, no. 11, p. e1006514, Nov. 2018. http://doi.org/10.1371/journal.pcbi.1006514
 
-[3] Boccaletto, P., Magnus, M., Almeida, C., Zyła, A., Astha, A., Pluta, R., et al. (2018). *RNArchitecture: a database and a classification system of RNA families, with a focus on structural information*. Nucleic Acids Research, 46(D1), D202–D205. https://iimcb.genesilico.pl/RNArchitecture/
+[3] P. Boccaletto, M. Magnus, C. Almeida, A. Zyła, A. Astha, R. Pluta, B. Bagiński, E. J. Jankowska, S. Dunin-Horkawicz, T. K. Wirecki, M. J. Boniecki, F. Stefaniak, and J. M. Bujnicki, “RNArchitecture: a database and a classification system of RNA families, with a focus on structural information.,” Nucleic Acids Research, vol. 46, no. 1, pp. D202–D205, Jan. 2018. https://iimcb.genesilico.pl/RNArchitecture/
 
-[2] Magnus, M., Boniecki, M. J., Dawson, W. K., & Bujnicki, J. M. (2016). *SimRNAweb: a web server for RNA 3D structure modeling 4with optional restraints*. Nucleic Acids Research, 44(W1), W315–9. https://iimcb.genesilico.pl/SimRNAweb/
+[2] M. Magnus, M. J. Boniecki, W. K. Dawson, and J. M. Bujnicki, “SimRNAweb: a web server for RNA 3D structure modeling with optional restraints.,” Nucleic Acids Research, vol. 44, no. 1, pp. W315–9, Jul. 2016. https://iimcb.genesilico.pl/SimRNAweb/
 
-[1] Tuszyńska, I., Magnus, M., Jonak, K., Dawson, W. K., & Bujnicki, J. M. (2015). *NPDock: a web server for protein-nucleic acid docking*. Nucleic Acids Research, 43(W1), W425–30. http://iimcb.genesilico.pl/NPDock/
+[1] I. Tuszyńska, M. Magnus, K. Jonak, W. K. Dawson, and J. M. Bujnicki, “NPDock: a web server for protein-nucleic acid docking.,” Nucleic Acids Research, vol. 43, no. 1, pp. W425–30, Jul. 2015. http://iimcb.genesilico.pl/NPDock/
 
 ## RNA Puzzle Submission
 
