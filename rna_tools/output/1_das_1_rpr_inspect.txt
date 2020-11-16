@@ -1,0 +1,2 @@
+REMARK 250 Fixed atoms/residues:
+REMARK 250  - add OP3 at the beginning of the chain  in chain: B <Residue C het=  resseq=1 icode= > residue # 1

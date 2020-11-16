@@ -152,7 +152,7 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
                          [--hide-warnings] [--get-ss] [--rosetta2generic]
                          [--get-rnapuzzle-ready] [--rpr] [--no-hr]
                          [--renumber-residues] [--dont-rename-chains]
-                         [--dont-fix-missing-atoms]
+                         [--dont-fix-missing-atoms] [--inspect]
                          [--dont-report-missing-atoms] [--backbone-only]
                          [--collapsed-view] [--cv] [-v] [--replace-hetatm]
                          [--inplace] [--suffix SUFFIX] [--mutate MUTATE]
@@ -241,6 +241,7 @@ optional arguments:
                            --get-rnapuzzle-ready rename chains from ABC.. to stop behavior switch on this option
   --dont-fix-missing-atoms
                         used only with --get-rnapuzzle-ready
+  --inspect             inspect missing atoms (technically decorator to --get-rnapuzzle-ready without actually doing anything but giving a report on problems)
   --dont-report-missing-atoms
                         used only with --get-rnapuzzle-ready
   --backbone-only       used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)
@@ -339,7 +340,7 @@ The papers in which the rna-tools package was used or one of spin-off projects, 
 
 [11] T. Zhang, G. Hu, Y. Yang, J. Wang, and Y. Zhou, “All-Atom Knowledge-Based Potential for RNA Structure Discrimination Based on the Distance-Scaled Finite Ideal-Gas Reference State.,” J. Comput. Biol., vol. 27, no. 6, pp. 856–867, Jun. 2020.
 
-[10] F. Stefaniak and J. M. Bujnicki, “AnnapuRNA: a scoring function for predicting RNA-small molecule interactions.,” biorxiv.org 2020
+[10] F. Stefaniak and J. M. Bujnicki, “AnnapuRNA: a scoring function for predicting RNA-small molecule interactions.,” biorxiv.org 2020 https://github.com/filipsPL/annapurna
 
 [9]	G. Chojnowski, M. Magnus, and J. M. Bujnicki, “RNA fragment assembly with experimental restraints,” (in progress) Jun. 2020. http://iimcb.genesilico.pl/rnamasonry
 

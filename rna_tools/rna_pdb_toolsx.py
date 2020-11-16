@@ -142,6 +142,10 @@ By default:
                         help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')
 
+    parser.add_argument('--inspect',
+                        help="inspect missing atoms (technically decorator to --get-rnapuzzle-ready without actually doing anything but giving a report on problems)",
+                        action='store_true')
+    
     parser.add_argument('--dont-report-missing-atoms',
                         help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')
@@ -366,7 +370,12 @@ if __name__ == '__main__':
             print(add_header(version))
         print(s.get_text())
 
-    #rpr #--rpr
+    remarks_only = False
+    if args.inspect:
+        args.get_rnapuzzle_ready = True
+        fix_missing_atom = False
+        remarks_only = True
+
     if args.get_rnapuzzle_ready or args.rpr:
         # quick fix - make a list on the spot
         if list != type(args.file):
@@ -439,11 +448,16 @@ if __name__ == '__main__':
                 if remarks:
                     output += '\n'.join(remarks) + '\n'
                 output += s.get_text() + '\n'
-                try:
-                    sys.stdout.write(output)
+
+                if remarks_only:
+                    sys.stdout.write('\n'.join(remarks))
                     sys.stdout.flush()
-                except IOError:
-                    pass
+                else:
+                    try:
+                        sys.stdout.write(output)
+                        sys.stdout.flush()
+                    except IOError:
+                        pass
         # hmm... fix for problem with renumbering, i do renumbering
         # and i stop here
         # i'm not sure that this is perfect
