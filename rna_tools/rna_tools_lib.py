@@ -1464,7 +1464,7 @@ class RNAStructure:
             remarks.append('REMARK 250 Missing atoms:')
             for i in missing:
                 remarks.append(' '.join(['REMARK 250   +', str(i[0]),
-                                         str(i[1]), str(i[2]), 'residue #', str(i[3])]))
+                                         'chain:', str(i[1]), str(i[2]), 'residue #', str(i[3])]))
             #raise Exception('Missing atoms in %s' % self.fn)
 
         if protein_chains_remmoved:
