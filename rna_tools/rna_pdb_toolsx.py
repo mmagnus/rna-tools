@@ -376,6 +376,7 @@ if __name__ == '__main__':
         fix_missing_atom = False
         remarks_only = True
         args.dont_rename_chains = True
+        args.renumber_residues = False
 
     if args.get_rnapuzzle_ready or args.rpr:
         # quick fix - make a list on the spot
