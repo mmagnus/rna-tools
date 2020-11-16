@@ -1165,7 +1165,7 @@ class RNAStructure:
                             del r["O5'"]
                             r.add(po3["O5'"])
 
-                        fixed.append(['add OP3 at the beginning of the chain ', chain.id, r, c])
+                        fixed.append(['add OP3 at the beginning of the chain ', chain.id, r, r.id[1]])
 
                     p_missing = False  # off this function
 
@@ -1250,7 +1250,7 @@ class RNAStructure:
                         r.add(C["C5"])
                         r.add(C["C6"])
 
-                        fixed.append(['add the whole base C', chain.id, r, c])
+                        fixed.append(['add the whole base C', chain.id, r, r.id[1]])
 
                 #
                 # fix missing U (the whole base at the moment)
@@ -1290,7 +1290,7 @@ class RNAStructure:
                         r.add(U["C5"])
                         r.add(U["C6"])
 
-                        fixed.append(['add the whole base U', chain.id, r, c])
+                        fixed.append(['add the whole base U', chain.id, r, r.id[1]])
                 #
                 # fix missing G (the whole base at the moment)
                 #
@@ -1332,7 +1332,7 @@ class RNAStructure:
                         r.add(G["N3"])
                         r.add(G["C4"])
 
-                        fixed.append(['add the whole base G', chain.id, r, c])
+                        fixed.append(['add the whole base G', chain.id, r, r.id[1]])
                 #
                 # fix missing A (the whole base at the moment)
                 #
@@ -1373,7 +1373,7 @@ class RNAStructure:
                         r.add(A["N3"])
                         r.add(A["C4"])
 
-                        fixed.append(['add the whole base A', chain.id, r, c])
+                        fixed.append(['add the whole base A', chain.id, r, r.id[1]])
 
                 #
                 # strip residues of extra atoms, not in G_ATOMS in this case
