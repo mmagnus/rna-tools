@@ -46,6 +46,9 @@ def get_parser():
     parser.add_argument('--renum-atoms', help='renumber atoms, tested with --get-seq',
                         action='store_true')
 
+    parser.add_argument('--renum-nmr', help='',
+                        action='store_true')
+
     parser.add_argument('--renum-residues-dirty', help='',  action='store_true')
 
     parser.add_argument('--undo', help='undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)',  action='store_true')
@@ -464,6 +467,7 @@ if __name__ == '__main__':
         # and i stop here
         # i'm not sure that this is perfect
         sys.exit(0)
+
 
     if args.renumber_residues:
         s = RNAStructure(args.file)
@@ -998,6 +1002,23 @@ if __name__ == '__main__':
             c += 1
         print('END')
 
+
+    if args.renum_nmr:
+        if list != type(args.file):
+            args.file = [args.file]
+        txt = ''
+        for f in args.file:
+            c = 1
+            for l in open(f):
+                if l.startswith('MODEL'):
+                    txt += "MODEL       " + str(c) + '\n'
+                    c += 1
+                elif l.strip() == 'END':
+                    pass
+                else:
+                    txt += l
+        print(txt)
+            
     if args.cif2pdb:
         try:
             from pymol import cmd
@@ -1014,6 +1035,7 @@ if __name__ == '__main__':
             cmd.save(f.replace('.cif', '.pdb'), '(all)')
             cmd.delete('all')
             
+
     if args.pdb2cif:
         try:
             from pymol import cmd
