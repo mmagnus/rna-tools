@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	   - add reload()
 	   - change write() now saves by default to self.fn
        - add get_remarks_text()
+	   - add get_res_text()
+
 	   
 - rna_calc_rmsd_biopython.py: 
      - introduce way to save models after rmsd calc

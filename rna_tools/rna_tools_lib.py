@@ -1635,6 +1635,35 @@ class RNAStructure:
                 txt += l
         return txt
 
+    def get_res_text(self, chain_id, resi):
+        """Get a residue of given resi of chain_id and return as a text
+
+        Args:
+            chain_id (str): e.g., 'A'
+            resi (int): e.g., 1
+
+        Returns:
+             txt: 
+
+        Example::
+
+            r = RNAStructure(fn)
+            print(r.get_res_txt('A', 1))
+
+            ATOM      1  O5'   G A   1      78.080 -14.909  -0.104  1.00  9.24           O  
+            ATOM      2  C5'   G A   1      79.070 -15.499  -0.956  1.00  9.70           C  
+            ATOM      3  C4'   G A   1      78.597 -16.765  -1.648  1.00  9.64           C  
+            ATOM      4  O4'   G A   1      78.180 -17.761  -0.672  1.00  9.88           O  
+            (...)
+
+        """
+        txt = ''
+        for l in self.lines:
+            if l.startswith("ATOM"):
+                if self.get_res_num(l) == resi and self.get_chain_id(l) == chain_id:
+                    txt += l + '\n'
+        return txt
+
 def add_header(version=None):
     now = time.strftime("%c")
     txt = 'REMARK 250 Model edited with rna-tools\n'
@@ -1853,6 +1882,11 @@ def replace_chain(struc_fn, insert_fn, chain_id):
 
 # main
 if '__main__' == __name__:
+
+    fn = "input/1a9l_NMR_1_2_models.pdb"
+    r = RNAStructure(fn)
+    t = r.get_res_text('A', 1)
+    with open('output/1a9l_NMR_1_2_models_R1.pdb', 'w') as f: f.write(t)
 
     fn = "input/remarks.pdb"
     r = RNAStructure(fn)
