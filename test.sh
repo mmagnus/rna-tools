@@ -50,6 +50,8 @@ rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pd
 
 rna_pdb_toolsx.py --rpr input/23s_Tth_3I8I_triple.pdb --renumber --backbone-only --no-hr > output/23s_Tth_3I8I_triple_backbone.pdb
 
+rna_pdb_toolsx.py --set-chain C input/1xjr_GTP.pdb > output/1xjr_GTP_setChainC.pdb
+
 ## CCC.pdb
 rna_pdb_toolsx.py --no-hr --rpr --replace-hetatm input/CCC.pdb > output/CCC.pdb
 rna_pdb_toolsx.py --no-hr --rpr input/CCC.pdb > output/CCC_empty.pdb
