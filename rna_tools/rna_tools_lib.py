@@ -1880,6 +1880,35 @@ def replace_chain(struc_fn, insert_fn, chain_id):
     return output.strip()
 
 
+def set_chain_for_struc(struc_fn, chain_id, save_file_inplace=False, skip_ter=True):
+    """Quick & dirty function to set open a fn PDB format, set chain_id
+    and save it to a file. Takes only lines with ATOM and TER."""
+    txt = ''
+    for line in open(struc_fn):
+        if skip_ter:
+            if line.startswith('ATOM') or line.startswith('TER'):
+                # if TER line is only TER, not like TER atom chain etc
+                # then just keep TER there and don't add any chain to id
+                if line == 'TER':
+                    pass
+                else:
+                    l = line[:21] + chain_id + line[22:]
+                txt += l
+            else:
+                txt += line
+        else:
+            if line.startswith('ATOM'):
+                l = line[:21] + chain_id + line[22:]
+                txt += l
+            elif line.startswith('TER'):
+                continue
+            else:
+                txt += line
+    if save_file_inplace:
+        with open(struc_fn, 'w') as f:
+             f.write(txt)
+    return txt.strip()
+
 # main
 if '__main__' == __name__:
 

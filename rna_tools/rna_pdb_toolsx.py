@@ -26,7 +26,7 @@ import glob
 import os
 from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version, \
                           collapsed_view, fetch, fetch_ba, replace_chain, RNAStructure, \
-                          select_pdb_fragment, sort_strings
+                          select_pdb_fragment, sort_strings, set_chain_for_struc
 from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
 
 
@@ -190,6 +190,8 @@ and the first nucleotide of the chain B"""))
                         help="edit 'A>B' to rename chain A to chain B")
 
     parser.add_argument('--swap-chains', help='B>A, rename A to _, then B to A, then _ to B')
+
+    parser.add_argument('--set-chain', help='set chain for all ATOM lines and TER (quite brutal function)')
 
     parser.add_argument('--replace-chain',
                         default='',
@@ -1002,6 +1004,18 @@ if __name__ == '__main__':
             c += 1
         print('END')
 
+    if args.set_chain:
+        if list != type(args.file):
+            args.file = [args.file]
+
+        for f in args.file:
+            txt = set_chain_for_struc(f, args.set_chain)
+            if args.inplace:
+                shutil.move(f, f.replace('.pdb', '.pdb~'))
+                with open(f, 'w') as fi:
+                    fi.write(txt)
+            else:
+                print(txt)
 
     if args.renum_nmr:
         if list != type(args.file):
@@ -1017,7 +1031,12 @@ if __name__ == '__main__':
                     pass
                 else:
                     txt += l
-        print(txt)
+        if args.inplace:
+            shutil.move(f, f.replace('.pdb', '.pdb~'))
+            with open(f) as fi:
+                fi.write(txt)
+        else:
+            print(txt)
             
     if args.cif2pdb:
         try:
@@ -1035,7 +1054,6 @@ if __name__ == '__main__':
             cmd.save(f.replace('.cif', '.pdb'), '(all)')
             cmd.delete('all')
             
-
     if args.pdb2cif:
         try:
             from pymol import cmd
