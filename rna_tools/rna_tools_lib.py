@@ -813,20 +813,30 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def write(self, outfn, v=True):
-        """Write ```self.lines``` to a file (and END file")"""
+    def write(self, outfn='', verbose=True):
+        """Write ```self.lines``` to a file (and add END file)
+
+        Args:
+            outfn (str): file to save, if outfn is '', then simply use self.fn
+            verbose (Boolen): be verbose or not
+
+        Returns:
+            None
+
+        """
+        if outfn == '':
+            outfn = self.fn
         f = open(outfn, 'w')
         # test if there is anything to write, if not, it's likely that the
         # file is not a PDB file, e.g. .outCR
         if not self.lines:
             raise Exception('Nothing to write. Is the input a PDB file? ', self.fn)
-
         for l in self.lines:
             f.write(l + '\n')
         if not l.startswith('END'):
             f.write('END')
         f.close()
-        if v:
+        if verbose:
             print('Write %s' % outfn)
 
     def get_atom_num(self, line):
@@ -1011,7 +1021,7 @@ class RNAStructure:
 
         tf = tempfile.NamedTemporaryFile(delete=False)
         ftmp = tf.name
-        self.write(ftmp, v=False)
+        self.write(ftmp, verbose=False)
 
         parser = PDB.PDBParser()
         struct = parser.get_structure('', ftmp)
