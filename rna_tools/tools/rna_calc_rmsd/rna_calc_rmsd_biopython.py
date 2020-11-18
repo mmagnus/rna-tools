@@ -147,8 +147,9 @@ class RNAmodel:
             io.save(fout)
 
             # ugly set chain to A
-            set_chain_for_struc(fout, 'A')
+            set_chain_for_struc(fout, 'A', save_file_inplace=True)
             # and now run this to sort into 1 2 3
+
             r = RNAStructure(fout)
             remarks = r.get_remarks_text()
             r1 = r.get_res_text('A', 1)
