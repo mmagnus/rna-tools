@@ -1,21 +1,21 @@
 set -x 
-./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_CBA.pdb  test_data/triples/*.pdb --ignore-files CGA --way backbone+sugar \
+./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples/*.pdb --ignore-files CGA --way backbone+sugar \
 			     > test_output/2nd_triplex_FB_CBA_ignore_files_CGA.csv
 
-./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_CBA.pdb  test_data/triples/*.pdb --way=backbone+sugar \
+./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples/*.pdb --way=backbone+sugar \
 			     > test_output/2nd_triplex_FB_CBA_ignore_files_CGA.csv
 
-./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_CBA.pdb  test_data/triples/*.pdb --save --way=backbone+sugar \
+./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples/*.pdb --save --way=backbone+sugar \
 			     > test_output/2nd_triplex_FB_CBA_ignore_files_CGA.csv
 
-./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_CBA.pdb  test_data/triples/*.pdb --save --suffix 'alignedXXX' --way=backbone+sugar \
+./rna_calc_rmsd_biopython.py -t test_data/2nd_triplex_FB_1AUA3_rpr.pdb  test_data/triples/*.pdb --save --suffix 'alignedXXX' --way=backbone+sugar \
 			     > test_output/2nd_triplex_FB_CBA_ignore_files_CGA.csv
 
 mv -v test_data/triples/*aligned*pdb test_data/triples/aligned
 
 ./rna_calc_rmsd_biopython.py -t test_data/triples2/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --column-name 'AAAA' --triple-mode > test_output/2nd_triplex_FB_1AUA3_rpr_Triple_cWW_tSH_GCA_exemplar_rpr_ren_way_backbone+sugar_save_column-name_AAAA_triple-mode.txt
 
-./rna_calc_rmsd_biopython.py -t test_data/triples2/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --triple-mode > test_output/2nd_triplex_FB_1AUA3_rpr_Triple_cWW_tSH_GCA_exemplar_rpr_ren_way_backbone+sugar_save_column-name_triple-mode.txt
+./rna_calc_rmsd_biopython.py -t test_data/triples2/2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/*rpr.pdb  --way backbone+sugar --save --triple-mode > test_output/2nd_triplex_FB_1AUA3_rpr_Triple_cWW_tSH_GCA_exemplar_rpr_ren_way_backbone+sugar_save_column-name_triple-mode.txt
 
 ./rna_calc_rmsd_all_vs_all.py -i test_data -o test_output/rmsd_calc_dir.tsv
 
