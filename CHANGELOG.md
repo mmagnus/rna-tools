@@ -6,9 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Master
 
-rna_tools_lib.py (RNAStructure) - get_res_text()
-rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
-rna_calc_rmsd_biopython.py: --triple-mode works! 201118
+	rna_tools_lib.py (RNAStructure) - get_res_text()
+	rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
+	rna_calc_rmsd_biopython.py: --triple-mode works! 201118
 
 - rna_pdb_toolsx.py:
      - add --inspect
