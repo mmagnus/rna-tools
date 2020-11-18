@@ -10,8 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
      - add --inspect
 	 - add --backbone-only
 - rna_tools_lib.py: 
-     - add reload()
-	 - write() now saves by default to self.fn
+     - RNAStructure:
+	   - add reload()
+	   - change write() now saves by default to self.fn
+       - add get_remarks_text()
+	   
 - rna_calc_rmsd_biopython.py: 
      - introduce way to save models after rmsd calc
 	 - add --triple-mode,--column-name

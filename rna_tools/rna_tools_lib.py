@@ -1604,6 +1604,37 @@ class RNAStructure:
         return 'RNAStructure %s' % self.fn
 
 
+    def get_remarks_text(self):
+        """Get remarks as text for given file.
+        This function re-open files, as define as self.fn to get remarks.
+
+        Example::
+
+            r = RNAStructure(fout)
+            remarks = r.get_remarks_txt()
+            r1 = r.get_res_txt('A', 1)
+            r2 = r.get_res_txt('A', 2)
+            r3 = r.get_res_txt('A', 3)
+            with open(fout, 'w') as f:
+                f.write(remarks)
+                f.write(r1)
+                f.write(r2)
+                f.write(r3)
+
+            remarks is
+
+            REMARK 250 Model edited with rna-tools
+            REMARK 250  ver 3.5.4+63.g4338516.dirty 
+            REMARK 250  https://github.com/mmagnus/rna-tools 
+            REMARK 250  Fri Nov 13 10:15:19 2020
+
+        """
+        txt = ''
+        for l in open(self.fn):
+            if l.startswith("REMARK"):
+                txt += l
+        return txt
+
 def add_header(version=None):
     now = time.strftime("%c")
     txt = 'REMARK 250 Model edited with rna-tools\n'
@@ -1822,6 +1853,12 @@ def replace_chain(struc_fn, insert_fn, chain_id):
 
 # main
 if '__main__' == __name__:
+
+    fn = "input/remarks.pdb"
+    r = RNAStructure(fn)
+    t = r.get_remarks_text()
+    with open('output/remarks_only.pdb', 'w') as f: f.write(t)
+
     fn = 'input/image'
     print('fn:', fn)
     struc = RNAStructure(fn)
