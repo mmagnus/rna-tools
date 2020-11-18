@@ -119,6 +119,9 @@ class RNAStructure:
 
         self.res = self.get_resn_uniq()
 
+    def reload(self):
+        self.__init__(self.fn)
+        
     def is_pdb(self):
         """Return True if the files is in PDB format.
 
