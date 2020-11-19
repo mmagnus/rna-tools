@@ -6,26 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Master
 
-	rna_tools_lib.py (RNAStructure) - get_res_text()
-	rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
-	rna_calc_rmsd_biopython.py: --triple-mode works! 201118
-
-- rna_pdb_toolsx.py:
-     - add --inspect
-	 - add --backbone-only
-
-- rna_tools_lib.py: 
-     - RNAStructure:
-	   - add reload()
-	   - change write() now saves by default to self.fn
-       - add get_remarks_text()
-	   - add get_res_text()
-	   
-- rna_calc_rmsd_biopython.py: 
-     - introduce way to save models after rmsd calc
-	 - add --triple-mode,--column-name
-
-
+    rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
+    rna_pdb_toolsx.py: add --triple-mode,--column-name
+    rna_pdb_toolsx.py: add --backbone-only
+   
+    rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
+    rna_tools_lib.py (RNAStructure) - add reload()
+    rna_tools_lib.py (RNAStructure) - change write() now saves by default to self.fn
+    
+    rna_calc_rmsd_biopython.py: --triple-mode works (final test!) 201118
+    rna_calc_rmsd_biopython.py: introduce way to save models after rmsd calc
+    rna_calc_rmsd_biopython.py: add --triple-mode,--column-name
 
 # 3.5.4 200710
 
