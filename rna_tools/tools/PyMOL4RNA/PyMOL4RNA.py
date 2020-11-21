@@ -32,8 +32,8 @@ user = getpass.getuser()
 
 import os
 import sys
-from rna_tools.tools.PyMOL4RNA.bucket.show_contacts import show_contacts
-from rna_tools.tools.PyMOL4RNA.bucket.get_raw_distances import get_raw_distances
+from rna_tools.tools.PyMOL4RNA.libs.show_contacts import show_contacts
+from rna_tools.tools.PyMOL4RNA.libs.get_raw_distances import get_raw_distances
 
 from pymol import cmd
 try:
