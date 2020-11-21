@@ -1070,6 +1070,9 @@ class RNAStructure:
             c2 = PDB.Chain.Chain(chain.id)
 
             c = 1  # new chain, goes from 1 !!! if renumber True
+            prev_r = '' # init prev_r 
+            remarks = []
+
             for r in res:
                 # hack for amber/qrna
                 r.resname = r.resname.strip()
@@ -1225,6 +1228,27 @@ class RNAStructure:
 
                 o2p_missing = False  # off this function
 
+                ######## fixing of missing OP1 and OP2 atoms in backbone ###########
+                if fix_missing_atoms:
+                    try:
+                        r["OP1"]
+                    except:
+                        if prev_r:
+                            op4 = PDB.PDBParser().get_structure('', path + '/data/op4.pdb')
+                            op4a = [a for a in op4[0].get_residues()][0]
+                            r_atoms = [r["O5'"], r["P"], prev_r["O3'"]] #  r["C5'"], 
+                            op4_atoms = [op4a["O5'"], op4a["P"], op4a["O3'"]] # op4a["C5'"]] #, 
+
+                            sup = PDB.Superimposer()
+                            sup.set_atoms(r_atoms, op4_atoms)
+                            sup.apply(op4.get_atoms())
+
+                            r.add(op4a["OP1"])
+                            r.add(op4a["OP2"])
+                            fixed.append(['add the missing OP1 and OP2', chain.id, r, r.id[1]])
+
+                        else:
+                            remarks.append("REMARK 250 Warning: Can't fix missing OP1 or/and OP2 atoms of " + str(r))
                 #
                 # fix missing C (the whole base at the moment)
                 #
@@ -1451,6 +1475,8 @@ class RNAStructure:
                             missing.append([an, chain.id, r, c])
                     c2.add(r2)
 
+                prev_r = r  # hack to keep preview residue to be used in the function
+                            # e.g., to get an atom from this residue
                 c += 1
             chains2.append(c2)
 
@@ -1466,7 +1492,6 @@ class RNAStructure:
         fout = tf.name
         io.save(fout)
 
-        remarks = []
         if fixed:
             remarks.append('REMARK 250 Fixed atoms/residues:')
             for i in fixed:
