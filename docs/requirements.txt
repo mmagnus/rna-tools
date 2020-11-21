@@ -19,3 +19,4 @@ six
 python-Levenshtein
 
 termcolor
+versioneer==0.18

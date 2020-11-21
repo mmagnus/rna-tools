@@ -21,3 +21,4 @@ python-Levenshtein
 termcolor
 
 mysql-connector-python-rf
+versioneer==0.18
