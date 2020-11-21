@@ -20,23 +20,23 @@ to "install" with pip rna-tools based on a set of links to the current directory
 Test if installed
 -------------------------------------------
 
-Test if the package is installed:
+Test if the package is installed::
 
      $ python -c 'import rna_tools'
 
-if nothing appears that's good. If you see this: 
+if nothing appears that's good. If you see this::
 
      $ python -c 'import rna_tools'
      Traceback (most recent call last):
        File "<string>", line 1, in <module>
      ImportError: No module named rna_tools
      
-then go to your config file for the shell (~/.zshrc or ~/.bashrc) add add:
+then go to your config file for the shell (~/.zshrc or ~/.bashrc) add add::
 
     PYTHONPATH=<path to rna-tools>/:$PYTHONPATH
     export PYTHONPATH
     
-so in my case this is:
+so in my case this is::
 
     PYTHONPATH=<path to rna-tools>/home/magnus/src/rna-tools/:$PYTHONPATH
     export PYTHONPATH
