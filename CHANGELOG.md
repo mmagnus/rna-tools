@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
     rna_pdb_toolsx.py: add --triple-mode,--column-name
     rna_pdb_toolsx.py: add --backbone-only
+    rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
+    rna_pdb_toolsx.py: refactor, path code executed once
+    rna_pdb_toolsx.py: --rpr fix correct resi for remarks
    
     rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
     rna_tools_lib.py (RNAStructure) - add reload()

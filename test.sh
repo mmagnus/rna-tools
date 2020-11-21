@@ -20,7 +20,6 @@ rna_pdb_toolsx.py --get-chain A input/1xjr.pdb > output/1xjr_A_clx.pdb
 
 ## extract
 rna_pdb_toolsx.py --no-hr --extract A:1-2 input/pistol_thrs0.50A_clust99-000001_AA.pdb > output/pistol_thrs0.50A_clust99-000001_AA_A-2.pdb
-
 ## -rename-chain
 rna_pdb_toolsx.py --no-hr --rename-chain 'B>A' input/8_Chen_10_rpr_ChainB.pdb >  output/8_Chen_10_rpr_ChainA.pdb
 
@@ -42,7 +41,15 @@ rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/rp13_Dokholyan_1_URI_CYT_A
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/7_Chen_2_rpr.pdb > output/7_Chen_2_rpr.pdb
 rna_pdb_toolsx.py --no-hr --rpr input/7_Chen_7_rpr.pdb > output/7_Chen_7_rpr.pdb
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/1I9V_YG_HETATM_ATOM.pdb > output/1I9V_YG_HETATM_ATOM_rpr.pdb
+
+rna_pdb_toolsx.py --no-hr --rpr input/missing_op1op2.pdb > output/rebuilt_missing_op.pdb # benchmark input/missing_op1op2_r43OK.pdb
+ 
+## --replace_hetatm
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready --replace-hetatm input/1I9V_A.pdb > output/1I9V_A_rpr.pdb
+rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --replace-hetatm  > output/A_YG_A.pdb
+## CCC.pdb
+rna_pdb_toolsx.py --no-hr --rpr --replace-hetatm input/CCC.pdb > output/CCC.pdb
+rna_pdb_toolsx.py --no-hr --rpr input/CCC.pdb > output/CCC_empty.pdb
 
 rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --renumber-residues > output/A_YG_A_renumbered.pdb
 
@@ -51,10 +58,6 @@ rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pd
 rna_pdb_toolsx.py --rpr input/23s_Tth_3I8I_triple.pdb --renumber --backbone-only --no-hr > output/23s_Tth_3I8I_triple_backbone.pdb
 
 rna_pdb_toolsx.py --set-chain C input/1xjr_GTP.pdb > output/1xjr_GTP_setChainC.pdb
-
-## CCC.pdb
-rna_pdb_toolsx.py --no-hr --rpr --replace-hetatm input/CCC.pdb > output/CCC.pdb
-rna_pdb_toolsx.py --no-hr --rpr input/CCC.pdb > output/CCC_empty.pdb
 
 #./rna_pdb_toolsx.py --no-hr --rpr input/4W90_protein_rna.pdb > output/4W90_protein_rna_onlyRNA.pdb
 
@@ -92,9 +95,6 @@ rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact input/pistol* > output/pisto
 rna_pdb_toolsx.py --get-seq --uniq '[:5]' input/pistol* > output/pistol_uniq.txt
 # pistol_thrs0.50A_clust99-000001_AA
 #CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA # A:1-62
-
-## --replace_hetatm
-rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --replace_hetatm  > output/A_YG_A.pdb
 
 ## --get_ss
 rna_pdb_toolsx.py --get-ss input/1xjr*.pdb > output/secondary_structures.txt
