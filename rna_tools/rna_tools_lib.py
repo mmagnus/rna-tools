@@ -1024,7 +1024,11 @@ class RNAStructure:
         self.write(ftmp, verbose=False)
 
         parser = PDB.PDBParser()
-        struct = parser.get_structure('', ftmp)
+        try:
+            struct = parser.get_structure('', ftmp)
+        except:
+            print('Error in ' + self.fn)
+            sys.exit(1)
         model = struct[0]
 
         s2 = PDB.Structure.Structure(struct.id)
@@ -1072,6 +1076,16 @@ class RNAStructure:
             c = 1  # new chain, goes from 1 !!! if renumber True
             prev_r = '' # init prev_r 
             remarks = []
+
+            # get path to mini db with models to rebuilt structures
+            currfn = __file__
+            if currfn == '':
+                path = '.'
+            else:
+                path = os.path.dirname(currfn)
+            if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+                path = os.path.dirname(os.readlink(
+                    path + os.sep + os.path.basename(currfn)))
 
             for r in res:
                 # hack for amber/qrna
@@ -1256,16 +1270,7 @@ class RNAStructure:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else:  # fix
-                        currfn = __file__
-                        if currfn == '':
-                            path = '.'
-                        else:
-                            path = os.path.dirname(currfn)
-                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
-                            path = os.path.dirname(os.readlink(
-                                path + os.sep + os.path.basename(currfn)))
-
+                    else:
                         C_struc = PDB.PDBParser().get_structure('', path + '/data/C.pdb')
                         C = [C_atom for C_atom in C_struc[0].get_residues()][0]
 
@@ -1296,16 +1301,7 @@ class RNAStructure:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else:  # fix
-                        currfn = __file__
-                        if currfn == '':
-                            path = '.'
-                        else:
-                            path = os.path.dirname(currfn)
-                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
-                            path = os.path.dirname(os.readlink(
-                                path + os.sep + os.path.basename(currfn)))
-
+                    else:
                         U_struc = PDB.PDBParser().get_structure('', path + '/data/U.pdb')
                         U = [U_atom for U_atom in U_struc[0].get_residues()][0]
 
@@ -1335,16 +1331,7 @@ class RNAStructure:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else:  # fix
-                        currfn = __file__
-                        if currfn == '':
-                            path = '.'
-                        else:
-                            path = os.path.dirname(currfn)
-                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
-                            path = os.path.dirname(os.readlink(
-                                path + os.sep + os.path.basename(currfn)))
-
+                    else:
                         G_struc = PDB.PDBParser().get_structure('', path + '/data/G.pdb')
                         G = [G_atom for G_atom in G_struc[0].get_residues()][0]
 
@@ -1377,16 +1364,7 @@ class RNAStructure:
                     for a in r:
                         if a.id == "N1":
                             break
-                    else:  # fix
-                        currfn = __file__
-                        if currfn == '':
-                            path = '.'
-                        else:
-                            path = os.path.dirname(currfn)
-                        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
-                            path = os.path.dirname(os.readlink(
-                                path + os.sep + os.path.basename(currfn)))
-
+                    else:
                         A_struc = PDB.PDBParser().get_structure('', path + '/data/A.pdb')
                         A = [A_atom for A_atom in A_struc[0].get_residues()][0]
 
