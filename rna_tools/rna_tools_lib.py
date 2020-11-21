@@ -1405,7 +1405,7 @@ class RNAStructure:
                                 r2.add(r[an])
                         except KeyError:
                             # print 'Missing:', an, r, ' new resi', c
-                            missing.append([an, chain.id, r, c])
+                            missing.append([an, chain.id, r, r.id[1]])
                     c2.add(r2)
 
                 elif str(r.get_resname()).strip() == "A":
@@ -1420,7 +1420,7 @@ class RNAStructure:
                                 r2.add(r[an])
                         except KeyError:
                             # print 'Missing:', an, r, ' new resi', c
-                            missing.append([an, chain.id, r, c])
+                            missing.append([an, chain.id, r, r.id[1]])
                     c2.add(r2)
 
                 elif str(r.get_resname()).strip() == "C":
@@ -1435,7 +1435,7 @@ class RNAStructure:
                                 r2.add(r[an])
                         except:
                             # print 'Missing:', an, r, ' new resi', c
-                            missing.append([an, chain.id, r, c])
+                            missing.append([an, chain.id, r, r.id[1]])
                     c2.add(r2)
 
                 elif str(r.get_resname()).strip() == "U":
@@ -1450,7 +1450,7 @@ class RNAStructure:
                                 r2.add(r[an])
                         except KeyError:
                             # print 'Missing:', an, r,' new resi', c
-                            missing.append([an, chain.id, r, c])
+                            missing.append([an, chain.id, r, r.id[1]])
                     c2.add(r2)
 
                 prev_r = r  # hack to keep preview residue to be used in the function
