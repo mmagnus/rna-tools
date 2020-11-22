@@ -199,10 +199,10 @@ optional arguments:
   -c, --clean           get clean structure
   --is-pdb              check if a file is in the pdb format
   --is-nmr              check if a file is NMR-style multiple model pdb
-  --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files
-
+  --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files 
+                        
                           rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
-
+                        
                         please use '' for pattern file recognition, this is a hack to deal with folders with
                         thousands of models, if you used only *.pdb then the terminal will complain that you
                         selected to many files.
@@ -226,7 +226,7 @@ optional arguments:
                         # 20_Bujnicki_3
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_4
-
+                        
   --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
   --get-ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
@@ -261,7 +261,7 @@ optional arguments:
   --extract EXTRACT     extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'
   --extract-chain EXTRACT_CHAIN
                         extract chain, e.g. A
-  --uniq UNIQ
+  --uniq UNIQ           
                         rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
                         A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
@@ -271,11 +271,11 @@ optional arguments:
   --oneline
   --fasta               with --get-seq, show sequences in fasta format,
                         can be combined with --compact (mind, chains will be separated with ' ' in one line)
-
+                        
                         $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
                         > 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
-
+                        
   --cif2pdb             [PyMOL Python package required]
   --pdb2cif             [PyMOL Python package required]
 
