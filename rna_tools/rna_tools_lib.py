@@ -975,6 +975,9 @@ class RNAStructure:
         Submission format @http://ahsoka.u-strasbg.fr/rnapuzzles/
 
         Run :func:`rna_tools.rna_tools.lib.RNAStructure.std_resn` before this function to fix names.
+        
+        .. image:: ../pngs/rebuild_op1op2_backbone.png
+        Figure: (Starting from left) input structure, structure with rebuilded atoms, and reference. The B fragment is observed in the reference used here as a “benchmark”, fragment A is reconstructed atoms (not observed in the reference"). 201122
 
         - 170305 Merged with get_simrna_ready and fixing OP3 terminal added
         - 170308 Fix missing atoms for bases, and O2'
