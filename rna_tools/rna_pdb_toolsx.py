@@ -120,14 +120,6 @@ ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
     parser.add_argument('--rosetta2generic', help='convert ROSETTA-like format to a generic pdb',
                         action='store_true')
 
-    parser.add_argument('--get-rnapuzzle-ready',
-                        help=textwrap.dedent("""get RNApuzzle ready (keep only standard atoms).'
-Be default it does not renumber residues, use --renumber-residues
-[requires BioPython]"""), action='store_true')
-
-    parser.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
-                        action='store_true')
-
     parser.add_argument('--no-hr', help='do not insert the header into files',
                         action='store_true')
 
@@ -149,14 +141,6 @@ By default:
                         help="inspect missing atoms (technically decorator to --get-rnapuzzle-ready without actually doing anything but giving a report on problems)",
                         action='store_true')
     
-    parser.add_argument('--dont-report-missing-atoms',
-                        help="""used only with --get-rnapuzzle-ready""",
-                        action='store_true')
-
-    parser.add_argument('--backbone-only',
-                        help="""used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)""",
-                        action='store_true')
-
     parser.add_argument('--collapsed-view', help='',
                         action='store_true')
 
@@ -165,15 +149,6 @@ By default:
 
     parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
                         action='store_true')
-
-    parser.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
-                        action="store_true")
-
-    parser.add_argument('--inplace', help=textwrap.dedent("""in place edit the file! [experimental,
-only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]"""),
-                        action='store_true')
-
-    parser.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""))
 
     parser.add_argument('--mutate', help=textwrap.dedent("""mutate residues,
 e.g.,
@@ -212,7 +187,6 @@ the chain id in this file has to be the same with the chain id of the original c
     parser.add_argument('--extract-chain',
                          help="extract chain, e.g. A")
 
-
     parser.add_argument('--uniq', help=textwrap.dedent("""
 rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
 A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
@@ -235,6 +209,37 @@ ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
 
     parser.add_argument('--cif2pdb', help="[PyMOL Python package required]", action='store_true')
     parser.add_argument('--pdb2cif', help="[PyMOL Python package required]", action='store_true')
+
+    x = parser.add_argument_group('RNAPUZZLE-READY')
+    x.add_argument('--get-rnapuzzle-ready',
+                        help=textwrap.dedent("""get RNApuzzle ready (keep only standard atoms).'
+Be default it does not renumber residues, use --renumber-residues
+[requires BioPython]"""), action='store_true')
+
+    x.add_argument('--rpr', help='alias to get_rnapuzzle ready)',
+                        action='store_true')
+
+
+    rpr = parser.add_argument_group('CAN BE COMBINED WITH')# --get-rnapuzzle-ready (or --rpr) can be combined with')
+
+    rpr.add_argument('--keep-hetatm', help='keep hetatoms', action='store_true')
+
+    rpr.add_argument('--inplace', help=textwrap.dedent("""in place edit the file! [experimental,
+only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]"""),
+                        action='store_true')
+
+    rpr.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""))
+
+    rpr.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
+                        action="store_true")
+
+    rpr.add_argument('--dont-report-missing-atoms',
+                        help="""used only with --get-rnapuzzle-ready""",
+                        action='store_true')
+
+    rpr.add_argument('--backbone-only',
+                        help="""used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)""",
+                        action='store_true')
 
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
@@ -415,10 +420,12 @@ if __name__ == '__main__':
             s.decap_gtp()
             s.std_resn()
             s.remove_hydrogen()
-            s.remove_ion()
-            s.remove_water()
             s.fix_op_atoms()
-            s.renum_atoms()
+
+            # s.remove_ion()
+            # s.remove_water()
+            # s.renum_atoms()
+
             s.shift_atom_names()
             s.prune_elements()
 
@@ -430,7 +437,7 @@ if __name__ == '__main__':
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
                                             rename_chains=rename_chains,
                                             report_missing_atoms=report_missing_atoms,
-                                            backbone_only=args.backbone_only,
+                                            backbone_only=args.backbone_only, keep_hetatm=args.keep_hetatm,
                                             verbose=args.verbose)
 
             if args.inplace:

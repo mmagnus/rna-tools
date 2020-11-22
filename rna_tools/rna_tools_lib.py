@@ -860,8 +860,8 @@ class RNAStructure:
     def get_res_code(self, line):
         """Get residue code from a line of a PDB file
         """
-        if not line.startswith('ATOM'):
-            return None
+        #if not line.startswith('ATOM'):
+        #    return None
         return line[17:20]
 
     def shift_atom_names(self):
@@ -956,8 +956,8 @@ class RNAStructure:
 
     def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=True,
                             rename_chains=True,
-                            report_missing_atoms=True, backbone_only=False,
-                            verbose=True):  # :, ready_for="RNAPuzzle"):
+                            report_missing_atoms=True, keep_hetatm=False, backbone_only=False,
+                            verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
         Clean up a structure, get current order of atoms.
@@ -1041,7 +1041,19 @@ class RNAStructure:
         protein_chains_remmoved = []
 
         new_chains = list(string.ascii_uppercase)
+        remarks = []
 
+        # get path to mini db with models to rebuilt structures
+        currfn = __file__
+        if currfn == '':
+            path = '.'
+        else:
+            path = os.path.dirname(currfn)
+        if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
+            path = os.path.dirname(os.readlink(
+                path + os.sep + os.path.basename(currfn)))
+
+        # for each chain #
         for chain in model.get_list():
             logger.debug('chain: %s' % chain)
 
@@ -1075,19 +1087,18 @@ class RNAStructure:
 
             c = 1  # new chain, goes from 1 !!! if renumber True
             prev_r = '' # init prev_r 
-            remarks = []
-
-            # get path to mini db with models to rebuilt structures
-            currfn = __file__
-            if currfn == '':
-                path = '.'
-            else:
-                path = os.path.dirname(currfn)
-            if os.path.islink(currfn):  # path + os.sep + os.path.basename(__file__)):
-                path = os.path.dirname(os.readlink(
-                    path + os.sep + os.path.basename(currfn)))
 
             for r in res:
+                #
+                #  deal with heteratm
+                #
+                if r.id[0].startswith('H_') or r.id[0].startswith('W'):
+                    if keep_hetatm:
+                        c2.add(r)
+                    else:
+                        # str(r) % r.id[0].replace('H_', '').strip())
+                        remarks.append('REMARK 250 Hetatom to be removed from file: ' + str(r))
+                    continue
                 # hack for amber/qrna
                 r.resname = r.resname.strip()
                 if r.resname == 'RC3':

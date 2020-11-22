@@ -150,18 +150,19 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
                          [--fetch-ba] [--get-seq] [--color-seq]
                          [--ignore-files IGNORE_FILES] [--compact]
                          [--hide-warnings] [--get-ss] [--rosetta2generic]
-                         [--get-rnapuzzle-ready] [--rpr] [--no-hr]
-                         [--renumber-residues] [--dont-rename-chains]
-                         [--dont-fix-missing-atoms] [--inspect]
-                         [--dont-report-missing-atoms] [--backbone-only]
-                         [--collapsed-view] [--cv] [-v] [--replace-hetatm]
-                         [--inplace] [--suffix SUFFIX] [--mutate MUTATE]
-                         [--edit EDIT] [--rename-chain RENAME_CHAIN]
-                         [--swap-chains SWAP_CHAINS]
+                         [--no-hr] [--renumber-residues]
+                         [--dont-rename-chains] [--dont-fix-missing-atoms]
+                         [--inspect] [--collapsed-view] [--cv] [-v]
+                         [--mutate MUTATE] [--edit EDIT]
+                         [--rename-chain RENAME_CHAIN]
+                         [--swap-chains SWAP_CHAINS] [--set-chain SET_CHAIN]
                          [--replace-chain REPLACE_CHAIN] [--delete DELETE]
                          [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
                          [--uniq UNIQ] [--chain-first] [--oneline] [--fasta]
-                         [--cif2pdb] [--pdb2cif]
+                         [--cif2pdb] [--pdb2cif] [--get-rnapuzzle-ready]
+                         [--rpr] [--keep-hetatm] [--inplace] [--suffix SUFFIX]
+                         [--replace-hetatm] [--dont-report-missing-atoms]
+                         [--backbone-only]
                          file [file ...]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
@@ -229,11 +230,6 @@ optional arguments:
   --hide-warnings       hide warnings, works with --get-chain, it hides warnings that given changes are not detected in a PDB file
   --get-ss              get secondary structure
   --rosetta2generic     convert ROSETTA-like format to a generic pdb
-  --get-rnapuzzle-ready
-                        get RNApuzzle ready (keep only standard atoms).'
-                        Be default it does not renumber residues, use --renumber-residues
-                        [requires BioPython]
-  --rpr                 alias to get_rnapuzzle ready)
   --no-hr               do not insert the header into files
   --renumber-residues   by defult is false
   --dont-rename-chains  used only with --get-rnapuzzle-ready.
@@ -242,16 +238,9 @@ optional arguments:
   --dont-fix-missing-atoms
                         used only with --get-rnapuzzle-ready
   --inspect             inspect missing atoms (technically decorator to --get-rnapuzzle-ready without actually doing anything but giving a report on problems)
-  --dont-report-missing-atoms
-                        used only with --get-rnapuzzle-ready
-  --backbone-only       used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)
   --collapsed-view
   --cv                  alias to collapsed_view
   -v, --verbose         tell me more what you're doing, please!
-  --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
-  --inplace             in place edit the file! [experimental,
-                        only for get_rnapuzzle_ready, delete, --get-ss, --get-seq, --edit-pdb]
-  --suffix SUFFIX       when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)
   --mutate MUTATE       mutate residues,
                         e.g.,
                               --mutate "A:1A+2A+3A+4A,B:1A"
@@ -262,6 +251,8 @@ optional arguments:
                         edit 'A>B' to rename chain A to chain B
   --swap-chains SWAP_CHAINS
                         B>A, rename A to _, then B to A, then _ to B
+  --set-chain SET_CHAIN
+                        set chain for all ATOM lines and TER (quite brutal function)
   --replace-chain REPLACE_CHAIN
                         a file PDB name with one chain that will be used to
                         replace the chain in the original PDB file,
@@ -287,6 +278,23 @@ optional arguments:
 
   --cif2pdb             [PyMOL Python package required]
   --pdb2cif             [PyMOL Python package required]
+
+RNAPUZZLE-READY:
+  --get-rnapuzzle-ready
+                        get RNApuzzle ready (keep only standard atoms).'
+                        Be default it does not renumber residues, use --renumber-residues
+                        [requires BioPython]
+  --rpr                 alias to get_rnapuzzle ready)
+
+CAN BE COMBINED WITH:
+  --keep-hetatm         keep hetatoms
+  --inplace             in place edit the file! [experimental,
+                        only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]
+  --suffix SUFFIX       when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)
+  --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
+  --dont-report-missing-atoms
+                        used only with --get-rnapuzzle-ready
+  --backbone-only       used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)
 ```
 
 Tricks:

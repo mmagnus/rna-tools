@@ -51,6 +51,9 @@ rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --replace-hetatm  > output/A_YG
 rna_pdb_toolsx.py --no-hr --rpr --replace-hetatm input/CCC.pdb > output/CCC.pdb
 rna_pdb_toolsx.py --no-hr --rpr input/CCC.pdb > output/CCC_empty.pdb
 
+rna_pdb_toolsx.py --no-hr --rpr input/4ts2.pdb > output/4ts2_rpr.pdb
+rna_pdb_toolsx.py --no-hr --rpr --keep-hetatm input/4ts2.pdb > output/4ts2_rpr_hta.pdb
+
 rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --renumber-residues > output/A_YG_A_renumbered.pdb
 
 rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb > output/A_YG_A_norenumbered.pdb
