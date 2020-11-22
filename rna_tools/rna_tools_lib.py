@@ -54,6 +54,13 @@ try:
 except ImportError:
     print("Biopython is not detected. It is required for some functions.")
 
+import warnings
+warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
+warnings.filterwarnings('ignore', '.*with given element *',)
+warnings.filterwarnings('ignore', '.*is discontinuous*',)
+warnings.filterwarnings('ignore', '.*Some atoms or residues may be missing in the data structure.*',)
+
+
 def get_rna_tools_path():
     import inspect
     import rna_tools
