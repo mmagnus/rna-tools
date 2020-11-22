@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# Master
+# 3.6 201122
 
     rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
     rna_pdb_toolsx.py: add --triple-mode,--column-name
