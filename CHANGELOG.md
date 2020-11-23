@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
         rna_pdb_toolsx.py: refactor, path code executed once
         rna_pdb_toolsx.py: --rpr with --keep-hetatm ! 
-		rna_pdb_toolsx.py: add --inspect
+	rna_pdb_toolsx.py: add --inspect
    
         rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
         rna_tools_lib.py (RNAStructure) - add reload()
@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         rna_calc_rmsd_biopython.py: introduce way to save models after rmsd calc
         rna_calc_rmsd_biopython.py: add --triple-mode,--column-name
 		
-		PyMOL4RNA: add inspect function for rna_pdb_toolsx.py: --inspect
+	PyMOL4RNA: add inspect function for rna_pdb_toolsx.py: --inspect
 		
     Bug fixes and small improvements.
 
