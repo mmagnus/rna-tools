@@ -771,16 +771,19 @@ def qrnas():
     cmd.set('grid_mode', 1)
 
 
-def inspect(name):
+def inspect(name, dont_green=False):
     f = tempfile.NamedTemporaryFile(delete=False)
     cmd.save(f.name + '.pdb', name)
     out, err = exe('rna_pdb_toolsx.py --inspect ' + f.name + '.pdb')
+    if not dont_green:
+        cmd.color('green', name)
     for l in out.split('\n'):
          hit = re.findall('chain: (?P<chain>\w+).*\# (?P<residue>\d+)', l)
          if hit: # [('X', '1')]
              cmd.color('red', name + ' and chain ' + hit[0][0] + ' and resi ' + hit[0][1])
     print(out)
-    cmd.extend('inspect', inspect)
+
+cmd.extend('inspect', inspect)
     
 def mini(f):
     #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')

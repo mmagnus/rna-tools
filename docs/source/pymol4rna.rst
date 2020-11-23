@@ -3,6 +3,23 @@ PyMOL4RNA
 
 (See also https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/PyMOL4RNA)
 
+Inspect structure
+----------------------------------------------------------------------
+
+There is new ```--inspect``` function for rna_pdb_toolsx.py that tells you what are missing atoms in your structure file.
+
+You can run it also from PyMOL, so in here you can see missing atoms directly in PyMOL (the object comes green and the residues missing atoms comes in red).
+
+PyMOL::
+
+    inspect <object name>
+    
+.. image:: ../pngs/pymol_inspect.jpeg
+
+and here you can compare the input file vs file after ``--rpr`` (of rna_pdb_toolsx.py) to see what was rebuilt (in pink).
+	   
+.. image:: ../pngs/pymol_inspect2.jpeg
+
 PyMOL4Spliceosome: all spliceosome structures in one PyMOL session
 ----------------------------------------------------------------------
 
@@ -22,7 +39,8 @@ See more: https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol
 .. automodule:: rna_tools.tools.PyMOL4RNA.PyMOL4RNA
    :members:
    :undoc-members:
-      
+
+
 PyMOL Drawing
 -----------------------------------------
 
