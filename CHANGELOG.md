@@ -4,23 +4,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [Unreleased]
+
+...
+
 # 3.6 201122
 
-    rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
-    rna_pdb_toolsx.py: add --triple-mode,--column-name
-    rna_pdb_toolsx.py: add --backbone-only
-    rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
-    rna_pdb_toolsx.py: refactor, path code executed once
-    rna_pdb_toolsx.py: --rpr fix correct resi for remarks
-    rna_pdb_toolsx.py: --rpr with --keep-hetatm ! 
-   
-    rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
-    rna_tools_lib.py (RNAStructure) - add reload()
-    rna_tools_lib.py (RNAStructure) - change write() now saves by default to self.fn
+    Fixed:
+
+        rna_pdb_toolsx.py: --rpr fix correct resi for remarks
+	
+    Added:
     
-    rna_calc_rmsd_biopython.py: --triple-mode works (final test!) 201118
-    rna_calc_rmsd_biopython.py: introduce way to save models after rmsd calc
-    rna_calc_rmsd_biopython.py: add --triple-mode,--column-name
+        rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
+        rna_pdb_toolsx.py: add --triple-mode,--column-name
+        rna_pdb_toolsx.py: add --backbone-only
+        rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
+        rna_pdb_toolsx.py: refactor, path code executed once
+        rna_pdb_toolsx.py: --rpr with --keep-hetatm ! 
+   
+        rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
+        rna_tools_lib.py (RNAStructure) - add reload()
+        rna_tools_lib.py (RNAStructure) - change write() now saves by default to self.fn
+    
+        rna_calc_rmsd_biopython.py: --triple-mode works (final test!) 201118
+        rna_calc_rmsd_biopython.py: introduce way to save models after rmsd calc
+        rna_calc_rmsd_biopython.py: add --triple-mode,--column-name
+    
+    Bug fixes and small improvements.
 
 # 3.5.4 200710
 
