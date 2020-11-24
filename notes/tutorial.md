@@ -8,6 +8,7 @@
 fetch 4ts2
 inspect 4ts2
 rpr 4ts2
+diff 4ts2, 4ts2_rpr
 clarna 4ts2
 clarna (sele) # clarna sele
 
@@ -17,6 +18,7 @@ clarna (sele) # clarna sele
     X   15   X   16          bp A A                      ><   0.9427 
     # stacking interaction
     
+
 ```
 
 # Docs

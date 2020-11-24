@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
         rna_secondary_structure_prediction.py: fixes
 
+    Added:
+
+        PyMOL4RNA.py: mutate, rpr, diff, move rnapuzzle coloring code to own file
+
 # 3.6.x 201122
 
     Fixed:
@@ -24,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         rna_pdb_toolsx.py: add --backbone-only
         rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
         rna_pdb_toolsx.py: refactor, path code executed once
-	rna_pdb_toolsx.py: add --inspect
+        rna_pdb_toolsx.py: add --inspect
    
         rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
         rna_tools_lib.py (RNAStructure) - add reload()

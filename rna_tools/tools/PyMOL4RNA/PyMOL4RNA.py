@@ -83,12 +83,12 @@ def exe(cmd, verbose=False):
     return out, err
 
 def color_protein():
-    cmd.do("color blue, resn ARG+LYS+HIS")
-    cmd.do("color red, resn ASP+GLU")
-    cmd.do("color green, resn GLY+ALA+VAL+LEU+ILE+MET+PHE")
-    cmd.do("color yellow, resn TYR+TRP")
-    cmd.do("color forest, resn SER+THR+CYS+ASN+GLN")
-    cmd.do("color pink, resn PRO")
+    cmd.do("color blue, resn ARG+LYS+HIS and (sele)")
+    cmd.do("color red, resn ASP+GLU and (sele)")
+    cmd.do("color green, resn GLY+ALA+VAL+LEU+ILE+MET+PHE and (sele)")
+    cmd.do("color yellow, resn TYR+TRP and (sele)")
+    cmd.do("color forest, resn SER+THR+CYS+ASN+GLN and (sele)")
+    cmd.do("color pink, resn PRO and (sele)")
 
 cmd.extend('cp', color_protein)
 
@@ -136,22 +136,6 @@ def show_all_at_once():
     cmd.set('states', 'on')
 
 
-def rp06():
-  txt = """color black, all
-  color pink, resi 2-10+163-170
-  color grey, resi 12-33
-  color green, resi 40-41
-  color green, resi 161-162
-  color orange, resi 45-61
-  color green, resi 64-73
-  color blue, resi 74-155
-  color cyan, resn B1Z"""
-  for t in txt.split('\n'):
-    color, resi = t.replace('color ', '').split(',')
-    print(color, resi)
-    cmd.color(color.strip(), resi.strip())
-
-
 def grid_on():
     cmd.set('grid_mode', 1)
 
@@ -159,38 +143,6 @@ def grid_on():
 def grid_off():
     cmd.set('grid_mode', 0)
 
-
-def rp14():
-  """color black; # everything
- color blue, resi 1-5+55-59; # p1
- color green, resi 7-11+16-20; # p2
- color magenta, resi 23+60; # pk
- color yellow, resi 29-34+45-50; # p3
- color grey, resi 24-28+51-54; # e-loop
- color red, resi 6+21+22+24+25+28+52+54; # higly conserved"""
- #color blue, resi 5+55
-
-
-  txt ="""color black, all
- color red, resi 1-5+55-59
- color blue, resi 1-5+55-59; # p1
- color green, resi 7-11+16-20
- color magenta, resi 23+60
- color yellow, resi 29-34+45-50
- color grey, resi 24-28+51-54
- color red, resi 6+21+22"""
-  for t in txt.split('\n'):
-    color, resi = t.replace('color ', '').split(',')
-    print(color, resi)
-    cmd.color(color.strip(), resi.strip())
-
-def rp14s():
-  """color with Baker's SHAPE data for rp14!"""
-  txt = """
-   color yellow, resi 12-15+25-29+35-44
-   color red, resi 21-24+53+54+60
-  """
-  color_by_text(txt)
 
 def rs():
     """    The function creates super-cool cartoon-like RNA and colors each structure as a rainbow.
@@ -297,7 +249,7 @@ def align_all(cycles = 5, filename="_rmsd_.csv"):
     report = []
     header = 'Ref                  Model                RaR  #AA  CoR  RbR  #AbR RS   AR'
     print(header)
-    txt = ','.join([x.strip() for x in header.split()]) + '\n'
+    txt = 'Ref,Model,RMSD after refinement,Number of aligned atoms after refinement, Number of refinement cycles, RMSD before refinement, Number of aligned atoms before refinement, Raw alignment score, Number of residues aligned\n'
     for molecule in molecules:
         values = cmd.align(molecule, ref, cycles=cycles)
         l = ([ref[:20].ljust(20), molecule[:20].ljust(20), str(round(values[0], 2)).ljust(4),
@@ -405,8 +357,9 @@ def x3dna():
         print(err)
     f.close()
 
-def clarna():
-    """Get contacts classification of the selected fragment based on ClaRNA.
+
+def clarna2():
+    """Get contacts classification of the selected fragment based on ClaRNA (for each object).
 
     .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
@@ -417,38 +370,91 @@ def clarna():
         #cmd.save(f.name + '.pdb', '(backbone_)')
         cmd.save(f.name + '.pdb', '(sele) and "' + name + '"')
         CLARNA_RUN = 'rna_clarna_run.py'
-        out, err = exe(SOURCE + " && " + CLARNA_RUN + " -ipdb " + f.name + '.pdb -bp+stack')
+        #cmdline = #SOURCE + " && " +
+        cmdline = CLARNA_RUN + " -ipdb " + f.name + '.pdb -bp+stack'
+        print(cmdline)
+        out, err = exe(cmdline)
         print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
         if err:
             print(err)
         f.close()
 
 
-def seq():
+def clarna(selection):
+    """Get contacts classification of the selected fragment based on ClaRNA (for each object).
+
+    Example::
+
+        PyMOL>clarna sele
+        rna_clarna_run.py -ipdb /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmp1h_bwvtx.pdb -bp+stack
+        chains:  X 15 16
+        X   15   X   16          bp A A                      ><   0.9427
+
+    .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
+    """
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    output = f.name + '_clarna.pdb'
+    cmd.save(output, selection)
+    CLARNA_RUN = 'rna_clarna_run.py'
+    cmdline = CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
+    print(cmdline)
+    out, err = exe(cmdline)
+    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+    if err:
+        print(err)
+    cmd.load(output)
+    f.close()
+
+
+def seq(selection):
     """Get sequence of the selected fragment using ``rna_pdb_toolsx.py --get_seq ``.
 
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
-    f = tempfile.NamedTemporaryFile(delete=False) # True)
-    cmd.save(f.name, '(sele)')
-    out, err = exe('source ~/.zshrc && ' + RNA_TOOLS_PATH + '/bin/rna_pdb_toolsx.py --get_seq ' + f.name)
+    f = tempfile.NamedTemporaryFile(delete=False)
+    input = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    cmd.save(input, selection)
+
+    cmdline = 'rna_pdb_toolsx.py --get-seq ' + input
+    print(cmdline)
+    out, err = exe(cmdline)
     print(out)
     if err:
         print(err)
     f.close()
 
-def ss():
+
+def ss(selection):
+    """Get Secondary Structure of (sele) based on py3dna.py.
+
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
+    """
+    f = tempfile.NamedTemporaryFile(delete=False)
+    output = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    cmd.save(output, '(sele)')
+
+    cmdline = 'rna_x3dna.py ' + output
+    out, err = exe(cmdline)
+    print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
+    if err:
+        print(err)
+    f.close()
+
+
+def mutate(mutation, selection):
     """Get Secondary Structure of (sele) based on py3dna.py.
 
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
-    cmd.save(f.name, '(sele)')
-    out, err = exe(RNA_TOOLS_PATH + '/bin/rna_x3dna.py ' + f.name)
-    print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
-    if err:
-        print(err)
-    f.close()
+    output = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    output2 = os.path.dirname(f.name) + os.sep + selection + '_mut.pdb'
+    cmdline = "rna_pdb_toolsx.py --mutate " + mutation + ' ' + output + ' > ' + output2
+    print(cmdline)
+    exe(cmdline)
+    cmd.load(output2)
+
+cmd.extend('mutate', mutate)
 
 
 def ss_all():
@@ -492,75 +498,6 @@ def rna_cartoon():
     cmd.set("cartoon_nucleic_acid_mode", 4)
     cmd.set("cartoon_ring_transparency", 0.5)
 
-
-def rp17():
-    """Color-coding for secondary structure elements for the RNA Puzzle 17.
-
-    For the variant::
-
-         CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA
-         ((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))
-         # len 62-nt
-
-    .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/rna.png
-    """
-    txt = """color forest, resi 1-5+12-16; # p1
- color magenta, resi 6-11+34-39;
- color grey, resi 17-24;
- color marine, resi 25-28+59-62;
- color deepblue, resi 29-33+40-42;
- color orange, resi 44-47+48-56;
- color yellow, resi 57-58;
- color red, resi 19+20+21;
-"""
-    color_by_text(txt)
-
-def rp17csrv():
-    """Color-coding for secondary structure elements for the RNA Puzzle 17.
-
-    For the variant::
-
-         CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGGUGCAA
-         ((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))
-         # len 62-nt
-
-    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/rna.png
-    """
-    txt = """color forest, resi 1-5+12-16; # p1
- color magenta, resi 6-11+34-39;
- color grey, resi 17-24;
- color marine, resi 25-28+59-62;
- color deepblue, resi 29-33+40-42;
- color orange, resi 44-47+48-56;
- color yellow, resi 57-58;
- color red, resi 5+19+20+21+31+32+33+40+41+42
-"""
-    color_by_text(txt)
-
-
-
-def rp172():
-    """Color-coding for secondary structure elements for the RNA Puzzle 17.
-
-    For the variant::
-
-         CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAUCAGGUGCAA
-         ((((.[[[[[[.))))........((((.....]]]]]]...((((()))))..))))
-         # len 58-nt
-
-    See rp17()
-    """
-
-    txt = """color forest, resi 1-5+12-16; # p1
- color magenta, resi 6-11+34-39
- color grey, resi 17-24
- color marine, resi 25-28+55-58
- color deepblue, resi 29-33+40-42;
- color orange, resi 43-47+48-52;
- color yellow, resi 53-54;
- color red, resi 19+20+21;
-"""
-    color_by_text(txt)
 
 def color_aa_types():
     """Color aminoacides types like in Cider (http://pappulab.wustl.edu/CIDER/)"""
@@ -785,7 +722,35 @@ def inspect(name, dont_green=False):
 
 cmd.extend('inspect', inspect)
     
+def rpr(selection):
+    """rpr"""
+    f = tempfile.NamedTemporaryFile(delete=False)
+    input = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    cmd.save(input, selection)
+
+    output = os.path.dirname(f.name) + os.sep +  selection + '_rpr.pdb'
+
+    out, err = exe('rna_pdb_toolsx.py --rpr ' + input + ' > ' + output)
+    cmd.load(output)
+    print(out)
+cmd.extend('rpr', rpr)
+
+def diff(selection, selection2):
+    """rpr"""
+    f = tempfile.NamedTemporaryFile(delete=False)
+    input = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    cmd.save(input, selection)
+    output = os.path.dirname(f.name) + os.sep +  selection2 + '.pdb'
+    cmd.save(input, selection)
+    cmdline = 'diffpdb.py ' + input + ' ' + output + ' &'
+    print(cmdline)
+    #os.system(cmdline)
+    exe(cmdline)
+
+cmd.extend('diff', diff)
+
 def mini(f):
+
     #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
     os.system('~/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c ~/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
     cmd.delete('mini')
@@ -842,8 +807,8 @@ cmd.extend('select-rna', select_rna)
 
 def hide_protein():
     cmd.hide('(polymer.protein)')
-cmd.extend('protein-hide', hide_protein)
-cmd.extend('rprotein-hide', hide_protein)
+#cmd.extend('protein-hide', hide_protein)
+#cmd.extend('rp-hide', hide_protein)
 
 def select_protein():
     cmd.select('polymer.protein')
@@ -912,6 +877,7 @@ def desc(t='', width=80):
     print()
     print()
     print()
+
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -935,6 +901,7 @@ def quickref():
     print('  aa')
     print('  findN')
     print('  savt - save_transformed <object>, <file>')
+    print(' select br. all within 20 of (sele) #within with aa')
     #print('  spl - color snRNAs of the spliceosome:'
     #    green: U2,  blue: U5, red:U6, orange:U2""")
     print('\_ RNA_TOOLS_PATH env variable used: ' + RNA_TOOLS_PATH)
@@ -953,8 +920,6 @@ else:
 
     cmd.extend('quickref', quickref)
     cmd.extend('qr', quickref)
-    cmd.extend('rp17', rp17)
-    cmd.extend('rp17csrv', rp17csrv)
     cmd.extend('rg2', g2)
     cmd.extend('x', g2)
 
