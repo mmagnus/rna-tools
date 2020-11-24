@@ -339,6 +339,26 @@ To run ClaRNA, see the documentaton below:
    :members:
    :undoc-members:
 
+RNA 3D model quality assessment
+-----------------------------------------
+
+http://genesilico.pl/mqapRNA [mq]
+
+RASP
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.RASP.RASP
+   :members:
+   :undoc-members:
+
+Dfire
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.Dfire.Dfire
+   :members:
+   :undoc-members:
+
+
 RNA 3D structure prediction
 -----------------------------------------
 
