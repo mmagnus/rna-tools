@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
-...
+    Fixed:
+
+        rna_secondary_structure_prediction.py: fixes
 
 # 3.6 201122
 

@@ -4,13 +4,11 @@
 
 """
 from __future__ import print_function
-from Seq import RNASequence
+from rna_tools.Seq import RNASequence
 import argparse
 import sys
 import subprocess
 import os
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -73,9 +71,9 @@ if __name__ == '__main__':
     if args.method == 'mcfold':
         seq = RNASequence(seq)
         if cst:
-            en, ss = seq.predict_ss('mcfold', constraints=cst, verbose=args.verbose)
+            en, ss, comment = seq.predict_ss('mcfold', constraints=cst, verbose=args.verbose)
         else:
-            en, ss = seq.predict_ss('mcfold', verbose=args.verbose)
+            en, ss, comment = seq.predict_ss(method='mcfold', verbose=args.verbose)
         #if not ss:
         #    ss = 'x'
         print(ss, en)
