@@ -25,10 +25,12 @@ https://rna-tools.readthedocs.io/en/latest/install.html
 
 # Install
 
-```
-pip install rna-tools
-python -c 'import rna_tools'
-```
+    pip install rna-tools
+    python -c 'import rna_tools'
+
+or
+
+    pip install -e git+http://github.com/mmagnus/rna-tools.git#egg=rna-tools
 
 # RNAseq
 
