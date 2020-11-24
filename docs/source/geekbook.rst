@@ -1,6 +1,8 @@
 Geekbook & rna-tools
 ============================================================
 
+(this is just a proof-of-concept subproject)
+
 G33KB00K - 🤓 eXtreme eXtendable note taking system for nerds/geeks (including scientists!) (= beautiful html generator of your markdown-based notes) docs: http://geekbook.rtfd.io
 
 Marcin Magnus (mmagnus) & Pietro Boccaletto (akaped)
