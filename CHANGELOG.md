@@ -8,11 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
-# 3.6 201122
+# 3.6.x 201122
 
     Fixed:
 
         rna_pdb_toolsx.py: --rpr fix correct resi for remarks
+        rna_pdb_toolsx.py: --rpr with --keep-hetatm ! [fixed issue with #71]
 	
     Added:
     
@@ -21,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         rna_pdb_toolsx.py: add --backbone-only
         rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
         rna_pdb_toolsx.py: refactor, path code executed once
-        rna_pdb_toolsx.py: --rpr with --keep-hetatm ! 
 	rna_pdb_toolsx.py: add --inspect
    
         rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	PyMOL4RNA: add inspect function for rna_pdb_toolsx.py: --inspect
 		
     Bug fixes and small improvements.
+
+ https://github.com/mmagnus/rna-tools/issues/71
 
 # 3.5.4 200710
 
