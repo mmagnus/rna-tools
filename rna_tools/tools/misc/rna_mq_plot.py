@@ -35,8 +35,8 @@ if __name__ == '__main__':
     df = pd.read_csv(args.csv)
     df = df.sort_values(by=['mqapRNArst'], ascending=[False])
 
-    df['SS'] = df['mqapRNA'] + df['inf'] + df['rst']
-    df['RST'] = df['mqapRNA'] + df['rst']
+    df['SS'] = df['mqapRNA'] + df['inf'] + df['rst_score']
+    df['RST'] = df['mqapRNA'] + df['rst_sore']
 
     ax = df.plot(x='fn', y="SS", kind="barh", color="orange")
     ax = df.plot(x='fn', y="RST", kind="barh", ax=ax, color="gray")#, figsize=(10,10));
