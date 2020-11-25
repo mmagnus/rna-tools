@@ -103,6 +103,11 @@ setup(
              'rna_tools/tools/spotifier/spotifier2.py',
              'rna_tools/tools/spotifier/spotifier_prep.py',
              'rna_tools/tools/spotifier/digitifier.py',
+
+             'rna_tools/tools/misc/rna_mq_exp.py',
+             'rna_tools/tools/misc/rna_mq_plot.py',
+             'rna_tools/tools/misc/rna_merge_dfs.py'
+             
              ],
     license='GPLv3',
     author='Marcin Magnus',
