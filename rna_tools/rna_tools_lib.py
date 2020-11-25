@@ -1947,6 +1947,21 @@ def set_chain_for_struc(struc_fn, chain_id, save_file_inplace=False, skip_ter=Tr
              f.write(txt)
     return txt.strip()
 
+def load_rnas(path, verbose=True):
+    """Load structural files (via glob) and return a list of RNAStructure objects.
+    
+    Examples::
+
+        rnas = rtl.load_rnas('../rna_tools/input/mq/*.pdb')
+    
+    """
+    rs = []
+    import glob
+    for f in glob.glob(path):
+        r = RNAStructure(f)
+        rs.append(r)
+    return rs
+
 # main
 if '__main__' == __name__:
 

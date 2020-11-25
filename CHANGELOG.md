@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
         rna_tools_lib.py (RNAStructure) add name attribute with filename 
 
+        rna_tools_lib.py: add load_rnas to load structural files (via glob)
+        
 # 3.6.2
 
     Fixed:
