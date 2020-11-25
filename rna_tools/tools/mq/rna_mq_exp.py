@@ -57,7 +57,8 @@ if __name__ == '__main__':
 
             mq = float(l.split(',')[1].strip())
             exp = 1 - float(l.split(',')[2].strip()) # as penalty right now
-
+            exp = float(l.split(',')[2].strip()) 
+            
             if args.inf:
                 mq_exp = float(mq) + exp + float(inf)
             else:

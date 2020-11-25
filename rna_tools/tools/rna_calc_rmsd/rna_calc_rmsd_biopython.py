@@ -9,6 +9,7 @@ Examples::
   rna_calc_rmsd_biopython.py -t 2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --column-name 'rmsd' --triple-mode > out.txt
 
 """
+from __future__ import print_function
 
 import Bio.PDB.PDBParser
 import Bio.PDB.Superimposer
