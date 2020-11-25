@@ -104,8 +104,9 @@ setup(
              'rna_tools/tools/spotifier/spotifier_prep.py',
              'rna_tools/tools/spotifier/digitifier.py',
 
-             'rna_tools/tools/misc/rna_mq_exp.py',
-             'rna_tools/tools/misc/rna_mq_plot.py',
+             'rna_tools/tools/mq/rna_mq_exp.py',
+             'rna_tools/tools/mq/rna_mq_plot.py',
+
              'rna_tools/tools/misc/rna_merge_dfs.py'
              
              ],
