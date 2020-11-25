@@ -22,7 +22,7 @@ Test if installed
 
 Test if the package is installed::
 
-     $ python -c 'import rna_tools'
+     $ python -c 'import rna_tools' # ipython -c 'import rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd' (to test specific tools)
 
 if nothing appears that's good. If you see this::
 
