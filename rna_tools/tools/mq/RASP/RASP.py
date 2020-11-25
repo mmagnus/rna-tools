@@ -23,10 +23,10 @@ class RASP(ProgramWrapper):
     executable = ['rasp_fd', 'rasp_profile_fd']
     max_seq_len = 100000  # I don't know about any restriction
 
-    def __init__(self, sequence, seq_name, job_id=None):
+    def __init__(self, sequence='', seq_name='', job_id=None):
         super(RASP, self).__init__(sequence, seq_name, job_id=job_id, path=RASP_PATH)
 
-    def run(self, path_to_pdb, global_energy_score=True, handler=True):
+    def run(self, path_to_pdb, global_energy_score=True, potentials=['c3', 'bb', 'bbr', 'all'], handler=True, verbose=False):
         """Compute RASP potential for a single file
 
         ``rasp_fd`` generates: 
@@ -78,12 +78,14 @@ class RASP(ProgramWrapper):
         scores = [] # colect all scores!
 
         if global_energy_score:
-            for potential_type in ['c3', 'bb', 'bbr', 'all']: # this order is important, should not be changed!!! (based on this order mqaprnadb_load_from.csv reads the data
+            # : 
+            # this order is important, should not be changed!!! (based on this order mqaprnadb_load_from.csv reads the data
+            for potential_type in potentials:
                 self.log('Running "global_energy_score"')
                 if run_command(RASP_PATH + os.sep + 'bin' + os.sep + self.executable[0],
                             ['-e', potential_type, '-p', 'query.pdb'],
                             env={'RASP': RASP_PATH},
-                               stdout_file='output_' + potential_type + '.txt', verbose=1):
+                               stdout_file='output_' + potential_type + '.txt', verbose=verbose):
                     print('Computing global energy failed')
                     return -1
                 else:

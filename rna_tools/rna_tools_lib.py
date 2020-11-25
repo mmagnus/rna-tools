@@ -85,15 +85,18 @@ def sort_strings(l):
 class RNAStructure:
     """RNAStructure - handles an RNA pdb file.
 
-    Atributes:
+    Attributes:
 
-        fn (string)  : filename of the pdb file
+        fn (string)  : path to the structural file, e.g., "../rna_tools/input/4ts2.pdb"
+        name(string) : filename of the structural file, "4ts2.pdb"
         lines (list) : the PDB file is loaded and ATOM/HETATM/TER/END go to self.lines
 
     """
 
     def __init__(self, fn):
-        self.fn = fn
+        self.fn = fn # ../rna_tools/input/4ts2.pdb
+        # add name attribute with filename 4ts2.pdb
+        self.name = self.fn.split(os.sep)[-1] # OS.path.splitext(self.fn)[0]
 
         self.report = []
         self.report.append('The RNARNAStructure report: %s ' % self.fn)
@@ -1688,6 +1691,17 @@ class RNAStructure:
                     txt += l + '\n'
         return txt
 
+    def mq(self, method="RASP"):
+        if method=="RASP":
+            from rna_tools.tools.mq.RASP import RASP
+            r = RASP.RASP(self.fn, 'test')
+            return [float(i) for i in r.run(self.fn, potentials=['all'])]
+            # ['-42058.4', '466223', '-0.0902109', '0', '0', '0']
+        if method=="Dfire":
+            from rna_tools.tools.mq.Dfire import Dfire
+            r = Dfire.Dfire(self.fn, 'test')
+            return r.run(self.fn)
+        
 def add_header(version=None):
     now = time.strftime("%c")
     txt = 'REMARK 250 Model edited with rna-tools\n'
