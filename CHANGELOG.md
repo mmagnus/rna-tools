@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
         rna_tools_lib.py: add load_rnas to load structural files (via glob)
         
+    Changed:
+    
+        rna_tools_lib.py (RNAStructure) when rpr loads structure with biopython the error is NOT handled
+
 # 3.6.2
 
     Fixed:

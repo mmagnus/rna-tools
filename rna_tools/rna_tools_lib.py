@@ -1037,11 +1037,11 @@ class RNAStructure:
         self.write(ftmp, verbose=False)
 
         parser = PDB.PDBParser()
-        try:
-            struct = parser.get_structure('', ftmp)
-        except:
-            print('Error in ' + self.fn)
-            sys.exit(1)
+        #try:
+        struct = parser.get_structure('', ftmp)
+        #except:
+        #    print('Error in ' + self.fn)
+        #    sys.exit(1)
         model = struct[0]
 
         s2 = PDB.Structure.Structure(struct.id)
