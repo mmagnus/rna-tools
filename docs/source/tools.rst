@@ -409,7 +409,7 @@ Run (modeling)
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_run.get_parser
    :prog: rna_rosetta_run.py
 
-.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_run.py
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_run
    :members:
    :undoc-members:
 
@@ -420,7 +420,7 @@ Get a number of structures
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_n.get_parser
    :prog: rna_rosetta_n.py
 
-.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_n.py
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_n
    :members:
    :undoc-members:
 
@@ -431,7 +431,7 @@ Get a head of a Rosetta silent file
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_head.get_parser
    :prog: rna_rosetta_n.py
 
-.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_head.py
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_head
    :members:
    :undoc-members:
 
@@ -455,7 +455,7 @@ Minimize
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_min.get_parser
    :prog: rna_rosetta_min.py
 
-.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_min.py
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_min
    :members:
    :undoc-members:
 
@@ -466,7 +466,7 @@ Extract lowscore decoy
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys.get_parser
    :prog: rna_rosetta_extract_lowscore_decoys.py
 
-.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys.py
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys
    :members:
    :undoc-members:
 
@@ -477,7 +477,7 @@ Check progress
    :ref: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress.get_parser
    :prog: rna_rosetta_cluster.py
 
-.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress.py
+.. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress
    :members:
    :undoc-members:
 
