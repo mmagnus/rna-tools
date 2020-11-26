@@ -16,7 +16,7 @@ class RNA3DCNN(ProgramWrapper):
     """
     max_seq_len = 100000  # I don't know about any restriction
 
-    def __init__(self, sequence, seq_name, job_id=None):
+    def __init__(self, sequence='', seq_name='', job_id=None):
         super(RNA3DCNN, self).__init__(sequence, seq_name, job_id=job_id)
 
     def run(self, path_to_pdb, verbose=False):

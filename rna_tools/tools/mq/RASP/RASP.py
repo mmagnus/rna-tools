@@ -21,7 +21,6 @@ class RASP(ProgramWrapper):
     """
     program_name = ['rasp_fd', 'rasp_profile_fd']
     executable = ['rasp_fd', 'rasp_profile_fd']
-    max_seq_len = 100000  # I don't know about any restriction
 
     def __init__(self, sequence='', seq_name='', job_id=None):
         super(RASP, self).__init__(sequence, seq_name, job_id=job_id, path=RASP_PATH)

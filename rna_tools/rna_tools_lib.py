@@ -48,6 +48,9 @@ HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", 
 class PDBFetchError(Exception):
     pass
 
+class MethodUnknown(Exception):
+    pass
+
 
 try:
     from Bio.PDB import *
@@ -1695,20 +1698,36 @@ class RNAStructure:
 
         if method.lower() == "rasp":
             from rna_tools.tools.mq.RASP import RASP
-            r = RASP.RASP(self.fn, 'test')
+            r = RASP.RASP()
             return [float(i) for i in r.run(self.fn, potentials=['all'])]
             # ['-42058.4', '466223', '-0.0902109', '0', '0', '0']
 
         if method.lower() == "dfire":
             from rna_tools.tools.mq.Dfire import Dfire
-            r = Dfire.Dfire(self.fn, 'test')
+            r = Dfire.Dfire()
             return r.run(self.fn, verbose)
         
         if method.lower() == "rna3dcnn":
             from rna_tools.tools.mq.RNA3DCNN import RNA3DCNN
-            r = RNA3DCNN.RNA3DCNN(self.fn, 'test')
+            r = RNA3DCNN.RNA3DCNN()
             return r.run(self.fn, verbose)
 
+        if method.lower() == "qrna":
+            from rna_tools.tools.mq.QRNA import QRNA
+            r = QRNA.QRNA()
+            return r.run(self.fn, verbose)
+
+        if method.lower() == "clashscore":
+            from rna_tools.tools.mq.ClashScore import ClashScore
+            r = ClashScore.ClashScore()
+            return r.run(self.fn, verbose)
+
+        if method.lower() == "analyzegeometry":
+            from rna_tools.tools.mq.AnalyzeGeometry import AnalyzeGeometry
+            r = AnalyzeGeometry.AnalyzeGeometry()
+            return r.run(self.fn, verbose)
+
+        raise MethodUnknown('Define corrent method')
         
 def add_header(version=None):
     now = time.strftime("%c")

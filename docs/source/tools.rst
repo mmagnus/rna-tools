@@ -358,7 +358,42 @@ Dfire
    :members:
    :undoc-members:
 
+QRNA
+~~~~~~~~
 
+.. automodule:: rna_tools.tools.mq.QRNA.QRNA
+   :members:
+   :undoc-members:
+      
+RNA3DCNN
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.RNA3DCNN.RNA3DCNN
+   :members:
+   :undoc-members:
+      
+FARNA
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.FARNA.FARNA
+   :members:
+   :undoc-members:
+
+ClashScore
+~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.ClashScore.ClashScore
+   :members:
+   :undoc-members:
+
+AnalyzeGeometry
+~~~~~~~~~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.AnalyzeGeometry.AnalyzeGeometry
+   :members:
+   :undoc-members:
+
+      
 RNA 3D structure prediction
 -----------------------------------------
 

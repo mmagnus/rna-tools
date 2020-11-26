@@ -164,7 +164,7 @@ class ProgramWrapper(Wrapper):
     error_fn = 'errors'
     fasta_input = False
     clustal_input = False
-    max_seq_len = 0
+    max_seq_len = 10000
 
     def __init__(self, sequence='', seq_name='query_sequence',
         path=Config.BIN_PATH, flags=[], job_id=None):
