@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     Added:
     
         mq: py3 all of this: add RASP and Dfire wrappers and the libs
+	mq: add RNA3DCNN
         mq: add mq to RNAStructure and a simple Jupyter to test it
 
+	
         rna_tools_lib.py (RNAStructure) add name attribute with filename 
 
         rna_tools_lib.py: add load_rnas to load structural files (via glob)
