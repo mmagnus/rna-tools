@@ -18,20 +18,21 @@ class Dfire(ProgramWrapper):
     def __init__(self, sequence, seq_name, job_id=None):
         super(Dfire, self).__init__(sequence, seq_name, job_id=job_id)
 
-    def run(self, path_to_pdb):
+    def run(self, path_to_pdb, verbose=False):
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
         old_pwd = os.getcwd()
-
         os.chdir(self.sandbox_dir)
         # self.log('dfire::start for %s' % self.sandbox_dir + '/query.pdb')
         cmd = "export DFIRE_RNA_HOME=" + dfire_PATH + "; "
         cmd += dfire_PATH + '/bin/DFIRE_RNA ' + self.sandbox_dir + '/query.pdb >'  + self.sandbox_dir + '/log.txt.dfire.rna'
+        if verbose: print(cmd)
         os.system(cmd)
 
         # self.log('dfire::Run finished')
 
         for line in open(self.sandbox_dir + '/log.txt.dfire.rna'):
             score = line.strip().split()[1] # /tmp/tmplDNztf/query.pdb -12480.188898
+        if verbose: print(open(self.sandbox_dir + '/log.txt.dfire.rna').read())
         os.chdir(old_pwd)
         return float(score)
 

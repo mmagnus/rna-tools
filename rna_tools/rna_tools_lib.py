@@ -94,7 +94,7 @@ class RNAStructure:
     """
 
     def __init__(self, fn):
-        self.fn = fn # ../rna_tools/input/4ts2.pdb
+        self.fn = os.path.abspath(fn) # ../rna_tools/input/4ts2.pdb
         # add name attribute with filename 4ts2.pdb
         self.name = self.fn.split(os.sep)[-1] # OS.path.splitext(self.fn)[0]
 
@@ -1691,16 +1691,24 @@ class RNAStructure:
                     txt += l + '\n'
         return txt
 
-    def mq(self, method="RASP"):
-        if method=="RASP":
+    def mq(self, method="RASP", verbose=False):
+
+        if method.lower() == "rasp":
             from rna_tools.tools.mq.RASP import RASP
             r = RASP.RASP(self.fn, 'test')
             return [float(i) for i in r.run(self.fn, potentials=['all'])]
             # ['-42058.4', '466223', '-0.0902109', '0', '0', '0']
-        if method=="Dfire":
+
+        if method.lower() == "dfire":
             from rna_tools.tools.mq.Dfire import Dfire
             r = Dfire.Dfire(self.fn, 'test')
-            return r.run(self.fn)
+            return r.run(self.fn, verbose)
+        
+        if method.lower() == "rna3dcnn":
+            from rna_tools.tools.mq.RNA3DCNN import RNA3DCNN
+            r = RNA3DCNN.RNA3DCNN(self.fn, 'test')
+            return r.run(self.fn, verbose)
+
         
 def add_header(version=None):
     now = time.strftime("%c")
