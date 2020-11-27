@@ -17,6 +17,7 @@ If something does not work for you, please make an issue, using https://github.c
 The main documentation for the site is organized into sections:
 
 :ref:`user-docs`
+
 Information about development is also available:
 
 :ref:`dev-docs`
