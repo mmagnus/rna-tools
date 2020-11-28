@@ -175,7 +175,7 @@ class ProgramWrapper(Wrapper):
         super(ProgramWrapper, self).__init__(sequence, job_id)
         self._check_seq_length(self.sequence)
         self.path = path
-        self.start_dir = Config.PATH
+        self.start_dir = Config.TMP_PATH
         self.seq_name = seq_name
         self.stdin = None
         self.stdout = None
