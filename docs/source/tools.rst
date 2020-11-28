@@ -365,6 +365,13 @@ QRNA
    :members:
    :undoc-members:
       
+eSCORE
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.eSCORE.eSCORE
+   :members:
+   :undoc-members:
+
 RNA3DCNN
 ~~~~~~~~
 

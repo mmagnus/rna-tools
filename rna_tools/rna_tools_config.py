@@ -40,6 +40,7 @@ FARNA_LORES=""       # "/scoring/weights/rna/denovo/rna_lores.wts"
 QRNA_PATH=""         # "/Users/magnus/work/opt/qrnas/"
 QRNA_CONFIG_PATH=""  # "/Users/magnus/work/opt/qrnas/"
 PHENIX_BIN_PATH=""   # /Applications/phenix-1.18.2-3874/build/bin"
+baRNAba_PATH=""      # /Users/magnus/work/opt/barnaba/barnaba_201128"
 
 user_path = os.path.expanduser("~")
 
