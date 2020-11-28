@@ -372,6 +372,13 @@ eSCORE
    :members:
    :undoc-members:
 
+3dRNAscore
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.RNAscore.RNAscore
+   :members:
+   :undoc-members:
+
 RNA3DCNN
 ~~~~~~~~
 
