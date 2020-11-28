@@ -14,14 +14,6 @@ This documentation can be found at http://rna-tools.rtfd.io
 
 If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-tools/issues
 
-The main documentation for the site is organized into sections:
-
-:ref:`user-docs`
-
-Information about development is also available:
-
-:ref:`dev-docs`
-
 .. toctree::
    :maxdepth: 4
    :caption: User Documentation
