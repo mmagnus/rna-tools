@@ -41,7 +41,7 @@ QRNA_PATH=""         # "/Users/magnus/work/opt/qrnas/"
 QRNA_CONFIG_PATH=""  # "/Users/magnus/work/opt/qrnas/"
 PHENIX_BIN_PATH=""   # /Applications/phenix-1.18.2-3874/build/bin"
 baRNAba_PATH=""      # /Users/magnus/work/opt/barnaba/barnaba_201128"
-
+RNAscore_PATH=""
 user_path = os.path.expanduser("~")
 
 # https://docs.python.org/3/library/configparser.html

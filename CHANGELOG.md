@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - FARNA
         - AnalyzeGeometry and ClashScore
         - eSCORE (barnaba)
+        - 3dRNAscore
         - libs
 
         mq: add mq to RNAStructure and a simple Jupyter notebook to test it
