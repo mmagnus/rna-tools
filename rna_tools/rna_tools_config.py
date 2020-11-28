@@ -25,7 +25,7 @@ RASP_PATH = ""       # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/op
 RASP_PATH_DIR = ""   # /Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/rasp-fd-1.0"
 
 LOG_DIRECTORY = ""   # "/tmp/"
-
+TMP_PATH = ""
 BIN_PATH = ""
 
 WRAPPERS_PATH = ""   # "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/"
