@@ -624,6 +624,29 @@ def color_rbw(rainbow=0):
               if(i == ncolours):
                  i = 0
 
+
+def strip_selection_name(selection_name):
+    """Quick function: (sele) -> sele"""
+    return selection_name.replace('(', '').replace(')', '')
+
+
+def edges(selection):
+    """Save selection into a file in a temp folder and run rna_draw_edges.py on it and load it into this session"""
+    f = tempfile.TemporaryDirectory()
+    tmpf = f.name + os.sep + strip_selection_name(selection) + '.pdb'
+    outf = f.name + '/output.py'
+    cmd.save(tmpf, selection)
+    cmdline = 'rna_draw_edges.py --name %s %s > %s' % (strip_selection_name(selection), tmpf, outf)
+    print(cmdline)
+    out, err = exe(cmdline)
+    if err:
+        print(err)
+    cmd.load(outf)
+
+
+cmd.extend('edges', edges)
+
+
 def ino():
     """Sphare and yellow inorganic, such us Mg.
 
