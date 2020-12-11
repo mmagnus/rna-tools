@@ -7,6 +7,9 @@
 3 = green, exists
 
 http://rna.bgsu.edu/triples/seq/CAC.html
+
+for i in bucket/families/*; do python process_triple.py $i >> triple-db.csv ; done
+
 """
 from __future__ import print_function
 import argparse
@@ -77,17 +80,17 @@ if __name__ == '__main__':
             if v: print(int(r[0]))
             near = int(r[0])
 
-        near = 0
+        exists = 1
+        if 'does not exist' in td:
+            title = seqs[index]
+            exists = 0
+
         r = re.findall("title='(.+)'>", td)
         title = ''
         if r:
             title = r[0].replace(' ', '_')
             if v: print(title)
 
-        exists = 1
-        if 'does not exist' in td:
-            title = seqs[index]
-            exists = 0
         data.append([seqs[index], title, instance, clashes, near, exists])
         ntds.append(td)
 
