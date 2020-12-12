@@ -584,7 +584,7 @@ class RNAStructure:
         for l in self.lines:
             if l[77:79].strip() == 'H':
                 continue
-            if l[13:17].strip() in HYDROGEN_NAMES:
+            if l[12:17].strip() in HYDROGEN_NAMES:
                 # if l[12:16].strip().startswith('H'):
                 continue
             else:

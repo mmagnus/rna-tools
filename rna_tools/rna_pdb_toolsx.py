@@ -417,9 +417,10 @@ if __name__ == '__main__':
             s = RNAStructure(f)
             if args.replace_hetatm:
                 s.replace_hetatm()
+
+            s.remove_hydrogen()
             s.decap_gtp()
             s.std_resn()
-            s.remove_hydrogen()
             s.fix_op_atoms()
 
             # s.remove_ion()
@@ -429,6 +430,8 @@ if __name__ == '__main__':
             s.shift_atom_names()
             s.prune_elements()
 
+            # s.write('tmp.pdb')
+            
             rename_chains = False if args.dont_rename_chains else True
 
             report_missing_atoms = not args.dont_report_missing_atoms
