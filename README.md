@@ -162,7 +162,7 @@ usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
                          [--cif2pdb] [--pdb2cif] [--get-rnapuzzle-ready]
                          [--rpr] [--keep-hetatm] [--inplace] [--suffix SUFFIX]
                          [--replace-hetatm] [--dont-report-missing-atoms]
-                         [--backbone-only]
+                         [--backbone-only] [--no-backbone] [--bases-only]
                          file [file ...]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
@@ -295,6 +295,8 @@ CAN BE COMBINED WITH:
   --dont-report-missing-atoms
                         used only with --get-rnapuzzle-ready
   --backbone-only       used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)
+  --no-backbone         used only with --get-rnapuzzle-ready, remove atoms of backbone (define as P OP1 OP2 O5')
+  --bases-only          used only with --get-rnapuzzle-ready, keep only atoms of bases
 ```
 
 Tricks:

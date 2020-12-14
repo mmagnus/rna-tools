@@ -34,6 +34,9 @@ rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/1xjr_onlyGTP.pdb > output/
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/1_das_1_rpr_fixed.pdb > output/1_das_1_rpr_fixed.pdb
 rna_pdb_toolsx.py --no-hr --inspect input/1_das_1_rpr_fixed.pdb > output/1_das_1_rpr_inspect.txt
 
+rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready --bases-only input/Triple_cWW_tSH_GCA_exemplar_rpr_alignedGAC.pdb > output/Triple_cWW_tSH_GCA_exemplar_rpr_alignedGAC_basesOnly.pdb
+rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready --no-backbone input/Triple_cWW_tSH_GCA_exemplar_rpr_alignedGAC.pdb > output/Triple_cWW_tSH_GCA_exemplar_rpr_alignedGAC_noBackbone.pdb
+
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/4GXY_3firstNt.pdb > output/4GXY_3firstNt.pdb
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/gtp.pdb  > output/gtp.pdb
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle input/377D.pdb > output/377D.txt # should finish with error

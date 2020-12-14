@@ -241,6 +241,14 @@ only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]"""),
                         help="""used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)""",
                         action='store_true')
 
+    rpr.add_argument('--no-backbone',
+                        help="""used only with --get-rnapuzzle-ready, remove atoms of backbone (define as P OP1 OP2 O5')""",
+                        action='store_true')
+
+    rpr.add_argument('--bases-only',
+                        help="""used only with --get-rnapuzzle-ready, keep only atoms of bases""",
+                        action='store_true')
+
     parser.add_argument('file', help='file', nargs='+')
     #parser.add_argument('outfile', help='outfile')
     return parser
@@ -440,7 +448,10 @@ if __name__ == '__main__':
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
                                             rename_chains=rename_chains,
                                             report_missing_atoms=report_missing_atoms,
-                                            backbone_only=args.backbone_only, keep_hetatm=args.keep_hetatm,
+                                            backbone_only=args.backbone_only,
+                                            no_backbone=args.no_backbone,
+                                            bases_only=args.bases_only,
+                                            keep_hetatm=args.keep_hetatm,
                                             verbose=args.verbose)
 
             if args.inplace:
