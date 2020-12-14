@@ -42,6 +42,13 @@ QRNA_CONFIG_PATH=""  # "/Users/magnus/work/opt/qrnas/"
 PHENIX_BIN_PATH=""   # /Applications/phenix-1.18.2-3874/build/bin"
 baRNAba_PATH=""      # /Users/magnus/work/opt/barnaba/barnaba_201128"
 RNAscore_PATH=""
+WRAPPERS_PATH=""     # /Users/magnus/work/src/rna-tools/rna_tools/tools/mq
+GRMLIB_PATH=""       # /usr/local/gromacs/share/gromacs/top/
+DB_AA_PATH=""        # /Users/magnus/work/papers/mqaprna/mqaprna_env/db/RNA_aa_full
+DB_5PT_PATH=""       # /Users/magnus/work/papers/mqaprna/mqaprna_env/db/RNA_5pt_full_sc1'
+GROMACS_LD_PATH=""
+GROMACS_PATH_BIN=""
+
 user_path = os.path.expanduser("~")
 
 # https://docs.python.org/3/library/configparser.html
