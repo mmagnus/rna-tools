@@ -25,8 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
         mq: add mq to RNAStructure and a simple Jupyter notebook to test it
 
-        rna_tools_lib.py (RNAStructure) add .name attribute with filename (only filename, e.g. "1XJR.pdb")
-
+        rna_tools_lib.py (RNAStructure):
+        - add .name attribute with filename (only filename, e.g. "1XJR.pdb")
+        - --bases-only and --no-backbone
+    
         rna_tools_lib.py: add load_rnas to load structural files (via glob)
         
     Changed:
