@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         - AnalyzeGeometry and ClashScore (add rna_clashscore.py app)
         - eSCORE (barnaba)
         - 3dRNAscore
+        - RNAkb (!!!!)
         - libs
 
         mq: add mq to RNAStructure and a simple Jupyter notebook to test it
@@ -35,8 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     
         rna_tools_lib.py (RNAStructure) when rpr loads structure with biopython the error is not suppressed
         
-
-
 # 3.6
 
     Fixed:
