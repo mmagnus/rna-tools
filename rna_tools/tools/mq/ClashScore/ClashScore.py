@@ -1,10 +1,14 @@
-#!/usg/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """This module contains functions for computing NAST potential via Pyro.
 """
 from __future__ import print_function
+
+import argparse
 import os
+
 from rna_tools.rna_tools_config import PHENIX_BIN_PATH
+from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
 from subprocess import Popen, PIPE
 
 # directory where this script is
@@ -83,17 +87,17 @@ class ClashScore(object):
         pass
     
 
-def main():
+def test():
     wrapper = ClashScore()
-    fns = ['test' + os.sep + '1xjrA.pdb', 
-           'test' + os.sep + '1xjrA_M1.pdb',  # native, and M1 from rasp decoys
-           'test' + os.sep + '6TNA.pdb'
+    fns = ['../test' + os.sep + '1xjrA.pdb', 
+           '../test' + os.sep + '1xjrA_M1.pdb',  # native, and M1 from rasp decoys
+           '../test' + os.sep + '6TNA.pdb'
     ]
     for f in fns:
-        result = wrapper.run(f)
+        result = wrapper.run(f, True)
         print(f)
         print(result)
         wrapper.cleanup()
 
 if __name__ == '__main__':
-    main()
+    test()

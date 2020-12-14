@@ -140,6 +140,10 @@ rna_pdb_toolsx.py --no-hr --split-alt-locations input/3xmg-polim_ATL_LOC.pdb > o
 ## --renumber_residues
 rna_pdb_toolsx.py --no-hr --renumber-residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
 
+cd ./tools/mq/ClashScore/
+./test.sh
+cd ../..
+
 exit
 
 rna_calc_fenergy.py --file input/u2/* --cstinfile --method all  > output/rna_calc_fenergy.txt
@@ -156,6 +160,7 @@ fi
 if [ "$1" == "--full" ]; then
     ./SecondaryStructure.py
 fi
+
 
 # ClashCalc
 cd ./tools/ClashCalc/

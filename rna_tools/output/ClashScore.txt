@@ -1,0 +1,178 @@
+/Applications/phenix-1.18.2-3874/build/bin/phenix.clashscore ../test/1xjrA.pdb 
+Using electron cloud x-H distances and vdW radii
+
+Adding H/D atoms with reduce...
+
+Bad Clashes >= 0.4 Angstrom:
+ A  17    A  N1   A  34    G  N1  :0.430
+clashscore = 0.66
+../test/1xjrA.pdb
+0.66
+/Applications/phenix-1.18.2-3874/build/bin/phenix.clashscore ../test/1xjrA_M1.pdb 
+Using electron cloud x-H distances and vdW radii
+
+Adding H/D atoms with reduce...
+
+Bad Clashes >= 0.4 Angstrom:
+ A  41    G  H2'  A  42    U  OP1 :0.738
+ A  25    U  H6   A  25    U HO2' :0.659
+ A  46    U  H2'  A  47    U  OP2 :0.656
+ A  29    A H5''  A  30    U  O2' :0.623
+ A  45    A  H8   A  45    A  O5' :0.593
+ A   3    A  H8   A   3    A  O5' :0.558
+ A  42    U  H6   A  42    U  OP1 :0.526
+ A  24    G  H2'  A  25    U  O2' :0.484
+ A  40    A  C4   A  40    A  O2' :0.452
+ A  45    A  O2'  A  46    U  H5' :0.445
+ A  42    U  C6   A  42    U  OP1 :0.440
+ A  40    A  O2'  A  41    G  C8  :0.436
+ A   5    U  O2'  A   6    U  C6  :0.429
+ A  46    U  C2'  A  47    U  OP2 :0.423
+ A  42    U  O2'  A  43    G  C8  :0.418
+ A  17    A  N1   A  34    G  N1  :0.418
+ A   3    A  C8   A   3    A  O5' :0.418
+ A   2    G  O2'  A   3    A  C8  :0.415
+ A  25    U  H6   A  25    U  O2' :0.412
+ A  24    G  O2'  A  26    A  C8  :0.410
+ A  42    U  O2'  A  43    G  H8  :0.409
+ A  43    G  H2'  A  44    A  O4' :0.408
+ A  28    G  C8   A  28    G  O2' :0.403
+clashscore = 15.45
+../test/1xjrA_M1.pdb
+15.45
+/Applications/phenix-1.18.2-3874/build/bin/phenix.clashscore ../test/6TNA.pdb 
+Using electron cloud x-H distances and vdW radii
+
+Adding H/D atoms with reduce...
+
+Bad Clashes >= 0.4 Angstrom:
+ A  46  7MG  H4'  A 102  HOH  O   :1.205
+ A  46  7MG  P    A 102  HOH  O   :1.155
+ A  37   YG  H1'  A  37   YG  H31 :1.099
+ A  73    A  OP2  A 111  HOH  O   :1.083
+ A  57    G  H5'  A  57    G  H8  :1.077
+ A  36    A  H2'  A  37   YG H5'' :0.996
+ A  75    C  C5'  A  76    A  H5' :0.991
+ A  36    A  C2'  A  37   YG H5'' :0.985
+ A  37   YG  C1'  A  37   YG  H31 :0.944
+ A  57    G  C8   A  57    G  H5' :0.931
+ A  12    U  OP2  A 157  HOH  O   :0.930
+ A  25    C  P    A  92  HOH  O   :0.916
+ A  46  7MG  C4'  A 102  HOH  O   :0.877
+ A  59    U  H5'  A  59    U  H6  :0.861
+ A  75    C H5''  A  76    A  OP1 :0.836
+ A  75    C H5''  A  76    A  H5' :0.831
+ A   4    G  OP2  A 140  HOH  O   :0.804
+ A  47    U  OP2  A 116  HOH  O   :0.795
+ A  40  5MC  C2'  A  41    U  H5' :0.779
+ A   2    C  O2   A 105  HOH  O   :0.778
+ A  10  2MG  C5   A  26  M2G HM13 :0.778
+ A  56    C  C3'  A  57    G H5'' :0.775
+ A  25    C  O5'  A  92  HOH  O   :0.769
+ A  75    C  H5'  A  76    A  H5' :0.760
+ A  45    G  O3'  A 102  HOH  O   :0.738
+ A  45    G  O6   A 112  HOH  O   :0.737
+ A  40  5MC  H2'  A  41    U  H5' :0.715
+ A  45    G  O3'  A 128  HOH  O   :0.705
+ A  16  H2U  H4'  A  17  H2U  OP1 :0.704
+ A  17  H2U  H2'  A  17  H2U  O2  :0.697
+ A  11    C  OP2  A 133  HOH  O   :0.690
+ A  26  M2G  C2'  A  27    C  H5' :0.685
+ A  46  7MG  OP1  A 102  HOH  O   :0.685
+ A  39  PSU  H3'  A  40  5MC HM51 :0.682
+ A  70    C  H2'  A  71    G  H8  :0.681
+ A  14    A  H2'  A  15    G  H5' :0.677
+ A  37   YG  N7   A 163  HOH  O   :0.676
+ A  54  5MU  H73  A  55  PSU  O2  :0.674
+ A  57    G  C5'  A  57    G  H8  :0.667
+ A  37   YG  C3   A  37   YG  H1' :0.665
+ A   4    G  N2   A 107  HOH  O   :0.665
+ A  14    A  C2'  A  15    G  H5' :0.665
+ A   1    G  C5   A   2    C  C5  :0.658
+ A  70    C  H2'  A  71    G  C8  :0.652
+ A  16  H2U  OP2  A 139  HOH  O   :0.649
+ A  56    C  C2'  A  57    G H5'' :0.629
+ A  25    C  OP2  A  92  HOH  O   :0.624
+ A  10  2MG  C6   A  26  M2G HM13 :0.624
+ A  26  M2G  H2'  A  27    C  H6  :0.622
+ A  14    A  C3'  A  15    G  H5' :0.608
+ A  45    G H5''  A  46  7MG  OP2 :0.601
+ A  59    U  C6   A  59    U  H5' :0.592
+ A  26  M2G HM23  A  27    C  C2  :0.590
+ A  56    C  H2'  A  57    G H5'' :0.576
+ A  12    U H5''  A 129  HOH  O   :0.575
+ A  75    C H5''  A  76    A  C5' :0.574
+ A  14    A H5''  A 115  HOH  O   :0.566
+ A  37   YG  C2'  A  37   YG  H31 :0.556
+ A  39  PSU  H2'  A  40  5MC  C6  :0.555
+ A  25    C  H3'  A  26  M2G  H8  :0.555
+ A  59    U  C5'  A  59    U  H6  :0.552
+ A  26  M2G  C4   A  27    C  C5  :0.551
+ A  23    A  H2'  A  24    G  C8  :0.546
+ A  26  M2G  C5   A  27    C  C5  :0.543
+ A  10  2MG  N7   A  26  M2G HM13 :0.543
+ A   8    U  C2   A  15    G  O6  :0.539
+ A  52    U  H2'  A  53    G  O4' :0.537
+ A  68    U  C4   A  69    U  C4  :0.534
+ A  35    A  H8   A  35    A  OP2 :0.533
+ A  30    G  H2'  A  31    A  O4' :0.532
+ A  57    G  C5'  A  57    G  C8  :0.530
+ A  37   YG  C1'  A  37   YG  C3  :0.530
+ A  31    A  H3'  A  32  OMC  C6  :0.527
+ A   2    C  H2'  A 105  HOH  O   :0.527
+ A  46  7MG  O5'  A 102  HOH  O   :0.515
+ A   1    G  H5'  A 142  HOH  O   :0.512
+ A   1    G  C6   A   2    C  C4  :0.504
+ A  26  M2G  H2'  A  27    C  C6  :0.503
+ A  23    A  H2'  A  24    G  H8  :0.503
+ A  72    C  C4   A  73    A  N7  :0.499
+ A  17  H2U  C2'  A  17  H2U  O2  :0.498
+ A  26  M2G  O2'  A  27    C  H5' :0.496
+ A  75    C H5''  A  76    A  P   :0.494
+ A  49  5MC  H2'  A  50    U  H6  :0.491
+ A  10  2MG  H2'  A  11    C  C6  :0.485
+ A  36    A  C3'  A  37   YG H5'' :0.484
+ A  10  2MG  C4   A  11    C  C5  :0.483
+ A  59    U  C2'  A  60    C  O5' :0.482
+ A  10  2MG  H2'  A  11    C  H6  :0.481
+ A  11    C  C2'  A  12    U  O5' :0.478
+ A  19    G  N1   A  56    C  N3  :0.478
+ A  34  OMG  H8   A  34  OMG  OP1 :0.473
+ A  68    U  C4   A  69    U  C5  :0.471
+ A   1    G  C6   A   2    C  C5  :0.468
+ A  69    U  H2'  A  70    C  C6  :0.468
+ A  31    A  H3'  A  32  OMC  H6  :0.463
+ A  33    U  O2   A  36    A  H8  :0.459
+ A  46  7MG  H3'  A  47    U H5'' :0.457
+ A  39  PSU  H2'  A  39  PSU  O4  :0.456
+ A  10  2MG  C2'  A  11    C  O5' :0.451
+ A  42    G  H2'  A  43    G  O5' :0.450
+ A  50    U  H2'  A  50    U  O2  :0.448
+ A  26  M2G HM22  A  27    C  H1' :0.448
+ A  26  M2G  H2'  A  27    C  H5' :0.446
+ A  56    C  C3'  A  57    G  C5' :0.445
+ A  49  5MC  C2   A  50    U  C5  :0.444
+ A   9    A  C2   A  45    G  C6  :0.442
+ A  26  M2G  C6   A  27    C  C4  :0.442
+ A  71    G  H2'  A  72    C  O4' :0.441
+ A  24    G  C6   A  25    C  C4  :0.439
+ A  69    U  H2'  A  70    C  H6  :0.437
+ A   1    G  H2'  A   2    C  O4' :0.437
+ A  35    A  C8   A  35    A  OP2 :0.433
+ A  26  M2G  CM2  A  44    A  C2  :0.430
+ A  25    C  C5'  A  92  HOH  O   :0.428
+ A  11    C  H6   A  11    C  O5' :0.421
+ A  31    A  H2'  A  81  HOH  O   :0.416
+ A  46  7MG  P    A 128  HOH  O   :0.415
+ A   1    G  C4   A   2    C  C6  :0.413
+ A  10  2MG  H2'  A  11    C  O5' :0.412
+ A  59    U  H2'  A  60    C  O5' :0.407
+ A  42    G  C2'  A  43    G  O5' :0.406
+ A  55  PSU  H6   A  55  PSU  O5' :0.406
+ A   2    C  H2'  A   2    C  O2  :0.405
+ A  63    C  C2   A  64    A  C8  :0.401
+ A   1    G  C4   A   2    C  C5  :0.400
+ A  33    U H5''  A  34  OMG  OP2 :0.400
+clashscore = 50.48
+../test/6TNA.pdb
+50.48

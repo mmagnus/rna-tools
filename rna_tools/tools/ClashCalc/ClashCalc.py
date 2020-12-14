@@ -1,9 +1,12 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+import argparse
 
 from Bio.PDB import NeighborSearch, PDBParser, Selection, Atom
 from numpy import array
 
-def check_clash(str_name, v=True):
+def check_clash(str_name, v=False):
         """check_clash, fract of clashes!
 
         if zero contacts then error -> fix ->
@@ -13,7 +16,7 @@ def check_clash(str_name, v=True):
 
         c is counter
         """
-        print(str_name)
+        if v: print('fn:', str_name)
         structure = open(str_name)
         #model = structure[0]
         atoms_A = []
@@ -56,13 +59,38 @@ def check_clash(str_name, v=True):
             fract = float(problem)/float(contacts)
         except ZeroDivisionError:
             fract = problem # or skip this structure
-            print('ZeroDivison -- skip:', problem, contacts, str_name)
+            if v: print('ZeroDivison -- skip:', problem, contacts, str_name)
             return fract
 
         #print 'Contacts, str_name:', problem, contacts, str_name, "Sterical clashes ", fract
         return fract
-    
-if __name__ == '__main__':
+
+
+def test():
     print(check_clash('test_data/no_clash.pdb'))
     print(check_clash('test_data/super_clash.pdb'))
     print(check_clash('test_data/prot-na_2392.pdb'))
+
+
+def get_parser():
+        parser = argparse.ArgumentParser(
+                description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+
+        parser.add_argument('--test', help="", default="", action="store_true")
+        parser.add_argument("-v", "--verbose",
+                            action="store_true", help="be verbose")
+        parser.add_argument("file", help="", default="") # nargs='+')
+        return parser
+
+
+if __name__ == '__main__':
+        parser = get_parser()
+        args = parser.parse_args()
+
+        if args.test:
+            test()
+
+        print(check_clash(args.file, args.verbose))
+
+            
+        

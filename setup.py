@@ -108,7 +108,9 @@ setup(
              'rna_tools/tools/mq/rna_mq_plot.py',
 
              'rna_tools/tools/misc/rna_merge_dfs.py',
-             'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py'
+             'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',
+
+             'rna_tools/tools/mq/ClashScore/rna_clashscore.py'
              ],
     license='GPLv3',
     author='Marcin Magnus',
