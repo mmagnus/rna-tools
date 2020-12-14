@@ -16,6 +16,8 @@ or write new files in a different folder (`out`)::
 You can also easily run a single tool parallel using parallel_::
 
     $ parallel "rna_add_chain.py -c A {} > ../nchain/{}" ::: *.pdb
+    # ex2
+    $ parallel "rna_clashscore.py {} > {}.csv" ::: *.pdb
 
 .. _parallel:: https://www.gnu.org/software/parallel/
 

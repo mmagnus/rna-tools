@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     
         rna_tools_lib.py (RNAStructure) when rpr loads structure with biopython the error is not suppressed
         
-# 3.6
+# 3.6.2
 
     Fixed:
 
@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
         PyMOL4RNA.py: mutate, rpr, diff, move rnapuzzle coloring code to own file
 
-# 3.6.x 201122
+# 3.6 201122
 
     Fixed:
 
