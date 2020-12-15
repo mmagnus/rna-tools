@@ -110,7 +110,8 @@ setup(
              'rna_tools/tools/misc/rna_merge_dfs.py',
              'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',
 
-             'rna_tools/tools/mq/ClashScore/rna_clashscore.py'
+             'rna_tools/tools/mq/ClashScore/rna_clashscore.py',
+             'rna_tools/tools/PyMOL4RNA/rna_calc_hbonds.py',
              'rna_tools/tools/mq/RNAkb/rna_rnakb.py',
              ],
     license='GPLv3',
