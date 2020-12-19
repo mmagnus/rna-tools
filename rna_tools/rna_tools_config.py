@@ -51,6 +51,10 @@ GROMACS_PATH_BIN=""
 
 user_path = os.path.expanduser("~")
 
+X3DNA=""
+X3DNA_FP=""
+
+
 # https://docs.python.org/3/library/configparser.html
 # based on config
 ## def is_int(s):

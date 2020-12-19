@@ -40,15 +40,8 @@ import re
 import argparse
 
 from subprocess import Popen, PIPE
-from os import remove, path, readlink
-
-PATH = path.abspath(__file__)
-if path.islink(PATH):
-    PATH = path.dirname(readlink(PATH))
-else:
-    PATH = path.dirname(path.abspath(__file__))
-
-from rna_tools.tools.rna_x3dna.rna_x3dna_config import BINARY_PATH
+from os import remove, path
+from rna_tools.rna_tools_config import X3DNA, X3DNA_FP
 
 
 class x3DNAMissingFile(Exception):
@@ -85,7 +78,7 @@ class x3DNA(object):
 
         ..warning:: To get modification use get_modifications()
         """
-        cmd = BINARY_PATH_FP + ' ' + self.curr_fn + ' stdout | analyze stdin'  # hack
+        cmd = X3DNA_FP + ' ' + self.curr_fn + ' stdout | analyze stdin'  # hack
         out = Popen([cmd], stderr=PIPE, stdout=PIPE, shell=True)
 
         stdout = out.stdout.read()
@@ -102,7 +95,7 @@ class x3DNA(object):
     def get_modifications(self):
         """Run find_pair to find modifications.
         """
-        cmd = BINARY_PATH_FP + ' -p ' + self.curr_fn + ' /tmp/fpout'  # hack
+        cmd = X3DNA_FP + ' -p ' + self.curr_fn + ' /tmp/fpout'  # hack
         out = Popen([cmd], stderr=PIPE, stdout=PIPE, shell=True)
 
         outerr = out.stderr.read()
@@ -116,11 +109,11 @@ class x3DNA(object):
     def run_x3dna(self, show_log=False):
         """
         """
-        cmd = BINARY_PATH + ' -i=' + self.curr_fn
+        cmd = X3DNA + ' -i=' + self.curr_fn
         out = Popen([cmd], stderr=PIPE, stdout=PIPE, shell=True)
 
-        stdout = str(out.stdout.read())
-        outerr = str(out.stderr.read())
+        stdout = str(out.stdout.read().decode())
+        outerr = str(out.stderr.read().decode())
 
         f = open('py3dna.log', 'w')
         f.write(cmd + '\n' + stdout)
@@ -129,7 +122,7 @@ class x3DNA(object):
         f.close()
 
         if outerr.find('does not exist!') > -1:  # not very pretty
-            raise Py3DNAMissingFile
+            raise x3DNAMissingFile
         if outerr.find('not found') > -1:  # not very pretty
             raise Exception('x3dna not found!')
 
@@ -191,7 +184,7 @@ File name: /tmp/tmp0pdNHS
 
 # name
 if __name__ == '__main__':
-    if not BINARY_PATH:
+    if not X3DNA:
         raise Exception(
             'Set up BINARY_PATH in rna_x3dna_config_local.py, .e.g "/Users/magnus/work/opt/x3dna/x3dna-dssr"')
 
@@ -216,7 +209,7 @@ if __name__ == '__main__':
 
             p = x3DNA(f, args.show_log)
 
-            #s = p.get_seq()
+            # s = p.get_seq()
             # print s
 
             s = p.get_secstruc()
