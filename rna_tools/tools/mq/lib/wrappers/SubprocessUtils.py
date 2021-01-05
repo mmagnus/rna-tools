@@ -34,12 +34,15 @@ def run_command(cmd, args, cmd_input='', env=None,
     """
     # TODO: check if kwargs are not a better way to write this function
     extended_cmd = timeout is None and [cmd] or ['timeout', str(timeout), cmd]
+
     if verbose: print(' '.join(extended_cmd), ' '.join(args))
     command = Popen(extended_cmd + args,
                 stdout=PIPE, stdin=PIPE, stderr=PIPE,
                 shell=False, env=env)
-    stdout, stderr = command.communicate(cmd_input)
-
+    stdout, stderr = command.communicate(cmd_input.encode())
+    if verbose:
+        print(stdout.decode())
+        print(stderr.decode())
     # make it possible to put output into a file
     if stdout_file is not None:
         f = open(stdout_file, 'w')
