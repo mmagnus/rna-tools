@@ -13,6 +13,8 @@ Albert Bogdanowicz
 
 import re
 import os
+import argparse
+import rna_tools.tools.pdb_formatix.PDBFile as pf
 
 LIB_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 VERBOSE = False
@@ -428,7 +430,7 @@ def format_score_mdp(mdp_out, energygrps, seq, verbose=False):
                     s = '%s_%s' % (x, y) # Library file table_uP_aP.xvg not found in current dir nor in your GMXLIB path.
                     s_reverse = '%s_%s' % (y, x) # try: /home/mqapRNA/mqaprna_env/db/RNA_5pt_full_sc1/table_aP_uP.xvg
                     if s in pairs:
-                        d += '%s ' % s.replace('_', ' ')  # '_' -> ' '
+                        d += '%s \n' % s.replace('_', ' ') # '_' -> ' '
             l = 'energygrp_table          = ' + d.strip()
             nmdp += l
         elif l.startswith('energygrp_excl'):
@@ -441,24 +443,25 @@ def format_score_mdp(mdp_out, energygrps, seq, verbose=False):
     with open(mdp_out, 'w') as f:
         f.write(nmdp)
 
+
+def get_parser():
+        parser = argparse.ArgumentParser(
+            description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+
+        #parser.add_argument('-', "--", help="", default="")
+        parser.add_argument("-v", "--verbose",
+                            action="store_true", help="be verbose")
+        parser.add_argument("file", help="", default="")
+        return parser
+
 # main
 if __name__ == '__main__':
     #fn = 'test_data/decoy0165_amb_clx.pdb'
     #fn = 'test_data/1duq.pdb'
-    fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
+    parser = get_parser()
+    args = parser.parse_args()
+    fn = args.file # 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
     pdblines = make_rna_gromacs_ready(open(fn).read())
     print(pdblines)
-    with open('test_output/gromacs_ready.pdb', 'w') as f:
+    with open(fn.replace('.pdb', '_MDready.pdb'), 'w') as f:
         f.write(pdblines)
-
-    fn = 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
-    pdblines = make_rna_rnakb_ready(open(fn).read())
-    fready = 'test_output/rnakb_ready.pdb'
-    print(pdblines)
-    with open(fready, 'w') as f:
-        f.write(pdblines)
-
-    # prepare groups
-    groups_txt, energygrps, seq_uniq = prepare_groups(fready, LIB_PATH + '/rnakb_utils/test_output/groups.txt', potential='5pt', verbose=True)
-    print(groups_txt)
-    fout = 'test_data/out.mdp'
