@@ -332,19 +332,18 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
     
     gtxt = 'del 1\n'
     c = 1
-
     if potential == 'aa':
         # rg
-        rg_atoms = "C3',C5,C4,C6,C8,O2',P,C2',O5',C5',C1',O3',O6,N2,N3,N1,N7,N9,C2,C4',O4',O2P,O1P".split(',')
+        rg_atoms = "C3',C5,C4,C6,C8,O2',P,C2',O5',C5',C1',O3',O6,N2,N3,N1,N7,N9,C2,C4',O4',OP2,OP1".split(',')
         rg_atoms2 = ['g' + a.strip().replace("'", 's') for a in rg_atoms]
         # ru
-        ug_atoms =  "C1',C2,C2',C3',C4,C4',C5,C5',C6,N1,N3,O2,O2',O3',O4,O4',O5',O1P,O2P,P".split(",")
+        ug_atoms =  "C1',C2,C2',C3',C4,C4',C5,C5',C6,N1,N3,O2,O2',O3',O4,O4',O5',OP1,OP1,P".split(",")
         ug_atoms2 = ['u' + a.strip().replace("'", 's') for a in ug_atoms]
         # ag
-        ag_atoms = "O3',O2',N7,N1,N3,N9,C2',O5',N6,C5',C1',C2,C6,C5,C4,O4',C4',C8,C3',P,O1P,O2P".split(',')
+        ag_atoms = "O3',O2',N7,N1,N3,N9,C2',O5',N6,C5',C1',C2,C6,C5,C4,O4',C4',C8,C3',P,OP1,OP2".split(',')
         ag_atoms2 = ['a' + a.strip().replace("'", 's') for a in ag_atoms]
         # cg
-        cg_atoms = "C2',O2',O2P,O1P,C5',O5',C4,O2,C3',C2,O3',N4,N3,N1,P,C1',O4',C4',C5,C6".split(',')
+        cg_atoms = "C2',O2',C5',O5',C4,O2,C3',C2,O3',N4,N3,N1,P,C1',O4',C4',C5,C6,OP1,OP2".split(',')
         cg_atoms2 = ['c' + a.strip().replace("'", 's') for a in cg_atoms]
         #N1, N3, O4', C5', O3', C2', C4, C1', O5', O1P, C4', C6, C5, C2, C3', P, O2P, O2, O4, O2'
         if verbose: print(('len-s:', len(rg_atoms), len(cg_atoms), len(ag_atoms), len(ug_atoms)))
@@ -392,7 +391,7 @@ def prepare_groups(fn, gr_fn, potential='aa', verbose=False):
                 c += 1
             energygrps.extend(cg_atoms2)
 
-    gtxt += '|'.join([str(x) for x in range(1,c)])
+    gtxt += '|'.join([str(x) for x in range(1, c)])
     gtxt += '\nname %i RNA_%s' % (c, potential) # @todo
     gtxt += '\n0 & ! %i' % (c)
     gtxt += '\nname %i other' % (c + 1)
@@ -430,9 +429,104 @@ def format_score_mdp(mdp_out, energygrps, seq, verbose=False):
                     s = '%s_%s' % (x, y) # Library file table_uP_aP.xvg not found in current dir nor in your GMXLIB path.
                     s_reverse = '%s_%s' % (y, x) # try: /home/mqapRNA/mqaprna_env/db/RNA_5pt_full_sc1/table_aP_uP.xvg
                     if s in pairs:
-                        d += '%s \n' % s.replace('_', ' ') # '_' -> ' '
+                        d += '%s ' % s.replace('_', ' ') # '_' -> ' '
             l = 'energygrp_table          = ' + d.strip()
             nmdp += l
+        elif l.startswith('energygrp_excl'):
+            l = 'energygrp_excl           =  other other ' + ' other '.join(energygrps) + ' other'
+            nmdp += l
+        else:
+            nmdp += l
+    if verbose: print(nmdp)
+
+    with open(mdp_out, 'w') as f:
+        f.write(nmdp)
+
+
+def format_score_mdp_aa2(mdp_out, energygrps, seq, verbose=False):
+    """Get a template score mdp and replace energygrps
+    (it can be generated with prepare_groups)
+    and energygrp_table
+    """
+    # load template
+    with open(LIB_PATH + 'rnakb_utils/' + MDP_TEMPLATE, 'r') as f:
+        txt = f.readlines()
+
+    with open(LIB_PATH + 'rnakb_utils/data/rnakb_all.txt', 'r') as f:
+        pairs = [i.strip() for i in f.readlines()]
+
+    nmdp = ''
+    for l in txt:
+        if l.startswith('energygrps'):
+            l = 'energygrps               = ' + ' '.join(energygrps) + ' other'
+            nmdp += l
+        elif l.startswith('energygrp_table'):
+            d = ''
+            c = 1
+            used = ''
+            for x in energygrps:  # ugly :-(
+                for y in energygrps:
+                    s = '%s_%s' % (x, y) # Library file table_uP_aP.xvg not found in current dir nor in your GMXLIB path.
+                    if os.path.isfile('/Users/magnus/work/papers/mqaprna/misc/mqaprna-db/RNA_aa_full/table_%s.xvg' % s):
+                        print(c, 'ok', s)
+                    else:
+                        s = '%s_%s' % (y, x) 
+                        if os.path.isfile('/Users/magnus/work/papers/mqaprna/misc/mqaprna-db/RNA_aa_full/table_%s.xvg' % s):
+                            print(c, 're', s)
+                    print
+                    # try: /home/mqapRNA/mqaprna_env/db/RNA_5pt_full_sc1/table_aP_uP.xvg
+                    if s.replace('_', ' ') not in d:
+                        d += '%s ' % s.replace('_', ' ') # '_' -> ' '
+                        print(c, '!!', s)
+                        c += 1   
+                        
+            l = 'energygrp_table          = ' + d.strip()
+            print(len(l.split()))
+            nmdp += l
+        elif l.startswith('energygrp_excl'):
+            l = 'energygrp_excl           =  other other ' + ' other '.join(energygrps) + ' other'
+            nmdp += l
+        else:
+            nmdp += l
+    if verbose: print(nmdp)
+
+    with open(mdp_out, 'w') as f:
+        f.write(nmdp)
+
+def format_score_mdp_aa(mdp_out, energygrps, seq, potential, verbose=False):
+    """Get a template score mdp and replace energygrps
+    (it can be generated with prepare_groups)
+    and energygrp_table
+    """
+    # load template
+    with open(LIB_PATH + 'rnakb_utils/' + MDP_TEMPLATE, 'r') as f:
+        txt = f.readlines()
+
+    with open(LIB_PATH + 'rnakb_utils/data/rnakb_all.txt', 'r') as f:
+        pairs = [i.strip() for i in f.readlines()]
+
+    nmdp = ''
+    c = 1
+    for l in txt:
+        if l.startswith('energygrps'):
+            energygrps = []
+            for i in os.listdir('/Users/magnus/work/papers/mqaprna/misc/mqaprna-db/RNA_aa_full'):
+                if 'table_' in i:
+                    a, b = i.replace('table_', '').replace('.xvg', '').replace('_', ' ').split()
+                    if a not in energygrps:
+                        energygrps.append(a)
+                    if b not in energygrps:
+                        energygrps.append(b)
+            l = 'energygrps               = ' + ' '.join(energygrps) + ' other'
+            nmdp += l
+        elif l.startswith('energygrp_table'):
+            groups = []
+            for i in os.listdir('/Users/magnus/work/papers/mqaprna/misc/mqaprna-db/RNA_aa_full'):
+                if 'table_' in i:
+                    d = i.replace('table_', '').replace('.xvg', '').replace('_', ' ')
+                    if verbose: print(i.ljust(20), d)
+                    groups.append(d)
+            nmdp += 'energygrp_table = ' + ' '.join(groups)
         elif l.startswith('energygrp_excl'):
             l = 'energygrp_excl           =  other other ' + ' other '.join(energygrps) + ' other'
             nmdp += l
@@ -458,10 +552,15 @@ def get_parser():
 if __name__ == '__main__':
     #fn = 'test_data/decoy0165_amb_clx.pdb'
     #fn = 'test_data/1duq.pdb'
-    parser = get_parser()
-    args = parser.parse_args()
-    fn = args.file # 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
-    pdblines = make_rna_gromacs_ready(open(fn).read())
-    print(pdblines)
-    with open(fn.replace('.pdb', '_MDready.pdb'), 'w') as f:
-        f.write(pdblines)
+
+    format_score_mdp('out.txt', '', '')
+    print(open('out.txt').read())
+
+    if 0:
+        parser = get_parser()
+        args = parser.parse_args()
+        fn = args.file # 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
+        pdblines = make_rna_gromacs_ready(open(fn).read())
+        print(pdblines)
+        with open(fn.replace('.pdb', '_MDready.pdb'), 'w') as f:
+            f.write(pdblines)
