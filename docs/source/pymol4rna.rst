@@ -20,6 +20,28 @@ and here you can compare the input file vs file after ``--rpr`` (of rna_pdb_tool
 	   
 .. image:: ../pngs/pymol_inspect2.jpeg
 
+Show base pair edges
+----------------------------------------------------------------------
+	   
+.. image:: ../pngs/edges3.png
+
+Leontis/Westhof classification of base pairings. (A) RNA bases - adenine (A), cytosine (C), guanine (G) and uracil (U) - involve one of three distinct edges: the Watson– Crick (W) edge, the Hoogsteen (H) edge, and the Sugar (S) edge. (B) Each pair of can interact in either cis or trans orientations with respect to the glycosidic bonds. (C) For these reasons, all base pairs can be grouped into twelve geometric base pair families and eighteen pairing relationships (bases are represented as triangles). Each pair is represented by a symbol that can be used in a secondary structure and a tertiary structure diagrams. Filled symbols mean cis base pair configuration, and open symbols, trans base pair. (D) Interestingly, bases can form triples and they have own classification devised by Leontis and coworkers (Creative Commons License) (A. S. Abu Almakarem, A. I. Petrov, J. Stombaugh, C. L. Zirbel, and N. B. Leontis, “Comprehensive survey and geometric classification of base triples in RNA structures.,” Nucleic Acids Research, vol. 40, no. 4, pp. 1407–1423, Feb. 2012.)
+	   
+.. image:: ../pngs/edges2.png.jpeg
+
+Type::
+
+    edges (<selection>)
+
+e.g.,::
+
+    edges (all)
+
+to show the edges drawn on bases.
+    
+.. image:: ../pngs/edges.png
+   
+
 PyMOL4Spliceosome: all spliceosome structures in one PyMOL session
 ----------------------------------------------------------------------
 

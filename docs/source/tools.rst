@@ -317,6 +317,8 @@ rna_pairs_diff.py - get a diff of pairs
 Contacts classification & secondary structure detection
 ------------------------------------------------------------------
 
+See also PyMOL4RNA for ways to visualize edges https://rna-tools.readthedocs.io/en/latest/pymol4rna.html
+
 3DNA (contacts classification & secondary structure detection)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
