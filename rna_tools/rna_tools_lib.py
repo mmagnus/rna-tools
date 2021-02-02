@@ -29,6 +29,18 @@ ignore_op3 = False
 AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
                    "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
                    "TRP", "TYR", "VAL"]
+
+def aa3to1(aaa):
+    """based on https://pymolwiki.org/index.php/Aa_codes"""
+    if len(aaa) != 3:  # aaa is 'G', like for RNA ;-)
+        return '' # dont do it for rna test aaa
+    one_letter ={'VAL':'V', 'ILE':'I', 'LEU':'L', 'GLU':'E', 'GLN':'Q', \
+                 'ASP':'D', 'ASN':'N', 'HIS':'H', 'TRP':'W', 'PHE':'F', 'TYR':'Y',    \
+                 'ARG':'R', 'LYS':'K', 'SER':'S', 'THR':'T', 'MET':'M', 'ALA':'A',    \
+                 'GLY':'G', 'PRO':'P', 'CYS':'C'}
+    return one_letter[aaa]
+
+
 RES = ['DA', 'DG', 'DT', 'DC']
 RES += ['A', 'G', 'U', 'C']
 
@@ -395,11 +407,12 @@ class RNAStructure:
                 if resi_prev != resi:
                     resname = l[17:20].strip()
                     chain_curr = l[21]
+                    if resname in AMINOACID_CODES:
+                        resname = aa3to1(resname)
                     if len(resname) == 'GTP':  # DG -> g GTP
                         resname = 'g'
                     if len(resname) > 1:  # DG -> g GTP
                         resname = resname[-1].lower()
-
                     try:
                         chains[chain_curr]['resi'].append(resi)
                         chains[chain_curr]['seq'].append(resname)
