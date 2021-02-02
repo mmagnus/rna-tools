@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     Fixed:
     
         rna_tools_lib.py (RNAStructure) for remove_hydrogen, correct atom name position now
-
+	rna_pdb_toolsx.py --get-seq works with protein fix #104	
+	
     Added:
     
         mqapRNA: py3 wrappers and include them in RT
