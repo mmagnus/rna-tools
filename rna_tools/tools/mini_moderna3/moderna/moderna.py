@@ -43,7 +43,7 @@ while MODULE_PATH in sys.path:
     sys.path.remove(MODULE_PATH)
 sys.path.append(MODULE_PATH)
 
-from rna_tools.tools.mini_moderna3.moderna.import *
+from rna_tools.tools.mini_moderna3.moderna import *
 from optparse import OptionParser
 from commands import *
 

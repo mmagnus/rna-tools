@@ -83,10 +83,9 @@ if __name__ == '__main__':
     x_scaled = min_max_scaler.fit_transform(x)
     df = pd.DataFrame(x_scaled) #, index = 
     #df.set_index(['wt','del',34,39,40,410,41,42])
-    p = print
-    p(df)
+        #print(df)
     df.plot.bar()
     f = os.path.splitext(args.file)[0]
     outfn = f + '_plot.png'
-    p('Output created ' + outfn)
+    print('Output created ' + outfn)
     plt.savefig(outfn)
