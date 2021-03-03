@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 """This module contains functions for computing RNAkb potential
 
-Will not work for 1duq.pdb. 
+It seems that this is impossible to run RNAkb in full atom mode. So this works only in 5 pt (5 points/atom per residue) mode.
+
+https://gromacs.bioexcel.eu/t/fatal-error-an-input-file-contains-a-line-longer-than-4095-characters/1397/2
 """
 import os
 import sys
@@ -16,12 +18,12 @@ from rna_tools.tools.rnakb_utils.rnakb_utils import make_rna_rnakb_ready, fix_gr
 from rna_tools.rna_tools_config import GRMLIB_PATH, DB_AA_PATH, DB_5PT_PATH, WRAPPERS_PATH, GROMACS_LD_PATH, GROMACS_PATH_BIN, TMP_PATH
 
 import tempfile
-SANDBOX_PATH = "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/RNAkb/bucket/tmp" # tempfile.TemporaryDirectory().name
+SANDBOX_PATH = "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/RNAkb/sandbox/" # tempfile.TemporaryDirectory().name
 
 class RNAkb(ProgramWrapper):
     """Wrapper class for running RNAkb automatically.
     """
-    executable = [GROMACS_PATH_BIN + exe for exe in ['pdb2gmx', 'make_ndx', 'editconf', 'grompp', 'mdrun']]
+    executable = ['/usr/local/gromacs/bin/' + exe for exe in ['pdb2gmx', 'make_ndx', 'editconf', 'grompp', 'mdrun']]
 
     def __init__(self, sequence='', seq_name='', job_id='',  sandbox=False):
         super(RNAkb, self).__init__(sequence, seq_name, job_id=job_id)
@@ -32,7 +34,7 @@ class RNAkb(ProgramWrapper):
                 os.mkdir(SANDBOX_PATH)
             except:
                 pass
-            os.system('rm ' + SANDBOX_PATH + '/*')
+            # os.system('rm ' + SANDBOX_PATH + '/*')
             self.sandbox_dir= SANDBOX_PATH
 
     def log_stdout_stderr(self):
@@ -69,13 +71,16 @@ class RNAkb(ProgramWrapper):
     def run(self, name, potential_type, verbose=False):
         """Compute RNAkb potential for a single file
         
-        :param name: name of a PDB file
-        :param potential_type: '5pt' for 5 point or 'aa' for all atom aa is off
+        Args:
 
-        :return: energies:: a list of energies (strings) ['2.57116e+05', '1.62131e+03', 
-        '7.82459e+02', '3.00789e-01', '0.00000e+00', '0.00000e+00', '-2.51238e-03', '0.00000e+00', '2.59520e+05', '2.54174e-09', '2.59520e+05']
+           path (str): name of a PDB file
+           potential_type (str): '5pt' for 5 point or 'aa' for all atom aa is off
 
-        .. warning:: 'aa' because of "a line longer than 4095 characters"
+        Returns:
+
+           a list of energies (strings) ['2.57116e+05', '1.62131e+03', '7.82459e+02', '3.00789e-01', '0.00000e+00', '0.00000e+00', '-2.51238e-03', '0.00000e+00', '2.59520e+05', '2.54174e-09', '2.59520e+05']
+
+        .. warning:: 'aa' does not work because of "a line longer than 4095 characters"
 
         The function parses::
 
@@ -96,7 +101,11 @@ class RNAkb(ProgramWrapper):
             '2.43227e-09', 'Total', 'Energy', 'Temperature', 'Pressure', '(bar)', '2.46685e+05', '6.67884e-10', 
             '-5.94232e+04', 'Total', 'Virial']
 
+            result[6] is really the RNAkb
+
         """
+        prep = False
+
         self.sandbox_dir = self.sandbox_dir + os.sep
 
         self.log('Run %s' % name)
@@ -144,8 +153,8 @@ class RNAkb(ProgramWrapper):
         # create topology files
         self.log('create topology files')
         # pdb2gmx
-        out = run_command(self.executable[0],
-                       ['-ff', 'amber03', '-water', 'none' , '-f', self.sandbox_dir + 'query.pdb', '-o', self.sandbox_dir + 'query.gro',
+        out = run_command(self.executable[0], # '-v',
+                       ['-quiet', '-ff', 'amber03', '-water', 'none' , '-f', self.sandbox_dir + 'query.pdb', '-o', self.sandbox_dir + 'query.gro',
                         '-p', self.sandbox_dir + 'query.top',
                         ],
                        env=my_env,
@@ -158,7 +167,6 @@ class RNAkb(ProgramWrapper):
             print(out)
             self.log('Run failed')
             self.log_stdout_stderr()
-            import ipdb; ipdb.set_trace()
             os.chdir(old_path)
             return -1
 
@@ -169,13 +177,20 @@ class RNAkb(ProgramWrapper):
         command += 'GMXLIB=' + my_env['GMXLIB'] + ' '
         command += 'LD_LIBRARY_PATH=' + my_env['LD_LIBRARY_PATH'] + ' '
 
+
         # generate sandbox/groups.txt @groups
         gr = self.sandbox_dir + 'groups.txt'
         gtxt, energygrps, seq_uniq = prepare_groups(self.sandbox_dir + 'query.pdb', gr, potential=potential_type)
         if verbose: print('Groups file created: %s' % gr)
+
         # generate sandbox/score.mdp @score
         fout = self.sandbox_dir + 'score.mdp'
-        format_score_mdp(fout, energygrps, seq_uniq)
+
+        if potential_type == 'aa': # ugly
+            #format_score_mdp_aa(fout, energygrps, seq_uniq)
+            format_score_mdp(fout, energygrps, seq_uniq)
+        else:
+            format_score_mdp(fout, energygrps, seq_uniq)
 
         command += self.executable[1] + ' -f query.gro > /dev/null 2> /dev/null < ' + gr
         #command += self.executable[1] + ' -f query.gro <' + gr
@@ -189,7 +204,7 @@ class RNAkb(ProgramWrapper):
         ## energy computation
         self.log('prepare energy computation')
         run_error = run_command(self.executable[3], # grompp
-                       ['-c', self.sandbox_dir + 'query.gro', '-p', self.sandbox_dir + 'query.top',
+                       ['-noh', '-c', self.sandbox_dir + 'query.gro', '-p', self.sandbox_dir + 'query.top',
                         '-time', '1',
                         '-f', self.sandbox_dir + 'score.mdp',
                         '-n', self.sandbox_dir + 'index.ndx',
@@ -209,8 +224,9 @@ class RNAkb(ProgramWrapper):
             f.close()
 
             box_size = [float(i) for i in box_size]
-            max_size = 30
-            for mult in range(2, max_size):
+            max_size = 10
+
+            for mult in range(5, max_size):
                 ## increase box size
                 if verbose: print('> Increase box size %d times' % mult)
                 self.log('Increase box size %d times' % mult)
@@ -318,11 +334,11 @@ if __name__ == '__main__':
     # 5pt
     if False:
         result = wrapper.run('test_data'
-                             + os.sep + fn , '5pt', verbose=True) 
+                             + os.sep + fn , '5pt', verbose=False) 
         print(fn, result)
         #wrapper.cleanup()
 
     # all
     result = wrapper.run('test_data' + os.sep + fn , '5pt', verbose=False) # or aa
-    print(fn, result)
+    print(fn, result[6])
     #wrapper.cleanup()

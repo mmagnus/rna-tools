@@ -344,7 +344,7 @@ To run ClaRNA, see the documentaton below:
 RNA 3D model quality assessment
 -----------------------------------------
 
-http://genesilico.pl/mqapRNA [mq]
+Wrappers behind the server, http://genesilico.pl/mqapRNA (in short, mq)
 
 RASP
 ~~~~~~~~
@@ -359,6 +359,17 @@ Dfire
 .. automodule:: rna_tools.tools.mq.Dfire.Dfire
    :members:
    :undoc-members:
+
+RNAkb
+~~~~~~~~
+
+.. automodule:: rna_tools.tools.mq.RNAkb.RNAkb
+   :members:
+   :undoc-members:
+
+.. argparse::
+   :ref: rna_tools.tools.mq.RNAkb.rna_mq_rnakb.get_parser
+   :prog: rna_mq_rnakb.py
 
 QRNA
 ~~~~~~~~
