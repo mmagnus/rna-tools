@@ -112,7 +112,8 @@ setup(
 
              'rna_tools/tools/mq/ClashScore/rna_clashscore.py',
              'rna_tools/tools/PyMOL4RNA/rna_calc_hbonds.py',
-             'rna_tools/tools/mq/RNAkb/rna_rnakb.py',
+
+             'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              ],
     license='GPLv3',
     author='Marcin Magnus',
