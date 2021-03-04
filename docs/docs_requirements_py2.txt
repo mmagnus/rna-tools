@@ -1,4 +1,4 @@
-configparser=5.0.0
+configparser==5.0.0
 
 numpy
 biopython==1.74
