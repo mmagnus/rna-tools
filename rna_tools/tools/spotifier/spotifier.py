@@ -243,11 +243,11 @@ if __name__ == '__main__':
         x = 0; y = 0
 
         # LOAD FONT
-        # font = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 40)
+        #font = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 40)
         # should work for OSX
         try:
-            fnt = 'Helvetica.ttc'
-            font = ImageFont.truetype(fnt, size=40)
+            fnt = '/usr/local/texlive/2018/texmf-dist/fonts/truetype/public/gnu-freefont/FreeMono.ttf'
+            font = ImageFont.truetype(fnt, size=20)
         except OSError:
             font = ImageFont.load_default() # should work for everything else
         font_bar = ImageFont.truetype(fnt, size=100)

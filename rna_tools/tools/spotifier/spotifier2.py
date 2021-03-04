@@ -186,7 +186,8 @@ if __name__ == '__main__':
             extra = 600
         fig = Image.new('RGB', (len(figure[0]) * 100 + extra, len(figure) * 100))
         draw = ImageDraw.Draw(fig)
-        x = 0; y = 0
+        x = 0
+        y = 0
 
         # LOAD FONT
         # font = ImageFont.truetype('Pillow/Tests/fonts/FreeMono.ttf', 40)
