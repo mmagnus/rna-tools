@@ -94,7 +94,7 @@ if __name__ == '__main__':
         else:
             img = Image.open(file)
 
-        # load map
+        # load map, into figure
         list_txt = '['
         names = []
         for l in open(args.map):
@@ -202,6 +202,8 @@ if __name__ == '__main__':
 
         picked_wt = False
 
+        # based on the collected spots
+        # no build the figure
         for i, row in enumerate(figure):
             spots_text = ''
             row_fig = Image.new('RGB', (len(figure[0]) * 100, len(figure) * 100)) # for calculations, for each raw new one
