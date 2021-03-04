@@ -78,8 +78,7 @@ def add_to_trafl(trafl, struc_trafl):
     # print struc
     # print struc
     nr_of_files_structure = len(struc.split('\n'))
-    assert(nr_of_files_structure == 2,
-           'Structure should be in SimRNA trajectory format (with only one frame)')
+    assert nr_of_files_structure == 2, 'Structure should be in SimRNA trajectory format (with only one frame)'
     print(' input struc: and # of frames (should be only 2!)', struc_trafl, nr_of_files_structure)
     trafl_txt = open(trafl).read().strip()
     print(' add the structure to this trafl: and # of frames', trafl, len(trafl_txt.split('\n')))
