@@ -210,15 +210,27 @@ if __name__ == '__main__':
             row_fig_y = 0
             for s in row:  # spot in row
                 # for center something like this https://stackoverflow.com/questions/1970807/center-middle-align-text-with-pil
+                # this is for spot or gray box
                 if s == 0: # put a gray box here
-                    img = Image.new('RGB', (100, 100))
-                    draw = ImageDraw.Draw(img)
-                    draw.rectangle((0,0,100,100), fill ="#808080") # , outline ="red")
-                    fig.paste(img, (x, y)) # s - 1 # index from 0
-                    row_fig.paste(img, (x, row_fig_y))
+                    img_box = Image.new('RGB', (100, 100))
+                    draw_box = ImageDraw.Draw(img_box)
+                    draw_box.rectangle((0,0,100,100), fill ="#808080") # , outline ="red")
+                    fig.paste(img_box, (x, y)) # s - 1 # index from 0
+                    row_fig.paste(img_box, (x, row_fig_y))
                 else:
                     fig.paste(spots[s - 1], (x, y)) # s - 1 # index from 0
                     row_fig.paste(spots[s - 1], (x, row_fig_y))
+
+                # this is extra | 
+                # if s == -1:  # put a gray box here
+                #    img_box = Image.new('RGB', (100, 100))
+                #    draw_box = ImageDraw.Draw(img_box)
+                #    # 5 is width of the bar ;-)
+                #    draw_box.rectangle((0,0,5,100), fill ="#fff") # , outline ="red")
+                #    fig.paste(img_box, (x, y)) # s - 1 # index from 0
+                #    row_fig.paste(img_box, (x, row_fig_y))
+                #    x -= 100
+                    
                 spots_text += ' ' + str(s)
                 x += 100
             # run it for the whole row

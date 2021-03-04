@@ -94,12 +94,15 @@ if __name__ == '__main__':
         # img = normalized(img)
         img.paste(mask, (args.mx, args.my), mask)
 
-        if rms < 180:
-            img1 = level_image(img, args.levela, args.levelb)
-            img1.save(os.path.splitext(f)[0] + '_prep.png')
-        else:
-            img2 = level_image(img, 40, 50)
-            img2.save(os.path.splitext(f)[0] + '_prep.png')    
+        img1 = level_image(img, args.levela, args.levelb)
+        img1.save(os.path.splitext(f)[0] + '_prep.png')
+
+        ## if rms < 1: # 180
+        ##     img1 = level_image(img, args.levela, args.levelb)
+        ##     img1.save(os.path.splitext(f)[0] + '_prep.png')
+        ## else:
+        ##     img2 = level_image(img, 40, 50)
+        ##     img2.save(os.path.splitext(f)[0] + '_prep.png')    
         #if args.debug: img.save('_before_trim.png')
         # img = trim(img)
         #img = img.resize([1000, 1000])
