@@ -34,6 +34,19 @@ Output::
      [-0.01818037]]
     Total score for /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmptg6jy2ud/query.pdb is  6.3262305
 
+If missing atoms::
+
+    Total params: 4,282,801
+    Trainable params: 4,282,801
+    Non-trainable params: 0
+    _________________________________________________________________
+    There is no atom O5' in residue 620A in chain  A in PDB /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpx87uus6x/query.pdb.
+    There is no atom O5' in residue 635A in chain  B in PDB /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpx87uus6x/query.pdb.
+    There is no atom O5' in residue 1750G in chain  C in PDB /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpx87uus6x/query.pdb.
+    Scores for each nucleotide in /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpx87uus6x/query.pdb:
+    []
+    Total score for /var/folders/yc/ssr9692s5fzf7k165grnhpk80000gp/T/tmpx87uus6x/query.pdb is  0.0
+   
 """
 import os
 import re
@@ -84,7 +97,11 @@ class RNA3DCNN(ProgramWrapper):
         output = open(self.sandbox_dir + '/log.txt').read()
         score = output.split()[-1]
         lscore = re.search('\[\[.*\]\]', output, re.M | re.DOTALL)
-        lscore = lscore.group().replace('[','').replace(']\n', ',').replace(']]','')
+        try:
+            lscore = lscore.group().replace('[','').replace(']\n', ',').replace(']]','')
+        except:
+            print(output)
+            return error
         # 0.02462262,  0.03271335,  0.06199259,  0.02006263,  0.05937254,  0.12025979, 
         lscore = [float(x.strip()) for x in lscore.split(',')] # [0.02462262, 0.03271335, ...
         if verbose:
