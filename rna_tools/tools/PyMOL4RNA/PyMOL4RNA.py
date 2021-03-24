@@ -268,6 +268,63 @@ def align_all(cycles = 5, filename="_rmsd_.csv"):
 
 cmd.extend('align_all', align_all)
 
+
+def rmsdx(cycles = 5, matrix_fn = 'matrix.txt'):
+    """
+    Args:
+
+    cycles (int): refinement cycles of PyMOL align, default: 5
+    matrix_fn (string): a file to save the matrix
+                        matrix is pretty much saved in space-separated values 
+                        so you can load it to pandas with
+
+                        df = pd.read_csv('matrix.txt', sep=' ', index_col=False)
+                        df = df.set_index(df.columns)
+                        print(df)
+                                      Bact_7DCO_S  Bact_5gm6_S
+                        Bact_7DCO_S         0.000        0.562
+
+    Returns:
+
+    string: matrix 
+            and matrix_fn file ;-)
+
+    """
+    models = cmd.get_names_of_type("object:molecule")
+    print(' # of models:', len(models))
+    
+    f = open(matrix_fn, 'w')
+    #t = '# ' # for numpy
+    t = ''  # for pandas
+    for r1 in models:
+        # print r1,
+        t += str(r1) + ' '  # here ' ' could be changed to , or \t
+    t = t.strip() + '\n'
+
+    c = 1
+    for r1 in models:
+        for r2 in models:
+            if r1 == r2:
+                rmsd = 0
+            else:
+                values = cmd.align(r1, r2, cycles=cycles)
+                # RaR [1]       RbR [3]
+                # RaR  #AA  CoR               RbR  #AbR RS   AR'
+                # (0.668652355670929, 241, 5, 1.1646124124526978, 293, 199.0, 38)
+                rmsd = round(values[0], 3)
+            t += str(rmsd) + ' '
+        #print('...', c, r1)
+        c += 1
+        t += '\n'
+
+    f.write(t)
+    f.close()
+
+    print(t.strip())  # matrix
+    return t
+
+cmd.extend('rmsdx', rmsdx)
+
 def save_all(dir=''):
     """save_all molecule objects as pdb files. Use `cd` to get to the right folder
        or use dir argument"""
