@@ -13,7 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         rna_pdb_toolsx.py --get-seq works with protein fix #104	
 	
     Added:
-    
+
+        rna_pdb_toolsx.py:
+        - add --fetch-chain to first fetch a structure and extract chain in one step
+        
         mqapRNA: py3 wrappers and include them in RT
         - RASP
         - Dfire
