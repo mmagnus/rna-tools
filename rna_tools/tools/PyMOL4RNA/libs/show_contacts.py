@@ -12,15 +12,25 @@ Modified: Marcin Magnus 2020
 
 Source <https://pymolwiki.org/index.php/Pymol-script-repo>
 """
-
 from __future__ import print_function
 
-import sys,os
+import sys
+import os
 from pymol import cmd
+
+print("""show_contacts
+-------------------------------------
+
+_polar: good polar interactions according to PyMOL
+_polar_ok: compute possibly suboptimal polar interactions using the user specified distance
+_aa: acceptors acceptors
+_dd: donors donors
+
+_all is all ;-) above!""")
 
 DEBUG=1
 
-def show_contacts(selection, selection2,
+def show_contacts(selection='*', selection2='*',
                   result="contacts",
                   cutoff=3.6,
                   bigcutoff = 4.0,
@@ -89,7 +99,7 @@ def show_contacts(selection, selection2,
             cmd.delete(result + "_all")
             return None
     ########################################
-    #compute good polar interactions according to pymol
+    # compute good polar interactions according to pymol
     polres = result + "_polar"
     if all1_sele_count and all2_sele_count:
         cmd.distance(polres, 'all_don_acc1_sele', 'all_don_acc2_sele', cutoff, mode = 2) #hopefully this checks angles? Yes
@@ -101,14 +111,14 @@ def show_contacts(selection, selection2,
             cmd.hide("labels", polres)
     
     ########################################
-    #When running distance in mode=2, the cutoff parameter is ignored if set higher then the default of 3.6
-    #so set it to the passed in cutoff and change it back when you are done.
+    # When running distance in mode=2, the cutoff parameter is ignored if set higher then the default of 3.6
+    # so set it to the passed in cutoff and change it back when you are done.
     old_h_bond_cutoff_center = cmd.get('h_bond_cutoff_center') # ideal geometry
     old_h_bond_cutoff_edge = cmd.get('h_bond_cutoff_edge') # minimally acceptable geometry
     cmd.set('h_bond_cutoff_center', bigcutoff)
     cmd.set('h_bond_cutoff_edge', bigcutoff)
         
-    #compute possibly suboptimal polar interactions using the user specified distance
+    # compute possibly suboptimal polar interactions using the user specified distance
     pol_ok_res = result + "_polar_ok"
     if all1_sele_count and all2_sele_count:
         cmd.distance(pol_ok_res, 'all_don_acc1_sele', 'all_don_acc2_sele', bigcutoff, mode = 2) 
@@ -186,8 +196,7 @@ def show_contacts(selection, selection2,
     
     #initialize the variable for when CALC_SASA is False
     unpaired_atoms = ''
-    
-        
+
     ## Group
     print(allres) # contacts_all
     cmd.group(result,"%s %s %s %s %s %s" % (polres, allres, accres, donres, pol_ok_res, unpaired_atoms))
@@ -202,7 +211,10 @@ def show_contacts(selection, selection2,
         cmd.delete('onlydonors1_sele')
         cmd.delete('onlydonors2_sele')
     
-    
+    cmd.disable('contacts_all')
+    cmd.disable('contacts_polar_ok')
+    cmd.disable('contacts_aa')
+    cmd.disable('contacts_dd')    
     return True
 
 cmd.extend('contacts', show_contacts) #contacts to avoid clashing with cluster_mols version

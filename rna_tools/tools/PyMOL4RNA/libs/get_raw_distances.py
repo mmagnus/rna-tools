@@ -38,30 +38,34 @@ def unid(object, index, format="csv"):
     # print(cmd.iterate(, 'print(resi)'))
     #cmd.do("python('l = [];')")
     selection = object + ' and index ' + str(index)
-    cmd.iterate(selection, 'l.append([resn, resi])')
+    from pymol import stored
+    stored.l = []
+    #cmd.iterate(selection, 'l.append([resn, resi])')
+    cmd.iterate(selection, 'stored.l.append([resn, resi])')
+    #print(stored.l)
     #print(l)
     #l = cmd.do('l')
     
     if format == 'csv': 
         mol = object.split('_')[0] # yC_5lj3_Prp8 ## TODO
-        if l:
+        if stored.l:
             # ['THR', '3'], ['A', '53'], 
-            resn = l[-1][0]
-            resi = l[-1][1]
+            resn = stored.l[-1][0]
+            resi = stored.l[-1][1]
             if len(resn) == 3: # process aa from THR to T
                 resn = aa3to1(resn) # else keep it C, G, U, A, etc
             x = mol + '-' + resn + str(resi)
         else:
             x = ''
     else:
-        x = object + ' and resi ' +  str(aa3to1(l[-1][0])) + str(l[-1][1])
+        x = object + ' and resi ' +  str(aa3to1(stored.l[-1][0])) + str(stored.l[-1][1])
         # print(x)
     return (x)
     #: # 'id ' + str(1411):
     #    print(r)
 
 
-def get_raw_distances(names='', state=1, selection='all', quiet=1, filename='intrs.txt'):
+def get_raw_distances(names='', state=1, selection='all', quiet=1, filename='intrs.csv'):
     '''
 DESCRIPTION
 
@@ -82,13 +86,13 @@ ARGUMENTS
 
     quiet = boolen
 
-    filename
+    filename = if this is '' then dont save any file at all, be default 'intrs.csv'
 
 SEE ALSO
 
     select_distances, cmd.find_pairs, cmd.get_raw_alignment
     '''
-    foo = cmd.do('l = [];') ## ugly hack!
+    #foo = cmd.do('l = [];') ## ugly hack!
     from chempy import cpv
 
     state, quiet = int(state), int(quiet)
@@ -137,12 +141,11 @@ SEE ALSO
                     print(' Debug: no index for %s %s' % (xyz1, xyz2))
 
     if rresi:
-        with open(filename, 'w') as f:
-            for r in rresi:
-                # not fully correct
-                # f.write('Prp8' +',' + r[0] + '\n')
-                f.write(r[0] + ',' + r[1] + '\n')
-        print('File saved:', filename)
+        if filename: # if empty filename then don't save it
+            with open(filename, 'w') as f:
+                for r in rresi:
+                    f.write(r[0] + ',' + r[1] + '\n')
+            print('File saved:', filename)
     return r, rresi
 
 
