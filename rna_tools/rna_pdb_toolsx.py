@@ -94,6 +94,8 @@ def get_parser():
     parser.add_argument('--fetch-ba', action='store_true',
                         help='fetch biological assembly from the PDB db')
 
+    parser.add_argument('--fetch-chain', action='store_true', help='fetch a structure in extract chain, e.g. 6bk8 H')
+
     parser.add_argument('--get-seq', help='get seq', action='store_true')
 
     parser.add_argument('--color-seq', help='color seq, works with --get-seq', action='store_true')
@@ -777,7 +779,16 @@ if __name__ == '__main__':
 
 
     if args.fetch:
-        fetch(args.file)
+        fn = fetch(args.file)
+            
+    if args.fetch_chain:
+        fn = fetch(args.file[0])
+        chain = args.file[1]
+        nfn = fn.replace('.pdb','') + '_' + chain + '.pdb' # 6bk8_H.pdb
+        #cmd = 'rna_pdb_tools.py --get-chain %s %s' > %s' % (chain, fn, nfn)
+        cmd = 'rna_pdb_toolsx.py --get-chain %s %s' % (chain, fn)
+        os.system(cmd)
+        # print(nfn)
 
     if args.fetch_ba:
         fetch_ba(args.file)
