@@ -104,33 +104,39 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
 
     See:
 
-    -  Align: http://www.pymolwiki.org/index.php/Align
-    -  Fit:   http://www.pymolwiki.org/index.php/Fit
+    -  Align: <http://www.pymolwiki.org/index.php/Align>
+    -  Fit:   <http://www.pymolwiki.org/index.php/Fit>
 
     Align can return a list with 7 items:
 
-    RMSD after refinement
-    Number of aligned atoms after refinement
-    Number of refinement cycles
-    RMSD before refinement
-    Number of aligned atoms before refinement
-    Raw alignment score
-    Number of residues aligned
+    - RMSD after refinement
+    - Number of aligned atoms after refinement
+    - Number of refinement cycles
+    - RMSD before refinement
+    - Number of aligned atoms before refinement
+    - Raw alignment score
+    - Number of residues aligned
 
     in this version of function, the function returns `RMSD before refinement`.
 
-    Install on OSX: ``brew install homebrew/science/pymol`` and set ``PYTHONPATH`` to
-    your PyMOL packages, .e.g ::
+    Install on OSX: ``brew install brewsci/bio/pymol`` or get 
 
-      PYTHONPATH=$PYTHONPATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages
-
-    If problem::
+    If you have a problem::
 
       Match-Error: unable to open matrix file '/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/data/pymol/matrices/BLOSUM62'.
 
-    then define ``PYMOL_PATH`` in your .bashrc, e.g.::
+    then find BLOSUM62, e.g.::
 
-       export PYMOL_PATH=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pymol/
+        mdfind -name BLOSUM62 | grep pymol
+        /Users/magnus/miniconda2/envs/py37/lib/python3.7/site-packages/pymol/pymol_path/data/pymol/matrices/BLOSUM62
+        /usr/local/Cellar/pymol/2.4.0_3/libexec/lib/python3.9/site-packages/pymol/pymol_path/data/pymol/matrices/BLOSUM62
+        /Users/magnus/miniconda2/pkgs/pymol-2.4.2-py37h06d7bae_0/share/pymol/data/pymol/matrices/BLOSUM62
+        /Users/magnus/work/opt/pymol-open-source/data/pymol/matrices/BLOSUM62
+
+    and then define ``PYMOL_DATA`` in your .bashrc/.zshrc, e.g.::
+
+       export PYMOL_DATA="/Users/magnus/work/opt/pymol-open-source/data/pymol"
+
      """
 
     try:
@@ -146,10 +152,13 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     pymol.cmd.delete('all')
     pymol.cmd.load(pdb1, 's1')
     pymol.cmd.load(pdb2, 's2')
+
     if method == 'align':
         # experiments with align <https://pymolwiki.org/index.php/Align>
         # quiet = 0/1: suppress output {default: 0 in command mode, 1 in API}
-        return  (pymol.cmd.align('s1', 's2',quiet=1, object='aln')[3],0) #, pymol.cmd.align('s1','s2')[4])
+        # (4.130036354064941, 60, 3, 4.813207626342773, 64, 30.0, 3)
+        values = pymol.cmd.align('s1', 's2',quiet=1, object='aln')
+        return values[0], values[3] # (,#0) #, pymol.cmd.align('s1','s2')[4])
         #raw_aln = pymol.cmd.get_raw_alignment('aln')
         #print raw_aln
         #for idx1, idx2 in raw_aln:

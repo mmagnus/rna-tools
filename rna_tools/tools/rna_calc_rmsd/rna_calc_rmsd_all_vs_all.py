@@ -11,11 +11,25 @@ Examples::
     ... 3 test_data/struc3.pdb
     ... 4 test_data/struc4.pdb
 
-The program is using (https://github.com/charnley/rmsd)
+The program is using (https://github.com/charnley/rmsd).
+
+You can also use PyMOL to do align or fit::
+
+    python rna_calc_rmsd_all_vs_all.py -i test_data -o test_output/rmsd_calc_dir_align.mat -m align
+     # of models: 5
+    # test_data/2nd_triplex_FB_1AUA3_rpr.pdb test_data/struc1.pdb test_data/struc2.pdb test_data/struc3.pdb test_data/struc4.pdb
+    0.0 4.13 4.922 4.358 4.368
+    4.13 0.0 11.092 4.707 3.46
+    4.922 11.092 0.0 11.609 11.785
+    4.358 4.707 11.609 0.0 2.759
+    4.368 3.46 11.785 2.759 0.0
+    matrix was created!  test
+
 """
 from __future__ import print_function
 
 from rna_tools.tools.rna_calc_rmsd.lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
+from rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd import calc_rmsd_pymol
 
 import argparse
 import glob
@@ -81,6 +95,11 @@ def get_parser():
                         default='matrix.txt',
                         help="ouput, matrix")
 
+    parser.add_argument('-m', "--method",
+                        default='all-atom',
+                        help="all-atom, pymol: align, fit")
+
+
     # parser.add_argument("-s", "--save",
     #                    action="store_true", help="")
 
@@ -109,7 +128,12 @@ if __name__ == '__main__':
     c = 1
     for r1 in models:
         for r2 in models:
-            rmsd_curr = calc_rmsd(r1, r2)
+            if args.method == 'align':
+                rmsd_curr = calc_rmsd_pymol(r1, r2, 'align')[0] # (0.0, 0)
+            elif args.method == 'fit':
+                rmsd_curr = calc_rmsd_pymol(r1, r2, 'fit')[0] # (0.0, 0)                
+            else:
+                rmsd_curr = calc_rmsd(r1, r2)
             t += str(round(rmsd_curr, 3)) + ' '
         print('...', c, r1)
         c += 1
