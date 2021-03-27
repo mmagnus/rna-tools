@@ -8,11 +8,11 @@ Welcome to rna-tools' documentation!
 
 **rna-tools: a toolbox to analyze structures and simulations of RNA**
 
-The code of the project can be found at GitHub (https://github.com/mmagnus/rna-tools).
+The code of the project can be found at GitHub https://github.com/mmagnus/rna-tools.
 
-This documentation can be found at http://rna-tools.rtfd.io
+This documentation can be found at http://rna-tools.rtfd.io.
 
-If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-tools/issues
+If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-tools/issues.
 
 .. toctree::
    :maxdepth: 4

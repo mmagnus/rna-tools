@@ -38,9 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     
         rna_tools_lib.py: add load_rnas to load structural files (via glob)
 
-        PyMOL4RNA.py: rmsdx (get all vs all rmsd matrix)
-        
         rna_calc_rmsd_all_vs_all.py: add rmsd calc based on pymol
+	     Add PyMOL plugin to do that in pymol: PyMOL4RNA.py: rmsdx (get all vs all rmsd matrix)
         
         plotting: add rna_plot_heatmap.py
         
