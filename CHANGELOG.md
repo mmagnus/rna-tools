@@ -43,6 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         
         plotting: add rna_plot_heatmap.py
         
+        simrna_trajectory: calc rmsd to another frame
+
     Changed:
     
         rna_tools_lib.py (RNAStructure) when rpr loads structure with biopython the error is not suppressed

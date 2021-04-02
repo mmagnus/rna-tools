@@ -9,6 +9,7 @@ from __future__ import print_function
 from collections import deque
 import numpy as np
 import gc
+from rna_tools.tools.rna_calc_rmsd.lib.rmsd.calculate_rmsd import *
 
 
 class SimRNATrajectory:
@@ -162,6 +163,14 @@ class Frame:
                 self.residues.append(r)
                 c += 1
 
+        self.V = []
+        for r in self.residues:
+            # self.V.append(r.get_center())
+            for a in r.atoms:
+                self.V.append(a.get_coord())
+            # self.V.append(r.get_center())
+
+
     def __repr__(self):
         return 'Frame #' + str(self.id) + ' e:' + str(round(self.energy, 2))
 
@@ -170,6 +179,36 @@ class Frame:
         return len(self.residues)
 
 
+    def rmsd_to(self, frame, verbose=False):
+        
+        atomsP, P = len(self.V), self.V
+        atomsQ, Q = len(frame.V), frame.V
+
+        if verbose:
+            print(atomsP, P)
+            print(atomsQ, Q)
+
+        if atomsQ != atomsP:
+            print('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
+            return (-1,0) # skip this RNA
+        # Calculate 'dumb' RMSD
+        normal_rmsd = rmsd(P, Q)
+        # Create the centroid of P and Q which is the geometric center of a
+        # N-dimensional region and translate P and Q onto that center.
+        # http://en.wikipedia.org/wiki/Centroid
+        Pc = centroid(P)
+        Qc = centroid(Q)
+        P -= Pc
+        Q -= Qc
+
+        if False:
+            V = rotate(P, Q)
+            V += Qc
+            write_coordinates(atomsP, V)
+            quit()
+
+        return round(kabsch_rmsd(P, Q),2)#, atomsP
+    
 class Residue:
     """Create Residue object.
 
@@ -247,12 +286,15 @@ class Atom:
 # main
 if __name__ == '__main__':
     s = SimRNATrajectory()
-    s.load_from_file('test_data/6c2ca958-d3aa-43b2-9f02-c42d07a6f7e9_ALL.trafl', top_level=True)
+    s.load_from_file('test_data_big/6c2ca958-d3aa-43b2-9f02-c42d07a6f7e9_ALL.trafl_100lowest.trafl', top_level=True)
     s.plot_energy('plot.png')
+
+
+
 
     s = SimRNATrajectory()
     s.load_from_file(
-        'test_data/8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl', top_level=False)
+        'test_data_big/8b2c1278-ee2f-4ca2-bf4a-114ec7151afc_ALL_thrs6.20A_clust01.trafl', top_level=False)
     for f in s.frames:
         print('header of each frame:', f.header)
         # prints out the energy of restraints (total_energy - energy_without_restraints)
