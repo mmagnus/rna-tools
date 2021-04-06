@@ -29,6 +29,8 @@ Leontis/Westhof classification of base pairings. (A) RNA bases - adenine (A), cy
 	   
 .. image:: ../pngs/edges2.png.jpeg
 
+.. warning:: This PyMOL function is very simple and works on standard atom naming, so to make sure that everything will work, get your structure in the RNA Puzzle ready format, See https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready
+
 Type::
 
     edges (<selection>)
