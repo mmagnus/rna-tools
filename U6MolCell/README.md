@@ -151,3 +151,25 @@ Free Energy Calculations
 - `group two introns free energies/gii_dv_mini-gii3shift-upper-loop-guaa-lower-loop-guaa-flanks-GC.csv` free energies and sequences of Group II Introns
 
 - `src/calc-energy2.py` the tools used to calculate free energies
+
+Example
+----------------------------------------------
+
+Example of calculation using the script from rna-tools package (input files in `example`):
+
+    $ rna_secondary_structure_prediction.py --method mcfold --file wt.fa --cstinfile
+    gGUUguaaaACc
+    (((((..))))) <= cst
+    (((((..))))) -12.41
+    $ rna_secondary_structure_prediction.py --method mcfold --file U64c.fa --cstinfile
+    gGcUguaaAACc
+    (((((..))))) <= cst
+    (((((..))))) -9.76
+    $ rna_secondary_structure_prediction.py --method mcfold --file A83g.fa --cstinfile
+    gGUUguaaAgCc
+    (((((..))))) <= cst
+    (((((..))))) -11.3
+    $ rna_secondary_structure_prediction.py --method mcfold --file U64c+A83g.fa --cstinfile
+    gGcUguaaAgCc
+    (((((..))))) <= cst
+    (((((..))))) -13.08
