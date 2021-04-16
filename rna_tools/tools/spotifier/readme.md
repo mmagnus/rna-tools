@@ -33,63 +33,62 @@ Fig. `-t`,  trim background to get nicely formatted dots.
 
 ## Prepare image
 Open the image:
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.08.30_PM.png)
+![](imgs/f1.jpeg)
 
 Image -> Adjustments -> Black & white
 
 Inverse color (cmd+i) 
 
 Adjust Levels (cmd+l), select black backgroud with the black pippette and white for the white pippette.
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.08.56_PM.png)
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.09.17_PM.png)
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.11.34_PM.png)
+![](imgs/f2.jpeg)
+![](imgs/f3.jpeg)
+![](imgs/f4.jpeg)
 
 Crop image and Edit -> Image Rotation -> Flip Canvas Horizontal.
 
 ## Adjust the image to the template
 Open template.psd and drag and drop plate photo
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.13.27_PM.png)
+![](imgs/f5.jpeg)
 
 Lower opacity for the imported image, to around 30%, to see the template in the background.
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.14.06_PM.png)
+![](imgs/f6.jpeg)
 
 Use Move tool and Free transform fit the image to the template.
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.16.09_PM.png)
+![](imgs/f7.jpeg)
 
 Use Move tool and Free transform to move "Rectangle" to cover the plate.
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.23.08_PM.png)
+![](imgs/f8.jpeg)
 
 Switch off the Backgroud layer, set Opacity to 100.
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.24.11_PM.png)
+![](imgs/f9.jpeg)
 
-Save as JPG, e.g., s02_30.jpg.
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.25.17_PM.png)
+Save as a PSD (or jpeg) file, e.g., s02_30.jpeg.
 
 ## Prepare mapping file
 Open a text editor and prepare a file used to map dots into figure. 
 
-![](imgs/200618_Screen_Shot_2020-06-18_at_2.33.10_PM.png)
+![](imgs/f10.jpeg)
 
 Run the program:
 
-    python spotifier.py testdata/02/s02_30.jpg -t -m testdata/02/map.txt
+    python spotifier.py testdata/02/s02_30.psd -t -m testdata/02/map.txt
 
 The results should be like this:
 
-![](imgs/200618_Screen_Shot_2020-06-18_at_3.03.08_PM.png)
+![](imgs/f11.jpeg)
 
 and the file `s02_30_spots.png` should be created in the folder next to the input file (in this case `testdata/s02/s02_30_spots.png`)
 
 -------------------------------------------------------------------------------
 
 TIP: If you want to introduce one extra, empty line, just add an empty line to a map file.
-![](imgs/map_empty.png)
+![](imgs/map_empty.jpeg)
 
 # Customization
 
 If you want to move single dots, use Preview and just move them around, save it (if you open a JPG, you will be asked if you want to convert the file to PNG, yeah, do it, remember only to change the file name in the command, `18_X.png`).
 
-![](imgs/fix.png)
+![](imgs/fix.jpeg)
 
 and re-run:
 
@@ -99,7 +98,7 @@ and re-run:
 
 Use play with Opacity to see Backgound with the template to adjust positions of your dosts.
 
-![](imgs/opacity.png)
+![](imgs/opacity.jpeg)
 
 # Mappings
 Some ideas for your plates ;-):
@@ -140,7 +139,6 @@ Some ideas for your plates ;-):
     51, 52, 53
     53, 54, 55
     57, 58, 59
-    
 
 # For reporters
 For reporters, prepare each PSD file as described above. Run spotifier.py for each plate to check if everything is correct:
@@ -158,7 +156,7 @@ and then run this cmd to process each PSD files and combine all outputs into one
 # Digitifier
 Process a figure into numbers:
 
-![](testdata/digitfier/1_all.png)
+![](imgs/1_all.jpeg)
 
       python digitifier.py 8 6 testdata/digitfier/1_all.png
     [  3.         238.12373299 434.86099169 -27.59790191  96.14306032
@@ -174,7 +172,7 @@ Process a figure into numbers:
     7  0.582999
     Output created testdata/digitfier/1_all_plot.png
 
-![](testdata/digitfier/1_all_plot.png)
+![](imgs/1_all_plot.png)
     
 # Install
 

@@ -41,6 +41,7 @@ if __name__ == '__main__':
     # design 8x6
     y = 0
     x = 0
+    sample = args.samples
     delx = img.width / args.samples
     dely = img.height / args.conditions
 
@@ -55,15 +56,14 @@ if __name__ == '__main__':
                 dot.show()
             if ix == 0: # reset this is wt
                 wt = get_rms(dot)
-                vector.append(wt - wt + 0.5) # ugly hack to see anything
+                vector.append(wt - wt) # ugly hack to see anything
             else:
-                sample = get_rms(dot)
-                vector.append(wt - sample)           
+                sample_rms = get_rms(dot)
+                vector.append(wt - sample_rms)           
             x += delx
         dat.append(vector)
         y += dely
         x = 0
-
 
     if args.verbose: print(dat)
 
@@ -74,15 +74,31 @@ if __name__ == '__main__':
     column_sums = m.sum(axis=0)
     print(column_sums)
     import pandas as pd
-    df = pd.DataFrame({'score' : column_sums}, index = ['wt','del',34,39,40,410,41,42])
+    df = pd.DataFrame({'score' : column_sums})#, index = ['wt','del',34,39,40,410,41,42])
     df.plot.bar()
 
-    from sklearn import preprocessing
-    x = df.values #returns a numpy array
-    min_max_scaler = preprocessing.MinMaxScaler()
-    x_scaled = min_max_scaler.fit_transform(x)
-    df = pd.DataFrame(x_scaled) #, index = 
-    #df.set_index(['wt','del',34,39,40,410,41,42])
+    for i in df['score']:
+        print(round(i, 2))
+
+    print(df['score'] / float(sample))
+    df['score'] = df['score'] / sample / df['score'].std() * -1  # -1 gives - scores for worsen growth
+    #print(df['score'])
+
+    for i in df['score']:
+        print(round(i, 2))
+
+    print()
+    for i in df['score']:
+        print(round(i, 2), end='\t')
+    print()
+
+    if 0:
+        from sklearn import preprocessing
+        x = df.values #returns a numpy array
+        min_max_scaler = preprocessing.MinMaxScaler()
+        x_scaled = min_max_scaler.fit_transform(x)
+        df = pd.DataFrame(x_scaled) #, index = 
+        #df.set_index(['wt','del',34,39,40,410,41,42])
         #print(df)
     df.plot.bar()
     f = os.path.splitext(args.file)[0]

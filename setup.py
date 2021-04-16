@@ -48,6 +48,7 @@ setup(
              'rna_tools/tools/plotting/rna_plot_hist.py',
              'rna_tools/tools/plotting/rna_plot_density.py',
              'rna_tools/tools/plotting/rna_plot_heatmap.py',
+             'rna_tools/tools/plotting/rna_plot_dendogram.py',             
 
              'rna_tools/tools/simrna_trajectory/rna_simrna_lowest.py',
              'rna_tools/tools/simrna_trajectory/rna_simrna_extract.py',
@@ -101,7 +102,6 @@ setup(
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
 
              'rna_tools/tools/spotifier/spotifier.py',
-             'rna_tools/tools/spotifier/spotifier2.py',
              'rna_tools/tools/spotifier/spotifier_prep.py',
              'rna_tools/tools/spotifier/digitifier.py',
 
