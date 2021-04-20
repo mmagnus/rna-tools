@@ -43,12 +43,18 @@ if __name__ == '__main__':
             e = [x, y]
             g.append(e)
 
+    t = []
     for m in args.mutant:
         for n in g: # graph
             if m.lower() in n[1].lower():  #
             # if n[0].upper() == m.upper():
                 #print(n[0].ljust(5) + ' ' + n[1])
-                print(n[1])
+                n1 = n[1].strip()
+                if n1 not in t:
+                    t.append(n1)
+    for l in t:
+        print(l)
+        print()
 
     hr('Secondary structure:')
     g2 = [
