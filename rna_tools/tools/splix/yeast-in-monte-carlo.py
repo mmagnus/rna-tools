@@ -2,7 +2,6 @@ import random
 import pandas as pd
 
 values = [x / 10.0 for x in range(-10, 11)]
-#values = [-1, -0.5, 0, 0.5, 1] # messes the results
 print(values)
 all = []
 def err(g, c):
@@ -28,10 +27,3 @@ for i in range(0, 100000000):
     if errg == 0:
         print("OK!", t[0], c15)
         break
-"""
- = symbols('bsc c15')
-eq1 = Eq(bsc + c15,  0)
-eq2 = Eq(bsc - c15, -2)
-sol = solve((eq1, eq2), (c15, bsc))
-print(sol)
-"""
