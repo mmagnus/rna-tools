@@ -7,6 +7,7 @@ from PIL import Image, ImageChops, Image, ImageDraw, ImageFont, ImageStat
 import logging
 import os
 import re
+import tempfile
 
 def trim(im):
     """
@@ -98,6 +99,16 @@ if __name__ == '__main__':
                          #i.save('tmp.png')
                      print(l)
              img = psd.as_PIL()
+
+             # some fix for trimming
+             # https://stackoverflow.com/questions/48248405/cannot-write-mode-rgba-as-jpeg
+             img = img.convert('RGB')
+
+             tf = tempfile.NamedTemporaryFile()
+             n = tf.name + '.jpeg'
+             img.save(n)
+             img = Image.open(n)
+             
             ## from PIL import Image, ImageSequence
             ## im = Image.open(args.file)
             ## layers = [frame.copy() for frame in ImageSequence.Iterator(im)]
