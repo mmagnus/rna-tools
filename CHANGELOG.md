@@ -4,15 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# 3.7*
-
-    * Unreleased, meaning, it's realeased at Github, but not yet at PyPI
+# 3.7
 
     Fixed:
     
         rna_tools_lib.py (RNAStructure) for remove_hydrogen, correct atom name position now
         rna_pdb_toolsx.py --get-seq works with protein fix #104	
-	
+	    spotifer.py - fix alignments, and lots of other improvements
+        
     Added:
 
         rna_pdb_toolsx.py:

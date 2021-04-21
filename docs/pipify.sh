@@ -1,11 +1,13 @@
 #!/bin/zsh
 
 # created with git clone rna-tools rna-tools-pip
-cd ..
+cd /Users/magnus/work/src # ugly
+pwd
+trash rna-tools-pip
 git clone rna-tools rna-tools-pip
 cd rna-tools-pip # run this script from the root package level
 git pull --tags
-
+exit
 # strip some data for pip package to keep it under 60 MB
 trash rna_tools/input
 trash dist
