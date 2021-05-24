@@ -24,6 +24,7 @@ The latest
 -------------------------------------------------------------------------------
 (see [CHANGELOG](https://github.com/mmagnus/rna-tools/tree/master/CHANGELOG.md) for more detailed description)
 
+**21-05-24**  spotifier branched out into own repository to keep RT light https://github.com/mmagnus/yeast-spotifier
 **20-10/12** [mqapRNA](https://github.com/mmagnus/rna-tools/blob/master/notes/mq.ipynb): py3 wrappers and include them in RT: RASP, Dfire, RNA3DCNN, QRNA, FARNA(Rosetta), AnalyzeGeometry, ClashScore, eSCORE (barnaba), 3dRNAscore, RNAkb (5pt)
     
 **20-08-20** A new structures of splicesome processed with rna-tools to be easily viewed with PyMOL (or as single chains) [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome)
