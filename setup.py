@@ -101,10 +101,6 @@ setup(
              'rna_tools/tools/clarna_play/rna_clarna_run.py',
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
 
-             'rna_tools/tools/spotifier/spotifier.py',
-             'rna_tools/tools/spotifier/spotifier_prep.py',
-             'rna_tools/tools/spotifier/digitifier.py',
-
              'rna_tools/tools/mq/rna_mq_exp.py',
              'rna_tools/tools/mq/rna_mq_plot.py',
 
