@@ -536,10 +536,6 @@ The index in a form of a searchable table can be found [here](https://github.com
 1. rnashape2ascii - convert RNA shape data into ascii characters ;-) `▅▄▆▄▂▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▅▇▅▄▃▂▁`
 1. cluster_load - scripts to view cluster load, based on processing `qstat`.
 
-### Sandbox for new projects
-
-1. [`splix`](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/splix) - SpliX - a graph (or not) representation of spliceosomal (genetic?) interactions
-
 ## Index of Jupyters
 
 - https://github.com/mmagnus/rna-tools/blob/master/notes/fig3-manuscript.ipynb
