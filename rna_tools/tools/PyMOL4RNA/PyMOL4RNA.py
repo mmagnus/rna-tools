@@ -468,8 +468,43 @@ def seq(selection):
 
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
+    if selection.strip() == "*":
+        AllObj = cmd.get_names("all")
+        # print AllObj
+        for name in AllObj[:]:
+            if not name.startswith('_align'):
+                f = tempfile.NamedTemporaryFile(delete=False) # True)
+                f.name = f.name + '.pdb'
+                cmd.save(f.name, name)
+                cmdline = 'rna_pdb_toolsx.py --color-seq --get-seq ' + f.name
+                out, err = exe(cmdline)
+                if out:
+                    print('> ' + name)
+                    print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
+                    # hide this line: is >tmpGCszi7 nts=4 [tmpGCszi7] -- secondary structure derived by DSSR
+                if err:
+                    # print(err)
+                    pass
+                f.close()
+    else:
+        f = tempfile.NamedTemporaryFile(delete=False)
+        selection = strip_selection_name(selection)
+        input = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+        cmd.save(input, selection)
+        cmdline = 'rna_pdb_toolsx.py  --color-seq --get-seq ' + input
+        # print(cmdline)
+        out, err = exe(cmdline)
+        print(out)
+        if err:
+            print(err)
+        f.close()
+
+def seqsel():
+    """Get sequence of the selected fragment using ``rna_pdb_toolsx.py --get_seq ``.
+    """
     f = tempfile.NamedTemporaryFile(delete=False)
-    input = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    selection = '(sele)'
+    input = os.path.dirname(f.name) + os.sep +  '_sele.pdb'
     cmd.save(input, selection)
 
     cmdline = 'rna_pdb_toolsx.py --get-seq ' + input
@@ -1007,6 +1042,7 @@ else:
     cmd.extend('p', p)
     cmd.extend('pdb', pdb)
     cmd.extend('seq', seq)
+    cmd.extend('seqsel', seqsel)
     cmd.extend('rseq', seq)
     cmd.extend('rna_cartoon', rna_cartoon)
     cmd.extend('rs', rs)
