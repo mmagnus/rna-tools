@@ -16,7 +16,7 @@ import subprocess
 from rna_tools.tools.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
 import logging
-logger = logging.getLogger('rna-pdb-tools')
+logger = logging.getLogger('rna-tools')
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
