@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """This module contains functions for computing Dfire potential
 """
+from __future__ import print_function
+import argparse
 import os
 from shutil import copyfile
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
@@ -13,10 +15,8 @@ class Dfire(ProgramWrapper):
     """
     Wrapper class for Dfire.
     """
-    max_seq_len = 100000  # I don't know about any restriction
-
-    def __init__(self, sequence, seq_name, job_id=None):
-        super(Dfire, self).__init__(sequence, seq_name, job_id=job_id)
+    def __init__(self):
+        super(Dfire, self).__init__()
 
     def run(self, path_to_pdb, verbose=False):
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
@@ -37,10 +37,21 @@ class Dfire(ProgramWrapper):
         return float(score)
 
 
-def main():
-    wrapper = Dfire('', '')
+def get_parser():
+        parser = argparse.ArgumentParser(
+            description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+
+        parser.add_argument("-v", "--verbose",
+                            action="store_true", help="be verbose")
+        parser.add_argument("--test", action="store_true")
+        parser.add_argument("--file", help="", default="")  # nargs='+')
+        return parser
+
+
+def test(verbose):
+    wrapper = Dfire()
     try:
-        result = wrapper.run('test' + os.sep + '1a9n.pdb')
+        result = wrapper.run('../test' + os.sep + '1a9n.pdb', verbose)
         if result:
             print(result)
     except Exception as e:
@@ -49,11 +60,19 @@ def main():
         #wrapper.cleanup()
         pass
 
-    print((wrapper.run('test' + os.sep + '1a9nR.pdb')))
-    print((wrapper.run('test' + os.sep + '3b58ABC.pdb')))
-    print((wrapper.run('test' + os.sep + '5e3hBC.pdb')))
-    print((wrapper.run('test' + os.sep + 'S_000001_000.pdb')))
+    print((wrapper.run('../../../input/mq/' + os.sep + '1a9nR.pdb', verbose)))
+    print((wrapper.run('../../../input/mq/' + os.sep + '3b58ABC.pdb', verbose)))
+    print((wrapper.run('../../../input/mq/' + os.sep + '5e3hBC.pdb', verbose)))
+    print((wrapper.run('../../../input/mq/' + os.sep + 'S_000001_000.pdb', verbose)))
     
 
-if '__main__' == __name__:
-    main()
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+        
+    if args.test:
+        test(args.verbose)
+    else:
+        wrapper = Dfire()
+        result = wrapper.run(args.file, args.verbose)
+        print(result)
