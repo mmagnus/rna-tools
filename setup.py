@@ -105,6 +105,7 @@ setup(
              'rna_tools/tools/mq/rna_mq_plot.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
              'rna_tools/tools/mq/rsRNASP/rna_mq_rsRNASP.py',
+             'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
 
              'rna_tools/tools/misc/rna_merge_dfs.py',
              'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',

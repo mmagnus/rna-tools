@@ -26,14 +26,14 @@ class FARNA(ProgramWrapper):
     input_fn = 'seq.fasta'
     input_file = ''
     best_energy = ''
-    executable = 'rna_minimize'
+    executable = FARNA_PATH
 
-    def __init__(self, sequence='test', seq_name='test', job_id=None):
+    def __init__(self, job_id=None):
         try:
             self.start_dir = os.getcwd()
         except OSError:        # directory was deleted or something like that
             pass
-        super(FARNA, self).__init__(sequence, seq_name, job_id=job_id)
+        super(FARNA, self).__init__('', '', job_id=job_id)
 
     def _prepare_stderr_stdout(self):
         # create output file
@@ -54,15 +54,16 @@ class FARNA(ProgramWrapper):
         #shutil.copytree(self.src_bin + os.sep + 'rosetta_source',
         #       self.sandbox_dir + os.sep + 'rosetta_source',
         #        symlinks=True)
-        os.symlink(self.src_bin, self.sandbox_dir + os.sep + self.executable)
+        #os.symlink(self.src_bin, self.sandbox_dir + os.sep + self.executable)
         #symlinks=True)
 
         #os.symlink(FARNA_DB_PATH,
         #        self.sandbox_dir + os.sep + 'rosetta_database')
         #os.system('chmod +x %s' % \
-        #          os.path.join(self.sandbox_dir, self.executable))   
+        #          os.path.join(self.sandbox_dir, self.executable))
+        pass
                                
-    def run(self, pdb_file, hires):#, global_energy_score=True):
+    def run(self, pdb_file, hires, verbose=False):#, global_energy_score=True):
         """Compute FARNA potential for a single file
 
         Arguments:
@@ -105,23 +106,24 @@ class FARNA(ProgramWrapper):
         self.pdb_fixes = pdb_file.fixes
 
         # run
-        os.chdir(self.sandbox_dir)
+        #os.chdir(self.sandbox_dir)
         self.flags = [self.sandbox_dir + os.sep + self.executable]
 
-        hires = True
         if hires == False: # must be a string
-            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' # -minimize_rna' ## MM minimize_rna should be off or by option
+            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' ' # # -minimize_rna' ##
+            # MM minimize_rna should be off or by option
         else:
             minimize_cmd = ' '
 
-        cmd = ' '.join([self.sandbox_dir + os.sep + self.executable , '-database', self.db_path,
+        # self.sandbox_dir + os.sep +     
+        cmd = ' '.join([self.executable , '-database', self.db_path,
              minimize_cmd,
                         ' -ignore_zero_occupancy false ',
              '-s', self.sandbox_dir + os.sep + 'query.pdb',
              '-out:file:silent', self.sandbox_dir + os.sep + 'SCORE.out'])
 
         self.log(cmd, 'debug')
-        print(cmd)
+        if verbose: print(cmd)
         self.log('Running program')
         out = subprocess.getoutput(cmd)
         self.log('Run finished')
@@ -185,7 +187,7 @@ if __name__ == '__main__':
 
         if 1:
             # mini true
-            farna = FARNA('', '')
+            farna = FARNA()
             result = farna.run(f, True)
             print(result)
 
