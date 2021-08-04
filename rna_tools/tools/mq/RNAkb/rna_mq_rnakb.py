@@ -3,6 +3,7 @@
 """Standalone tool to run the RNAkb class in the terminal.
 
 All atom mode does not really work, see the documentation of the RNAkb class.
+
 """
 from __future__ import print_function
 
@@ -30,11 +31,12 @@ if __name__ == '__main__':
 
 #    print('fn,Bond" "Angle" "Proper Dih." "Improper Dih." "LJ-14" "Coulomb-14" "LJ (SR)" "Coulomb (SR)" "Potential" "Kinetic En." "Total Energy" "Temperature" "Pressure (bar)"'.split()))
 
-    print('fn,Bond,Angle,Proper Dih.,Improper Dih.,LJ-14,Coulomb-14,LJ (SR),Coulomb (SR),Potential,Kinetic En.,Total Energy,Temperature,Pressure (bar)')
-    for f in args.file:
+    # print('fn,Bond,Angle,Proper Dih.,Improper Dih.,LJ-14,Coulomb-14,LJ (SR),Coulomb (SR),Potential,Kinetic En.,Total Energy,Temperature,Pressure (bar)')
+    print('id,fn,rnakb_bond,rnakb_angle,rnakb_proper_dih,rnakb_improper_dih,rnakb_lj14,rnakb_coulomb14,rnakb_lj_sr,rnakb_coulomb_sr,rnakb_potential,rnakb_kinetic_en,rnakb_total_energy')
+    for i, f in enumerate(args.file):
         wrapper = RNAkb(sandbox=True)
         result = wrapper.run(f, args.potential, args.verbose)
-        print(','.join(result))
+        print(str(i) + ',' + os.path.basename(f) + ',' + ','.join(result))
         #print(f + ',' + ','.join([str(x) for x in result]))
         #wrapper.cleanup()
         

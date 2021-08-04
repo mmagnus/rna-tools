@@ -25,8 +25,8 @@ class RNAkb(ProgramWrapper):
     """
     executable = ['/usr/local/gromacs/bin/' + exe for exe in ['pdb2gmx', 'make_ndx', 'editconf', 'grompp', 'mdrun']]
 
-    def __init__(self, sequence='', seq_name='', job_id='',  sandbox=False):
-        super(RNAkb, self).__init__(sequence, seq_name, job_id=job_id)
+    def __init__(self, job_id='',  sandbox=False):
+        super(RNAkb, self).__init__('', '', job_id=job_id)
 
         # sandbox q-&-d
         if sandbox:
