@@ -142,12 +142,13 @@ class FARNA(ProgramWrapper):
         """Parse and get result from score file created during ROSETTA run
 
         All results are kept in self.result, but only global score is returned
+
         """
-        f = open(self.sandbox_dir + os.sep + 'SCORE.out')
-        output = f.read()
-        f.close()
-        lines = output.split('\n')
+        with open(self.sandbox_dir + os.sep + 'SCORE.out') as f:
+            lines = f.readlines() #().split('\n')
+
         lines = [l for l in lines if not l.startswith('REMARK')]
+        #print(lines)
         # get names of different scores
         keys = lines[1].split()[1:-1]
         # get global scores
