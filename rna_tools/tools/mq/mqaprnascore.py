@@ -87,7 +87,7 @@ attributes = {
     #'RASP' : [ 'rasp_all_pdb_energy', 'rasp_all_no_contacts', 'rasp_all_norm_energy', 'rasp_all_mean_energy', 'rasp_all_sd_energy', 'rasp_all_zscore']
     'RASP' : ['rasp_c3_pdb_energy', 'rasp_c3_no_contacts', 'rasp_c3_norm_energy', 'rasp_c3_mean_energy', 'rasp_c3_sd_energy', 'rasp_c3_zscore', 'rasp_bb_pdb_energy', 'rasp_bb_no_contacts', 'rasp_bb_norm_energy', 'rasp_bb_mean_energy', 'rasp_bb_sd_energy', 'rasp_bb_zscore', 'rasp_bbr_pdb_energy', 'rasp_bbr_no_contacts', 'rasp_bbr_norm_energy', 'rasp_bbr_mean_energy', 'rasp_bbr_sd_energy', 'rasp_bbr_zscore', 'rasp_all_pdb_energy', 'rasp_all_no_contacts', 'rasp_all_norm_energy', 'rasp_all_mean_energy', 'rasp_all_sd_energy', 'rasp_all_zscore'],
     'FARNA' :
-    ['farna_score',
+    ['farna_score_lowres',
              'farna_rna_vdw',
              'farna_rna_base_backbone',
              'farna_rna_backbone_backbone',
@@ -100,7 +100,8 @@ attributes = {
              'farna_rna_rg',
              'farna_atom_pair_constraint',
              'farna_linear_chainbreak'],
-'FARNA_hires': 'farna_score_hires,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_rna_torsion,farna_suiteness_bonus,farna_rna_sugar_close,farna_fa_stack,farna_stack_elec,farna_geom_sol_fast,farna_bond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_ref,farna_free_suite,farna_free_2HOprime,farna_intermol,farna_other_pose,farna_loop_close,farna_linear_chainbreak'.split(','),
+'FARNA_hires': 'farna_score_hires,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_rna_torsion,farna_suiteness_bonus,farna_rna_sugar_close,farna_fa_stack,farna_stack_elec,farna_geom_sol_fast,farna_bond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_ref,farna_free_suite,farna_free_2HOprime,farna_intermol,farna_other_pose,farna_loop_close,farna_linear_chainbreak_hires'.split(','),
+    
     'SimRNA_0' : ['simrna_steps', 'simrna_total_energy', 'simrna_base_base', 'simrna_short_stacking', 'simrna_base_backbone',  'simrna_local_geometry', 'simrna_bonds_dist_cp', 'simrna_bonds_dist_pc', 'simrna_flat_angles_cpc', 'simrna_flat_angles_pcp', 'simrna_tors_eta_theta', 'simrna_sphere_penalty', 'simrna_chain_energy'],
     'RNAkb' : ['rnakb_bond', 'rnakb_angle', 'rnakb_proper_dih', 'rnakb_improper_dih', 'rnakb_lj14', 'rnakb_coulomb14', 'rnakb_lj_sr', 'rnakb_coulomb_sr',
                'rnakb_potential', 'rnakb_kinetic_en', 'rnakb_total_energy'],

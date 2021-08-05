@@ -29,9 +29,9 @@ if __name__ == '__main__':
         args.file = [args.file]
 
     if args.hires:
-        print('id,fn,farna_score,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_rna_torsion,farna_suiteness_bonus,farna_rna_sugar_close,farna_fa_stack,farna_stack_elec,farna_geom_sol_fast,farna_bond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_ref,farna_free_suite,farna_free_2HOprime,farna_intermol,farna_other_pose,farna_loop_close,farna_linear_chainbreak')
+        print('id,fn,farna_score_hires,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_rna_torsion,farna_suiteness_bonus,farna_rna_sugar_close,farna_fa_stack,farna_stack_elec,farna_geom_sol_fast,farna_bond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_ref,farna_free_suite,farna_free_2HOprime,farna_intermol,farna_other_pose,farna_loop_close,farna_linear_chainbreak_hires')
     else:
-        print('id,fn,' + ','.join(['farna_score',
+        print('id,fn,' + ','.join(['farna_score_lowres',
              'farna_rna_vdw',
              'farna_rna_base_backbone',
              'farna_rna_backbone_backbone',

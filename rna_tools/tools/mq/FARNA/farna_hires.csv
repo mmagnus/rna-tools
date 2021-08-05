@@ -1,2 +1,0 @@
-id,fn,farna_score,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_rna_torsion,farna_suiteness_bonus,farna_rna_sugar_close,farna_fa_stack,farna_stack_elec,farna_geom_sol_fast,farna_bond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_ref,farna_free_suite,farna_free_2HOprime,farna_intermol,farna_other_pose,farna_loop_close,farna_linear_chainbreak
-1,3e5f_output4_01-000001_AA+ResnShift.pdb,-99.377,-180.445,25.058,2.078,-6.92,-1.698,29.894,0.0,4.553,-118.462,-17.696,49.496,-0.706,-2.292,-70.999,188.76,0.0,0.0,0.0,0.0,0.0,0.0
