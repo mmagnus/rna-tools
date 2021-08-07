@@ -237,6 +237,7 @@ def single_run(filename):
         #sys.stdout.flush()
         #sys.stdout.write('\r' + ' ' * 110 + '\r' + filename.split(os.sep)[-1].ljust(50) + ' ' + ' '.join(results))
 
+        ########### line with resluts ######################
         print(sg.pprogress_line(counter.value, filename_length,10), filename.split(os.sep)[-1].ljust(20) + ' ' + results_str)
         ## [          ]   1 7.14 % 14 3_solution_1.pdb     {'AnalyzeGeometry': 0.0, 'eSCORE': 1.70264, 'FARNA': ['-31.498', '-11.589', '-32.7', '-123.708', '-25.514', '-271.337', '33.563', '2.957', '-36.699', '-471.864', '0.0', '0.0', '24.659', '0.0'], 'ClashScore': 2.201835, 'length': 0, 'SimRNA_0': ['0', '-1016.539381', '-599.475', '-223.162', '-3.935', '-413.129576', '-65.066', '-71.505', '-68.947', '-45.989', '-161.622', '', '-1016.539381'], 'FARNA_hires': ['0.0', '-541.374', '-0.59', '0.0', '1.85', '8.12', '-433.113', '17.811', '-229.203', '3.074', '-140.106', '13.875', '-17.245', '226.762', '7.39'], 'RNAscore': 26.7066, 'RASP': ['-9.3599', '987', '-0.00948318', '8.16333', '3.95157', '-4.4345', '-7976.88', '60547', '-0.131747', '-7274.73', '52.7448', '-13.3123', '-17537.5', '138719', '-0.126424', '-15578.4', '106.602', '-18.3777', '-34270.8', '483436', '-0.07089', '0', '0', '0'], 'RNAkb': -0.019507621989000006}
 
@@ -252,7 +253,7 @@ def single_run(filename):
 
         #format_line([filename.split(os.sep)[-1] + [all_results[m] for m in methods]])  # @todo Nice print with ShellGraphics
 
-        cells = [filename.split(os.sep)[-1]]
+        cells = [counter.value, filename.split(os.sep)[-1]] # add id 
         for m in methods:
             if type(all_results[m]) == list:
                 cells.extend(all_results[m])
@@ -378,7 +379,7 @@ class RunAllDirectory():
         csv_file = open(csv_path, 'a')
         csv_writer = csv.writer(csv_file,  delimiter=',')
         # make header
-        headers = ['fn']
+        headers = ['id', 'fn']
         for m in methods:
             headers += attributes[m]
 
@@ -431,6 +432,8 @@ class RunAllDirectory():
         sg.phr()
 
         lock = Lock()
+
+        counter.value = len(files_to_ignore)
 
         flist = []
         c  = 1
