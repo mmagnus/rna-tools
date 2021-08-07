@@ -31,10 +31,14 @@ try:
 except:
     __file__ = 'mqaprna.py'
 
-try:
-    __version__ = get_version(__file__)
-except NameError:
-    __version__ = 'interactive'
+#try:
+#    __version__ = get_version(__file__)
+#except NameError:
+#    __version__ = 'interactive'
+
+import rna_tools
+__version__ = rna_tools.__version__
+
 
 import os
 import sys
