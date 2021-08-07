@@ -403,9 +403,9 @@ class RunAllDirectory():
         if opt.ignore_pdb_filename:
             for f in open(opt.ignore_pdb_filename).read().strip().split('\n'):
                 if f.find('\t') > -1:
-                    f = f.split('\t')[0]
+                    f = f.split('\t')[1] # id, fn
                 if f.find(',') > -1:
-                    f = f.split(',')[0]
+                    f = f.split(',')[1] # id, fn
                 files_to_ignore.append(f)
         else:
             files_to_ignore = []
