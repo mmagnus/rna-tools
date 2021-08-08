@@ -16,6 +16,7 @@ DEBUG_MODE = False
 import sys
 sys.path.insert(0, "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/")  # ugly!
 import lib.shellgraphics.shellgraphics as sg
+import progressbar
 # import mqaprna_score as mqs
 import time
 import os
@@ -169,7 +170,6 @@ def single_run(filename):
             if not arguments:
                 arguments = [filename] + Config.WRAPPER_OPTIONS[m]
 
-            print(m)
             wrapper = getattr(MODULES[m], m)()#verbose) # ref_seq, ref_ss, verbose)  # for all wrappers but SSAgrement '','' is OK
 
             if m == 'NAST_pyro':
@@ -242,7 +242,12 @@ def single_run(filename):
         #sys.stdout.write('\r' + ' ' * 110 + '\r' + filename.split(os.sep)[-1].ljust(50) + ' ' + ' '.join(results))
 
         ########### line with resluts ######################
-        print(sg.pprogress_line(counter.value, filename_length,10), filename.split(os.sep)[-1].ljust(20) + ' ' + results_str)
+        bar.update(counter.value)
+        ## my old progress bar here:
+        # print(sg.pprogress_line(counter.value, filename_length, ''))# ,
+        ## print results, use --verbose now
+        # print(filename.split(os.sep)[-1].ljust(20) + ' ' + results_str)
+        
         ## [          ]   1 7.14 % 14 3_solution_1.pdb     {'AnalyzeGeometry': 0.0, 'eSCORE': 1.70264, 'FARNA': ['-31.498', '-11.589', '-32.7', '-123.708', '-25.514', '-271.337', '33.563', '2.957', '-36.699', '-471.864', '0.0', '0.0', '24.659', '0.0'], 'ClashScore': 2.201835, 'length': 0, 'SimRNA_0': ['0', '-1016.539381', '-599.475', '-223.162', '-3.935', '-413.129576', '-65.066', '-71.505', '-68.947', '-45.989', '-161.622', '', '-1016.539381'], 'FARNA_hires': ['0.0', '-541.374', '-0.59', '0.0', '1.85', '8.12', '-433.113', '17.811', '-229.203', '3.074', '-140.106', '13.875', '-17.245', '226.762', '7.39'], 'RNAscore': 26.7066, 'RASP': ['-9.3599', '987', '-0.00948318', '8.16333', '3.95157', '-4.4345', '-7976.88', '60547', '-0.131747', '-7274.73', '52.7448', '-13.3123', '-17537.5', '138719', '-0.126424', '-15578.4', '106.602', '-18.3777', '-34270.8', '483436', '-0.07089', '0', '0', '0'], 'RNAkb': -0.019507621989000006}
 
         #sys.stdout.flush()
@@ -280,6 +285,7 @@ def single_run(filename):
     except ValueError:
         pass
 
+
 def option_parser():
     """Get options or show usage msg.
     """
@@ -306,7 +312,7 @@ def option_parser():
     parser.add_option("-m", "--multiprocessing",
                      action="store", type="int", dest="number_processes", default=0, help="set a number of processes, default=0 == no multiprocessing, suggested value for maximus is 8")
 
-    group2 = OptionGroup(parser, "Ignore pdbs. Example",
+    group2 = OptionGroup(parser, "Ignore pdbs, don't have empty lines here! Example",
                         """1xjrA_output3-000142_AA.pdb
                          1xjrA_output3-000208_AA.pdb
                          1xjrA_output3-000166_AA.pdb""")
@@ -436,14 +442,19 @@ class RunAllDirectory():
         sg.phr()
 
         lock = Lock()
-
+        
         counter.value = len(files_to_ignore)
 
         flist = []
         c  = 1
         # two running modes
         global filename_length
-        filenames_length = len(filenames)
+        filenames_length = len(filenames) + len(files_to_ignore)
+
+        global bar
+        bar = progressbar.ProgressBar(max_value=filenames_length)
+        bar.update(len(files_to_ignore) + 1)
+
         fl = []
         for f in filenames:
             fl.append([f,filenames_length])
