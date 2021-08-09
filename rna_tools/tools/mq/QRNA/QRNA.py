@@ -62,8 +62,8 @@ class QRNA(ProgramWrapper):
     program_name = 'QRNA'
     executable = 'QRNA'
 
-    def __init__(self, sequence='', seq_name='', job_id=None):
-        super(QRNA, self).__init__(sequence, seq_name, job_id=job_id)
+    def __init__(self, job_id=None):
+        super(QRNA, self).__init__('sequence', 'seq_name', job_id=job_id)
 
     def _prepare_files(self):
         os.symlink(QRNA_PATH + os.sep + self.executable,

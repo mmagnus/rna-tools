@@ -1,17 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""This module contains functions for computing 3dRNAscore
-
-Install::
-
-
-    make # make clean if you don't have clean
-
-At Mac there is a problem (201128)::
-
-    (py37) [mx] example$ ../bin/3dRNAscore -s:l score.in >score.txt
-    [1]    69818 segmentation fault  ../bin/3dRNAscore -s:l score.in > score.txt
-
+"""
 """
 import os
 from shutil import copyfile, copytree, rmtree
@@ -43,7 +32,6 @@ class rsRNASP(ProgramWrapper):
         
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
         copyfile(rsRNASP_PATH + '/rsRNASP', self.sandbox_dir + os.sep + 'rsRNASP')
-        # copytree(rsRNASP_PATH + '/data', self.sandbox_dir + os.sep + 'data')
         os.symlink(rsRNASP_PATH + '/data', self.sandbox_dir + os.sep + 'data')
         os.chmod(self.sandbox_dir + os.sep + 'rsRNASP', 0o777)
         old_pwd = os.getcwd()

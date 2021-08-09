@@ -22,8 +22,8 @@ class RASP(ProgramWrapper):
     program_name = ['rasp_fd', 'rasp_profile_fd']
     executable = ['rasp_fd', 'rasp_profile_fd']
 
-    def __init__(self, sequence='', seq_name='', job_id=None):
-        super(RASP, self).__init__(sequence, seq_name, job_id=job_id, path=RASP_PATH)
+    def __init__(self, job_id=None):
+        super(RASP, self).__init__('', '', job_id=job_id, path=RASP_PATH)
 
     def run(self, path_to_pdb, global_energy_score=True, potentials=['c3', 'bb', 'bbr', 'all'], handler=True, verbose=False):
         """Compute RASP potential for a single file

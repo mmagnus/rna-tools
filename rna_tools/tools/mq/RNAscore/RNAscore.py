@@ -34,8 +34,8 @@ class RNAscore(ProgramWrapper):
     """
     program_name = '/bin/3dRNAscore'
 
-    def __init__(self, sequence, seq_name, job_id=None):
-        super(RNAscore, self).__init__(sequence, seq_name, job_id=job_id)
+    def __init__(self, job_id=None):
+        super(RNAscore, self).__init__('', '', job_id=job_id)
 
     def run(self, path_to_pdb, verbose=1):
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
@@ -70,9 +70,9 @@ class RNAscore(ProgramWrapper):
         return result # return -1 if result is 0 or None
 
 def main():
-    wrapper = RNAscore('', '')
+    wrapper = RNAscore()
     try:
-        result = wrapper.run('test' + os.sep + '1a9n.pdb')
+        result = wrapper.run('../test' + os.sep + '1a9n.pdb')
         if result:
             print(result)
     except Exception as e:

@@ -25,7 +25,7 @@ import logging
 import shutil
 import rna_tools.rna_tools_config as Config
 
-#ogger = logging.getLogger(__name__)
+# ogger = logging.getLogger(__name__)
 DIRNAME = os.path.dirname(__file__)
 LOG_DIRECTORY = Config.LOG_DIRECTORY
 
@@ -126,8 +126,10 @@ class Wrapper(object):
         """
         return self.pdb_fixes
     
-    def log(self, message, level='info'):
+    def log(self, message, level='info', verbose=False):
         message = self.job_id_str + message
+        if verbose:
+            print(message)
         if level == 'info':
             self.logger.info(message)
         elif level == 'debug':

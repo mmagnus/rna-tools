@@ -103,19 +103,19 @@ setup(
 
              'rna_tools/tools/mq/rna_mq_exp.py',
              'rna_tools/tools/mq/rna_mq_plot.py',
+             'rna_tools/tools/mq/RNA3DCNN/rna_mq_rna3dcnn.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
+             'rna_tools/tools/mq/ClashScore/rna_clashscore.py',
              'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              'rna_tools/tools/mq/rsRNASP/rna_mq_rsRNASP.py',
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
+             'rna_tools/tools/mq/SimRNA/rna_mq_simrna.py',
+             'rna_tools/tools/mq/mqaprna_dev_remote.sh',
              'rna_tools/tools/mq/mqaprnascore.py',
 
              'rna_tools/tools/misc/rna_merge_dfs.py',
              'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',
-
-             'rna_tools/tools/mq/ClashScore/rna_clashscore.py',
              'rna_tools/tools/PyMOL4RNA/rna_calc_hbonds.py',
-
-             'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              ],
     license='GPLv3',
     author='Marcin Magnus',

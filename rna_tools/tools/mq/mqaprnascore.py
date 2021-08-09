@@ -302,7 +302,7 @@ def option_parser():
     parser.add_option("-v", "--verbose",
                      action="store_true", default=False, dest="verbose", help="verbose")
 
-    parser.add_option("-f", "--no_filename_version",
+    parser.add_option("-f", "--no-filename-version",
                      action="store_true", default=False, dest="no_filename_version", help="don't add version of tool to csv filename")
 
 
