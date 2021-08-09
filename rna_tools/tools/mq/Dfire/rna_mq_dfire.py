@@ -15,6 +15,7 @@ from __future__ import print_function
 import argparse
 from rna_tools.tools.mq.Dfire.Dfire import Dfire
 import os
+import pandas as pd
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -22,6 +23,7 @@ def get_parser():
     #parser.add_argument('-', "--", help="", default="")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
+    parser.add_argument('-d', "--done", help="a csv with already done scores", default="")
     parser.add_argument("file", help="", default="", nargs='+')
     return parser
 
@@ -33,8 +35,14 @@ if __name__ == '__main__':
     if list != type(args.file):
         args.file = [args.file]
 
-    print('id,fn,dfire')
-    for i, f in enumerate( args.file):
-        wrapper = Dfire()
-        result = wrapper.run(f, args.verbose)
-        print(','.join([str(i + 1), os.path.basename(f), str(result)]))
+    printed = False
+    if args.done:
+        df = pd.read_csv(args.done)
+    for i, f in enumerate(args.file):
+        if df.loc[df['fn'] == os.path.basename(f)].empty:
+            if printed:
+                print('id,fn,dfire')
+                printed = True
+            wrapper = Dfire()
+            result = wrapper.run(f, args.verbose)
+            print(','.join([str(i + 1), os.path.basename(f), str(result)]))
