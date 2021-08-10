@@ -183,13 +183,13 @@ if __name__ == '__main__':
         if 1:
             # mini false
             farna = FARNA()
-            result = farna.run(f, False)
+            result = farna.run(f, False, verbose=True)
             print(result)
 
         if 1:
             # mini true
             farna = FARNA()
-            result = farna.run(f, True)
+            result = farna.run(f, True, verbose=True)
             print(result)
 
         #farna.cleanup()
