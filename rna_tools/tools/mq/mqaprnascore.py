@@ -8,23 +8,30 @@ ss_agreement is ...
 The code is full of # hack and tricks.
 
 .. warning:: Uses global variables
+
+Install: 
+
+    csvsort
+
 """
 MP_VERBOSE = False
 DEBUG_MODE = False
 
 ################################################################################
 import sys
-sys.path.insert(0, "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/")  # ugly!
-import lib.shellgraphics.shellgraphics as sg
+#sys.path.insert(0, "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/")  # ugly!
 import progressbar
 # import mqaprna_score as mqs
 import time
 import os
 import copy
-sg.color_mode = False
 from csvsort import csvsort
-from lib.timex import timex
-import mqaprna_config as Config
+
+import rna_tools.tools.mq.lib.shellgraphics.shellgraphics as sg
+sg.color_mode = False
+from rna_tools.tools.mq.lib.timex import timex
+#import rna_tools.tools.mq.mqaprna_config as Config
+import rna_tools.rna_tools_config as Config
 ################################################################################
 
 try:
