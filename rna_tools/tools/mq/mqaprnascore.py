@@ -453,7 +453,7 @@ class RunAllDirectory():
 
         global bar
         bar = progressbar.ProgressBar(max_value=filenames_length)
-        bar.update(len(files_to_ignore) + 1)
+        bar.update(len(files_to_ignore))
 
         fl = []
         for f in filenames:
