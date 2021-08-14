@@ -114,7 +114,7 @@ class AnalyzeGeometry(object):
 def main():
     wrapper = AnalyzeGeometry()
     fns = [#'test' + os.sep + '1xjrA.pdb', # <- gtp causes error
-           'test' + os.sep + '1xjrA_M1.pdb',
+           '../test' + os.sep + '1xjrA_M1.pdb',
            #'test' + os.sep + '1xjrA_M500.pdb'
     ] # native, and M1 from rasp decoys
     for f in fns:
