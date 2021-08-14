@@ -66,7 +66,7 @@ class SimRNA(ProgramWrapper):
         # results should be the same every time
         if run_command(self.src_bin,
                     ['-p', self.sandbox_dir + os.sep + 'query.pdb',
-                        '-n', numSteps, '-R', '0'], # 16000
+                        '-n', str(numSteps), '-R', '0'], # 16000
                     stderr_file=self.sandbox_dir + os.sep + 'output.txt'):
             self.log('Run failed', 'error')
             
@@ -113,3 +113,9 @@ class SimRNA(ProgramWrapper):
 
     def cleanup(self):
         super(SimRNA, self).cleanup()
+
+
+if __name__ == '__main__':
+    wrapper = SimRNA()
+    result = wrapper.run('../test/1xjrA_M1.pdb', 0, verbose=False) # or aa
+    print(result)
