@@ -3,7 +3,6 @@
 """This module wraps functions from Python's standard library
 subprocess module for easier use.
 """
-__author__ = "Albert Bogdanowicz"
 
 from time import sleep
 from subprocess import Popen, PIPE
