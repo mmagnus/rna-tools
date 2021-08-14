@@ -177,6 +177,8 @@ def single_run(filename):
             if not arguments:
                 arguments = [filename] + Config.WRAPPER_OPTIONS[m]
 
+            if m == 'escore':
+                m = 'eSCORE'
             wrapper = getattr(MODULES[m], m)()#verbose) # ref_seq, ref_ss, verbose)  # for all wrappers but SSAgrement '','' is OK
 
             if m == 'NAST_pyro':
