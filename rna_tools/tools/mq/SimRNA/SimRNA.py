@@ -8,7 +8,7 @@ from shutil import copyfile
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.pdb_formatix.PDBFile import PDBFile#resname_check_and_3to1, set_residues_bfactor
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
-from rna_tools.tools.mq.mqaprna_config import SIMRNA_PATH, SIMRNA_DATA_PATH
+from rna_tools.rna_tools_config import SIMRNA_PATH, SIMRNA_DATA_PATH
 from rna_tools.rna_tools_lib import RNAStructure
 
 class SimRNA(ProgramWrapper):
