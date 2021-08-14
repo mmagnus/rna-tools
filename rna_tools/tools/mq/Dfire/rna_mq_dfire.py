@@ -15,7 +15,6 @@ from __future__ import print_function
 import argparse
 from rna_tools.tools.mq.Dfire.Dfire import Dfire
 import os
-import pandas as pd
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -35,14 +34,8 @@ if __name__ == '__main__':
     if list != type(args.file):
         args.file = [args.file]
 
-    printed = False
-    if args.done:
-        df = pd.read_csv(args.done)
+    print('id,fn,dfire')
     for i, f in enumerate(args.file):
-        if df.loc[df['fn'] == os.path.basename(f)].empty:
-            if printed:
-                print('id,fn,dfire')
-                printed = True
             wrapper = Dfire()
             result = wrapper.run(f, args.verbose)
             print(','.join([str(i + 1), os.path.basename(f), str(result)]))
