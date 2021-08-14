@@ -4,8 +4,7 @@
 
 Install::
 
-   pip install barnaba
-
+   pip install barnaba # tested with barnaba==0.1.7
 
 Output::
 
@@ -32,6 +31,15 @@ from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
 from rna_tools.rna_tools_config import RNA3DCNN_PATH, PYTHON3_PATH
 from rna_tools.rna_tools_config import baRNAba_PATH
 
+import subprocess
+def exe(cmd):
+    o = subprocess.Popen(
+        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = o.stdout.read().strip().decode()
+    err = o.stderr.read().strip().decode()
+    return out, err
+
+
 class eSCORE(ProgramWrapper):
     """
     Wrapper class for eSCORE
@@ -39,18 +47,20 @@ class eSCORE(ProgramWrapper):
     def __init__(self):
         super(eSCORE, self).__init__()
 
-    def run(self, path_to_pdb, verbose=True):
+    def run(self, path_to_pdb, verbose=False):
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
         old_pwd = os.getcwd()
         #print baRNAba.parse() ## someday!
 
         os.chdir(self.sandbox_dir)
-        
-        self.log('eSCORE::start for %s' % self.sandbox_dir + '/query.pdb')
+
+        self.log('eSCORE::start for %s' % self.sandbox_dir + '/query.pdb', verbose=verbose)
         # baRNAba ESCORE --pdb ../test/1a9n.pdb --ff /Users/magnus/work/opt/barnaba/barnaba_201128/test/data/1S72.pdb
-        cmd = 'baRNAba ESCORE -o log.txt --ff ' + baRNAba_PATH + '/test/data/1S72.pdb --pdb ' + self.sandbox_dir + '/query.pdb &> /dev/null'
-        os.system(cmd)
-        self.log('eSCORE::Run finished')
+        # baRNAba_PATH + 
+        cmd = 'barnaba ESCORE -o log.txt --ff ' + baRNAba_PATH + 'examples/DATA/1S72.pdb --pdb ' + self.sandbox_dir + '/query.pdb &> /dev/null'
+        exe(cmd)
+        #self.log(cmd, verbose=verbose)
+        self.log('eSCORE::Run finished', verbose=verbose)
 
         for line in open(self.sandbox_dir + '/log.txt.ESCORE.out'):
             if not line.startswith('#'):
