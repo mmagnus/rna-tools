@@ -12,13 +12,12 @@ import re
 
 from math import isnan
 from shutil import copyfile
+import tempfile
+
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
 from rna_tools.tools.rnakb_utils.rnakb_utils import make_rna_rnakb_ready, fix_gromacs_gro, prepare_groups, format_score_mdp
-from rna_tools.rna_tools_config import GRMLIB_PATH, DB_AA_PATH, DB_5PT_PATH, WRAPPERS_PATH, GROMACS_LD_PATH, GROMACS_PATH_BIN, TMP_PATH
-
-import tempfile
-SANDBOX_PATH = "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/RNAkb/sandbox/" # tempfile.TemporaryDirectory().name
+from rna_tools.rna_tools_config import GRMLIB_PATH, DB_AA_PATH, DB_5PT_PATH, WRAPPERS_PATH, GROMACS_LD_PATH, GROMACS_PATH_BIN, TMP_PATH, \
 
 class RNAkb(ProgramWrapper):
     """Wrapper class for running RNAkb automatically.
@@ -321,7 +320,7 @@ class RNAkb(ProgramWrapper):
             #return result_sum != 0 and result_sum or -1
 
 if __name__ == '__main__':
-    wrapper = RNAkb('', '', '', sandbox=True)
+    wrapper = RNAkb(sandbox=True)
 
     fn = '1dqf_noCA.pdb' # problem, C is shifted to the right
     fn = '1dqf_noCA+ResnShift.pdb' # OK

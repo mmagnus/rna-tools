@@ -8,7 +8,7 @@ from shutil import copyfile
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.pdb_formatix.PDBFile import PDBFile#resname_check_and_3to1, set_residues_bfactor
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
-from rna_tools.tools.mq.mqaprna_config import SIMRNA_PATH, SIMRNA_DATA_PATH
+from rna_tools.rna_tools_config import SIMRNA_PATH, SIMRNA_DATA_PATH
 from rna_tools.rna_tools_lib import RNAStructure
 
 class SimRNA(ProgramWrapper):
@@ -66,7 +66,7 @@ class SimRNA(ProgramWrapper):
         # results should be the same every time
         if run_command(self.src_bin,
                     ['-p', self.sandbox_dir + os.sep + 'query.pdb',
-                        '-n', numSteps, '-R', '0'], # 16000
+                        '-n', str(numSteps), '-R', '0'], # 16000
                     stderr_file=self.sandbox_dir + os.sep + 'output.txt'):
             self.log('Run failed', 'error')
             
@@ -113,3 +113,9 @@ class SimRNA(ProgramWrapper):
 
     def cleanup(self):
         super(SimRNA, self).cleanup()
+
+
+if __name__ == '__main__':
+    wrapper = SimRNA()
+    result = wrapper.run('../test/1xjrA_M1.pdb', 0, verbose=False) # or aa
+    print(result)

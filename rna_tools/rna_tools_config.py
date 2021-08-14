@@ -48,8 +48,8 @@ DB_AA_PATH=""        # /Users/magnus/work/papers/mqaprna/mqaprna_env/db/RNA_aa_f
 DB_5PT_PATH=""       # /Users/magnus/work/papers/mqaprna/mqaprna_env/db/RNA_5pt_full_sc1'
 GROMACS_LD_PATH=""
 GROMACS_PATH_BIN=""
-
-user_path = os.path.expanduser("~")
+SIMRNA_PATH=""
+SIMRNA_DATA_PATH=""
 
 X3DNA=""
 X3DNA_FP=""
@@ -73,6 +73,7 @@ X3DNA_FP=""
 ##             globals()[var.upper()] = int(value)
 ##         else:
 ##             globals()[var.upper()] = value
+user_path = os.path.expanduser("~")
 try:
     exec(open(user_path + '/.rna_tools.py').read())  # python3
 except: # FileNotFoundError: noooot perfect! 
