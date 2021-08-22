@@ -3,15 +3,6 @@
 """Module with classes that are parents for all wrappers.
 """
 
-__author__ = ""
-__copyright__ = ""
-__credits__ = ""
-__license__ = ""
-__version__ = "2.0"
-__maintainer__ = ""
-__email__ = ""
-__status__ = "Prototype"
-
 import os
 import sys
 DIRNAME = os.path.dirname(__file__)

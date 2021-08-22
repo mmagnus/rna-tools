@@ -491,11 +491,10 @@ if __name__ == '__main__':
     else:
         import platform
         platform = platform.node()
-
         if opt.output:
-            output_csv = opt.output.replace('.csv','') + '-' + __version__ + platform + '.csv'
+            output_csv = opt.output.replace('.csv','') + '-' + __version__ + '-' + platform + '.csv'
         else:
-            output_csv = opt.methods + '-' + __version__ + platform + '.csv'
+            output_csv = opt.methods + '-' + __version__  + '-' + platform + '.csv'
 
     sg.pbanner_simply(os.path.basename(sys.argv[0]))
 

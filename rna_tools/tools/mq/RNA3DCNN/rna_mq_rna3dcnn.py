@@ -5,9 +5,9 @@
 """
 from __future__ import print_function
 import argparse
-from rna_tools.tools.mq.RNA3DCNN.RNA3DCNN import RNA3DCNN
 import os
-import pandas as pd
+from rna_tools.tools.mq.RNA3DCNN.RNA3DCNN import RNA3DCNN
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -26,10 +26,7 @@ if __name__ == '__main__':
     if list != type(args.file):
         args.file = [args.file]
     print('id,fn,rna3dcnn')
-    if args.done:
-        df = pd.read_csv(args.done)
     for i, f in enumerate(args.file):
-        if df.loc[df['fn'] == os.path.basename(f)].empty:
-            wrapper = RNA3DCNN()
-            result = wrapper.run(f, args.verbose)
-            print(','.join([str(i + 1), os.path.basename(f), str(result)]))
+        wrapper = RNA3DCNN()
+        result = wrapper.run(f, args.verbose)
+        print(','.join([str(i + 1), os.path.basename(f), str(result)]))
