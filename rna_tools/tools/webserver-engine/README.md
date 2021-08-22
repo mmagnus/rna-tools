@@ -23,6 +23,8 @@ Let me know if you need any help to set it up for yourself (--@mmagnus).
 
 There is also a Django admin panel where you can view and control all the jobs. You can access this panel under `http://<ip/url>:8000/admin/login/?next=/admin/`, e.g., `http://rpdock-vm:8000/admin/login/?next=/admin/` (this panel can be accessed only within a local network or using VPN, this protects this panel from access outside the secure network).
 
+![](docs/admin.png)
+
 There is a web folder in `/home/rpdock/web`. The web folder contains a Django application with an SQLite database and `daemon.py`.
 
 The Django application is started automatically from cron:
