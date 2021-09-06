@@ -19,6 +19,55 @@ Let me know if you need any help to set it up for yourself (--@mmagnus).
 
 ![](docs/demo.png)
 
+# The details
+
+There is also a Django admin panel where you can view and control all the jobs. You can access this panel under `http://<ip/url>:8000/admin/login/?next=/admin/`, e.g., `http://rpdock-vm:8000/admin/login/?next=/admin/` (this panel can be accessed only within a local network or using VPN, this protects this panel from access outside the secure network).
+
+![](docs/admin.png)
+
+There is a web folder in `/home/rpdock/web`. The web folder contains a Django application with an SQLite database and `daemon.py`.
+
+The Django application is started automatically from cron:
+
+	@reboot /home/rpdock/web/startweb-screen.sh
+
+`startweb-screen.sh` contains:
+
+	screen -mdS 'web' /home/rpdock/web/startweb.sh
+
+This should go up after the restart of a virtual machine.
+
+So, this is the server. Then, how to get running a new job. A new job is created as an entry to the Django database via the submit form of the Django application. Every minute, from cron, there is a daemon script executed that checks if there is a new entry in the Django database:
+
+	* * * * * /home/rpdock/web/daemon.sh
+
+If there is, then the main program for which the whole web application has been created in the first place is executed. daemon.sh checks for free space on the drive, and also checks for how many others jobs are running; in this way, you can hold running new jobs if more than 4 jobs are running currently at a virtual machine (= having a simple queue).
+
+## .sh vs .py
+
+You can see here that for all Python scripts, there is a small shell wrapper (e.g., `daemon.sh` for `daemon.py`) that contains extra code to make sure that the correct Python Environment is loaded for the Python code.
+
+## cleanup.py
+There is implemented cleaning procedure, this really depends on your setup. Again, this can be run from crontab, for example every 1h:
+
+	0 * * * * /home/rpdock/web/cleanup.sh --go #&> /dev/null
+
+## app_checker.py
+ 
+There is also a script that sends mail with a list of jobs to your mailbox, so you can check if everything is fine. And once again, this can be executed from crontab, in my case I like to get these emails at 5pm.
+
+	00 17 * * * /home/rpdock/web/app_checker.py
+
+So the full crontab setup can look like this:
+
+	➜  web git:(master) ✗ crontab -l
+	SHELL=/bin/bash
+	#MAILTO="magnus@genesilico.pl"
+	* * * * * /home/rpdock/web/daemon.sh
+	00 17 * * * /home/rpdock/web/app_checker.py
+	0 * * * * /home/rpdock/web/cleanup.sh --go
+	@reboot /home/rpdock/web/startweb-screen.sh
+    
 Install
 -------------------------------------------------------------------------------
 
