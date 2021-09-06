@@ -105,7 +105,7 @@ setup(
              'rna_tools/tools/mq/rna_mq_plot.py',
              'rna_tools/tools/mq/RNA3DCNN/rna_mq_rna3dcnn.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
-             'rna_tools/tools/mq/ClashScore/rna_clashscore.py',
+             'rna_tools/tools/mq/ClashScore/rna_mq_clashscore.py',
              'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              'rna_tools/tools/mq/rsRNASP/rna_mq_rsRNASP.py',
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
