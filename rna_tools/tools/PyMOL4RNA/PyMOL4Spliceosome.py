@@ -12,6 +12,31 @@ except ImportError:
     # sys.exit(0)
 
 
+cmd.set('transparency', 0.25)
+cmd.set('cartoon_ring_mode', 3)
+# colors taken from https://github.com/maxewilkinson/Spliceosome-PyMOL-sessions
+cmd.set_color('lightgreen', [144, 238, 144])
+cmd.set_color('darkgreen', [0, 100, 0])
+cmd.set_color('darkseagreen', [143, 188, 143])
+cmd.set_color('greenyellow', [173, 255, 47])
+cmd.set_color('coral', [255, 127, 80])
+cmd.set_color('darkorange', [255, 140, 0])
+cmd.set_color('gold', [255, 215, 0])
+cmd.set_color('lemonchiffon', [255,250,205])
+cmd.set_color('moccasin', [255,228,181])
+cmd.set_color('skyblue', [135,206,235])
+cmd.set_color('lightyellow', [255,255,224])
+cmd.set_color('powderblue', [176,224,230])
+cmd.set_color('royalblue', [65,105,225])
+cmd.set_color('cornflowerblue', [100,149,237])
+cmd.set_color('steelblue', [70,130,180])
+cmd.set_color('lightsteelblue', [176,196,222])
+cmd.set_color('violetBlue', [40, 0, 120])
+cmd.set_color('mediumpurple', [147,112,219])
+cmd.set_color('lavenderblush', [255,240,245])
+cmd.set_color('lavender', [230,230,250])
+cmd.set_color('thistle', [216,191,216])
+
 
 def spl(arg=''):
     """
@@ -31,28 +56,73 @@ def spl(arg=''):
         code_for_color_spl.spl_color()
     elif arg == 'extract all' or arg == 'ea' or arg == 'e':
         code_for_spl.spl_extract()
+    elif arg == 'chains':
+        cmd.do('color blue, chain 5')
+        cmd.do('color red, chain 6')        
+        cmd.do('color forest, chain 2')
+    elif arg == 't5':
+        cmd.set('transparency', 0.5)
+    elif arg == 't1':
+        cmd.set('transparency', 1)
     elif arg.startswith('hprp28'):
+        print("""
+purple, resi 240-361  # RecA1
+blue, resi 361-631    # RecA1
+orange, resi 631-811  # RecA2
+""")
         cmd.do("color purple, PRP28_h* and resi 240-361") # RecA1
         cmd.do("color blue, PRP28_h* and resi 361-631") # RecA1
         cmd.do("color orange, PRP28_h* and resi 631-811")  # RecA2
     elif arg.startswith('hprp8'):
-        print("RT, skyblue, 885-1251")
-        print("Thumb/X, cyan, 1257-1375")
+        print("""
+
+RT finger/palm, skyblue, 812-1303
+Thumb/X, cyan, 1257-1375
+linker smudge, 1304-1577
+Endonuclease yellow, 1581-1752
+RNaseH-like wheat, 1767-2020
+JAB salmon, 2103-2234
+
+""")
         cmd.do("color yellow, PRP8_h* and resi 1581-1752")  # rt
         cmd.do("color wheat, PRP8_h* and resi 1767-2020")   # rh
         cmd.do("color salmon, PRP8_h* and resi 2103-2234")  # jab
         cmd.do("color smudge, PRP8_h* and resi 1304-1577")  # linker
         cmd.do("color skyblue, PRP8_h* and resi 812-1303")  # rt
     elif arg.startswith('prp8'):
-        print("RT, skyblue, 885-1251")
-        print("Thumb/X, cyan, 1257-1375")
-        
+        print(
+"""
+select Prp8N, Prp8 and resi 1-870
+select Prp8Large, Prp8 and resi 871-1827
+select Prp8RH, Prp8 and resi 1828-2106
+select Prp8RT, Prp8 and resi 871-1375
+select Prp8linker, Prp8 and resi 1376-1652
+select Prp8EN, Prp8 and resi 1653-1824
+select Prp8afinger, Prp8 and resi 1583-1610
+""")
         cmd.do("color skyblue, PRP8_y* and resi 885-1251")  # rt
         cmd.do("color cyan, PRP8_y* and resi 1257-1375")    # thumb/x
         cmd.do("color smudge, PRP8_y* and resi 1376-1649")  # linker
         cmd.do("color wheat, PRP8_y* and resi  1840-2090")  # rh
         cmd.do("color salmon, PRP8_y* and resi 2150-2395")  # jab
         cmd.do("color yellow, PRP8_y* and resi 1650-1840")  # endo
+    elif arg.startswith('yprp8'):
+        print(
+"""
+select Prp8N, Prp8 and resi 1-870
+select Prp8Large, Prp8 and resi 871-1827
+select Prp8RH, Prp8 and resi 1828-2106
+select Prp8RT, Prp8 and resi 871-1375
+select Prp8linker, Prp8 and resi 1376-1652
+select Prp8EN, Prp8 and resi 1653-1824
+select Prp8afinger, Prp8 and resi 1583-1610
+""")
+        cmd.do("color skyblue, PRP8_* and resi 885-1251")  # rt
+        cmd.do("color cyan, PRP8_* and resi 1257-1375")    # thumb/x
+        cmd.do("color smudge, PRP8_* and resi 1376-1649")  # linker
+        cmd.do("color wheat, PRP8_* and resi  1840-2090")  # rh
+        cmd.do("color salmon, PRP8_* and resi 2150-2395")  # jab
+        cmd.do("color yellow, PRP8_* and resi 1650-1840")  # endo
     elif arg.startswith(''):
         if 'hjab' in arg.lower():
             cmd.select('PRP8_h* and resi 2103-2234')
@@ -64,7 +134,6 @@ def spl(arg=''):
             cmd.select('PRP8_h* and resi 1767-2020')
         if 'he' in arg.lower():
             cmd.select('PRP8_h* and resi 1581-1752')
-
     elif arg == 'align' or arg=='a':
         cmd.do("""
     align /5gm6//6, /5lj3//V;
@@ -79,10 +148,24 @@ def spl(arg=''):
 cmd.extend('spl', spl)
 
 def spl_help():
-    print("""################ SPL #################
+    print("""
+PyMOL4Spliceosome
+-----------------------
 extract all (ea)  - show
 colors            - list all colors
-######################################
+
+spl hprp8
+spl prp8
+spl yprp8 - "color skyblue, PRP8_* and resi 885-1251"
+spl hprp28
+
+spl chains
+ color blue, chain 5
+ color red, chain 6
+ color forest, chain 2
+
+set cartoon_ring_mode to 3 ...
+
 """)
 spl_help()
 
@@ -293,31 +376,3 @@ else:
 
     #cmd.extend("spl", spl)
     cmd.extend("spl2", spl2)
-
-    # colors taken from https://github.com/maxewilkinson/Spliceosome-PyMOL-sessions
-    cmd.set_color('lightgreen', [144, 238, 144])
-    cmd.set_color('darkgreen', [0, 100, 0])
-    cmd.set_color('darkseagreen', [143, 188, 143])
-    cmd.set_color('greenyellow', [173, 255, 47])
-    cmd.set_color('coral', [255, 127, 80])
-    cmd.set_color('darkorange', [255, 140, 0])
-    cmd.set_color('gold', [255, 215, 0])
-    cmd.set_color('lemonchiffon', [255,250,205])
-    cmd.set_color('moccasin', [255,228,181])
-    cmd.set_color('skyblue', [135,206,235])
-    cmd.set_color('lightyellow', [255,255,224])
-    cmd.set_color('powderblue', [176,224,230])
-    cmd.set_color('royalblue', [65,105,225])
-    cmd.set_color('cornflowerblue', [100,149,237])
-    cmd.set_color('steelblue', [70,130,180])
-    cmd.set_color('lightsteelblue', [176,196,222])
-    cmd.set_color('violetBlue', [40, 0, 120])
-    cmd.set_color('mediumpurple', [147,112,219])
-    
-
-    print("""
-PyMOL4Spliceosome
------------------------
-spl hprp8
-spl prp8
-""")
