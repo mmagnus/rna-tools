@@ -56,10 +56,33 @@ def spl(arg=''):
         code_for_color_spl.spl_color()
     elif arg == 'extract all' or arg == 'ea' or arg == 'e':
         code_for_spl.spl_extract()
-    elif arg == 'chains':
+    elif arg == 'cc': # colorchains
         cmd.do('color blue, chain 5')
         cmd.do('color red, chain 6')        
         cmd.do('color forest, chain 2')
+    elif arg == 'trim':
+        cmd.do("""    	remove chain 5;
+	remove chain 2 and resi 1-19;
+	remove chain 2 and resi 50-200;
+	remove chain 6 and resi 87-200;
+	remove chain 6 and resi 1-40;
+	remove chain P and resi 45-200;
+    """)
+
+    elif arg == 'trim2':  # keep super small
+        cmd.do("""    	remove chain 5;
+	remove chain 2 and resi 1-19;
+	remove chain 2 and resi 30-200;
+
+	remove chain 6 and resi 87-200;
+	remove chain 6 and resi 1-50;
+
+	remove chain P and resi 45-200;
+
+	remove chain I;
+	remove chain E;
+    """)
+
     elif arg == 't5':
         cmd.set('transparency', 0.5)
     elif arg == 't1':
