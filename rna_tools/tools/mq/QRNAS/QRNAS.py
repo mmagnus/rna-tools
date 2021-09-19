@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""This module contains functions for computing QRNA.
-
-
+"""This module contains functions for computing QRNAS.
+https://github.com/sunandanmukherjee/QRNAS
 
 Output::
 
@@ -45,7 +44,7 @@ import os
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.pdb_formatix.PDBFile import PDBFile
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
-from rna_tools.rna_tools_config import QRNA_PATH, QRNA_CONFIG_PATH
+from rna_tools.rna_tools_config import QRNAS_PATH, QRNAS_CONFIG_PATH
 import subprocess
 import re
 from shutil import copyfile
@@ -55,7 +54,7 @@ from shutil import copyfile
 DIRECTORY = os.path.dirname(__file__)
 
 
-class QRNA(ProgramWrapper):
+class QRNAS(ProgramWrapper):
     """
     Wrapper class for AMBER force field via QRNA of Julisz Stasiewicz
     """
@@ -63,12 +62,12 @@ class QRNA(ProgramWrapper):
     executable = 'QRNA'
 
     def __init__(self, job_id=None):
-        super(QRNA, self).__init__('sequence', 'seq_name', job_id=job_id)
+        super(QRNAS, self).__init__('sequence', 'seq_name', job_id=job_id)
 
     def _prepare_files(self):
-        os.symlink(QRNA_PATH + os.sep + self.executable,
+        os.symlink(QRNAS_PATH + os.sep + self.executable,
                 self.sandbox_dir + os.sep + 'QRNA')
-        os.symlink(QRNA_PATH + os.sep + 'forcefield',
+        os.symlink(QRNAS_PATH + os.sep + 'forcefield',
                 self.sandbox_dir + os.sep + 'forcefield')
 
     def run(self, filename, numSteps, verbose=False):
@@ -145,11 +144,11 @@ class QRNA(ProgramWrapper):
 
 
 def main():
-    qrna = QRNA()
+    qrnas = QRNAS()
     try:
         # Performing minimization step: 1. Total energy = 28783.5671 kcal/mol (28753.2335 without restraints)
         filename = "test" + os.sep + "unmod_Val3_tRNA_model_si.pdb"
-        energy = qrna.run(filename, 1)
+        energy = qrnas.run(filename, 1, False)
         print('energy: ', energy)
     except Exception as e:
         print(e)
