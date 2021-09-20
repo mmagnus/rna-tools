@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """rna_refinement - RNA refinement with QRNAS.
@@ -76,17 +76,8 @@ import os
 import subprocess
 import random
 import string
-
 from shutil import copyfile
-
-try:
-    PATH = os.environ['RNA_PDB_TOOLS']
-except:
-    print ('Set up RNA_PDB_TOOLS, see Installation note')
-    pass
-else:
-    QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
-
+from rna_tools.rna_tools_config import QRNAS_PATH, QRNAS_CONFIG_PATH
 
 class QRNAS:
     """QRNAS"""
@@ -122,7 +113,10 @@ class QRNAS:
         else:
             JOB_PATH = cwd + os.sep + 'tmp' + os.sep + JOB_ID + os.sep  # run it in place?
 
-        os.makedirs(JOB_PATH)
+        try:
+            os.makedirs(JOB_PATH)
+        except:
+            pass
 
         # get temp config
         with open(JOB_PATH + os.sep + 'configfile.txt','w') as f:
@@ -134,7 +128,7 @@ class QRNAS:
         copyfile(inputfile, qrnas_inputfile)
 
         os.chdir(QRNAS_PATH)
-        cmd = './QRNAS -i ' + qrnas_inputfile + \
+        cmd = QRNAS_PATH + '/QRNA -i ' + qrnas_inputfile + \
               ' -c ' + JOB_PATH + 'configfile.txt ' + \
               ' -o ' + qrnas_outputfile
         print(cmd)
@@ -143,6 +137,8 @@ class QRNAS:
         stderr = open(JOB_PATH + 'stderr.txt', 'w')
         subprocess.call(cmd, shell=True, stdout=stdout, stderr=stderr)
 
+        with open(JOB_PATH + 'stderr.txt') as f:
+            print(f.read())
         os.chdir(cwd)
         print ("Save to %s" % outputfile)
         copyfile(qrnas_outputfile, outputfile)

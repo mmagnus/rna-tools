@@ -4,6 +4,7 @@ import os
 SIMRNA_DATA_PATH = None
 RCHIE_PATH = None
 QRNAS_PATH = None
+QRNAS_CONFIG_PATH = None
 VARNA_PATH = None
 VARNA_JAR_NAME = None
 RFAM_DB_PATH = None  # path to Rfam.cm
