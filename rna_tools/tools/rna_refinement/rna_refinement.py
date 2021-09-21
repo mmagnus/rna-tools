@@ -81,7 +81,7 @@ from rna_tools.rna_tools_config import QRNAS_PATH, QRNAS_CONFIG_PATH
 
 class QRNAS:
     """QRNAS"""
-    def run(self, inputfile, outputfile, run_in_tmp=False, job_id_random=False, steps=10):
+    def run(self, inputfile, outputfile, run_in_tmp=False, job_id_random=False, steps=10, interactive):
         """Run QRNAS.
 
         Args:
@@ -93,6 +93,7 @@ class QRNAS:
                                  a view times and get different outputs (and name of outputs will give
                                  folder names
            steps         (int) : # of steps
+           interactive   (bool): if yes, use os.system (see progress for cmd on the screen) or subprocess (wait till it's finished)
 
         Returns:
            none: works on input/output files
@@ -135,10 +136,14 @@ class QRNAS:
 
         stdout = open(JOB_PATH + 'stdout.txt', 'w')
         stderr = open(JOB_PATH + 'stderr.txt', 'w')
-        subprocess.call(cmd, shell=True, stdout=stdout, stderr=stderr)
 
-        with open(JOB_PATH + 'stderr.txt') as f:
-            print(f.read())
+        if interactive:
+            os.system(cmd)
+        else:
+            subprocess.call(cmd, shell=True, stdout=stdout, stderr=stderr)
+            with open(JOB_PATH + 'stderr.txt') as f:
+                print(f.read())
+
         os.chdir(cwd)
         print ("Save to %s" % outputfile)
         copyfile(qrnas_outputfile, outputfile)
@@ -150,6 +155,7 @@ def get_parser():
     parser.add_argument('-s', '--steps', help="# of steps, default: 20k ", default=20000)
     parser.add_argument('fn', help="input pdb file")
     parser.add_argument('-o', '--output_file', help="output pdb file")
+    parser.add_argument('-i', '--interactive', help="output pdb file")
     return parser
 
 
@@ -163,4 +169,4 @@ if __name__ == '__main__':
         output_file = args.fn.replace('.pdb', '_refx.pdb')
     else:
         output_file = args.output_file
-    q.run(args.fn, output_file, steps=args.steps)
+    q.run(args.fn, output_file, steps=args.steps, args.interactive)
