@@ -81,7 +81,7 @@ from rna_tools.rna_tools_config import QRNAS_PATH, QRNAS_CONFIG_PATH
 
 class QRNAS:
     """QRNAS"""
-    def run(self, inputfile, outputfile, run_in_tmp=False, job_id_random=False, steps=10, interactive):
+    def run(self, inputfile, outputfile, run_in_tmp=False, job_id_random=False, steps=10, interactive=False, verbose=False):
         """Run QRNAS.
 
         Args:
@@ -132,7 +132,8 @@ class QRNAS:
         cmd = QRNAS_PATH + '/QRNA -i ' + qrnas_inputfile + \
               ' -c ' + JOB_PATH + 'configfile.txt ' + \
               ' -o ' + qrnas_outputfile
-        print(cmd)
+        if verbose:
+            print(cmd)
 
         stdout = open(JOB_PATH + 'stdout.txt', 'w')
         stderr = open(JOB_PATH + 'stderr.txt', 'w')
@@ -141,8 +142,9 @@ class QRNAS:
             os.system(cmd)
         else:
             subprocess.call(cmd, shell=True, stdout=stdout, stderr=stderr)
-            with open(JOB_PATH + 'stderr.txt') as f:
-                print(f.read())
+            if verbose:
+                with open(JOB_PATH + 'stderr.txt') as f:
+                    print(f.read())
 
         os.chdir(cwd)
         print ("Save to %s" % outputfile)
@@ -155,9 +157,11 @@ def get_parser():
     parser.add_argument('-s', '--steps', help="# of steps, default: 20k ", default=20000)
     parser.add_argument('fn', help="input pdb file")
     parser.add_argument('-o', '--output_file', help="output pdb file")
-    parser.add_argument('-i', '--interactive', help="output pdb file")
+    parser.add_argument('-i', '--interactive', help="", default=False,
+                              action="store_true")
+    parser.add_argument('-v', '--verbose', help="",
+                              action="store_true")
     return parser
-
 
 # main
 if __name__ == '__main__':
@@ -169,4 +173,4 @@ if __name__ == '__main__':
         output_file = args.fn.replace('.pdb', '_refx.pdb')
     else:
         output_file = args.output_file
-    q.run(args.fn, output_file, steps=args.steps, args.interactive)
+    q.run(args.fn, output_file, steps=args.steps, interactive=args.interactive, verbose=args.verbose)
