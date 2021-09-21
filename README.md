@@ -32,10 +32,6 @@ The latest
 
 **20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
 
-**20-05-15** ClaRNA and ModeRNA hacked to be used in the script with Python3
-
-**20-03-23** Finally, to install rna-tools simply type in the terminal: `pip install rna-tools`
-
 **20-03-21** [PyMOL Preview Generator](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_preview_generator) a new tool for generation of previews in Finders created :-)
 
 **19-11-08** The RNA-Puzzles toolkit paper has been accepted for publication in Nucleic Acid Research :-) Release v3
