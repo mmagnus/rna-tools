@@ -87,12 +87,11 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
     result = []
     pdb_lines = pdb_string.split('\n')
 
-    # find smallest residue number
+    # find smallest residue number # ugly this does not work for 2 chains
     min_res = min(list(map(get_res_num,
         [l for l in pdb_lines if l.startswith('ATOM')])))
     max_res = max(list(map(get_res_num,
         [l for l in pdb_lines if l.startswith('ATOM')])))
-
 
     for l in pdb_lines:
         if l.startswith('ATOM') and l[19] in ('A', 'U', 'C', 'G'): # hmm... [ RA5 ] will not be detected based on it (!?)
@@ -551,16 +550,13 @@ def get_parser():
 # main
 if __name__ == '__main__':
     #fn = 'test_data/decoy0165_amb_clx.pdb'
-    #fn = 'test_data/1duq.pdb'
-
-    format_score_mdp('out.txt', '', '')
-    print(open('out.txt').read())
-
-    if 0:
-        parser = get_parser()
-        args = parser.parse_args()
-        fn = args.file # 'test_data/cat_chunk003_2r8s_5kcycles_decoys_nonativefrags.cluster1.0_clean_noC.pdb'
-        pdblines = make_rna_gromacs_ready(open(fn).read())
-        print(pdblines)
-        with open(fn.replace('.pdb', '_MDready.pdb'), 'w') as f:
-            f.write(pdblines)
+    fn = 'test_data/1duq.pdb'
+    fn = 'test_data/1duq_rpr.pdb'
+    # format_score_mdp('out.txt', '', '')
+    # print(open('out.txt').read())
+    from rna_tools.rna_tools_lib import RNAStructure
+    r = RNAStructure(fn)
+    for i in r.get_all_chain_ids():
+        chain = r.get_chain(i)
+        nchain = make_rna_gromacs_ready(chain)
+        print(nchain).strip()

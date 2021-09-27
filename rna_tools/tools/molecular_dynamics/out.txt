@@ -74,11 +74,9 @@ rvdw                     = 1.2
 table-extension          = 0.15
 
 ;Selection of energy groups
-energygrps               = aP aC4s aC2 aC4 aC6 uP uC4s uC2 uC4 uC6 gP gC4s gC2 gC4 gC6 cP cC4s cC2 cC4 cC6 other
-
+energygrps               =  other
 ; Seperate tables between energy group pairs
-energygrp_table          = aP aP aP aC4s aP aC2 aP aC4 aP aC6 aP uP aP uC4s aP uC2 aP uC4 aP uC6 aP gP aP gC4s aP gC2 aP gC4 aP gC6 aP cP aP cC4s aP cC2 aP cC4 aP cC6 aC4s aC4s aC4s aC2 aC4s aC4 aC4s aC6 aC4s uP aC4s uC4s aC4s uC2 aC4s uC4 aC4s uC6 aC4s gP aC4s gC4s aC4s gC2 aC4s gC4 aC4s gC6 aC4s cP aC4s cC4s aC4s cC2 aC4s cC4 aC4s cC6 aC2 aC2 aC2 aC4 aC2 aC6 aC2 uP aC2 uC4s aC2 uC2 aC2 uC4 aC2 uC6 aC2 gP aC2 gC4s aC2 gC2 aC2 gC4 aC2 gC6 aC2 cP aC2 cC4s aC2 cC2 aC2 cC4 aC2 cC6 aC4 aC4 aC4 aC6 aC4 uP aC4 uC4s aC4 uC2 aC4 uC4 aC4 uC6 aC4 gP aC4 gC4s aC4 gC2 aC4 gC4 aC4 gC6 aC4 cP aC4 cC4s aC4 cC2 aC4 cC4 aC4 cC6 aC6 aC6 aC6 uP aC6 uC4s aC6 uC2 aC6 uC4 aC6 uC6 aC6 gP aC6 gC4s aC6 gC2 aC6 gC4 aC6 gC6 aC6 cP aC6 cC4s aC6 cC2 aC6 cC4 aC6 cC6 uP uP uP uC4s uP uC2 uP uC4 uP uC6 uP gP uP gC4s uP gC2 uP gC4 uP gC6 uP cP uP cC4s uP cC2 uP cC4 uP cC6 uC4s uC4s uC4s uC2 uC4s uC4 uC4s uC6 uC4s gP uC4s gC4s uC4s gC2 uC4s gC4 uC4s gC6 uC4s cP uC4s cC4s uC4s cC2 uC4s cC4 uC4s cC6 uC2 uC2 uC2 uC4 uC2 uC6 uC2 gP uC2 gC4s uC2 gC2 uC2 gC4 uC2 gC6 uC2 cP uC2 cC4s uC2 cC2 uC2 cC4 uC2 cC6 uC4 uC4 uC4 uC6 uC4 gP uC4 gC4s uC4 gC2 uC4 gC4 uC4 gC6 uC4 cP uC4 cC4s uC4 cC2 uC4 cC4 uC4 cC6 uC6 uC6 uC6 gP uC6 gC4s uC6 gC2 uC6 gC4 uC6 gC6 uC6 cP uC6 cC4s uC6 cC2 uC6 cC4 uC6 cC6 gP gP gP gC4s gP gC2 gP gC4 gP gC6 gP cP gP cC4s gP cC2 gP cC4 gP cC6 gC4s gC4s gC4s gC2 gC4s gC4 gC4s gC6 gC4s cP gC4s cC4s gC4s cC2 gC4s cC4 gC4s cC6 gC2 gC2 gC2 gC4 gC2 gC6 gC2 cP gC2 cC4s gC2 cC2 gC2 cC4 gC2 cC6 gC4 gC4 gC4 gC6 gC4 cP gC4 cC4s gC4 cC2 gC4 cC4 gC4 cC6 gC6 gC6 gC6 cP gC6 cC4s gC6 cC2 gC6 cC4 gC6 cC6 cP cP cP cC4s cP cC2 cP cC4 cP cC6 cC4s cC4s cC4s cC2 cC4s cC4 cC4s cC6 cC2 cC2 cC2 cC4 cC2 cC6 cC4 cC4 cC4 cC6 cC6 cC6 
-
+energygrp_table          = 
 
 ; OPTIONS FOR WEAK COUPLING ALGORITHMS
 ; Temperature coupling  
@@ -106,7 +104,6 @@ gen_seed                 = 89689454
 
 ; ENERGY GROUP EXCLUSIONS
 ; Pairs of energy groups for which all non-bonded interactions are excluded
-energygrp_excl           =  other other aP other aC4s other aC2 other aC4 other aC6 other uP other uC4s other uC2 other uC4 other uC6 other gP other gC4s other gC2 other gC4 other gC6 other cP other cC4s other cC2 other cC4 other cC6 other 
-
+energygrp_excl           =  other other  other
 constraints                      = none 
 
