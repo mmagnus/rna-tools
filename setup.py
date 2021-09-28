@@ -113,8 +113,8 @@ setup(
              'rna_tools/tools/mq/mqaprna_dev_remote.sh',
              'rna_tools/tools/mq/mqaprnascore.py',
 
-             'rna_tools/tools/molecular_dynamics/rna_gromacs_ready.py',
-             'rna_tools/tools/molecular_dynamics/rna_openmm_short_simulation.py',
+             'rna_tools/tools/md/rna_gromacs_ready.py',
+             'rna_tools/tools/md/rna_openmm_short_simulation.py',
              
              'rna_tools/tools/misc/rna_merge_dfs.py',
              'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',

@@ -16,7 +16,7 @@ import tempfile
 
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
-from rna_tools.tools.molecular_dynamics.rnakb_utils import make_rna_rnakb_ready, fix_gromacs_gro, prepare_groups, format_score_mdp
+from rna_tools.tools.md.rnakb_utils import make_rna_rnakb_ready, fix_gromacs_gro, prepare_groups, format_score_mdp
 from rna_tools.rna_tools_config import GRMLIB_PATH, DB_AA_PATH, DB_5PT_PATH, WRAPPERS_PATH, GROMACS_LD_PATH, GROMACS_PATH_BIN, TMP_PATH
 
 SANDBOX_PATH = '.'
