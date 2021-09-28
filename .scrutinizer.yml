@@ -14,7 +14,7 @@ filter:
         
 build:
     environment:
-        python: 3.7.4
+        python: 3.8
 
 
 build:
