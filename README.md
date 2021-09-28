@@ -20,40 +20,6 @@
 
 <p>
 
-The latest
--------------------------------------------------------------------------------
-(see [CHANGELOG](https://github.com/mmagnus/rna-tools/tree/master/CHANGELOG.md) for more detailed description)
-
-**21-05-24**  spotifier branched out into own repository to keep RT light https://github.com/mmagnus/yeast-spotifier
-	
-**20-10/12** [mqapRNA](https://github.com/mmagnus/rna-tools/blob/master/notes/mq.ipynb): py3 wrappers and include them in RT: RASP, Dfire, RNA3DCNN, QRNA, FARNA(Rosetta), AnalyzeGeometry, ClashScore, eSCORE (barnaba), 3dRNAscore, RNAkb (5pt)
-    
-**20-08-20** A new structures of splicesome processed with rna-tools to be easily viewed with PyMOL (or as single chains) [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome)
-
-**20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
-
-**20-03-21** [PyMOL Preview Generator](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_preview_generator) a new tool for generation of previews in Finders created :-)
-
-**19-11-08** The RNA-Puzzles toolkit paper has been accepted for publication in Nucleic Acid Research :-) Release v3
-
-RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools
-Magnus, Marcin; Antczak, Maciej; Zok, Tomasz; Wiedemann, Jakub ; Lukasiak, Piotr; Cao, Yang ; Bujnicki, Janusz; Westhof, Eric; Szachniuk, Marta; Miao, Zhichao
-https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkz1108/5651330
-
-**19-10-22** We made a searchable [index]( https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv) of all the tools. There are around 100 functionalities implemented, enjoy it! Let us know if something is missing or unclear!
-
-**19-10-10** **rna-tools finally works with Python 3, to get Python 2 version go to this [branch](https://github.com/mmagnus/rna-tools/tree/py2)** However, not all tools can be used with Python 3, for example, ClaRNA is written in Python 2 and we can do nothing about it. So, for now, we suggest using Conda or something else that supports kind of hybrid Python2/Python3 environments. Read more on this [here](https://towardsdatascience.com/environment-management-with-conda-python-2-3-b9961a8a5097) and [here](https://docs.anaconda.com/anaconda/user-guide/tasks/switch-environment/)
-
-**19-10-01** The EvoClustRNA manuscript with the heavy use of rna-tools is accepted for publication!
-
-M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). RNA 3D structure prediction guided by independent folding of homologous sequences, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-019-3120-y
-
-**19-06-15** rna-tools used for spliceosome! :-) is accepted for publication! See [this folder](https://github.com/mmagnus/rna-tools/tree/master/U6MolCell) for the description of the analysis!
-
-Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell https://www.cell.com/molecular-cell/pdfExtended/S1097-2765(19)30390-9 
-
-See also [CHANGELOG](https://github.com/mmagnus/rna-tools/blob/master/CHANGELOG.md).
-
 Introduction
 -------------------------------------------------------------------------------
 
@@ -104,7 +70,40 @@ Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna
 
 Fig. `rna_pdb_toolsx.py --get-rnapuzzle-ready *pdb --inplace`
 
+The latest
+-------------------------------------------------------------------------------
+(see [CHANGELOG](https://github.com/mmagnus/rna-tools/tree/master/CHANGELOG.md) for more detailed description)
 
+**21-05-24**  spotifier branched out into own repository to keep RT light https://github.com/mmagnus/yeast-spotifier
+	
+**20-10/12** [mqapRNA](https://github.com/mmagnus/rna-tools/blob/master/notes/mq.ipynb): py3 wrappers and include them in RT: RASP, Dfire, RNA3DCNN, QRNA, FARNA(Rosetta), AnalyzeGeometry, ClashScore, eSCORE (barnaba), 3dRNAscore, RNAkb (5pt)
+    
+**20-08-20** A new structures of splicesome processed with rna-tools to be easily viewed with PyMOL (or as single chains) [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome)
+
+**20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
+
+**20-03-21** [PyMOL Preview Generator](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_preview_generator) a new tool for generation of previews in Finders created :-)
+
+**19-11-08** The RNA-Puzzles toolkit paper has been accepted for publication in Nucleic Acid Research :-) Release v3
+
+RNA-Puzzles toolkit: A computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools
+Magnus, Marcin; Antczak, Maciej; Zok, Tomasz; Wiedemann, Jakub ; Lukasiak, Piotr; Cao, Yang ; Bujnicki, Janusz; Westhof, Eric; Szachniuk, Marta; Miao, Zhichao
+https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkz1108/5651330
+
+**19-10-22** We made a searchable [index]( https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv) of all the tools. There are around 100 functionalities implemented, enjoy it! Let us know if something is missing or unclear!
+
+**19-10-10** **rna-tools finally works with Python 3, to get Python 2 version go to this [branch](https://github.com/mmagnus/rna-tools/tree/py2)** However, not all tools can be used with Python 3, for example, ClaRNA is written in Python 2 and we can do nothing about it. So, for now, we suggest using Conda or something else that supports kind of hybrid Python2/Python3 environments. Read more on this [here](https://towardsdatascience.com/environment-management-with-conda-python-2-3-b9961a8a5097) and [here](https://docs.anaconda.com/anaconda/user-guide/tasks/switch-environment/)
+
+**19-10-01** The EvoClustRNA manuscript with the heavy use of rna-tools is accepted for publication!
+
+M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). RNA 3D structure prediction guided by independent folding of homologous sequences, BMC Bioinformatics, https://github.com/mmagnus/EvoClustRNA https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-019-3120-y
+
+**19-06-15** rna-tools used for spliceosome! :-) is accepted for publication! See [this folder](https://github.com/mmagnus/rna-tools/tree/master/U6MolCell) for the description of the analysis!
+
+Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell https://www.cell.com/molecular-cell/pdfExtended/S1097-2765(19)30390-9 
+
+See also [CHANGELOG](https://github.com/mmagnus/rna-tools/blob/master/CHANGELOG.md).
+	
 Table of Contents
 -------------------------------------------------------------------------------
 
