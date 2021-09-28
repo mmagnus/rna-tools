@@ -116,12 +116,14 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
                 continue
 
             # convert G -> RG5, RG3
-            if res_num == min_res: # RG5
-                l = set_res_code(l, 'R' + get_res_code(l).strip() + '5')
-            elif res_num == max_res: # RG3
-                l = set_res_code(l, 'R' + get_res_code(l).strip() + '3')
-            else:
-                l = set_res_code(l, ' R' + get_res_code(l).strip())
+            # do this only if res does not start with R
+            if get_res_code(l).startswith('R'):
+                if res_num == min_res: # RG5
+                    l = set_res_code(l, 'R' + get_res_code(l).strip() + '5')
+                elif res_num == max_res: # RG3
+                    l = set_res_code(l, 'R' + get_res_code(l).strip() + '3')
+                else:
+                    l = set_res_code(l, ' R' + get_res_code(l).strip())
 
             if res_num == min_res:
                 if atom_type in GROMACS_ALLOWED_5:
