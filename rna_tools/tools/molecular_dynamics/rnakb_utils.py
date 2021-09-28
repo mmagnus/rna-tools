@@ -410,10 +410,10 @@ def format_score_mdp(mdp_out, energygrps, seq, verbose=False):
     and energygrp_table
     """
     # load template
-    with open(LIB_PATH + 'rnakb_utils/' + MDP_TEMPLATE, 'r') as f:
+    with open(LIB_PATH + 'molecular_dynamics/' + MDP_TEMPLATE, 'r') as f:
         txt = f.readlines()
 
-    with open(LIB_PATH + 'rnakb_utils/data/rnakb_all.txt', 'r') as f:
+    with open(LIB_PATH + 'molecular_dynamics/data/rnakb_all.txt', 'r') as f:
         pairs = [i.strip() for i in f.readlines()]
 
     nmdp = ''
