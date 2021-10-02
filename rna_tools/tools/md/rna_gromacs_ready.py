@@ -3,8 +3,8 @@
 """
 
 """
-from rna_tools.tools.molecular_dynamics.rnakb_utils import *
-
+from rna_tools.rna_tools_lib import RNAStructure
+from rna_tools.tools.md.rnakb_utils import make_rna_gromacs_ready
 import argparse
 
 def get_parser():
@@ -27,7 +27,6 @@ if __name__ == '__main__':
         args.file = [args.file]
 
     for f in args.file:
-        from rna_tools.rna_tools_lib import RNAStructure
         r = RNAStructure(f)
         for i in r.get_all_chain_ids():
             chain = r.get_chain(i)
