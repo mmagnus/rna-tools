@@ -13,7 +13,7 @@ import argparse
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-s', "--steps", type=int, help="", default=1000)
+    parser.add_argument('-s', "--steps", type=int, help="", default=100)
     parser.add_argument('-n', "--nsim", type=int, help="", default=100000)
     parser.add_argument('-r', "--run", help="", default='_')
     parser.add_argument("-v", "--verbose",
@@ -48,6 +48,7 @@ if __name__ == '__main__':
         if args.solv_padding:
             modeller.addSolvent(forcefield, padding=0.5*nanometers)
         else:
+            print('boxSize=Vec3(5.0, 3.5, 3.5)*nanometers')
             modeller.addSolvent(forcefield, boxSize=Vec3(5.0, 3.5, 3.5)*nanometers)
         
         system = forcefield.createSystem(modeller.topology, nonbondedMethod=app.NoCutoff, #nonbondedMethod=PME,
@@ -55,7 +56,7 @@ if __name__ == '__main__':
         integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.002*picoseconds)
         simulation = Simulation(modeller.topology, system, integrator)
         simulation.context.setPositions(modeller.positions)
-        # simulation.minimizeEnergy()
+        simulation.minimizeEnergy()
         nstep = args.steps
         simulation.reporters.append(PDBReporter(out, nstep))
         simulation.reporters.append(StateDataReporter(stdout, nstep, step=True,
