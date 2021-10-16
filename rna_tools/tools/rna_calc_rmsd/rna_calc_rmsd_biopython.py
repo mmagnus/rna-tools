@@ -222,8 +222,10 @@ def get_parser():
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
     parser.add_argument('files', help='files', nargs='+')
     parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending)')
     return parser
 
+# main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
@@ -259,3 +261,13 @@ if __name__ == '__main__':
     if args.result:
         with open(args.result, 'w') as f:
             f.write(t)
+
+        if args.sort:
+            import pandas as pd
+            df = pd.read_csv(args.result)
+            df = df.sort_values('rmsd')
+            # print(df)
+            df.to_csv(args.result, index=False)
+            
+        
+        
