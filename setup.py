@@ -115,7 +115,7 @@ setup(
 
              'rna_tools/tools/md/rna_gromacs_ready.py',
              'rna_tools/tools/md/rna_openmm_short_simulation.py',
-             'rna_tools/tools/triplexibility/triplexibility',
+             'rna_tools/tools/triplexibility/triplexibility.py',
              
              'rna_tools/tools/misc/rna_merge_dfs.py',
              'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',
