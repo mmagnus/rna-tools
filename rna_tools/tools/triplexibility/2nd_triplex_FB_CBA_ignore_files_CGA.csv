@@ -1,0 +1,5 @@
+# of models: 3
+fn,rmsd
+Triple_cWW_cHS_GCC_rpr.pdb,1.75
+Triple_cWW_cHS_GCC_rpr_aligned.pdb,1.75
+Triple_cWW_cHS_GCC_rpr_alignedGCC.pdb,1.75

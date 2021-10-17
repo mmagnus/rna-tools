@@ -1,0 +1,13 @@
+33M	triples-all-v2-rpr
+1M	spl-1-1_aligned.pdb
+1M	spl-1-1_aligned
+1M	spl-1-1.pdb
+1M	run.sh
+1M	results.csv
+1M	Triple_tWW_tSW_AUG_rpr_aligned.pdb
+1M	Triple_tWW_tSW_AUG_rpr.pdb
+1M	Triple_cWW_tSH_GCA_exemplar_rpr_ren_aligned.pdb
+1M	Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb
+1M	Triple_cWW_cHS_GCU_exemplar_rpr_aligned.pdb
+1M	Triple_cWW_cHS_GCU_exemplar_rpr.pdb
+ 33M	.
