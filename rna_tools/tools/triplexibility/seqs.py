@@ -43,10 +43,11 @@ def score(seq, triple):
     if triple == 't1_3':
         f = 'db/t1-3_cWW_tHW_UAA_exemplar_rpr_rmsd.csv'
     elif triple == 't2_3':
-        f = 'db/t2-4-ACA_rmsd.csv'
+        f = 'db/t2-3-UAU_rmsd.csv'
     elif triple == 't2_4':
         f = 'db/t2-4-ACA_rmsd.csv'
-
+    elif triple == 't3_3':
+        f = 'db/t3-3_AUA_rmsd.csv'
     for l in open(f):
         y = -1
         if seq.lower() in l.lower():
@@ -54,6 +55,7 @@ def score(seq, triple):
             r = float(r)
             #if r > 2: # 1.75:
             y = r
+            print('   ' + l.strip())
             break
     return y
 
@@ -67,37 +69,37 @@ if __name__ == '__main__':
     import sys
     ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
 
-    print('┌-' + s + '------------------------------------┐')
+    print('-' + s + '------------------------------------')
     sc = 0
     i = ic
 
     d = s[1] + s[0] # duplex a27:u57
     ic(d, duplex_energy(d))
     sc += 15.81 + duplex_energy(d) # 3 is a ad score
-    ic(sc)
 
     t1_3 = 'UA' + s[2]
-    ic(t1_3, score(t1_3, 't1_3'))
+    ic(t1_3)#, score(t1_3, 't1_3')))
     sc += score(t1_3, 't1_3')
 
     t2_3 = 'UA' + s[0]
-    ic(t2_3)#, score(t2_3, 't2_3')))
+    ic(t2_3) #, score(t2_3, 't2_3'))
+    sc += score(t2_3, 't2_3')
 
     t2_4 = 'AC' + s[2] # ?
-    ic(t2_4, score(t2_4, 't2_4'))
-    sc = score(t2_4, 't2_4')
+    ic(t2_4)#, score(t2_4, 't2_4'))
+    sc += score(t2_4, 't2_4')
     
     t3_3 = s[1] + s[0] + s[2] # a27/u57/53 ?
-    
+    ic(t3_3)#, score(t3_3, 't3_3'))
+    sc += score(t3_3, 't3_3')
 
-    g = float(s.split('-')[1]) # ACG-0.5 
+    g = float(s.split('-')[1]) # ACG-0.5
+    sc = round(sc, 2)
     if g == 1:
-        print('^ grow: ', sc)
+        print('^ grow:', g,  sc)
     elif g == 0:
-        print('x dead  ', sc)
+        print('x dead ', g, sc)
     else:
-        print('- semi  ', sc)
-    print('└------------------------------------------┘')
-
+        print('/ semi ', g, sc)
     # ic(t3_3, score(t3_3, 't3_3'))
     
