@@ -77,7 +77,7 @@ class RNAmodel:
 
             self.atoms_for_rmsd = []
             for a in self.atoms:
-                nt = a.get_parent().get_resname()
+                nt = a.get_parent().get_resname().strip()
                 if nt in ['G', 'A']:
                     atomslistx = atomslist + ['N9']
                 if nt in ['C', 'U']:
@@ -88,7 +88,7 @@ class RNAmodel:
 
             other_atoms_for_rmsd = []
             for a in other_rnamodel.atoms:
-                nt = a.get_parent().get_resname()
+                nt = a.get_parent().get_resname().strip()
                 if nt in ['G', 'A']:
                     atomslistx = atomslist + ['N9']
                 if nt in ['C', 'U']:
@@ -101,7 +101,7 @@ class RNAmodel:
         elif way == 'c1+Nx':
             self.atoms_for_rmsd = []
             for a in self.atoms:
-                nt = a.get_parent().get_resname() # G
+                nt = a.get_parent().get_resname().strip() # G
                 if nt in ['G', 'A']:
                     atomslist = ["C1'", 'N9'] # , 'N1']
                 if nt in ['C', 'U']:
@@ -113,7 +113,7 @@ class RNAmodel:
 
             other_atoms_for_rmsd = []
             for a in other_rnamodel.atoms:
-                nt = a.get_parent().get_resname() # G
+                nt = a.get_parent().get_resname().strip() # G
                 if nt in ['G', 'A']:
                     atomslist = ["C1'", 'N9'] # , 'N1']
                 if nt in ['C', 'U']:
