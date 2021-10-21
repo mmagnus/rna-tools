@@ -198,13 +198,13 @@ class RNAmodel:
             
             args.save_here = True
             if args.save_here:
-                f = os.path.basename(self.fpath.replace('.pdb', '_aligned'))
+                folder = os.path.basename(self.fpath.replace('.pdb', '_' + args.folder_prefix + '_aligned'))
                 # print(f)
                 try:
-                    os.mkdir(f)
+                    os.mkdir(folder)
                 except:
                     pass
-                fout = f + os.sep + "{:1.2f}".format(rmsd_min) + '-' + os.path.basename(other_rnamodel.fpath)#.replace('.pdb', '-' + str(rms) + '.pdb'))
+                fout = folder + os.sep + "{:1.2f}".format(rmsd_min) + '-' + os.path.basename(other_rnamodel.fpath)#.replace('.pdb', '-' + str(rms) + '.pdb'))
                 #_s' + suffix + '.pdb'))
             else:
                 fout = other_rnamodel.fpath.replace('.pdb', '_aligned.pdb')#_s' + suffix + '.pdb')
@@ -299,6 +299,7 @@ def get_parser():
     parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file",
                         default="rmsd")
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
+    parser.add_argument("--folder-prefix", default = '', help="folder name, t2-3-UAU_NAME_aligned")
     parser.add_argument('files', help='files', nargs='+')
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending)')
