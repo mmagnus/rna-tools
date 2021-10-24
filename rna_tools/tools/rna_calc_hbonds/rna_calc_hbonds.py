@@ -46,8 +46,10 @@ if __name__ == '__main__':
         pymol.cmd.delete('all')
         bn = f.split(os.sep)[-1]
         pymol.cmd.load(f, bn)
-        pymol.cmd.do('contacts *')
-        pymol.cmd.do("stored.y = get_raw_distances('contacts_polar', filename='')",)# , filename='" + t.name + "')")
+        pymol.cmd.do('contacts *,*')
+        pymol.cmd.save('out.pse')
+        #pymol.cmd.do("print get_raw_distances('contacts_polar', filename='')")# , filename='" + t.name + "')")
+        pymol.cmd.do("stored.y = get_raw_distances('contacts_polar_ok', filename='out.csv')",)# , filename='" + t.name + "')")
         # Triple_tWW_tSW_UAU_rpr.pdb,([(('Triple_tWW_tSW_UAU_rpr.pdb', 14), ('Triple_tWW_tSW_UAU_rpr.pdb', 31), 2.68421207936708), (('Triple_tWW_tSW_UAU_rpr.pdb', 37), ('Triple_tWW_tSW_UAU_rpr.pdb', 13), 2.714407209563896), (('Triple_tWW_tSW_UAU_rpr.pdb', 56), ('Triple_tWW_tSW_UAU_rpr.pdb', 33), 2.951731552332452)], [['Triple-U1948', 'Triple-A1915'], ['Triple-A1915', 'Triple-U1948'], ['Triple-U779', 'Triple-A1915']])
         nohb = len(stored.y[1]) # get to the list from the comment above
         # an old mechanism to open output file to see how many lines are there
