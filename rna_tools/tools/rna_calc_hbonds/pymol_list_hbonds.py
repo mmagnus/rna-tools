@@ -1,4 +1,6 @@
 # Copyright (c) 2010 Robert L. Campbell
+# @mmagnus this is not my code
+# taken from http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/list_hbonds.py
 from pymol import cmd
 
 def list_hbonds(selection,selection2=None,cutoff=3.2,angle=45,mode=1,hb_list_name='hbonds'):
