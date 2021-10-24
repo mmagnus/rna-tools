@@ -18,6 +18,8 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("-b", "--black",
                         action="store_true", help="black bg")
+    parser.add_argument("-d", "--detailed", default = 200,
+                        help="show lines/sticks for files with # of lines slower than, default 200")
     parser.add_argument("-r", "--rainbow",
                         action="store_true", help="rainbow")
     parser.add_argument("files", help="", default="", nargs='+')
@@ -42,7 +44,13 @@ if __name__ == '__main__':
         if args.rainbow:
             rainbow = 'util.chainbow;'
 
-        os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+        # if something short
+        sh = ''
+        if len(open(file).readlines()) < args.detailed:
+            sh = ' show sticks; ' # lines;
+
+        os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+
         if args.verbose:
             print(f)
 
