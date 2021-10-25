@@ -111,8 +111,8 @@ setup(
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
              'rna_tools/tools/mq/SimRNA/rna_mq_simrna.py',
              'rna_tools/tools/mq/mqaprna_dev_remote.sh',
-             'rna_tools/tools/mq/mqaprnascore.py',
-
+             'rna_tools/tools/mq/rna_mqapscore.py',
+             
              'rna_tools/tools/md/rna_gromacs_ready.py',
              'rna_tools/tools/md/rna_openmm_short_simulation.py',
              'rna_tools/tools/triplexibility/triplexibility.py',

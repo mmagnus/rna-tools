@@ -37,7 +37,7 @@ import rna_tools.rna_tools_config as Config
 try:
     __file__
 except:
-    __file__ = 'mqaprna.py'
+    __file__ = 'rna_mqapscore.py'
 
 #try:
 #    __version__ = get_version(__file__)
@@ -478,6 +478,11 @@ class RunAllDirectory():
 
 #main
 if __name__ == '__main__':
+    from icecream import ic
+    import sys
+    ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
+    ic.configureOutput(prefix='> ')
+
 
     t = timex.Timex()
     t.start()
