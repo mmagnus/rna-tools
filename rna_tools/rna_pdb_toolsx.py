@@ -212,7 +212,7 @@ ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
     parser.add_argument('--cif2pdb', help="[PyMOL Python package required]", action='store_true')
     parser.add_argument('--pdb2cif', help="[PyMOL Python package required]", action='store_true')
 
-    parser.add_argument('--mdr', help='get structures ready for MD (like rpr but without first)'
+    parser.add_argument('--mdr', help='get structures ready for MD (like rpr but without first)',
                         action='store_true')
 
     x = parser.add_argument_group('RNAPUZZLE-READY')
