@@ -317,13 +317,19 @@ class RNAStructure:
     def get_chain(self, chain_id='A'):
         txt = ''
         for l in self.lines:
-            if l.startswith('ATOM') or l.startswith('HETATM') or l.startswith('TER'):
+            if l.startswith('ATOM') or l.startswith('HETATM'):
                 if l[21] == chain_id:
                     txt += l.strip() + '\n'
+            if l.startswith('TER'):
+                if len(l) < 21: # this is only TER
+                    #                     ter = 'TER   ' +  str(self.get_atom_num(txt) + 1).rjust(5) + '\n'
+                    raise Exception('TER line has no chain id')
+                else:     
+                    if l[21] == chain_id:
+                          txt += l.strip() + '\n'
         ## ll = txt.strip().split('\n')[-1] # last line = ll
         ## print(ll)
         ## #if ll.startswith('TER'):  # if the last line does not start with ter
-        ## ter = 'TER   ' +  str(self.get_atom_num(ll) + 1).rjust(5) + '\n'
         ## ter = self.set_res_code(ter, self.get_res_code(ll)) # + self.get_chain_id(l).rjust(11)
         ## print(ter)
         return txt.strip()
@@ -839,7 +845,7 @@ class RNAStructure:
                 wrong.append(r)
         return wrong
 
-    def write(self, outfn='', verbose=True):
+    def write(self, outfn='', verbose=False):
         """Write ```self.lines``` to a file (and add END file)
 
         Args:
@@ -956,10 +962,11 @@ class RNAStructure:
         Returns:
            set: chain ids, e.g. set(['A', 'B'])
         """
-        chain_ids = set()
+        chain_ids = []
         for l in self.lines:
-            if self.get_chain_id(l):
-                chain_ids.add(self.get_chain_id(l))
+            chain_id = self.get_chain_id(l)
+            if chain_id and chain_id not in chain_ids:
+                chain_ids.append(chain_id)
         return chain_ids
 
     def get_atom_index(self, line):
@@ -982,6 +989,7 @@ class RNAStructure:
 
     def get_rnapuzzle_ready(self, renumber_residues=True, fix_missing_atoms=True,
                             rename_chains=True,
+                            ignore_op3 = False,
                             report_missing_atoms=True, keep_hetatm=False, backbone_only=False,
                             no_backbone = False, bases_only = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
@@ -1014,7 +1022,6 @@ class RNAStructure:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
-
         if verbose:
             logger.setLevel(logging.DEBUG)
 
@@ -1082,7 +1089,8 @@ class RNAStructure:
 
         new_chains = list(string.ascii_uppercase)
         remarks = []
-
+        if ignore_op3:
+             remarks.append("REMARK 250  don't add OP3 at the start of chain")
         # get path to mini db with models to rebuilt structures
         currfn = __file__
         if currfn == '':

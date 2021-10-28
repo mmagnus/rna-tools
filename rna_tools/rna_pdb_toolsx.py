@@ -212,6 +212,9 @@ ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
     parser.add_argument('--cif2pdb', help="[PyMOL Python package required]", action='store_true')
     parser.add_argument('--pdb2cif', help="[PyMOL Python package required]", action='store_true')
 
+    parser.add_argument('--mdr', help='get structures ready for MD (like rpr but without first)'
+                        action='store_true')
+
     x = parser.add_argument_group('RNAPUZZLE-READY')
     x.add_argument('--get-rnapuzzle-ready',
                         help=textwrap.dedent("""get RNApuzzle ready (keep only standard atoms).'
@@ -398,7 +401,7 @@ if __name__ == '__main__':
         args.dont_rename_chains = True
         args.renumber_residues = False
 
-    if args.get_rnapuzzle_ready or args.rpr:
+    if args.get_rnapuzzle_ready or args.rpr or args.mdr:  # rnapuzzle
         # quick fix - make a list on the spot
         if list != type(args.file):
             args.file = [args.file]
@@ -447,6 +450,10 @@ if __name__ == '__main__':
             report_missing_atoms = not args.dont_report_missing_atoms
             fix_missing_atom = not args.dont_fix_missing_atoms
 
+            ignore_op3 = False
+            if args.mdr:
+                ignore_op3 = True
+                
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
                                             rename_chains=rename_chains,
                                             report_missing_atoms=report_missing_atoms,
@@ -454,6 +461,7 @@ if __name__ == '__main__':
                                             no_backbone=args.no_backbone,
                                             bases_only=args.bases_only,
                                             keep_hetatm=args.keep_hetatm,
+                                            ignore_op3=ignore_op3,
                                             verbose=args.verbose)
 
             if args.inplace:
