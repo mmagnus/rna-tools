@@ -1,0 +1,2 @@
+id,fn,farna_score_lowres,farna_rna_vdw,farna_rna_base_backbone,farna_rna_backbone_backbone,farna_rna_repulsive,farna_rna_base_pair,farna_rna_base_axis,farna_rna_base_stagger,farna_rna_base_stack,farna_rna_base_stack_axis,farna_rna_rg,farna_atom_pair_constraint,farna_linear_chainbreak
+1,3e5f_output4_01-000001_AA+ResnShift.pdb,-290.936,3.121,-13.566,-0.392,12.402,-178.387,-21.268,-80.734,-12.981,-16.63,17.498,0.0,0.0
