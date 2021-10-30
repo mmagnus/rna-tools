@@ -16,6 +16,9 @@ setup(
              'rna_tools/rna_calc_fenergy.py',
              
              'rna_tools/tools/misc/rna_tools_which.py',
+
+             'rna_tools/tools/pefx/rna_pefx.py',
+
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_biopython.py',
@@ -81,10 +84,11 @@ setup(
              'rna_tools/tools/pdbs_measure_atom_dists/pdbs_measure_atom_dists.py',
              'rna_tools/tools/rna_alignment/random_assignment_of_nucleotides.py',
              'rna_tools/tools/rna_seq_search_BLASTn_outfmt-6/select_seq_fromBLAStn_6outfm.py',
-             'rna_tools/tools/pefx/pefx.py',
+
              'rna_tools/tools/misc/translate.py',
              'rna_tools/tools/misc/reverse.py',
              'rna_tools/tools/misc/reverse.py',
+
              'rna_tools/tools/rna_alignment/utils/rna_align_strip_stk.py',
              'rna_tools/tools/pymol_color_by_conserv/pymol_color_by_conserv.py',
              'rna_tools/tools/pymol_preview_generator/pymol_preview_generator.py',

@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""pefx.py - per folder eXectue cmd.
+"""rna_pefx.py - per folder eXectue cmd.
 
 Usage::
 
-    pefx.py 'ls | grep '.pdb\$' | wc -l'
+    (py37) [mq] curr$ rna_pefx.py 'ls struc | wc -l'
+    1kxk_simrna_unfolding 500
+    1msyA_simrna 1000
+    1p5nA_simrna_unfolding 606
+    1y26A_simrna_folding 3023
+    1y26A_simrna_unfolding 505
 
 """
 from __future__ import print_function
@@ -38,7 +43,7 @@ def sort_nicely(l):
    """
    convert = lambda text: int(text) if text.isdigit() else text
    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
-   l.sort( key=alphanum_key )
+   l.sort(key=alphanum_key)
    return l
 
 
@@ -53,13 +58,13 @@ def main(dryrun, path, case, cmd, folder_only):
     root = os.getcwd()
     cases = sort_nicely(glob.glob('*'))
 
-    for c in cases:
+    for c in cases:  # db/rna1 db/rna2
         if folder_only:
             if not os.path.isdir(c):
                 continue
         #print('Case: ', c)
         #print(c, end='', flush=True)
-        sys.stdout.write(c)
+        sys.stdout.write(c + ' ')
         sys.stdout.flush()
         # mode only for a specific case
         if case: # only if this is used
