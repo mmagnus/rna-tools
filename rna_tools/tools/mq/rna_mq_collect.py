@@ -34,19 +34,8 @@ from rna_tools.tools.mq.lib.timex import timex
 import rna_tools.rna_tools_config as Config
 ################################################################################
 
-try:
-    __file__
-except:
-    __file__ = 'rna_mqapscore.py'
-
-#try:
-#    __version__ = get_version(__file__)
-#except NameError:
-#    __version__ = 'interactive'
-
 import rna_tools
 __version__ = rna_tools.__version__
-
 
 import os
 import sys
@@ -129,6 +118,9 @@ attributes = {
     'eSCORE' : ['escore'],
     'RNA3DCNN' : ['rna3dcnn'],
     'Dfire' : ['dfire'],
+
+    'FARFAR2_hires', ['ff2_score_hires,ff2_fa_atr,ff2_fa_rep,ff2_fa_intra_rep,ff2_lk_nonpolar,ff2_fa_elec_rna_phos_phos,ff2_rna_torsion,ff2_suiteness_bonus,ff2_rna_sugar_close,ff2_fa_stack,ff2_stack_elec,ff2_geom_sol_fast,ff2_bond_sr_bb_sc,ff2_hbond_lr_bb_sc,ff2_hbond_sc,ff2_ref,ff2_free_suite,ff2_free_2HOprime,ff2_intermol,ff2_other_pose,ff2_loop_close,ff2_linear_chainbreak_hires']
+    
     #'SimRNA_0' : ['', 'simrna', '', '', '',  '', '', '', '', '', '', '', ''],
     'rmsd_all': ['rmsd_all'],
 }
@@ -320,7 +312,8 @@ def option_parser():
                      action="store", type="string", dest="native_pdb_filename", help="native structure in PDB format to calculate RMSD")
 
     parser.add_option("-m", "--multiprocessing",
-                     action="store", type="int", dest="number_processes", default=0, help="set a number of processes, default=0 == no multiprocessing, suggested value for maximus is 8")
+                     action="store", type="int", dest="number_processes", default=4,
+                      help="set a number of processes, default=0 == no multiprocessing")
 
     group2 = OptionGroup(parser, "Ignore pdbs, don't have empty lines here! Example",
                         """1xjrA_output3-000142_AA.pdb
@@ -490,6 +483,9 @@ if __name__ == '__main__':
     arguments, opt = option_parser()
 
     input_files = arguments[:]
+
+    if not opt.methods:
+       opt.methods = ','.join(Config.METHOD_LIST)
 
     if opt.no_filename_version:
         output_csv = opt.output
