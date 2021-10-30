@@ -5,7 +5,7 @@
 """
 from __future__ import print_function
 import argparse
-from rna_tools.tools.mq.FARNA.FARNA import FARNA
+from rna_tools.tools.mq.FARFAR2.FARFAR2 import FARFAR2
 import os
 import pandas as pd
 
@@ -48,6 +48,6 @@ if __name__ == '__main__':
     for i, f in enumerate(args.file):
         # mini false
         # print(f)
-        farna = FARNA()
+        farna = FARFAR2()
         result = farna.run(f, args.hires, args.verbose)  # False or True for min
-        print(','.join([str(i + 1), os.path.basename(f)]) + ',' + ','.join(result))
+        print(','.join([str(i + 1), os.path.basename(f)]) + ',' + ','.join([str(x) for x in result]))

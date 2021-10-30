@@ -16,7 +16,7 @@ from rna_tools.tools.pdb_formatix.rebuilder import check_and_rebuild
 from rna_tools.rna_tools_config import FARNA_PATH, FARNA_DB_PATH, FARNA_LORES
 
 
-class FARNA(ProgramWrapper):
+class FARFAR2(ProgramWrapper):
     """
     Wrapper class for running ROSETTA scoring function automatically.
     """
@@ -33,7 +33,7 @@ class FARNA(ProgramWrapper):
             self.start_dir = os.getcwd()
         except OSError:        # directory was deleted or something like that
             pass
-        super(FARNA, self).__init__('', '', job_id=job_id)
+        super(FARFAR2, self).__init__('', '', job_id=job_id)
 
     def _prepare_stderr_stdout(self):
         # create output file
@@ -182,13 +182,13 @@ if __name__ == '__main__':
 
         if 1:
             # mini false
-            farna = FARNA()
+            farna = FARFAR2()
             result = farna.run(f, False, verbose=True)
             print(result)
 
         if 1:
             # mini true
-            farna = FARNA()
+            farna = FARFAR2()
             result = farna.run(f, True, verbose=True)
             print(result)
 
