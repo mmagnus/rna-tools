@@ -1,5 +1,5 @@
-#*-* coding: utf-8 *-*
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Wrapper for ROSETTA software for structure prediction of small 
 RNA sequences"""
 
@@ -134,7 +134,7 @@ class FARNA(ProgramWrapper):
         #if global_energy_score: # ???
         results = []
         for i in list(self.result.keys()):
-            results.append(str(self.result[i][0]))
+            results.append(float(self.result[i][0]))  # float vs string
         #return '\t'.join(results)
         return results
         

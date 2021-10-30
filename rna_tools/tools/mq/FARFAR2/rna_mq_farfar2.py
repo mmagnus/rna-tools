@@ -29,7 +29,7 @@ if __name__ == '__main__':
         args.file = [args.file]
 
     if args.hires:
-        print('id,fn,farna_score_hires,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_rna_torsion,farna_suiteness_bonus,farna_rna_sugar_close,farna_fa_stack,farna_stack_elec,farna_geom_sol_fast,farna_bond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_ref,farna_free_suite,farna_free_2HOprime,farna_intermol,farna_other_pose,farna_loop_close,farna_linear_chainbreak_hires')
+        print('id,fn,ff2_score_hires,ff2_fa_atr,ff2_fa_rep,ff2_fa_intra_rep,ff2_lk_nonpolar,ff2_fa_elec_rna_phos_phos,ff2_rna_torsion,ff2_suiteness_bonus,ff2_rna_sugar_close,ff2_fa_stack,ff2_stack_elec,ff2_geom_sol_fast,ff2_bond_sr_bb_sc,ff2_hbond_lr_bb_sc,ff2_hbond_sc,ff2_ref,ff2_free_suite,ff2_free_2HOprime,ff2_intermol,ff2_other_pose,ff2_loop_close,ff2_linear_chainbreak_hires')
     else:
         print('id,fn,' + ','.join(['farna_score_lowres',
              'farna_rna_vdw',
