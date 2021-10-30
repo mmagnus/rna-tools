@@ -101,20 +101,25 @@ setup(
              'rna_tools/tools/clarna_play/rna_clarna_run.py',
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
 
+             'rna_tools/tools/mq/rna_mq_predict.py',
+             'rna_tools/tools/mq/rna_mq_collect.py',             
              'rna_tools/tools/mq/rna_mq_exp.py',
              'rna_tools/tools/mq/rna_mq_plot.py',
+
              'rna_tools/tools/mq/RNA3DCNN/rna_mq_rna3dcnn.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
              'rna_tools/tools/mq/ClashScore/rna_mq_clashscore.py',
              'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              'rna_tools/tools/mq/rsRNASP/rna_mq_rsRNASP.py',
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
+             'rna_tools/tools/mq/FARFAR2/rna_mq_farfar2.py',
              'rna_tools/tools/mq/SimRNA/rna_mq_simrna.py',
              'rna_tools/tools/mq/mqaprna_dev_remote.sh',
              'rna_tools/tools/mq/rna_mqapscore.py',
              
              'rna_tools/tools/md/rna_gromacs_ready.py',
              'rna_tools/tools/md/rna_openmm_short_simulation.py',
+             
              'rna_tools/tools/triplexibility/triplexibility.py',
              
              'rna_tools/tools/misc/rna_merge_dfs.py',
@@ -122,6 +127,7 @@ setup(
 
              'rna_tools/tools/rna_calc_hbonds/rna_calc_hbonds.py',
              ],
+
     license='GPLv3',
     author='Marcin Magnus',
     author_email='mag_dex@o2.pl',
