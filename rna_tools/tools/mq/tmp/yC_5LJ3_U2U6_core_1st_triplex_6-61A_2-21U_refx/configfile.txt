@@ -1,0 +1,40 @@
+# Sample config file for QRNA 0.2
+# Just uncomment the lines you need.
+
+#INPUTPDB   ./1DUP.pdb
+#OUTPUTPDB  ./1DUP_refined.pdb
+#WRITEFREQ  1000    # Frequency of writing outputpdb (each xxx steps); by default 100
+#TRAJECTORY 1       # {0,1} - Each outputPDB is written to a separate file; by default OFF
+
+#VERBOSE    2       # {0,1,2,3} - verbosity; by default 1
+NSTEPS   1
+#CUTOFF     12.0    # Cutoff for van der Waals [Ang]; by default 12
+#USEBORN    1       # {0,1} - Born electrostatix, i.e. implicit solvent (off/on); by default OFF
+#ELECTR     0       # {0,1} Electrostatics (off/on); by default ON
+#VDW        0       # {0,1} Van der Waals interactions (off/on); by default ON
+
+#HBONDS     0       # {0,1} Hydrogen bonds (off/on); by default ON
+                    # They are necessary to autodetect secondary structure.
+
+#SSDETECT   0       # {0,1} - Detect base pairs automatically, by default ON
+#SSCONSTR   0       # {0,1} - Impose constraints on base pairs (off/on); by default ON
+
+#MAXSTEP    1e-8    # Max step size for golden section search; by default 1e-4
+#MINSTEP    1e-10   # Min step size for golden section search; by default 1e-8
+                    # (In most cases these are parameters not to fuck with)
+
+NUMTHREADS  08      # Number of threads (parallel builds only!); by default 4
+                    # Takes no effect in sequential builds of QRNA.
+                    # Only calculations of electrostatics are currently parallelized.
+
+#BLOWGUARD  0       # Protection against explosion due to high stress; by default ON
+                    # It slows the minimization!
+
+#POSRESTRAINTS 1    # {0,1} - Positional restraints (off/on), read from occupancy and beta-factors;
+                    # by default OFF
+
+# Secondary structure can be specified in two ways.
+# The deprecated and retarded way is via Vienna notation. It applies to the first chain only:
+#SECSTRUCT   (((....)))
+# The kosher and robust way is via pairwise restraints specified in a separate file:
+#RESTRFILE file_with_restraints.txt
