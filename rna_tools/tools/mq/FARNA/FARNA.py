@@ -62,7 +62,7 @@ class FARNA(ProgramWrapper):
         #os.system('chmod +x %s' % \
         #          os.path.join(self.sandbox_dir, self.executable))   
                                
-    def run(self, pdb_file, hires):#, global_energy_score=True):
+    def run(self, pdb_file, hires, verbose=False):#, global_energy_score=True):
         """Compute FARNA potential for a single file
 
         Arguments:
@@ -105,7 +105,7 @@ class FARNA(ProgramWrapper):
         self.pdb_fixes = pdb_file.fixes
 
         # run
-        os.chdir(self.sandbox_dir)
+        # os.chdir(self.sandbox_dir)
         self.flags = [self.sandbox_dir + os.sep + self.executable]
 
         hires = True
@@ -120,8 +120,9 @@ class FARNA(ProgramWrapper):
              '-s', self.sandbox_dir + os.sep + 'query.pdb',
              '-out:file:silent', self.sandbox_dir + os.sep + 'SCORE.out'])
 
+        if verbose:
+            print(cmd)
         self.log(cmd, 'debug')
-        print(cmd)
         self.log('Running program')
         out = subprocess.getoutput(cmd)
         self.log('Run finished')
@@ -180,13 +181,18 @@ if __name__ == '__main__':
         if 1:
             # mini false
             farna = FARNA()
-            result = farna.run(f, False)
+            try:
+                result = farna.run(f, False)
+            except:
+                result = 'error'
             print(result)
-
         if 1:
             # mini true
             farna = FARNA('', '')
-            result = farna.run(f, True)
+            try:
+                result = farna.run(f, True)
+            except:
+                result = 'error'
             print(result)
 
         #farna.cleanup()
