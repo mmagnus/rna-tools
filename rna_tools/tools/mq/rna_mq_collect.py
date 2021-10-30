@@ -119,7 +119,21 @@ attributes = {
     'RNA3DCNN' : ['rna3dcnn'],
     'Dfire' : ['dfire'],
 
-    'FARFAR2_hires', ['ff2_score_hires,ff2_fa_atr,ff2_fa_rep,ff2_fa_intra_rep,ff2_lk_nonpolar,ff2_fa_elec_rna_phos_phos,ff2_rna_torsion,ff2_suiteness_bonus,ff2_rna_sugar_close,ff2_fa_stack,ff2_stack_elec,ff2_geom_sol_fast,ff2_bond_sr_bb_sc,ff2_hbond_lr_bb_sc,ff2_hbond_sc,ff2_ref,ff2_free_suite,ff2_free_2HOprime,ff2_intermol,ff2_other_pose,ff2_loop_close,ff2_linear_chainbreak_hires']
+    'FARFAR2': ['farna_score_lowres',
+             'farna_rna_vdw',
+             'farna_rna_base_backbone',
+             'farna_rna_backbone_backbone',
+             'farna_rna_repulsive',
+             'farna_rna_base_pair',
+             'farna_rna_base_axis',
+             'farna_rna_base_stagger',
+             'farna_rna_base_stack',
+             'farna_rna_base_stack_axis',
+             'farna_rna_rg',
+             'farna_atom_pair_constraint',
+             'farna_linear_chainbreak'],
+
+    'FARFAR2_hires': 'ff2_score_hires,ff2_fa_atr,ff2_fa_rep,ff2_fa_intra_rep,ff2_lk_nonpolar,ff2_fa_elec_rna_phos_phos,ff2_rna_torsion,ff2_suiteness_bonus,ff2_rna_sugar_close,ff2_fa_stack,ff2_stack_elec,ff2_geom_sol_fast,ff2_bond_sr_bb_sc,ff2_hbond_lr_bb_sc,ff2_hbond_sc,ff2_ref,ff2_free_suite,ff2_free_2HOprime,ff2_intermol,ff2_other_pose,ff2_loop_close,ff2_linear_chainbreak_hires'.split(','),
     
     #'SimRNA_0' : ['', 'simrna', '', '', '',  '', '', '', '', '', '', '', ''],
     'rmsd_all': ['rmsd_all'],
@@ -154,6 +168,16 @@ def single_run(filename):
                 mfull = 'FARNA_hires'
                 arguments = [filename] + [True]
 
+            if m == 'FARFAR2':
+                m = 'FARFAR2'
+                mfull = 'FARFAR2'
+                arguments = [filename] + [False]
+
+            if m == 'FARFAR2_hires':
+                m = 'FARFAR2'
+                mfull = 'FARFAR2_hires'
+                arguments = [filename] + [True]
+                
             if m == 'RNAkb_all':
                 m = 'RNAkb'
                 mfull = 'RNAkb_all'

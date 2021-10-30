@@ -169,7 +169,7 @@ class FARFAR2(ProgramWrapper):
         pass
 
     def cleanup(self):
-        super(FARNA, self).cleanup()
+        super(FARFAR2, self).cleanup()
 
 # main
 if __name__ == '__main__':
