@@ -24,12 +24,10 @@ import matplotlib
 matplotlib.style.use('ggplot')
 
 from sklearn.preprocessing import MinMaxScaler
-
+from rna_tools.confi import MODEL_KEY, MODEL_PATH
 # plt.style.use('ggplot')#seaborn-deep')
 import pandas as pd
 
-MODEL_KEY = 'grid-8a6dfea4-1f6e-4354-9396-f727a5bd937a_model_14'
-# deeplearning-4f9d435a-d262-4d0d-9108-9f750b08ee2a'
 
 
 def do_scoring(raw_csv):
@@ -54,7 +52,8 @@ def do_scoring(raw_csv):
 
     # load the model
     h2o.load_model(
-        '/home/mqapRNA/mqaprna_env/mqapRNA/models/grid-8a6dfea4-1f6e-4354-9396-f727a5bd937a_model_14')
+        MODEL_PATH
+        )
 
     # load model into python
     df = h2o.import_file(path=raw_csvf)  # path + os.sep +
@@ -167,7 +166,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('input', help='csv file (output mqaprna csv file)')
-
     args = parser.parse_args()
     do_scoring(args.input)
     # do_plot(args.input)
