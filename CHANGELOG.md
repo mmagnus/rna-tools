@@ -6,14 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # 3.8  
 
-mq:
-- review farfar2 wrapper #118
-- rna_mq_collect.py & rna_mq_predict.py
-	 
-md:
-- add --mdr #117
+mqapRNA (mq):
+- add farfar2 wrapper #118
+- change: rna_mq_collect.py & rna_mq_predict.py
 
-wx:  fix pefx.py
+molecular dynamics (md)
+- add --mdr #117 
+
+wx: change pefx.py
 
 # 3.7.4 210727
 
