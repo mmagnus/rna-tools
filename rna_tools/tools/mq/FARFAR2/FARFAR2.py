@@ -13,20 +13,20 @@ from rna_tools.tools.pdb_formatix.PDBFile import PDBFile#resname_check_and_3to1,
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper, WrapperError
 from rna_tools.tools.pdb_formatix.RosettaUtils import RosettaPDBFile
 from rna_tools.tools.pdb_formatix.rebuilder import check_and_rebuild
-from rna_tools.rna_tools_config import FARNA_PATH, FARNA_DB_PATH, FARNA_LORES
+from rna_tools.rna_tools_config import FARFAR2_PATH, FARFAR2_DB_PATH, FARFAR2_LORES
 
 
-class FARFAR2(ProgramWrapper):
+class FARFAR2(ProgramWrapper): 
     """
     Wrapper class for running ROSETTA scoring function automatically.
     """
     program_name = 'farna'  
-    src_bin = FARNA_PATH
-    db_path = FARNA_DB_PATH
+    src_bin = FARFAR2_PATH
+    db_path = FARFAR2_DB_PATH
     input_fn = 'seq.fasta'
     input_file = ''
     best_energy = ''
-    executable = FARNA_PATH
+    executable = FARFAR2_PATH
 
     def __init__(self, job_id=None):
         try:
@@ -110,11 +110,11 @@ class FARFAR2(ProgramWrapper):
         self.flags = [self.sandbox_dir + os.sep + self.executable]
 
         if hires == False: # must be a string
-            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' ' # # -minimize_rna' ##
+            minimize_cmd = ' -score:weights ' + FARFAR2_LORES + ' ' # # -minimize_rna' ##
             # MM minimize_rna should be off or by option
         else:
             minimize_cmd = ' '
-
+       
         # self.sandbox_dir + os.sep +     
         cmd = ' '.join([self.executable , '-database', self.db_path,
              minimize_cmd,
