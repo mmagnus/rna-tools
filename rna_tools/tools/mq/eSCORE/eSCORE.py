@@ -29,7 +29,7 @@ from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.pdb_formatix.PDBFile import PDBFile
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
 from rna_tools.rna_tools_config import RNA3DCNN_PATH, PYTHON3_PATH
-from rna_tools.rna_tools_config import baRNAba_PATH
+from rna_tools.rna_tools_config import baRNAba_data_PATH
 
 import subprocess
 def exe(cmd):
@@ -57,7 +57,9 @@ class eSCORE(ProgramWrapper):
         self.log('eSCORE::start for %s' % self.sandbox_dir + '/query.pdb', verbose=verbose)
         # baRNAba ESCORE --pdb ../test/1a9n.pdb --ff /Users/magnus/work/opt/barnaba/barnaba_201128/test/data/1S72.pdb
         # baRNAba_PATH + 
-        cmd = 'barnaba ESCORE -o log.txt --ff ' + baRNAba_PATH + 'examples/DATA/1S72.pdb --pdb ' + self.sandbox_dir + '/query.pdb &> /dev/null'
+        cmd = 'barnaba ESCORE -o log.txt --ff ' +  baRNAba_data_PATH + ' --pdb ' + self.sandbox_dir + '/query.pdb &> /dev/null'
+        if verbose:
+            print(cmd)
         exe(cmd)
         #self.log(cmd, verbose=verbose)
         self.log('eSCORE::Run finished', verbose=verbose)

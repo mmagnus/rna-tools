@@ -5,7 +5,7 @@
 """
 from __future__ import print_function
 import argparse
-from rna_tools.tools.mq.rsRNASP.rsRNASP import rsRNASP
+from rna_tools.tools.mq.eSCORE.eSCORE import eSCORE 
 import os
 
 def get_parser():
