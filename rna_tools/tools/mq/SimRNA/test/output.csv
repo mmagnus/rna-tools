@@ -1,0 +1,2 @@
+id,fn,simrna_steps,simrna_total_energy,simrna_base_base,simrna_short_stacking,simrna_base_backbone,simrna_local_geometry,simrna_bonds_dist_cp,simrna_bonds_dist_pc,simrna_flat_angles_cpc,simrna_flat_angles_pcp,simrna_tors_eta_theta,simrna_sphere_penalty,simrna_chain_energy
+1,1duq_clx_decoy4_clx.pdb,0,-301.223486,-182.876,-65.444,-0.481,-117.866399,-19.424,-17.914,-21.181,-12.724,-46.624,,-301.223486
