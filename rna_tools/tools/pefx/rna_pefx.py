@@ -11,6 +11,8 @@ Usage::
     1y26A_simrna_folding 3023
     1y26A_simrna_unfolding 505
 
+$ rna_pefx.py 'rna_mq_collect.py -t FARFAR2_hires -g FARFAR*csv struc/*'
+
 """
 from __future__ import print_function
 
