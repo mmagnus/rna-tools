@@ -64,6 +64,8 @@ def main(dryrun, path, case, cmd, folder_only):
         if folder_only:
             if not os.path.isdir(c):
                 continue
+        if c.startswith('_'):
+            continue
         #print('Case: ', c)
         #print(c, end='', flush=True)
         sys.stdout.write(c + ' ')
