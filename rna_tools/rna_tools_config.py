@@ -55,6 +55,7 @@ SIMRNA_DATA_PATH=""
 X3DNA=""
 X3DNA_FP=""
 
+baRNAba_data_PATH = ''
 
 # https://docs.python.org/3/library/configparser.html
 # based on config
