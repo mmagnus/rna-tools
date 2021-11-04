@@ -336,8 +336,8 @@ def option_parser():
                      action="store", type="string", dest="native_pdb_filename", help="native structure in PDB format to calculate RMSD")
 
     parser.add_option("-m", "--multiprocessing",
-                     action="store", type="int", dest="number_processes", default=4,
-                      help="set a number of processes, default=0 == no multiprocessing")
+                     action="store", type="int", dest="number_processes", default=8,
+                      help="set a number of processes, default=8, 0 is no multiprocessing")
 
     group2 = OptionGroup(parser, "Ignore pdbs, don't have empty lines here! Example",
                         """1xjrA_output3-000142_AA.pdb
@@ -353,7 +353,10 @@ def option_parser():
                         .(((((((...((((.((((.....))..))..))).).)))))))""")
 
     group.add_option("-t", "--methods",
-                  action="store", type="string", dest="methods", help=', '.join(['RASP',  'SimRNA', 'AnalyzeGeometry','FARNA', 'QRNA', 'NAST_pyro', 'radius_of_gyration', 'SSAgreement', 'ClashScore', 'RNAkb', 'RNAkb_all', 'FARNA_hires', 'Dfire', 'RNA3DCNN', 'eSCORE']))
+                  action="store", type="string", dest="methods", help=', '.join(['RASP',  'SimRNA', 'AnalyzeGeometry','FARNA', 'QRNA', 'NAST_pyro',
+                                                                                 'radius_of_gyration', 'SSAgreement', 'ClashScore', 'RNAkb',
+                                                                                 'RNAkb_all', 'FARNA_hires', 'FARNA', 'FARFAR2',
+                                                                                 'FARFAR2_hires', 'Dfire', 'RNA3DCNN', 'eSCORE']))
 
     group.add_option("-s", "--seq-ss",
                   action="store", type="string", dest="seq_ss_filename", help="")
