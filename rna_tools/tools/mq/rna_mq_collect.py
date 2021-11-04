@@ -441,12 +441,16 @@ class RunAllDirectory():
 
         files_to_ignore = []
         if opt.ignore_pdb_filename:
-            for f in open(opt.ignore_pdb_filename).read().strip().split('\n'):
-                if f.find('\t') > -1:
-                    f = f.split('\t')[1] # id, fn
-                if f.find(',') > -1:
-                    f = f.split(',')[1] # id, fn
-                files_to_ignore.append(f)
+            try:
+                fn = open(opt.ignore_pdb_filename)
+                for f in fn.read().strip().split('\n'):
+                    if f.find('\t') > -1:
+                        f = f.split('\t')[1] # id, fn
+                    if f.find(',') > -1:
+                        f = f.split(',')[1] # id, fn
+                    files_to_ignore.append(f)
+            except FileNotFoundError:
+                files_to_ignore = []
         else:
             files_to_ignore = []
 
