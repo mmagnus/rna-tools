@@ -4,10 +4,9 @@
 
 Install::
 
-
     make # make clean if you don't have clean
 
-At Mac there is a problem (201128)::
+At Mac there is a problem (201128, 211103)::
 
     (py37) [mx] example$ ../bin/3dRNAscore -s:l score.in >score.txt
     [1]    69818 segmentation fault  ../bin/3dRNAscore -s:l score.in > score.txt

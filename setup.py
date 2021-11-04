@@ -105,7 +105,7 @@ setup(
              'rna_tools/tools/clarna_play/rna_clarna_run.py',
              'rna_tools/tools/clarna_play/ClaRNAlib/clarna.py',
 
-             'rna_tools/tools/mq/rna_mq_predict.py',
+             'rna_tools/tools/mq/rna_mq_score.py',
              'rna_tools/tools/mq/rna_mq_collect.py',             
              'rna_tools/tools/mq/rna_mq_exp.py',
              'rna_tools/tools/mq/rna_mq_plot.py',
@@ -115,6 +115,7 @@ setup(
              'rna_tools/tools/mq/ClashScore/rna_mq_clashscore.py',
              'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              'rna_tools/tools/mq/rsRNASP/rna_mq_rsRNASP.py',
+             'rna_tools/tools/mq/eSCORE/rna_mq_eSCORE.py',
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
              'rna_tools/tools/mq/FARFAR2/rna_mq_farfar2.py',
              'rna_tools/tools/mq/SimRNA/rna_mq_simrna.py',
