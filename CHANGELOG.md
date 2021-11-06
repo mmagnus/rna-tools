@@ -4,7 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# 3.8  
+# 3.8.2
+
+- mq
+    - add SimRNA
+	- eSCORE fix, change baRNAba_PATH to baRNAba_data_PATH	
+- rna_calc_rmsd.py: --way, backbone+sugar, c1p, backbone, no_backbone, bases, all
+
+# 3.8.1
+
+- mq/FARFAR2: own config FARFAR2_PATH, FARFAR2_DB_PATH, FARFAR2_LORES #118 
+
+# 3.8
 
 mqapRNA (mq):
 - add farfar2 wrapper #118
