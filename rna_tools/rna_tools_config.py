@@ -38,6 +38,11 @@ PYTHON3_PATH=""      # "/Users/magnus/miniconda2/envs/py37/bin/python"
 FARNA_PATH=""        # "/Users/magnus/work/opt/rosetta_bin_mac_2018.33.60351_bundle/main/source/build/src/release/macos/10.13/64/x86/clang/9.0/static/rna_minimize.static.macosclangrelease"
 FARNA_DB_PATH=""     # "/Users/magnus/work/opt/rosetta_bin_mac_2018.33.60351_bundle/main/database"
 FARNA_LORES=""       # "/scoring/weights/rna/denovo/rna_lores.wts"
+
+FARFAR2_PATH=""
+FARFAR2_DB_PATH=""
+FARFAR2_LORES=""
+
 QRNA_PATH=""         # "/Users/magnus/work/opt/qrnas/"
 QRNA_CONFIG_PATH=""  # "/Users/magnus/work/opt/qrnas/"
 PHENIX_BIN_PATH=""   # /Applications/phenix-1.18.2-3874/build/bin"
