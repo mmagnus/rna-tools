@@ -168,7 +168,7 @@ def calc_rmsd_pymol(pdb1, pdb2, method):
     if method == 'fit':
         return (pymol.cmd.fit('s1', 's2'), 'fit')
 
-def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, model_ignore_selection, verbose):
+def calc_rmsd(a, b, target_selection, target_ignore_selection, model_selection, model_ignore_selection, way, verbose):
     """
     Calculate RMSD between two XYZ files
 
@@ -185,8 +185,9 @@ def calc_rmsd(a,b, target_selection, target_ignore_selection, model_selection, m
     :return: rmsd, number of atoms
     """
     if verbose: print('in:', a)
-    atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True)
-    atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True)
+
+    atomsP, P = get_coordinates(a, model_selection, model_ignore_selection, 'pdb', True, way)
+    atomsQ, Q = get_coordinates(b, target_selection,target_ignore_selection,  'pdb', True, way)
 
     if verbose:
         print(atomsP, P)
@@ -258,6 +259,8 @@ def get_parser():
     parser.add_argument('-pp', '--print-progress',
                          default=False,
                          action="store_true")
+
+    parser.add_argument('--way', help="e.g., backbone+sugar, c1p, backbone, no_backbone, bases", default='all')
 
     parser.add_argument("--target-column-name", action="store_true",
                         help="")
@@ -339,7 +342,7 @@ if __name__ == '__main__':
         if method == 'align' or method == 'fit':
             rmsd_curr, atoms = calc_rmsd_pymol(r1, target_fn, method, args.verbose)
         else:
-            rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, args.verbose)
+            rmsd_curr, atoms = calc_rmsd(r1, target_fn, target_selection, target_ignore_selection, model_selection, model_ignore_selection, args.way, args.verbose)
         r1_basename = os.path.basename(r1)
         if args.print_progress: print(r1_basename, rmsd_curr, atoms)
         t += r1_basename + ',' + str(round(rmsd_curr,3)) + ' '

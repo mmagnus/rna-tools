@@ -101,12 +101,12 @@ def rmsd(V, W):
     return np.sqrt(rmsd/N)
 
 
-def get_coordinates(filename, selection, ignore_selection, fmt, ignore_hydrogens):
+def get_coordinates(filename, selection, ignore_selection, fmt, ignore_hydrogens, way):
     """Get coordinates from filename."""
-    return get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
+    return get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens, way)
 
 
-def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens):
+def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens, way='all'):
     """
     Get coordinates from the first chain in a pdb file
     and return a vectorset with all the coordinates.
@@ -123,6 +123,31 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
     # to assume that the atomtype is given in column 3.
     atoms = []
     resi_set = set()
+    if way == "c1p":
+        way_atoms = ["C1'"]
+    elif way == 'backbone':
+        way_atoms = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+    elif way == 'no_backbone':
+        way_atoms = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
+        way_atoms += "N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
+        way_atoms += "N1 C2 O2 N3 C4 O4 C5 C6".split()
+        way_atoms += "N1 C2 O2 N3 C4 N4 C5 C6".split()
+    elif way == 'bases':
+        way_atoms = "N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
+        way_atoms += "N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
+        way_atoms += "N1 C2 O2 N3 C4 O4 C5 C6".split()
+        way_atoms += "N1 C2 O2 N3 C4 N4 C5 C6".split()
+    elif way == 'backbone+sugar':
+        way_atoms = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+    elif way == 'all':
+        way_atoms = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
+        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
+        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
+        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
+
     with open(filename) as f:
         lines = f.readlines()
         for line in lines:
@@ -146,14 +171,18 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens)
                                     z = line[46:54]
                                     if ignore_selection:
                                         if not is_in_selection(ignore_selection, curr_chain_id, curr_resi, curr_atom_name):
-                                            V.append(np.asarray([x,y,z],dtype=float))
+                                            if curr_atom_name in way_atoms:
+                                                V.append(np.asarray([x,y,z],dtype=float))
                                     else:
-                                        V.append(np.asarray([x,y,z],dtype=float))
+                                        if curr_atom_name in way_atoms:
+                                           V.append(np.asarray([x,y,z],dtype=float))
+
                 else:
                                     x = line[30:38]
                                     y = line[38:46]
                                     z = line[46:54]
-                                    V.append(np.asarray([x,y,z],dtype=float))
+                                    if curr_atom_name in way_atoms:
+                                        V.append(np.asarray([x,y,z],dtype=float))
 
     V = np.asarray(V)
     #print filename, resi_set, len(resi_set)
