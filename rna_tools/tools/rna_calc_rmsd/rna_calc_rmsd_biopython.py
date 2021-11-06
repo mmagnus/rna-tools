@@ -14,6 +14,11 @@ from __future__ import print_function
 import Bio.PDB.PDBParser
 import Bio.PDB.Superimposer
 import copy
+import warnings
+warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
+warnings.filterwarnings('ignore', '.*with given element *',)
+warnings.filterwarnings('ignore', '.*is discontinuous*',)
+warnings.filterwarnings('ignore', '.*Ignoring unrecognized record*',)
 
 from rna_tools.rna_tools_lib import set_chain_for_struc, RNAStructure
 import argparse
@@ -59,7 +64,20 @@ class RNAmodel:
     def get_rmsd_to(self, other_rnamodel, way="", triple_mode=False, save=True):
         """Calc rmsd P-atom based rmsd to other rna model"""
         sup = Bio.PDB.Superimposer()
-        if way == 'backbone+sugar':
+        if way == 'c1':
+            self.atoms_for_rmsd = []
+            for a in self.atoms:
+                if a.name in ["C1'"]:
+                    self.atoms_for_rmsd.append(a)
+            if args.debug: print('atoms_for_rmsd', len(self.atoms_for_rmsd))
+
+            other_atoms_for_rmsd = []
+            for a in other_rnamodel.atoms:
+                if a.name in ["C1'"]:
+                    other_atoms_for_rmsd.append(a)
+            if args.debug: print('other_atoms_for_rmsd', len(other_atoms_for_rmsd))
+
+        elif way == 'backbone+sugar':
             self.atoms_for_rmsd = []
             for a in self.atoms:
                 if a.name in "P,OP1,OP2,C5',O5',C4',O4',C3',O3',C2',O2',C1'".split(','):
@@ -87,7 +105,9 @@ class RNAmodel:
             rmsd_min = 10000 # ugly
             import itertools
             per = list(itertools.permutations([0, 1, 2]))
-            lst = list(chunks(other_atoms_for_rmsd, 12))
+            lst = list(chunks(other_atoms_for_rmsd,
+                              int(len(other_atoms_for_rmsd)/3))) # for 1 atom, this will be 1 x 3 [3 residues]
+                       # so so len is 3 atoms so / by 3 to get how many atoms per residue
             sup_min = None
 
             for p in per:
@@ -122,7 +142,7 @@ class RNAmodel:
 
                 if args.debug:
                     print(p, '', [i + 1 for i in p], end=' ')
-                    print(seq, 'seq_min:', seq_min, rms)
+                    print(seq, 'seq_min: a' + seq_min, rms)
 
             index = [0 ,0 ,0]
             index[0] = p_min.index(0)
@@ -143,7 +163,19 @@ class RNAmodel:
             sup_min.apply(other_rnamodel.struc.get_atoms())
             # if args.debug: print(p_min, [i + 1 for i in p_min])
             io.set_structure(other_rnamodel.struc)
-            fout = other_rnamodel.fpath.replace('.pdb', '_aligned' + suffix + '.pdb')
+            
+            args.save_here = True
+            if args.save_here:
+                f = os.path.basename(self.fpath.replace('.pdb', '_aligned'))
+                # print(f)
+                try:
+                    os.mkdir(f)
+                except:
+                    pass
+                fout = f + os.sep + os.path.basename(other_rnamodel.fpath.replace('.pdb', '_aligned_s' + suffix + '.pdb'))
+            else:
+                fout = other_rnamodel.fpath.replace('.pdb', '_aligned_s' + suffix + '.pdb')
+
             # if args.debug: print(fout)
             io.save(fout)
 
@@ -164,7 +196,7 @@ class RNAmodel:
             r.reload()
             r.get_rnapuzzle_ready()
             r.write()
-            return str(rmsd_min) + ',' + seq_min
+            return str(rmsd_min) + ',s' + seq_min + ',' + os.path.basename(fout)
 
         else:
             sup.set_atoms(self.atoms_for_rmsd, other_atoms_for_rmsd)
@@ -241,14 +273,14 @@ if __name__ == '__main__':
                 continue
             tmp.append(f)
         models = tmp
+ 
     print('# of models:', len(models))
     c = 1
-    t = 'fn,' + args.column_name + '\n'
+    t = 'fn,' + args.column_name + ',aligned_seq, aligned_fn\n'
     for m in models:
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
         # print(m)
-        #try:
         rmsd = target.get_rmsd_to(mrna, args.way, args.triple_mode, args.save) #, 'tmp.pdb')
         #except:
         if 0:
@@ -266,8 +298,7 @@ if __name__ == '__main__':
             import pandas as pd
             df = pd.read_csv(args.result)
             df = df.sort_values('rmsd')
-            # print(df)
             df.to_csv(args.result, index=False)
-            
+            print(df.to_string(index=False))
         
         
