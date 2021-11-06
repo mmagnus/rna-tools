@@ -56,6 +56,10 @@ Example #2::
     rmsd_calc_to_target.py -t 5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
     37.93s user 1.07s system 87% cpu 44.650 total
 
+Works also for multiple chains:
+
+    rna_calc_rmsd.py --model-selection='A:52+53+59+60+61+80+B:21+22+23' --target-selection='A:52+53+59+60+61+80+B:21+22+23' -t yC_5LJ3_U2U6_core_mdrFx_onlyTriplex_rpr.pdb yC_5LJ3_U2U6_core_mdrFx_addh_MD_1_rpr_rchain.pdb
+
 """
 from __future__ import print_function
 
