@@ -109,6 +109,7 @@ setup(
              'rna_tools/tools/mq/rna_mq_collect.py',             
              'rna_tools/tools/mq/rna_mq_exp.py',
              'rna_tools/tools/mq/rna_mq_plot.py',
+             'rna_tools/tools/mq/rna_mq_remote.sh',
 
              'rna_tools/tools/mq/RNA3DCNN/rna_mq_rna3dcnn.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
@@ -119,7 +120,6 @@ setup(
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
              'rna_tools/tools/mq/FARFAR2/rna_mq_farfar2.py',
              'rna_tools/tools/mq/SimRNA/rna_mq_simrna.py',
-             'rna_tools/tools/mq/mqaprna_dev_remote.sh',
              
              'rna_tools/tools/md/rna_gromacs_ready.py',
              'rna_tools/tools/md/rna_openmm_short_simulation.py',
