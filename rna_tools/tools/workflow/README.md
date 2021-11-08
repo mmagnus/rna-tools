@@ -1,5 +1,5 @@
-# automatix
-xx or makex
+# workflows
+automatix xx or makex
 
 ```shell
 
@@ -11,6 +11,9 @@ mkdir: simrna_ade_cp15-ca11f0d6: File exists
 ```
 
 ```shell
+
+for i in *MD_*pdb; do rna_pdb_toolsx.py --rpr $i --replace-hetatm  --dont-fix-missing-atoms > ${i}_rpr.pdb done	
+for i in `ls *rpr*`; do rna_pdb_toolsx.py --edit 'A:1-35>A:51-85,B:1-11>B:20-30' $i > ${i}_fixChains.pdb; done
 
 cat test.sh
 # X
