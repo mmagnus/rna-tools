@@ -126,8 +126,10 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens,
     if way == "c1p":
         way_atoms = ["C1'"]
     elif way == 'backbone':
-        way_atoms = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-    elif way == 'no_backbone':
+        way_atoms = "P OP1 OP2 O5' C5' C4' C3' O3'".split()
+    elif way == 'po':
+        way_atoms = "P OP1 OP2".split()
+    elif way == 'no-backbone':
         way_atoms = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         way_atoms += "N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
         way_atoms += "N1 C2 O2 N3 C4 O4 C5 C6".split()
@@ -139,9 +141,8 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens,
         way_atoms += "N1 C2 O2 N3 C4 N4 C5 C6".split()
     elif way == 'backbone+sugar':
         way_atoms = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-        way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+    elif way == 'sugar':
+        way_atoms = "C4' O4' C3' C2' O2' C1'".split()
     elif way == 'all':
         way_atoms = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
         way_atoms += "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()

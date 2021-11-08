@@ -264,7 +264,11 @@ def get_parser():
                          default=False,
                          action="store_true")
 
-    parser.add_argument('--way', help="e.g., backbone+sugar, c1p, backbone, no_backbone, bases", default='all')
+    parser.add_argument('--way', help="""c1p = C1'
+backbone = P OP1 OP2 O5' C5' C4' C3' O3'
+po = P OP1 OP2
+no-backbone = all - po
+bases, backbone+sugar, sugar""", default='all')
 
     parser.add_argument("--target-column-name", action="store_true",
                         help="")
