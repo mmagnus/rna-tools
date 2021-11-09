@@ -52,6 +52,7 @@ setup(
              'rna_tools/tools/plotting/rna_plot_density.py',
              'rna_tools/tools/plotting/rna_plot_heatmap.py',
              'rna_tools/tools/plotting/rna_plot_dendogram.py',             
+             'rna_tools/tools/plotting/rna_plot_boxplotlike.py',             
 
              'rna_tools/tools/simrna_trajectory/rna_simrna_lowest.py',
              'rna_tools/tools/simrna_trajectory/rna_simrna_extract.py',
