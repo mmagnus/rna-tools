@@ -270,6 +270,8 @@ po = P OP1 OP2
 no-backbone = all - po
 bases, backbone+sugar, sugar""", default='all')
 
+    parser.add_argument("--name-rmsd-column", help="default: fn,rmsd, with this cols will be fn,<name-rmsd-column>")
+
     parser.add_argument("--target-column-name", action="store_true",
                         help="")
 
@@ -340,7 +342,9 @@ if __name__ == '__main__':
 
     f = open(rmsds_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
-    if args.target_column_name:
+    if args.name_rmsd_column:
+        t = 'fn,' + args.name_rmsd_column + '\n'
+    elif args.target_column_name:
         t = 'fn,' + os.path.basename(args.target_fn) + '\n'
     else:
         t = 'fn,rmsd_all\n'
