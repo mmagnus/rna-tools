@@ -40,8 +40,4 @@ if __name__ == '__main__':
             result = farna.run(f, args.hires, args.verbose)  # False or True for min
         except:
             result = ''
-        print(len(headers.split(',')) - 2 == len(result))
-        # assert len(headers.split(',')) - 2 == len(result), 'error at ' + f
         print(','.join([str(i + 1), os.path.basename(f)]) + ',' + ','.join([str(x) for x in result]))
-        #except:
-        #   print(','.join([str(i + 1), os.path.basename(f)]) + ',' + 'error')
