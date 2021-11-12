@@ -444,6 +444,11 @@ class RunAllDirectory():
             try:
                 fn = open(opt.ignore_pdb_filename)
                 for f in fn.read().strip().split('\n'):
+                    if 'error' in f:
+                        continue  # don't add files with errors, so the program will be re-run for them
+                    # if there is an error, this will give error again quickly
+                    # but this solves when you kill the job, you get erros, but it's not rally errors
+                    # but stopped jobs
                     if f.find('\t') > -1:
                         f = f.split('\t')[1] # id, fn
                     if f.find(',') > -1:
