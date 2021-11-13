@@ -150,6 +150,7 @@ setup(
         'numpy',
         'biopython',
         'progressbar2',
+        'csvsort'
         # keep pip minimal
         #'sphinx==1.6.7',
         #'sphinx-argparse==0.1.15',
