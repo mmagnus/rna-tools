@@ -112,7 +112,7 @@ class FARNA(ProgramWrapper):
         if hires == True: # False: # must be a string
             minimize_cmd = ' ' # -minimize_rna '
         else:
-            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' g-minimize_rna '
+            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' -minimize_rna '
             ## MM minimize_rna should be off or by option
             ## 2021 i'm not sure why? keep  -minimize_rna on here
 
