@@ -62,7 +62,7 @@ class FARNA(ProgramWrapper):
         #os.system('chmod +x %s' % \
         #          os.path.join(self.sandbox_dir, self.executable))   
                                
-    def run(self, pdb_file, hires, verbose=False):#, global_energy_score=True):
+    def run(self, pdb_file, hires, verbose=False, system=False):#, global_energy_score=True):
         """Compute FARNA potential for a single file
 
         Arguments:
@@ -108,13 +108,15 @@ class FARNA(ProgramWrapper):
         # os.chdir(self.sandbox_dir)
         self.flags = [self.sandbox_dir + os.sep + self.executable]
 
-        hires = True
-        if hires == False: # must be a string
-            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' # -minimize_rna' ## MM minimize_rna should be off or by option
+        # hires = True
+        if hires == True: # False: # must be a string
+            minimize_cmd = ' ' # -minimize_rna '
         else:
-            minimize_cmd = ' '
+            minimize_cmd = ' -score:weights ' + FARNA_LORES + ' g-minimize_rna '
+            ## MM minimize_rna should be off or by option
+            ## 2021 i'm not sure why? keep  -minimize_rna on here
 
-        cmd = ' '.join([self.sandbox_dir + os.sep + self.executable , '-database', self.db_path,
+        cmd = ' '.join([FARNA_PATH, '-constant_seed -database', self.db_path,
              minimize_cmd,
                         ' -ignore_zero_occupancy false ',
              '-s', self.sandbox_dir + os.sep + 'query.pdb',
@@ -124,7 +126,11 @@ class FARNA(ProgramWrapper):
             print(cmd)
         self.log(cmd, 'debug')
         self.log('Running program')
-        out = subprocess.getoutput(cmd)
+        if system:
+            os.system(cmd)
+        else:
+            out = subprocess.getoutput(cmd)
+
         self.log('Run finished')
         self.log(out, 'debug')
 

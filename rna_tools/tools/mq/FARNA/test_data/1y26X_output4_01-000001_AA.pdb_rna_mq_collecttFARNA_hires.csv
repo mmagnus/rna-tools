@@ -1,0 +1,2 @@
+id,fn,farna_score_hires,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_ch_bond,farna_rna_torsion,farna_rna_sugar_close,farna_hbond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_geom_sol,farna_atom_pair_constraint_hires,farna_linear_chainbreak_hires
+1,1y26X_output4_01-000001_AA.pdb,-462.726,-184.477,12.657,1.54,7.467,1.725,-110.707,4.697,8.33,-0.627,-7.664,-402.037,206.37,0.0,0.0
