@@ -1,2 +1,2 @@
 id,fn,ff2_score_hires,ff2_fa_atr,ff2_fa_rep,ff2_fa_intra_rep,ff2_lk_nonpolar,ff2_fa_elec_rna_phos_phos,ff2_rna_torsion,ff2_suiteness_bonus,ff2_rna_sugar_close,ff2_fa_stack,ff2_stack_elec,ff2_geom_sol_fast,ff2_bond_sr_bb_sc,ff2_hbond_lr_bb_sc,ff2_hbond_sc,ff2_ref,ff2_free_suite,ff2_free_2HOprime,ff2_intermol,ff2_other_pose,ff2_loop_close,ff2_linear_chainbreak_hires
-1,3e5f_output4_01-000001_AA+ResnShift.pdb,-99.634,-180.789,24.999,2.076,-6.91,-1.594,29.871,0.0,4.618,-118.632,-17.526,49.542,-0.694,-2.241,-71.115,188.76,0.0,0.0,0.0,0.0,0.0,0.0
+1,3e5f_output4_01-000001_AA+ResnShift.pdb,-99.377,-180.445,25.058,2.078,-6.92,-1.698,29.894,0.0,4.553,-118.462,-17.696,49.496,-0.706,-2.292,-70.999,188.76,0.0,0.0,0.0,0.0,0.0,0.0
