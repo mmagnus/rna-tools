@@ -4,8 +4,8 @@
 
 """
 from __future__ import print_function
-from simtk.openmm.app import *
-from simtk.openmm import *
+from openmm.app import *
+from openmm import *
 from simtk.unit import *
 from sys import stdout
 import argparse
@@ -13,12 +13,14 @@ import argparse
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-s', "--steps", type=int, help="", default=100)
-    parser.add_argument('-n', "--nsim", type=int, help="", default=100000)
+    parser.add_argument('-s', "--steps", type=int, help="", default=100)#0)
+    parser.add_argument('-n', "--nsim", type=int, help="", default=30000)#00)
     parser.add_argument('-r', "--run", help="", default='_')
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     parser.add_argument("file", help="", default="") # nargs='+')
+    parser.add_argument("--no-min",
+                        action="store_true", help="be verbose")
     parser.add_argument("--pymol",
                         action="store_true", help="be verbose")
     parser.add_argument("--solv-padding",
@@ -38,9 +40,12 @@ if __name__ == '__main__':
         print(f, '...')
         out = f.replace('.pdb','') + '_MD.pdb'
         pdb = PDBFile(f)
-        log = f.replace('.pdb','') + '.log'
+        log = f.replace('.pdb','') + '_log.csv'
         modeller = Modeller(pdb.topology, pdb.positions)
-        forcefield = ForceField('amber14-all.xml', 'amber14/tip3pfb.xml')
+        ff = 'ff14SB.xml' #amber14sb.xml' # 'amber14-all.xml'
+        ff = 'amberfb15.xml'#amber14-all.xml'
+        forcefield = ForceField(ff, 'tip3p.xml') #'amber14/tip3pfb.xml')
+
         modeller.addHydrogens(forcefield)
         #modeller.addSolvent(forcefield, ionicStrength=0.1*molar)
         # modeller.addSolvent(forcefield, model='tip5p')
@@ -48,7 +53,9 @@ if __name__ == '__main__':
         if args.solv_padding:
             modeller.addSolvent(forcefield, padding=0.5*nanometers)
         else:
-            print('boxSize=Vec3(5.0, 3.5, 3.5)*nanometers')
+            #print('boxSize=Vec3(5.0, 3.5, 3.5)*nanometers')
+            #x = 5.0, 3.5, 3.5
+            #x = 1, 1, 1
             modeller.addSolvent(forcefield, boxSize=Vec3(5.0, 3.5, 3.5)*nanometers)
         
         system = forcefield.createSystem(modeller.topology, nonbondedMethod=app.NoCutoff, #nonbondedMethod=PME,
@@ -56,7 +63,8 @@ if __name__ == '__main__':
         integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.002*picoseconds)
         simulation = Simulation(modeller.topology, system, integrator)
         simulation.context.setPositions(modeller.positions)
-        simulation.minimizeEnergy()
+        if not args.no_min:
+            simulation.minimizeEnergy()
         nstep = args.steps
         simulation.reporters.append(PDBReporter(out, nstep))
         simulation.reporters.append(StateDataReporter(stdout, nstep, step=True,
