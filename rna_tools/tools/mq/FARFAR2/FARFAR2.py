@@ -1,7 +1,67 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Wrapper for ROSETTA software for structure prediction of small 
-RNA sequences"""
+"""Wrapper for ROSETTA/FARFAR2 (2020 update) software for structure prediction
+of small RNA sequences.
+
+Scores::
+
+    ------------------------------------------------------------
+     Scores                       Weight   Raw Score Wghtd.Score
+    ------------------------------------------------------------
+     fa_atr                       0.210   -1081.212    -227.054
+     fa_rep                       0.200     180.360      36.072
+     fa_intra_rep                 0.003    1504.776       4.364
+     lk_nonpolar                  0.250     -26.712      -6.678
+     fa_elec_rna_phos_phos        1.700      -3.955      -6.724
+     rna_torsion                  1.000      63.080      63.080
+     suiteness_bonus              1.000       0.000       0.000
+     rna_sugar_close              0.820      13.043      10.696
+     fa_stack                     0.130   -1144.488    -148.783
+     stack_elec                   0.760     -17.443     -13.257
+     geom_sol_fast                0.170     355.629      60.457
+     hbond_sr_bb_sc               0.960     -12.355     -11.861
+     hbond_lr_bb_sc               0.960      -0.562      -0.539
+     hbond_sc                     0.960     -76.482     -73.423
+     ref                          1.000     257.400     257.400
+     free_suite                   2.000       0.000       0.000
+     free_2HOprime                1.000       0.000       0.000
+     intermol                     1.000       0.000       0.000
+     other_pose                   1.000       0.000       0.000
+     loop_close                   1.000       0.000       0.000
+     linear_chainbreak            5.000       0.000       0.000
+    ---------------------------------------------------
+     Total weighted score:                      -56.252
+    protocols.rna.denovo.movers.RNA_Minimizer: RNA minimizer finished in 230 seconds.
+
+csv::
+
+    rna_csv.py --flat FARFAR2_hires-3.7.19+5.gd7c6fd7.dirty-mx.local.csv
+    id 1
+    fn 1y26X_output4_01-000085_AA.pdb
+    ff2_score_hires -56.252
+    ff2_fa_atr -227.054
+    ff2_fa_rep 36.072
+    ff2_fa_intra_rep 4.364
+    ff2_lk_nonpolar -6.678
+    ff2_fa_elec_rna_phos_phos -6.724
+    ff2_rna_torsion 63.08
+    ff2_suiteness_bonus 0.0
+    ff2_rna_sugar_close 10.696
+    ff2_fa_stack -148.783
+    ff2_stack_elec -13.257
+    ff2_geom_sol_fast 60.457
+    ff2_bond_sr_bb_sc -11.861
+    ff2_hbond_lr_bb_sc -0.539
+    ff2_hbond_sc -73.423
+    ff2_ref 257.4
+    ff2_free_suite 0.0
+    ff2_free_2HOprime 0.0
+    ff2_intermol 0.0
+    ff2_other_pose 0.0
+    ff2_loop_close 0.0
+    ff2_linear_chainbreak_hires 0.0
+
+"""
 
 import os, shutil, re
 import subprocess
@@ -115,17 +175,24 @@ class FARFAR2(ProgramWrapper):
         else:
             minimize_cmd = ' '
        
-        # self.sandbox_dir + os.sep +     
+        # self.sandbox_dir + os.sep +
+        # verbose = True
         cmd = ' '.join([self.executable , '-database', self.db_path,
              minimize_cmd,
-                        ' -ignore_zero_occupancy false ',
+                        ' -ignore_zero_occupancy false -constant_seed ',
              '-s', self.sandbox_dir + os.sep + 'query.pdb',
              '-out:file:silent', self.sandbox_dir + os.sep + 'SCORE.out'])
 
         self.log(cmd, 'debug')
         if verbose: print(cmd)
         self.log('Running program')
-        out = subprocess.getoutput(cmd)
+
+        system = False # for debuggings
+        if system:
+            os.system(cmd)
+        else:
+            out = subprocess.getoutput(cmd)
+
         self.log('Run finished')
         self.log(out, 'debug')
 
