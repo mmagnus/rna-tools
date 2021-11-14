@@ -9,7 +9,11 @@ You can get rna-tools and install them from the current directory with this pip:
 
 This way is better (than ``pip install rna-tools``) if you're going to do some coding in the tools.
 
-You can even first get rna-tools with git and then do::
+You can even first get rna-tools with git::
+ 
+    git clone http://github.com/mmagnus/rna-tools.git
+
+and then do::
 
     $ pip install -e .
     Obtaining file:///Users/magnus/work/src/rna-tools
