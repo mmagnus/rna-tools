@@ -111,6 +111,7 @@ setup(
              'rna_tools/tools/mq/rna_mq_exp.py',
              'rna_tools/tools/mq/rna_mq_plot.py',
              'rna_tools/tools/mq/rna_mq_remote.sh',
+             'rna_tools/tools/mq/rna_mq_wx_collect.py',
 
              'rna_tools/tools/mq/RNA3DCNN/rna_mq_rna3dcnn.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
