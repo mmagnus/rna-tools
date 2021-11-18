@@ -4,27 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# 3.7.16
-211106
-
-- mqapRNA (mq):
-    - add SimRNA
-	- eSCORE fix, change baRNAba_PATH to baRNAba_data_PATH	
-    - FARFAR2: own config FARFAR2_PATH, FARFAR2_DB_PATH, FARFAR2_LORES #118 
-	- add farfar2 wrapper #118
-	- change: rna_mq_collect.py & rna_mq_predict.py
-- rna_calc_rmsd.py: --way, backbone+sugar, c1p, backbone, no_backbone, bases, all
-
-- molecular dynamics (md)
-    - add --mdr #117 
-
-- wx (pipeline)
-    - change pefx.py
-
-# 3.7.4 210727
-
-	Add:
-		PyMOL4RNA.py: seq * and seqsel (redundant function)
+See https://github.com/mmagnus/rna-tools/releases for more details for 3.7.x
 
 # 3.7
 
