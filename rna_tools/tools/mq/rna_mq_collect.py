@@ -13,6 +13,16 @@ Install:
 
     csvsort
 
+Cmd::
+
+     rna_mq_collect.py -t FARFAR2_hires -m 4 -f -o FARFAR2_hires.csv -l all.txt x.pdb
+     # fake x.pdb when -l is used, -l gets a list of files
+     x.pdb
+     y.pdb
+     z.pdb
+
+88% (49329 of 55689) |############### | Elapsed Time: 0:45:23 ETA:  2 days, 18:42:16
+
 """
 MP_VERBOSE = False
 DEBUG_MODE = False
@@ -362,6 +372,10 @@ def option_parser():
     group.add_option("-o", "--output",
                   action="store", type="string", dest="output", help="output csv file")
 
+    group.add_option("-l", "--list-of-files",
+                  action="store", type="string", dest="list_of_files", help="list of files")
+
+
     parser.add_option_group(group)
     parser.add_option_group(group2)
 
@@ -438,35 +452,40 @@ class RunAllDirectory():
                 filenames.remove(f)
 
         files_to_ignore = []
-        if opt.ignore_pdb_filename:
-            try:
-                fn = open(opt.ignore_pdb_filename)
-                for f in fn.read().strip().split('\n'):
-                    if 'error' in f:
-                        continue  # don't add files with errors, so the program will be re-run for them
-                    # if there is an error, this will give error again quickly
-                    # but this solves when you kill the job, you get erros, but it's not rally errors
-                    # but stopped jobs
-                    if f.find('\t') > -1:
-                        f = f.split('\t')[1] # id, fn
-                    if f.find(',') > -1:
-                        f = f.split(',')[1] # id, fn
-                    files_to_ignore.append(f)
-            except FileNotFoundError:
-                files_to_ignore = []
-        else:
-            files_to_ignore = []
+        # or if not provided
+        import glob
+        opt.ignore_pdb_filename = glob.glob('*' + opt.methods + '*.csv')
+        for f in opt.ignore_pdb_filename:  # do it for the list, that's nice!
+            fn = open(f)
+            for f in fn.read().strip().split('\n'):
+                if 'error' in f:
+                    continue  # don't add files with errors, so the program will be re-run for them
+                # if there is an error, this will give error again quickly
+                # but this solves when you kill the job, you get erros, but it's not rally errors
+                # but stopped jobs
+                if f.find('\t') > -1:
+                    f = f.split('\t')[1] # id, fn
+                if f.find(',') > -1:
+                    f = f.split(',')[1] # id, fn
+                files_to_ignore.append(os.path.basename(f))
 
         ## files to ignore
         print(' to ignore', len(files_to_ignore), files_to_ignore[:4])
-        for fi in files_to_ignore:
-            for fn in copy.copy(filenames):
-                if os.path.basename(fn).startswith('._'):
-                    filenames.remove(fn)
-                if os.path.basename(fn).startswith(fi.split('\t')[0]): # # hack,  @todo <- re could be used here!  to ignore ['fn,RASP,SimRNA,FARNA,NAST_pyro\r', '1ykv_1_ba_c.pdb,-0.104705,-504.468933,-306.245,122.7\r', '2esj_1_ba_c.pdb,-0.1522,-1,-266.217,46.7\r', '2quw_1_ba_c.pdb,-0.103789,-729.386726,-419.047,984.0\r
-                    filenames.remove(fn)
-        print(' files to analyze: %s' % len(filenames), filenames[:5])
 
+        filenames = []
+        for i, f in enumerate(input_files):
+            # print(i, f)
+            if f.startswith('_'):  # skip
+                continue
+            if os.path.basename(f) not in files_to_ignore:
+                filenames.append(f)
+        ## for fi in files_to_ignore:
+        ##     for fn in copy.copy(filenames):
+        ##         if os.path.basename(fn).startswith('._'):
+        ##             filenames.remove(fn)
+        ##         if os.path.basename(fn).startswith(fi.split('\t')[0]): # # hack,  @todo <- re could be used here!  to ignore ['fn,RASP,SimRNA,FARNA,NAST_pyro\r', '1ykv_1_ba_c.pdb,-0.104705,-504.468933,-306.245,122.7\r', '2esj_1_ba_c.pdb,-0.1522,-1,-266.217,46.7\r', '2quw_1_ba_c.pdb,-0.103789,-729.386726,-419.047,984.0\r
+        ##             filenames.remove(fn)
+        print(' files to analyze: %s' % len(filenames), filenames[:5])
         ## headers
         methods_to_print = copy.copy(methods)
         if opt.native_pdb_filename:
@@ -516,8 +535,13 @@ if __name__ == '__main__':
 
     arguments, opt = option_parser()
 
+    # files
     input_files = arguments[:]
-
+    if opt.list_of_files:
+       for l in open(opt.list_of_files):
+           input_files.append(l.strip())
+    #ic(input_files)
+    
     if not opt.methods:
        opt.methods = ','.join(Config.METHOD_LIST)
 
