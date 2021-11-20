@@ -15,7 +15,8 @@ Install:
 
 Cmd::
 
-     rna_mq_collect.py -t FARFAR2_hires -m 4 -f -o FARFAR2_hires.csv -l all.txt x.pdb
+     # find . -iname 'FARFAR2*.csv' -exec cat {} + > FARFAR2_hires.csv
+     $ rna_mq_collect.py -t FARFAR2_hires -m 4 -f -o FARFAR2_hires.csv -l all.txt x.pdb
      # fake x.pdb when -l is used, -l gets a list of files
      x.pdb
      y.pdb
