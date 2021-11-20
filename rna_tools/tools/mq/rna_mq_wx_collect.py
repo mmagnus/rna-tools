@@ -14,6 +14,19 @@ import argparse
 import os
 import glob
 
+import re
+def sort(l):
+    """ Sort the given list in the way that humans expect.
+    http://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
+    """
+    def convert(text):
+        return int(text) if text.isdigit() else text
+
+    def alphanum_key(key):
+        return [convert(c) for c in re.split('([0-9]+)', key)]
+    l.sort(key=alphanum_key)
+    return l
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -24,7 +37,7 @@ def get_parser():
     parser.add_argument('-p', '--path', help="", default='')
     parser.add_argument('--dataset', help="only one case, for test", default="*")
     parser.add_argument('-e', '--exe', help="only one case, for test",
-                        default="rna_mq_collect.py -t FARFAR2_hires struc/*.pdb -m 4 -v -f -o FARFAR2")
+                        default="rna_mq_collect.py -t FARFAR2_hires struc/*.pdb -m 4 -v -f -o FARFAR2_hires.csv")# -o FARFAR2")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     return parser
@@ -40,7 +53,8 @@ if __name__ == '__main__':
     if args.path:
         os.chdir(args.path)
     root = os.getcwd()
-    dataset = glob.glob(args.dataset)# '*')
+    dataset = sort(glob.glob(args.dataset))# '*')
+    
     for c in dataset:
         print('dataset ', c)
         if c.startswith('_'):
@@ -53,7 +67,7 @@ if __name__ == '__main__':
         # if not break ed, use this
         if os.path.isdir(c):
             os.chdir(root + '/' + c)
-            subcases = glob.glob('*')
+            subcases = sort(glob.glob('*'))
             for sc in subcases:
                 os.chdir(sc) # go inside a folder
                 print ('- case %s' % sc)
