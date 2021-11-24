@@ -164,7 +164,7 @@ class RNAStructure:
         """
         return self.has_many_models
 
-    def un_nmr(self, startwith1=True, verbose=False):
+    def un_nmr(self, startwith1=True, directory='', verbose=False):
         """Un NMR - Split NMR-style multiple model pdb files into individual models.
 
         Take self.fn and create new files in the way::
@@ -174,17 +174,52 @@ class RNAStructure:
                input/1a9l_NMR_1_2_models_1.pdb
 
         .. warning:: This function requires biopython.
+
+        rna_pdb_toolsx.py --un-nmr AF-Q5TCX8-F1-model_v1_core_Ctrim_mdr_MD.pdb
+36
+        cat *MD_* > md.pdb
         """
-        parser = PDBParser()
-        structure = parser.get_structure('', self.fn)
-        for c, m in enumerate(structure):
-            if verbose:
-                print(m)
-            io = PDBIO()
-            io.set_structure(m)
-            if startwith1:
+        #
+        npdb = ''
+        c = 0
+
+        nmodels = 0
+        for l in open(self.fn):
+            if l.startswith('MODEL'):
+                nmodels += 1
+        print(nmodels)
+
+        for l in open(self.fn):
+            if 1:
+                if not l.startswith('HETATM'):
+                    npdb += l
+            if l.startswith('MODEL'):
                 c += 1
-            io.save(self.fn.replace('.pdb', '_%i.pdb' % c))
+            if l.startswith('ENDMDL'):
+                id = str(c).zfill(len(str(nmodels)))
+                nf = self.fn.replace('.pdb', '_%s.pdb' % id)
+                verbose = 1
+                if verbose:
+                    print(nf)
+                with open(nf, 'w') as f:
+                    f.write(npdb)
+                npdb = ''
+        biopython = 0
+        
+        if biopython:
+            parser = PDBParser()
+            structure = parser.get_structure('', self.fn)
+            for c, m in enumerate(structure):
+                if verbose:
+                    print(m)
+                io = PDBIO()
+                io.set_structure(m)
+                if startwith1:
+                    c += 1
+                if directory:
+                    io.save(directory + os.sep + self.fn.replace('.pdb', '_%i.pdb' % c))
+                else:
+                    io.save(self.fn.replace('.pdb', '_%i.pdb' % c))                
 
     def is_mol2(self):
         """Return True if is_mol2 based on the presence of ```@<TRIPOS>```."""
