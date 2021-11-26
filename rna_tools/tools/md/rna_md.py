@@ -1,6 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+::
+
+    rna_md.py -s 100 -n 500 --box-size 8 post2ndXXXXXXXXX_min.pdb # mac 4:13
+
+hz::
+
+    rna_md.py -s 100 -n 200 --box-size 8 1st-m-U57a_rpr_min.pdb
+    1st-m-U57a_rpr_min.pdb ...
+    #"Progress (%)","Step","Potential Energy (kJ/mole)","Total Energy (kJ/mole)","Temperature (K)","Time Remaining"
+    50.0%,100,-939919.8341049199,-916122.9981389735,57.542401419204666,--
+    100.0%,200,-921820.8285070366,-879767.8151791963,101.68710568331676,0:00
+    saved  1st-m-U57a_rpr_min_b8.0_MD.pdb
+    Cmd: rna_md.py -s 100 -n 200 --box-size 8 1st-m-U57a_rpr_min.pdb
+
+notes::
+
+     20000 / 100 =  200
+     10000 / 100 =  100
+    100000 / 100 = 1000
 
     # 500000 # 0.002 ps * 1000 * 500 -> 1 ns
     #  30000
@@ -46,6 +65,8 @@ if __name__ == '__main__':
         print(f, '...')
         t = timex.Timex()
         t.start()
+
+        print(args)
 
         pdb = PDBFile(f)
         modeller = Modeller(pdb.topology, pdb.positions)
