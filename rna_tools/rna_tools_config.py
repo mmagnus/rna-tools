@@ -20,16 +20,36 @@ EASY_CAT_PATH = ""
 RNASTRUCTURE_PATH = ""
 ENTRNA_PATH = ''
 #QRNAS_PATH = os.getenv('QRNAS_PATH', PATH + '/opt/qrnas/')
-LOG_DIRECTORY = ''
+
+# MQ #
+METHOD_LIST =  ['ClashScore', 'AnalyzeGeometry', 'SimRNA_0',   'RNAscore', 'eSCORE','RNAkb',
+                 'RASP', 'RNAkb_all', 'RNA3DCNN', 'Dfire', 'FARNA', 'FARNA_hires', 'FARFAR2']
+METHOD_LIST = ['FARFAR2_hires']
+# default options for wrappers
+WRAPPER_OPTIONS = dict([(m, []) for m in METHOD_LIST])
+try:
+    WRAPPER_OPTIONS['RASP'].append('all')    # all atom representation
+except KeyError:
+    pass
+try:
+    WRAPPER_OPTIONS['RNAkb'].append('5pt')  
+except KeyError:
+    pass
+ML_MODEL_PATH = ''
 
 RASP_PATH = ""       # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/rasp-fd-1.0/"
 RASP_PATH_DIR = ""   # /Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/rasp-fd-1.0"
 
-LOG_DIRECTORY = ""   # "/tmp/"
-TMP_PATH = ""
+import pathlib
+RT = os.path.dirname(pathlib.Path(__file__).parent.resolve()) + os.sep
+tmp = RT + 'tmp' + os.sep
+LOG_DIRECTORY = tmp
+TMP_PATH = tmp
+SANDBOX_PATH = tmp
 BIN_PATH = ""
 
-WRAPPERS_PATH = ""   # "/Users/magnus/work/src/rna-tools/rna_tools/tools/mq/"
+WRAPPERS_PATH = RT + "/rna_tools/tools/mq/"
+print(WRAPPERS_PATH)
 
 dfire_PATH = ""      # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/dfire_rna/"
 
@@ -39,16 +59,19 @@ FARNA_PATH=""        # "/Users/magnus/work/opt/rosetta_bin_mac_2018.33.60351_bun
 FARNA_DB_PATH=""     # "/Users/magnus/work/opt/rosetta_bin_mac_2018.33.60351_bundle/main/database"
 FARNA_LORES=""       # "/scoring/weights/rna/denovo/rna_lores.wts"
 
-FARFAR2_PATH=""
-FARFAR2_DB_PATH=""
-FARFAR2_LORES=""
+import pathlib
+opt = os.path.dirname(pathlib.Path(__file__).parent.resolve()) + os.sep + 'opt' + os.sep
+print(opt)
+
+FARFAR2_PATH = opt + 'ff2/rna_minimize.static.linuxgccrelease'
+FARFAR2_DB_PATH = opt + 'ff2/database'
+FARFAR2_LORES = ""
 
 QRNA_PATH=""         # "/Users/magnus/work/opt/qrnas/"
 QRNA_CONFIG_PATH=""  # "/Users/magnus/work/opt/qrnas/"
 PHENIX_BIN_PATH=""   # /Applications/phenix-1.18.2-3874/build/bin"
 baRNAba_PATH=""      # /Users/magnus/work/opt/barnaba/barnaba_201128"
 RNAscore_PATH=""
-WRAPPERS_PATH=""     # /Users/magnus/work/src/rna-tools/rna_tools/tools/mq
 GRMLIB_PATH=""       # /usr/local/gromacs/share/gromacs/top/
 DB_AA_PATH=""        # /Users/magnus/work/papers/mqaprna/mqaprna_env/db/RNA_aa_full
 DB_5PT_PATH=""       # /Users/magnus/work/papers/mqaprna/mqaprna_env/db/RNA_5pt_full_sc1'
