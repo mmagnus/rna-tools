@@ -126,6 +126,8 @@ setup(
              'rna_tools/tools/md/rna_gromacs_ready.py',
              'rna_tools/tools/md/rna_md.py',
              'rna_tools/tools/md/rna_minimize.py',
+             'rna_tools/tools/md/rna_mstate_n.py',
+             'rna_tools/tools/md/rna_mstate_range.py',
              
              'rna_tools/tools/triplexibility/triplexibility.py',
              
