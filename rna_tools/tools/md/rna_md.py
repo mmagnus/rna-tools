@@ -40,9 +40,13 @@ def get_parser():
     parser.add_argument('-s', "--steps", type=int, help="", default=100)
     parser.add_argument('-n', "--nsim", type=int, help="", default=50000) # 500000)
     parser.add_argument('-r', "--run", help="", default='_')
+    parser.add_argument('-p', "--prefix", help="", default='')
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
+    parser.add_argument("--dcd",
+                        action="store_true", help="save also as dcd")
     parser.add_argument("file", help="", default="") # nargs='+')
+
     parser.add_argument("--min",
                         action="store_true", help="be verbose")
     parser.add_argument("--pymol",
@@ -57,6 +61,11 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
+
+    # / 1000 ps is 1 ns :P
+    print('your sim is', 0.002*picoseconds * args.nsim, round((0.002*picoseconds * args.nsim) / nanoseconds, 2) * 100, '% of 1 ns')
+    import time
+    time.sleep(3)
 
     if list != type(args.file):
         args.file = [args.file]
@@ -81,8 +90,8 @@ if __name__ == '__main__':
 
         if args.solv_padding:
             modeller.addSolvent(forcefield, padding=0.5*nanometers)
-            out = f.replace('.pdb','') + 'padd0.5' + '_MD.pdb'
-            log = f.replace('.pdb','') + 'padd0.5' + '_log.csv'
+            out = f.replace('.pdb','') + '_padd0.5' + '_MD.pdb'
+            log = f.replace('.pdb','') + '_padd0.5' + '_log.csv'
 
         elif args.box_size:
             bs = args.box_size
@@ -95,6 +104,12 @@ if __name__ == '__main__':
             modeller.addSolvent(forcefield, boxSize=Vec3(5.0, 3.5, 3.5)*nanometers)
             out = f.replace('.pdb','') + '_MD.pdb'
             log = f.replace('.pdb','') + '_log.csv'
+
+        out = out.replace('.pdb', '_s%sn%s' % (args.steps, args.nsim) + '.pdb')
+        if args.prefix:
+            out = out.replace('.pdb', '_' + args.prefix + '.pdb')
+
+        log = out.replace('.pdb', '.csv')
 
         system = forcefield.createSystem(modeller.topology, nonbondedMethod=app.NoCutoff, #nonbondedMethod=PME,
                 nonbondedCutoff=1*nanometer, constraints=HBonds)
@@ -114,7 +129,11 @@ if __name__ == '__main__':
             print('saved ', pdbout)
 
         nstep = args.steps
+
+        if args.dcd:
+            simulation.reporters.append(DCDReporter(out.replace('.pdb', '.dcd'), nstep))
         simulation.reporters.append(PDBReporter(out, nstep))#  keepIds=True))
+        
         simulation.reporters.append(StateDataReporter(stdout, nstep, step=True,
                 potentialEnergy=True, temperature=True, progress=True, totalSteps=args.nsim, remainingTime=True, totalEnergy=True))
         simulation.reporters.append(StateDataReporter(log, nstep, step=True,
