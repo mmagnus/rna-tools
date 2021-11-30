@@ -7,7 +7,6 @@ from __future__ import print_function
 import argparse
 from rna_tools.tools.mq.FARFAR2.FARFAR2 import FARFAR2
 import os
-import pandas as pd
 
 def get_parser():
     parser = argparse.ArgumentParser(
