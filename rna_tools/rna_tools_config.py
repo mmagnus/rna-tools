@@ -58,11 +58,16 @@ FARNA_PATH=""        # "/Users/magnus/work/opt/rosetta_bin_mac_2018.33.60351_bun
 FARNA_DB_PATH=""     # "/Users/magnus/work/opt/rosetta_bin_mac_2018.33.60351_bundle/main/database"
 FARNA_LORES=""       # "/scoring/weights/rna/denovo/rna_lores.wts"
 
-opt = RT + os.sep + 'opt' + os.sep
-
-FARFAR2_PATH = opt + 'ff2/rna_minimize.static.linuxgccrelease'
+opt = RT + 'opt' + os.sep
+import platform
+if platform.system() == "Darwin":
+    FARFAR2_PATH = opt + 'ff2/rna_minimize.static.macosclangrelease'
+else:
+    FARFAR2_PATH = opt + 'ff2/rna_minimize.static.linuxgccrelease'
+    
 FARFAR2_DB_PATH = opt + 'ff2/database'
 FARFAR2_LORES = ""
+
 
 QRNA_PATH=""         # "/Users/magnus/work/opt/qrnas/"
 QRNA_CONFIG_PATH=""  # "/Users/magnus/work/opt/qrnas/"
