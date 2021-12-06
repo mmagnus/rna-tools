@@ -21,7 +21,8 @@ notes::
      10000 / 100 =  100
     100000 / 100 = 1000
 
-    # 500000 # 0.002 ps * 1000 * 500 -> 1 ns
+    # 500 000 * 0.002 ps = 1 ns      # * 1000 * 500 -> 1 ns
+    #  50 000 * 0.002 ps = 0.1 ns
     #  30000
 
 """
@@ -38,7 +39,9 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-s', "--steps", type=int, help="", default=100)
-    parser.add_argument('-n', "--nsim", type=int, help="", default=50000) # 500000)
+    parser.add_argument('-n', "--nsim", type=int, help="", default=500000)
+    # 500000 to get 1 ns
+    # 50000 
     parser.add_argument('-r', "--run", help="", default='_')
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
@@ -55,6 +58,8 @@ def get_parser():
 
 
 if __name__ == '__main__':
+    # print(0.002*picoseconds * 500000, '1000 ps is 1 ns :P')
+
     parser = get_parser()
     args = parser.parse_args()
 
@@ -102,6 +107,8 @@ if __name__ == '__main__':
         simulation = Simulation(modeller.topology, system, integrator)
         simulation.context.setPositions(modeller.positions)
 
+        print(0.002*picoseconds * args.nsim)
+        
         if args.min:
             simulation.minimizeEnergy()
 
