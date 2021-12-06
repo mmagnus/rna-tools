@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-
+ddd
 """
 from __future__ import print_function
-from simtk.openmm.app import *
-from simtk.openmm import *
-from simtk.unit import *
+from openmm.app import *
+from openmm import *
+from openmm.unit import *
 from sys import stdout
 import argparse
+from rna_tools.tools.mq.lib.timex import timex
+
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -16,6 +18,8 @@ def get_parser():
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     parser.add_argument("file", help="", default="") # nargs='+')
+    parser.add_argument("-b", "--box-size", help="", default=1, type=float) # nargs='+')
+    parser.add_argument("-sp", "--solv-padding", action="store_true")
     parser.add_argument("--pymol",
                         action="store_true", help="be verbose")
     return parser
@@ -30,16 +34,35 @@ if __name__ == '__main__':
 
     for f in args.file:
         print(f, '...')
+
+        t = timex.Timex()
+        t.start()
+
         pdbout = f.replace('.pdb','') + '_min.pdb'
         pdb = PDBFile(f)
         log = f.replace('.pdb','') + '.log'
         modeller = Modeller(pdb.topology, pdb.positions)
-        forcefield = ForceField('amber14-all.xml', 'amber14/tip3pfb.xml')
+
+        #ff = 'charmm36.xml' #ff14SB.xml' #amber14sb.xml' # 'amber14-all.xml'
+        ff = 'amber14-all.xml'
+        #ff = 'amberfb15.xml'
+        #ff = 'amber14/RNA.OL3.xml'
+        
+        #ff = 'amber99sb.xml'
+
+        forcefield = ForceField(ff, 'amber14/tip3pfb.xml')
         modeller.addHydrogens(forcefield)
         #modeller.addSolvent(forcefield, ionicStrength=0.1*molar)
         # modeller.addSolvent(forcefield, model='tip5p')
-        #modeller.addSolvent(forcefield, padding=0.5*nanometers)
-        modeller.addSolvent(forcefield, boxSize=Vec3(5.0, 3.5, 3.5)*nanometers)
+
+        bs = args.box_size
+        modeller.addSolvent(forcefield, boxSize=Vec3(bs, bs, bs)*nanometers)
+        if args.solv_padding:
+            print(1*nanometers)
+            modeller.addSolvent(forcefield, padding=1*nanometers)
+        # 5.0, 3.5, 3.5
+        #modeller.addSolvent(forcefield, boxSize=Vec3(2, 2, 2)*nanometers)
+
         system = forcefield.createSystem(modeller.topology, nonbondedMethod=app.NoCutoff, #nonbondedMethod=PME,
                 nonbondedCutoff=1*nanometer, constraints=HBonds)
         integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.002*picoseconds)
@@ -55,3 +78,5 @@ if __name__ == '__main__':
         print('saved ', pdbout)
         if args.pymol:
             os.system('open %s' % out)
+
+        print(t.end())
