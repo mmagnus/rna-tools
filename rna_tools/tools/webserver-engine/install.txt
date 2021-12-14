@@ -1,4 +1,4 @@
-Django==1.8
+Django==1.8.6
 argparse==1.2.1
 #biopython==1.66
 decorator==4.0.6
@@ -15,4 +15,4 @@ ptyprocess==0.5
 simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.0.0
-wsgiref==0.1.2
+#wsgiref==0.1.2

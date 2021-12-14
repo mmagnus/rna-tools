@@ -25,8 +25,8 @@ urlpatterns = patterns('',
     url(r'%s/stop/(?P<job_id>.*)$' %  settings.server_name_py,'app.views.stop'),
     url(r'%s/*$' %  settings.server_name_py, 'app.views.home', name='home'),
     url(r'%s' %  settings.server_name_py, 'app.views.home', name='home'),
+    url(r'^$', 'app.views.home', name='home'),
     url(r'admin/', include(admin.site.urls)),
-    #url(r'^$', 'app.views.home', name='home'),
     # url(r'^web/', include('web.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

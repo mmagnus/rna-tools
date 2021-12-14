@@ -31,7 +31,7 @@ DATABASES = {
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 
-ALLOWED_HOSTS = [''] # @toset
+ALLOWED_HOSTS = ['ec2-18-192-6-94.eu-central-1.compute.amazonaws.com'] # @toset
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -93,7 +93,11 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-from web.secret_key import SECRET_KEY
+try:
+    from web.secret_key import SECRET_KEY
+except ModuleNotFoundError:
+    SECRET_KEY = 'foo'
+    print('Set up SECRET_KEY')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

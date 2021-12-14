@@ -129,9 +129,6 @@
 {% endif %}
 
 
-
-
-
 Download <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}">{{ MEDIA_URL }}jobs/{{ j.job_id }}/</a>
 
 {% if j.get_aa_files.0 %}
@@ -186,5 +183,13 @@ $("#button2").click(function() {
     $("#logx").slideToggle();
 });
 </script>
+
+        <p>
+            <div class="progress progress-striped active">
+                <div class="bar bar-success" style="width: {{progress}}%;"><span style="color:black"> {{ progress }}%</span></div>
+            </div>  
+        </p>
+
+        <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
 
 {% endblock %}
