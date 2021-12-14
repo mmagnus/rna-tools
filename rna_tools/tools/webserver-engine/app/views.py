@@ -350,7 +350,7 @@ def submit(request):
             j.pdb_fn = "".join(x for x in pdb_fn_name if x.isalnum() or x == '_')
             j.pdb_fn = j.pdb_fn.replace('pdb', '.pdb')
             j.pdb_fn = j.pdb_fn.replace('cif', '.cif')
-            with open(JOB_PATH + sep + j.pdb_fn, 'w') as pf:
+            with open(JOB_PATH + sep + j.pdb_fn, 'wb') as pf:
                 for chunk in pdb_fn.chunks():
                     pf.write(chunk)
 

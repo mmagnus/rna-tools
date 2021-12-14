@@ -23,15 +23,6 @@
          $("#demo").val('false');
          $("#restraints_example" ).hide();
          // credits https://stackoverflow.com/questions/5371089/count-characters-in-textarea //
-         $("#seq").on("input", function(){
-             var maxlength = $(this).attr("maxlength");
-             var currentLength = $(this).val().length;
-             $("#left").text(currentLength);             
-             if( currentLength >= maxlength ){
-                 console.log("You have reached the maximum number of characters.");
-             }else{
-                 console.log(maxlength - currentLength + " chars left");
-             }
          });
      });
 
@@ -101,8 +92,6 @@
 
 <div class="alert alert-info">
 
-    <!--<h1>We're having some issues with the server. Please be back in a few days!</h1>-->
-
     <h4 style="padding-bottom:1%">Load the examples: </h4>
     <div class="btn-group" style="padding-bottom:0px;">
         <button class="btn" id="example_03"  style="font-size:12px">tRNA testing case example with SAXS data - execution time ~3-5 min </button><a class="btn" target="_blank" href="/rnamasonry/jobs/tRNA_with_SAXS-9218b709"><i class="icon-eye-open"></i></a>
@@ -110,7 +99,7 @@
 
 </div>
 
-<h2>Model your RNA</h2>
+<h2>Get RNA-Puzzle ready</h2>
 
 {% if error %}
 <div class="alert alert-error">
@@ -119,34 +108,14 @@
 </div>
 {% endif %}
 
-
 <p class="lead" style="font-size:15px; text-align: left;">
     <form id="submit" ACTION="/rnamasonry/submit/" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
         {% csrf_token %}
-        <input class="input-large" type="text" name="job_title" id="job_title" required placeholder="Job title">
-        <br />
-        
+
+<!--
         <input class="input-large" type="text" name="email" date-type="email" placeholder="E-mail address" id="email" value=""><br />
         <small class="hint">E-mail address is optional</small>
-</p>
-<h3>RNA</h3>
-<div class="alert alert-warning">
-    Please, remember an <b>RNA sequence (limit of length 150 nt) with secondary structure OR <b>RNA structure</b> (in the PDB/mmCIF format) is required to do prediction.
-</div>
-
-<div class="form-group has-error">
-    <textarea class="form-control" type="text" pattern="[AGCUgcua\ ]+" title="seq" rows="3" style="width: 100%;height:100px;font-family:Monospace;" placeholder="GCAAAAGC" name="seq" id="seq" maxlength='150'></textarea>
-    Sequence length <span id="left" name="left">0</span> of of allowed 150 nt.
-    <br>
-    <!--input>-->
-    <!-- value="GCAAAAGC"-->
-</div>
-
-<div class="form-group" style="width: 100%;">
-    <label for="comment">RNA secondary structure (in dot-bracket notation)</label>
-    <textarea class="form-control" rows="3" style="width: 100%;font-family:Monospace;" id="ss" name="ss" placeholder="((....))" value="((....))"></textarea>
-    <small class="hint">The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
-</div>
+	-->
 
 </p>
 
@@ -166,81 +135,26 @@
 	    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
     </div>
     </br><small class="hint">The input file should contain RNA only. Modelling of RNA-protein complexes is not supported yet.</small>
-
 </div>
-
-<h3>SAXS [optional]</h3>
-<label for="comment">Restrain folding with a SAXS curve. Please remember to <a href="/rnamasonry/about">acknowledge</a> the use of CRYSOL or FoXS</label>
-
-<label class="radio" style="text-align:left">
-    FOXS<input name="saxs_format" id="saxs_format" type="radio" checked value="foxs">
-</label>
-<label class="radio" style="text-align:left">
-    CRYSOL<input name="saxs_format" id="saxs_format" type="radio" value="crysol">
-</label>
-
-<!-- 
-     <ul class="nav nav-tabs" name="myTab">
-     <li role="presentation" class="active"><a href="fox" aria-controls="fox" role="tab" data-toggle="tab">SAXS in FOXS format</a></li>
-     <li role="presentation"><a href="#crysol" aria-controls="crysol" role="tab" data-toggle="tab">SAXS in CRYSOL format</a></li>
-     </ul>
--->
-<div class="fileupload fileupload-new" id="sax_fileupload" data-provides="fileupload">
-    <div class="input-append">
-	
-	<div class="uneditable-input span3">
-	    <i class="icon-file fileupload-exists"></i>
-	    <span class="fileupload-preview"></span>
-	</div>
-	
-	<span class="btn btn-file">
-	    <span class="fileupload-new">Select file</span>
-	    <span class="fileupload-exists">Change</span>
-	    <input name="saxs" id="sax" type="file" />	</span>
-	    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-    </div>
-    
-    </br><small class="hint">Text file with a SAXS curve. Make sure it is accepted by CRYSOL and FoXS.</small>
-
-</div>
-
-<div id="restraints_example">
-    <span class="label label-success">restraints file loaded</span> 
-    <a href="{{ STATIC_URL }}app/demo/tRNA_saxs.dat">tRNA_saxs.dat</a>
-</div>
-
-<h3>Residues to freeze [optional]</h3>
-
-<!--      <input class="input-large" type="text" name=""><br />-->
-<label for="comment">Residues to freeze:</label>
-<textarea class="form-control" rows="1" style="width: 100%;font-family:Monospace;" name="residues_to_freeze" id="residues_to_freeze" placeholder="Residues to freeze" value=""></textarea>
-<small class="hint">e.g. 12:25,30:39, residues to freeze (they do not move in the simulation). Keep empty to allow moving all residues.</small>
-</div>
-
-<h3>Number of steps of simulation [optional]</h3>
-<table style="width:100%;">
-    <tr>
-	<td style="width:50%">
-	    Number of steps of simulation:
-	</td>
-	<td>
-	    <input class="input-small" name="number_steps" id="number_steps" type="text" pattern="\d+" value="50" required>
-	</td>
-    </tr>
-</table>
 
 <input type="hidden" id="demo" name="demo" value="false" />
 
 </p>
 
-<!-- / captcha, write please 'R N A' (withouth spaces):-->
  <hr/>
 
+{%comment%}
  <p><b>What do you want to model? </b>
  </p>
  <input style="height:px" class="input-large" id="capt" type="text" name="capt" date-type="" placeholder="if you are not a robot type RNA" value=""><br />
 
+{%endcomment%}
 <button type="submit" class="btn btn-large btn-success">Predict!</button>
+
+
+<input type="hidden" id="job_title" name="job_title" value="demo" />
+<input type="hidden" id="ss" name="ss" value="demo" />
+<input type="hidden" id="ss" name="demo" value="false" />
 
 </form>
 

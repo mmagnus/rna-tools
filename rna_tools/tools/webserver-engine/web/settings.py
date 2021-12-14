@@ -1,4 +1,5 @@
 SERVER_NAME = 'RNAMasonry'
+server_name_py = 'rna-tools-web'
 ADMIN_JOBS_URL = 'http://0.0.0.0:8667/admin/app/job/'
 DISK_TO_TRACK = '/dev/mapper/rnamasonry--vm--vg-root'
 import os
@@ -63,7 +64,7 @@ MEDIA_ROOT = PATH + '/media/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = '/rnamasonry/media/'
+MEDIA_URL = '/' + server_name_py + '/media/'
 #MEDIA_URL = 'media/'
 
 # Absolute path to the directory static files should be collected to.
@@ -74,7 +75,7 @@ STATIC_ROOT = PATH + '/app/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/rnamasonry/static/'
+STATIC_URL = '/' + server_name_py + '/static/'
 #STATIC_URL = 'static/'
 
 # Additional locations of static files

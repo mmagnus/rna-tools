@@ -191,6 +191,10 @@ cd ./tools/renum_pdb_to_aln/
 ./test.sh
 cd ../..
 
+cd ./tools/simrna_trajectory/
+./test.sh
+cd ../..
+
 if [ "$1" == "--full" ]; then
     cd ./tools/rna_refinement/
     ./test.sh
