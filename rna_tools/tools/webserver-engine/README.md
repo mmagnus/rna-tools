@@ -71,15 +71,20 @@ So the full crontab setup can look like this:
 Install
 -------------------------------------------------------------------------------
 
-    (py27) [mx] src$ pip install virtualenv
+    $ pip install virtualenv
 
-    (py27) [mx] src$ python -m virtualenv rnamasonry_env
-    created virtual environment CPython2.7.16.final.0-64 in 385ms
-      creator CPython2Posix(dest=/Users/magnus/work/src/rnamasonry_env, clear=False, global=False)
-      seeder FromAppData(download=False, pip=latest, setuptools=latest, wheel=latest, via=copy, app_data_dir=/Users/magnus/Library/Application Support/virtualenv/seed-app-data/v1.0.1)
-      activators PythonActivator,CShellActivator,FishActivator,PowerShellActivator,BashActivator
-
-    (rnamasonry_env) (py27) [mx] rnamasonry$ git:(master) pip install -r install.txt
+    $ python -m virtualenv rna_tools_env
+    created virtual environment CPython3.7.10.final.0-64 in 1426ms
+	creator CPython3Posix(dest=/Users/magnus/work/src/rna-tools/rna_tools/tools/webserver-engine/rna_tools_env, clear=False, no_vcs_ignore=False, global=False)
+	seeder FromAppData(download=False, pip=bundle, setuptools=bundle, wheel=bundle, via=copy, app_data_dir=/Users/magnus/Library/Application Support/virtualenv)
+	  added seed packages: pip==20.2.4, setuptools==50.3.2, wheel==0.35.1
+	activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+  
+    source rna_tools_env/bin/activate
+	
+	(rna_tools_env) (py37) [mx] webserver-engine$
+	
+  (rnamasonry_env) (py27) [mx] rnamasonry$ git:(master) pip install -r install.txt
     DEPRECATION: Python 2.7 reached the end of its life on January 1st, 2020. Please upgrade your Python as Python 2.7 is no longer maintained. A future version of pip will drop support for Python 2.7. More details about Python 2 support in pip, can be found at https://pip.pypa.io/en/latest/development/release-process/#python-2-support
     Requirement already satisfied: Django==1.8 in /Users/magnus/work/src/rnamasonry_env/lib/python2.7/site-packages (from -r install.txt (line 1)) (1.8)
     Requirement already satisfied: argparse==1.2.1 in /Users/magnus/work/src/rnamasonry_env/lib/python2.7/site-packages (from -r install.txt (line 2)) (1.2.1)

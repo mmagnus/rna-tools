@@ -1,6 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
-<title>RNAMasonry ({{j.job_title}})</title>
+
+<script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
+<script src="{{ STATIC_URL }}app/jsmol/j2s/core/package.js"></script>
+<script type="text/javascript">
+ var jmolApplet0; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;echo loading {{ j.get_dars_to_mc.0 }}...;refresh;'
+	 +'load {{ MEDIA_URL }}jobs/{{ j.job_id }}/output_PDBS/{{ j.get_aa_files.0 }};set echo top center;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;color group;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 700,
+     height: 600,
+     debug: true,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
+
+    var progress_interval;
+
+  
+    {% if not j.get_status == 'waiting' %}
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+    {%endif%}
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    }
+</script>
+
+<title>rna-tools-web ({{j.job_title}})</title>
+
 <!-- refresh -->  
 {% if load.1 > 1 and progress_float == 0.0 %}
 <div class="alert alert-error">
@@ -67,67 +129,10 @@
 {% endif %}
 
 
-<script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
-<script src="{{ STATIC_URL }}app/jsmol/j2s/core/package.js"></script>
-<script type="text/javascript">
- var jmolApplet0; // set up in HTML table, below
- // logic is set by indicating order of USE -- default is HTML5 for this test page, though
- var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
-
- jmol_isReady = function(applet) {
-     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
- }		
-
- script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
-	 +'set errorCallback "myCallback";'
-	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
-	 +'set zoomlarge true;set echo top left;echo loading {{ j.get_dars_to_mc.0 }}...;refresh;'
-	 +'load {{ MEDIA_URL }}jobs/{{ j.job_id }}/output_PDBS/{{ j.get_aa_files.0 }};set echo top center;'
-	 +'spacefill off;spin off;wireframe off;cartoons on;color group;'
-
- var Info = {
-     spinRateX: 0.2,
-     spinRateY: 0.5,
-     spinFPS: 20,
-     spin:true,
-
-     width: 700,
-     height: 600,
-     debug: true,
-     color: "white",
-     addSelectionOptions: false,
-     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
-     use: "HTML5",
-     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
-     reagdyFunction: jmol_isReady,
-     script: script,
-     disableJ2SLoadMonitor: true,
-     disableInitialConsole: true
- }
-
-    var progress_interval;
-
-    {% if not j.get_status == 'waiting' %}
-    $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 1000);
-    });
-    {%endif%}
-
-    function checkProgress() {
-        $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
-            success: function(d) {
-                $("#log_txt").html(d['log']);
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-        })
-    }
 
 
 
-</script>
+Download <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}">{{ MEDIA_URL }}jobs/{{ j.job_id }}/</a>
 
 {% if j.get_aa_files.0 %}
 <h4>Intermediate results (full simulation is not done yet)</h4>
@@ -181,6 +186,5 @@ $("#button2").click(function() {
     $("#logx").slideToggle();
 });
 </script>
-
 
 {% endblock %}

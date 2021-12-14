@@ -10,7 +10,6 @@ import sys
 import time
 import sendmail
 import argparse
-import commands
 import shutil
 from datetime import datetime, timedelta
 

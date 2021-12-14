@@ -40,11 +40,6 @@ except:
 #from lib.rna_pdb_edit_occupancy import rna_pdb_edit_occupancy
 #from lib.rna_pdb_tools.rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna import get_multiple_lines, is_pk
 
-try:
-    from ipware.ip import get_ip
-except:
-    print('Install ipware')
-
 import string
 
 CORES = 80
@@ -283,17 +278,17 @@ def submit(request):
         ##         'error': 'Warning! You are running ==>' + str(jobs_per_ip) + '<==.\nYou have reached the limit of jobs run per user (2 runs per user). \nPlease wait untill all your jobs are done. \nIf we have blocked you by mistake, contact us: simrnaweb@genesilico.pl',
         ##     }))
 
-        if request.POST['captcha'] != 'RNA':
-            return render_to_response('submit.html', RequestContext(request, {
-                'error': 'If you are not a robot, type RNA as an answer to `What do you want to model`?',
-            }))
-
+        # captcha
+        #if request.POST['captcha'] != 'RNA':
+        #    return render_to_response('submit.html', RequestContext(request, {
+        #        'error': 'If you are not a robot, type RNA as an answer to `What do you want to model`?',
+        #    }))
 
         j = Job()
 
         # save ip
-        ip = get_ip(request)
-        j.ip = str(ip)
+        # ip = get_ip(request)
+        # j.ip = str(ip)
 
         # get job_id till it does not give you job_id that is already in the db
         while 1:
@@ -337,12 +332,16 @@ def submit(request):
         j.ss = request.POST['ss']
 
         #format
-        j.saxs_format = SAXS_FORMATS[request.POST['saxs_format']]
+        j.saxs_format = "1" #SAXS_FORMATS[request.POST['saxs_format']]
 
         #if is_pk(j.ss):
         #    j.ss = get_multiple_lines(j.ss)
 
         # pdb_fn
+        
+        
+        print(request.FILES['pdb_fn'])
+        
         try:
             # mój_ulubiony_struc_!.pdb -> moj_ulubiony_struc_.pdb
             pdb_fn = request.FILES['pdb_fn']
@@ -377,13 +376,13 @@ def submit(request):
             except MultiValueDictKeyError:
                 j.restraints_fn = ''
 
-        j.interpret_occupancy = 1  # @todo
-        j.residues_to_freeze = request.POST['residues_to_freeze'].replace(' ', '')  # remove ' '
-        j.email = request.POST['email']
-        j.nsteps = request.POST['number_steps']
+        j.interpret_occupancy = "1" # "" #1  # @todo
+        j.residues_to_freeze = "" #request.POST['residues_to_freeze'].replace(' ', '')  # remove ' '
+        j.email = "" # request.POST['email']
+        j.nsteps = "0" #request.POST['number_steps']
 
-        j.seq = request.POST['seq']
-        j.seq_len = len(j.seq)
+        j.seq = "demo" #request.POST['seq']
+        j.seq_len = "10" # len(j.seq)
 
         print(('j.seq', j.seq))
         
@@ -426,6 +425,7 @@ def submit(request):
             cfg.set('Job', 'ss', '')  # @hack!!!!
         cfg.set('Job', 'restraints_fn', j.restraints_fn)
 
+        j.percentage_of_frames = "0"
         cfg.set('Job', 'percentage_of_frames', j.percentage_of_frames)
         cfg.set('Job', 'interpret_occupancy', j.interpret_occupancy)
 
@@ -476,9 +476,51 @@ def submit(request):
         f.close()
 
         # @hack
-        return HttpResponseRedirect('http://genesilico.pl/rnamasonry/jobs/' + j.job_id + '/') # 
+        # return HttpResponseRedirect('http://genesilico.pl/rnamasonry/jobs/' + j.job_id + '/') #
+        return HttpResponseRedirect('/rnamasonry/jobs/' + j.job_id + '/') # 
     else:
         error = ''
         return render_to_response('submit.html', RequestContext(request, {
             'error': error,
         }))
+
+
+
+def ajax_job_status(request, job_id):
+
+    job_dir = settings.JOBS_PATH + sep + job_id
+    load = ''
+
+    response_dict = {'reload':False}
+
+    #try:
+    if 1:
+        j = Job.objects.get(job_id=job_id.replace('/', ''))
+
+        #if j.status == JOB_STATUSES['running']:
+        #    response_dict['reload']=False
+        if j.status == JOB_STATUSES['finished'] or j.status == JOB_STATUSES['stopped']:
+            response_dict['reload']=True
+
+        log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
+        with open(log_filename, 'r') as ifile:
+            log = ifile.read()
+            log = re.sub(r"[\n]", "</br>", log)
+
+            # --> Clustering
+            #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
+            # --> Annealing
+            #log = re.sub(r"[-]+> Annealing[\w\s]+\d+\%[\s\|#]+ETA:[\d\s\:\-]+\r", "", log)
+            # --> Preparing data
+            #log = re.sub(r"[\s]{5,}\d+\%[\s\|#]+ETA:[\d\s\:\-]+\r", "", log)
+            #log = re.sub(r"[\-]+>[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
+            #log = re.sub(r"[\s]{4,}\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
+
+            # response_dict['log'] = log.replace(' ', '&nbsp')
+            response_dict['log'] = log
+
+    #except:
+    #    response_dict['log'] = ""
+
+    print(json.dumps(response_dict))
+    return HttpResponse(json.dumps(response_dict), "application/json")

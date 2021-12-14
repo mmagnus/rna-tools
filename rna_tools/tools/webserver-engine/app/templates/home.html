@@ -51,25 +51,25 @@ height:5px;
 }
 </style>
 
-{%comment%}
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="color:white">
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
-      <div class="item active">
-          <img src="{{ STATIC_URL }}app/img/01.png" height="" alt="">
+    <div class="item active">
+      <center>
+        <img src="{{ STATIC_URL }}app/img/01.png" height="" alt="">
+	</center>
           <div class="carousel-caption">
-              <!--<h4>SimRNA predicts RNA stucture based on the sequence.</h4>-->
-	      <h4>RNAMasonry</h4>
-	      3D motifs available in RNA Bricks database
+	      <h4>rna-tools</h4>
+	      a toolbox to analyze sequences, structures and simulations of RNA (and way more!)
           </div>
       </div>
   </div>
 </div> 
-{%endcomment%}
+
 <p class="lead" style="margin-top:20px;font-size:16px;text-align: justify;">
-    <strong style="font-size:20px">RNAMasonry builds RNA models from recurrent 3D motifs</strong>
+    <strong style="font-size:20px">rna-tools s a packages of shell utils that are using the common core library</strong>
     <br />
-    RNA Masonry builds atomic models of RNA molecules using recurrent 3D motifs available in <a href="http://iimcb.genesilico.pl/rnabricks2">RNA Bricks</a> database. The program exploits hierarchical organization of RNA structures composed of regularly shaped double-stranded helices and irregularly shaped loop motifs. Algorithms implemented in RNA Masonry merge these motifs to build a model that has the user-provided secondary structure and plausible local geometry that maximizes the <a href="http://genesilico.pl/simrna/">SimRNA</a> energy function. RNA Masonry can also use additional restraints like tertiary contacts or small angle scattering data.
+    rna-tools is a core library and a set of programs to run various Python functions related to work, initially, with PDB files of RNA structures, but right now this is a huge toolbox of tools to process various types of RNA data.
 </p>
 
 <p class="lead" style="margin-top:20px;font-size:16px;text-align: justify;">
@@ -80,7 +80,7 @@ height:5px;
 
 <hr />
 <p>
-    To <b>download a standalone version</b> of RNAMasonry, visit <a href="https://gitlab.com/gchojnowski/rnamasonry">https://gitlab.com/gchojnowski/rnamasonry</a>
+    To <b>download a standalone version</b> of rna-tools, visit <a href="https://github.com/mmagnus/rna-tools/">https://github.com/mmagnus/rna-tools/</a>
 </p>
 
 <hr />
