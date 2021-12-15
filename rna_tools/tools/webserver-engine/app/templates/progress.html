@@ -44,7 +44,7 @@
   
     {% if not j.get_status == 'waiting' %}
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 1000);
+        progress_interval = setInterval(checkProgress, 100);
     });
     {%endif%}
 
@@ -100,6 +100,7 @@
 </p>
 
 <p>
+    {% comment %}
     {% if j.get_status == 'waiting' %}
     <strong>Status of your job: <span class="label label-important">{{ j.get_status }}</span></strong>
     {% endif %}
@@ -111,8 +112,10 @@
     <div>
         <strong>Status of your job:   <span class="label label-success">{{ j.get_status }}</span></strong>
         {% endif %}
-</p>
 
+{% endcomment %}
+
+</p>
 {% if j.restraints_fn %}
 <pre>{{ j.get_restraints }}</pre>
 {% endif %}

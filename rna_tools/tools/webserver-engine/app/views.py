@@ -149,8 +149,14 @@ def job(request, job_id):
     else:
 
         import os
-        os.system('<job folder>/run.sh')
-
+        with open(job_dir + '/run.sh', 'w') as f:
+            f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
+            f.write('ls >> log.txt')
+            
+        os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
+        j.status = JOB_STATUSES['running']
+        j.save()
+        
         return render_to_response('progress.html', RequestContext(request, {
             'j': j,
             'progress': progress,
