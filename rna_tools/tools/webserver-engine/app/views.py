@@ -150,8 +150,10 @@ def job(request, job_id):
 
         import os
         with open(job_dir + '/run.sh', 'w') as f:
-            f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
-            f.write('ls >> log.txt')
+            f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt \n')
+            f.write('ls >> log.txt \n')
+            f.write('zip -r ' + job_id.replace('/', '') + '.zip * \n')
+            f.write("echo 'DONE' >> log.txt \n")
             
         os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
         j.status = JOB_STATUSES['running']
