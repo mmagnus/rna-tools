@@ -109,7 +109,7 @@
 {% endif %}
 
 <p class="lead" style="font-size:15px; text-align: left;">
-    <form id="submit" ACTION="/rnamasonry/submit/" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
+    <form id="submit" ACTION="/submit/" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
         {% csrf_token %}
 
 <!--
@@ -149,7 +149,7 @@
  <input style="height:px" class="input-large" id="capt" type="text" name="capt" date-type="" placeholder="if you are not a robot type RNA" value=""><br />
 
 {%endcomment%}
-<button type="submit" class="btn btn-large btn-success">Predict!</button>
+<button type="submit" class="btn btn-large btn-success">Run!</button>
 
 
 <input type="hidden" id="job_title" name="job_title" value="demo" />

@@ -147,6 +147,10 @@ def job(request, job_id):
             'j': j,
         }))
     else:
+
+        import os
+        os.system('<job folder>/run.sh')
+
         return render_to_response('progress.html', RequestContext(request, {
             'j': j,
             'progress': progress,

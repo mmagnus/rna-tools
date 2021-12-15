@@ -82,16 +82,12 @@
 
 <h3>Results for job: {{ j.job_id }} ({{ j.job_title }})</h3>
 
-     <a class="btn btn-medium pull-right" href="/rnamasonry/stop/{{ j.job_id }}/"><i class="icon-remove-sign"></i> Stop the job</a>
-
 <p><strong>The program is working on your request.</strong></p>
 <p>
     <!--You can bookmark <a target="_blank" href="/RNPdock/job/{{ j.job_id }}">/RNPdock/job/{{ j.job_id }}</a> page to get your results later.-->
     You can bookmark <a target="_blank" href="/rnamasonry/jobs/{{ j.job_id }}/">/rnamasonry/jobs/{{ j.job_id }}</a> page to get your results later.
 </br>
 </br>
-
-{% if j.ss %}<pre style="font-size:11px;overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{{ j.get_input }}</pre>{% endif %}
 
 {% if j.pdb_fn %}
 <pre>{{ j.pdb_fn }} {% if j.residues_to_freeze %} frozen: {{ j.residues_to_freeze }}{% endif %}</pre>
@@ -114,13 +110,6 @@
     {% if j.get_status == 'running' %} 
     <div>
         <strong>Status of your job:   <span class="label label-success">{{ j.get_status }}</span></strong>
-        {% if progress %}
-        <p>
-            <div class="progress progress-striped active">
-                <div class="bar bar-success" style="width: {{progress}}%;"><span style="color:black"> {{ progress }}%</span></div>
-            </div>  
-        </p>
-        {% endif %}
         {% endif %}
 </p>
 
@@ -168,8 +157,8 @@ Download <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/output_PDBS/{{ j.get_aa_fil
         <pre style="font-size:10px;	overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{{ j.get_processing }}</pre>
         {%endif%}
 
-        <strong>Job log:</strong>
         <!-- <pre style="font-size:10px;	overflow: scroll;white-space: pre;word-break: break-all;word-wrap: break-word;">{{ j.get_log_reverse }}</pre> -->
+
         <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
 
         <script>
@@ -183,13 +172,4 @@ $("#button2").click(function() {
     $("#logx").slideToggle();
 });
 </script>
-
-        <p>
-            <div class="progress progress-striped active">
-                <div class="bar bar-success" style="width: {{progress}}%;"><span style="color:black"> {{ progress }}%</span></div>
-            </div>  
-        </p>
-
-        <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
-
 {% endblock %}
