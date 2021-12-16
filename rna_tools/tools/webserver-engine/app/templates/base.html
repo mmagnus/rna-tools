@@ -90,14 +90,13 @@
 <body linkifymax="0" linkifycurrent="0" linkifying="true">
 
     <div class="container-narrow">
-
         <div class="masthead">
             <ul class="nav nav-pills pull-right">
 	        <!-- class="active" -->
-                <li><a href="/">Home</a></li>
-                <li><a href="/submit">Submit</a></li>
-		<li><a href="/docs">Documentation</a></li>
-	        <li><a href="/about">About</a></li>
+                <li><a href="/">home</a></li>
+                <li><a href="/submit">tools</a></li>
+		<li><a href="/docs">documentation</a></li>
+	        <li><a href="/about">about</a></li>
                 {%comment%}<li><a href="/rna-tools-web/contact">Contact</a></li>{%endcomment%}
             </ul>
             <h3 class="muted"><span style="color:#5c5959">rna-tools</span>.online</h3>
@@ -110,6 +109,8 @@
 	    {% block content %} {% endblock %}
 
         </div>
+	       <a href="http://localhost/jobs/demo-728a026a">demo</a>
+
         <div class="footer">
 	    {% if load.1 %}
 	    <!--<small>The cluster load <b>{{ load.1 }}</b> (max. is 1, when load is > 1 then jobs are queued on the cluster).</b></small>-->
@@ -117,3 +118,4 @@
         </div>
     </div> <!-- /container -->
     </body></html>
+

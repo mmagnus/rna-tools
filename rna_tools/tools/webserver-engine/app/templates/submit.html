@@ -11,7 +11,7 @@ body {
 
 .dz {
     border: dashed !important;
-    background-color: #ccc !important;
+    background-color: white !important;
     border-radius: 10px !important;
 }
 
@@ -22,6 +22,7 @@ body {
 </style>
 
 
+<!--     acceptedFiles:'.jpg', -->
 <script type="text/javascript">
 
   Dropzone.autoDiscover=false;
@@ -29,7 +30,6 @@ const myDropzone= new Dropzone('#my-dropzone',{
     url:'upload/',
     maxFiles:5,
     maxFilesize:2,
-    acceptedFiles:'.jpg',
 })
   
  $(function() {
@@ -113,16 +113,7 @@ const myDropzone= new Dropzone('#my-dropzone',{
  }); 
 </script>
 
-<h6>UPLOAD MULTIPLE IMAGES NOW</h6>
-<br>
-<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
-    {% csrf_token %}
-    <div class="fallback">
-      <input name="file" type="file" multiple />
-    </div>
-</form>
-
-
+<h2>Get RNA-Puzzle ready</h2>
 
 <div class="alert alert-info">
 
@@ -130,11 +121,19 @@ const myDropzone= new Dropzone('#my-dropzone',{
     <div class="btn-group" style="padding-bottom:0px;">
         <button class="btn" id="example_03"  style="font-size:12px">tRNA testing case example with SAXS data - execution time ~3-5 min </button><a class="btn" target="_blank" href="/rnamasonry/jobs/tRNA_with_SAXS-9218b709"><i class="icon-eye-open"></i></a>
     </div>
-
 </div>
 
-<h2>Get RNA-Puzzle ready</h2>
+<label for="comment">RNA structure (in the PDB format)</label>
 
+<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
+    {% csrf_token %}
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+
+<small class="hint">The input file should contain RNA only. Modelling of RNA-protein complexes is not supported yet.</small>
+</div>
 {% if error %}
 <div class="alert alert-error">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -150,40 +149,17 @@ const myDropzone= new Dropzone('#my-dropzone',{
         <input class="input-large" type="text" name="email" date-type="email" placeholder="E-mail address" id="email" value=""><br />
         <small class="hint">E-mail address is optional</small>
 	-->
-
 </p>
-
-<label for="comment">RNA structure (in the PDB/mmCIF format) to use in the simulation (as a starting point)</label>
-<div class="fileupload fileupload-new" data-provides="fileupload">
-    <div class="input-append">
-	
-	<div class="uneditable-input span3">
-	    <i class="icon-file fileupload-exists"></i>
-	    <span class="fileupload-preview"></span>
-	</div>
-	
-	<span class="btn btn-file">
-	    <span class="fileupload-new">Select file</span>
-	    <span class="fileupload-exists">Change</span>
-	    <input name="pdb_fn" type="file" />	</span>
-	    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-    </div>
-    </br><small class="hint">The input file should contain RNA only. Modelling of RNA-protein complexes is not supported yet.</small>
-</div>
-
 <input type="hidden" id="demo" name="demo" value="false" />
+<button type="submit" class="btn btn-large btn-success">Run!</button>
 
 </p>
-
- <hr/>
-
 {%comment%}
  <p><b>What do you want to model? </b>
  </p>
  <input style="height:px" class="input-large" id="capt" type="text" name="capt" date-type="" placeholder="if you are not a robot type RNA" value=""><br />
-
 {%endcomment%}
-<button type="submit" class="btn btn-large btn-success">Run!</button>
+
 
 
 <input type="hidden" id="job_title" name="job_title" value="demo" />
