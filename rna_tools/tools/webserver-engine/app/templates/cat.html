@@ -22,8 +22,40 @@ body {
 </style>
 
 <script>
-  function go() {
-      alert('go');
+
+    var progress_interval;
+
+  
+    {% if not j.get_status == 'waiting' %}
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 100);
+    });
+    {%endif%}
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    }
+
+
+    function go() {
+        $.ajax({
+            url: "/run/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+
 }
 </script>
 
@@ -38,58 +70,8 @@ body {
       <input name="file" type="file" multiple />
     </div>
 </form>
-<button onclick="go()" class="btn btn-large btn-success">Run!</button>
-
-<small class="hint">The input file should contain RNA only. Modelling of RNA-protein complexes is not supported yet.</small>
-</div>
-{% if error %}
-<div class="alert alert-error">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <strong>Error!</strong> {{ error }}
-</div>
-{% endif %}
-
-<p class="lead" style="font-size:15px; text-align: left;">
-    <form id="submit" ACTION="/submit/" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
-        {% csrf_token %}
-
-<!--
-        <input class="input-large" type="text" name="email" date-type="email" placeholder="E-mail address" id="email" value=""><br />
-        <small class="hint">E-mail address is optional</small>
-	-->
+<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
-<input type="hidden" id="demo" name="demo" value="false" />
-
-</p>
-{%comment%}
- <p><b>What do you want to model? </b>
- </p>
- <input style="height:px" class="input-large" id="capt" type="text" name="capt" date-type="" placeholder="if you are not a robot type RNA" value=""><br />
-{%endcomment%}
-
-
-
-<input type="hidden" id="job_title" name="job_title" value="demo" />
-<input type="hidden" id="ss" name="ss" value="demo" />
-<input type="hidden" id="ss" name="demo" value="false" />
-
-</form>
-
-<!--
-<label>Brochure File</label>
-<input type="file" name="file" style="display:none;" id="pdffile" />
-<div class="input-append">
-<input type="text" name="subfile" id="subfile" class="input">
-<a class="btn" click="$('#pdffile').click();">Browse</a>
-</div>
-<br/>-->
-
-
-<!--
-<div class="bootstrap-filestyle">
-  <input type="text" disabled="" class="input-large"> <label class="btn" for="input1"><span>Choose file</span></label>
-</div>-->
-<!--
-<span class="btn btn-file">Upload a file<input type="file" /></span>
--->
 {% endblock %}

@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^$', 'app.views.home', name='home'),
     url(r'admin/', include(admin.site.urls)),
     url('upload/(?P<job_id>.*)$', 'app.views.file_upload'),
+    url('run/(?P<job_id>.*)$', 'app.views.run'),
     # url(r'^web/', include('web.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

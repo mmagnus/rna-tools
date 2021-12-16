@@ -497,6 +497,38 @@ def submit(request):
             'error': error,
         }))
 
+def run(request, job_id):
+    print(job_id)
+
+    try:
+        j = Job.objects.get(job_id=job_id.replace('/', ''))
+    except:  # DoesNotExist:  @hack
+        return render_to_response('dont_exits.html', RequestContext(request, {
+        }))
+
+
+    import os
+    job_dir = settings.JOBS_PATH + sep + job_id
+
+    job_id = job_id.replace('/', '')
+
+    with open(job_dir + '/run.sh', 'w') as f:
+         f.write('cat *.pdb > ' + job_id + '.pdb\n')
+         f.write('ls *.pdb > log.txt\n')
+         f.write("echo 'DONE' >> log.txt \n")
+
+    ## with open(job_dir + '/run.sh', 'w') as f:
+    ##     f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt \n')
+    ##     f.write('ls >> log.txt \n')
+    ##     f.write('zip -r ' + job_id.replace('/', '') + '.zip * \n')
+    ##     f.write("echo 'DONE' >> log.txt \n")
+
+    os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
+    j.status = JOB_STATUSES['running']
+    j.save()
+
+    return JsonResponse({'post':'false'})
+
 
 def file_upload(request, job_id):
     if request.method == 'POST':
