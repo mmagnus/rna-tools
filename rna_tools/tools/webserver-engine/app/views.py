@@ -498,10 +498,11 @@ def submit(request):
         }))
 
 
-def file_upload(request):
+def file_upload(request, job_id):
     if request.method == 'POST':
         my_file=request.FILES.get('file')
-        with open('/Users/magnus/work/src/rna-tools/rna_tools/tools/webserver-engine/dupa.pdb', 'wb+') as destination:
+        fn = re.sub(r'[\\/*?:"<>|]',"", str(my_file))
+        with open(settings.JOBS_PATH + sep + job_id + '/' + fn , 'wb+') as destination:
             for chunk in my_file.chunks():
                 destination.write(chunk)
     return JsonResponse({'post':'false'})
@@ -545,3 +546,14 @@ def ajax_job_status(request, job_id):
 
     print(json.dumps(response_dict))
     return HttpResponse(json.dumps(response_dict), "application/json")
+
+def cat(request, job_id):
+    try:
+        j = Job.objects.get(job_id=job_id.replace('/', ''))
+    except:  # DoesNotExist:  @hack
+        return render_to_response('dont_exits.html', RequestContext(request, {
+        }))
+    
+    return render_to_response('cat.html', RequestContext(request, {
+            'j': j,
+            }))
