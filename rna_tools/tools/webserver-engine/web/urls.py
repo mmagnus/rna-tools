@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'%s' %  settings.server_name_py, 'app.views.home', name='home'),
     url(r'^$', 'app.views.home', name='home'),
     url(r'admin/', include(admin.site.urls)),
+    url('upload/', 'app.views.file_upload'),
     # url(r'^web/', include('web.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

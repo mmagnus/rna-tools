@@ -30,6 +30,7 @@ import json
 import os,re,sys
 import zipfile
 from io import StringIO
+from django.http import JsonResponse
 
 try:
     from app.models import Job, JOB_STATUSES, SAXS_FORMATS
@@ -496,6 +497,14 @@ def submit(request):
             'error': error,
         }))
 
+
+def file_upload(request):
+    if request.method == 'POST':
+        my_file=request.FILES.get('file')
+        with open('/Users/magnus/work/src/rna-tools/rna_tools/tools/webserver-engine/dupa.pdb', 'wb+') as destination:
+            for chunk in my_file.chunks():
+                destination.write(chunk)
+    return JsonResponse({'post':'false'})
 
 
 def ajax_job_status(request, job_id):

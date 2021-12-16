@@ -1,14 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-
-<title>RNAMasonry</title>
+<title>rna-tools.online</title>
 
 <style>
  .hint {color:#808080;font-size:12px;}
+
+body {
+    background-color: #f8f8f8 !important;
+}
+
+.dz {
+    border: dashed !important;
+    background-color: #ccc !important;
+    border-radius: 10px !important;
+}
+
+.dz:hover {
+    background-color: aliceblue !important;
+}
+
 </style>
 
 
 <script type="text/javascript">
+
+  Dropzone.autoDiscover=false;
+const myDropzone= new Dropzone('#my-dropzone',{
+    url:'upload/',
+    maxFiles:5,
+    maxFilesize:2,
+    acceptedFiles:'.jpg',
+})
+  
  $(function() {
      $('#myTab a').click(function (e) {
 	 e.preventDefault();
@@ -89,6 +112,17 @@
      });
  }); 
 </script>
+
+<h6>UPLOAD MULTIPLE IMAGES NOW</h6>
+<br>
+<form enctype='multipart/form-data' action="upload/" method='POST' class="dropzone dz" id="my-dropzone" >
+    {% csrf_token %}
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+
+
 
 <div class="alert alert-info">
 
