@@ -21,10 +21,9 @@
 
     var progress_interval;
 
-  
-    {% if not j.get_status == 'waiting' %}
+    {% if j.get_status == 'running' %}
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
     {%endif%}
 
