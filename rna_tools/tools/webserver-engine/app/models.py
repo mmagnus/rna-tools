@@ -58,7 +58,6 @@ class Job(models.Model):
     nsteps = models.IntegerField(max_length=100, default=100)
     percentage_of_frames = models.IntegerField(blank=True, default=1, null=True)
 
-    interpret_occupancy = models.IntegerField(max_length=1) # true|false
     error_text = models.TextField(blank=True, null=True)
 
     residues_to_freeze =  models.CharField(max_length=200, blank=True, null=True)
