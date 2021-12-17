@@ -15,8 +15,9 @@ urlpatterns = patterns('',
     url(r'about', 'app.views.about'),
 
     url(r'tools/cat/(?P<job_id>.*)$','app.views.cat'),
-
-    url(r'jobs/(?P<job_id>.*)$','app.views.job'),
+    url(r'tools','app.views.tools'),
+                       
+    url(r'^jobs/(?P<job_id>.*)$','app.views.job'),
 
     url(r'jobstatus/(?P<job_id>.*)$','app.views.ajax_job_status', name='ajax_job_status'),
     url(r'download_project_dir/(?P<job_id>.*)$','app.views.download_project_dir', name='download_project_dir'),
