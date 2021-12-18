@@ -74,6 +74,27 @@ def home(request):
         'load': ''
     }))
 
+def tools(request):
+
+    id = str(uuid.uuid4()).split('-')[0]  # name plus hash
+    ids = []
+    ids.append(id)
+    j = Job()
+    j.job_id = id
+    j.status = 0
+    print('tools, make:', j)
+    j.save()
+    # create folder
+    try:
+        JOB_PATH = settings.JOBS_PATH + sep + j.job_id
+        umask(0o002)
+        makedirs(JOB_PATH)
+    except OSError:
+        pass
+    return render_to_response('tools.html', RequestContext(request, {
+        'ids': ids,
+    }))
+
 
 def stop(request, job_id):
     """Stop job based on job_id /stop/<job_id>. Get the job, change status to stopped
@@ -95,82 +116,6 @@ def stop(request, job_id):
     # shell way to kill it # tRNA_with_SAXS-d5a37d86
     return HttpResponseRedirect('http://genesilico.pl/rnamasonry/jobs/' + j.job_id + '/')  # @hack
 
-
-def job(request, job_id):
-    job_dir = settings.JOBS_PATH + sep + job_id
-    load = ''
-    
-    try:
-        j = Job.objects.get(job_id=job_id.replace('/', ''))
-    except:  # DoesNotExist:  @hack
-        return render_to_response('dont_exits.html', RequestContext(request, {
-        }))
-
-    error = j.get_error()
-    if error:
-        j.error_text = j.get_error()
-        j.status = JOB_STATUSES['finished with errors']
-        j.save()
-        return render_to_response('errors.html', RequestContext(request, {
-            'j': j
-        }))
-
-    if j.status == JOB_STATUSES['finished with errors']:
-        return render_to_response('errors.html', RequestContext(request, {
-            'j': j
-        }))
-
-    # if j.get_setup_ok() and j.status == JOB_STATUSES['waiting']:
-    #      j.status = JOB_STATUSES['running']
-    #      j.save()
-
-    nframes = 0
-    curr_nframes = j.get_nframes()
-    progress = j.get_progress()
-
-    if j.status == JOB_STATUSES['finished'] or j.status == JOB_STATUSES['stopped']:
-        try:
-            files = listdir(job_dir)
-        except OSError:
-            return render_to_response('deleted.html', RequestContext(request, {
-                'job_id': job_id,
-                'job_dir': job_dir,
-                'j': j,
-            }))
-
-        return render_to_response('result.html', RequestContext(request, {
-            'job_id': job_id,
-            'job_dir': job_dir,
-            'files': files,
-            'nframes': nframes,
-            'curr_nframes': curr_nframes,
-            'progress': progress,
-            'j': j,
-        }))
-    else:
-
-        import os
-        with open(job_dir + '/run.sh', 'w') as f:
-            f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt \n')
-            f.write('ls >> log.txt \n')
-            f.write('zip -r ' + job_id.replace('/', '') + '.zip * \n')
-            f.write("echo 'DONE' >> log.txt \n")
-            
-        os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
-        j.status = JOB_STATUSES['running']
-        j.save()
-        
-        return render_to_response('progress.html', RequestContext(request, {
-            'j': j,
-            'progress': progress,
-            'nframes': nframes,
-            'curr_nframes': curr_nframes,
-            'load': load,
-            'progress_float': float(progress),
-        }))
-
-
-# -----------------------------------------------------------------------------
 
 def download_project_dir(request, job_id):
 
@@ -211,8 +156,6 @@ def download_project_dir(request, job_id):
     return response
 
 
-# -----------------------------------------------------------------------------
-
 def ajax_job_status(request, job_id):
 
     job_dir = settings.JOBS_PATH + sep + job_id
@@ -251,9 +194,6 @@ def ajax_job_status(request, job_id):
 
 
     return HttpResponse(json.dumps(response_dict), "application/json")
-
-
-# -----------------------------------------------------------------------------
 
 
 def about(request):
@@ -311,7 +251,6 @@ def submit(request):
                 # source http://stackoverflow.com/questions/295135/turn-a-string-into-a-valid-filename
                 job_id = "".join(x for x in s if x in list(string.ascii_letters) +
                                  list('+_-.') + list(string.digits))[:20]
-
                 job_id = job_id + '-' + str(uuid.uuid4()).split('-')[0]  # name plus hash
 
                 hits = Job.objects.filter(job_id=job_id)
@@ -513,7 +452,7 @@ def run(request, job_id):
     job_id = job_id.replace('/', '')
 
     with open(job_dir + '/run.sh', 'w') as f:
-         f.write('cat *.pdb > ' + job_id + '.pdb\n')
+         f.write('cat *.pdb > ' + job_id + '.pdb 2> log.txt \n')
          f.write('ls *.pdb > log.txt\n')
          f.write("echo 'DONE' >> log.txt \n")
 
@@ -528,7 +467,6 @@ def run(request, job_id):
     j.save()
 
     return JsonResponse({'post':'false'})
-
 
 def file_upload(request, job_id):
     if request.method == 'POST':
@@ -545,7 +483,7 @@ def ajax_job_status(request, job_id):
     job_dir = settings.JOBS_PATH + sep + job_id
     load = ''
 
-    response_dict = {'reload':False}
+    response_dict = {'reload': False}
 
     #try:
     if 1:
@@ -572,7 +510,12 @@ def ajax_job_status(request, job_id):
 
             # response_dict['log'] = log.replace(' ', '&nbsp')
             response_dict['log'] = log
-
+            if 'DONE' in log:
+                print('Done')
+                j = Job.objects.get(job_id=job_id.replace('/', ''))
+                j.status = JOB_STATUSES['finished']
+                j.save()
+                response_dict['reload'] = False
     #except:
     #    response_dict['log'] = ""
 

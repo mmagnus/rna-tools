@@ -14,20 +14,17 @@ urlpatterns = patterns('',
     url(r'contact', 'app.views.contact'),
     url(r'about', 'app.views.about'),
 
-    url(r'tools/cat/(?P<job_id>.*)$','app.views.cat'),
-    url(r'tools','app.views.tools'),
-                       
-    url(r'^jobs/(?P<job_id>.*)$','app.views.job'),
-
     url(r'jobstatus/(?P<job_id>.*)$','app.views.ajax_job_status', name='ajax_job_status'),
     url(r'download_project_dir/(?P<job_id>.*)$','app.views.download_project_dir', name='download_project_dir'),
     url(r'stop/(?P<job_id>.*)$','app.views.stop'),
 
-    url(r'%s/jobs/(?P<job_id>.*)$' %  settings.server_name_py,'app.views.job'),
+    url(r'download_project_dir/(?P<job_id>.*)$', 'app.views.download_project_dir', name='download_project_dir'),
+    url(r'jobstatus/(?P<job_id>.*)$', 'app.views.ajax_job_status', name='ajax_job_status'),
+    url(r'stop/(?P<job_id>.*)$', 'app.views.stop'),
 
-    url(r'%s/download_project_dir/(?P<job_id>.*)$' % settings.server_name_py,'app.views.download_project_dir', name='download_project_dir'),
-    url(r'%s/jobstatus/(?P<job_id>.*)$' %  settings.server_name_py,'app.views.ajax_job_status', name='ajax_job_status'),
-    url(r'%s/stop/(?P<job_id>.*)$' %  settings.server_name_py,'app.views.stop'),
+    url(r'^tools/cat/(?P<job_id>.*)$','app.views.cat'),
+    url(r'^tools','app.views.tools'),
+                       
     url(r'%s/*$' %  settings.server_name_py, 'app.views.home', name='home'),
     url(r'%s' %  settings.server_name_py, 'app.views.home', name='home'),
     url(r'^$', 'app.views.home', name='home'),

@@ -14,12 +14,22 @@
 .dz:hover {
     background-color: aliceblue !important;
 }
-
 </style>
+
+	$("#jsmol").refresh();
 
 <script>
 
+
+
     var progress_interval;
+
+
+    function click() {
+	alert('click');
+        location.reload();
+
+    };
 
     {% if j.get_status == 'running' %}
     $(document).ready( function(){
@@ -36,11 +46,11 @@
                     window.location.reload()
                 }
             }
-        })
-    }
+    })
+    };
 
-
-    function go() {
+function go() {
+    alert('go')
         $.ajax({
             url: "/run/{{ j.job_id }}",
             success: function(d) {
@@ -50,8 +60,49 @@
                 }
             }
         })
+    };
 
-}
+</script>
+    
+  <button onclick="click()" class="btn btn-large btn-success">click</button>
+
+<script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
+
+<script>
+ var jmolApplet0; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;refresh;'
+	 +'load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb;set echo top center;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;color group;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 800,
+     height: 800,
+     debug: true,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
 </script>
 
 <h2>Concatenate PDB files</h2>
@@ -66,6 +117,21 @@
     </div>
 </form>
 <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace"></div>
+{{ j.get_status }}
+
+<center>
+
+<div id='jsmol'>
+    <script  type="text/javascript">
+     jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+    </script>
+</div>
+    Downlod <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb">the model</a>.
+</center>
+
+{% if j.get_status == 'finish' %}
+{% endif %}
+
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
