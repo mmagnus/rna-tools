@@ -75,22 +75,22 @@ def home(request):
     }))
 
 def tools(request):
-
-    id = str(uuid.uuid4()).split('-')[0]  # name plus hash
     ids = []
-    ids.append(id)
-    j = Job()
-    j.job_id = id
-    j.status = 0
-    print('tools, make:', j)
-    j.save()
-    # create folder
-    try:
-        JOB_PATH = settings.JOBS_PATH + sep + j.job_id
-        umask(0o002)
-        makedirs(JOB_PATH)
-    except OSError:
-        pass
+    for i in range(0, 10):
+        id = str(uuid.uuid4()).split('-')[0]  # name plus hash
+        ids.append(id)
+        j = Job()
+        j.job_id = id
+        j.status = 0
+        print('tools, make:', j)
+        j.save()
+        # create folder
+        try:
+            JOB_PATH = settings.JOBS_PATH + sep + j.job_id
+            umask(0o002)
+            makedirs(JOB_PATH)
+        except OSError:
+            pass
     return render_to_response('tools.html', RequestContext(request, {
         'ids': ids,
     }))
@@ -154,46 +154,6 @@ def download_project_dir(request, job_id):
 
 
     return response
-
-
-def ajax_job_status(request, job_id):
-
-    job_dir = settings.JOBS_PATH + sep + job_id
-    load = ''
-
-    response_dict = {'reload':False}
-
-    try:
-        j = Job.objects.get(job_id=job_id.replace('/', ''))
-
-        #if j.status == JOB_STATUSES['running']:
-        #    response_dict['reload']=False
-        if j.status == JOB_STATUSES['finished'] or j.status == JOB_STATUSES['stopped']:
-            response_dict['reload']=True
-
-        log_filename = os.path.join(settings.JOBS_PATH,job_id,'log.txt')
-        with open(log_filename, 'r') as ifile:
-            log = ifile.read()
-            log = re.sub(r"[\n]", "</br>", log)
-
-            # --> Clustering
-            #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
-            # --> Annealing
-            #log = re.sub(r"[-]+> Annealing[\w\s]+\d+\%[\s\|#]+ETA:[\d\s\:\-]+\r", "", log)
-            # --> Preparing data
-            #log = re.sub(r"[\s]{5,}\d+\%[\s\|#]+ETA:[\d\s\:\-]+\r", "", log)
-
-            log = re.sub(r"[\-]+>[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
-            log = re.sub(r"[\s]{4,}\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
-
-
-            response_dict['log']=log.replace(' ', '&nbsp')
-
-    except:
-        response_dict['log'] = ""
-
-
-    return HttpResponse(json.dumps(response_dict), "application/json")
 
 
 def about(request):
@@ -436,31 +396,43 @@ def submit(request):
             'error': error,
         }))
 
-def run(request, job_id):
+def run(request, tool, job_id):
     print(job_id)
-
     try:
         j = Job.objects.get(job_id=job_id.replace('/', ''))
     except:  # DoesNotExist:  @hack
         return render_to_response('dont_exits.html', RequestContext(request, {
         }))
 
-
     import os
     job_dir = settings.JOBS_PATH + sep + job_id
 
     job_id = job_id.replace('/', '')
 
-    with open(job_dir + '/run.sh', 'w') as f:
-         f.write('cat *.pdb > ' + job_id + '.pdb 2> log.txt \n')
-         f.write('ls *.pdb > log.txt\n')
-         f.write("echo 'DONE' >> log.txt \n")
+    if tool == 'cat':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rm ' + job_id + '.pdb\n')
+             f.write('cat *.pdb > ' + job_id + '.pdb 2> log.txt \n')
+             f.write('ls *.pdb > log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
 
-    ## with open(job_dir + '/run.sh', 'w') as f:
-    ##     f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt \n')
-    ##     f.write('ls >> log.txt \n')
-    ##     f.write('zip -r ' + job_id.replace('/', '') + '.zip * \n')
-    ##     f.write("echo 'DONE' >> log.txt \n")
+    if tool == 'seq':
+        print('run, seq,' + job_id)
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+
+    if tool == 'extract':
+        from urllib.parse import unquote
+        #url = unquote(request.POST['extract'])
+        opt = request.GET['extract']
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;
+""" % opt)
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
 
     os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
     j.status = JOB_STATUSES['running']
@@ -492,12 +464,21 @@ def ajax_job_status(request, job_id):
         #if j.status == JOB_STATUSES['running']:
         #    response_dict['reload']=False
         if j.status == JOB_STATUSES['finished'] or j.status == JOB_STATUSES['stopped']:
-            response_dict['reload']=True
+            response_dict['reload'] = False
+            return JsonResponse({'post':'false'})
 
+        log = ''
+        #try:
+        with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
+                 log = f.read() + '\n'
+        #except:
+        #    pass
+        #print(log)
+        
         log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
         with open(log_filename, 'r') as ifile:
-            log = ifile.read()
-            log = re.sub(r"[\n]", "</br>", log)
+            l = ifile.read()
+            log += re.sub(r"[\n]", "</br>", l)
 
             # --> Clustering
             #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
@@ -515,20 +496,32 @@ def ajax_job_status(request, job_id):
                 j = Job.objects.get(job_id=job_id.replace('/', ''))
                 j.status = JOB_STATUSES['finished']
                 j.save()
-                response_dict['reload'] = False
+                response_dict['reload'] = True
     #except:
     #    response_dict['log'] = ""
 
     print(json.dumps(response_dict))
     return HttpResponse(json.dumps(response_dict), "application/json")
 
-def cat(request, job_id):
+def tool(request, tool, job_id):
     try:
         j = Job.objects.get(job_id=job_id.replace('/', ''))
     except:  # DoesNotExist:  @hack
         return render_to_response('dont_exits.html', RequestContext(request, {
         }))
+
+    try:
+        with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
+                 log = f.read() + '\n'
+
+        log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
+        with open(log_filename, 'r') as ifile:
+            log = ifile.read()
+            log = re.sub(r"[\n]", "</br>", log)
+    except:
+        log = ''
     
-    return render_to_response('cat.html', RequestContext(request, {
-            'j': j,
-            }))
+    return render_to_response(tool + '.html', RequestContext(request, {
+        'j': j,
+        'log' : log
+        }))

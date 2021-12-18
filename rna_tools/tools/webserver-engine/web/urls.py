@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'jobstatus/(?P<job_id>.*)$', 'app.views.ajax_job_status', name='ajax_job_status'),
     url(r'stop/(?P<job_id>.*)$', 'app.views.stop'),
 
-    url(r'^tools/cat/(?P<job_id>.*)$','app.views.cat'),
+    url(r'^tools/(?P<tool>.*)/(?P<job_id>.*)$','app.views.tool'),
     url(r'^tools','app.views.tools'),
                        
     url(r'%s/*$' %  settings.server_name_py, 'app.views.home', name='home'),
@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'^$', 'app.views.home', name='home'),
     url(r'admin/', include(admin.site.urls)),
     url('upload/(?P<job_id>.*)$', 'app.views.file_upload'),
-    url('run/(?P<job_id>.*)$', 'app.views.run'),
+    url('run/(?P<tool>.*)/(?P<job_id>.*)$', 'app.views.run'),
     # url(r'^web/', include('web.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
