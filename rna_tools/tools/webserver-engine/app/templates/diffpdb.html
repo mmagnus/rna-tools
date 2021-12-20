@@ -28,7 +28,8 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-<pre><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div></pre>
+
+<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
@@ -51,7 +52,7 @@ ATOM      6  N9    G A   1				      |	ATOM      6  O3'   G A   1</pre>
     </small>
       <p>
 	<center>
-          <img src="{{ STATIC_URL }}app/img/diffpdb.jpg" width="80%"  alt="">
+          <img src="{{ STATIC_URL }}app/img/diffpdb.jpg" width="60%"  alt="">
 	</center>
       </p>
 <script>

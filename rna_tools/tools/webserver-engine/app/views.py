@@ -233,7 +233,7 @@ rna_calc_rmsd.py -t %s %s &> log.txt\n
 rna_calc_inf.py -t %s %s -sr -pr &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
              #f.write('ls *.pdb >> log.txt\n\n')
-             f.write('column -s, -t < inf.csv >> log.txt\n\n')
+             #f.write('column -s, -t < inf.csv >> log.txt\n\n')
              f.write("echo 'DONE' >> log.txt \n\n")
 
     if tool == 'diffpdb':
