@@ -186,13 +186,15 @@ def run(request, tool, job_id):
              f.write('cat *.pdb > ' + job_id + '.pdb 2> log.txt \n')
              f.write('ls *.pdb > log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
-
+             f.write("zip -r %s.zip *" % job_id)
+             
     if tool == 'seq':
         print('run, seq,' + job_id)
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'seq-search':
         print('run, seq,' + job_id)
@@ -201,6 +203,7 @@ def run(request, tool, job_id):
              f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'calc-rmsd':
         print('run, seq,' + job_id)
@@ -217,7 +220,8 @@ rna_calc_rmsd.py -t %s %s &> log.txt\n
              #f.write('ls *.pdb >> log.txt\n\n')
              f.write('column -s, -t < rmsds.csv >> log.txt\n\n')
              f.write("echo 'DONE' >> log.txt \n\n")
-
+             f.write("zip -r %s.zip *" % job_id)
+             
     if tool == 'calc-inf':
         print('run, seq,' + job_id)
         import glob
@@ -233,7 +237,7 @@ rna_calc_inf.py -t %s %s &> log.txt\n
              #f.write('ls *.pdb >> log.txt\n\n')
              f.write('column -s, -t < inf.csv >> log.txt\n\n')
              f.write("echo 'DONE' >> log.txt \n\n")
-
+             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'clarna':
         print('run, seq,' + job_id)
@@ -265,7 +269,8 @@ for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
 diffpdb.py --method diff %s %s &> log.txt \n
 """ % (files[0], files[1]))
              f.write("echo 'DONE' >> log.txt \n")
-
+             f.write("zip -r %s.zip *" % job_id)
+             
     if tool == 'extract':
         from urllib.parse import unquote
         #url = unquote(request.POST['extract'])
@@ -276,7 +281,8 @@ for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb};
 """ % opt)
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
-
+             f.write("zip -r %s.zip *" % job_id)
+             
     os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()

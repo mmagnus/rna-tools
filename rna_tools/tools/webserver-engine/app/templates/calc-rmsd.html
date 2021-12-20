@@ -107,8 +107,9 @@
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
-
-    <small class="hint">status: {{ j.get_status }}</small>
+<p>
+The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
 
 <small class="hint">
 
@@ -118,6 +119,9 @@
 
      <p>
        rna_calc_rmsd.py - calculate RMSDs of structures to the target.
+     </p>
+     <p>
+       Demo files <a href="{{ STATIC_URL }}app/demo/rp21.zip">rp21.zip</a>.
      </p>
      <p>
        If you still have problem with various number of atoms, check out this issue: get_rnapuzzle_ready see <a href="/tools/">Tools</a>
@@ -131,6 +135,7 @@ fn                        rmsd_all
 
      <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd">https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd</a>
      
+<small class="hint">status: {{ j.get_status }}</small>
 
 {% endblock %}
 
