@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<title>rna-tools.online</title>
+
+<style>
+ .hint {color:#808080;font-size:12px;}
+
+.dz {
+    border: dashed !important;
+    background-color: white !important;
+    border-radius: 10px !important;
+}
+
+.dz:hover {
+    background-color: aliceblue !important;
+}
+</style>
+
+<script>
+
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+    })
+    };
+
+    function go() {
+
+        $.ajax({
+            url: "/run/analysis/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    };
+
+</script>
+
+<h2>Minimize structure [Fix clashes]</h2>
+
+<label for="comment">RNA structure (in the PDB format)</label>
+
+<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
+  {% csrf_token %}
+  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+</p>
+
+    <small class="hint">status: {{ j.get_status }}</small>
+
+<p>
+
+The rna-tools (RNA-Puzzles toolkit) package uses ModeRNA to introduce single or double muta- tions in structures. But it overcomes ModeRNA’s limitation in processing only one chain at the time. Multiple mutations in multiple chains can be introduced.
+  
+Tools used:
+<p>
+M. Magnus, M. Antczak, T. Zok, J. Wiedemann, P. Lukasiak, Y. Cao, J. M. Bujnicki, E. Westhof, M. Szachniuk, and Z. Miao, “RNA-Puzzles toolkit: a computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools.,” Nucleic Acids Research, vol. 48, no. 2, pp. 576–588, Jan. 2020.
+</p>
+
+<p>
+  M. Rother, K. M. Rother, T. Puton, and J. M. Bujnicki, “ModeRNA: a tool for comparative modeling of RNA 3D structure.,” Nucleic Acids Research, vol. 39, no. 10, pp. 4007–4022, May 2011.
+</p>
+
+{% endblock %}

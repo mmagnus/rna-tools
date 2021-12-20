@@ -3,7 +3,7 @@
 <h2>Tools</h2>
 
 <h3>RNA Sequence</h3>
-
+The second group of tools aims to facilitate operations on RNA sequence.
 <h4>Sequence search</h4>
 <p>
 If you want to model an RNA sequence, search for potential templates in <a href="https://www.rcsb.org/search/advanced">PDB</a> and/or <a href="https://rfam.xfam.org/search#tabview=tab1">RFAM</a>.
@@ -19,14 +19,23 @@ If you want to model an RNA sequence, search for potential templates in <a href=
 <span style="color:red">Web wrappers to this tools are in progress. You can find more on wrappers that you can run in your terminal <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#search">here</a>.</span>
 
 <a href="/tools/secondary-structure/{{ ids.5 }}"><h4>Secondary structure prediction</h4></a>
+RNA secondary structure prediction are implemented, including RNAsubopt, RNAeval, RNAfold from ViennaRNA, CentroidFold, ContextFold, MC-Fold and IPknot.
 
+<h3>RNA secondary structure tools</h3>
+The second group of tools aims to facilitate operations on RNA secondary structure.
+  
 <h3>RNA 3D structure editing</h3>
+The second group of tools aims to facilitate operations on RNA 3D structure.
 
-<a href="/tools/seq/{{ ids.1 }}"><h4>Obtain sequences from PDB files</h4></a>
-<a href="/tools/cat/{{ ids.0 }}"><h4>Concatenate</h4></a>
-<a href="/tools/extract/{{ ids.2 }}"><h4>Extract</h4></a>
+<a href="/tools/standardize/{{ ids.4 }}"><h4>Standardize PDB files (get-rnapuzzle-ready)</h4></a> get a standardized naming of atoms, residues, chains to be compatible with the format proposed by the RNA-Puzzles community [report and add missing atoms]
+<a href="/tools/seq/{{ ids.1 }}"><h4>Obtain sequences from PDB files</h4></a> get sequences of a bunch of PDB files
+<a href="/tools/cat/{{ ids.0 }}"><h4>Concatenate</h4></a> merge a bunch of PDB files into one file
+<a href="/tools/extract/{{ ids.2 }}"><h4>Extract</h4></a> extract parts of PDB files
+<a href="/tools/delete/{{ ids.2 }}"><h4>Delete</h4></a> delete parts of PDB files
+<a href="/tools/mutate/{{ ids.9 }}"><h4>Mutate</h4></a> delete parts of PDB files
 <a href="/tools/min/{{ ids.5 }}"><h4>Minimize (fix clashes)</h4></a>
 <a href="/tools/analysis/{{ ids.4 }}"><h4>Analysis (report missing atoms)</h4></a>
+<a href="/tools/analysis/{{ ids.4 }}"><h4>PDB to mmCIF</h4></a>
 
 <h3>RNA 3D structures comparison</h3>
 
@@ -41,5 +50,9 @@ INF is the measure specific for RNA molecules. RNAs are represented by network o
 <!--<a target="_new" href="http://genesilico.pl/NPDock/submit"><h4>RNA-protein complex modeling with NPDock</h4>-->
 <a target="_new" href="https://rosie.graylab.jhu.edu/stepwise/submit"><h4>Rosetta Stepwise Monte Carlo Protocol</h4></a>
 <a target="_new" href="https://rnacomposer.cs.put.poznan.pl"><h4>RNAComposer</h4></a>
+
+<hr>
+
+<a href="mailto:m.magnus@imol.edu.pl">Send us feedback what kind of tools do you need in your modeling pipeline.</a>
 
 {% endblock %}
