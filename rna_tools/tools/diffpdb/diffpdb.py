@@ -117,10 +117,13 @@ if __name__ == '__main__':
         do_file(str2_fn)
 
     if args.htmlout:
-        cmd = 'diff -u %s %s | %s/lib/diff2html.py' % (str1_fn + '.out', str2_fn + '.out', PATH)
+        # -s
+        #cmd = 'diff -u %s %s | %s/lib/diff2html.py' % (str1_fn + '.out', str2_fn + '.out', PATH)
+        cmd = 'diff %s %s ' % (str1_fn + '.out', str2_fn + '.out', PATH)
         os.system(cmd)
     else:
-        cmd = ' '.join([DIFF_TOOL, str1_fn + '.out', str2_fn + '.out'])
+        # DIFF_TOOL
+        cmd = ' ' + ' '.join(['diff', ' -s -y ', str1_fn + '.out', str2_fn + '.out'])
         if args.verbose:
             print(cmd)
         os.system(cmd)
