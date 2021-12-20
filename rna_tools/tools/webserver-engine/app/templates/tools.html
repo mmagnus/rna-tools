@@ -1,7 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Tools</h1>
-<a href="/tools/cat/{{ ids.0 }}"><h2>Concatenate</h2></a>
-<a href="/tools/seq/{{ ids.1 }}"><h2>Seqs</h2></a>
-<a href="/tools/extract/{{ ids.2 }}"><h2>Extract</h2></a>
+<h2>Tools</h2>
+
+<h3>RNA Sequence</h3>
+
+<h4>Sequence search</h4>
+<p>
+If you want to model an RNA sequence, search for potential templates in <a href="https://www.rcsb.org/search/advanced">PDB</a> and/or <a href="https://rfam.xfam.org/search#tabview=tab1">RFAM</a>.
+</p>
+<p>
+  The <b>Protein Data Bank (PDB)</b> is a database for the three-dimensional structural data of large biological molecules, such as proteins and nucleic acids. The data, typically obtained by X-ray crystallography, NMR spectroscopy, or, increasingly, cryo-electron microscopy, and submitted by biologists and biochemists from around the world, are freely accessible.
+  <a href="https://en.wikipedia.org/wiki/Protein_Data_Bank">more</a>
+</p>
+<p>
+  The <b>Rfam database</b> is a collection of RNA families, each represented by multiple sequence alignments, consensus secondary structures and covariance models  <a href="https://docs.rfam.org/en/latest/about-rfam.html">more</a>
+</p>
+
+<span style="color:red">Web wrappers to this tools are in progress. You can find more on wrappers that you can run in your terminal <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#search">here</a>.</span>
+
+<a href="/tools/secondary-structure/{{ ids.5 }}"><h4>Secondary structure prediction</h4></a>
+
+<h3>RNA 3D structure editing</h3>
+
+<a href="/tools/cat/{{ ids.0 }}"><h4>Concatenate</h4></a>
+<a href="/tools/seq/{{ ids.1 }}"><h4>Seqs</h4></a>
+<a href="/tools/extract/{{ ids.2 }}"><h4>Extract</h4></a>
+<a href="/tools/min/{{ ids.5 }}"><h4>Minimize (fix clashes)</h4></a>
+
+<h3>RNA 3D structures comparison</h3>
+
+<a href="/tools/calc-rmsd/{{ ids.3 }}"><h4>Calculate RMSD</h4></a>
+<a href="/tools/analysis/{{ ids.4 }}"><h4>Analysis (report missing atoms)</h4></a>
+
+<h3>Next step</h3>
+<a target="_new" href="https://genesilico.pl/SimRNAweb/submit"><h4>RNA 3D modeling with SimRNAweb [External]</h4></a>
+<a target="_new" href="http://genesilico.pl/NPDock/submit"><h4>RNA-protein complex modeling with NPDock [External]</h4></a>
+
 {% endblock %}

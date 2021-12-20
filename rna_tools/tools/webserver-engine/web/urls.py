@@ -8,8 +8,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'submit', 'app.views.submit'),
-    url(r'submit/', 'app.views.submit'),
     url(r'doc', 'app.views.help'),        
     url(r'contact', 'app.views.contact'),
     url(r'about', 'app.views.about'),

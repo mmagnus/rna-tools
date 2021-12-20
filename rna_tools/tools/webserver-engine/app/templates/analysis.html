@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<title>rna-tools.online</title>
+
+<style>
+ .hint {color:#808080;font-size:12px;}
+
+.dz {
+    border: dashed !important;
+    background-color: white !important;
+    border-radius: 10px !important;
+}
+
+.dz:hover {
+    background-color: aliceblue !important;
+}
+</style>
+
+<script>
+
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+    })
+    };
+
+    function go() {
+
+        $.ajax({
+            url: "/run/analysis/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    };
+
+</script>
+
+<h2>Analysis</h2>
+
+<label for="comment">RNA structure (in the PDB format)</label>
+
+<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
+  {% csrf_token %}
+  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+</p>
+
+    <small class="hint">status: {{ j.get_status }}</small>
+
+{% endblock %}

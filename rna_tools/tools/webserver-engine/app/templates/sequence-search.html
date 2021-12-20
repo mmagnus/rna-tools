@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<title>rna-tools.online</title>
+
+<style>
+ .hint {color:#808080;font-size:12px;}
+
+.dz {
+    border: dashed !important;
+    background-color: white !important;
+    border-radius: 10px !important;
+}
+
+.dz:hover {
+    background-color: aliceblue !important;
+}
+</style>
+
+<script>
+
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+    })
+    };
+
+    function go() {
+
+        $.ajax({
+            url: "/run/seq-search/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    };
+
+</script>
+
+<h2>Sequence search</h2>
+
+<div class="form-group" style="width: 100%;">
+    <label for="comment">RNA sequence</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="extract" name="seq" placeholder="GCAAAAGC" value="GCAAAAGC"></textarea>
+    <small class="hint">A:1-4 | CGUGGUUAGGGCCACGUUAAAUAGUUGCUUAAGCCCUAAGCGUUGAUAAAUAUCAGgUGCAA The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
+</div>
+
+</form>
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Search!</button>
+</p>
+
+    <small class="hint">status: {{ j.get_status }}</small>
+
+{% endblock %}

@@ -74,55 +74,36 @@
     })
     };
 
-    function analyze() {
-
-        $.ajax({
-            url: "/run/seq/{{ j.job_id }}",
-            success: function(d) {
-                $("#log_txt").html(d['log']);
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-        })
-    };
-
     function extract() {
 
         $.ajax({
-            url: "/run/extract/{{ j.job_id }}",
-	    data: { extract: $("#extract").val() }
+            url: "/run/ss/{{ j.job_id }}",
+	    data: { extract: $("#seq").val() }
 	})
     };
 
 </script>
 
-<h2>Extract</h2>
-
-<label for="comment">RNA structure (in the PDB format)</label>
-
-<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
-  {% csrf_token %}
-  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
-    <div class="fallback">
-      <input name="file" type="file" multiple />
-    </div>
-</form>
+<h2>Secondary structure prediction</h2>
 
 <div class="form-group" style="width: 100%;">
-    <label for="comment">RNA secondary structure (in dot-bracket notation)</label>
-    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="extract" name="ss" placeholder="A:1-4" value=""></textarea>
+    <label for="comment">RNA sequence</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="extract" name="seq" placeholder="GCAAAAGC" value="GCAAAAGC"></textarea>
     <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
 </div>
 
 <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
 <p>
-  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
-  <button onclick="extract()" class="btn btn-large btn-success">Extract</button>
+  <button onclick="ss()" class="btn btn-large btn-success">Predict</button>
 </p>
 
-
     <small class="hint">status: {{ j.get_status }}</small>
-
+<p>
+    Try also:
+    <ol>
+      <li><a href="http://rna.urmc.rochester.edu/RNAstructureWeb/Servers/Fold/Fold.html">http://rna.urmc.rochester.edu/RNAstructureWeb/Servers/Fold/Fold.html</a></li>
+      <li><a href="http://rna.tbi.univie.ac.at/cgi-bin/RNAWebSuite/RNAfold.cgi">http://rna.tbi.univie.ac.at/cgi-bin/RNAWebSuite/RNAfold.cgi</a></li>
+    </ol>      
+</p> 
 {% endblock %}

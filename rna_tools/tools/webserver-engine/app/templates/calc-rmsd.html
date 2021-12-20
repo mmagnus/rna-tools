@@ -16,6 +16,42 @@
 }
 </style>
 
+<script>
+
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+    })
+    };
+
+    function go() {
+
+        $.ajax({
+            url: "/run/calc-rmsd/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    };
+
+</script>
+    
+{% if j.get_status == 'finished' %}
 <script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
 <script>
  var jmolApplet0; // set up in HTML table, below
@@ -53,53 +89,11 @@
      disableInitialConsole: true
  }
 </script>
+{% endif %}
 
-<script>
+<h2>Calculate RMDS</h2>
 
-    var progress_interval;
-
-    $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 1000);
-    });
-
-    function checkProgress() {
-        $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
-            success: function(d) {
-                $("#log_txt").html(d['log']);
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
-    };
-
-    function analyze() {
-
-        $.ajax({
-            url: "/run/seq/{{ j.job_id }}",
-            success: function(d) {
-                $("#log_txt").html(d['log']);
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-        })
-    };
-
-    function extract() {
-
-        $.ajax({
-            url: "/run/extract/{{ j.job_id }}",
-	    data: { extract: $("#extract").val() }
-	})
-    };
-
-</script>
-
-<h2>Extract</h2>
-
-<label for="comment">RNA structure (in the PDB format)</label>
+<label for="comment">RNA structure (in the PDB format)[first file dropped will be the target file]</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
   {% csrf_token %}
@@ -108,20 +102,23 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
-<div class="form-group" style="width: 100%;">
-    <label for="comment">RNA secondary structure (in dot-bracket notation)</label>
-    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="extract" name="ss" placeholder="A:1-4" value=""></textarea>
-    <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
+
+{% if j.get_status == 'finished' %}
+<center>
+<div id='jsmol'>
+    <script  type="text/javascript">
+     jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+    </script>
 </div>
-
-<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+    Downlod <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb">the model</a>.
+</center>
+{% endif %}
 
 <p>
-  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
-  <button onclick="extract()" class="btn btn-large btn-success">Extract</button>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
-
 
     <small class="hint">status: {{ j.get_status }}</small>
 
