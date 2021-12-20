@@ -42,8 +42,10 @@ except:
 #from lib.rna_pdb_tools.rna_pdb_tools.utils.rna_convert_pseudoknot_formats.rna_ss_pk_to_simrna import get_multiple_lines, is_pk
 
 import string
+from urllib.parse import unquote
+import glob
+import os
 
-CORES = 80
 
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
@@ -52,7 +54,6 @@ intervals = (
     ('minutes', 60),
     ('seconds', 1),
 )
-
 
 def display_time(seconds, granularity=2):
     result = []
@@ -282,8 +283,6 @@ for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
 
     if tool == 'diffpdb':
         print('run, seq,' + job_id)
-        import glob
-        import os
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
@@ -296,8 +295,6 @@ diffpdb.py --method diff %s %s &> log.txt \n
              f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'extract':
-        from urllib.parse import unquote
-        #url = unquote(request.POST['extract'])
         opt = request.GET['extract']
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
@@ -308,7 +305,6 @@ for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb};
              f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'delete':
-        from urllib.parse import unquote
         opt = request.GET['del']
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
@@ -319,11 +315,20 @@ for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; d
              f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'edit':
-        from urllib.parse import unquote
         opt = request.GET['edit']
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
+""" % opt)
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
+    if tool == 'mutate':
+        opt = request.GET['mutate']
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; done;
 """ % opt)
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")

@@ -36,10 +36,10 @@
     })
     };
 
-    function go() {
+    function analyze() {
 
         $.ajax({
-            url: "/run/analysis/{{ j.job_id }}",
+            url: "/run/seq/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -49,9 +49,17 @@
         })
     };
 
+    function go() {
+
+        $.ajax({
+            url: "/run/mutate/{{ j.job_id }}",
+	    data: { mutate: $("#mutate").val() }
+	})
+    };
+
 </script>
 
-<h2>Minimize structure [Fix clashes]</h2>
+<h2>Mutate</h2>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -62,9 +70,18 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
+
+<div class="form-group" style="width: 100%;">
+    <label for="comment">RNA secondary structure (in dot-bracket notation)</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="mutate" name="ss" placeholder="A:1-4" value=""></textarea>
+    <small class="hint">Example: A:1A+2A+3A+4A,B:13A</small>
+</div>
+
     <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
 <p>
+<p>
+  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
 
@@ -72,9 +89,24 @@
 
 <p>
 
-The rna-tools (RNA-Puzzles toolkit) package uses ModeRNA to introduce single or double muta- tions in structures. But it overcomes ModeRNA’s limitation in processing only one chain at the time. Multiple mutations in multiple chains can be introduced.
-  
-Tools used:
+<p>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
+
+<small class="hint">
+  <p>
+    <h5>Documentation</h5>
+  </p>
+<p>The output are files with "_mutate.pdb".</p>
+
+<p>
+     This is <a target="_new" href="https://rna-tools.readthedocs.io/en/latest/want.html?mutate-residues#mutate-residues">https://rna-tools.readthedocs.io/en/latest/want.html?mutate-residues#mutate-residues</a>
+</p>
+
+<p>
+The rna-tools (RNA-Puzzles toolkit) package uses ModeRNA to introduce single or double mutations in structures. But it overcomes ModeRNA’s limitation in processing only one chain at the time. Multiple mutations in multiple chains can be introduced.
+</p>
+
 <p>
 M. Magnus, M. Antczak, T. Zok, J. Wiedemann, P. Lukasiak, Y. Cao, J. M. Bujnicki, E. Westhof, M. Szachniuk, and Z. Miao, “RNA-Puzzles toolkit: a computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools.,” Nucleic Acids Research, vol. 48, no. 2, pp. 576–588, Jan. 2020.
 </p>
@@ -82,5 +114,7 @@ M. Magnus, M. Antczak, T. Zok, J. Wiedemann, P. Lukasiak, Y. Cao, J. M. Bujnicki
 <p>
   M. Rother, K. M. Rother, T. Puton, and J. M. Bujnicki, “ModeRNA: a tool for comparative modeling of RNA 3D structure.,” Nucleic Acids Research, vol. 39, no. 10, pp. 4007–4022, May 2011.
 </p>
+
+    status: {{ j.get_status }}</small>
 
 {% endblock %}
