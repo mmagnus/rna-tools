@@ -39,7 +39,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/seq/{{ j.job_id }}",
+            url: "/run/ss/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -51,7 +51,7 @@
 
 </script>
 
-<h2>Get sequences</h2>
+<h2>Get secondary structures</h2>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -69,7 +69,7 @@
 </p>
 
 <p>
-The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 </p>
 
 <small class="hint">
@@ -79,7 +79,10 @@ The raw output files for each step of the pipeline can be found <a target="_blan
   </p>
      <p>
 
-    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence">https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence</a>
+       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --get-ss functionality.
+<p>
+X.-J. Lu, H. J. Bussemaker, and W. K. Olson, “DSSR: an integrated software tool for dissecting the spatial structure of RNA.,” Nucleic Acids Research, vol. 43, no. 21, p. e142, Dec. 2015.       
+</p>
 
     <small class="hint">status: {{ j.get_status }}</small>
 

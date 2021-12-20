@@ -39,7 +39,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/seq/{{ j.job_id }}",
+            url: "/run/standardize-md/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -50,8 +50,14 @@
     };
 
 </script>
-
-<h2>Get sequences</h2>
+    
+<h2>Standarize PDB files for Molecular Dynamics</h2>
+<p>
+  Clean up a structure, get current order of atoms.
+</p>
+<p>
+  This is also the submission format required for <a href="https://openmm.org">OpenMM</a>.
+</p>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -67,6 +73,7 @@
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
+<p>
 
 <p>
 The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
@@ -79,7 +86,8 @@ The raw output files for each step of the pipeline can be found <a target="_blan
   </p>
      <p>
 
-    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence">https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence</a>
+    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a> with option to remove starting OP3 atoms.
+    
 
     <small class="hint">status: {{ j.get_status }}</small>
 

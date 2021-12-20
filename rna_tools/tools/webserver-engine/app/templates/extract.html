@@ -115,14 +115,28 @@
     <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
 </div>
 
-<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+<div class="well"><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div></div>
 
 <p>
   <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
   <button onclick="extract()" class="btn btn-large btn-success">Extract</button>
 </p>
 
+															       
+<p>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
 
-    <small class="hint">status: {{ j.get_status }}</small>
+<small class="hint">
+  <p>
+    <h5>Documentation</h5>
+  </p>
+<p>The output are files with "_extract.pdb".</p>
+
+       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --extract EXTRACT functionality.
+
+
+
+    status: {{ j.get_status }}</small>
 
 {% endblock %}

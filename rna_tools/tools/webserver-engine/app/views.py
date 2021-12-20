@@ -196,6 +196,13 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
+    if tool == 'ss':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write(' rna_pdb_toolsx.py --get-ss *.pdb > log.txt\n')
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
     if tool == 'seq-search':
         print('run, seq,' + job_id)
         seq = request.GET['seq']        
@@ -204,6 +211,23 @@ def run(request, tool, job_id):
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
+
+    if tool == "standardize":
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("for i in *.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done\n")
+             f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
+    if tool == "standardize-md":
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
+             f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
 
     if tool == 'calc-rmsd':
         print('run, seq,' + job_id)
@@ -283,6 +307,28 @@ for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb};
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
              
+    if tool == 'delete':
+        from urllib.parse import unquote
+        opt = request.GET['del']
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; done;
+""" % opt)
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
+    if tool == 'edit':
+        from urllib.parse import unquote
+        opt = request.GET['edit']
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
+""" % opt)
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
     os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
@@ -318,7 +364,7 @@ def ajax_job_status(request, job_id):
 
         try:
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log = f.read() + '\n'
+                 log = "== SCRIPT ==</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
             log = ''
 
@@ -364,12 +410,15 @@ def tool(request, tool, job_id):
 
     try:
         with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log = f.read() + '\n'
+             log = "== SCRIPT ==</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
+    except FileNotFoundError:
+        log = ''
 
+    try:
         log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
         with open(log_filename, 'r') as ifile:
-            log = ifile.read()
-            log = re.sub(r"[\n]", "</br>", log)
+            l = ifile.read()
+            log += re.sub(r"[\n]", "</br>", l)
     except:
         log = ''
     

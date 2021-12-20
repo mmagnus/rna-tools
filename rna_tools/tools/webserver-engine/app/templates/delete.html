@@ -17,7 +17,6 @@
 </style>
 
 <script>
-
     var progress_interval;
 
     $(document).ready( function(){
@@ -36,8 +35,7 @@
     })
     };
 
-    function go() {
-
+    function analyze() {
         $.ajax({
             url: "/run/seq/{{ j.job_id }}",
             success: function(d) {
@@ -49,9 +47,17 @@
         })
     };
 
+    function del() {
+
+        $.ajax({
+            url: "/run/delete/{{ j.job_id }}",
+	    data: { del: $("#del").val() }
+	})
+    };
+
 </script>
 
-<h2>Get sequences</h2>
+<h2>Delete part of PDB files</h2>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -62,25 +68,32 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<div class="form-group" style="width: 100%;">
+    <label for="comment">Selection for deletion</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="del" name="xxx" placeholder="A:1-4" value=""></textarea>
+    <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
+</div>
+
+<div class="well"><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div></div>
 
 <p>
-  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
+  <button onclick="del()" class="btn btn-large btn-success">Delete</button>
 </p>
-
+															       
 <p>
-The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 </p>
 
 <small class="hint">
-
   <p>
     <h5>Documentation</h5>
   </p>
-     <p>
+<p>The output are files with "_delete.pdb".</p>
 
-    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence">https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence</a>
+       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#delete">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --delete DELETE functionality.
 
-    <small class="hint">status: {{ j.get_status }}</small>
+    status: {{ j.get_status }}</small>
 
 {% endblock %}

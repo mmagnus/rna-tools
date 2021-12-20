@@ -17,7 +17,6 @@
 </style>
 
 <script>
-
     var progress_interval;
 
     $(document).ready( function(){
@@ -36,8 +35,7 @@
     })
     };
 
-    function go() {
-
+    function analyze() {
         $.ajax({
             url: "/run/seq/{{ j.job_id }}",
             success: function(d) {
@@ -49,9 +47,17 @@
         })
     };
 
+    function edit() {
+
+        $.ajax({
+            url: "/run/edit/{{ j.job_id }}",
+	    data: { edit: $("#edit").val() }
+	})
+    };
+
 </script>
 
-<h2>Get sequences</h2>
+<h2>Edit PDB files</h2>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -62,25 +68,38 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<div class="form-group" style="width: 100%;">
+    <label for="comment">Selection for deletion</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="edit" name="xxx" placeholder="A:1-4" value=""></textarea>
+    <small class="hint">Example: A:1-41>B:1-41</small>
+</div>
+
+<div class="well"><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div></div>
 
 <p>
-  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
+  <button onclick="edit()" class="btn btn-large btn-success">Edit</button>
 </p>
-
+															       
 <p>
-The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 </p>
 
 <small class="hint">
-
   <p>
     <h5>Documentation</h5>
   </p>
-     <p>
+<p>The output are files with "_edit.pdb".</p>
 
-    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence">https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence</a>
+Edit your structure.
 
-    <small class="hint">status: {{ j.get_status }}</small>
+The function can take A:3-21>A:1-19 or even syntax like this A:3-21>A:1-19,B:22-32>B:20-30 and will do an editing.
+
+The output is printed, line by line. Only ATOM lines are edited!
+
+      This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#edit">https://rna-tools.readthedocs.io/en/latest/main.html#edit</a> --edit EDIT functionality.
+
+    status: {{ j.get_status }}</small>
 
 {% endblock %}
