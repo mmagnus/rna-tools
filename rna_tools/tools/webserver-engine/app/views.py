@@ -216,7 +216,38 @@ def run(request, tool, job_id):
              f.write("""
 rna_calc_rmsd.py -t %s %s &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
-             f.write('ls *.pdb >> log.txt\n')
+             #f.write('ls *.pdb >> log.txt\n\n')
+             f.write('column -s, -t < rmsds.csv >> log.txt\n\n')
+             f.write("echo 'DONE' >> log.txt \n\n")
+
+    if tool == 'calc-inf':
+        print('run, seq,' + job_id)
+        import glob
+        import os
+        files = glob.glob(job_dir + "/*pdb")
+        files.sort(key=os.path.getmtime)
+        files = [os.path.basename(f) for f in files]
+        #print("\n".join(files))
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+rna_calc_inf.py -t %s %s -sr -pr &> log.txt\n
+""" % (files[0], ' '.join(files[1:])))
+             #f.write('ls *.pdb >> log.txt\n\n')
+             f.write('column -s, -t < inf.csv >> log.txt\n\n')
+             f.write("echo 'DONE' >> log.txt \n\n")
+
+    if tool == 'diffpdb':
+        print('run, seq,' + job_id)
+        import glob
+        import os
+        files = glob.glob(job_dir + "/*pdb")
+        files.sort(key=os.path.getmtime)
+        files = [os.path.basename(f) for f in files]
+        #print("\n".join(files))
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+diffpdb.py --method diff %s %s &> log.txt \n
+""" % (files[0], files[1]))
              f.write("echo 'DONE' >> log.txt \n")
 
     if tool == 'extract':
@@ -259,9 +290,9 @@ def ajax_job_status(request, job_id):
 
         #if j.status == JOB_STATUSES['running']:
         #    response_dict['reload']=False
-        if j.status == JOB_STATUSES['finished'] or j.status == JOB_STATUSES['stopped']:
-            response_dict['reload'] = False
-            return JsonResponse({'post':'false'})
+        #if j.status == JOB_STATUSES['finished'] or j.status == JOB_STATUSES['stopped']:
+        #    response_dict['reload'] = False
+        #    return JsonResponse({'post':'false'})
 
         try:
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
@@ -274,7 +305,8 @@ def ajax_job_status(request, job_id):
             with open(log_filename, 'r') as ifile:
                 l = ifile.read()
                 log += re.sub(r"[\n]", "</br>", l)
-
+                #log += re.sub(r"^</br>%", "", log)
+                print(log)
                 # --> Clustering
                 #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
                 # --> Annealing
@@ -291,7 +323,7 @@ def ajax_job_status(request, job_id):
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
                     j.status = JOB_STATUSES['finished']
                     j.save()
-                    response_dict['reload'] = True # fix it
+                    response_dict['reload'] = False # True # fix it
         except FileNotFoundError:
             pass
         
