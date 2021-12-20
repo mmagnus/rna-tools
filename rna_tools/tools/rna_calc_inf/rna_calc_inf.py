@@ -24,6 +24,9 @@ import tempfile
 import csv
 import shutil
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 from multiprocessing import Pool, Lock, Value, Process
 from rna_tools.tools.clarna_app import clarna_app
 #from rna_tools.opt.BasicAssessMetrics.BasicAssessMetrics import InteractionNetworkFidelity
@@ -111,7 +114,19 @@ def do_job(i, method='clarna'):
     to csv file (keeping it locked)"""
     #if method == 'clarna':
         # run clarna & compare
-    i_cl_fn = clarna_app.clarna_run(i, args.force,not args.no_stacking)
+
+    # ugly hack for direct import
+    try:
+         args.force
+         args.no_stacking
+    except NameError:
+         force = True
+         no_stacking = False
+    else:
+        force = args.force
+        no_stacking = args.no_stacking        
+        
+    i_cl_fn = clarna_app.clarna_run(i, force, not no_stacking)
     output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, verbose=DEBUG)
     if args.verbose:
         print(output)
@@ -197,9 +212,6 @@ if __name__ == '__main__':
     else:
         target_cl_fn = clarna_app.clarna_run(target_fn, args.force)
         
-        
-        
-
     # keep target save, don't overwrite it when force and
     # target is in the folder that you are running ClaRNA on
     # /tmp/tmp2nmeVB/1i6uD_M1.pdb.outCR
@@ -250,7 +262,7 @@ if __name__ == '__main__':
     if args.sort_results:
         df = df.sort_values('inf_all', ascending=False)
     if args.print_results:
-        print(df)
+        print(df)#.to_html()) #df.replace(' ', '&nsbp'))
     df.to_csv(out_fn, sep=',', index=False)
 
     # remove temp files
