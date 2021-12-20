@@ -13,6 +13,9 @@ class BlastPDB:
     This can be used in Jupiter based RNA notebooks, e.g.
     https://github.com/mmagnus/rna-pdb-tools/blob/master/rp18.ipynb
 
+    Warning: getBlastPDB1 has been permanently removed as part of our announced shutdown on December 9th, 2020.
+    https://www.rcsb.org/pdb/rest/getBlastPDB1
+    
     Usage::
 
        >>> p = BlastPDB('GGGUCAGGCCGGCGAAAGUCGCCACAGUUUGGGGAAAGCUGUGCAGCCUGUAACCCCCCCACGAAAGUGGG')
