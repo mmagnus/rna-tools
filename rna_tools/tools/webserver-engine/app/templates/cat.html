@@ -102,8 +102,11 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
+
+<div class="well">
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+</div>
 
 {% if j.get_status == 'finished' %}
 <center>
