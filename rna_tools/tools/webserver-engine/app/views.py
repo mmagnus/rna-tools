@@ -119,7 +119,6 @@ def stop(request, job_id):
 
 def download_project_dir(request, job_id):
 
-
     job_dir = settings.JOBS_PATH + sep + job_id
     fname="%s.zip" % job_id
 
@@ -203,7 +202,6 @@ def run(request, tool, job_id):
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
 
-
     if tool == 'calc-rmsd':
         print('run, seq,' + job_id)
         import glob
@@ -230,11 +228,29 @@ rna_calc_rmsd.py -t %s %s &> log.txt\n
         #print("\n".join(files))
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
-rna_calc_inf.py -t %s %s -sr -pr &> log.txt\n
+rna_calc_inf.py -t %s %s &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
+             #f.write('ls *.pdb >> log.txt\n\n')
+             f.write('column -s, -t < inf.csv >> log.txt\n\n')
+             f.write("echo 'DONE' >> log.txt \n\n")
+
+
+    if tool == 'clarna':
+        print('run, seq,' + job_id)
+        import glob
+        import os
+        files = glob.glob(job_dir + "/*pdb")
+        files.sort(key=os.path.getmtime)
+        files = [os.path.basename(f) for f in files]
+        #print("\n".join(files))
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""rm log.txt;
+for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
+""")
              #f.write('ls *.pdb >> log.txt\n\n')
              #f.write('column -s, -t < inf.csv >> log.txt\n\n')
              f.write("echo 'DONE' >> log.txt \n\n")
+             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'diffpdb':
         print('run, seq,' + job_id)

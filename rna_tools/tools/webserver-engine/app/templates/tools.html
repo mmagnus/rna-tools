@@ -2,8 +2,6 @@
 {% block content %}
 <h2>Tools</h2>
 
-<h3>RNA Sequence</h3>
-The second group of tools aims to facilitate operations on RNA sequence.
 <h4>Sequence search</h4>
 <p>
 If you want to model an RNA sequence, search for potential templates in <a href="https://www.rcsb.org/search/advanced">PDB</a> and/or <a href="https://rfam.xfam.org/search#tabview=tab1">RFAM</a>.
@@ -34,15 +32,17 @@ RNA secondary structure prediction are implemented, including RNAsubopt, RNAeval
 The second group of tools aims to facilitate operations on RNA 3D structure.
 </p>
 
+<a href="/tools/analysis/{{ ids.4 }}"><b>Analysis (report missing atoms)</b></a><br>
 <a href="/tools/standardize/{{ ids.4 }}"><b>Standardize PDB files (get-rnapuzzle-ready)</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format proposed by the RNA-Puzzles community [report and add missing atoms] <br>
 <a href="/tools/seq/{{ ids.1 }}"><b>Obtain sequences from PDB files</b></a> get sequences of a bunch of PDB files<br>
 <a href="/tools/cat/{{ ids.0 }}"><b>Concatenate</b></a> merge a bunch of PDB files into one file<br>
 <a href="/tools/extract/{{ ids.2 }}"><b>Extract</b></a> extract parts of PDB files<br>
 <a href="/tools/delete/{{ ids.2 }}"><b>Delete</b></a> delete parts of PDB files<br>
-<a href="/tools/mutate/{{ ids.9 }}"><b>Mutate</b></a> delete parts of PDB files<br>
-<a href="/tools/min/{{ ids.5 }}"><b>Minimize (fix clashes)</b></a><br>
-<a href="/tools/analysis/{{ ids.4 }}"><b>Analysis (report missing atoms)</b></a><br>
+<a href="/tools/mutate/{{ ids.9 }}"><b>Mutate</b></a> mutate residues in PDB files<br>
+<a href="/tools/min/{{ ids.5 }}"><b>Minimize</b></a> minimize PDB files to fix clashes [this can take up to 1h]<br>
+<!--
 <a href="/tools/analysis/{{ ids.4 }}"><b>PDB to mmCIF</b></a><br>
+-->
 
 <h3>RNA 3D structures comparison</h3>
 
@@ -55,10 +55,11 @@ RMSD is the measure of the average distance between the atoms of superimposed RN
 INF is the measure specific for RNA molecules. RNAs are represented by network of interactions, and the closes two networks of interactions of two molecules are similar, the higher INF.<br>
 
 <h3>RNA 3D modeling [External servers]</h3>
-
-<a target="_new" href="https://genesilico.pl/SimRNAweb/submit"><h4>RNA 3D modeling with SimRNAweb</h4></a>
+<p><i>De novo</i> modeling (not based on fragments taken from the PDB database, usually better for modeling new folds, modeling structures without homologs with known structures)</p>
+<a target="_new" href="https://genesilico.pl/SimRNAweb/submit"><h4>SimRNAweb</h4></a>
 <!--<a target="_new" href="http://genesilico.pl/NPDock/submit"><h4>RNA-protein complex modeling with NPDock</h4>-->
-<a target="_new" href="https://rosie.graylab.jhu.edu/stepwise/submit"><h4>Rosetta Stepwise Monte Carlo Protocol</h4></a>
+  <a target="_new" href="https://rosie.graylab.jhu.edu/stepwise/submit"><h4>Rosetta Stepwise Monte Carlo Protocol</h4></a>
+  <p>Fragment-based modeling (fragments taken from the PDB database, usually better for modeling with close homologs with known structures)</p>
 <a target="_new" href="https://rnacomposer.cs.put.poznan.pl"><h4>RNAComposer</h4></a>
 
 <hr>

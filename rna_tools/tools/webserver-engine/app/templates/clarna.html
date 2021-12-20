@@ -1,0 +1,110 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<title>rna-tools.online</title>
+
+
+<style>
+ .hint {color:#808080;font-size:12px;}
+
+.dz {
+    border: dashed !important;
+    background-color: white !important;
+    border-radius: 10px !important;
+}
+
+.dz:hover {
+    background-color: aliceblue !important;
+}
+</style>
+
+<script>
+
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+    })
+    };
+
+    function go() {
+
+        $.ajax({
+            url: "/run/clarna/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    };
+
+</script>
+
+<h2>Contacts (Interactions) classification</h2>
+
+<label for="comment">RNA structure (in the PDB format)</label>
+
+<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
+  {% csrf_token %}
+  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+</p>
+
+The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+
+<hr>
+
+<small class="hint">
+Demo files <a href="{{ STATIC_URL }}app/demo/rp21.zip">rp21.zip</a>.
+
+Here, the first file has small number of detected interactions. This is a suggestion that this structure is not folded properly.
+  <pre style="font-size: 10px">21_3dRNA_1_rpr.pdb
+Classifier: Clarna
+chains: A 1 41
+A 1 A 24 bp C G WW_cis 0.9184
+A 2 A 23 bp C G WW_cis 0.8763
+A 3 A 22 bp G C WW_cis 0.8950
+A 4 A 21 bp G C WW_cis 0.8362
+A 39 A 40 bp C G SH_cis 0.6261
+
+21_Adamiak_1_rpr.pdb
+Classifier: Clarna
+chains: A 1 41
+A 1 A 24 bp C G WW_cis 0.8733
+A 2 A 23 bp C G WW_cis 0.8887
+A 3 A 22 bp G C WW_cis 0.8160
+A 4 A 21 bp G C WW_cis 0.7943
+A 7 A 35 bp G A WH_cis 0.7501
+A 12 A 41 bp G C WW_cis 0.8723
+A 13 A 40 bp C G WW_cis 0.8931
+A 14 A 39 bp G C WW_cis 0.8983
+A 15 A 38 bp C G WW_cis 0.8815
+A 16 A 37 bp C G WW_cis 0.8938
+A 17 A 36 bp G C WW_cis 0.9300
+A 18 A 35 bp U A WW_cis 0.8766</pre>
+<p>
+T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifier of contacts in RNA 3D structures based on a comparative analysis of various classification schemes.,” Nucleic Acids Research, vol. 42, no. 19, pp. e151–e151, Oct. 2014.
+</p>
+</small>
+{% endblock %}
