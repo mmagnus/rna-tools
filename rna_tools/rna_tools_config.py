@@ -24,7 +24,6 @@ ENTRNA_PATH = ''
 # MQ #
 METHOD_LIST =  ['ClashScore', 'AnalyzeGeometry', 'SimRNA_0',   'RNAscore', 'eSCORE','RNAkb',
                  'RASP', 'RNAkb_all', 'RNA3DCNN', 'Dfire', 'FARNA', 'FARNA_hires', 'FARFAR2']
-METHOD_LIST = ['FARFAR2_hires']
 # default options for wrappers
 WRAPPER_OPTIONS = dict([(m, []) for m in METHOD_LIST])
 try:
@@ -37,12 +36,18 @@ except KeyError:
     pass
 ML_MODEL_PATH = ''
 
-RASP_PATH = ""       # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/rasp-fd-1.0/"
-RASP_PATH_DIR = ""   # /Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/rasp-fd-1.0"
-
 import pathlib
 RT = os.path.dirname(pathlib.Path(__file__).parent.resolve()) + os.sep
+
+RASP_PATH = RT + 'opt' + os.sep + "rasp-fd-1.0/"
+RASP_PATH_DIR =  RT + 'opt' + os.sep + "rasp-fd-1.0/" 
+
 tmp = RT + 'tmp' + os.sep
+try:
+    os.mkdir(tmp)
+except:
+    pass
+
 LOG_DIRECTORY = tmp
 TMP_PATH = tmp
 SANDBOX_PATH = tmp
@@ -82,7 +87,7 @@ GROMACS_PATH_BIN=""
 SIMRNA_PATH=""
 SIMRNA_DATA_PATH=""
 
-X3DNA=""
+X3DNA= RT + 'opt' + os.sep + 'dssr/x3dna-dssr-64bit' #x3dna-dssr-64bit
 X3DNA_FP=""
 
 baRNAba_data_PATH = ''
