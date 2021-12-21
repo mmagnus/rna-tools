@@ -42,6 +42,7 @@ import argparse
 from subprocess import Popen, PIPE
 from os import remove, path
 from rna_tools.rna_tools_config import X3DNA, X3DNA_FP
+# x3dna-dssr-64bit
 
 
 class x3DNAMissingFile(Exception):
@@ -117,7 +118,8 @@ class x3DNA(object):
 
         f = open('py3dna.log', 'w')
         f.write(cmd + '\n' + stdout)
-        if args.show_log:
+
+        if show_log:
             print(stdout)
         f.close()
 
@@ -164,6 +166,7 @@ File name: /tmp/tmp0pdNHS
         for f in files_to_remove:
             try:
                 remove(f)
+                pass
             except OSError:
                 if verbose:
                     print('can not remove %s' % f)
@@ -179,7 +182,8 @@ File name: /tmp/tmp0pdNHS
     def get_secstruc(self):
         """Get secondary structure.
         """
-        return open('dssr-2ndstrs.dbn').read().strip()  # self.report.split('\n')[-1]
+        # return open('dssr-2ndstrs.dbn').read().strip()
+        return self.report.split('\n')[-1]
 
 
 # name
