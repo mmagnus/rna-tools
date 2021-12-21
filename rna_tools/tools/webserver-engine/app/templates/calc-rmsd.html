@@ -93,6 +93,10 @@
 
 <h2>Calculate RMDS</h2>
 
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
+
 <label for="comment">RNA structure (in the PDB format)[first file dropped will be the target file]</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >

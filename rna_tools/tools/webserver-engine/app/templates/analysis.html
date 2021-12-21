@@ -53,6 +53,10 @@
 
 <h2>Analysis</h2>
 
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
+
 <label for="comment">RNA structure (in the PDB format)</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
@@ -66,6 +70,16 @@
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+</p>
+
+  <p>
+    <h5>Documentation</h5>
+  </p>
+     <p>
+
+       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --get-ss functionality.
+<p>
+X.-J. Lu, H. J. Bussemaker, and W. K. Olson, “DSSR: an integrated software tool for dissecting the spatial structure of RNA.,” Nucleic Acids Research, vol. 43, no. 21, p. e142, Dec. 2015.       
 </p>
 
     <small class="hint">status: {{ j.get_status }}</small>
