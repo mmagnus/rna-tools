@@ -367,7 +367,7 @@ def get_log(job_id):
 
     try:
         with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-             log += "== SCRIPT ==</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
+             log += "</br>== SCRIPT ==</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
     except FileNotFoundError:
         pass
 
@@ -375,7 +375,7 @@ def get_log(job_id):
         log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
         with open(log_filename, 'r') as ifile:
             l = ifile.read()
-            log += '== LOG ==</br>'
+            log += '</br>== LOG ==</br>'
             log += re.sub(r"[\n]", "</br>", l)
             #log += re.sub(r"^</br>%", "", log)
             print(log)
@@ -408,7 +408,6 @@ def ajax_job_status(request, job_id):
                 # response_dict['log'] = log.replace(' ', '&nbsp')
                 response_dict['log'] = log
                 if 'DONE' in log:
-                    print('Done')
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
                     j.status = JOB_STATUSES['finished']
                     j.save()

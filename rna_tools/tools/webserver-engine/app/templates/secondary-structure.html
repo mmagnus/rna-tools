@@ -74,6 +74,13 @@
     })
     };
 
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+
+
     function extract() {
 
         $.ajax({

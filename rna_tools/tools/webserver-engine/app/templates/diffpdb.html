@@ -89,6 +89,12 @@ More at <a href="https://rna-tools.readthedocs.io/en/latest/tools.html?highlight
     })
     };
 
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+
     function go() {
         $.ajax({
             url: "/run/diffpdb/{{ j.job_id }}",
