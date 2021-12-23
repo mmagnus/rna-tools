@@ -442,8 +442,12 @@ def tool(request, tool, job_id):
         }))
 
     job_dir = settings.JOBS_PATH + sep + job_id
-    with open(job_dir + '/full_log.txt') as f:
-        log = f.read()
+    try:
+        with open(job_dir + '/full_log.txt') as f:
+            log = f.read()
+    except FileNotFoundError:
+        log = ''
+        
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log
