@@ -350,14 +350,15 @@ def file_upload(request, job_id):
     return JsonResponse({'post':'false'})
 
 
-def ajax_job_status(request, job_id):
-
+def ajax_job_status(request, job_id, tool=''):
     job_dir = settings.JOBS_PATH + sep + job_id
-    load = ''
-
+    job_id = job_id.replace('/', '')
+    try:
+        tool = request.GET['tool']
+    except:
+        tool = ''    
     response_dict = {'reload': False}
 
-    #try:
     if 1:
         j = Job.objects.get(job_id=job_id.replace('/', ''))
 
@@ -379,7 +380,6 @@ def ajax_job_status(request, job_id):
                 l = ifile.read()
                 log += re.sub(r"[\n]", "</br>", l)
                 #log += re.sub(r"^</br>%", "", log)
-                print(log)
                 # --> Clustering
                 #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
                 # --> Annealing
@@ -389,22 +389,50 @@ def ajax_job_status(request, job_id):
                 #log = re.sub(r"[\-]+>[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
                 #log = re.sub(r"[\s]{4,}\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
 
+                if tool == 'cat':
+                    log += '</div><pre>== RESULTS ==<br>'
+                    log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
+                    log += '</pre>'
+                    
+                if tool == 'extract': #log
+                    files = glob.glob(job_dir + "/*_extract.pdb")
+                    #files.sort(key=os.path.getmtime)
+                    files = [os.path.basename(f) for f in files]
+                    if files:
+                        for f in files:
+                            # http://localhost:8080/media/jobs/4bda1b42/4bda1b42/u6-duplex_extract.pdb
+                            #http://localhost:8080/media/jobs/2a34a41b/2a34a41b.zip
+                            log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a></br>'
+                    log += '</pre>'
+
                 # response_dict['log'] = log.replace(' ', '&nbsp')
                 response_dict['log'] = log
                 if 'DONE' in log:
-                    print('Done')
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
                     j.status = JOB_STATUSES['finished']
                     j.save()
                     response_dict['reload'] = False # True # fix it
+
         except FileNotFoundError:
             pass
         
+    # code to take care of not refreshing log not necessarily 
+    try:
+        full_log = open(job_dir + '/full_log.txt').read()
+    except FileNotFoundError:
+        full_log = ''
+        pass
+
+    if full_log != log:
+        with open(job_dir + '/full_log.txt', 'w') as f:
+            f.write(log)
+        return HttpResponse(json.dumps(response_dict), "application/json") # update only when
+        # log is different
+    else:
+         return HttpResponse(None)
     #except:
     #    response_dict['log'] = ""
 
-    print(json.dumps(response_dict))
-    return HttpResponse(json.dumps(response_dict), "application/json")
 
 def tool(request, tool, job_id):
     try:
@@ -413,20 +441,9 @@ def tool(request, tool, job_id):
         return render_to_response('dont_exits.html', RequestContext(request, {
         }))
 
-    try:
-        with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-             log = "== SCRIPT ==</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
-    except FileNotFoundError:
-        log = ''
-
-    try:
-        log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
-        with open(log_filename, 'r') as ifile:
-            l = ifile.read()
-            log += re.sub(r"[\n]", "</br>", l)
-    except:
-        log = ''
-    
+    job_dir = settings.JOBS_PATH + sep + job_id
+    with open(job_dir + '/full_log.txt') as f:
+        log = f.read()
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log
