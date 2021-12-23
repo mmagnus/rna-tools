@@ -74,6 +74,13 @@
     })
     };
 
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+
+
     function extract() {
 
         $.ajax({
@@ -85,6 +92,10 @@
 </script>
 
 <h2>Secondary structure prediction</h2>
+
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
 
 <div class="form-group" style="width: 100%;">
     <label for="comment">RNA sequence</label>

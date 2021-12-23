@@ -56,19 +56,22 @@ if __name__ == '__main__':
         # modeller.addSolvent(forcefield, model='tip5p')
 
         bs = args.box_size
-        modeller.addSolvent(forcefield, boxSize=Vec3(bs, bs, bs)*nanometers)
         if args.solv_padding:
             print(1*nanometers)
             modeller.addSolvent(forcefield, padding=1*nanometers)
+        else:
+            modeller.addSolvent(forcefield, boxSize=Vec3(bs, bs, bs)*nanometers)
         # 5.0, 3.5, 3.5
-        #modeller.addSolvent(forcefield, boxSize=Vec3(2, 2, 2)*nanometers)
+        # modeller.addSolvent(forcefield, boxSize=Vec3(2, 2, 2)*nanometers)
 
         system = forcefield.createSystem(modeller.topology, nonbondedMethod=app.NoCutoff, #nonbondedMethod=PME,
                 nonbondedCutoff=1*nanometer, constraints=HBonds)
         integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.002*picoseconds)
         simulation = Simulation(modeller.topology, system, integrator)
         simulation.context.setPositions(modeller.positions)
-        simulation.minimizeEnergy()
+        simulation.reporters.append(StateDataReporter(stdout, 1000, step=True,
+        potentialEnergy=True, temperature=True))
+        simulation.minimizeEnergy(1.0, verbose=True) #verbose=True)
         # from http://zarbi.chem.yale.edu/ligpargen/openMM_tutorial.html
         position = simulation.context.getState(getPositions=True).getPositions()
         energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()

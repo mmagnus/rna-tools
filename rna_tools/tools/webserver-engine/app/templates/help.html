@@ -2,6 +2,9 @@
 {% block content %}
 <title>rna-tools.online</title>
 
+<h2>Demo files</h2>
+For the tools you can use these demo files <a href="{{ STATIC_URL }}app/demo/rp21.zip">rp21.zip</a>. For each tool there is tool-oriented documentation and description of analysis of these files.
+     
 <h2>Documentation</h2>
 <p>
   This server is an implementation of some methods from <a href="https://github.com/mmagnus/rna-tools">rna-tools</a>.
@@ -16,5 +19,37 @@
 <p>
   The detailed documentation can be found at <a href="https://rna-tools.readthedocs.io">https://rna-tools.readthedocs.io</a>
 </p>
+
+
+<h2>Motivation</h2>
+<p>
+Significant improvements have been made in the efficiency and accuracy of RNA 3D structure prediction methods in recent years; however, many tools developed in the field stay exclusive to only a few bioinformatic groups. To perform a complete RNA 3D structure modeling analysis as proposed in the RNA-Puzzles publications, e.g., [1], the researchers must familiarize themselves with a quite complex set of tools.
+</p>
+<p>
+The goal of the rna-tools package [2] was to provide a more abstract way to process data for RNA 3D modeling. Nowadays, rna-tools has become a wide toolbox to approach every aspect of working with various types of RNA data. The package was used to provide computational resources for the RNA-puzzle community [2] and also offered tools for other biological applications, e.g., [3,4,5].
+</p>
+However, using rna-tools requires the installation of a mixture of library and tools and basic knowledge of the Linux terminal command line. To give a chance for all biologists to take advantage of developments in RNA 3D structure prediction, we provide a user-friendly server to perform many standard analyses required to the typical modeling workflow: secondary structure prediction, 3D structure manipulating and editing, structure minimization, structures analysis and comparison tools.
+<p>
+  In the server, each tool has been translated into a web application. The user can use the web browser, selecting the tool to use and uploading its own files. Once the computation is done, the webserver allows the user to download the results and explore the steps that were used to perform the analysis. This will also provide a way to learn how the rna-tool package can be used and will spur the user into trying to perform more customized analyses.
+</p>
+<p>
+All tools are well documented and the examples are provided to help the users to understand the tools.
+</p>
+
+<div style="color:gray">
+<p>
+[1] Z. Miao, R. W. Adamiak, M. Antczak, M. J. Boniecki, J. M. Bujnicki, S.-J. Chen, C. Y. Cheng, Y. Cheng, F.-C. Chou, R. Das, N. V. Dokholyan, F. Ding, C. Geniesse, Y. Jiang, A. Joshi, A. Krokhotin, M. Magnus, O. Mailhot, F. Major, T. H. Mann, P. Piątkowski, R. Pluta, M. Popenda, J. Sarzynska, L. Sun, M. Szachniuk, S. Tian, J. Wang, J. Wang, A. M. Watkins, J. Wiedemann, Y. Xiao, X. Xu, J. D. Yesselman, D. Zhang, Y. Zhang, Z. Zhang, C. Zhao, P. Zhao, Y. Zhou, T. Zok, A. Zyła, A. Ren, R. T. Batey, B. L. Golden, L. Huang, D. M. Lilley, Y. Liu, D. J. Patel, and E. Westhof, “RNA-Puzzles Round IV: 3D structure predictions of four ribozymes and two aptamers.,” RNA, vol. 26, no. 8, pp. 982–995, Aug. 2020.
+</p>
+<p>
+[2] M. Magnus, M. Antczak, T. Zok, J. Wiedemann, P. Lukasiak, Y. Cao, J. M. Bujnicki, E. Westhof, M. Szachniuk, and Z. Miao, “RNA-Puzzles toolkit: a computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools.,” Nucleic Acids Research, vol. 48, no. 2, pp. 576–588, Jan. 2020.
+</p>
+[3] M. Magnus, K. Kappel, R. Das, and J. M. Bujnicki, “RNA 3D structure prediction guided by independent folding of homologous sequences.,” BMC Bioinformatics, vol. 20, no. 1, pp. 512–15, Oct. 2019.
+<p>
+[4] K. Eysmont, K. Matylla-Kulinska, A. Jaskulska, M. Magnus, and M. M. Konarska, “Rearrangements within the U6 snRNA Core during the Transition between the Two Catalytic Steps of Splicing.,” Molecular Cell, vol. 75, no. 3, pp. 538–548.e3, Aug. 2019.
+</p>
+<p>
+[5] F. Stefaniak and J. M. Bujnicki, “AnnapuRNA: A scoring function for predicting RNA-small molecule binding poses,” PLoS Comput Biol, vol. 17, no. 2, p. e1008309, Feb. 2021
+</p>
+</div>
 
 {% endblock %}

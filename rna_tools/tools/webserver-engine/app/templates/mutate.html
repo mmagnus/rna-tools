@@ -35,6 +35,11 @@
             }
     })
     };
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
 
     function analyze() {
 
@@ -60,6 +65,10 @@
 </script>
 
 <h2>Mutate</h2>
+
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 

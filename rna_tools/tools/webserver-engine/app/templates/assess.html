@@ -36,7 +36,7 @@
     })
     };
 
-    function rm(){
+  function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
 	})
@@ -46,7 +46,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/analysis/{{ j.job_id }}",
+            url: "/run/assess/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -58,7 +58,7 @@
 
 </script>
 
-<h2>Analysis</h2>
+<h2>RNA 3D model quality assessment</h2>
 
 <div align="right">
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
@@ -78,17 +78,29 @@
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
+<p>
+  The csv with scores can be found here  <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/mq.csv">mq.csv</a>
+</a>
+<p>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
 
+
+ <small class="hint">
   <p>
     <h5>Documentation</h5>
   </p>
      <p>
 
-       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --get-ss functionality.
+       This is <a target="_new" href="https://rna-tools.readthedocs.io/en/latest/tools.html#rna-3d-model-quality-assessment">https://rna-tools.readthedocs.io/en/latest/tools.html#rna-3d-model-quality-assessment</a> functionality.
+     </p>
+     <p>
+       Wrappers behind the server <a target="_new" href="http://genesilico.pl/mqapRNA">http://genesilico.pl/mqapRNA</a>.
+     </p>
 <p>
-X.-J. Lu, H. J. Bussemaker, and W. K. Olson, “DSSR: an integrated software tool for dissecting the spatial structure of RNA.,” Nucleic Acids Research, vol. 43, no. 21, p. e142, Dec. 2015.       
+E. Capriotti, T. Norambuena, M. A. Marti-Renom, and F. Melo, “All-atom knowledge-based potential for RNA structure prediction and assessment.,” Bioinformatics, vol. 27, no. 8, pp. 1086–1093, Apr. 2011.
 </p>
 
-    <small class="hint">status: {{ j.get_status }}</small>
+   status: {{ j.get_status }}</small>
 
 {% endblock %}

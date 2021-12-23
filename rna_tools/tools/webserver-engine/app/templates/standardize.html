@@ -36,6 +36,12 @@
     })
     };
 
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+
     function go() {
 
         $.ajax({
@@ -52,6 +58,11 @@
 </script>
     
 <h2>Standarize your PDB files</h2>
+
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
+
 <p>
   Get rnapuzzle (SimRNA) ready structure.
 </p>
@@ -71,8 +82,12 @@ This is also the submission format required for the RNA Puzzles.
       <input name="file" type="file" multiple />
     </div>
 </form>
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+<div class="well"><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+</div>
 
+<p>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>

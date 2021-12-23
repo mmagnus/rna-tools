@@ -35,6 +35,13 @@
             }
     })
     };
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+
+
 
     function go() {
 
@@ -52,6 +59,11 @@
 </script>
 
 <h2>Get secondary structures</h2>
+
+
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -78,13 +90,25 @@ The raw output files for each step of the pipeline can be found <a href="{{ MEDI
     <h5>Documentation</h5>
   </p>
      <p>
-
-       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --get-ss functionality. Example
+       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --get-ss functionality.
+     </p>
+     <p>Example
        <a href="https://rna-tools.readthedocs.io/en/latest/want.html?module-rna_tools.tools.rna_x3dna.rna_x3dna#module-rna_tools.tools.rna_x3dna.rna_x3dna">https://rna-tools.readthedocs.io/en/latest/want.html?module-rna_tools.tools.rna_x3dna.rna_x3dna#module-rna_tools.tools.rna_x3dna.rna_x3dna</a>
+     </p>
+     
+     <p>
+       Get sequence in dot-bracket notation for the secondary structure:
+     </p>
+<pre>21_3dRNA_1_rpr.pdb
+((((...............))))................
+21_Adamiak_1_rpr.pdb
+((((.......[[[[[[[..))))..........]]]]]]]</pre>
+
 <p>
 X.-J. Lu, H. J. Bussemaker, and W. K. Olson, “DSSR: an integrated software tool for dissecting the spatial structure of RNA.,” Nucleic Acids Research, vol. 43, no. 21, p. e142, Dec. 2015.       
 </p>
 
     <small class="hint">status: {{ j.get_status }}</small>
+
 
 {% endblock %}

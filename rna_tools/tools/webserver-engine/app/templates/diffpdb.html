@@ -19,6 +19,10 @@
     
 <h2>diffpdb</h2>
 
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
+
 <label for="comment">Upload two structures you want to compare (in the PDB format)</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
@@ -83,6 +87,12 @@ More at <a href="https://rna-tools.readthedocs.io/en/latest/tools.html?highlight
                 }
             }
     })
+    };
+
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
     };
 
     function go() {

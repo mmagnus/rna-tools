@@ -46,7 +46,6 @@ from urllib.parse import unquote
 import glob
 import os
 
-
 intervals = (
     ('weeks', 604800),  # 60 * 60 * 24 * 7
     ('days', 86400),    # 60 * 60 * 24
@@ -189,6 +188,10 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
              
+    if tool == 'clear':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rm *')
+
     if tool == 'seq':
         print('run, seq,' + job_id)
         with open(job_dir + '/run.sh', 'w') as f:
@@ -199,7 +202,22 @@ def run(request, tool, job_id):
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write(' rna_pdb_toolsx.py --get-ss *.pdb > log.txt\n')
+             f.write('rna_pdb_toolsx.py --get-ss *.pdb > log.txt\n')
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
+             
+    if tool == 'analysis':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_x3dna.py -l *.pdb > log.txt\n')
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
+    if tool == 'assess':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
              f.write('ls *.pdb >> log.txt\n')
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
@@ -229,28 +247,20 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-
     if tool == 'calc-rmsd':
-        print('run, seq,' + job_id)
-        import glob
-        import os
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
-        #print("\n".join(files))
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 rna_calc_rmsd.py -t %s %s &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
              #f.write('ls *.pdb >> log.txt\n\n')
-             f.write('column -s, -t < rmsds.csv >> log.txt\n\n')
+             f.write('cat rmsds.csv >> log.txt\n\n')
              f.write("echo 'DONE' >> log.txt \n\n")
              f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'calc-inf':
-        print('run, seq,' + job_id)
-        import glob
-        import os
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
@@ -265,13 +275,9 @@ rna_calc_inf.py -t %s %s &> log.txt\n
              f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'clarna':
-        print('run, seq,' + job_id)
-        import glob
-        import os
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
-        #print("\n".join(files))
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""rm log.txt;
 for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
@@ -282,11 +288,9 @@ for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
              f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'diffpdb':
-        print('run, seq,' + job_id)
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
-        #print("\n".join(files))
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 diffpdb.py --method diff %s %s &> log.txt \n
@@ -334,7 +338,7 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-    os.system('cd %s && chmod +x run.sh && ./run.sh &' % job_dir)
+    os.system('cd %s && chmod +x run.sh && /bin/bash run.sh &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
 
@@ -447,7 +451,6 @@ def tool(request, tool, job_id):
             log = f.read()
     except FileNotFoundError:
         log = ''
-        
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log
