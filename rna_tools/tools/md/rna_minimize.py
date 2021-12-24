@@ -71,7 +71,8 @@ if __name__ == '__main__':
         simulation.context.setPositions(modeller.positions)
         simulation.reporters.append(StateDataReporter(stdout, 1000, step=True,
         potentialEnergy=True, temperature=True))
-        simulation.minimizeEnergy(1.0, verbose=True) #verbose=True)
+        simulation.reporters.append(PDBReporter("output.pdb", 1))
+        simulation.minimizeEnergy(maxIterations=1000)#1.0, verbose=True) #verbose=True)
         # from http://zarbi.chem.yale.edu/ligpargen/openMM_tutorial.html
         position = simulation.context.getState(getPositions=True).getPositions()
         energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
