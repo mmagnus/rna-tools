@@ -36,7 +36,7 @@ This should create an executable version of QRNAS.
 
 .. warning:: Please, change the name of the binary file from QRNA to QRNAS!
 
-Be default the script searches QRNAS in <rna-pdb-tools>/opt/qrnas/ .
+Be default the script searches QRNAS in <rna-tools>/opt/qrnas/ .
 
 Usage of QRNA::
 
@@ -52,9 +52,9 @@ Usage of QRNA::
 
 Set up in your bashrc::
 
-   export QRNAS_PATH=<your path to qrnas> # e.g. /home/magnus/src/rna-pdb-tools/opt/qrnas
+   export QRNAS_PATH=<your path to qrnas> # e.g. /home/magnus/src/rna-tools/opt/qrnas
 
-but default rna-pdb-tools searches for qrnas in <rna-pdb-tools>/opt/qrnas.
+but default rna-tools searches for qrnas in <rna-tools>/opt/qrnas.
 
 **QRNAS at Peyote2**
 
@@ -101,6 +101,10 @@ class QRNAS:
         """
         cwd = os.getcwd()
         # get config
+        print(QRNAS_PATH)
+
+        #QRNAS_FF_DIR
+        
         conftxt = open(QRNAS_PATH + os.sep + 'configfile.txt').read()
         conftxt_tmp = re.sub('\#?\s?NSTEPS.+\d+', 'NSTEPS   ' + str(steps), conftxt)
 
@@ -129,11 +133,12 @@ class QRNAS:
         copyfile(inputfile, qrnas_inputfile)
 
         os.chdir(QRNAS_PATH)
-        cmd = QRNAS_PATH + '/QRNA -i ' + qrnas_inputfile + \
+        cmd = 'export QRNAS_FF_DIR="' + QRNAS_PATH + '/forcefield" && ' + QRNAS_PATH + '/QRNA -i ' + qrnas_inputfile + \
               ' -c ' + JOB_PATH + 'configfile.txt ' + \
               ' -o ' + qrnas_outputfile
         if verbose:
             print(cmd)
+        aaa
 
         stdout = open(JOB_PATH + 'stdout.txt', 'w')
         stderr = open(JOB_PATH + 'stderr.txt', 'w')
