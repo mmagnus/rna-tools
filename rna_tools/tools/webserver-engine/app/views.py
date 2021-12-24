@@ -408,12 +408,12 @@ def ajax_job_status(request, job_id, tool=''):
                 #log = re.sub(r"[\-]+>[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
                 #log = re.sub(r"[\s]{4,}\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
 
-                if tool == 'cat':
+                if tool == 'cat': #log
                     log += '</div><pre>== RESULTS ==<br>'
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
                     
-                if tool in ['extract', 'delete', 'rpr', 'mutate']:
+                if tool in ['extract', 'delete', 'rpr', 'mutate', 'min']:
                     files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
                     log += '</div>== RESULTS ==<br>' # <pre
