@@ -372,12 +372,18 @@ def ajax_job_status(request, job_id, tool=''):
         #    response_dict['reload'] = False
         #    return JsonResponse({'post':'false'})
 
+        files = glob.glob(job_dir + "/*")
+        log = "== FILES ==</br>"
+        for f in files:
+            log += os.path.basename(f) + '</br>'
+        # log += "</br>== FILES END ==</br>"
+
         try:
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log = "== SCRIPT ==</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
+                 log += "== SCRIPT ==</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
-            log = ''
-
+            pass
+        
         try:
             log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
             with open(log_filename, 'r') as ifile:
@@ -398,14 +404,12 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
                     
-                if tool == 'extract': #log
-                    files = glob.glob(job_dir + "/*_extract.pdb")
-                    #files.sort(key=os.path.getmtime)
+                if tool in ['extract', 'delete', 'rpr', 'mutate']:
+                    files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
+                    log += '</div>== RESULTS ==<br>' # <pre
                     if files:
                         for f in files:
-                            # http://localhost:8080/media/jobs/4bda1b42/4bda1b42/u6-duplex_extract.pdb
-                            #http://localhost:8080/media/jobs/2a34a41b/2a34a41b.zip
                             log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a></br>'
                     log += '</pre>'
 
