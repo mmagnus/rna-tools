@@ -27,6 +27,7 @@
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            data: { tool: 'mutate' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -86,16 +87,14 @@
     <small class="hint">Example: A:1A+2A+3A+4A,B:13A</small>
 </div>
 
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}
 
-<p>
 <p>
   <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
   <button onclick="go()" class="btn btn-large btn-success">Mutate</button>
 </p>
 
     <small class="hint">status: {{ j.get_status }}</small>
-
 <p>
 
 <p>

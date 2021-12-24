@@ -26,6 +26,7 @@
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            data: { tool: 'delete' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
