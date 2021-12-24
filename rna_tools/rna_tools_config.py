@@ -1,10 +1,12 @@
 import configparser
 import os
+import pathlib
+RT = os.path.dirname(pathlib.Path(__file__).parent.resolve()) + os.sep
 
 SIMRNA_DATA_PATH = None
 RCHIE_PATH = None
-QRNAS_PATH = None
-QRNAS_CONFIG_PATH = None
+QRNAS_PATH = RT + '/opt/qrnas/'
+QRNAS_CONFIG_PATH = RT + '/opt/qrnas/'
 VARNA_PATH = None
 VARNA_JAR_NAME = None
 RFAM_DB_PATH = None  # path to Rfam.cm
@@ -35,9 +37,6 @@ try:
 except KeyError:
     pass
 ML_MODEL_PATH = ''
-
-import pathlib
-RT = os.path.dirname(pathlib.Path(__file__).parent.resolve()) + os.sep
 
 RASP_PATH = RT + 'opt' + os.sep + "rasp-fd-1.0/"
 RASP_PATH_DIR =  RT + 'opt' + os.sep + "rasp-fd-1.0/" 
