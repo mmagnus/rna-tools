@@ -58,6 +58,8 @@
 
 <h2>Minimize structure [Fix clashes]</h2>
 
+<span class="label label-important">Bug</span> The problem with the QRNAS at the moment <a href="https://github.com/sunandanmukherjee/QRNAS/issues/5">https://github.com/sunandanmukherjee/QRNAS/issues/5</a>
+
 <div align="right">
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
@@ -77,10 +79,25 @@
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
 
-    <small class="hint">status: {{ j.get_status }}</small>
+<small class="hint">
+  <p>
+    <h5>Documentation</h5>
+  </p>
+
+<p>
+rna_refinement - RNA refinement with QRNAS.
+</p>
+
+<p>
+Models of RNA 3D structures obtained by modeling methods often suffer from local inaccuracies such as clashes or physically improbable bond lengths, backbone conformations, or sugar puckers. To ensure high quality of models, a procedure of re nement should be applied as a nal step in the modeling pipeline. The software tool QRNAS was developed in our laboratory to perform local re nement of nucleic acid structures based on an extended version of the AMBER force field. The extensions consist of energy terms associated with introduction of explicit hydrogen bonds, idealization of base pair planarity and regularization of backbone conformation.
+</p>
+
+Read more: Piatkowski, P., Kasprzak, J. M., Kumar, D., Magnus, M., Chojnowski, G., & Bujnicki, J. M. (2016). RNA 3D Structure Modeling by Combination of Template-Based Method ModeRNA, Template-Free Folding with SimRNA, and Refinement with QRNAS. Methods in Molecular Biology (Clifton, N.J.), 1490(Suppl), 217-235. http://doi.org/10.1007/978-1-4939-6433-8_14
 
 <p>    
 J. Stasiewicz, S. Mukherjee, C. Nithin, and J. M. Bujnicki, “QRNAS: software tool for refinement of nucleic acid structures.,” BMC Struct. Biol., vol. 19, no. 1, p. 5, Mar. 2019.
 </p>
 
+status: {{ j.get_status }}
+</small>
 {% endblock %}

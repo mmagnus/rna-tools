@@ -215,6 +215,15 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
+    if tool == 'minmd':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("echo 'OpenMM does not give progress for minimization, just wait...' > log.txt \n")
+             f.write('time python /home/ubuntu/rna-tools/rna_tools/tools/md/rna_minimize.py -sp *.pdb >> log.txt\n')
+             f.write('ls *.pdb >> log.txt\n')
+             f.write("echo 'DONE' >> log.txt \n")
+             f.write("zip -r %s.zip *" % job_id)
+
+
     if tool == 'assess':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
