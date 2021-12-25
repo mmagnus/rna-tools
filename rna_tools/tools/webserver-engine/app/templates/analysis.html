@@ -73,7 +73,12 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
+
     <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+<p>
+The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>. 
+</p>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>

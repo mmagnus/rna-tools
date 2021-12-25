@@ -27,6 +27,7 @@
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            data: { tool: 'min' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -76,8 +77,8 @@
 <div class="well">
 <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 </div>
-
 <p>
+The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>. 
 The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 </p>
 
