@@ -167,6 +167,21 @@ def contact(request):
     return render_to_response('contact.html', RequestContext(request, {}))
 
 
+
+def demo(request, tool, job_id):
+    print(job_id)
+    try:
+        j = Job.objects.get(job_id=job_id.replace('/', ''))
+    except:  # DoesNotExist:  @hack
+        return render_to_response('dont_exits.html', RequestContext(request, {
+        }))
+    import os
+    job_dir = settings.JOBS_PATH + sep + job_id + '/'
+    p = settings.PATH + '/app/static/app/demo/'
+    if tool == 'minmd':
+        f = 'tetraloop_mdr.pdb'
+        shutil.copyfile(p + f, job_dir + f)
+    
 def run(request, tool, job_id):
     print(job_id)
     try:
