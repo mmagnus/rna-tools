@@ -27,7 +27,7 @@
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
-            data: { tool: 'min' },
+            data: { tool: 'mdr' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -36,23 +36,17 @@
             }
     })
     };
+
   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
 	})
     };
 
-  function demo(){
-        $.ajax({
-            url: "/demo/{{ tool }}/{{ j.job_id }}",
-	})
-    };
-
-
     function go() {
 
         $.ajax({
-            url: "/run/minmd/{{ j.job_id }}",
+            url: "/run/standardize-md/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -63,13 +57,19 @@
     };
 
 </script>
-
-<h2>Minimize structure [Fix clashes] with OpenMM</h2>
+    
+<h2>Standarize PDB files for Molecular Dynamics</h2>
 
 <div align="right">
-  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
+
+<p>
+  Clean up a structure, get current order of atoms.
+</p>
+<p>
+  This is also the submission format required for <a href="https://openmm.org">OpenMM</a>.
+</p>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -80,32 +80,28 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-
-<div class="well">
-<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
-</div>
-<p>
-The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>. 
-The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
-</p>
+    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
+<p>
+
+<p>
+  The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>.
+The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
 
 <small class="hint">
+
   <p>
     <h5>Documentation</h5>
   </p>
+     <p>
 
+    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a> with option to remove starting OP3 atoms.
+    
 
-<p>
-  <a href="https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/md/rna_md.py">https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/md/rna_md.py</a>
-</p>
-<p>
-P. Eastman, J. Swails, J. D. Chodera, R. T. McGibbon, Y. Zhao, K. A. Beauchamp, L.-P. Wang, A. C. Simmonett, M. P. Harrigan, C. D. Stern, R. P. Wiewiora, B. R. Brooks, and V. S. Pande, “OpenMM 7: Rapid development of high performance algorithms for molecular dynamics,” PLoS Comput Biol, vol. 13, no. 7, pp. e1005659–17, Jul. 2017.
-</p>
+    <small class="hint">status: {{ j.get_status }}</small>
 
-status: {{ j.get_status }}
-</small>
 {% endblock %}

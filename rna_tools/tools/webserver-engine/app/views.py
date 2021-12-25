@@ -178,9 +178,13 @@ def demo(request, tool, job_id):
     import os
     job_dir = settings.JOBS_PATH + sep + job_id + '/'
     p = settings.PATH + '/app/static/app/demo/'
-    if tool == 'minmd':
+    print(tool)
+    if tool == 'min':
         f = 'tetraloop_mdr.pdb'
+        print(p + f, job_dir + f)
         shutil.copyfile(p + f, job_dir + f)
+    return JsonResponse({})
+        
     
 def run(request, tool, job_id):
     print(job_id)
@@ -456,13 +460,14 @@ def ajax_job_status(request, job_id, tool=''):
         pass
 
     if full_log != log:
-        if full_log:  # if there is anything
+        #if full_log:  # if there is anything
             with open(job_dir + '/full_log.txt', 'w') as f:
                 f.write(log)
             return HttpResponse(json.dumps(response_dict), "application/json") # update only when
         # log is different
-    else:
-         return HttpResponse(None)
+    #else:
+    return JsonResponse({'post':'false'})
+   #     return HttpResponse()
     #except:
     #    response_dict['log'] = ""
 
@@ -473,7 +478,6 @@ def tool(request, tool, job_id):
     except:  # DoesNotExist:  @hack
         return render_to_response('dont_exits.html', RequestContext(request, {
         }))
-
     job_dir = settings.JOBS_PATH + sep + job_id
     try:
         with open(job_dir + '/full_log.txt') as f:

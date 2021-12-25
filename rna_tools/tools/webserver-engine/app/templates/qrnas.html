@@ -35,7 +35,6 @@
             }
     })
     };
-
   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
@@ -45,7 +44,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/standardize-md/{{ j.job_id }}",
+            url: "/run/analysis/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -56,19 +55,14 @@
     };
 
 </script>
-    
-<h2>Standarize PDB files for Molecular Dynamics</h2>
+
+<h2>Minimize structure [Fix clashes]</h2>
+
+<span class="label label-important">Bug</span> The problem with the QRNAS at the moment <a href="https://github.com/sunandanmukherjee/QRNAS/issues/5">https://github.com/sunandanmukherjee/QRNAS/issues/5</a>
 
 <div align="right">
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
-
-<p>
-  Clean up a structure, get current order of atoms.
-</p>
-<p>
-  This is also the submission format required for <a href="https://openmm.org">OpenMM</a>.
-</p>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -84,23 +78,31 @@
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
-<p>
 
 <p>
   The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>.
-The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 </p>
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 
 <small class="hint">
-
   <p>
     <h5>Documentation</h5>
   </p>
-     <p>
 
-    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a> with option to remove starting OP3 atoms.
-    
+<p>
+rna_refinement - RNA refinement with QRNAS.
+</p>
 
-    <small class="hint">status: {{ j.get_status }}</small>
+<p>
+Models of RNA 3D structures obtained by modeling methods often suffer from local inaccuracies such as clashes or physically improbable bond lengths, backbone conformations, or sugar puckers. To ensure high quality of models, a procedure of re nement should be applied as a nal step in the modeling pipeline. The software tool QRNAS was developed in our laboratory to perform local re nement of nucleic acid structures based on an extended version of the AMBER force field. The extensions consist of energy terms associated with introduction of explicit hydrogen bonds, idealization of base pair planarity and regularization of backbone conformation.
+</p>
 
+Read more: Piatkowski, P., Kasprzak, J. M., Kumar, D., Magnus, M., Chojnowski, G., & Bujnicki, J. M. (2016). RNA 3D Structure Modeling by Combination of Template-Based Method ModeRNA, Template-Free Folding with SimRNA, and Refinement with QRNAS. Methods in Molecular Biology (Clifton, N.J.), 1490(Suppl), 217-235. http://doi.org/10.1007/978-1-4939-6433-8_14
+
+<p>    
+J. Stasiewicz, S. Mukherjee, C. Nithin, and J. M. Bujnicki, “QRNAS: software tool for refinement of nucleic acid structures.,” BMC Struct. Biol., vol. 19, no. 1, p. 5, Mar. 2019.
+</p>
+
+status: {{ j.get_status }}
+</small>
 {% endblock %}
