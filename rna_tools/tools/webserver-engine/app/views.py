@@ -456,9 +456,10 @@ def ajax_job_status(request, job_id, tool=''):
         pass
 
     if full_log != log:
-        with open(job_dir + '/full_log.txt', 'w') as f:
-            f.write(log)
-        return HttpResponse(json.dumps(response_dict), "application/json") # update only when
+        if full_log:  # if there is anything
+            with open(job_dir + '/full_log.txt', 'w') as f:
+                f.write(log)
+            return HttpResponse(json.dumps(response_dict), "application/json") # update only when
         # log is different
     else:
          return HttpResponse(None)
