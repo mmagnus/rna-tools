@@ -242,7 +242,11 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-
+    if tool == 'qrnas':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('time rna_refinement.py -i *.pdb 2>&1 | tee log.txt\n')
+             f.write("zip -r %s.zip *" % job_id)
+             
     if tool == 'assess':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')

@@ -44,7 +44,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/analysis/{{ j.job_id }}",
+            url: "/run/qrnas/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -56,9 +56,7 @@
 
 </script>
 
-<h2>Minimize structure [Fix clashes]</h2>
-
-<span class="label label-important">Bug</span> The problem with the QRNAS at the moment <a href="https://github.com/sunandanmukherjee/QRNAS/issues/5">https://github.com/sunandanmukherjee/QRNAS/issues/5</a>
+<h2>Minimize with QRNAS</h2>
 
 <div align="right">
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
@@ -88,6 +86,7 @@ The raw output files for each step of the pipeline can be found <a href="{{ MEDI
   <p>
     <h5>Documentation</h5>
   </p>
+
 
 <p>
 rna_refinement - RNA refinement with QRNAS.
