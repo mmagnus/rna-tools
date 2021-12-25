@@ -428,7 +428,7 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
                     
-                if tool in ['extract', 'delete', 'rpr', 'mutate']:
+                if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min']:
                     files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
                     log += '</div>== RESULTS ==<br>' # <pre
