@@ -46,7 +46,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/standardize/{{ j.job_id }}",
+            url: "/run/rpr/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){

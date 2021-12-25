@@ -263,7 +263,7 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-    if tool == "standardize":
+    if tool == "rpr":
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done\n")
              f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
@@ -271,7 +271,7 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-    if tool == "standardize-md":
+    if tool == "mdr":
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
              f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
