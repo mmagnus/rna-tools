@@ -482,5 +482,6 @@ def tool(request, tool, job_id):
         log = ''
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
-        'log' : log
+        'log' : log,
+        'tool' : tool,        
         }))
