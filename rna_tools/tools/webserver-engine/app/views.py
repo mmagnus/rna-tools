@@ -420,7 +420,7 @@ def ajax_job_status(request, job_id, tool=''):
                # target="_blank" # for PDB files it open an empty page
                # this is not needed
                bfl = '<a href="/media/jobs/' + job_id + '/' + bf +'">' + bf + '</a>'
-               log += '<a href="#" onclick="del(\'' + job_id + '/' + bf + '\');">x</a> ' +  bfl + '</br>'
+               log += '<a class="icon-remove-circle" href="#" onclick="del(\'' + job_id + '/' + bf + '\');"></a> ' +  bfl + '</br>'
         # log += "</br>== FILES END ==</br>"
 
         try:
