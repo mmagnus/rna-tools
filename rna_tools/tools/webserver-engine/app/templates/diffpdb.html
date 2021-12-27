@@ -16,58 +16,6 @@
 }
 </style>
 
-    
-<h2>diffpdb</h2>
-
-<div align="right">
-  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
-</div>
-
-<label for="comment">Upload two structures you want to compare (in the PDB format)</label>
-
-<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
-  {% csrf_token %}
-  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
-    <div class="fallback">
-      <input name="file" type="file" multiple />
-    </div>
-</form>
-
-<pre>
-<div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
-</pre>
-<p>
-  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
-</p>
-
-    <small class="hint">status: {{ j.get_status }}
-
-  <p>
-    <h5>Documentation</h5>
-  </p>
-
-      <p>
-	diffpdb checks the consistency between annotations of two structural files. The tool ignores 3D coordinates of atoms and compares only text-content of two files in the PDB to identify the difference in the annotation of atoms, missing atoms (missing the O2′ atom) and missing fragment (shown on the left side with the gray-red bar).
-      </p>
-
-    <pre>
-ATOM      1  O5'   G A   1					ATOM      1  O5'   G A   1
-ATOM      2  C5'   G A   1					ATOM      2  C5'   G A   1
-ATOM      3  C4'   G A   1					ATOM      3  C4'   G A   1
-ATOM      4  O4'   G A   1					ATOM      4  O4'   G A   1
-# these two line differ
-ATOM      5  C1'   G A   1				      |	ATOM      5  C3'   G A   1
-ATOM      6  N9    G A   1				      |	ATOM      6  O3'   G A   1</pre>
-
-<p>
-diffpdb can be also used locally with a diff viewer of choince. Here the detection of missing O2' atom in one of the structure can be easily detected.
- 	<center>
-          <img src="{{ STATIC_URL }}app/img/diffpdb.jpg" width="60%"  alt="">
-	</center>
-</p>
-More at <a href="https://rna-tools.readthedocs.io/en/latest/tools.html?highlight=diffpdb#module-rna_tools.tools.diffpdb.diffpdb">https://rna-tools.readthedocs.io/en/latest/tools.html?highlight=diffpdb#module-rna_tools.tools.diffpdb.diffpdb</a>
-    </small>
-    
 <script>
 
     var progress_interval;
@@ -108,4 +56,61 @@ More at <a href="https://rna-tools.readthedocs.io/en/latest/tools.html?highlight
 
 </script>
 
+
+<h2>diffpdb</h2>
+
+<div align="right">
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
+
+<label for="comment">Upload two structures you want to compare (in the PDB format)</label>
+
+<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
+  {% csrf_token %}
+  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+
+  <pre><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div></pre>
+
+<p>
+  The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>. 
+</p>
+
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+</p>
+
+    <small class="hint">status: {{ j.get_status }}
+
+  <p>
+    <h5>Documentation</h5>
+  </p>
+<p>
+  The tool uses 'diff' comment for text-based comparison of files. Read more on 'diff' <a href="https://en.wikipedia.org/wiki/Diff#Usage">here</a>
+</p>
+      <p>
+	diffpdb checks the consistency between annotations of two structural files. The tool ignores 3D coordinates of atoms and compares only text-content of two files in the PDB to identify the difference in the annotation of atoms, missing atoms (missing the O2′ atom) and missing fragment (shown on the left side with the gray-red bar).
+      </p>
+
+    <pre>
+ATOM      1  O5'   G A   1					ATOM      1  O5'   G A   1
+ATOM      2  C5'   G A   1					ATOM      2  C5'   G A   1
+ATOM      3  C4'   G A   1					ATOM      3  C4'   G A   1
+ATOM      4  O4'   G A   1					ATOM      4  O4'   G A   1
+# these two line differ
+ATOM      5  C1'   G A   1				      |	ATOM      5  C3'   G A   1
+ATOM      6  N9    G A   1				      |	ATOM      6  O3'   G A   1</pre>
+
+<p>
+diffpdb can be also used locally with a diff viewer of choince. Here the detection of missing O2' atom in one of the structure can be easily detected.
+ 	<center>
+          <img src="{{ STATIC_URL }}app/img/diffpdb.jpg" width="60%"  alt="">
+	</center>
+</p>
+More at <a href="https://rna-tools.readthedocs.io/en/latest/tools.html?highlight=diffpdb#module-rna_tools.tools.diffpdb.diffpdb">https://rna-tools.readthedocs.io/en/latest/tools.html?highlight=diffpdb#module-rna_tools.tools.diffpdb.diffpdb</a>
+    </small>
+    
 {% endblock %}

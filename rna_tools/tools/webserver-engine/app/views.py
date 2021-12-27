@@ -167,6 +167,25 @@ def contact(request):
     return render_to_response('contact.html', RequestContext(request, {}))
 
 
+
+def demo(request, tool, job_id):
+    print(job_id)
+    try:
+        j = Job.objects.get(job_id=job_id.replace('/', ''))
+    except:  # DoesNotExist:  @hack
+        return render_to_response('dont_exits.html', RequestContext(request, {
+        }))
+    import os
+    job_dir = settings.JOBS_PATH + sep + job_id + '/'
+    p = settings.PATH + '/app/static/app/demo/'
+    print(tool)
+    if tool == 'min':
+        f = 'tetraloop_mdr.pdb'
+        print(p + f, job_dir + f)
+        shutil.copyfile(p + f, job_dir + f)
+    return JsonResponse({})
+        
+    
 def run(request, tool, job_id):
     print(job_id)
     try:
@@ -223,7 +242,11 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-
+    if tool == 'qrnas':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('time rna_refinement.py -i *.pdb 2>&1 | tee log.txt\n')
+             f.write("zip -r %s.zip *" % job_id)
+             
     if tool == 'assess':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
@@ -240,7 +263,7 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-    if tool == "standardize":
+    if tool == "rpr":
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done\n")
              f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
@@ -248,7 +271,7 @@ def run(request, tool, job_id):
              f.write("echo 'DONE' >> log.txt \n")
              f.write("zip -r %s.zip *" % job_id)
 
-    if tool == "standardize-md":
+    if tool == "mdr":
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
              f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
@@ -424,7 +447,7 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
                     
-                if tool in ['extract', 'delete', 'rpr', 'mutate', 'min']:
+                if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min']:
                     files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
                     log += '</div>== RESULTS ==<br>' # <pre
@@ -449,12 +472,11 @@ def ajax_job_status(request, job_id, tool=''):
     if 1:
         j.comment = log
         j.save()
-        return HttpResponse(json.dumps(response_dict), "application/json") # update only when
+        return HttpResponse(json.dumps(response_dict), "application/json") # update only 
         # log is different
     #else:
     #     return HttpResponse({}) #json.dumps(response_dict), "application/json")
-    #except:
-    #    response_dict['log'] = ""
+    return JsonResponse({'post':'false'})
 
 
 def tool(request, tool, job_id):
@@ -463,7 +485,6 @@ def tool(request, tool, job_id):
     except:  # DoesNotExist:  @hack
         return render_to_response('dont_exits.html', RequestContext(request, {
         }))
-
     job_dir = settings.JOBS_PATH + sep + job_id
     try:
         with open(job_dir + '/full_log.txt') as f:
@@ -472,5 +493,6 @@ def tool(request, tool, job_id):
         log = ''
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
-        'log' : log
+        'log' : log,
+        'tool' : tool,        
         }))

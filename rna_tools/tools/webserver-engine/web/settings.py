@@ -3,7 +3,8 @@ server_name_py = 'rna-tools-web'
 ADMIN_JOBS_URL = 'http://0.0.0.0:8667/admin/app/job/'
 DISK_TO_TRACK = '/dev/mapper/rnamasonry--vm--vg-root'
 import os
-PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)) 
+# /home/ubuntu/rna-tools/rna_tools/tools/webserver-engine
+PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))  
 JOBS_PATH = PATH + os.sep + 'media' + os.sep + 'jobs'
 URL_JOBS = "http://iimcb.genesilico.pl/rnamsonry/jobs/"  # required /
 URL = "http://iimcb.genesilico.pl/rnamasonry" # / is not needed"

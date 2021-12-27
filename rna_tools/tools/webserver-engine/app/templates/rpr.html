@@ -27,6 +27,7 @@
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            data: { tool: 'rpr' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -45,7 +46,7 @@
     function go() {
 
         $.ajax({
-            url: "/run/standardize-md/{{ j.job_id }}",
+            url: "/run/rpr/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -57,17 +58,20 @@
 
 </script>
     
-<h2>Standarize PDB files for Molecular Dynamics</h2>
+<h2>Standardize your PDB files</h2>
 
 <div align="right">
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
 <p>
-  Clean up a structure, get current order of atoms.
+  Get rnapuzzle ready structure.
 </p>
 <p>
-  This is also the submission format required for <a href="https://openmm.org">OpenMM</a>.
+  Clean up a structure, get standardized order of atoms.
+</p>
+<p>
+This is also the submission format required for the RNA Puzzles.
 </p>
 
 <label for="comment">RNA structure (in the PDB format)</label>
@@ -79,27 +83,20 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
 
+<div class="well"><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+</div>
+
+<p>
+  The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>.
+The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
+</p>
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
-<p>
-
-<p>
-The raw output files for each step of the pipeline can be found <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
-</p>
-
-<small class="hint">
-
-  <p>
-    <h5>Documentation</h5>
-  </p>
-     <p>
-
-    This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a> with option to remove starting OP3 atoms.
-    
 
     <small class="hint">status: {{ j.get_status }}</small>
 
+    <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a>
+    
 {% endblock %}

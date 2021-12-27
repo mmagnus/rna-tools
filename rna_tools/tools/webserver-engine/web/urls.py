@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'stop/(?P<job_id>.*)$', 'app.views.stop'),
 
     url(r'^tools/(?P<tool>.*)/(?P<job_id>.*)$','app.views.tool'),
+    url(r'^demo/(?P<tool>.*)/(?P<job_id>.*)$','app.views.demo'),
     url(r'^tools','app.views.tools'),
                        
     url(r'%s/*$' %  settings.server_name_py, 'app.views.home', name='home'),

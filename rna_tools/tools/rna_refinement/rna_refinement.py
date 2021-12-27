@@ -138,7 +138,6 @@ class QRNAS:
               ' -o ' + qrnas_outputfile
         if verbose:
             print(cmd)
-        aaa
 
         stdout = open(JOB_PATH + 'stdout.txt', 'w')
         stderr = open(JOB_PATH + 'stderr.txt', 'w')
