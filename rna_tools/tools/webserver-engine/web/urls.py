@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'contact', 'app.views.contact'),
     url(r'about', 'app.views.about'),
 
+    url(r'del/(?P<job_id_fn>.*)$','app.views.ajax_rm_file', name='ajax_rm_file'),
     url(r'jobstatus/(?P<job_id>.*)$','app.views.ajax_job_status', name='ajax_job_status'),
     url(r'download_project_dir/(?P<job_id>.*)$','app.views.download_project_dir', name='download_project_dir'),
     url(r'stop/(?P<job_id>.*)$','app.views.stop'),

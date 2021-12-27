@@ -363,9 +363,14 @@ def file_upload(request, job_id):
     return JsonResponse({'post':'false'})
 
 
+def ajax_rm_file(rquest, job_id_fn):
+    f = settings.JOBS_PATH + sep + job_id_fn
+    os.remove(f)
+        
 def ajax_job_status(request, job_id, tool=''):
     job_dir = settings.JOBS_PATH + sep + job_id
     job_id = job_id.replace('/', '')
+
     try:
         tool = request.GET['tool']
     except:
@@ -382,9 +387,15 @@ def ajax_job_status(request, job_id, tool=''):
         #    return JsonResponse({'post':'false'})
 
         files = glob.glob(job_dir + "/*")
-        log = "== FILES ==</br>"
-        for f in files:
-            log += os.path.basename(f) + '</br>'
+ 
+        log = ''
+        if files:
+           log = "== FILES ==</br>"
+           for f in files:
+               bf = os.path.basename(f)
+               # The raw output files for each step of the pipeline can be found <a href="{{ {{ j.job_id }}.zip">here</a>
+               bfl = '<a target="_blank" href="/media/jobs/' + job_id + '/' + bf +'">' + bf + '</a>'
+               log += '<a href="#" onclick="del(\'' + job_id + '/' + bf + '\');">x</a> ' +  bfl + '</br>'
         # log += "</br>== FILES END ==</br>"
 
         try:
