@@ -17,7 +17,6 @@
 </style>
 
 <script>
-
     var progress_interval;
 
     $(document).ready( function(){
@@ -37,23 +36,7 @@
     })
     };
 
-   function del(t){
-      if (window.confirm("Do you really want to delete file: " + t)) {
-        $.ajax({
-            url: "/del/" + t,
-	})
-
-      }
-     };
-
-  function rm(){
-        $.ajax({
-            url: "/run/clear/{{ j.job_id }}",
-	})
-    };
-
     function analyze() {
-
         $.ajax({
             url: "/run/seq/{{ j.job_id }}",
             success: function(d) {
@@ -66,7 +49,6 @@
     };
 
     function go() {
-
         $.ajax({
             url: "/run/mutate/{{ j.job_id }}",
 	    data: { mutate: $("#mutate").val() }
