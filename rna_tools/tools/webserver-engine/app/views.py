@@ -434,7 +434,7 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '</pre>'
 
                 # response_dict['log'] = log.replace(' ', '&nbsp')
-                response_dict['log'] = log
+
                 if 'DONE' in log:
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
                     j.status = JOB_STATUSES['finished']
@@ -443,21 +443,16 @@ def ajax_job_status(request, job_id, tool=''):
 
         except FileNotFoundError:
             pass
-        
-    # code to take care of not refreshing log not necessarily 
-    try:
-        full_log = open(job_dir + '/full_log.txt').read()
-    except FileNotFoundError:
-        full_log = ''
-        pass
 
-    if full_log != log:
-        with open(job_dir + '/full_log.txt', 'w') as f:
-            f.write(log)
+    response_dict['log'] = log
+    #if j.comment != log: # so this is different, reload
+    if 1:
+        j.comment = log
+        j.save()
         return HttpResponse(json.dumps(response_dict), "application/json") # update only when
         # log is different
-    else:
-         return HttpResponse(None)
+    #else:
+    #     return HttpResponse({}) #json.dumps(response_dict), "application/json")
     #except:
     #    response_dict['log'] = ""
 
