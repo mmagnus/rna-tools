@@ -132,10 +132,7 @@
   <button onclick="extract()" class="btn btn-large btn-success">Extract</button>
 </p>
 
-<p>
-The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>.
-The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>.
-</p>
+<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}"</a></p>
 
 <small class="hint">
   <p>
