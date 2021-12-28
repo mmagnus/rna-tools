@@ -448,7 +448,7 @@ def ajax_job_status(request, job_id, tool=''):
 
         try:
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log += "== SCRIPT ==</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
+                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
             pass
         
@@ -468,14 +468,14 @@ def ajax_job_status(request, job_id, tool=''):
                 #log = re.sub(r"[\s]{4,}\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r[^\Z]", "", log)
 
                 if tool == 'cat': #log
-                    log += '</div><pre>== RESULTS ==<br>'
+                    log += '</div><pre>RESULTS<br>'
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
                     
                 if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min']:
                     files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
-                    log += '</div>== RESULTS ==<br>' # <pre
+                    log += '</div>RESULTS<br>' # <pre
                     if files:
                         for f in files:
                             log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a></br>'
