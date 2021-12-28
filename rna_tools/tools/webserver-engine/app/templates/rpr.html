@@ -77,8 +77,7 @@
     </div>
 </form>
 
-<div class="well"><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
-</div>
+    <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
   The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>

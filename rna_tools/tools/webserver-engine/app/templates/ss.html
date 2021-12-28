@@ -74,7 +74,8 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-    <div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div>
+
+    <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
