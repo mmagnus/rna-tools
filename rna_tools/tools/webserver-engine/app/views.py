@@ -118,14 +118,12 @@ def stop(request, job_id):
 
 
 def download_project_dir(request, job_id):
-
     job_dir = settings.JOBS_PATH + sep + job_id
     fname="%s.zip" % job_id
 
     response = HttpResponse(content_type='application/zip')
     response['Content-Disposition'] = 'filename=%s'%fname
     all_files = []
-
 
     try:
         job_status = Job.objects.get(job_id=job_id.replace('/', ''))
@@ -139,7 +137,8 @@ def download_project_dir(request, job_id):
             with open(abs_fn, 'rb') as ifile:
                 all_files.append( (os.path.relpath(abs_fn, job_dir), ifile.read()) )
 
-    buffer = StringIO()
+    from io import BytesIO            
+    buffer = BytesIO()
     zip = zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED)
     for name, f in all_files:
         zip.writestr( os.path.join(job_id, name), f)
@@ -149,8 +148,6 @@ def download_project_dir(request, job_id):
     ret_zip = buffer.getvalue()
     buffer.close()
     response.write(ret_zip)
-
-
 
     return response
 
@@ -266,10 +263,10 @@ def run(request, tool, job_id):
     if tool == "rpr":
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done\n")
-             f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
+             #f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
+             f.write("grep 'REMARK 250' *_rpr.pdb > log.txt")
+             #f.write("echo 'DONE' >> log.txt")
+             #f.write("zip -r %s.zip *" % job_id)
 
     if tool == "mdr":
         with open(job_dir + '/run.sh', 'w') as f:
@@ -492,6 +489,8 @@ def ajax_job_status(request, job_id, tool=''):
         except FileNotFoundError:
             pass
 
+    # clea up log
+    log = log.replace('REMARK 250 ', '')
     response_dict['log'] = log
     #if j.comment != log: # so this is different, reload
     if 1:

@@ -65,15 +65,8 @@
 </div>
 
 <p>
-  Get rnapuzzle ready structure.
+  Get rnapuzzle ready structure. Clean up a structure, get standardized order of atoms. This is also the submission format required for the RNA Puzzles.
 </p>
-<p>
-  Clean up a structure, get standardized order of atoms.
-</p>
-<p>
-This is also the submission format required for the RNA Puzzles.
-</p>
-
 <label for="comment">RNA structure (in the PDB format)</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
@@ -87,6 +80,8 @@ This is also the submission format required for the RNA Puzzles.
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
+  The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>
+	    
   The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>.
 The raw output files for each step of the pipeline can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.zip">here</a>
 </p>
