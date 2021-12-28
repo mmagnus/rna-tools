@@ -394,6 +394,28 @@ def ajax_job_status(request, job_id, tool=''):
     job_dir = settings.JOBS_PATH + sep + job_id
     job_id = job_id.replace('/', '')
 
+    import enum
+    # Enum for size units
+    class SIZE_UNIT(enum.Enum):
+       BYTES = 1
+       KB = 2
+       MB = 3
+       GB = 4
+    def convert_unit(size_in_bytes, unit):
+       """ Convert the size from bytes to other units like KB, MB or GB"""
+       if unit == SIZE_UNIT.KB:
+           return size_in_bytes/1024
+       elif unit == SIZE_UNIT.MB:
+           return size_in_bytes/(1024*1024)
+       elif unit == SIZE_UNIT.GB:
+           return size_in_bytes/(1024*1024*1024)
+       else:
+           return size_in_bytes
+    def get_file_size(file_name, size_type = SIZE_UNIT.BYTES ):
+       """ Get file in size in given unit like KB, MB or GB"""
+       size = os.path.getsize(file_name)
+       return round(convert_unit(size, size_type), 2)
+
     try:
         tool = request.GET['tool']
     except:
@@ -413,13 +435,14 @@ def ajax_job_status(request, job_id, tool=''):
  
         log = ''
         if files:
-           log = "== FILES ==</br>"
+           log = "FILES</br>"
            for f in files:
                bf = os.path.basename(f)
                # The raw output files for each step of the pipeline can be found <a href="{{ {{ j.job_id }}.zip">here</a>
                # target="_blank" # for PDB files it open an empty page
                # this is not needed
-               bfl = '<a href="/media/jobs/' + job_id + '/' + bf +'">' + bf + '</a>'
+               size = str(get_file_size(f, SIZE_UNIT.KB)) + ' KB'
+               bfl = size.rjust(10).replace(' ', '&nbsp') + ' <a href="/media/jobs/' + job_id + '/' + bf +'">' + bf + '</a>' # .ljust(60).replace(' ', '&nbsp') 
                log += '<a class="icon-remove-circle" href="#" onclick="del(\'' + job_id + '/' + bf + '\');"></a> ' +  bfl + '</br>'
         # log += "</br>== FILES END ==</br>"
 
