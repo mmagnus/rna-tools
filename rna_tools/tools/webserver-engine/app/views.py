@@ -466,6 +466,8 @@ def ajax_job_status(request, job_id, tool=''):
         except FileNotFoundError:
             pass
 
+    # clea up log
+    log = log.replace('REMARK 250 ', '')
     response_dict['log'] = log
     #if j.comment != log: # so this is different, reload
     if 1:
