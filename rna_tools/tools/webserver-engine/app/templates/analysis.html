@@ -76,7 +76,7 @@
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
     
-<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}"</a></p>
+<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
