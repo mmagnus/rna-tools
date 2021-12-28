@@ -73,7 +73,7 @@
     </div>
 </form>
 
-  <pre><div id="log_txt" style="margin-top:10px;font-size:12px;font-family:'Lucida Console', Monaco, monospace">{{ log | safe }}</div></pre>
+    <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
   The log file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/log.txt">here</a>. 
