@@ -6,6 +6,10 @@ python:
   pip_install: true
 requirements_file: docs/docs_requirements_py2.txt
 
+
+conda:
+  environment: docs/env.yml
+  
 python:
     extra_requirements:
         - sphinx-argparse
