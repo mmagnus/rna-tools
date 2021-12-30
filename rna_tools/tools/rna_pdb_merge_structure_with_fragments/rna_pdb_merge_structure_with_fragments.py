@@ -6,6 +6,7 @@ from Bio.PDB.Atom import PDBConstructionWarning
 
 import warnings
 warnings.simplefilter('ignore', PDBConstructionWarning)
+import argparse
 import string
 import re
 import sys
@@ -97,15 +98,46 @@ class Struc:
         print('Save as ', self.pdb_out)
         return False
 
+def get_parser():
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-if __name__ == '__main__':
+    #parser.add_argument('-', "--", help="", default="")
+
+    parser.add_argument("--test",
+                        action="store_true", help="run a test")
+    parser.add_argument("-v", "--verbose",
+                        action="store_true", help="be verbose")
+    parser.add_argument("frame", help="", default="") # nargs='+')
+    parser.add_argument("insert", help="", default="") # nargs='+')
+    return parser
+
+def test():
     s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb',
-              pdb='test_data/rna_sq_renumber.pdb', fragments='', pdb_out='tmp.pdb', v=True)
-    s.detect_what_is_in_pdb()
-
+              pdb='test_data/rna_sq_renumber.pdb', fragments='', pdb_out='test_data/tmp2.pdb', v=True)
+    err = s.detect_what_is_in_pdb()
+    err = s.merge()
+    if err:
+        print(err)
+    
     s = Struc(ring='test_data/1xjr_simrna_nstep_1.pdb', pdb='test_data/1xjr_root.pdb',
               fragments='A:1-14,37-45', pdb_out='test_data/tmp.pdb', v=True)
     err = s.detect_what_is_in_pdb()
     err = s.merge()
     if err:
         print(err)
+
+if __name__ == '__main__':
+    parser = get_parser()
+    args = parser.parse_args()
+
+    if args.test:
+        test()
+
+    s = Struc(ring=args.frame, pdb=args.insert,
+              fragments='', pdb_out='tmp.pdb', v=True)
+    err = s.detect_what_is_in_pdb()
+    err = s.merge()
+    if err:
+        print(err)
+
