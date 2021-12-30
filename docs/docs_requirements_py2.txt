@@ -2,14 +2,14 @@ configparser==4.0.2
 
 numpy
 biopython==1.74
-forgi
+#forgi
 progressbar2
 
 # some fix
 sphinx==1.6.7
 sphinx-argparse==0.1.15
 
-
+pathlib
 sphinx-rtd-theme
 sphinxcontrib-napoleon
 urllib3
