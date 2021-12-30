@@ -5,8 +5,3 @@ build:
 
 conda:
   environment: docs/env.yml
-  
-python:
-  install:
-    - requirements: docs/requirements.txt
-    - method: pip
