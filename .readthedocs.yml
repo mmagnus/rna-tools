@@ -10,3 +10,4 @@ python:
     extra_requirements:
         - sphinx-argparse
         - mysql-connector-python-rf
+        - numpy
