@@ -10,6 +10,3 @@ python:
   install:
     - requirements: docs/requirements.txt
     - method: pip
-      extra_requirements:
-        - sphinx-argparse
-        - mysql-connector-python-rf
