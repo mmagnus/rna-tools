@@ -1,9 +1,7 @@
 build:
   image: latest
 
-conda:
-  file: docs/env.yml
-  
+
 python:
   version: 2.7
   pip_install: true
@@ -14,3 +12,6 @@ python:
     extra_requirements:
         - sphinx-argparse
         - mysql-connector-python-rf
+        
+conda:
+  file: docs/env.yml        
