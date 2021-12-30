@@ -2,6 +2,7 @@ version: 2
 
 build:
   image: latest
+  python: "3.9"
 
 conda:
   environment: docs/env.yml
