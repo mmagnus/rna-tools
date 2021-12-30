@@ -6,7 +6,7 @@ python:
   version: 2.7
   pip_install: true
   requirements_file: docs/docs_requirements_py2.txt
-
+  setup_py_install: true
 
 python:
     extra_requirements:
