@@ -445,7 +445,7 @@ def ajax_job_status(request, job_id, tool=''):
 
         try:
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
+                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
             pass
         
