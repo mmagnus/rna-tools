@@ -268,7 +268,7 @@ def run(request, tool, job_id):
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py " + opt + " --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done\n")
              #f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
-             f.write("grep 'REMARK 250' *_rpr.pdb > log.txt")
+             f.write("grep 'REMARK 250  - ' *_rpr.pdb > log.txt\n")
              #f.write("echo 'DONE' >> log.txt")
              #f.write("zip -r %s.zip *" % job_id)
 
@@ -449,7 +449,7 @@ def ajax_job_status(request, job_id, tool=''):
 
         try:
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>") + "</br>== SCRIPT END ==</br>"
+                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
             pass
         
