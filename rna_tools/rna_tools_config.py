@@ -1,7 +1,7 @@
 import configparser
 import os
 import pathlib
-RT = os.path.dirname(pathlib.Path(__file__).parent.resolve()) + os.sep
+RT = os.path.dirname(str(pathlib.Path(__file__).parent.resolve())) + os.sep
 
 SIMRNA_DATA_PATH = None
 RCHIE_PATH = None

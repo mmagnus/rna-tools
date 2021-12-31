@@ -141,6 +141,9 @@ setup(
              'rna_tools/tools/PyMOL4RNA/rna_draw_edges.py',
 
              'rna_tools/tools/rna_calc_hbonds/rna_calc_hbonds.py',
+
+             'rna_tools/tools/rna_pdb_merge_structure_with_fragments/rna_pdb_merge_structure_with_fragments.py',
+
              ],
 
     license='GPLv3',
