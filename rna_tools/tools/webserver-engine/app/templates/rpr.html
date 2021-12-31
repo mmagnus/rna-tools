@@ -43,10 +43,10 @@
 	})
     };
 
-    function go() {
-
+  function go() {
         $.ajax({
             url: "/run/rpr/{{ j.job_id }}",
+	    data: { renumber: $('#renumber').is(':checked')},
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -76,8 +76,11 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
+<form>
+  <label for="scales">renumber residues <input type="checkbox" id="renumber" value="renumber" name="renumber"></label> 
+</form>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
+<div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
