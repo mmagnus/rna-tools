@@ -180,7 +180,7 @@ def demo(request, tool, job_id):
         f = 'tetraloop_mdr.pdb'
     if tool in ['rpr', 'mdr']:
         f = 'missing_op1op2_r43OK.pdb'
-    if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf']:
+    if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf', 'assess']:
         fs = ['21_3dRNA_1_rpr.pdb', '21_Adamiak_1_rpr.pdb', '21_ChenHighLig_1_rpr.pdb',
               '21_Das_1_rpr.pdb']
         for f in fs:
