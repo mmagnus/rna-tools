@@ -180,7 +180,7 @@ def demo(request, tool, job_id):
         f = 'tetraloop_mdr.pdb'
     if tool in ['rpr', 'mdr']:
         f = 'missing_op1op2_r43OK.pdb'
-    if tool in ['seq', 'ss']:
+    if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf']:
         fs = ['21_3dRNA_1_rpr.pdb', '21_Adamiak_1_rpr.pdb', '21_ChenHighLig_1_rpr.pdb',
               '21_Das_1_rpr.pdb']
         for f in fs:
@@ -203,7 +203,7 @@ def run(request, tool, job_id):
     if tool == 'cat':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rm ' + job_id + '.pdb\n')
-             f.write('cat *.pdb > ' + job_id + '.pdb 2> log.txt \n')
+             f.write('cat *.pdb > ' + job_id + '.pdb &> log.txt \n')
              
     if tool == 'clear':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -212,7 +212,7 @@ def run(request, tool, job_id):
     if tool == 'seq':
         print('run, seq,' + job_id)
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
+             f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -220,12 +220,12 @@ def run(request, tool, job_id):
              
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_x3dna.py -l *.pdb > log.txt\n')
+             f.write('rna_x3dna.py -l *.pdb &> log.txt\n')
 
     if tool == 'minmd':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("echo 'OpenMM does not give progress for minimization, just wait...' > log.txt \n")
-             f.write('time python /home/ubuntu/rna-tools/rna_tools/tools/md/rna_minimize.py -sp *.pdb >> log.txt\n')
+             f.write('time python /home/ubuntu/rna-tools/rna_tools/tools/md/rna_minimize.py -sp *.pdb &>> log.txt\n')
 
     if tool == 'qrnas':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -239,7 +239,7 @@ def run(request, tool, job_id):
         print('run, seq,' + job_id)
         seq = request.GET['seq']        
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
+             f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
 
     if tool == "rpr":
         r = request.GET['renumber']
@@ -247,9 +247,9 @@ def run(request, tool, job_id):
         if r == 'true':
             opt = ' --renumber-residues '
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write("for i in *.pdb; do rna_pdb_toolsx.py " + opt + " --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done\n")
+             f.write("for i in *.pdb; do rna_pdb_toolsx.py " + opt + " --get-rnapuzzle-ready $i &> ${i/.pdb/_rpr.pdb}; done\n")
              #f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
-             f.write("grep 'REMARK 250  - ' *_rpr.pdb > log.txt\n")
+             f.write("grep 'REMARK 250  - ' *_rpr.pdb &> log.txt\n")
              #f.write("echo 'DONE' >> log.txt")
              #f.write("zip -r %s.zip *" % job_id)
 
@@ -459,7 +459,8 @@ def ajax_job_status(request, job_id, tool=''):
 
     # clea up log
     log = log.replace('REMARK 250 ', '')
-    log = log.replace('2> log.txt', '')    
+    log = log.replace('&> log.txt', '')    
+    log = log.replace('>> log.txt', '')    
     log = log.replace('> log.txt', '')    
     #if os.path.exists(job_dir + '/.done'):
     #   log += '<span class="label label-success">DONE</span>'
