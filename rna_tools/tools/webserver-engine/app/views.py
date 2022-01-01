@@ -204,9 +204,6 @@ def run(request, tool, job_id):
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rm ' + job_id + '.pdb\n')
              f.write('cat *.pdb > ' + job_id + '.pdb 2> log.txt \n')
-             f.write('ls *.pdb > log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'clear':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -216,53 +213,33 @@ def run(request, tool, job_id):
         print('run, seq,' + job_id)
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --get-ss *.pdb > log.txt\n')
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
-
+             f.write('rna_pdb_toolsx.py --get-ss *.pdb 2> log.txt\n')
              
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_x3dna.py -l *.pdb > log.txt\n')
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'minmd':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("echo 'OpenMM does not give progress for minimization, just wait...' > log.txt \n")
              f.write('time python /home/ubuntu/rna-tools/rna_tools/tools/md/rna_minimize.py -sp *.pdb >> log.txt\n')
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'qrnas':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('time rna_refinement.py -i *.pdb 2>&1 | tee log.txt\n')
-             f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'assess':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'seq-search':
         print('run, seq,' + job_id)
         seq = request.GET['seq']        
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-seq *.pdb > log.txt\n')
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == "rpr":
         r = request.GET['renumber']
@@ -280,9 +257,6 @@ def run(request, tool, job_id):
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
              f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'calc-rmsd':
         files = glob.glob(job_dir + "/*pdb")
@@ -294,8 +268,6 @@ rna_calc_rmsd.py -t %s %s &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
              #f.write('ls *.pdb >> log.txt\n\n')
              f.write('cat rmsds.csv >> log.txt\n\n')
-             f.write("echo 'DONE' >> log.txt \n\n")
-             f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'calc-inf':
         files = glob.glob(job_dir + "/*pdb")
@@ -308,8 +280,6 @@ rna_calc_inf.py -t %s %s &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
              #f.write('ls *.pdb >> log.txt\n\n')
              f.write('column -s, -t < inf.csv >> log.txt\n\n')
-             f.write("echo 'DONE' >> log.txt \n\n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'clarna':
         files = glob.glob(job_dir + "/*pdb")
@@ -321,8 +291,6 @@ for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
 """)
              #f.write('ls *.pdb >> log.txt\n\n')
              #f.write('column -s, -t < inf.csv >> log.txt\n\n')
-             f.write("echo 'DONE' >> log.txt \n\n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'diffpdb':
         files = glob.glob(job_dir + "/*pdb")
@@ -332,8 +300,6 @@ for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
              f.write("""
 diffpdb.py --method diff %s %s &> log.txt \n
 """ % (files[0], files[1]))
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
              
     if tool == 'extract':
         opt = request.GET['extract']
@@ -341,19 +307,12 @@ diffpdb.py --method diff %s %s &> log.txt \n
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;
 """ % opt)
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
-             
     if tool == 'delete':
         opt = request.GET['del']
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; done;
 """ % opt)
-             f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'edit':
         opt = request.GET['edit']
@@ -362,8 +321,6 @@ for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; d
 for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
 """ % opt)
              f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
     if tool == 'mutate':
         opt = request.GET['mutate']
@@ -372,10 +329,8 @@ for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
 for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; done;
 """ % opt)
              f.write('ls *.pdb >> log.txt\n')
-             f.write("echo 'DONE' >> log.txt \n")
-             f.write("zip -r %s.zip *" % job_id)
 
-    os.system('cd %s && chmod +x run.sh && /bin/bash run.sh &' % job_dir)
+    os.system('cd %s; rm ".done"; rm log.txt; chmod +x run.sh && /bin/bash run.sh && touch ".done" &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
 
@@ -398,6 +353,9 @@ def ajax_rm_file(rquest, job_id_fn):
 def ajax_job_status(request, job_id, tool=''):
     job_dir = settings.JOBS_PATH + sep + job_id
     job_id = job_id.replace('/', '')
+
+    #if os.path.exists(job_dir + '/.done'):
+    #    #return JsonResponse({'post':'false'})
 
     import enum
     # Enum for size units
@@ -437,7 +395,8 @@ def ajax_job_status(request, job_id, tool=''):
         #    return JsonResponse({'post':'false'})
 
         files = glob.glob(job_dir + "/*")
- 
+        files.sort(key=os.path.getmtime)
+# LOG
         log = ''
         if files:
            log = "FILES</br>"
@@ -499,6 +458,10 @@ def ajax_job_status(request, job_id, tool=''):
 
     # clea up log
     log = log.replace('REMARK 250 ', '')
+    log = log.replace('2> log.txt', '')    
+    log = log.replace('> log.txt', '')    
+    #if os.path.exists(job_dir + '/.done'):
+    #   log += '<span class="label label-success">DONE</span>'
     response_dict['log'] = log
     #if j.comment != log: # so this is different, reload
     if 1:
@@ -510,7 +473,6 @@ def ajax_job_status(request, job_id, tool=''):
     #     return HttpResponse({}) #json.dumps(response_dict), "application/json")
     return JsonResponse({'post':'false'})
 
-
 def tool(request, tool, job_id):
     try:
         j = Job.objects.get(job_id=job_id.replace('/', ''))
@@ -519,7 +481,7 @@ def tool(request, tool, job_id):
         }))
     job_dir = settings.JOBS_PATH + sep + job_id
     try:
-        with open(job_dir + '/full_log.txt') as f:
+        with open(job_dir + '/_xxlog.txt') as f:
             log = f.read()
     except FileNotFoundError:
         log = ''
