@@ -37,6 +37,12 @@
     })
     };
 
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
@@ -61,6 +67,7 @@
 <h2>Standardize your PDB files</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
@@ -76,9 +83,8 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
-<form>
-  <label for="scales">renumber residues <input type="checkbox" id="renumber" value="renumber" name="renumber"></label> 
-</form>
+
+<label for="scales">renumber residues <input type="checkbox" id="renumber" value="renumber" name="renumber"></label> 
 
 <div id="log_txt" class='log'>{{ log | safe }}</div>
 
@@ -87,9 +93,11 @@
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
-
-    <small class="hint">status: {{ j.get_status }}</small>
-
-    <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a>
+<p>
+Demo files "missing_op1op2_r43OK.pdb", applied fix "- add the missing OP1 and OP2 in chain: A residue # 44", chains are renamed to ABC, renumber residues if you want with the checkbox.
+</p>
+<p>
+Read more <a 
+href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a>
     
 {% endblock %}

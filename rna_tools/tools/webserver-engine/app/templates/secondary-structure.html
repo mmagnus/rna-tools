@@ -74,6 +74,12 @@
     })
     };
 
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
@@ -94,6 +100,7 @@
 <h2>Secondary structure prediction</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 

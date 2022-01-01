@@ -36,21 +36,19 @@
             }
     })
     };
-  function rm(){
+   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
 	})
     };
 
-  function demo(){
+   function demo(){
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})
     };
 
-
     function go() {
-
         $.ajax({
             url: "/run/minmd/{{ j.job_id }}",
             success: function(d) {
