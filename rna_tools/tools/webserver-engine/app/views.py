@@ -216,7 +216,7 @@ def run(request, tool, job_id):
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --get-ss *.pdb 2> log.txt\n')
+             f.write('rna_pdb_toolsx.py --get-ss *.pdb &> log.txt\n')
              
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -330,7 +330,8 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
 """ % opt)
              f.write('ls *.pdb >> log.txt\n')
 
-    os.system('cd %s; rm ".done"; rm log.txt; chmod +x run.sh && /bin/bash run.sh && touch ".done" &' % job_dir)
+             # ; rm ".done"; rm log.txt; 
+    os.system('cd %s && chmod +x run.sh && /bin/bash run.sh && touch ".done" &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
 
