@@ -171,6 +171,7 @@ setup(
         #'python-Levenshtein',
         'versioneer',
         'configparser',
+        'icecream',
       ],
 )
 
