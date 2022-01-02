@@ -42,6 +42,12 @@
 	})
     };
 
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
     function go() {
         $.ajax({
             url: "/run/diffpdb/{{ j.job_id }}",
@@ -60,6 +66,7 @@
 <h2>diffpdb</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
@@ -73,8 +80,10 @@
     </div>
 </form>
 
+    <pre>
     <div id="log_txt" class='log'>{{ log | safe }}</div>
-
+    </pre>
+    
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
 <p>

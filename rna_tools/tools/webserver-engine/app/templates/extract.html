@@ -93,6 +93,12 @@
 	})
     };
   
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
     function extract() {
 
         $.ajax({
@@ -106,6 +112,7 @@
 <h2>Extract</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
@@ -120,9 +127,9 @@
 </form>
 
 <div class="form-group" style="width: 100%;">
-    <label for="comment">RNA secondary structure (in dot-bracket notation)</label>
-    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="extract" name="ss" placeholder="A:1-4" value=""></textarea>
-    <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
+    <label for="comment">To extract:</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="extract" name="ss" placeholder="" value=""></textarea>
+    <small class="hint">e.g., B:1-33</small>
 </div>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
@@ -138,11 +145,11 @@
   <p>
     <h5>Documentation</h5>
   </p>
-<p>The output are files with "_extract.pdb".</p>
-
+  <p>The output are files with "_extract.pdb".</p>
+  <p>
+    Load the demo and extract chain B into a new file, "B:1-33".
+  </p>    
        This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --extract EXTRACT functionality.
-
-
 
     status: {{ j.get_status }}</small>
 

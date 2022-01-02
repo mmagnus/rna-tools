@@ -35,6 +35,12 @@
     })
     };
 
+  function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
     function analyze() {
         $.ajax({
             url: "/run/seq/{{ j.job_id }}",
@@ -65,6 +71,7 @@
 <h2>Edit PDB files</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
@@ -79,9 +86,9 @@
 </form>
 
 <div class="form-group" style="width: 100%;">
-    <label for="comment">Selection for deletion</label>
-    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="edit" name="xxx" placeholder="A:1-4" value=""></textarea>
-    <small class="hint">Example: A:1-41>B:1-41</small>
+    <label for="comment">Edit:</label>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="edit" name="xxx" placeholder="" value=""></textarea>
+    <small class="hint">Example: A:1-10>C:1-10</small>
 </div>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
@@ -98,12 +105,17 @@
     <h5>Documentation</h5>
   </p>
 <p>The output are files with "_edit.pdb".</p>
-
-Edit your structure.
-
-The function can take A:3-21>A:1-19 or even syntax like this A:3-21>A:1-19,B:22-32>B:20-30 and will do an editing.
-
-The output is printed, line by line. Only ATOM lines are edited!
+<p>
+Load the demo and change the beginning of the chain A into chain C, with "A:1-10>C:1-10".
+<pre>
+# yC_5lj3_Exon_Intron_rpr_edit
+>C:1-10
+UAAGUGAUCU
+>A:11-16
+AGAAAG
+>B:1-33
+</pre>
+</p>
 
       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#edit">https://rna-tools.readthedocs.io/en/latest/main.html#edit</a> --edit EDIT functionality.
 

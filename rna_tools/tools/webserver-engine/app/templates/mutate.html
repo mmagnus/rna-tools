@@ -23,6 +23,12 @@
         progress_interval = setInterval(checkProgress, 1000);
     });
 
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
@@ -34,6 +40,12 @@
                 }
             }
     })
+    };
+
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
     };
 
     function analyze() {
@@ -60,6 +72,7 @@
 <h2>Mutate</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
@@ -74,7 +87,7 @@
 </form>
 
 <div class="form-group" style="width: 100%;">
-    <label for="comment">RNA secondary structure (in dot-bracket notation)</label>
+    <label for="comment">To mutate:</label>
     <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="mutate" name="ss" placeholder="A:1-4" value=""></textarea>
     <small class="hint">Example: A:1A+2A+3A+4A,B:13A</small>
 </div>
@@ -98,6 +111,25 @@
 <p>The output are files with "_mutate.pdb".</p>
 
 <p>
+  Load the example, Click analyze to see
+<pre>
+>X:42-44
+UGC
+</pre>
+and then type into field "X:42a" and click Mutate to mutate first U into A.</br>
+Run Analyze again to see if the change was introduced:
+
+<pre>
+# missing_op1op2_r43OK
+>X:42-44
+UGC
+# missing_op1op2_r43OK_mutate
+>X:42-44
+AGC
+</pre>
+yes, it was, the sequence for "_mutate.pdb" output file is now AGC.
+</p>
+
      This is <a target="_new" href="https://rna-tools.readthedocs.io/en/latest/want.html?mutate-residues#mutate-residues">https://rna-tools.readthedocs.io/en/latest/want.html?mutate-residues#mutate-residues</a>
 </p>
 

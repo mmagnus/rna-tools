@@ -36,7 +36,13 @@
     })
     };
 
-    function analyze() {
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
+  function analyze() {
         $.ajax({
             url: "/run/seq/{{ j.job_id }}",
             success: function(d) {
@@ -47,7 +53,8 @@
             }
         })
     };
-  function rm(){
+
+   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
 	})
@@ -66,6 +73,7 @@
 <h2>Delete part of PDB files</h2>
 
 <div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
@@ -81,8 +89,8 @@
 
 <div class="form-group" style="width: 100%;">
     <label for="comment">Selection for deletion</label>
-    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="del" name="xxx" placeholder="A:1-4" value=""></textarea>
-    <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
+    <textarea class="form-control" rows="!" style="width: 100%;font-family:Monospace;" id="del" name="xxx" placeholder="" value=""></textarea>
+    <small class="hint">e.g., A:1-16</small>
 </div>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
@@ -98,9 +106,10 @@
   <p>
     <h5>Documentation</h5>
   </p>
-<p>The output are files with "_delete.pdb".</p>
+  <p>The output are files with "_delete.pdb".</p>
+  <p>Load an example and remove chain A, "A:1-16"</p>
 
-       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#delete">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --delete DELETE functionality.
+  This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#delete">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --delete DELETE functionality.
 
     status: {{ j.get_status }}</small>
 

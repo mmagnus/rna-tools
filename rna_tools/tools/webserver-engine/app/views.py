@@ -178,13 +178,25 @@ def demo(request, tool, job_id):
     print(tool)
     if tool == 'min':
         f = 'tetraloop_mdr.pdb'
-    if tool in ['rpr', 'mdr']:
+        shutil.copyfile(p + f, job_dir + f)        
+    if tool in ['rpr', 'mdr', 'mutate']:
         f = 'missing_op1op2_r43OK.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
     if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf', 'assess']:
         fs = ['21_3dRNA_1_rpr.pdb', '21_Adamiak_1_rpr.pdb', '21_ChenHighLig_1_rpr.pdb',
               '21_Das_1_rpr.pdb']
         for f in fs:
             shutil.copyfile(p + f, job_dir + f)
+    if tool in ['extract', 'delete', 'edit']:
+        f = 'yC_5lj3_Exon_Intron_rpr.pdb' # yC_5lj3_Cwc2_Exon_Intron.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
+    if tool in ['cat']:
+        fs = ['yC_5lj3_CWC2_C.pdb',
+              'yC_5lj3_Exon_C.pdb',
+              'yC_5lj3_Intron_C.pdb']
+        for f in fs:
+            shutil.copyfile(p + f, job_dir + f)
+
     return JsonResponse({})
     
 def run(request, tool, job_id):
@@ -203,7 +215,7 @@ def run(request, tool, job_id):
     if tool == 'cat':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rm ' + job_id + '.pdb\n')
-             f.write('cat *.pdb > ' + job_id + '.pdb &> log.txt \n')
+             f.write('cat *.pdb > ' + job_id + '.pdb')#&> log.txt \n')
              
     if tool == 'clear':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -237,12 +249,12 @@ def run(request, tool, job_id):
 
     if tool == 'seq-search':
         print('run, seq,' + job_id)
-        seq = request.GET['seq']        
+        seq = request.GET['seq'].strip()       
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
 
     if tool == "rpr":
-        r = request.GET['renumber']
+        r = request.GET['renumber'].strip()
         opt = ''
         if r == 'true':
             opt = ' --renumber-residues '
@@ -302,20 +314,20 @@ diffpdb.py --method diff %s %s &> log.txt \n
 """ % (files[0], files[1]))
              
     if tool == 'extract':
-        opt = request.GET['extract']
+        opt = request.GET['extract'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;
 """ % opt)
     if tool == 'delete':
-        opt = request.GET['del']
+        opt = request.GET['del'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; done;
 """ % opt)
 
     if tool == 'edit':
-        opt = request.GET['edit']
+        opt = request.GET['edit'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
@@ -323,7 +335,7 @@ for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
              f.write('ls *.pdb >> log.txt\n')
 
     if tool == 'mutate':
-        opt = request.GET['mutate']
+        opt = request.GET['mutate'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; done;
