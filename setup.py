@@ -122,6 +122,7 @@ setup(
              'rna_tools/tools/mq/FARNA/rna_mq_farna.py',
              'rna_tools/tools/mq/FARFAR2/rna_mq_farfar2.py',
              'rna_tools/tools/mq/SimRNA/rna_mq_simrna.py',
+             'rna_tools/tools/mq/RASP/rna_mq_rasp.py',
              
              'rna_tools/tools/md/rna_gromacs_ready.py',
              'rna_tools/tools/md/rna_md.py',
@@ -143,6 +144,7 @@ setup(
              'rna_tools/tools/rna_calc_hbonds/rna_calc_hbonds.py',
 
              'rna_tools/tools/rna_pdb_merge_structure_with_fragments/rna_pdb_merge_structure_with_fragments.py',
+
 
              ],
 
