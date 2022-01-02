@@ -1,1 +1,1 @@
-./rna_mq_rasp.py test/*.pdb
+./rna_mq_rasp.py test/*.pdb > test/test.csv
