@@ -193,12 +193,16 @@ def demo(request, tool, job_id):
     if tool in ['extract', 'delete', 'edit']:
         f = 'yC_5lj3_Exon_Intron_rpr.pdb' # yC_5lj3_Cwc2_Exon_Intron.pdb'
         shutil.copyfile(p + f, job_dir + f)        
-
-
     if tool in ['cat']:
         fs = ['yC_5lj3_CWC2_C.pdb',
               'yC_5lj3_Exon_C.pdb',
               'yC_5lj3_Intron_C.pdb']
+        for f in fs:
+            shutil.copyfile(p + f, job_dir + f)
+
+    if tool in ['diffpdb']:
+        fs = ['5k7c_clean_onechain_renumber_as_puzzle_srr_min.pdb',
+              'pistol_thrs0.50A_clust272-000001_AA_min.pdb']
         for f in fs:
             shutil.copyfile(p + f, job_dir + f)
 

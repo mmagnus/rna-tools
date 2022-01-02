@@ -102,20 +102,24 @@
 	diffpdb checks the consistency between annotations of two structural files. The tool ignores 3D coordinates of atoms and compares only text-content of two files in the PDB to identify the difference in the annotation of atoms, missing atoms (missing the O2′ atom) and missing fragment (shown on the left side with the gray-red bar).
       </p>
 
-    <pre>
-ATOM      1  O5'   G A   1					ATOM      1  O5'   G A   1
-ATOM      2  C5'   G A   1					ATOM      2  C5'   G A   1
-ATOM      3  C4'   G A   1					ATOM      3  C4'   G A   1
-ATOM      4  O4'   G A   1					ATOM      4  O4'   G A   1
-# these two line differ
-ATOM      5  C1'   G A   1				      |	ATOM      5  C3'   G A   1
-ATOM      6  N9    G A   1				      |	ATOM      6  O3'   G A   1</pre>
-
+      <pre>
+ATOM      8  C2'   G A  57					ATOM      8  C2'   G A  57
+# this is when these two files differe, this is the place when O2' atom exists on the left 
+# (crystal structure) and not on the right (SimRNA model)
+ATOM      9  C1'   G A  57				      |	ATOM      9  O2'   G A  57
+ATOM     10  N1    G A  57				      |	ATOM     10  C1'   G A  57
+    </pre>
 <p>
-diffpdb can be also used locally with a diff viewer of choince. Here the detection of missing O2' atom in one of the structure can be easily detected.
+  diffpdb can be also used locally with a diff viewer of choince. Here the detection of missing O2' atom in one of the structure can be easily detected. This is
+</p>
+<p>
+  Read more on this puzzle here <a href="https://github.com/mmagnus/RNA-Puzzles-Standardized-Submissions/tree/master/rp17">https://github.com/mmagnus/RNA-Puzzles-Standardized-Submissions/tree/master/rp17</a>
+</p>
+Slightly different presentation of the same information can be viewed with other diff viewers, like DiffMerge here:
  	<center>
           <img src="{{ STATIC_URL }}app/img/diffpdb.jpg" width="60%"  alt="">
 	</center>
+	
 </p>
 More at <a href="https://rna-tools.readthedocs.io/en/latest/tools.html?highlight=diffpdb#module-rna_tools.tools.diffpdb.diffpdb">https://rna-tools.readthedocs.io/en/latest/tools.html?highlight=diffpdb#module-rna_tools.tools.diffpdb.diffpdb</a>
     </small>
