@@ -135,7 +135,8 @@ setup(
              
              'rna_tools/tools/misc/rna_merge_two_dfs.py',
              'rna_tools/tools/misc/rna_merge_dfs.py',
-
+             'rna_tools/tools/misc/rna_csv_sort.py',
+             
              'rna_tools/tools/misc/rna_ok_mail.py',
              'rna_tools/tools/misc/rna_ok',
              
