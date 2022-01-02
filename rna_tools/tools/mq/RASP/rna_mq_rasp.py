@@ -34,8 +34,14 @@ if __name__ == '__main__':
     if list != type(args.file):
         args.file = [args.file]
 
-    print('id,fn,rasp_all')
+    t = 'id,fn,rasp_all'
+    print(t)
+    t += '\n'
     for i, f in enumerate(args.file):
             wrapper = RASP()
             result = wrapper.run(f, potentials=['all'], verbose=args.verbose)
-            print(','.join([str(i + 1), os.path.basename(f), str(result[0])]))
+            tl = ','.join([str(i + 1), os.path.basename(f), str(result[0])])
+            print(tl)
+            t += tl + '\n'
+    with open('mq.csv', 'w') as f:
+        f.write(t)
