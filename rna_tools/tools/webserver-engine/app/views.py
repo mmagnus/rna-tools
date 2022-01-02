@@ -250,8 +250,11 @@ def run(request, tool, job_id):
              
     if tool == 'assess':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
-
+             #f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
+             f.write('rna_mq_rasp.py *.pdb 2>&1 | tee log.txt\n')
+             f.write('rna_csv_sort.py --col rasp_all mq.csv\n')
+             f.write('cat mq_sorted_rasp_all.csv > log.txt\n')
+            
     if tool == 'seq-search':
         print('run, seq,' + job_id)
         seq = request.GET['seq'].strip()       

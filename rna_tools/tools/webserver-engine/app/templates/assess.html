@@ -87,7 +87,7 @@
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
 <p>
-  The csv with scores can be found here  <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/mq.csv">mq.csv</a>
+  The csv with scores can be found here  <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/mq_sorted_rasp_all.csv">mq_sorted_rasp_all.csv</a>
 </a>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
@@ -100,6 +100,9 @@
 
        This is <a target="_new" href="https://rna-tools.readthedocs.io/en/latest/tools.html#rna-3d-model-quality-assessment">https://rna-tools.readthedocs.io/en/latest/tools.html#rna-3d-model-quality-assessment</a> functionality.
      </p>
+<p>
+  For now, the RASP method is available. More to come soon. The "mq_sorted_rasp_all.csv" file contains scores sorted, the lowest score the model is more RNA-like (better).
+</p>
      <p>
        Wrappers behind the server <a target="_new" href="http://genesilico.pl/mqapRNA">http://genesilico.pl/mqapRNA</a>.
      </p>
