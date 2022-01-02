@@ -185,7 +185,7 @@ def demo(request, tool, job_id):
     if tool in ['rpr', 'mdr', 'mutate']:
         f = 'missing_op1op2_r43OK.pdb'
         shutil.copyfile(p + f, job_dir + f)        
-    if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf', 'assess']:
+    if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf', 'assess', 'clarna']:
         fs = ['21_3dRNA_1_rpr.pdb', '21_Adamiak_1_rpr.pdb', '21_ChenHighLig_1_rpr.pdb',
               '21_Das_1_rpr.pdb']
         for f in fs:
