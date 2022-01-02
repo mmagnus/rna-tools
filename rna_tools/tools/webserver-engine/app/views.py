@@ -179,6 +179,9 @@ def demo(request, tool, job_id):
     if tool == 'min':
         f = 'tetraloop_mdr.pdb'
         shutil.copyfile(p + f, job_dir + f)        
+    if tool == 'analysis':
+        f = 'tetraloop_helix.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
     if tool in ['rpr', 'mdr', 'mutate']:
         f = 'missing_op1op2_r43OK.pdb'
         shutil.copyfile(p + f, job_dir + f)        
@@ -190,6 +193,8 @@ def demo(request, tool, job_id):
     if tool in ['extract', 'delete', 'edit']:
         f = 'yC_5lj3_Exon_Intron_rpr.pdb' # yC_5lj3_Cwc2_Exon_Intron.pdb'
         shutil.copyfile(p + f, job_dir + f)        
+
+
     if tool in ['cat']:
         fs = ['yC_5lj3_CWC2_C.pdb',
               'yC_5lj3_Exon_C.pdb',
