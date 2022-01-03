@@ -175,9 +175,12 @@ def demo(request, tool, job_id):
     import os
     job_dir = settings.JOBS_PATH + sep + job_id + '/'
     p = settings.PATH + '/app/static/app/demo/'
-    print(tool)
+    #demo
     if tool == 'min':
         f = 'tetraloop_mdr.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
+    if tool == 'h2a':
+        f = 'gtp.pdb'
         shutil.copyfile(p + f, job_dir + f)        
     if tool == 'analysis':
         f = 'tetraloop_helix.pdb'
@@ -278,6 +281,10 @@ def run(request, tool, job_id):
              f.write("grep 'REMARK 250  - ' *_rpr.pdb &> log.txt\n")
 
              #f.write("zip -r %s.zip *" % job_id)
+
+    if tool == "h2a":
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("for i in *.pdb; do rna_pdb_toolsx.py --replace-htm $i &> ${i/.pdb/_h2a.pdb}; done\n")
 
     if tool == "mdr":
         with open(job_dir + '/run.sh', 'w') as f:
@@ -467,8 +474,9 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '</div><pre>RESULTS<br>'
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
+
                     
-                if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min']:
+                if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min', 'h2a']:
                     files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
                     log += '</div>RESULTS<br>' # <pre
