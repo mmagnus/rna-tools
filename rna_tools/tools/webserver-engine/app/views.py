@@ -224,15 +224,17 @@ def run(request, tool, job_id):
 
     job_id = job_id.replace('/', '')
 
+    if tool == 'clear': #clear
+        files = glob.glob(job_dir + "/*")
+        for f in files:
+            os.remove(f)
+        return ############## !!!!!!!!!!!!!
+
     if tool == 'cat':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rm ' + job_id + '.pdb\n')
              f.write('cat *.pdb > ' + job_id + '.pdb')#&> log.txt \n')
              
-    if tool == 'clear':
-        with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rm *')
-
     if tool == 'seq':
         print('run, seq,' + job_id)
         with open(job_dir + '/run.sh', 'w') as f:
