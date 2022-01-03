@@ -488,10 +488,11 @@ def ajax_job_status(request, job_id, tool=''):
 
     # clea up log
     log = log.replace('REMARK 250 ', '')
-    log = log.replace('&> log.txt', '')    
-    log = log.replace('>> log.txt', '')    
-    log = log.replace('> log.txt', '')
-    log = log.replace("echo 'DONE'", '')    
+    log = log.replace(' &>> log.txt', '')
+    log = log.replace(' &> log.txt', '')    
+    log = log.replace(' >> log.txt', '')    
+    log = log.replace(' > log.txt', '')
+    log = log.replace("echo 'DONE'", '')     #log
     
     #if os.path.exists(job_dir + '/.done'):
     #   log += '<span class="label label-success">DONE</span>'
