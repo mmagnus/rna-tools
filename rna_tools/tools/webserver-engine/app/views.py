@@ -234,6 +234,8 @@ def run(request, tool, job_id):
         print('run, seq,' + job_id)
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
+             f.write('echo "ANOTHER FORMAT:" >> log.txt\n')
+             f.write("rna_pdb_toolsx.py --get-seq --uniq '[:10]' --compact  *.pdb | sort &>> log.txt\n") # --chain-first
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
