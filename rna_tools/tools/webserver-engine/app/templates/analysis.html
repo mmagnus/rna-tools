@@ -80,7 +80,7 @@
     </div>
 </form>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
+    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
     
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 

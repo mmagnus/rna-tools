@@ -92,14 +92,14 @@
     <small class="hint">Example: A:1A+2A+3A+4A,B:13A</small>
 </div>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
+    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
 
 <p>
   <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
   <button onclick="go()" class="btn btn-large btn-success">Mutate</button>
 </p>
 
-    <small class="hint">status: {{ j.get_status }}</small>
+    <small class="hint"></small>
 <p>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>

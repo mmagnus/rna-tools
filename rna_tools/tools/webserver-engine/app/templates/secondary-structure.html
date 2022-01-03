@@ -110,13 +110,13 @@
     <small class="hint">A:1-4 |  The secondary structure input can consist of several lines for encoding pseudo-knots.</small>
 </div>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
+    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
 
 <p>
   <button onclick="ss()" class="btn btn-large btn-success">Predict</button>
 </p>
 
-    <small class="hint">status: {{ j.get_status }}</small>
+    <small class="hint"></small>
 <p>
     Try also:
     <ol>
