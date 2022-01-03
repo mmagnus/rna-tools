@@ -356,6 +356,10 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
              f.write('ls *.pdb >> log.txt\n')
 
              # ; rm ".done"; rm log.txt; 
+
+    with open(job_dir + '/run.sh', 'a') as f:
+        f.write("echo 'DONE' >> log.txt")
+        
     os.system('cd %s && chmod +x run.sh && /bin/bash run.sh && touch ".done" &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
@@ -486,7 +490,9 @@ def ajax_job_status(request, job_id, tool=''):
     log = log.replace('REMARK 250 ', '')
     log = log.replace('&> log.txt', '')    
     log = log.replace('>> log.txt', '')    
-    log = log.replace('> log.txt', '')    
+    log = log.replace('> log.txt', '')
+    log = log.replace("echo 'DONE'", '')    
+    
     #if os.path.exists(job_dir + '/.done'):
     #   log += '<span class="label label-success">DONE</span>'
     response_dict['log'] = log
