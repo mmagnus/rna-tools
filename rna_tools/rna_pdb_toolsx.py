@@ -199,6 +199,9 @@ A:1-45 57-71   GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCGCCGCCCGCCUGGGC # so
 
     parser.add_argument('--chain-first', help="", action='store_true')
     parser.add_argument('--oneline', help="", action='store_true')
+
+    parser.add_argument('--replace-htm', help="", action='store_true')
+
     parser.add_argument('--fasta',
                         help= textwrap.dedent("""with --get-seq, show sequences in fasta format,
 can be combined with --compact (mind, chains will be separated with ' ' in one line)
@@ -1050,6 +1053,21 @@ if __name__ == '__main__':
 
         for f in args.file:
             txt = set_chain_for_struc(f, args.set_chain)
+            if args.inplace:
+                shutil.move(f, f.replace('.pdb', '.pdb~'))
+                with open(f, 'w') as fi:
+                    fi.write(txt)
+            else:
+                print(txt)
+
+    if args.replace_htm:
+        if list != type(args.file):
+            args.file = [args.file]
+
+        for f in args.file:
+            with open(f) as fn:
+                txt = fn.read()
+            txt = txt.replace('HETATM', 'ATOM  ')
             if args.inplace:
                 shutil.move(f, f.replace('.pdb', '.pdb~'))
                 with open(f, 'w') as fi:

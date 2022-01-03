@@ -48,6 +48,7 @@ rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready input/1I9V_YG_HETATM_ATOM.pdb > 
 rna_pdb_toolsx.py --no-hr --rpr input/missing_op1op2.pdb > output/rebuilt_missing_op.pdb # benchmark input/missing_op1op2_r43OK.pdb
  
 ## --replace_hetatm
+rna_pdb_toolsx.py --replace-htm input/gtp.pdb > output/gtp_h2a.pdb
 rna_pdb_toolsx.py --no-hr --get-rnapuzzle-ready --replace-hetatm input/1I9V_A.pdb > output/1I9V_A_rpr.pdb
 rna_pdb_toolsx.py --no-hr --rpr input/A_YG_A.pdb --replace-hetatm  > output/A_YG_A.pdb
 ## CCC.pdb
