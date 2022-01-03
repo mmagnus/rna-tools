@@ -1338,12 +1338,13 @@ class RNAStructure:
 
                 ######## fixing of missing OP1 and OP2 atoms in backbone ###########
                 if fix_missing_atoms:
-                    try:
-                        r["OP1"]
-                    except:
+                    if 'OP1' not in r:
                         if prev_r:
                             op4 = PDB.PDBParser().get_structure('', path + '/data/op4.pdb')
                             op4a = [a for a in op4[0].get_residues()][0]
+                            if 'P' not in r:
+                                print("Error missing P in ", r, " can't rebuild missing atoms!")
+                                exit()
                             r_atoms = [r["O5'"], r["P"], prev_r["O3'"]] #  r["C5'"], 
                             op4_atoms = [op4a["O5'"], op4a["P"], op4a["O3'"]] # op4a["C5'"]] #, 
 
