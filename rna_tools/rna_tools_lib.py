@@ -1343,7 +1343,7 @@ class RNAStructure:
                             op4 = PDB.PDBParser().get_structure('', path + '/data/op4.pdb')
                             op4a = [a for a in op4[0].get_residues()][0]
                             if 'P' not in r:
-                                print("Error missing P in ", r, " can't rebuild missing atoms!")
+                                print("Error missing P of residue " + chain.id +  ':' + str(r.id[1]) + ". Sorry, I can't rebuild missing atoms!")
                                 exit()
                             r_atoms = [r["O5'"], r["P"], prev_r["O3'"]] #  r["C5'"], 
                             op4_atoms = [op4a["O5'"], op4a["P"], op4a["O3'"]] # op4a["C5'"]] #, 
