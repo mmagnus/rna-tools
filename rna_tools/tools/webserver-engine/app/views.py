@@ -281,11 +281,11 @@ def run(request, tool, job_id):
         if r == 'true':
             opt = ' --renumber-residues '
         with open(job_dir + '/run.sh', 'w') as f:
+             #  2> log.txt
              f.write("for i in *.pdb; do rna_pdb_toolsx.py " + opt + " --get-rnapuzzle-ready $i &> ${i/.pdb/_rpr.pdb}; done\n")
              #f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
-             f.write("grep 'REMARK 250  - ' *_rpr.pdb &> log.txt\n")
-
-             #f.write("zip -r %s.zip *" % job_id)
+             f.write("grep 'REMARK 250  - ' *_rpr.pdb &>> log.txt\n")
+             f.write("head *_rpr.pdb &> log.txt\n")
 
     if tool == "h2a":
         with open(job_dir + '/run.sh', 'w') as f:
