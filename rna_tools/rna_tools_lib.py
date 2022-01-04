@@ -74,6 +74,7 @@ warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
 warnings.filterwarnings('ignore', '.*with given element *',)
 warnings.filterwarnings('ignore', '.*is discontinuous*',)
 warnings.filterwarnings('ignore', '.*Some atoms or residues may be missing in the data structure.*',)
+warnings.filterwarnings('ignore', '.*Ignoring unrecognized record.*',)
 
 
 def get_rna_tools_path():
