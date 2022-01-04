@@ -176,7 +176,10 @@ def demo(request, tool, job_id):
     job_dir = settings.JOBS_PATH + sep + job_id + '/'
     p = settings.PATH + '/app/static/app/demo/'
     #demo
-    if tool == 'min':
+    if tool in ['qrnas']:
+        f = 'MissingAtomsAdded_rpr.pdb' # tetraloop_mdr.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
+    if tool in ['min']:
         f = 'tetraloop_mdr.pdb'
         shutil.copyfile(p + f, job_dir + f)        
     if tool == 'h2a':
@@ -193,7 +196,7 @@ def demo(request, tool, job_id):
               '21_Das_1_rpr.pdb']
         for f in fs:
             shutil.copyfile(p + f, job_dir + f)
-    if tool in ['extract', 'delete', 'edit']:
+    if tool in ['extract', 'delete', 'edit', 'swap']:
         f = 'yC_5lj3_Exon_Intron_rpr.pdb' # yC_5lj3_Cwc2_Exon_Intron.pdb'
         shutil.copyfile(p + f, job_dir + f)        
     if tool in ['cat']:
