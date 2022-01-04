@@ -76,7 +76,7 @@ def home(request):
 
 def tools(request):
     ids = []
-    for i in range(0, 20):
+    for i in range(0, 22):
         id = str(uuid.uuid4()).split('-')[0]  # name plus hash
         ids.append(id)
         j = Job()
