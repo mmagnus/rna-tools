@@ -6,6 +6,7 @@ Replace XYZ in file with insert.::
  ATOM     11  N1    A 2  27     303.441 273.472 301.457  1.00  0.00           N   # file
  ATOM      1  N1    A 2  27     300.402 273.627 303.188  1.00 99.99           N   # insert 
  ATOM     11  N1    A 2  27     300.402 273.627 303.188  1.00  0.00           N   # inserted
+              XXXXXXXXXXXXXXXX    # part used to find lines to be replaced
 
  ATOM      1  P     A 2  27     295.653 270.783 300.135  1.00119.29           P   # next line
 
@@ -49,5 +50,5 @@ if __name__ == '__main__':
 
     t = replace_atoms(f1, f2)
     if not args.output:
-        with open(args.file + '_rpl.pdb', 'w') as f: f.write(t)
+        with open(args.file.replace('.pdb', '_rpl.pdb'), 'w') as f: f.write(t)
 

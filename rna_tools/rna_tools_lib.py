@@ -2019,7 +2019,16 @@ def replace_chain(struc_fn, insert_fn, chain_id):
 
 
 def replace_atoms(struc_fn, insert_fn, verbose=False):
-    """Replace chain of the main file (struc_fn) with some new chain (insert_fn) of given chain id.
+    """Replace XYZ coordinate of the file (struc_fn)  with XYZ from another file (insert_fn).
+
+    This can be useful if you want to replace positions of atoms, for example, one base only. The lines are muted based on atom name, residue name, chain, residue index (marked with XXXX below).::
+    
+    ATOM     11  N1    A 2  27     303.441 273.472 301.457  1.00  0.00           N   # file
+    ATOM      1  N1    A 2  27     300.402 273.627 303.188  1.00 99.99           N   # insert 
+    ATOM     11  N1    A 2  27     300.402 273.627 303.188  1.00  0.00           N   # inserted
+                 XXXXXXXXXXXXXXXX    # part used to find lines to be replaced
+
+     ATOM      1  P     A 2  27     295.653 270.783 300.135  1.00119.29           P   # next line
 
     Args:
        struc_fn (str): path to the main PDB file
@@ -2027,12 +2036,6 @@ def replace_atoms(struc_fn, insert_fn, verbose=False):
 
     Returns:
        string: text in the PDB format
-
-ATOM     11  N1    A 2  27     303.441 273.472 301.457  1.00  0.00           N  
-ATOM      1  N1    A 2  27     300.402 273.627 303.188  1.00 99.99           N  
-ATOM     11  N1    A 2  27     300.402 273.627 303.188  1.00  0.00           N  
-
-ATOM      1  P     A 2  27     295.653 270.783 300.135  1.00119.29           P
     """
     struc = RNAStructure(struc_fn)
     insert = RNAStructure(insert_fn)
