@@ -14,6 +14,7 @@ setup(
     url='https://github.com/mmagnus/rna-tools',
     scripts=['rna_tools/rna_pdb_toolsx.py',
              'rna_tools/rna_calc_fenergy.py',
+             'rna_tools/rna_pdb_replace.py',
              
              'rna_tools/tools/misc/rna_tools_which.py',
 

@@ -2018,6 +2018,46 @@ def replace_chain(struc_fn, insert_fn, chain_id):
     return output.strip()
 
 
+def replace_atoms(struc_fn, insert_fn, verbose=False):
+    """Replace chain of the main file (struc_fn) with some new chain (insert_fn) of given chain id.
+
+    Args:
+       struc_fn (str): path to the main PDB file
+       insert_fn (str): path to the file that will be injected in into the main PDB file
+
+    Returns:
+       string: text in the PDB format
+
+ATOM     11  N1    A 2  27     303.441 273.472 301.457  1.00  0.00           N  
+ATOM      1  N1    A 2  27     300.402 273.627 303.188  1.00 99.99           N  
+ATOM     11  N1    A 2  27     300.402 273.627 303.188  1.00  0.00           N  
+
+ATOM      1  P     A 2  27     295.653 270.783 300.135  1.00119.29           P
+    """
+    struc = RNAStructure(struc_fn)
+    insert = RNAStructure(insert_fn)
+
+    output = ''
+    for l in struc.lines:
+        inserted = False
+        if l.startswith('ATOM'):
+            idx = l[13:26]#.strip() # P     A 2  27
+            for li in insert.lines:
+                idxi = li[13:26]#.strip()
+                if idx == idxi:
+                    ln = l[:30] + li[30:54] + l[54:] + '\n' # only coords replace (!)
+                    if verbose:
+                        print(l)
+                        print(li)
+                        print(ln)
+                        print()
+                    inserted = True
+                    output += ln
+            if not inserted:
+                output += l + '\n'
+                inserted = False
+    return output.strip()
+
 def set_chain_for_struc(struc_fn, chain_id, save_file_inplace=False, skip_ter=True):
     """Quick & dirty function to set open a fn PDB format, set chain_id
     and save it to a file. Takes only lines with ATOM and TER."""
@@ -2064,6 +2104,12 @@ def load_rnas(path, verbose=True):
 
 # main
 if '__main__' == __name__:
+    f1 = "input/t2-4-ACA.pdb"
+    f2 = "input/to-replace.pdb"
+    r1 = RNAStructure(f1)
+    r2 = RNAStructure(f2)    
+    t = replace_atoms(f1, f2)
+    with open('output/replaced.pdb', 'w') as f: f.write(t)
 
     fn = "input/1a9l_NMR_1_2_models.pdb"
     r = RNAStructure(fn)
