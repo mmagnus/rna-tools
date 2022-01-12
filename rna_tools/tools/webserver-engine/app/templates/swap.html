@@ -17,7 +17,6 @@
 </style>
 
 <script>
-
     var progress_interval;
 
     $(document).ready( function(){
@@ -27,7 +26,6 @@
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id %}",
-            data: { tool: 'rpr' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -37,22 +35,15 @@
     })
     };
 
-   function demo(){
+  function demo(){
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})
     };
 
-  function rm(){
+    function analyze() {
         $.ajax({
-            url: "/run/clear/{{ j.job_id }}",
-	})
-    };
-
-  function go() {
-        $.ajax({
-            url: "/run/rpr/{{ j.job_id }}",
-	    data: { renumber: $('#renumber').is(':checked')},
+            url: "/run/seq/{{ j.job_id }}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -62,18 +53,27 @@
         })
     };
 
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+    function go() {
+        $.ajax({
+            url: "/run/{{ tool }}/{{ j.job_id }}",
+	    data: { swap: $("#swap").val() }
+	})
+    };
+
 </script>
-    
-<h2>Standardize your PDB files</h2>
+
+<h2>Swap chains in PDB files</h2>
 
 <div align="right">
   <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
-<p>
-  Get rnapuzzle ready structure. Clean up a structure, get standardized order of atoms. This is also the submission format required for the RNA Puzzles.
-</p>
 <label for="comment">RNA structure (in the PDB format)</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
@@ -84,28 +84,43 @@
     </div>
 </form>
 
-<label class="checkbox" type="checkbox" id="renumber" value="renumber" name="renumber">
-      <input type="checkbox"> renumber residues
-</label>
+<div class="form-group" style="width: 100%;">
+    <label for="comment">Swap:</label>
+    <input type="text" class="form-control" style="font-family:Monospace;" id="swap" name="xxx" placeholder="" value=""></input>
+    <small class="hint">Example: A>B</small>
+</div>
 
-<pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
-
-<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
 
 <p>
-  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
+  <button onclick="go()" class="btn btn-large btn-success">Swap</button>
 </p>
+															       
+<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
 <small class="hint">
   <p>
     <h5>Documentation</h5>
   </p>
+<p>The output are files with "_swap.pdb".</p>
 <p>
-Demo files "missing_op1op2_r43OK.pdb", applied fix "- add the missing OP1 and OP2 in chain: A residue # 44", chains are renamed to ABC, renumber residues if you want with the checkbox.
+Load the demo and change the beginning of the chain A into chain C, with "A>B":
+<pre>
+# yC_5lj3_Exon_Intron_rpr
+>A:1-16
+UAAGUGAUCUAGAAAG
+>B:1-33
+GUAUGUCUAAAUGCUCUUAUUUACUAACAAAAU
+# yC_5lj3_Exon_Intron_rpr_swap
+>B:1-16
+UAAGUGAUCUAGAAAG
+>A:1-33
+</pre>
 </p>
-<p>
-Read more <a 
-href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a>
-</p>
-</small>
+
+      This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#edit">https://rna-tools.readthedocs.io/en/latest/main.html#edit</a> --edit EDIT functionality.
+
+    </small>
+
 {% endblock %}
