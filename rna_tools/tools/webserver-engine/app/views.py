@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 pip install django-ipware
@@ -212,6 +212,12 @@ def demo(request, tool, job_id):
         for f in fs:
             shutil.copyfile(p + f, job_dir + f)
 
+    if tool in ['rpl']:
+        fs = ['triple-ACA.pdb',
+              'to-replace.pdb']
+        for f in fs:
+            shutil.copyfile(p + f, job_dir + f)
+
     return JsonResponse({})
     
 def run(request, tool, job_id):
@@ -244,6 +250,15 @@ def run(request, tool, job_id):
              f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
              #f.write('echo "ANOTHER FORMAT:" >> log.txt\n')
              #f.write("rna_pdb_toolsx.py --get-seq --uniq '[:10]' --compact  *.pdb | sort &>> log.txt\n") # --chain-first#
+
+    if tool == 'rpl':
+        files = glob.glob(job_dir + "/*pdb")
+        files.sort(key=os.path.getmtime)
+        files = [os.path.basename(f) for f in files]
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write("""
+rna_pdb_replace.py %s %s &> log.txt\n
+""" % (files[0], ' '.join(files[1:])))
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -484,8 +499,7 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
                     log += '</pre>'
 
-                    
-                if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min', 'h2a']:
+                if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min', 'h2a', 'rpl']:
                     files = glob.glob(job_dir + "/*_" + tool + ".pdb")
                     files = [os.path.basename(f) for f in files]
                     log += '</div>RESULTS<br>' # <pre

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+<title>rna-tools.online</title>
+
+<style>
+ .hint {color:#808080;font-size:12px;}
+
+.dz {
+    border: dashed !important;
+    background-color: white !important;
+    border-radius: 10px !important;
+}
+
+.dz:hover {
+    background-color: aliceblue !important;
+}
+</style>
+
+<script>
+
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 1000);
+    });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            data: { tool: 'rpl' },	    
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+    })
+    };
+
+  function rm(){
+        $.ajax({
+            url: "/run/clear/{{ j.job_id }}",
+	})
+    };
+
+   function demo(){
+        $.ajax({
+            url: "/demo/{{ tool }}/{{ j.job_id }}",
+	})
+    };
+
+    function go() {
+        $.ajax({
+            url: "/run/{{ tool }}/{{ j.job_id }}",
+            success: function(d) {
+                $("#log_txt").html(d['log']);
+                if (d['reload']==true){
+                    window.location.reload()
+                }
+            }
+        })
+    };
+
+</script>
+
+
+<h2>Replace</h2>
+
+<div align="right">
+  <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
+  <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
+</div>
+
+<label for="comment">Upload two structures you want to compare (in the PDB format)</label>
+
+<form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
+  {% csrf_token %}
+  <input type="hidden" id="job_id" name="job_id" value="{{ j.job_id }}" />
+    <div class="fallback">
+      <input name="file" type="file" multiple />
+    </div>
+</form>
+
+    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
+    
+<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+
+<p>
+  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+</p>
+
+    <small class="hint">
+
+  <p>
+    <h5>Documentation</h5>
+  </p>
+<p>
+Replace XYZ coordinate of the first submitted file with XYZ from another file. This can be useful if you want to replace positions of atoms, for example, one base only. The lines are muted based on atom name, residue name, chain, residue index (marked with XXXX below).
+</p>
+<pre>ATOM     11  N1    A 2  27     303.441 273.472 301.457  1.00  0.00           N   # file
+ATOM      1  N1    A 2  27     300.402 273.627 303.188  1.00 99.99           N   # insert 
+ATOM     11  N1    A 2  27     300.402 273.627 303.188  1.00  0.00           N   # inserted
+             XXXXXXXXXXXXXXXX    # part used to find lines to be replaced
+
+ ATOM      1  P     A 2  27     295.653 270.783 300.135  1.00119.29           P   # next line
+</pre>
+This is the <a href="https://github.com/mmagnus/rna-tools/blob/master/rna_tools/rna_pdb_replace.py">rna_pdb_replace.py</a> tool.
+
+{% endblock %}
