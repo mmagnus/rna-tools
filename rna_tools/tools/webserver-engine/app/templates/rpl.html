@@ -71,7 +71,7 @@
   <button onclick="rm()" class="btn btn-small btn-ok">Reset</button>
 </div>
 
-<label for="comment">Upload two structures you want to compare (in the PDB format)</label>
+<label for="comment">The XYZ coordinates in the first uploaded file with be replaced with XYZ coordinates from the second uploaded file.</label>  
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
   {% csrf_token %}
@@ -95,7 +95,7 @@
     <h5>Documentation</h5>
   </p>
 <p>
-Replace XYZ coordinate of the first submitted file with XYZ from another file. This can be useful if you want to replace positions of atoms, for example, one base only. The lines are muted based on atom name, residue name, chain, residue index (marked with XXXX below).
+Replace XYZ coordinates of the first submitted file with XYZ from another file. This can be useful if you want to replace positions of atoms, for example, one base only. The lines are muted based on atom name, residue name, chain, residue index (marked with XXXX below).
 </p>
 <pre>ATOM     11  N1    A 2  27     303.441 273.472 301.457  1.00  0.00           N   # file
 ATOM      1  N1    A 2  27     300.402 273.627 303.188  1.00 99.99           N   # insert 
