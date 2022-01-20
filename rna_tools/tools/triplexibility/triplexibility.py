@@ -258,7 +258,8 @@ class RNAmodel:
                 fout = f + os.sep + os.path.basename(other_rnamodel.fpath)#.replace('.pdb', '_aligned'))
             else:
                 fout = other_rnamodel.fpath.replace('.pdb', '_aligned.pdb')
-            io.save(fout)
+            if save:
+               io.save(fout)
         return rms
 
     
@@ -296,8 +297,7 @@ def get_parser():
     parser.add_argument('--suffix', default='aligned', help="used with --saved, by default: aligned")
     parser.add_argument('--way', help="e.g., backbone+sugar")
     parser.add_argument('--triple-mode', help="same crazy strategy to align triples", action="store_true")
-    parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file",
-                        default="rmsd")
+    parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file", default="rmsd")
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
     parser.add_argument("--folder-prefix", default = '', help="folder name, t2-3-UAU_NAME_aligned")
     parser.add_argument('files', help='files', nargs='+')
@@ -337,7 +337,8 @@ if __name__ == '__main__':
         #print rmsd
         t += mrna.fn + ',' + str(rmsd) + '\n'
         #break    
-    # print(t.strip())
+
+    print(t.strip())
 
     if args.result:
         with open(args.result, 'w') as f:
