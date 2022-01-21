@@ -159,7 +159,9 @@ class RNAmodel:
             sup_min = None
             seq_min = 'not yet obtained, rmsd rejected!'
             p_min = None
+
             rms = -1
+
             for p in per:
                 patoms = []
                 for i in p: # p=(1, 2, 3)
@@ -247,6 +249,7 @@ class RNAmodel:
                 # ugly set chain to A
                 set_chain_for_struc(fout, 'A', save_file_inplace=True)
                 # and now run this to sort into 1 2 3
+
 
                 r = RNAStructure(fout)
                 remarks = r.get_remarks_text()

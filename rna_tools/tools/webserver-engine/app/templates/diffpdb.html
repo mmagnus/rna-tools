@@ -51,6 +51,7 @@
     function go() {
         $.ajax({
             url: "/run/diffpdb/{{ j.job_id }}",
+	    data: { names: $('#names').is(':checked')},
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -80,6 +81,10 @@
       <input name="file" type="file" multiple />
     </div>
 </form>
+
+<label class="checkbox" type="checkbox" >
+      <input type="checkbox" id="names"> use atom names and residues only
+</label>
 
     <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
     

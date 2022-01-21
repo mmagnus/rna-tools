@@ -350,9 +350,13 @@ for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
+        r = request.GET['names'].strip()
+        opt = ''
+        if r == 'true':
+            opt = ' --names '
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
-diffpdb.py --method diff %s %s &> log.txt \n
+diffpdb.py """ + opt + """ --method diff %s %s &> log.txt \n
 """ % (files[0], files[1]))
              
     if tool == 'extract':
