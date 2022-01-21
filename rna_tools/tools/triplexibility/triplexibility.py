@@ -20,6 +20,11 @@ warnings.filterwarnings('ignore', '.*with given element *',)
 warnings.filterwarnings('ignore', '.*is discontinuous*',)
 warnings.filterwarnings('ignore', '.*Ignoring unrecognized record*',)
 
+import sys
+from icecream import ic
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
+ic.configureOutput(prefix='> ')
+
 from rna_tools.rna_tools_lib import set_chain_for_struc, RNAStructure
 import argparse
 import sys
@@ -60,7 +65,7 @@ class RNAmodel:
             t += ' '.join(['resi: ', str(r) ,' atom: ', str(a) , '\n' ])
         return t
 
-    def get_rmsd_to(self, other_rnamodel, way="", triple_mode=False, save=True):
+    def get_rmsd_to(self, other_rnamodel, way="", triple_mode=False, save=True, tseq=''):
         """Calc rmsd P-atom based rmsd to other rna model
 
         sugar now 10 atoms ;-) """
@@ -126,6 +131,16 @@ class RNAmodel:
             self.atoms_for_rmsd = self.atoms
             other_atoms_for_rmsd = other_rnamodel.atoms
 
+        # calc rmsd #
+        if not tseq:
+            tseq = ''
+            rt = None
+            for a in self.atoms_for_rmsd:
+                r = a.get_parent()
+                if r != rt:
+                    rt = r
+                    tseq += r.get_resname().strip()
+
         if triple_mode:
             def chunks(lst, n):
                 """Yield successive n-sized chunks from lst.
@@ -140,8 +155,11 @@ class RNAmodel:
             lst = list(chunks(other_atoms_for_rmsd,
                               int(len(other_atoms_for_rmsd)/3))) # for 1 atom, this will be 1 x 3 [3 residues]
                        # so so len is 3 atoms so / by 3 to get how many atoms per residue
-            sup_min = None
 
+            sup_min = None
+            seq_min = 'not yet obtained, rmsd rejected!'
+            p_min = None
+            rms = -1
             for p in per:
                 patoms = []
                 for i in p: # p=(1, 2, 3)
@@ -154,8 +172,6 @@ class RNAmodel:
                 ## for a in self.atoms_for_rmsd:
                 ##     print(a, a.get_parent().get_id())
                 #sup.set_atoms(patoms, self.atoms_for_rmsd)
-                sup.set_atoms(self.atoms_for_rmsd, patoms)
-                rms = round(sup.rms, 2)
 
                 rt = None
                 seq = ''
@@ -164,74 +180,89 @@ class RNAmodel:
                     if r != rt:
                         rt = r
                         seq += r.get_resname().strip()
+             
+                ic(tseq.lower(), seq.lower(), other_rnamodel.fpath)
+                # dont' even calc rmsd if the curr seq and tseq are not the same
+                if tseq.lower() == seq.lower():  # only if seq is the same
+                    ic(self.atoms_for_rmsd, patoms)
+                    for a in self.atoms_for_rmsd:
+                        ic(a, a.get_parent().id, a.get_parent().get_resname())
+                    ic('# patoms')
+                    for a in patoms:
+                        ic(a, a.get_parent().id, a.get_parent().get_resname())
+                
+                    ic(len(self.atoms_for_rmsd), len(patoms))
+                    sup.set_atoms(self.atoms_for_rmsd, patoms)
+                    rms = round(sup.rms, 2)
+                    if rms < rmsd_min:
+                            rmsd_min = rms
+                            sup_min = copy.copy(sup)
+                            suffix = seq
+                            p_min = p
+                            seq_min = seq
+                            if args.debug: 'set new rmsd_min', rmsd_min
 
-                if rms < rmsd_min:
-                    rmsd_min = rms
-                    sup_min = copy.copy(sup)
-                    suffix = seq
-                    p_min = p
-                    seq_min = seq
+                    if args.debug:
+                        print(p, '', [i + 1 for i in p], end=' ')
+                        print(seq, 'seq_min: ' + seq_min, rms)
 
-                if args.debug:
-                    print(p, '', [i + 1 for i in p], end=' ')
-                    print(seq, 'seq_min: a' + seq_min, rms)
+            if p_min: # found target sequence
+                # what is this? ;-)
+                index = [0 ,0 ,0]
+                index[0] = p_min.index(0)
+                index[1] = p_min.index(1)
+                index[2] = p_min.index(2)
 
-            index = [0 ,0 ,0]
-            index[0] = p_min.index(0)
-            index[1] = p_min.index(1)
-            index[2] = p_min.index(2)
+                # ugly re-set 123 to crazy id ! + 100, so this will
+                # fill up 1 2 3 for the second for
+                rs = other_rnamodel.struc[0].get_residues()
+                for i, r in enumerate(rs):
+                    r.id = (' ', index[i] + 253, ' ') # ugly, some random offset
 
-            # ugly re-set 123 to crazy id ! + 100, so this will
-            # fill up 1 2 3 for the second for
-            rs = other_rnamodel.struc[0].get_residues()
-            for i, r in enumerate(rs):
-                r.id = (' ', index[i] + 253, ' ') # ugly, some random offset
-            
-            for i, r in enumerate(other_rnamodel.struc[0].get_residues()):
-                r.id = (' ', index[i] + 1, ' ')
-                if args.debug: print(r)
+                for i, r in enumerate(other_rnamodel.struc[0].get_residues()):
+                    r.id = (' ', index[i] + 1, ' ')
+                    if args.debug: print('r', r)
 
-            io = Bio.PDB.PDBIO()
-            sup_min.apply(other_rnamodel.struc.get_atoms())
-            # if args.debug: print(p_min, [i + 1 for i in p_min])
-            io.set_structure(other_rnamodel.struc)
-            
-            args.save_here = True
-            if args.save_here:
-                folder = os.path.basename(self.fpath.replace('.pdb', '_' + args.folder_prefix + '_aligned'))
-                # print(f)
-                try:
-                    os.mkdir(folder)
-                except:
-                    pass
-                fout = folder + os.sep + "{:1.2f}".format(rmsd_min) + '-' + os.path.basename(other_rnamodel.fpath)#.replace('.pdb', '-' + str(rms) + '.pdb'))
-                #_s' + suffix + '.pdb'))
-            else:
-                fout = other_rnamodel.fpath.replace('.pdb', '_aligned.pdb')#_s' + suffix + '.pdb')
+                io = Bio.PDB.PDBIO()
+                sup_min.apply(other_rnamodel.struc.get_atoms())
+                # if args.debug: print(p_min, [i + 1 for i in p_min])
+                io.set_structure(other_rnamodel.struc)
 
-            # if args.debug: print(fout)
-            io.save(fout)
+                args.save_here = True
+                if args.save_here:
+                    folder = os.path.basename(self.fpath.replace('.pdb', '_' + args.folder_prefix + '_aligned'))
+                    # print(f)
+                    try:
+                        os.mkdir(folder)
+                    except:
+                        pass
+                    fout = folder + os.sep + "{:1.2f}".format(rmsd_min) + '-' + os.path.basename(other_rnamodel.fpath)#.replace('.pdb', '-' + str(rms) + '.pdb'))
+                    #_s' + suffix + '.pdb'))
+                else:
+                    fout = other_rnamodel.fpath.replace('.pdb', '_aligned.pdb')#_s' + suffix + '.pdb')
 
-            # ugly set chain to A
-            set_chain_for_struc(fout, 'A', save_file_inplace=True)
-            # and now run this to sort into 1 2 3
+                if args.debug: print(fout)
+                io.save(fout)
 
-            r = RNAStructure(fout)
-            remarks = r.get_remarks_text()
-            r1 = r.get_res_text('A', 1)
-            r2 = r.get_res_text('A', 2)
-            r3 = r.get_res_text('A', 3)
-            with open(fout, 'w') as f:
-                f.write(remarks)
-                f.write(r1)
-                f.write(r2)
-                f.write(r3)
-            r.reload()
-            r.get_rnapuzzle_ready()
-            if rmsd_min < 1:  # !!!!!!!!!!!! ugly
-                 r.write()
-            return str(rmsd_min)# + ',s' + seq_min + ',' + os.path.basename(fout)
+                # ugly set chain to A
+                set_chain_for_struc(fout, 'A', save_file_inplace=True)
+                # and now run this to sort into 1 2 3
 
+                r = RNAStructure(fout)
+                remarks = r.get_remarks_text()
+                r1 = r.get_res_text('A', 1)
+                r2 = r.get_res_text('A', 2)
+                r3 = r.get_res_text('A', 3)
+                with open(fout, 'w') as f:
+                    f.write(remarks)
+                    f.write(r1)
+                    f.write(r2)
+                    f.write(r3)
+                r.reload()
+                r.get_rnapuzzle_ready()
+                if rmsd_min < 1:  # !!!!!!!!!!!! ugly
+                     r.write()
+                return str(rmsd_min)# + ',s' + seq_min + ',' + os.path.basename(fout)
         else:
             sup.set_atoms(self.atoms_for_rmsd, other_atoms_for_rmsd)
             rms = round(sup.rms, 2)
@@ -303,16 +334,19 @@ def get_parser():
     parser.add_argument('files', help='files', nargs='+')
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending)')
+    parser.add_argument("--tseq", help='target sequence, e.g. acu, find only triples of this sequence [use the order for the seq taken from the input PDB file, literally order of residues in a pdb file]')
     return parser
 
 # main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
+    if not args.debug:
+        ic.disable()
 
     target = RNAmodel(args.target)
 
-    models = args.files  # opts.input_dir
+    models = args.files # opts.input_dir
     tmp = []
     if args.ignore_files:
         for f in args.files:
@@ -329,7 +363,7 @@ if __name__ == '__main__':
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
         # print(m)
-        rmsd = target.get_rmsd_to(mrna, args.way, args.triple_mode, args.save) #, 'tmp.pdb')
+        rmsd = target.get_rmsd_to(mrna, args.way, args.triple_mode, args.save, args.tseq) #, 'tmp.pdb')
         #except:
         if 0:
             print(m)
