@@ -329,7 +329,7 @@ def get_parser():
                          help="result file")
     parser.add_argument('--ignore-files', default='aligned', help="use to ignore files, .e.g. with 'aligned'")
     parser.add_argument('--suffix', default='aligned', help="used with --saved, by default: aligned")
-    parser.add_argument('--way', help="e.g., backbone+sugar")
+    parser.add_argument('--way', help="e.g., backbone+sugar, c1, c1+Nx")
     parser.add_argument('--triple-mode', help="same crazy strategy to align triples", action="store_true")
     parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file", default="rmsd")
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
