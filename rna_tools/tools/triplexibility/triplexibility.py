@@ -386,4 +386,5 @@ if __name__ == '__main__':
             df = pd.read_csv(args.result)
             df = df.sort_values('rmsd')
             df.to_csv(args.result, index=False)
+            print('saved: %s' % args.result)
             print(df.to_string(index=False))
