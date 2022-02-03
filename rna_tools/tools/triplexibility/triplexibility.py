@@ -4,9 +4,9 @@
 """
 Examples::
 
-  rna_calc_rmsd_biopython.py -t 2nd_triplex_FB_ABC.pdb  triples-all-v2-rpr/*.pdb --way backbone+sugar --save --suffix ABC --result abc.csv
+  triplexibility.py -t 2nd_triplex_FB_ABC.pdb  triples-all-v2-rpr/*.pdb --way backbone+sugar --save --suffix ABC --result abc.csv
 
-  rna_calc_rmsd_biopython.py -t 2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --column-name 'rmsd' --triple-mode > out.txt
+  triplexibility.py -t 2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --column-name 'rmsd' --triple-mode > out.txt
 
 """
 from __future__ import print_function
@@ -341,7 +341,7 @@ def get_parser():
     parser.add_argument("--folder-prefix", default = '', help="folder name, t2-3-UAU_NAME_aligned")
     parser.add_argument('files', help='files', nargs='+')
     parser.add_argument("--debug", action="store_true")
-    parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending)')
+    parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending), --result must be set up')
     parser.add_argument("--tseq", help='target sequence, e.g. acu, find only triples of this sequence [use the order for the seq taken from the input PDB file, literally order of residues in a pdb file]')
     return parser
 
