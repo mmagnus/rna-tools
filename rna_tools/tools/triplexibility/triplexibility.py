@@ -231,7 +231,7 @@ class RNAmodel:
                 io.set_structure(other_rnamodel.struc)
 
                 args.save_here = True
-                if args.save_here:
+                if args.save_here and save:
                     folder = os.path.basename(self.fpath.replace('.pdb', '_' + args.folder_prefix + '_aligned'))
                     # print(f)
                     try:
@@ -244,27 +244,27 @@ class RNAmodel:
                     fout = other_rnamodel.fpath.replace('.pdb', '_aligned.pdb')#_s' + suffix + '.pdb')
 
                 if args.debug: print(fout)
-                io.save(fout)
+                if save:
+                    io.save(fout)
+                    # ugly set chain to A
+                    set_chain_for_struc(fout, 'A', save_file_inplace=True)
+                    # and now run this to sort into 1 2 3
 
-                # ugly set chain to A
-                set_chain_for_struc(fout, 'A', save_file_inplace=True)
-                # and now run this to sort into 1 2 3
 
-
-                r = RNAStructure(fout)
-                remarks = r.get_remarks_text()
-                r1 = r.get_res_text('A', 1)
-                r2 = r.get_res_text('A', 2)
-                r3 = r.get_res_text('A', 3)
-                with open(fout, 'w') as f:
-                    f.write(remarks)
-                    f.write(r1)
-                    f.write(r2)
-                    f.write(r3)
-                r.reload()
-                r.get_rnapuzzle_ready()
-                if rmsd_min < 1:  # !!!!!!!!!!!! ugly
-                     r.write()
+                    r = RNAStructure(fout)
+                    remarks = r.get_remarks_text()
+                    r1 = r.get_res_text('A', 1)
+                    r2 = r.get_res_text('A', 2)
+                    r3 = r.get_res_text('A', 3)
+                    with open(fout, 'w') as f:
+                        f.write(remarks)
+                        f.write(r1)
+                        f.write(r2)
+                        f.write(r3)
+                    r.reload()
+                    r.get_rnapuzzle_ready()
+                    if rmsd_min < 1:  # !!!!!!!!!!!! ugly
+                         r.write()
                 return str(rmsd_min)# + ',s' + seq_min + ',' + os.path.basename(fout)
         else:
             # check if number of the same atoms #
@@ -286,7 +286,7 @@ class RNAmodel:
                 io.set_structure(other_rnamodel.struc)
 
             args.save_here = True
-            if args.save_here:
+            if args.save_here and save:
                 f = os.path.basename(self.fpath.replace('.pdb', '_aligned'))
                 # print(f)
                 try:
