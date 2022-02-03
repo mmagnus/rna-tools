@@ -1,0 +1,13 @@
+fn,rmsd
+Triple_cWW_cHS_GCU_exemplar_rpr.pdb,0.0
+Triple_cWW_cHS_GCU_rpr.pdb,1.72
+Triple_cWW_tHH_GCU_rpr.pdb,3.01
+Triple_cWW_tHH_GCU_exemplar_rpr.pdb,3.03
+Triple_cWW_tHS_GCU_rpr.pdb,3.46
+Triple_cWW_cSS_GCU_rpr.pdb,3.51
+Triple_cWW_cSS_GCU_exemplar_rpr.pdb,3.6
+Triple_cWW_cSW_GCU_rpr.pdb,3.78
+Triple_cWW_cSH_GCU_rpr.pdb,3.97
+Triple_cWW_cSH_GCU_exemplar_rpr.pdb,4.0
+Triple_cWW_cSW_GCU_exemplar_rpr.pdb,4.25
+Triple_cWW_tSW_GCU_rpr.pdb,4.69
