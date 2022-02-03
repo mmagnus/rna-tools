@@ -26,6 +26,8 @@ ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
 ic.configureOutput(prefix='> ')
 
 from rna_tools.rna_tools_lib import set_chain_for_struc, RNAStructure
+from rna_tools.rna_tools_config import RT
+
 import argparse
 import sys
 import glob
@@ -339,10 +341,11 @@ def get_parser():
     parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file", default="rmsd")
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
     parser.add_argument("--folder-prefix", default = '', help="folder name, t2-3-UAU_NAME_aligned")
-    parser.add_argument('files', help='files', nargs='+')
+
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending), --result must be set up')
     parser.add_argument("--tseq", help='target sequence, e.g. acu, find only triples of this sequence [use the order for the seq taken from the input PDB file, literally order of residues in a pdb file]')
+    parser.add_argument('--files', help='files', nargs='+', default=RT + '/rna_tools/tools/triplexibility/db/triples-all-v2-rpr/*.pdb')
     return parser
 
 # main
@@ -354,17 +357,24 @@ if __name__ == '__main__':
 
     target = RNAmodel(args.target)
 
-    models = args.files # opts.input_dir
-    tmp = []
-    if args.ignore_files:
-        for f in args.files:
-            if args.debug: print(f)
-            if args.ignore_files in f:
-                continue
-            tmp.append(f)
-        models = tmp
+    # a trick to get files be default if there is only a path (so a string ;-))
+    if not isinstance(args.files, str):
+        models = args.files
+    else:
+        import glob
+        models = glob.glob(args.files) # opts.input_dir
+
+    ## tmp = []
+    ## if args.ignore_files:
+    ##     for f in args.files:
+    ##         if args.debug: print(f)
+    ##         if args.ignore_files in f:
+    ##             continue
+    ##         tmp.append(f)
+    ##     models = tmp
  
     print('# of models:', len(models))
+
     c = 1
     t = 'fn,' + args.column_name + '\n' # ,aligned_seq, aligned_fn\n'
     for m in models:
