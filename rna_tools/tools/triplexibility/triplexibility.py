@@ -267,6 +267,11 @@ class RNAmodel:
                      r.write()
                 return str(rmsd_min)# + ',s' + seq_min + ',' + os.path.basename(fout)
         else:
+            # check if number of the same atoms #
+            # if not the same then return -1    #
+            # print(len(self.atoms_for_rmsd), len(other_atoms_for_rmsd))
+            if len(self.atoms_for_rmsd) != len(other_atoms_for_rmsd):
+                return -1
             sup.set_atoms(self.atoms_for_rmsd, other_atoms_for_rmsd)
             rms = round(sup.rms, 2)
 
@@ -384,6 +389,7 @@ if __name__ == '__main__':
         if args.sort:
             import pandas as pd
             df = pd.read_csv(args.result)
+            df = df[df.rmsd != -1]
             df = df.sort_values('rmsd')
             df.to_csv(args.result, index=False)
             print('saved: %s' % args.result)
