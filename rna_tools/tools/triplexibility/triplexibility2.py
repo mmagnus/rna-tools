@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
+v2 is full atom!
+
 Examples::
 
-  triplexibility.py -t 2nd_triplex_FB_ABC.pdb  triples-all-v2-rpr/*.pdb --way backbone+sugar --save --suffix ABC --result abc.csv
-
-  triplexibility.py -t 2nd_triplex_FB_1AUA3_rpr.pdb test_data/triples2/Triple_cWW_tSH_GCA_exemplar_rpr_ren.pdb  --way backbone+sugar --save --column-name 'rmsd' --triple-mode > out.txt
+  triplexibility.py -t 2nd_triplex_FB_ABC.pdb  triples-all-v2-rpr/*.pdb --save --result abc.csv
 
 """
 from __future__ import print_function
@@ -46,12 +46,25 @@ class RNAmodel:
         #    self.save() # @save
 
     def __get_atoms(self):
-        self.atoms=[]
-        # [<Atom P>, <Atom C5'>, <Atom O5'>, <Atom C4'>, <Atom O4'>, <Atom C3'>, <Atom O3'>, <Atom C2'>, <Atom O2'>, <Atom C1'>, <Atom N1>, <Atom C2>, <Atom N3>, <Atom C4>, <Atom C5>, <Atom C6>, <Atom N6>, <Atom N7>, <Atom C8>, <Atom N9>, <Atom OP1>, <Atom OP2>]
-        for res in self.struc.get_residues():
+        self.atoms = [[], [], []] # this will be only 3 resides
+        # ugly but should work
+        tseq = ''
+        for index, res in enumerate(self.struc.get_residues()):
+            print(index)
+            self.atoms[index] = []
             for at in res:
-                #if args.debug: print(res.resname, res.get_id, at)
-                self.atoms.append(at)
+                self.atoms[index].append(at)
+            tseq += res.get_resname()
+            ## # calc rmsd #
+            ## if not tseq:
+            ##     tseq = ''
+            ##     rt = None
+            ##     for a in self.atoms_for_rmsd:
+            ##         r = a.get_parent()
+            ##         if r != rt:
+            ##             rt = r
+            ##             tseq += r.get_resname().strip()
+        self.tseq = tseq
         return self.atoms
 
     def __str__(self):
@@ -72,77 +85,9 @@ class RNAmodel:
 
         sugar now 10 atoms ;-) """
         sup = Bio.PDB.Superimposer()
-        if way in ['c1', 'backbone+sugar', 'sugar']:
-            if way == 'c1':
-                atomslist = ["C1'"]# ,"C2'","O4'"] #, "C2'"]
 
-            elif way == 'sugar':
-                atomslist = "C5',O5',C4',O4',C3',O3',C2',O2',C1'".split(',')
-
-            elif way == 'backbone+sugar':
-                atomslist = "P,OP1,OP2,C5',O5',C4',O4',C3',O3',C2',O2',C1'".split(',')
-
-            self.atoms_for_rmsd = []
-            for a in self.atoms:
-                nt = a.get_parent().get_resname().strip()
-                if nt in ['G', 'A']:
-                    atomslistx = atomslist + ['N9']
-                if nt in ['C', 'U']:
-                    atomslistx = atomslist + ['N1']
-                if a.name in atomslistx:
-                    self.atoms_for_rmsd.append(a)
-            if args.debug: print('atoms_for_rmsd', len(self.atoms_for_rmsd))
-
-            other_atoms_for_rmsd = []
-            for a in other_rnamodel.atoms:
-                nt = a.get_parent().get_resname().strip()
-                if nt in ['G', 'A']:
-                    atomslistx = atomslist + ['N9']
-                if nt in ['C', 'U']:
-                    atomslistx = atomslist + ['N1']
-                if a.name in atomslistx:
-                    other_atoms_for_rmsd.append(a)
-
-            if args.debug: print('other_atoms_for_rmsd', len(other_atoms_for_rmsd))
-                                 
-        elif way == 'c1+Nx':
-            self.atoms_for_rmsd = []
-            for a in self.atoms:
-                nt = a.get_parent().get_resname().strip() # G
-                if nt in ['G', 'A']:
-                    atomslist = ["C1'", 'N9'] # , 'N1']
-                if nt in ['C', 'U']:
-                    atomslist = ["C1'", 'N1'] # , 'N1']
-                if a.name in atomslist:
-                    self.atoms_for_rmsd.append(a)
-
-            if args.debug: print('atoms_for_rmsd', len(self.atoms_for_rmsd))
-
-            other_atoms_for_rmsd = []
-            for a in other_rnamodel.atoms:
-                nt = a.get_parent().get_resname().strip() # G
-                if nt in ['G', 'A']:
-                    atomslist = ["C1'", 'N9'] # , 'N1']
-                if nt in ['C', 'U']:
-                    atomslist = ["C1'", 'N1'] # , 'N1']
-                if a.name in atomslist:
-                    other_atoms_for_rmsd.append(a)
-            if args.debug: print('other_atoms_for_rmsd', len(other_atoms_for_rmsd))
-
-        else:
-            self.atoms_for_rmsd = self.atoms
-            other_atoms_for_rmsd = other_rnamodel.atoms
-
-        # calc rmsd #
-        if not tseq:
-            tseq = ''
-            rt = None
-            for a in self.atoms_for_rmsd:
-                r = a.get_parent()
-                if r != rt:
-                    rt = r
-                    tseq += r.get_resname().strip()
-
+        other_atoms_for_rmsd = other_rnamodel.atoms
+        
         if triple_mode:
             def chunks(lst, n):
                 """Yield successive n-sized chunks from lst.
@@ -155,21 +100,28 @@ class RNAmodel:
             import itertools
             # ok, for different residues now it's a problem  
             per = list(itertools.permutations([0, 1, 2])) # [(0, 1, 2), (0, 2, 1), (1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0)]
-            lst = list(chunks(other_atoms_for_rmsd,
-                              int(len(other_atoms_for_rmsd)/3))) # for 1 atom, this will be 1 x 3 [3 residues]
-                       # so so len is 3 atoms so / by 3 to get how many atoms per residue
-            print(lst)
+            #lst = list(chunks(other_atoms_for_rmsd,
+            #                  int(len(other_atoms_for_rmsd)/3))) # for 1 atom, this will be 1 x 3 [3 residues]
+            #           # so so len is 3 atoms so / by 3 to get how many atoms per residue
 
+            self.atoms_for_rmsd = []
+            for i in self.atoms:
+                print(i)
+                self.atoms_for_rmsd.extend(i)
+        
             sup_min = None
             seq_min = 'not yet obtained, rmsd rejected!'
             p_min = None
 
             rms = -1
 
-            for p in per:
+            for p in per: # for each combo make a list of atoms
+                
                 patoms = []
                 for i in p: # p=(1, 2, 3)
-                    patoms.extend(lst[i])
+                    #patoms.extend(lst[i])
+                    # list is not needed, just other_atoms !!!! it's a list of [1, 2, 3] residues
+                    patoms.extend(other_atoms_for_rmsd[i])
 
                 #print(self.atoms_for_rmsd)
                 ## print('patoms')
@@ -188,9 +140,9 @@ class RNAmodel:
                         rt = r
                         seq += r.get_resname().strip()
              
-                ic(tseq.lower(), seq.lower(), other_rnamodel.fpath)
+                ic(self.tseq.lower(), seq.lower(), other_rnamodel.fpath)
                 # dont' even calc rmsd if the curr seq and tseq are not the same
-                if tseq.lower() == seq.lower():  # only if seq is the same
+                if self.tseq.lower() == seq.lower():  # only if seq is the same
                     print(self.atoms_for_rmsd)
                     print(patoms)
                     print(len(self.atoms_for_rmsd), len(patoms))
