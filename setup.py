@@ -133,6 +133,7 @@ setup(
              'rna_tools/tools/md/rna_traj_nohetm.py',
              
              'rna_tools/tools/triplexibility/triplexibility.py',
+             'rna_tools/tools/triplexibility/triplexibility2.py',
              
              'rna_tools/tools/misc/rna_merge_two_dfs.py',
              'rna_tools/tools/misc/rna_merge_dfs.py',
