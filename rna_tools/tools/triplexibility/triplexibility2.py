@@ -50,7 +50,6 @@ class RNAmodel:
         # ugly but should work
         tseq = ''
         for index, res in enumerate(self.struc.get_residues()):
-            print(index)
             self.atoms[index] = []
             for at in res:
                 self.atoms[index].append(at)
@@ -106,7 +105,6 @@ class RNAmodel:
 
             self.atoms_for_rmsd = []
             for i in self.atoms:
-                print(i)
                 self.atoms_for_rmsd.extend(i)
         
             sup_min = None
@@ -143,17 +141,8 @@ class RNAmodel:
                 ic(self.tseq.lower(), seq.lower(), other_rnamodel.fpath)
                 # dont' even calc rmsd if the curr seq and tseq are not the same
                 if self.tseq.lower() == seq.lower():  # only if seq is the same
-                    print(self.atoms_for_rmsd)
-                    print(patoms)
-                    print(len(self.atoms_for_rmsd), len(patoms))
-                    for a, b in zip(self.atoms_for_rmsd, patoms):
-                        print(a, a.get_parent().id, a.get_parent().get_resname(),
-                           b.get_parent().id, b.get_parent().get_resname())
-                    print(len(self.atoms_for_rmsd), len(patoms))
-                    try:
-                        sup.set_atoms(self.atoms_for_rmsd, patoms)
-                    except:
-                        pass
+
+                    sup.set_atoms(self.atoms_for_rmsd, patoms)
                     rms = round(sup.rms, 2)
                     if rms < rmsd_min:
                             rmsd_min = rms
