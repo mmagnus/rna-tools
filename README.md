@@ -58,14 +58,14 @@ True
 
 or from a Jupyter Notebook:
 
-![](docs/pngs/align.png)
-
+![](https://github.com/mmagnus/rna-tools/blob/master/docs/pngs/align.png)
+	
 Fig. Fetch an alignment and generate an RChie plot for it. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb>
 
 Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna-tools/) and/or read the doc [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
 <p align="center">
-  <img align="center" src="docs/pngs/qKPVoPxDmq.gif">
+  <img align="center" src="https://github.com/mmagnus/rna-tools/blob/master/docs/pngs/qKPVoPxDmq.gif">
 </p>
 
 Fig. `rna_pdb_toolsx.py --get-rnapuzzle-ready *pdb --inplace`
@@ -333,7 +333,7 @@ Read more http://rna-tools.readthedocs.io/en/latest/
 
 Read the documentations at [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
-<a href="http://rna-tools.rtfd.io/en/latest/"><img src="docs/pngs/docs.png"></a>
+<a href="http://rna-tools.rtfd.io/en/latest/"><img src="https://github.com/mmagnus/rna-tools/raw/master/docs/pngs/docs.png"></a>
 
 ## Cite
 
