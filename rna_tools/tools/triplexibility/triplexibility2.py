@@ -289,6 +289,7 @@ def get_parser():
     parser.add_argument("--folder-prefix", default = '', help="folder name, t2-3-UAU_NAME_aligned")
 
     parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--show", action="store_true", help="show the results in the terminal")
     parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending), --result must be set up')
     parser.add_argument("--tseq", help='target sequence, e.g. acu, find only triples of this sequence [use the order for the seq taken from the input PDB file, literally order of residues in a pdb file]')
     parser.add_argument('--files', help='files', nargs='+', default=RT + '/rna_tools/tools/triplexibility/db/triples-all-v2-rpr/*.pdb')
@@ -336,7 +337,8 @@ if __name__ == '__main__':
         t += mrna.fn + ',' + str(rmsd) + '\n'
         #break    
 
-    print(t.strip())
+    if args.show:
+        print(t.strip()) # all the data
 
     if args.result:
         with open(args.result, 'w') as f:
@@ -349,4 +351,4 @@ if __name__ == '__main__':
             df = df.sort_values('rmsd')
             df.to_csv(args.result, index=False)
             print('saved: %s' % args.result)
-            print(df.to_string(index=False))
+            # print(df.to_string(index=False))
