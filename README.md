@@ -64,14 +64,16 @@ True
 
 or from a Jupyter Notebook:
 
-![](https://github.com/mmagnus/rna-tools/blob/master/docs/pngs/align.png)
-	
+<p align="center">
+  <img align="center" src="https://raw.githubusercontent.com/mmagnus/rna-tools/master/docs/pngs/align.png")
+</p>
+
 Fig. Fetch an alignment and generate an RChie plot for it. See more <https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb>
 
 Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna-tools/) and/or read the doc [rna-tools.rtfd.io/en/latest/](http://rna-tools.rtfd.io/en/latest/).
 
 <p align="center">
-  <img align="center" src="https://github.com/mmagnus/rna-tools/blob/master/docs/pngs/qKPVoPxDmq.gif">
+  <img align="center" src="https://raw.githubusercontent.com/mmagnus/rna-tools/master/docs/pngs/qKPVoPxDmq.gif">
 </p>
 
 Fig. `rna_pdb_toolsx.py --get-rnapuzzle-ready *pdb --inplace`
