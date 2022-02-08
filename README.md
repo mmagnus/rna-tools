@@ -21,7 +21,7 @@
 <p>
 <div align="center">
 	
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R5R6AERGM)
+<a href='https://ko-fi.com/R5R6AERGM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 	
 </div>
 	
