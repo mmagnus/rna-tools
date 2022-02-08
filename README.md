@@ -19,7 +19,13 @@
 	<span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
 
 <p>
-
+<div align="center">
+	
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R5R6AERGM)
+	
+</div>
+	
+	
 Introduction
 -------------------------------------------------------------------------------
 
