@@ -41,13 +41,6 @@ if __name__ == '__main__':
                  score = df['rmsd'][0]
                  print(score)
                  scores.append(score)
-                 matrix += seqm + '-' + str(score) + ','
-
-                 df = pd.read_csv(csvf, sep=',', index_col=False)#, index=False)
-                 score = df['rmsd'][0]
-                 print(score)
-                 scores.append(score)
-                 matrix += seqm + '-' + str(score) + ','
 
                  dfexemplar = df[df.fn.str.contains("exemplar")]
                  print(dfexemplar)
