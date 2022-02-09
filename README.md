@@ -9,6 +9,14 @@
   Look for other our projects at https://github.com/RNA-Puzzles.
 </p>
 
+
+<p>
+<div align="center">
+	
+<a href='https://ko-fi.com/R5R6AERGM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+	
+</div>
+
 <p align="center">
   <a href="https://twitter.com/rna_tools"><img src="http://img.shields.io/twitter/follow/rna_tools.svg?style=social&label=Follow"></a>
 <!--
@@ -18,12 +26,6 @@
 	<span class="badge-paypal"><a href="https://www.paypal.me/MarcinMagnus" title="Donate to this project using Paypal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" alt="PayPal donate button" /></a></span>
 	<span class="badge-flattr"><a href="https://flattr.com/profile/mmagnus" title="Donate to this project using Flattr"><img src="https://img.shields.io/badge/flattr-donate-yellow.svg" alt="Flattr donate button" /></a></span>
 
-<p>
-<div align="center">
-	
-<a href='https://ko-fi.com/R5R6AERGM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-	
-</div>
 	
 	
 Introduction
