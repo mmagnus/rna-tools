@@ -65,10 +65,8 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(sle)
     df = df.T
-    df.columns = ['a', 'b', 'c']
     df.to_csv('sle.csv', index=False)
 
     df = pd.DataFrame(sledge)
     df = df.T
-    df.columns = ['a', 'b', 'c']
     df.to_csv('sledge.csv', index=False)
