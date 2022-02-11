@@ -734,7 +734,7 @@ def edges(selection):
     if err:
         print(err)
     cmd.load(outf)
-
+    cmd.orient()
 
 cmd.extend('edges', edges)
 
