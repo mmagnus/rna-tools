@@ -44,12 +44,31 @@ if __name__ == '__main__':
         if args.rainbow:
             rainbow = 'util.chainbow;'
 
-        # if something short
-        sh = ''
-        if len(open(file).readlines()) < args.detailed:
-            sh = ' show sticks; ' # lines;
-
-        os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+        # pdb mode
+        if file.endswith('.pdb'):
+            def exe(cmd):
+                o = subprocess.Popen(
+                    cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                out = o.stdout.read().strip().decode()
+                err = o.stderr.read().strip().decode()
+                return out, err
+            cmd = BIN + '/pymol -c ' + file + " -d 'print(len([x for x in cmd.get_model().atom]))'"
+            out, err = exe(cmd)
+            # ugly
+            """
+            PyMOL>run ~/work/src/rna-tools/rna_tools/tools/PyMOL4RNA/bucket/mlk4.py
+            65
+            """
+            n = int(out.split('\n')[-1])
+            # if something short
+            # aaa this will not work for pse files (!)
+            #if len(open(file).readlines()) < args.detailed:
+            sh = ''
+            if n <  300: # atoms
+                sh = ' show lines; '#sticks; ' # lines;
+            os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+        else:  # pse mode  for pse do nothing! # set ray_opaque_background, off; 
+            os.system(BIN + '/pymol -c ' + file + " -d 'save " + f + "; quit'")
 
         if args.verbose:
             print(f)
