@@ -58,7 +58,7 @@ if __name__ == '__main__':
             fcrop = f.replace('.png', '32.png')
             cmd = BIN + "/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
             os.system(cmd)
-            cmd = 'unset PYTHONPATH && /usr/local/bin/fileicon set ' + file + ' ' + fcrop
+            cmd = 'unset PYTHONPATH && ' + BIN + 'fileicon set ' + file + ' ' + fcrop
         else:
             cmd = 'gvfs-set-attribute ' + file + ' metadata::custom-icon file://' + f  # f so the file before convert
         os.system(cmd)
