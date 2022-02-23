@@ -82,6 +82,18 @@ def exe(cmd, verbose=False):
     err = o.stderr.read().strip().decode()
     return out, err
 
+def spla():
+    cmd.do("color forest, chain A")
+    cmd.do("color firebrick, chain B")
+cmd.extend('spla', spla)
+print('spla - color A and B')
+
+def spln():
+    cmd.do("color forest, chain 2")
+    cmd.do("color firebrick, chain 6")
+cmd.extend('spl2', spl2)
+print('spl2 - color 2 and 6')
+      
 def color_protein():
     cmd.do("color blue, resn ARG+LYS+HIS and (sele)")
     cmd.do("color red, resn ASP+GLU and (sele)")
