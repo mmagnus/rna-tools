@@ -134,6 +134,12 @@ def color_by_text(txt):
         print((color, resi))
         cmd.color(color.strip(), resi.strip())
 
+def cmd_text(txt):
+    """Helper function used for color-coding based on residue indexes ranges."""
+    for t in txt.strip().split('\n'):
+        cmd.do(t)
+
+def delete_all():
 
 def rp():
     """Represent your RNA."""
