@@ -50,7 +50,7 @@ except:
 LOG_DIRECTORY = tmp
 TMP_PATH = tmp
 SANDBOX_PATH = tmp
-BIN_PATH = ""
+BIN_PATH = "/opt/homebrew/bin/"
 
 WRAPPERS_PATH = RT + "/rna_tools/tools/mq/"
 

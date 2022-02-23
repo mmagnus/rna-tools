@@ -10,6 +10,7 @@ import tempfile
 import os
 import subprocess
 import platform
+from rna_tools.rna_tools_config import BIN_PATH
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -27,7 +28,8 @@ def get_parser():
 
 if 'Darwin' == platform.system():
     is_mac = True
-    BIN = '/usr/local/bin' 
+    #BIN = '/usr/local/bin' # TODO: fix it
+    BIN = BIN_PATH # "/opt/homebrew/bin/"
 else:
     is_mac = False
     BIN = '/usr/bin'
@@ -54,7 +56,7 @@ if __name__ == '__main__':
                 return out, err
             cmd = BIN + '/pymol -c ' + file + " -d 'print(len([x for x in cmd.get_model().atom]))'"
             out, err = exe(cmd)
-            # ugly
+            # ugly way to get n of atoms
             """
             PyMOL>run ~/work/src/rna-tools/rna_tools/tools/PyMOL4RNA/bucket/mlk4.py
             65
