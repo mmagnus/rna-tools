@@ -140,6 +140,9 @@ def cmd_text(txt):
         cmd.do(t)
 
 def delete_all():
+    cmd.delete('*')
+cmd.extend('dall', delete_all)
+print('dall - delete_all')
 
 def rp():
     """Represent your RNA."""
