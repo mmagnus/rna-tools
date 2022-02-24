@@ -957,6 +957,13 @@ def clr():
 cmd.extend('clr', clr)
 print('clr - delete all')
 
+def bw():
+  """clr - make white bg and structure black"""
+  cmd.bg_color( "white" )
+  color_by_text('color black, all')
+cmd.extend('bw', bw)
+print('bw - white bg, black all')
+
 def select_rna():
     cmd.select('polymer.nucleic')
 cmd.extend('select-rna', select_rna)
