@@ -91,8 +91,8 @@ print('spla - color A and B')
 def spln():
     cmd.do("color forest, chain 2")
     cmd.do("color firebrick, chain 6")
-cmd.extend('spl2', spl2)
-print('spl2 - color 2 and 6')
+cmd.extend('spln', spln)
+print('spln - color 2 and 6')
       
 def color_protein():
     cmd.do("color blue, resn ARG+LYS+HIS and (sele)")
@@ -898,11 +898,6 @@ def reload():
     """Reload ~/.pymolrc and all included there packages (e.g. with run <foo.py>)"""
     cmd.do('@ ~/.pymolrc')
 
-def clr():
-  """clr - make white bg and structure black"""
-  cmd.bg_color( "white" )
-  color_by_text('color black, all')
-
 
 def rlabel():
     cmd = "n. C1'", '"%s %s" % (resn, resi)'
@@ -936,6 +931,18 @@ cmd.extend('rna-hide', hide_rna)
 def show_rna():
     cmd.show('(polymer.nucleic)')
 cmd.extend('rna-show', show_rna)
+
+def clr():
+    cmd.do('delete *')
+cmd.extend('clr', clr)
+print('clr - delete all')
+
+def bw():
+  """clr - make white bg and structure black"""
+  cmd.bg_color( "white" )
+  color_by_text('color black, all')
+cmd.extend('bw', bw)
+print('bw - white bg, black all')
 
 def select_rna():
     cmd.select('polymer.nucleic')
