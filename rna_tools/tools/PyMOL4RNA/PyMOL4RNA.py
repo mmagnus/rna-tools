@@ -1041,6 +1041,12 @@ def desc(t='', width=80):
     print()
     print()
 
+def s(): # quick save selected to tmp.pdb
+    cmd.do('save tmp.pdb, (sele)')
+cmd.extend('s', s)
+print('s - quick save selected to tmp.pdb'
+
+def draw():
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
