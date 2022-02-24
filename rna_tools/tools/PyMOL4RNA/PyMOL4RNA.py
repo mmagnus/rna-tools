@@ -414,6 +414,20 @@ def rcomp():
         if(i == ncolours):
            i = 0
 
+def da():  # donors accepters
+    t = """
+    h_add;
+    set sphere_scale, 0.2, (all)
+    set sphere_transparency, 0
+    #color blue, donors;
+    #color green, acceptors;
+    show sphere, donors;
+    show sphere, acceptors;
+    color gray,  name H*; # color atoms from white to gray
+    """
+    cmd.do(t)
+cmd.extend('da', da)
+    
 def pdb():
     """Get PDB content of selection.
 
@@ -936,13 +950,6 @@ def clr():
     cmd.do('delete *')
 cmd.extend('clr', clr)
 print('clr - delete all')
-
-def bw():
-  """clr - make white bg and structure black"""
-  cmd.bg_color( "white" )
-  color_by_text('color black, all')
-cmd.extend('bw', bw)
-print('bw - white bg, black all')
 
 def select_rna():
     cmd.select('polymer.nucleic')
