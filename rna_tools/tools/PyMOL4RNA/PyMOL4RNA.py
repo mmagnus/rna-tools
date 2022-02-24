@@ -1045,8 +1045,11 @@ def s(): # quick save selected to tmp.pdb
     cmd.do('save tmp.pdb, (sele)')
 cmd.extend('s', s)
 print('s - quick save selected to tmp.pdb'
-
-def draw():
+def se(): # save
+    cmd.do('save tmp.pdb, (enabled)')
+cmd.extend('se', se)
+print('se - quick save enabled to tmp.pdb'
+      
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
