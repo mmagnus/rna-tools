@@ -872,6 +872,12 @@ def inspect(name, dont_green=False):
 
 cmd.extend('inspect', inspect)
     
+def ll():
+    cmd.do('hide all')
+    cmd.do('show lines')
+cmd.extend('ll', ll)
+print('ll - show lines only')
+
 def rpr(selection):
     """rpr"""
     f = tempfile.NamedTemporaryFile(delete=False)
