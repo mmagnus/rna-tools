@@ -1045,6 +1045,45 @@ def s(): # quick save selected to tmp.pdb
     cmd.do('save tmp.pdb, (sele)')
 cmd.extend('s', s)
 print('s - quick save selected to tmp.pdb'
+
+def draw():
+    #cmd.select("name C1'")
+    t = """
+
+
+    set sphere_scale, 0.4, name C1'
+    show sphere, name C1'
+    color black, name C1'
+
+    remove name OP2+OP1+O5'+P+C5'+O2'+O3'+C4'+C3'+C2'+O4'
+
+    h_add
+
+    select (bound_to name C1') and name H*
+    remove (sele)
+
+    set spec_reflect, 0
+    # https://pymolwiki.org/index.php/Spec_reflect
+
+    #set sphere_transparency, 0
+    #color blue, donors;
+    #color green, acceptors;
+    #show sphere, donors;
+    #show sphere, acceptors;
+
+    color gray,  name H*; # color atoms from white to gray
+
+
+set dash_color, black
+set dash_width, 1; set dash_gap,  0.2
+bg white;
+#color black;
+"""
+    cmd_text(t)
+
+cmd.extend('draw', draw)
+cmd.extend('dr', draw)
+
 def se(): # save
     cmd.do('save tmp.pdb, (enabled)')
 cmd.extend('se', se)
