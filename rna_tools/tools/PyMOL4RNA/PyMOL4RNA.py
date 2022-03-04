@@ -1113,6 +1113,9 @@ def se(): # save
 cmd.extend('se', se)
 print('se - quick save enabled to tmp.pdb'
       
+def pn(): # pn
+    cmd_text('save ~/Desktop/tmp.png')
+cmd.extend('pn', pn) # pn
 def quickref():
     print('   PyMOL4RNA (rna-tools)  ')
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
