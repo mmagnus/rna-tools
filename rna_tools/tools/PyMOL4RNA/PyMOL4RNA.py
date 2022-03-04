@@ -328,6 +328,7 @@ def rmsdx(cycles = 5, matrix_fn = 'matrix.txt'):
             if r1 == r2:
                 rmsd = 0
             else:
+                print(r1, r2)
                 values = cmd.align(r1, r2, cycles=cycles)
                 # RaR [1]       RbR [3]
                 # RaR  #AA  CoR               RbR  #AbR RS   AR'
@@ -568,10 +569,19 @@ def ss(selection):
     f.close()
 
 
-def mutate(mutation, selection):
-    """Get Secondary Structure of (sele) based on py3dna.py.
 
-    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
+def rtrun(cmd, selection, suffix):
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    output = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    output2 = os.path.dirname(f.name) + os.sep + selection + '_mut.pdb'
+    exe(cmdline)
+    print(cmdline)
+    cmd.save(output, selection)
+
+    # 'A:1A+2A+3A+4A' 
+
+def mutate(mutation, selection):
+    """
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     output = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
@@ -763,7 +773,7 @@ def edges(selection):
     tmpf = f.name + os.sep + strip_selection_name(selection) + '.pdb'
     outf = f.name + '/output.py'
     cmd.save(tmpf, selection)
-    cmdline = 'rna_draw_edges.py --name %s %s > %s' % (strip_selection_name(selection), tmpf, outf)
+    cmdline = '/Users/magnus/miniconda3/bin/rna_draw_edges.py --name %s %s > %s' % (strip_selection_name(selection), tmpf, outf)
     print(cmdline)
     out, err = exe(cmdline)
     if err:
@@ -779,8 +789,8 @@ def ino():
 
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ion.png"""
     cmd.show("spheres", "inorganic")
-    #cmd.set('sphere_scale', '0.25', '(all)')
-    cmd.set('sphere_scale', '1', '(all)')
+    cmd.set('sphere_scale', '0.25', '(all)')
+    #cmd.set('sphere_scale', '1', '(all)')
     cmd.color("yellow", "inorganic")
 
 mapping = [[u'PRP8', 'A', u'skyblue'], [u'BRR2', 'B', u'grey60'], [u'BUD31', 'C', u'dirtyviolet'], [u'CEF1', 'D', u'raspberry'], [u'CLF1', 'E', u'raspberry'], [u'CWC15', 'F', u'dirtyviolet'], [u'CWC16/YJU2', 'G', u'lightteal'], [u'CWC2', 'H', u'ruby'], [u'CWC21', 'I', u'violetpurple'], [u'CWC22', 'J', u'bluewhite'], [u'CWC25', 'K', u'deepteal'], [u'Intron', 'L', u'black'], [u'ISY1', 'M', u'dirtyviolet'], [u'LEA1', 'N', u'palegreen'], [u'Msl1', 'O', u'palegreen'], [u'PRP45', 'P', u'lightpink'], [u'PRP16', 'Q', u'smudge'], [u'CDC40\xa0(PRP17, SLU4, XRS2)', 'R', u'dirtyviolet'], [u'PRP19 (PSO4)', 'S', u'grey70'], [u'PRP46', 'T', u'lightblue'], [u'SLT11/ECM2', 'U', u'chocolate'], [u'SNT309', 'V', u'grey70'], [u'SNU114', 'W', u'slate'], [u'SYF2', 'X', u'brightorange'], [u'SYF1', 'Y', u'brightorange'], [u'U2', 'Z', u'forest'], [u'U5', 'a', u'density'], [u'U5_SmRNP', 'b', u'deepblue'], [u'U6', 'c', u'firebrick'], [u'Intron', 'r', u'grey50'], [u'Exon', 'z', u'yellow'], [u'exon-3', 'y', u'yellow'], [u'exon-5', 'z', u'yellow'], [u'PRP4 ', 'd', u'grey50'], [u'PRP31', 'e', u'grey50'], [u'PRP6', 'f', u'grey50'], [u'PRP3', 'g', u'grey50'], [u'DIB1', 'h', u'grey50'], [u'SNU13', 'i', u'grey50'], [u'LSM8', 'j', u'grey50'], [u'LSM2', 'k', u'grey50'], [u'LSM3', 'l', u'grey50'], [u'LSM6', 'm', u'grey50'], [u'LSM5', 'n', u'grey50'], [u'LSM7', 'o', u'grey50'], [u'LSM4', 'p', u'grey50'], [u'SNU66', 'q', u'grey50'], [u'RNA (intron or U6 snRNA)', 'r', u'grey50'], [u'5EXON', 's', u'grey50'], [u'BUD13', 't', u'grey60'], [u'CLF2', 'u', u'rasberry'], [u'Cus1', 'v', u'palegreen'], [u'CWC24', 'w', u'grey60'], [u'CWC27', 'x', u'grey60'], [u'HSH155', '1', u'smudge'], [u'HSH49', '2', u'sand'], [u'PML1', '3', u'grey60'], [u'PRP11', '4', u'palegreen'], [u'PRP2', '5', u'palegreen'], [u'RDS3', '6', u'palegreen'], [u'RSE1', '7', u'smudge'], [u'SNU17', '8', u'grey60'], [u'Ysf3', '9', u'palegreen'], [u'cwc23', 'd', u'grey50'], [u'SPP382\xa0(CCF8, NTR1)', 'e', u'grey50'], [u'NTR2', 'f', u'grey50'], [u'PRP43', 'g', u'grey50'], [u'SMB1', 'h', u'grey50'], [u'SME1', 'i', u'grey50'], [u'SMX3', 'j', u'grey50'], [u'SMX2\xa0(SNP2)', 'k', u'grey50'], [u'SMD3', 'l', u'grey50'], [u'SMD1', 'm', u'grey50'], [u'SMD2', 'n', u'grey50'], [u'PRP22', 'o', u'grey50'], [u'PRP18', 'p', u'grey50'], [u'SLU7', 'q', u'grey50'], [u'SMF', 'd', u'grey50'], [u'SMG', 'e', u'grey50'], [u'PRP9', 'f', u'grey50'], [u'PRP21', 'g', u'grey50'], [u'SNU23', 'r', u'grey50'], [u'PRP38', 's', u'grey50'], [u'SPP381', 'w', u'grey50']]
@@ -894,7 +904,7 @@ def diff(selection, selection2):
 
 cmd.extend('diff', diff)
 
-def mini(f):
+def mini(f):  # min with qrna
 
     #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
     os.system('~/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c ~/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
@@ -966,7 +976,6 @@ def hide_protein():
     cmd.hide('(polymer.protein)')
 #cmd.extend('protein-hide', hide_protein)
 #cmd.extend('rp-hide', hide_protein)
-
 def select_protein():
     cmd.select('polymer.protein')
 cmd.extend('protein-select', select_protein)
@@ -1000,7 +1009,6 @@ def tp(): #tp temp pse
 
 cmd.extend('tp', tp)
 
-################################################################################
 def sav_tmp():
     from shutil import copyfile
     import datetime
@@ -1055,6 +1063,11 @@ def findN(r):
     c = 'select br. all within ' + str(r) + ' of (sele)'
     cmd.do(c)
 
+def white():
+    cmd.set('dash_color', 'black')
+    cmd.set('dash_width', 2)
+    cmd.bg_color( "white" )
+cmd.extend('w', white)
 
 def desc(t='', width=80):
     print()
@@ -1068,7 +1081,7 @@ def desc(t='', width=80):
 def s(): # quick save selected to tmp.pdb
     cmd.do('save tmp.pdb, (sele)')
 cmd.extend('s', s)
-print('s - quick save selected to tmp.pdb'
+print('s - quick save selected to tmp.pdb')
 
 def draw():
     #cmd.select("name C1'")
@@ -1111,8 +1124,20 @@ cmd.extend('dr', draw)
 def se(): # save
     cmd.do('save tmp.pdb, (enabled)')
 cmd.extend('se', se)
-print('se - quick save enabled to tmp.pdb'
+print('se - quick save enabled to tmp.pdb')
       
+def ha():
+    """
+        cmd.do('h_add')
+    """
+    cmd.do('h_add')
+cmd.extend('ha', ha)
+    
+def hb(): # hydrogen bonds
+    cmd.do('contacts *,*')
+cmd.extend('hb', hb)
+
+
 def pn(): # pn
     cmd_text('save ~/Desktop/tmp.png')
 cmd.extend('pn', pn) # pn
@@ -1182,6 +1207,7 @@ else:
     cmd.extend('grid_on', grid_on)
     cmd.extend('grid_off', grid_off)
     cmd.extend('reload', reload)
+    cmd.extend('rl', reload)
 
     cmd.extend('color_aa_types', color_aa_types)
 
@@ -1189,11 +1215,11 @@ else:
 
     cmd.extend('findX', findN)
 
-    # set dash lines
-    cmd.set('dash_color', 'red')
-    cmd.set('dash_width', 4)
-
     # set dash lines #hbonds #hydrogen
+    cmd.set('dash_color', 'white')
+    cmd.set('dash_width', 2)
+    cmd.set('cartoon_tube_radius', 0.5)
+    
     cmd.extend('save_transformed', save_transformed)
     cmd.extend('savt', save_transformed)
     cmd.extend('show_all_at_once', show_all_at_once)
@@ -1208,3 +1234,12 @@ else:
     cmd.extend('desc', desc)
     #cmd.do('set overlay, 1')
 
+    #### change do desktop
+    user = getpass.getuser()
+    cw = os.path.abspath(os.getcwd())
+    print(cw)
+    if cw == '/Users/magnus':
+        print('change to Desktop')
+        os.chdir('/Users/magnus/Desktop/')
+    cw = os.path.abspath(os.getcwd())
+    print(cw)
