@@ -991,7 +991,7 @@ def sav_tmp():
     except:
         pass
 
-    date = datetime.datetime.today().strftime('%Y-%m-%d.%S')
+    date = datetime.datetime.today().strftime('%Y-%m-%d.%H%M%S')
     try:
         fn = TMP_FOLDER +  os.sep + id + '_' + date + '.pse'
     except TypeError:
