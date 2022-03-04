@@ -975,6 +975,30 @@ def tmp():
     cmd.save('/home/' + user + '/Desktop/' + tmp + '.png')
     cmd.save('/home/' + user + '/Desktop/' + tmp + '.pse')
 
+def tp(): #tp temp pse
+    """tp here"""
+    import datetime
+
+    # cmd.bg_color( "white" )
+    tf = tempfile.NamedTemporaryFile(delete=False)
+    fn = tf.name + '.png'
+    tf = tempfile.NamedTemporaryFile(delete=False)
+    cfn = tf.name + '.png'
+
+    date = datetime.datetime.today().strftime('%Y-%m-%d.%H%M%S')
+    psefn = '~/Desktop/' + date + '.pse'
+    cmd.save(psefn)
+
+    cmd.save(fn)
+
+    cmdline= "/opt/homebrew/bin/convert " + fn + " -gravity center -crop 3:3 +repage " + cfn
+    print(cmdline)
+    os.system(cmdline)
+    cmdline = '/opt/homebrew/bin/fileicon set ' + psefn + ' ' + cfn
+    print(cmdline)
+    os.system(cmdline)
+
+cmd.extend('tp', tp)
 
 ################################################################################
 def sav_tmp():
