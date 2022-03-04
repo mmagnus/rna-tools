@@ -1006,6 +1006,12 @@ def load_tmp():
     cmd.load(TMP_FOLDER + '/last.pse')
 
 
+def trim():
+    cmd.do("remove solvent")
+    cmd.do("remove resn NA")
+    
+cmd.extend('trim', trim)
+    
 def get_resi():
     """
     PyMOL>get_resi()
