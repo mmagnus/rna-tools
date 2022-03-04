@@ -11,6 +11,31 @@ except ImportError:
     print("PyMOL Python lib is missing")
     # sys.exit(0)
 
+def spl_help():
+    print("""
+PyMOL4Spliceosome
+-----------------------
+extract all (ea)  - show
+colors            - list all colors
+
+spl hprp8
+spl prp8
+spl yprp8 - "color skyblue, PRP8_* and resi 885-1251"
+spl hprp28
+
+spl chains
+ color blue, chain 5
+ color red, chain 6
+ color forest, chain 2
+
+set cartoon_ring_mode to 3 ...
+
+""")
+spl_help()
+
+print("""
+spl g2 # coloring for 6chr g2 introns
+""")
 
 cmd.set('transparency', 0.25)
 cmd.set('cartoon_ring_mode', 3)
@@ -38,10 +63,21 @@ cmd.set_color('lavender', [230,230,250])
 cmd.set_color('thistle', [216,191,216])
 
 
+
+def color_by_text(txt):
+    """Helper function used for color-coding based on residue indexes ranges."""
+    for t in txt.strip().split('\n'):
+        print(t)
+        color, resi = t.replace('color ', '').split(',')
+        print((color, resi))
+        cmd.color(color.strip(), resi.strip())
+
 def spl(arg=''):
     """
     action='', name=''
     """
+    #reload()
+    print(arg)
     if ' ' in arg:
         action, name = arg.split()
         name = name.lower()
@@ -52,6 +88,52 @@ def spl(arg=''):
     #df = pd.read_excel("/home/magnus/Desktop/pyMoL_colors-EMX.xlsx")
     if not action or action == 'help':
         spl_help()
+        cmd.do('color red, chain A')        
+        cmd.do('color forest, chain B')
+        cmd.do('color grey, chain C')        
+        cmd.do('color grey, chain D')
+
+        cmd.do('color grey, chain I')        
+        cmd.do('color grey, chain J')
+
+        cmd.do('color purple, chain D and resi 4')        
+        cmd.do('color purple, resn MG')
+        # exon
+        cmd.do('color yellow, chain G')
+        cmd.do('color yellow, chain E')
+        
+        cmd.do('color blue, chain H')
+        cmd.do('color blue, chain U')
+
+        cmd.show("spheres", "inorganic")
+        cmd.set('sphere_scale', '1', '(all)')
+        #cmd.set('sphere_scale', '1', '(all)')
+        cmd.color("yellow", "inorganic")
+
+    elif arg == 'g22':
+        print('g22')
+        t = """
+        color gray, resi 1-600;
+        color red, resi 550-586;
+        color pink, resi 587-630;
+        color brown, resi 507-549;
+        color marine, resi 350-424;
+        color yellow, resi 425-507;
+        color forest, resi 1-26;
+        color forest, resi 327-350;
+        color yellow, chain B;
+        """
+        color_by_text(t)
+
+    elif arg == 'g21':
+        print('g21')
+        t = """
+        color gray, resi 1-600;
+        color red, resi 300-400
+        color marine, resi 288-289;
+        """
+        color_by_text(t)
+
     elif action == 'color' or arg=='c':
         code_for_color_spl.spl_color()
     elif arg == 'extract all' or arg == 'ea' or arg == 'e':
@@ -60,6 +142,18 @@ def spl(arg=''):
         cmd.do('color blue, chain 5')
         cmd.do('color red, chain 6')        
         cmd.do('color forest, chain 2')
+
+        cmd.do('color red, chain V')        
+        cmd.do('color forest, chain Z')
+
+    elif arg == 'ab': # colorchains
+        cmd.do('color red, chain B')        
+        cmd.do('color forest, chain A')
+        cmd.do('color grey, chain C')        
+        cmd.do('color grey, chain D')
+        cmd.do('color purple, chain D and resi 4')        
+        cmd.do('color purple, resn MG')
+
     elif arg == 'trim':
         cmd.do("""    	remove chain 5;
 	remove chain 2 and resi 1-19;
@@ -170,27 +264,16 @@ select Prp8afinger, Prp8 and resi 1583-1610
 
 cmd.extend('spl', spl)
 
-def spl_help():
-    print("""
-PyMOL4Spliceosome
------------------------
-extract all (ea)  - show
-colors            - list all colors
-
-spl hprp8
-spl prp8
-spl yprp8 - "color skyblue, PRP8_* and resi 885-1251"
-spl hprp28
-
-spl chains
- color blue, chain 5
- color red, chain 6
- color forest, chain 2
-
-set cartoon_ring_mode to 3 ...
-
-""")
-spl_help()
+def g2():
+    txt = """color gray, all;
+    color yellow, chain B;
+    color red, resi 788-824;
+    color yellow, resi 828-866;
+    color forest, resi 476-490;
+    """
+    color_by_text(txt)
+    cmd.color('pink', 'resi 120')
+    cmd.color('pink', 'resi 2')
 
 def __spl_color():
     for m in mapping:
