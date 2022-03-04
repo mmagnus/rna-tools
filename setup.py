@@ -134,7 +134,10 @@ setup(
              
              'rna_tools/tools/triplexibility/triplexibility.py',
              'rna_tools/tools/triplexibility/triplexibility2.py',
+
+             'rna_tools/tools/triplexibility/trx_mutagen_allvsall.py',
              'rna_tools/tools/triplexibility/trx_mutgen.py',
+             'rna_tools/tools/triplexibility/trx_score_allvsall.py',
              'rna_tools/tools/triplexibility/trx_score.py',
              
              'rna_tools/tools/misc/rna_merge_two_dfs.py',
