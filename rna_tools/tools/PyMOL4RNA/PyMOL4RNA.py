@@ -925,7 +925,8 @@ def rlabel():
     cmd.label(cmd)
 
 
-def sav(name):
+
+def sav(name): #sav
     # cmd.bg_color( "white" )
     tf = tempfile.NamedTemporaryFile(delete=False)
     fn = tf.name + '.png'
@@ -937,13 +938,17 @@ def sav(name):
 
     cmd.save(fn)
 
-    cmdline= "/usr/local/bin/convert " + fn + " -gravity center -crop 3:3 +repage " + cfn
+    cmdline= "/opt/homebrew/bin/convert " + fn + " -gravity center -crop 3:3 +repage " + cfn
+    print(cmdline)
     os.system(cmdline)
-
-    os.system('/usr/local/bin/fileicon set ' + psefn + ' ' + cfn)
+    cmdline = '/opt/homebrew/bin/fileicon set ' + psefn + ' ' + cfn
+    print(cmdline)
+    os.system(cmdline)
 
     #cmd.png(coverfn, 576,576)
     #cmd.ray(576,576)
+cmd.extend('sav', sav)
+
 def hide_rna():
     cmd.hide('(polymer.nucleic)')
 cmd.extend('rna-hide', hide_rna)
@@ -1168,7 +1173,7 @@ else:
     cmd.set('dash_color', 'red')
     cmd.set('dash_width', 4)
 
-    cmd.extend('sav', sav)
+    # set dash lines #hbonds #hydrogen
     cmd.extend('save_transformed', save_transformed)
     cmd.extend('savt', save_transformed)
     cmd.extend('show_all_at_once', show_all_at_once)
