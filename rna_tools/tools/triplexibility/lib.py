@@ -16,9 +16,9 @@ def get_parser():
  
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument("seq", help="U57:A27.A53 / wt UAA", default="UAA") # nargs='+')
-    parser.add_argument("--d2", help="U6-A59:U2-U23 / wt AU", default="UA") # nargs='+')
-    parser.add_argument("--growth", help="experimental results", default=0) # nargs='+')
+    #parser.add_argument("seq", help="U57:A27.A53 / wt UAA", default="UAA") # nargs='+')
+    #parser.add_argument("--d2", help="U6-A59:U2-U23 / wt AU", default="UA") # nargs='+')
+    #parser.add_argument("--growth", help="experimental results", default=0) # nargs='+')
     return parser
 
 def score_trx_double(seq, tindex):
@@ -39,6 +39,7 @@ def score_trx(seq, triple_id):
     seq: 'UUA'
     triple_id: 't1_3'
     """
+    return get_trx(seq, triple_id)
     rmsd, triple, l = get_trx(seq, triple_id)
     ic(triple)
     cs = get_clashscore(triple)
@@ -110,7 +111,54 @@ def get_trx_double(seq, triple):
             # print('   ' + l.strip())
     return rmsd1, line1, rmsd2, line2
 
-def get_trx(seq, triple):
+def get_trx(seq, triple_id):
+    """
+
+    db/t1-3_cWW_tHW_UAA_exemplar_rpr_Triple_cWW_*_rpr.pdb_sugar_rmsd.csv'
+       t1-3_cWW_tHW_UAA_exemplar_rpr_Triple_*ex*_rpr.pdb_sugar_rmsd.csv
+    """
+    
+    rmsds = []
+    lines = []
+    scores = []
+    headers = []
+
+    c = 0 
+    for s in ['t1-3_cWW_tHW_UAA_exemplar_rpr', 't2-3-UAU', 't2-4-ACA', 't3-3_AUA']:
+        for mode in ['backbone+sugar']: # , 'c1', 'c1+Nx']: ['sugar', 
+            for f in [#'Triple_cWW_*_rpr.pdb',
+                      'Triple_*_rpr.pdb',
+                      #'Triple_*ex*_rpr.pdb',
+                      #'Triple_cWW_*ex*_rpr.pdb',
+                      ]: #'Triple_*_rpr.pdb']:
+                fdb = "db/%s_%s_%s_rmsd.csv" % (s, f.replace('*','X') ,mode)
+                rmsd = -1
+                if triple_id.replace('_', '-') in fdb:
+                    for l in open(fdb):
+                        if seq.lower() in l.lower() and rmsd == -1: # if -1 then there is no rmsd
+                            # for this triple
+                            triple, rmsd = l.split(',') # Triple_cWW_tHS_AUG_exemplar_rpr.pdb,3.804
+                            cs = get_clashscore(triple)
+                            if cs != 0:
+                                rmsd = -1 # reset the flag
+                                continue  # cs not zero, so go ahead
+                            else:
+                                ins = get_instances(triple)
+                                rmsd = round(float(rmsd), 2)
+                                headers.extend(['%s_%s_%s' % (s, f.replace('*','X') ,mode) + '_rmsd',
+                                                '%s_%s_%s' % (s, f.replace('*','X') ,mode) + '_cs',
+                                                '%s_%s_%s' % (s, f.replace('*','X') ,mode) + '_ins'])
+                                scores.extend([rmsd, cs, ins])
+
+                    if rmsd == -1: # still at the end of the loop
+                            headers.extend(['%s_%s_%s' % (s, f.replace('*','X') ,mode) + '_rmsd',
+                                            '%s_%s_%s' % (s, f.replace('*','X') ,mode) + '_cs',
+                                            '%s_%s_%s' % (s, f.replace('*','X') ,mode) + '_ins'])
+                            scores.extend([-1, -1, -1])
+
+    return scores, headers
+
+def get_trx_(seq, triple):
     # ic('>>', seq, triple)
     if triple == 't1_3':
         f = 'db/t1-3_cWW_tHW_UAA_exemplar_rpr_rmsd.csv'
@@ -141,9 +189,8 @@ def get_clashscore(t):
     Triple_cWW_tHW_UAA_exemplar_rpr.pdb
     """
     t = t.replace('Triple_', '').replace('_rpr.pdb', '').replace('_exemplar', '')
-    #ic(df)
+    t = t.replace('tsS','tSS')
     x = df[df['triple'] == t]
-    # ic(x)
     return int(x['clashes'])
 
 def get_instances(t):
@@ -151,9 +198,8 @@ def get_instances(t):
     Triple_cWW_tHW_UAA_exemplar_rpr.pdb
     """
     t = t.replace('Triple_', '').replace('_rpr.pdb', '').replace('_exemplar', '')
-    #ic(df)
+    t = t.replace('tsS','tSS')
     x = df[df['triple'] == t]
-    # ic(x)
     return int(x['instances'])
 
 
