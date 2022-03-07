@@ -40,6 +40,6 @@ if __name__ == '__main__':
                  os.system(cmd)
                  # --files ../../db/triples-all-v2-rpr/*
                  csvf = a + b + c + ".csv"
-                 cmd = "triplexibility2.py -t " + f3 + "  --sort --result " + csvf
+                 cmd = "triplexibility2.py -t " + f3 + " --save --sort --result " + csvf
                  print(cmd)
                  os.system(cmd)

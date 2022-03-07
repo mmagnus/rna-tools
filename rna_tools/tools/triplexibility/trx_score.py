@@ -17,7 +17,7 @@ def get_parser():
     parser.add_argument("--fig", help="", default="fig.py") # nargs='+')
     parser.add_argument("ref", help="", default="") # nargs='+')
     parser.add_argument("-e", "--edge", help="", default= "Triple_cWW_cHS") # nargs='+')
-    parser.add_argument("-t", "--threshold", help="", default="", type=int) # nargs='+')
+    parser.add_argument("-t", "--threshold", help="if t not none then if score > t is 1 else 0", type=int) # nargs='+')
 
     return parser
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(sle)
     df = df.T
-    df.to_csv('sle.csv', index=False)
+    df.to_csv('slexemplary.csv', index=False)
 
     df = pd.DataFrame(sledge)
     df = df.T
