@@ -149,6 +149,7 @@ class FARFAR2(ProgramWrapper):
         ftxt = re.sub('TER\s+END\s+', 'TER', ftxt)
         ftxt = re.sub('END', 'TER', ftxt).strip()
         f = open(self.sandbox_dir + os.sep + 'tmp.pdb', 'w')
+
         f.write(ftxt)
         f.close()
 
@@ -211,9 +212,11 @@ class FARFAR2(ProgramWrapper):
         All results are kept in self.result, but only global score is returned
 
         """
-        with open(self.sandbox_dir + os.sep + 'SCORE.out') as f:
-            lines = f.readlines() #().split('\n')
-
+        try:
+            with open(self.sandbox_dir + os.sep + 'SCORE.out') as f:
+                lines = f.readlines() #().split('\n')
+        except:
+            raise Exception('Problem with gettting the results, run with --verbose')
         lines = [l for l in lines if not l.startswith('REMARK')]
         #print(lines)
         # get names of different scores
