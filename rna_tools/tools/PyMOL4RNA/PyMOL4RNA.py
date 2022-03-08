@@ -159,10 +159,13 @@ def show_all_at_once():
 
 def grid_on():
     cmd.set('grid_mode', 1)
-
-
 def grid_off():
     cmd.set('grid_mode', 0)
+
+cmd.extend('gridon', grid_on)
+cmd.extend('gridoff', grid_off)
+cmd.extend('gn', grid_on)
+cmd.extend('gf', grid_off)
 
 
 def rs():
@@ -1204,8 +1207,6 @@ else:
     cmd.extend("rgyration", rgyration)
     cmd.extend('rlabel', 'rlabel')
 
-    cmd.extend('grid_on', grid_on)
-    cmd.extend('grid_off', grid_off)
     cmd.extend('reload', reload)
     cmd.extend('rl', reload)
 
