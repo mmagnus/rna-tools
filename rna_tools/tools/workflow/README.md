@@ -28,6 +28,21 @@ set -x
 for i in `ls *rpr*`; do
 	rna_pdb_toolsx.py --edit 'A:1-35>A:51-85,B:1-11>B:20-30' $i > ${i}_fixChains.pdb
 done
+
+```
+
+```shell
+
+for i in `ls -d */`;
+	 do
+	     echo $i;
+	     cd $i
+	     rm *.pdb
+	     cp ../1st-yC_5LJ3_U2U6_core_mdr_chainAB+Extra2ResiAtEnds_delt1-1+dC85_orient.pdb .
+	     cp ../test.sh .
+	     ./test.sh & # to make it semi-parallel ;-)
+	     cd ..
+	 done;
 ```
 
 Minimal workflow system.
