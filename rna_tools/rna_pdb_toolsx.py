@@ -236,6 +236,10 @@ Be default it does not renumber residues, use --renumber-residues
 only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]"""),
                         action='store_true')
 
+    rpr.add_argument('--here', help=textwrap.dedent("""save a file next to the original file with auto suffix
+for --extract it's .extr.pdb"""),
+                        action='store_true')
+
     rpr.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""))
 
     rpr.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
@@ -681,6 +685,7 @@ if __name__ == '__main__':
                     pass
 
 
+# extract
     if args.extract:
         # quick fix - make a list on the spot
         if list != type(args.file):
@@ -710,6 +715,11 @@ if __name__ == '__main__':
             if args.inplace:
                 with open(f, 'w') as f:
                     f.write(output)
+            elif args.here:
+                if '_extr' not in f:  # good idea?
+                    with open(f.replace('.pdb', '_extr.pdb'), 'w') as fio:
+                        print(f)
+                        fio.write(output)
             else:  # write: to stdout
                 try:
                     sys.stdout.write(output)
