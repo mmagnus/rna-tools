@@ -27,7 +27,6 @@ and with ```--full```::
     10     21     61  SH_tran    1
     > out: 'cl_full.csv'
 
-
 """
 from __future__ import print_function
 import argparse
@@ -55,6 +54,7 @@ if __name__ == '__main__':
     v = args.verbose
     
     all = {}
+    c = 0
     for line in open(args.file):
         if line.strip():
             if v: ic(l.strip())
@@ -62,14 +62,16 @@ if __name__ == '__main__':
             if len(l) == 9:
                 # ['B', '21', 'A', '61', 'bp', 'U', 'A', 'WW_cis', '0.8365']
                 if full: # ('21-61-WW_cis', 405)
-                    k = l[1] + '-' + l[3] + '-' + l[7]
+                    # k = l[1] + '-' + l[3] + '-' + l[7] # no resin
+                    k = l[5] + l[1] + '-' + l[6] + l[3] + '-' + l[7]
                 else:
-                    k = l[1] + '-' + l[3] # only nodes ('21-61', 408)
+                    # k = l[1] + '-' + l[3] # only nodes ('21-61', 408)
+                    k = l[5] + l[1] + '-' + l[6] + l[3]
                 if k in all:  # count endge
                     all[k] += 1
                 else:
                     all[k] = 1
-
+                c += 1
     # sort it
     import operator
     alls = sorted(all.items(), key=operator.itemgetter(1), reverse=True)
@@ -86,8 +88,8 @@ if __name__ == '__main__':
     else:
         columns=['source', 'target', 'n']
     df = pd.DataFrame(nlst, columns = columns)
+    df['n'] = df['n'] / c
     print(df)
-
     if full:
         out = args.file.replace('.txt', '_full.csv')
     else:
