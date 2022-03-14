@@ -47,7 +47,7 @@ def get_parser():
     parser.add_argument('-f', "--full",  action="store_true", help="split interactions into types")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument("file", help="", default="") # nargs='+')
+    parser.add_argument("file", help="", default="", nargs='+')
     return parser
 
 
@@ -57,47 +57,54 @@ if __name__ == '__main__':
     full = args.full
     v = args.verbose
     
-    all = {}
-    c = 0
-    for line in open(args.file):
-        if line.strip():
-            if v: ic(l.strip())
-            l = line.split()
-            if len(l) == 9:
-                # ['B', '21', 'A', '61', 'bp', 'U', 'A', 'WW_cis', '0.8365']
-                if full: # ('21-61-WW_cis', 405)
-                    # k = l[1] + '-' + l[3] + '-' + l[7] # no resin
-                    k = l[5] + l[1] + '-' + l[6] + l[3] + '-' + l[7]
-                else:
-                    # k = l[1] + '-' + l[3] # only nodes ('21-61', 408)
-                    k = l[5] + l[1] + '-' + l[6] + l[3]
-                if k in all:  # count endge
-                    all[k] += 1
-                else:
-                    all[k] = 1
-                c += 1
-    # sort it
-    import operator
-    alls = sorted(all.items(), key=operator.itemgetter(1), reverse=True)
-    nlst = []
-    for i in alls:
-        if v: ic(i)
-        ne = i[0].split('-') + [i[1]]  # [['21', '61', 408], ['80', '85', 24], ['61', '80', 9]]
-        nlst.append(ne)
-    if v: ic(nlst)
 
-    import pandas as pd
-    if full:
-        columns=['source', 'target', 'type', 'n']
-    else:
-        columns=['source', 'target', 'n']
-    df = pd.DataFrame(nlst, columns = columns)
-    df['n'] = df['n'] / c
-    print(df)
-    if full:
-        out = args.file.replace('.txt', '_full.csv')
-    else:
-        out = args.file.replace('.txt', '_short.csv')
+    if list != type(args.file):
+        args.file = [args.file]
 
-    ic(out)
-    df.to_csv(out)
+    for f in args.file:
+        print(f)
+        all = {}
+        c = 0
+        for line in open(f):
+            if line.strip():
+                if v: ic(l.strip())
+                l = line.split()
+                if len(l) == 9:
+                    # ['B', '21', 'A', '61', 'bp', 'U', 'A', 'WW_cis', '0.8365']
+                    if full: # ('21-61-WW_cis', 405)
+                        # k = l[1] + '-' + l[3] + '-' + l[7] # no resin
+                        k = l[5] + l[1] + '-' + l[6] + l[3] + '-' + l[7]
+                    else:
+                        # k = l[1] + '-' + l[3] # only nodes ('21-61', 408)
+                        k = l[5] + l[1] + '-' + l[6] + l[3]
+                    if k in all:  # count endge
+                        all[k] += 1
+                    else:
+                        all[k] = 1
+                    c += 1
+        # sort it
+        import operator
+        alls = sorted(all.items(), key=operator.itemgetter(1), reverse=True)
+        nlst = []
+        for i in alls:
+            if v: ic(i)
+            ne = i[0].split('-') + [i[1]]  # [['21', '61', 408], ['80', '85', 24], ['61', '80', 9]]
+            nlst.append(ne)
+        if v: ic(nlst)
+
+        import pandas as pd
+        if full:
+            columns=['source', 'target', 'type', 'n']
+        else:
+            columns=['source', 'target', 'n']
+        df = pd.DataFrame(nlst, columns = columns)
+        df['n'] = df['n'] / c
+        print('# %i' % c)
+        print(df)
+        if full:
+            out = f.replace('.txt', '_full.csv')
+        else:
+            out = f.replace('.txt', '_short.csv')
+
+        ic(out)
+        df.to_csv(out, index=False)
