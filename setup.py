@@ -44,7 +44,8 @@ setup(
              'rna_tools/tools/rna_rosetta/rna_rosetta_extract_lowscore_decoys.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_check_progress.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_head.py',
-
+             'rna_tools/tools/rna_rosetta/rna_rosetta_extract.py',
+             
              'rna_tools/tools/simrna_trajectory/rna_simrna_lowest.py',
              'rna_tools/tools/simrna_trajectory/rna_simrna_extract.py',
              'rna_tools/tools/simrna_trajectory/rna_simrna_cluster.py', 
