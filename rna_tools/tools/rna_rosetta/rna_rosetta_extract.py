@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Lazy shortcut
+Lazy shortcut for::
+
+    rna_extract.static.macosclangrelease -in::file::silent *out # be default
+
 """
 from __future__ import print_function
 import argparse
@@ -14,9 +17,7 @@ ic.configureOutput(prefix='> ')
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-
     #parser.add_argument('-', "--", help="", default="")
-
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     parser.add_argument("--file", help="", default="*.out")#, nargs='+')
