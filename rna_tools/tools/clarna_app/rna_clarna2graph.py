@@ -81,7 +81,8 @@ if __name__ == '__main__':
                         all[k] += 1
                     else:
                         all[k] = 1
-                    c += 1
+            if '.pdb' in line.lower():
+                c += 1
         # sort it
         import operator
         alls = sorted(all.items(), key=operator.itemgetter(1), reverse=True)
