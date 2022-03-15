@@ -611,8 +611,8 @@ def load_fasta_ss_into_RNAseqs(fn, debug=True):
     return seqs
 
 if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+    #import doctest
+    #doctest.testmod()
 
     seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA01'

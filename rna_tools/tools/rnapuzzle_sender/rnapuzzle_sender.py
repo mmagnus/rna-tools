@@ -32,7 +32,7 @@ class Mail():
         server = smtplib.SMTP('mailhub')
         server.sendmail(fromaddr, toaddrs, msg)  
         server.quit()
-        print 'Sent from %s to %s msg with subject %s ' % (fromaddr, toaddrs, subject)
+        print('Sent from %s to %s msg with subject %s ' % (fromaddr, toaddrs, subject))
 
 class Model():
     def __init__(self, id, f):
@@ -55,9 +55,6 @@ def sort_nicely( l ):
    return l
 
 if __name__ == '__main__':
-    print 'rnapuzzle_sender'
-    print
-
     parser = OptionParser('rnapuzzle_sender.py')
 
     parser.add_option("-d", "--dir",
@@ -75,20 +72,18 @@ if __name__ == '__main__':
     # sort files
     files = os.listdir(opt.dir)
     files = sort_nicely(files)
-    print 'files: ', ' '.join([f for f in files])
+    print('files: ', ' '.join([f for f in files]))
     c = 1
-    print
 
     mail = Mail()
     for f in files:
-        print opt.dir + os.sep + f
+        print(opt.dir + os.sep + f)
         m = Model(c, opt.dir + os.sep + f)
         c += 1
         mail.add_txt(m.get())
         del m
-    print
 
-    mail.send_email('magnus@genesilico.pl', opt.email_subject)
-    mail.send_email('mboni@genesilico.pl', opt.email_subject)
-    mail.send_email('iamb@genesilico.pl', opt.email_subject)
+    mail.send_email('mag_dex@o2.pl', opt.email_subject)
+    #mail.send_email('mboni@genesilico.pl', opt.email_subject)
+    #mail.send_email('iamb@genesilico.pl', opt.email_subject)
     #mail.send_email('ibmc.cnrs@gmail.com', opt.email_subject)
