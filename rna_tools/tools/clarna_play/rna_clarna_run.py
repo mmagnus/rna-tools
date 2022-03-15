@@ -51,7 +51,8 @@ class Usage_Clarna:
 
   def __init__(self):
      # define a usage statement
-     USAGE =  PROGRAM + ' -ipdb <infile>.pdb [-Clarna] [ -thresh f ] [ -bps ] [ -PS ] [ -stack ] [ -other ]\n'
+     USAGE =  'for multiple files:\n\n  for i in *.pdb; do echo $i; rna_clarna_run.py -ipdb $i; done | tee cl.txt\n\n'
+     USAGE += PROGRAM + ' -ipdb <infile>.pdb [-Clarna] [ -thresh f ] [ -bps ] [ -PS ] [ -stack ] [ -other ]\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -rnaview\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -mc_annotate\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -fr3d\n'
