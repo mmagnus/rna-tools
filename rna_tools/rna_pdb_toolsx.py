@@ -498,11 +498,18 @@ if __name__ == '__main__':
                     sys.stdout.write('\n'.join(remarks))
                     sys.stdout.flush()
                 else:
-                    try:
-                        sys.stdout.write(output)
-                        sys.stdout.flush()
-                    except IOError:
-                        pass
+                    if args.here:
+                        if '_rpr' not in f:  # good idea?
+                            nf = f.replace('.pdb', '_rpr.pdb')
+                            with open(nf, 'w') as fio:
+                                print(nf)
+                                fio.write(output)
+                    else:
+                        try:
+                            sys.stdout.write(output)
+                            sys.stdout.flush()
+                        except IOError:
+                            pass
         # hmm... fix for problem with renumbering, i do renumbering
         # and i stop here
         # i'm not sure that this is perfect
