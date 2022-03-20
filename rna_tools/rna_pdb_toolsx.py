@@ -724,8 +724,9 @@ if __name__ == '__main__':
                     f.write(output)
             elif args.here:
                 if '_extr' not in f:  # good idea?
-                    with open(f.replace('.pdb', '_extr.pdb'), 'w') as fio:
-                        print(f)
+                    nf = f.replace('.pdb', '_extr.pdb')
+                    with open(nf, 'w') as fio:
+                        print(nf)
                         fio.write(output)
             else:  # write: to stdout
                 try:
