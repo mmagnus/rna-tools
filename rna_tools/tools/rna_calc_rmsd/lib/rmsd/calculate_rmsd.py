@@ -101,7 +101,7 @@ def rmsd(V, W):
     return np.sqrt(rmsd/N)
 
 
-def get_coordinates(filename, selection, ignore_selection, fmt, ignore_hydrogens, way):
+def get_coordinates(filename, selection, ignore_selection, fmt, ignore_hydrogens, way='all'):
     """Get coordinates from filename."""
     return get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens, way)
 
