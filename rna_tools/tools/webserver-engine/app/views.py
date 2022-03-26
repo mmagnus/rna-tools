@@ -560,17 +560,35 @@ def ajax_job_status(request, job_id, tool=''):
     return JsonResponse({'post':'false'})
 
 def tool(request, tool, job_id):
-    try:
-        j = Job.objects.get(job_id=job_id.replace('/', ''))
-    except:  # DoesNotExist:  @hack
-        return render_to_response('dont_exits.html', RequestContext(request, {
-        }))
-    job_dir = settings.JOBS_PATH + sep + job_id
-    try:
-        with open(job_dir + '/_xxlog.txt') as f:
-            log = f.read()
-    except FileNotFoundError:
+    if not job_id:
+        print('create a job')
+        id = str(uuid.uuid4()).split('-')[0]  # name plus hash
+        j = Job()
+        j.job_id = id
+        j.status = 0
+        print('tools, make:', j)
+        j.save()
+        # create folder
+        try:
+            JOB_PATH = settings.JOBS_PATH + sep + j.job_id
+            umask(0o002)
+            makedirs(JOB_PATH)
+        except OSError:
+            pass
         log = ''
+    else:
+        try:
+            j = Job.objects.get(job_id=job_id.replace('/', ''))
+        except:  # DoesNotExist:  @hack
+            return render_to_response('dont_exits.html', RequestContext(request, {
+            }))
+        job_dir = settings.JOBS_PATH + sep + job_id
+        try:
+            with open(job_dir + '/_xxlog.txt') as f:
+                log = f.read()
+        except FileNotFoundError:
+            log = ''
+
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log,
