@@ -52,6 +52,7 @@
 
         $.ajax({
             url: "/run/calc-rmsd/{{ j.job_id }}",
+	    data: { allvsall: $('#allvsall').is(':checked')},	    
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -121,13 +122,17 @@
     </div>
 </form>
 
+<label class="checkbox" type="checkbox">
+      <input type="checkbox" id="allvsall"> all-vs-all
+</label>
+
     <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
 <p>
-  The RMSD csv output file can be found here  <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/rmsds.csv">rmsd.csv</a>
+  The RMSD csv output file can be found here  <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/rmsds.csv">rmsds.csv</a>
 </a>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
@@ -152,6 +157,14 @@ fn                        rmsd_all
 21_Adamiak_1_rpr.pdb      13.3
 21_ChenHighLig_1_rpr.pdb  12.85
 21_Das_1_rpr.pdb          12.88
+</pre>
+It's also possible to compare all vs all structures to get a matrix (in numpy format) of RMSD values:
+    <pre>
+# 21_3dRNA_1_rpr.pdb 21_Adamiak_1_rpr.pdb 21_ChenHighLig_1_rpr.pdb 21_Das_1_rpr.pdb 
+0.0,13.299,12.851,12.882
+13.299,0.0,3.77,5.161
+12.851,3.77,0.0,4.566
+12.882,5.161,4.566,0.0
 </pre>
 
      <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd">https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd</a>

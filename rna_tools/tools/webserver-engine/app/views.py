@@ -319,16 +319,25 @@ rna_pdb_replace.py %s %s &> log.txt\n
             f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
             #f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
 
+#rmsd
     if tool == 'calc-rmsd':
-        files = glob.glob(job_dir + "/*pdb")
-        files.sort(key=os.path.getmtime)
-        files = [os.path.basename(f) for f in files]
-        with open(job_dir + '/run.sh', 'w') as f:
-             f.write("""
-rna_calc_rmsd.py -t %s %s &> log.txt\n
-""" % (files[0], ' '.join(files[1:])))
-             #f.write('ls *.pdb >> log.txt\n\n')
-             f.write('cat rmsds.csv >> log.txt\n\n')
+        allvsall = request.GET['allvsall'].strip()
+        if allvsall == 'true':
+            with open(job_dir + '/run.sh', 'w') as f:
+                 #f.write("""rna_calc_rmsd_all_vs_all.py -i ../%s -o rmsds.csv -m all-atom &> log.txt\n""" % (job_id))
+                 f.write("""rna_calc_rmsd_all_vs_all.py -i . -o rmsds.csv -m all-atom &> log.txt\n""")# % (job_id))
+                 #f.write('ls *.pdb >> log.txt\n\n')
+                 #f.write('cat rmsds.csv >> log.txt\n\n')
+        else:
+            files = glob.glob(job_dir + "/*pdb")
+            files.sort(key=os.path.getmtime)
+            files = [os.path.basename(f) for f in files]
+            with open(job_dir + '/run.sh', 'w') as f:
+                 f.write("""
+    rna_calc_rmsd.py -t %s %s &> log.txt\n
+    """ % (files[0], ' '.join(files[1:])))
+                 #f.write('ls *.pdb >> log.txt\n\n')
+                 f.write('cat rmsds.csv >> log.txt\n\n')
              
     if tool == 'calc-inf':
         files = glob.glob(job_dir + "/*pdb")
