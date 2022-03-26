@@ -396,8 +396,16 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
 
     with open(job_dir + '/run.sh', 'a') as f:
         f.write("echo 'DONE' >> log.txt")
-        
-    os.system('cd %s && chmod +x run.sh && /bin/bash run.sh && touch ".done" &' % job_dir)
+
+    # add conda at the beginning
+    run = open(job_dir + '/run.sh').read()
+    with open(job_dir + '/run.sh', 'w') as f:
+        f.write('source ~/.zshrc\n')
+        f.write(run)
+    #os.system('cd %s && chmod +x run.sh && /bin/zsh && /bin/zsh source ~/.zshr && /bin/zsh run.sh && touch ".done" &' % job_dir)
+    # sh: 1: source: not found
+    #os.system('cd %s && chmod +x run.sh && /bin/zsh && source ~/.zshrc && /bin/zsh run.sh && touch ".done" &' % job_dir)
+    os.system('cd %s && chmod +x run.sh && /bin/zsh run.sh && touch ".done" &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
 
