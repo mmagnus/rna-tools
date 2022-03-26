@@ -159,6 +159,13 @@ def about(request):
 def help(request):
     return render_to_response('help.html', RequestContext(request, {}))
 
+def notes(request, fn):
+    note = open('snippets/' + fn + '.txt').read()
+    return render_to_response('notes.html', RequestContext(request, {
+                                                                            }))
+def qr(request, fn):
+    f = open('qr/' + fn, "rb")
+    return HttpResponse(f.read(), content_type="image/jpeg")
 
 def contact(request):
     return render_to_response('contact.html', RequestContext(request, {}))
