@@ -160,7 +160,7 @@ def help(request):
     return render_to_response('help.html', RequestContext(request, {}))
 
 def notes(request, fn):
-    note = open('/home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/snippets/' + fn + '.txt').read()
+    note = open('/home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/snippets/' + fn + '.txt', encoding="utf-8").read()
     return render_to_response('notes.html', RequestContext(request, {
         'note' : note}))
 
