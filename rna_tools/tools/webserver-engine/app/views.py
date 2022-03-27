@@ -160,9 +160,10 @@ def help(request):
     return render_to_response('help.html', RequestContext(request, {}))
 
 def notes(request, fn):
-    note = open('snippets/' + fn + '.txt').read()
+    note = open('/home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/snippets/' + fn + '.txt').read()
     return render_to_response('notes.html', RequestContext(request, {
-                                                                            }))
+        'note' : note}))
+
 def qr(request, fn):
     f = open('qr/' + fn, "rb")
     return HttpResponse(f.read(), content_type="image/jpeg")
