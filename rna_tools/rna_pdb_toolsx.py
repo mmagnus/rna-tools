@@ -1114,6 +1114,8 @@ if __name__ == '__main__':
         else:
             print(txt)
             
+    from rna_tools.rna_tools_config import PYMOL_PATH
+    sys.path.insert(0, PYMOL_PATH)
     if args.cif2pdb:
         try:
             from pymol import cmd
@@ -1127,8 +1129,10 @@ if __name__ == '__main__':
         ##################################
         for f in args.file:
             cmd.load(f)
-            cmd.save(f.replace('.cif', '.pdb'), '(all)')
+            fo = f.replace('.cif', '.pdb')
+            cmd.save(fo, '(all)')
             cmd.delete('all')
+            print(fo, 'saved')
             
     if args.pdb2cif:
         try:
@@ -1143,5 +1147,7 @@ if __name__ == '__main__':
         ##################################
         for f in args.file:
             cmd.load(f)
-            cmd.save(f.replace('.pdb', '.cif'), '(all)')
+            fo = f.replace('.pdb', '.cif')
+            cmd.save(fo, '(all)')
             cmd.delete('all')
+            print(fo, 'saved')
