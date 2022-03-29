@@ -17,7 +17,7 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-v', '--verbose', action='store_true')
-    parser.add_argument('file', help='ade.out')
+    parser.add_argument('file', help='ade.out', nargs='+')
     return parser
 
 
@@ -30,15 +30,24 @@ def get_no_structures(file):
     return int(p.stdout.read().strip()) - 1
 
 
-def run():
+def run(f):
     """Pipline for modeling RNA."""
     args = get_parser().parse_args()
-    ns = get_no_structures(args.file)
+    ns = get_no_structures(f)
     if args.verbose:
         print(args.file.ljust(30), end='')
-    print(ns)
+    print(f, ns)
 
 
 # main
 if __name__ == '__main__':
-    run()
+
+
+    parser = get_parser()
+    args = parser.parse_args()
+
+    if list != type(args.file):
+        args.file = [args.file]
+
+    for f in args.file:
+        run(f)
