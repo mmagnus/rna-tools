@@ -2,6 +2,14 @@
 {% block content %}
 <h2>Tools</h2>
 
+
+        <head>
+          <!-- Place your kit's code here -->
+	  <script src="https://kit.fontawesome.com/b777a4376a.js" crossorigin="anonymous"></script>
+        </head>
+
+
+
 <h4>Sequence search</h4>
 <p>
 If you want to model an RNA sequence, search for potential templates in <a href="https://www.rcsb.org/search/advanced">PDB</a> and/or <a href="https://rfam.xfam.org/search#tabview=tab1">RFAM</a>.
@@ -23,66 +31,70 @@ If you want to model an RNA sequence, search for potential templates in <a href=
 </p>
 
 <p>
-  <a href="/tools/secondary-structure/{{ ids.1 }}"><b>Secondary structure prediction</b></a>
+  <a href="/tools/secondary-structure/"><b>Secondary structure prediction</b></a>
 RNA secondary structure prediction are implemented, including RNAsubopt, RNAeval, RNAfold from ViennaRNA, CentroidFold, ContextFold, MC-Fold and IPknot. <span class="label">rna-tools -> online - in progress</span>
 </p>
 
-<h3>RNA 3D structure analysis</h3>
+<h3><i class="fa-brands fa-sistrix"></i> RNA 3D structure analysis</h3>
 <p>The group of tools aims to facilitate analysis of RNA 3D structure.</p>
-<a href="/tools/analysis/{{ ids.2 }}"><b>Analysis with X3DNA</b></a> get statistics and details on PDB files<br>
-<a href="/tools/clarna/{{ ids.17 }}"><b>Analysis with ClaRNA</b></a> get interactions detected for PDB files<br>
-<a href="/tools/seq/{{ ids.4 }}"><b>Get sequences</b></a> get sequences of a bunch of PDB files<br>
-<a href="/tools/ss/{{ ids.5 }}"><b>Get secondary structures</b></a> get secondary structures of a bunch of PDB files</br>
+<i class="fa-brands fa-sistrix"></i> <a href="/tools/analysis/"><b>Analysis with X3DNA</b></a> get statistics and details on PDB files<br>
+<i class="fa-brands fa-sistrix"></i> <a href="/tools/clarna/"><b>Analysis with ClaRNA</b></a> get interactions detected for PDB files<br>
+<i class="fa-solid fa-angle-right"></i> <a href="/tools/seq/"><b>Get sequences</b></a> get sequences of a bunch of PDB files<br>
+<i class="fa-solid fa-bars-staggered"></i> <a href="/tools/ss/"><b>Get secondary structures</b></a> get secondary structures of a bunch of PDB files</br>
 														      
-<h3>RNA 3D structure editing</h3>
+<h3><i class="fa-solid fa-pen-to-square"></i> RNA 3D structure editing</h3>
 <p>The group of tools aims to facilitate operations on RNA 3D structure.</p>
 <p>
-<b><a href="/tools/rpr/{{ ids.3 }}"><b>Standardize PDB files (get-rnapuzzle-ready, "_rpr.pdb")</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format proposed by the RNA-Puzzles community [report and add missing atoms], removes water and ions, keeps only canonical RNA atoms</b> <br>
+  <i class="fa-solid fa-circle-check"></i> <a href="/tools/rpr/"><b>Standardize PDB files (get-rnapuzzle-ready, "_rpr.pdb")</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format proposed by the RNA-Puzzles community [report and add missing atoms], removes water and ions, keeps only canonical RNA atoms</b> <br>
 </p>
 <hr>
 
-<a href="/tools/mdr/{{ ids.14 }}"><b>Standardize PDB files for Molecular Dynamics (get-molecular-dynamics-ready, "_mdr.pdb")</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format used e.g., by openmm [report and add missing atoms], removes water and ions, keeps only canonical RNA atoms<br>
+<i class="fa-regular fa-circle-check"></i> <a href="/tools/mdr/"><b>Standardize PDB files for Molecular Dynamics (get-molecular-dynamics-ready, "_mdr.pdb")</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format used e.g., by openmm [report and add missing atoms], removes water and ions, keeps only canonical RNA atoms<br>
 
 <hr>
 
-<a href="/tools/cat/{{ ids.6 }}"><b>Concatenate</b></a> merge a bunch of PDB files into one file<br>
-<a href="/tools/extract/{{ ids.7 }}"><b>Extract</b></a> extract parts of PDB files<br>
-<a href="/tools/delete/{{ ids.8 }}"><b>Delete</b></a> delete parts of PDB files<br>
-<a href="/tools/h2a/{{ ids.19 }}"><b>Replace</b></a> HETATM with ATOM in PDB files<br>
-<a href="/tools/edit/{{ ids.15 }}"><b>Edit</b></a> edit (not the same as mutate) of PDB files<br>
-<a href="/tools/mutate/{{ ids.9 }}"><b>Mutate</b></a> mutate residues in PDB files<br>
-<a href="/tools/swap/{{ ids.20 }}"><b>Swap chains</b></a> swap names of the chains in PDB files<br>
-<a href="/tools/rpl/{{ ids.21 }}"><b>Replace</b></a> replace XYZ coordinates of one PDB file with XYZ coordinates from another file</br>
+<i class="fa-solid fa-down-left-and-up-right-to-center"></i> <a href="/tools/cat/"><b>Concatenate</b></a> merge a bunch of PDB files into one file<br>
+<i class="fa-solid fa-up-right-from-square"></i> <a href="/tools/extract/"><b>Extract</b></a> extract parts of PDB files<br>
+<i class="fa-solid fa-delete-left"></i> <a href="/tools/delete/"><b>Delete</b></a> delete parts of PDB files<br>
+<i class="fa-solid fa-diagram-successor"></i> <a href="/tools/h2a/"><b>Replace</b></a> HETATM with ATOM in PDB files<br>
+<i class="fa-solid fa-screwdriver"></i> <a href="/tools/edit/"><b>Edit</b></a> edit (not the same as mutate) of PDB files<br>
+<i class="fa-solid fa-wrench"></i> <a href="/tools/mutate/"><b>Mutate</b></a> mutate residues in PDB files<br>
+<i class="fa-solid fa-repeat"></i> <a href="/tools/swap/"><b>Swap chains</b></a> swap names of the chains in PDB files<br>
+<i class="fa-solid fa-syringe"></i> <a href="/tools/rpl/"><b>Replace</b></a> replace XYZ coordinates of one PDB file with XYZ coordinates from another file</br>
 <hr>
 
-<a href="/tools/qrnas/{{ ids.10 }}"><b>Minimize with QRNAS</b></a> minimize PDB files to fix clashes based on QRNAS [this can take up to 1h]</a></span><br>
-<a href="/tools/min/{{ ids.16 }}"><b>Minimize with OpenMM</b></a> minimize PDB files to fix clashes based on OpenMM [this can take up to 1h]
+<h3><i class="fa-brands fa-black-tie"></i></i> Minimize structure</h3>
+(remove steric clashes, optimize bonds)
+</br>
+<i class="fa-solid fa-atom"></i> <a href="/tools/qrnas/"><b>Minimize with QRNAS</b></a> minimize PDB files to fix clashes based on QRNAS [this can take up to 1h]</a></span><br>
+<i class="fa-solid fa-atom"></i> <a href="/tools/min/"><b>Minimize with OpenMM</b></a> minimize PDB files to fix clashes based on OpenMM [this can take up to 1h]
 
 <!--
 <a href="/tools/analysis/{{ ids.4 }}"><b>PDB to mmCIF</b></a><br>
 -->
 
-<h3>RNA 3D structures comparison</h3>
+<h3><i class="fa-solid fa-code-compare"></i> RNA 3D structures comparison</h3>
 
-<a href="/tools/diffpdb/{{ ids.11 }}"><b>diffpdb</b></a> it is a simple tool to compare two files of PDB format to identify the difference in the annotation of atoms, missing atoms, missing fragments<br>
+<i class="fa-solid fa-code-compare"></i> <a href="/tools/diffpdb/"><b>diffpdb</b></a> it is a simple tool to compare two files of PDB format to identify the difference in the annotation of atoms, missing atoms, missing fragments<br>
 
-<a href="/tools/calc-rmsd/{{ ids.12 }}"><b>Calculate Root Mean Square Deviation (RMSD)</b></a>
+<i class="fa-solid fa-circle-nodes"></i> <a href="/tools/calc-rmsd/"><b>Calculate Root Mean Square Deviation (RMSD)</b></a>
 RMSD is the measure of the average distance between the atoms of superimposed RNAs (also proteins etc.). This is a simple, geometrical measure.<br>
 
-<a href="/tools/calc-inf/{{ ids.13 }}"><b>Calculate Network Interaction Fidelity (INF)</b></a>
+<i class="fa-brands fa-connectdevelop"></i> <a href="/tools/calc-inf/"><b>Calculate Network Interaction Fidelity (INF)</b></a>
 INF is the measure specific for RNA molecules. RNAs are represented by network of interactions, and the closes two networks of interactions of two molecules are similar, the higher INF.<br>
 
-<h3>RNA 3D model quality assessment</h3>
+<h3><i class="fa-solid fa-award"></i> RNA 3D model quality assessment</h3>
 
-<a href="/tools/assess/{{ ids.18 }}"><b>Assess</b></a> tools to assess how good are the models obtained from modeling</span><br>
+<i class="fa-solid fa-award"></i> <a href="/tools/assess/"><b>Assess</b></a> tools to assess how good are the models obtained from modeling</span><br>
 
-<h3>RNA 3D modeling [External servers]</h3>
+<h3><i class="fa-solid fa-arrow-up-right-from-square"></i> RNA 3D modeling [External servers]</h3>
 <p><i>De novo</i> modeling (not based on fragments taken from the PDB database, usually better for modeling new folds, modeling structures without homologs with known structures)</p>
-<a target="_new" href="https://genesilico.pl/SimRNAweb/submit"><h4>SimRNAweb</h4></a>
+<a target="_new" href="https://genesilico.pl/SimRNAweb/submit"><h4><i class="fa-solid fa-arrow-up-right-from-square"></i> SimRNAweb</h4></a>
+
 <!--<a target="_new" href="http://genesilico.pl/NPDock/submit"><h4>RNA-protein complex modeling with NPDock</h4>-->
-  <a target="_new" href="https://rosie.graylab.jhu.edu/stepwise/submit"><h4>Rosetta Stepwise Monte Carlo Protocol</h4></a>
+ <a target="_new" href="https://rosie.graylab.jhu.edu/stepwise/submit"><h4><i class="fa-solid fa-arrow-up-right-from-square"></i> Rosetta Stepwise Monte Carlo Protocol</h4></a>
   <p>Fragment-based modeling (fragments taken from the PDB database, usually better for modeling with close homologs with known structures)</p>
-<a target="_new" href="https://rnacomposer.cs.put.poznan.pl"><h4>RNAComposer</h4></a>
+<a target="_new" href="https://rnacomposer.cs.put.poznan.pl"><h4><i class="fa-solid fa-arrow-up-right-from-square"></i> RNAComposer</h4></a> The RNAComposer system offers a new user-friendly approach to the fully automated prediction of large RNA 3D structures. The method is based on the machine translation principle and operates on the RNA FRABASE database acting as the dictionary relating RNA secondary structure and tertiary structure elements.
 
 <hr>
 

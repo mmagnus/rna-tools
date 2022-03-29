@@ -121,7 +121,7 @@ if __name__ == '__main__':
     t = '# '
     for r1 in models:
         # print r1,
-        t += str(r1) + ' '
+        t += os.path.basename(r1) + ' '
     # print
     t += '\n'
 
@@ -134,9 +134,10 @@ if __name__ == '__main__':
                 rmsd_curr = calc_rmsd_pymol(r1, r2, 'fit')[0] # (0.0, 0)                
             else:
                 rmsd_curr = calc_rmsd(r1, r2)
-            t += str(round(rmsd_curr, 3)) + ' '
+            t += str(round(rmsd_curr, 3)) + ','
         print('...', c, r1)
         c += 1
+        t = t[:-1] # remove ending ,
         t += '\n'
 
     f.write(t)

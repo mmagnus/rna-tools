@@ -91,6 +91,7 @@ X3DNA_FP=""
 
 baRNAba_data_PATH = ''
 
+PYMOL_PATH = '/usr/lib/python3/dist-packages/'
 # https://docs.python.org/3/library/configparser.html
 # based on config
 ## def is_int(s):
@@ -116,3 +117,4 @@ except: # FileNotFoundError: noooot perfect!
     pass
 # for cruel testing
 # print(DIFF_TOOL, '\n', VARNA_PATH) # globals()
+

@@ -159,6 +159,14 @@ def about(request):
 def help(request):
     return render_to_response('help.html', RequestContext(request, {}))
 
+def notes(request, fn):
+    note = open('/home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/snippets/' + fn + '.txt', encoding="utf-8").read()
+    return render_to_response('notes.html', RequestContext(request, {
+        'note' : note}))
+
+def qr(request, fn):
+    f = open('qr/' + fn, "rb")
+    return HttpResponse(f.read(), content_type="image/jpeg")
 
 def contact(request):
     return render_to_response('contact.html', RequestContext(request, {}))
@@ -312,16 +320,25 @@ rna_pdb_replace.py %s %s &> log.txt\n
             f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
             #f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
 
+#rmsd
     if tool == 'calc-rmsd':
-        files = glob.glob(job_dir + "/*pdb")
-        files.sort(key=os.path.getmtime)
-        files = [os.path.basename(f) for f in files]
-        with open(job_dir + '/run.sh', 'w') as f:
-             f.write("""
-rna_calc_rmsd.py -t %s %s &> log.txt\n
-""" % (files[0], ' '.join(files[1:])))
-             #f.write('ls *.pdb >> log.txt\n\n')
-             f.write('cat rmsds.csv >> log.txt\n\n')
+        allvsall = request.GET['allvsall'].strip()
+        if allvsall == 'true':
+            with open(job_dir + '/run.sh', 'w') as f:
+                 #f.write("""rna_calc_rmsd_all_vs_all.py -i ../%s -o rmsds.csv -m all-atom &> log.txt\n""" % (job_id))
+                 f.write("""rna_calc_rmsd_all_vs_all.py -i . -o rmsds.csv -m all-atom &> log.txt\n""")# % (job_id))
+                 #f.write('ls *.pdb >> log.txt\n\n')
+                 #f.write('cat rmsds.csv >> log.txt\n\n')
+        else:
+            files = glob.glob(job_dir + "/*pdb")
+            files.sort(key=os.path.getmtime)
+            files = [os.path.basename(f) for f in files]
+            with open(job_dir + '/run.sh', 'w') as f:
+                 f.write("""
+    rna_calc_rmsd.py -t %s %s &> log.txt\n
+    """ % (files[0], ' '.join(files[1:])))
+                 #f.write('ls *.pdb >> log.txt\n\n')
+                 f.write('cat rmsds.csv >> log.txt\n\n')
              
     if tool == 'calc-inf':
         files = glob.glob(job_dir + "/*pdb")
@@ -396,8 +413,16 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
 
     with open(job_dir + '/run.sh', 'a') as f:
         f.write("echo 'DONE' >> log.txt")
-        
-    os.system('cd %s && chmod +x run.sh && /bin/bash run.sh && touch ".done" &' % job_dir)
+
+    # add conda at the beginning
+    run = open(job_dir + '/run.sh').read()
+    with open(job_dir + '/run.sh', 'w') as f:
+        f.write('source ~/.env\n')
+        f.write(run)
+    #os.system('cd %s && chmod +x run.sh && /bin/zsh && /bin/zsh source ~/.zshr && /bin/zsh run.sh && touch ".done" &' % job_dir)
+    # sh: 1: source: not found
+    #os.system('cd %s && chmod +x run.sh && /bin/zsh && source ~/.zshrc && /bin/zsh run.sh && touch ".done" &' % job_dir)
+    os.system('cd %s && chmod +x run.sh && /bin/zsh run.sh && touch ".done" &' % job_dir)
     j.status = JOB_STATUSES['running']
     j.save()
 
@@ -545,17 +570,35 @@ def ajax_job_status(request, job_id, tool=''):
     return JsonResponse({'post':'false'})
 
 def tool(request, tool, job_id):
-    try:
-        j = Job.objects.get(job_id=job_id.replace('/', ''))
-    except:  # DoesNotExist:  @hack
-        return render_to_response('dont_exits.html', RequestContext(request, {
-        }))
-    job_dir = settings.JOBS_PATH + sep + job_id
-    try:
-        with open(job_dir + '/_xxlog.txt') as f:
-            log = f.read()
-    except FileNotFoundError:
+    if not job_id:
+        print('create a job')
+        id = str(uuid.uuid4()).split('-')[0]  # name plus hash
+        j = Job()
+        j.job_id = id
+        j.status = 0
+        print('tools, make:', j)
+        j.save()
+        # create folder
+        try:
+            JOB_PATH = settings.JOBS_PATH + sep + j.job_id
+            umask(0o002)
+            makedirs(JOB_PATH)
+        except OSError:
+            pass
         log = ''
+    else:
+        try:
+            j = Job.objects.get(job_id=job_id.replace('/', ''))
+        except:  # DoesNotExist:  @hack
+            return render_to_response('dont_exits.html', RequestContext(request, {
+            }))
+        job_dir = settings.JOBS_PATH + sep + job_id
+        try:
+            with open(job_dir + '/_xxlog.txt') as f:
+                log = f.read()
+        except FileNotFoundError:
+            log = ''
+
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log,

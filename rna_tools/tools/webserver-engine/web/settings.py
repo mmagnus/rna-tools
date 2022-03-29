@@ -77,8 +77,9 @@ STATIC_ROOT = PATH + '/app/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/' + server_name_py + '/static/'
+STATIC_URL = '/static/' # '/' + server_name_py + '/static/'
 #STATIC_URL = 'static/'
+
 
 # Additional locations of static files
 STATICFILES_DIRS = (
