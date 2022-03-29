@@ -4,8 +4,14 @@
 
 Example::
 
-     $ rna_rosetta_n.py ade.out
-     21594
+    $ rna_rosetta_n.py ade.out
+    21594
+
+    $ rna_rosetta_n.py *out
+    default.out 100
+    default1.out 200
+    default2.out 200
+    default3.out 100
 
 """
 from __future__ import print_function
