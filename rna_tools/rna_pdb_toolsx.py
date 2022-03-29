@@ -154,7 +154,7 @@ By default:
 
     parser.add_argument('--mutate', help=textwrap.dedent("""mutate residues,
 e.g.,
-      --mutate "A:1A+2A+3A+4A,B:1A"
+      --mutate "A:1a+2a+3a+4a,B:1a"
 to mutate to adenines the first four nucleotides of the chain A
 and the first nucleotide of the chain B"""))
 
@@ -654,6 +654,7 @@ if __name__ == '__main__':
 
             # go over each chain
             # rna_pdb_toolsx.py --mutate 'A:1CB:1G,A:1U+B:1A' CG_AB.pdb > ~/Desktop/a.pdb
+            args.mutate = args.mutate.upper()
             for m in args.mutate.split(','):  # A:1A, B:1A
                 chain, resi_mutate_to = m.strip().split(':')  # A:1A+2C
                 resi_mutate_to_list = resi_mutate_to.split('+')  # A:1A+2C
