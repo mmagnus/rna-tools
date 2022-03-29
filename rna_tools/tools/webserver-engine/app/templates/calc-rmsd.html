@@ -48,11 +48,28 @@
 	})
     };
 
+    function fetch() {
+        $.ajax({
+            url: "/fetch/{{ j.job_id }}",
+	    data: { 
+		    fetch: $("#fetch").val(),
+		  },
+        }
+	      )
+             };
+
+
     function go() {
 
         $.ajax({
             url: "/run/calc-rmsd/{{ j.job_id }}",
-	    data: { allvsall: $('#allvsall').is(':checked')},	    
+	    data: { allvsall: $('#allvsall').is(':checked'),
+		    targetselection: $("#target-selection").val(),
+		    modelselection: $("#model-selection").val(),
+
+		    targetignoreselection: $("#target-ignore-selection").val(),
+		    modelignoreselection: $("#model-ignore-selection").val()	
+		  },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -113,6 +130,10 @@
 </div>
 
 <label for="comment">RNA structure (in the PDB format)[first file dropped will be the target file]</label>
+<p>
+ <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:350px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+    <!--http://rna-tools.online/tools/seq/614e0a1b or-->
+</p>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
   {% csrf_token %}
@@ -122,20 +143,58 @@
     </div>
 </form>
 
+<div class="form-group" style="width: 100%;">
+
 <label class="checkbox" type="checkbox">
-      <input type="checkbox" id="allvsall"> all-vs-all
+all-vs-all <input type="checkbox" id="allvsall"> 
 </label>
+
+<div class="form-group" style="width: 100%;">
+<p>
+  target selection: <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target-selection" name="xxx" placeholder="" value=""> </a><small class="hint"> e.g., A:1-17+24-110+115-168</small>
+</p>
+<p>
+  model selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="model-selection" name="xxx" placeholder="" value=""> <small class="hint"> e.g., A:1-17+24-110+115-168</small>
+</p>
+<p> 
+target ignore selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="target-ignore-selection" name="xxx" placeholder="" value=""><small class="hint"> e.g., A/57/O2\'</small>
+</p>
+<p>
+model ignore selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="model-ignore-selection" name="xxx" placeholder="" value=""> <small class="hint">e.g., A/57/O2\'</small>
+</p>
 
     <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
+<!--
+<table id="table_id" class="display compact hover">
+  <thead>
+    <tr>
+      {% for header in headers %}
+      <th>{{ header }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+
+      {% for row in data %}
+      <tr>
+      <td>{{ row.0 }}</td>
+      <td>{{ row.1 }}</td>
+      </tr>      
+      {% endfor %}
+
+  </tbody>
+</table>
+-->
 <p>
   The RMSD csv output file can be found here  <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/rmsds.csv">rmsds.csv</a>
 </a>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+
 
 <small class="hint">
 
@@ -158,6 +217,9 @@ fn                        rmsd_all
 21_ChenHighLig_1_rpr.pdb  12.85
 21_Das_1_rpr.pdb          12.88
 </pre>
+
+<p>     <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd">https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd</a>
+</p>
 It's also possible to compare all vs all structures to get a matrix (in numpy format) of RMSD values:
     <pre>
 # 21_3dRNA_1_rpr.pdb 21_Adamiak_1_rpr.pdb 21_ChenHighLig_1_rpr.pdb 21_Das_1_rpr.pdb 
@@ -167,10 +229,23 @@ It's also possible to compare all vs all structures to get a matrix (in numpy fo
 12.882,5.161,4.566,0.0
 </pre>
 
-     <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd">https://rna-tools.readthedocs.io/en/latest/tools.html#root-mean-square-deviation-rmsd</a>
+<a href="https://rna-tools.readthedocs.io/en/latest/tools.html#rna-calc-rmsd-all-vs-all">https://rna-tools.readthedocs.io/en/latest/tools.html#rna-calc-rmsd-all-vs-all</a>
      
 <small class="hint"></small>
+
+              <script type="text/javascript">
+               $(document).ready( function () {
+                   $('#table_id').DataTable( {
+                       "bSort": false,
+                       "lengthMenu": [[20, 50, -1], [20, 50, "All"]]
+                   } );
+               })
+              </script>
+	      
+
 
 {% endblock %}
 
     
+
+
