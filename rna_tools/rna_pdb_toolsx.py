@@ -15,6 +15,7 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
+-v is for verbose, --version for version ;)
 """
 import argparse
 import textwrap
