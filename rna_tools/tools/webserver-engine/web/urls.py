@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'2coejc8r22i2/(?P<fn>.*)$', 'app.views.notes'),
     url(r'4j6scj6p82zw400/(?P<fn>.*)$', 'app.views.qr'),
 
+    url(r'fetch/(?P<job_id>.*)$','app.views.fetch', name='fetch'),
     url(r'del/(?P<job_id_fn>.*)$','app.views.ajax_rm_file', name='ajax_rm_file'),
     url(r'jobstatus/(?P<job_id>.*)$','app.views.ajax_job_status', name='ajax_job_status'),
     url(r'download_project_dir/(?P<job_id>.*)$','app.views.download_project_dir', name='download_project_dir'),

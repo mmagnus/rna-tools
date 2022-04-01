@@ -453,6 +453,15 @@ def file_upload(request, job_id):
                 destination.write(chunk)
     return JsonResponse({'post':'false'})
 
+def fetch(request, job_id):
+    fetch = request.GET['fetch'].strip()
+    src = settings.JOBS_PATH + sep + fetch
+    dst = settings.JOBS_PATH + sep + job_id
+    #f = settings.JOBS_PATH + sep + job_id
+    cmd = 'cp -v %s/*.pdb %s' % (src, dst)
+    os.system(cmd)
+    return JsonResponse({'post':'false'})
+
 
 def ajax_rm_file(rquest, job_id_fn):
     f = settings.JOBS_PATH + sep + job_id_fn
