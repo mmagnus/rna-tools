@@ -34,8 +34,15 @@ if __name__ == '__main__':
     if list != type(args.file):
         args.file = [args.file]
 
-    print('id,fn,dfire')
+    t = 'id,fn,dfire'
+    print(t)
+    t += '\n'
     for i, f in enumerate(args.file):
             wrapper = Dfire()
             result = wrapper.run(f, args.verbose)
-            print(','.join([str(i + 1), os.path.basename(f), str(result)]))
+            tl = ','.join([str(i + 1), os.path.basename(f), str(result)])
+            print(tl)
+            t += tl + '\n'
+
+    with open('dfire.csv', 'w') as f:
+        f.write(t)

@@ -82,13 +82,13 @@
     </div>
 </form>
 
-    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
+    <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
   <button onclick="go()" class="btn btn-large btn-success">Run!</button>
 </p>
 <p>
-  The csv with scores can be found here  <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/mq_sorted_rasp_all.csv">mq_sorted_rasp_all.csv</a>
+  The csv with scores sorted from the best to the worst can be found here: for RASP <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/rasp_sorted_rasp_all.csv">rasp_sorted_rasp_all.csv</a> and Dfire <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/dfire_sorted_dfire.csv">dfire_sorted_dfire.csv</a>
 </a>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
