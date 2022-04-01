@@ -184,6 +184,14 @@ def demo(request, tool, job_id):
     job_dir = settings.JOBS_PATH + sep + job_id + '/'
     p = settings.PATH + '/app/static/app/demo/'
     #demo
+    if tool == 'topdb':
+        f = '1xjr.cif'
+        shutil.copyfile(p + f, job_dir + f)        
+
+    if tool == 'tocif':
+        f = '1xjr.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
+
     if tool in ['qrnas']:
         f = 'MissingAtomsAdded_rpr.pdb' # tetraloop_mdr.pdb'
         shutil.copyfile(p + f, job_dir + f)        
@@ -271,7 +279,15 @@ rna_pdb_replace.py %s %s &> log.txt\n
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-ss *.pdb &> log.txt\n')
+
+    if tool == 'tocif':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_pdb_toolsx.py --pdb2cif *.pdb > log.txt\n\n')
              
+    if tool == 'topdb':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_pdb_toolsx.py --cif2pdb *.cif > log.txt\n\n')
+
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_x3dna.py -l *.pdb &> log.txt\n')
