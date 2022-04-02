@@ -1,3 +1,9 @@
+"""
+Example::
+
+   from rna_tools.rna_tools_config import PYMOL_PATH
+
+"""
 import configparser
 import os
 import pathlib
