@@ -147,27 +147,20 @@ Take a tour http://mmagnus.github.io/rna-tools/#/
 ## rna_pdb_toolsx.py
 
 ```
-usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
-                         [--renum-atoms] [--renum-nmr]
-                         [--renum-residues-dirty] [--undo] [--delete-anisou]
-                         [--fix] [--to-mol2] [--split-alt-locations] [-c]
-                         [--is-pdb] [--is-nmr] [--nmr-dir NMR_DIR] [--un-nmr]
-                         [--orgmode] [--get-chain GET_CHAIN] [--fetch]
-                         [--fetch-ba] [--get-seq] [--color-seq]
-                         [--ignore-files IGNORE_FILES] [--compact]
-                         [--hide-warnings] [--get-ss] [--rosetta2generic]
-                         [--no-hr] [--renumber-residues]
-                         [--dont-rename-chains] [--dont-fix-missing-atoms]
-                         [--inspect] [--collapsed-view] [--cv] [-v]
-                         [--mutate MUTATE] [--edit EDIT]
-                         [--rename-chain RENAME_CHAIN]
-                         [--swap-chains SWAP_CHAINS] [--set-chain SET_CHAIN]
-                         [--replace-chain REPLACE_CHAIN] [--delete DELETE]
-                         [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
-                         [--uniq UNIQ] [--chain-first] [--oneline] [--fasta]
-                         [--cif2pdb] [--pdb2cif] [--get-rnapuzzle-ready]
-                         [--rpr] [--keep-hetatm] [--inplace] [--suffix SUFFIX]
-                         [--replace-hetatm] [--dont-report-missing-atoms]
+usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar] [--renum-atoms] [--renum-nmr]
+                         [--renum-residues-dirty] [--undo] [--delete-anisou] [--fix] [--to-mol2]
+                         [--split-alt-locations] [-c] [--is-pdb] [--is-nmr] [--nmr-dir NMR_DIR]
+                         [--un-nmr] [--orgmode] [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
+                         [--fetch-chain] [--get-seq] [--color-seq] [--ignore-files IGNORE_FILES]
+                         [--compact] [--hide-warnings] [--get-ss] [--rosetta2generic] [--no-hr]
+                         [--renumber-residues] [--dont-rename-chains] [--dont-fix-missing-atoms]
+                         [--inspect] [--collapsed-view] [--cv] [-v] [--mutate MUTATE] [--edit EDIT]
+                         [--rename-chain RENAME_CHAIN] [--swap-chains SWAP_CHAINS]
+                         [--set-chain SET_CHAIN] [--replace-chain REPLACE_CHAIN] [--delete DELETE]
+                         [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN] [--uniq UNIQ]
+                         [--chain-first] [--oneline] [--replace-htm] [--fasta] [--cif2pdb] [--pdb2cif]
+                         [--mdr] [--get-rnapuzzle-ready] [--rpr] [--keep-hetatm] [--inplace]
+                         [--suffix SUFFIX] [--replace-hetatm] [--dont-report-missing-atoms]
                          [--backbone-only] [--no-backbone] [--bases-only]
                          file [file ...]
 
@@ -184,6 +177,8 @@ Usage::
     > A:1-61
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
+
+-v is for verbose, --version for version ;)
 
 positional arguments:
   file                  file
@@ -219,6 +214,7 @@ optional arguments:
   --fetch               fetch file from the PDB db, e.g., 1xjr,
                         use 'rp' to fetchthe RNA-Puzzles standardized_dataset [around 100 MB]
   --fetch-ba            fetch biological assembly from the PDB db
+  --fetch-chain         fetch a structure in extract chain, e.g. 6bk8 H
   --get-seq             get seq
   --color-seq           color seq, works with --get-seq
   --ignore-files IGNORE_FILES
@@ -249,7 +245,7 @@ optional arguments:
   -v, --verbose         tell me more what you're doing, please!
   --mutate MUTATE       mutate residues,
                         e.g.,
-                              --mutate "A:1A+2A+3A+4A,B:1A"
+                              --mutate "A:1a+2a+3a+4a,B:1a"
                         to mutate to adenines the first four nucleotides of the chain A
                         and the first nucleotide of the chain B
   --edit EDIT           edit 'A:6>B:200', 'A:2-7>B:2-7'
@@ -275,6 +271,7 @@ optional arguments:
                         A:1-45 57-71   GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCGCCGCCCGCCUGGGC # solution
   --chain-first
   --oneline
+  --replace-htm
   --fasta               with --get-seq, show sequences in fasta format,
                         can be combined with --compact (mind, chains will be separated with ' ' in one line)
                         
@@ -284,6 +281,7 @@ optional arguments:
                         
   --cif2pdb             [PyMOL Python package required]
   --pdb2cif             [PyMOL Python package required]
+  --mdr                 get structures ready for MD (like rpr but without first)
 
 RNAPUZZLE-READY:
   --get-rnapuzzle-ready
