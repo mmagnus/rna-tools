@@ -38,7 +38,8 @@
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id tool='qrnas' %}",
             success: function(d) {
-                $("#log_txt").html(d['log']);
+		if ($('#log_txt').html().length != d['log'].length ) {
+                    $("#log_txt").html(d['log']);}
                 if (d['reload']==true){
                     window.location.reload()
                 }
