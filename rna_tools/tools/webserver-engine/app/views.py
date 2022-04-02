@@ -343,21 +343,48 @@ rna_pdb_replace.py %s %s &> log.txt\n
     if tool == 'calc-rmsd':
         allvsall = request.GET['allvsall'].strip()
         if allvsall == 'true':
+            
             with open(job_dir + '/run.sh', 'w') as f:
                  #f.write("""rna_calc_rmsd_all_vs_all.py -i ../%s -o rmsds.csv -m all-atom &> log.txt\n""" % (job_id))
                  f.write("""rna_calc_rmsd_all_vs_all.py -i . -o rmsds.csv -m all-atom &> log.txt\n""")# % (job_id))
                  #f.write('ls *.pdb >> log.txt\n\n')
                  #f.write('cat rmsds.csv >> log.txt\n\n')
         else:
+
+            target = request.GET['target'].strip()
+            targetselection = request.GET['targetselection'].strip()
+            modelselection = request.GET['modelselection'].strip()
+            targetignoreselection = request.GET['targetignoreselection'].strip()
+            modelignoreselection = request.GET['modelignoreselection'].strip()
+
+            if targetselection:
+                targetselection = " --target-selection " + targetselection
+                
+            if modelselection:
+                modelselection = " --model-selection " + modelselection
+
+            if targetignoreselection:
+                targetignoreselection = " --target-ignore-selection " + targetignoreselection
+
+            if modelignoreselection:
+                modelignoreselection = " --model-ignore-selection " + modelignoreselection
+
             files = glob.glob(job_dir + "/*pdb")
             files.sort(key=os.path.getmtime)
             files = [os.path.basename(f) for f in files]
+
+            if not target:
+                target = files[0]
+                files = files[1:]                
+            else:
+                files.remove(target)
+
             with open(job_dir + '/run.sh', 'w') as f:
                  f.write("""
-    rna_calc_rmsd.py -t %s %s &> log.txt\n
-    """ % (files[0], ' '.join(files[1:])))
+    rna_calc_rmsd.py -sr -t """ + target + targetselection + modelselection + targetignoreselection + modelignoreselection + """ %s &> log.txt\n
+    """ % ' '.join(files))
                  #f.write('ls *.pdb >> log.txt\n\n')
-                 f.write('cat rmsds.csv >> log.txt\n\n')
+                 #f.write('cat rmsds.csv >> log.txt\n\n')
              
     if tool == 'calc-inf':
         files = glob.glob(job_dir + "/*pdb")
@@ -581,7 +608,54 @@ def ajax_job_status(request, job_id, tool=''):
 
                 print(tool)
                 # response_dict['log'] = log.replace(' ', '&nbsp')
+                if tool in ['calc-rmsd']:
+                    import csv
+                    csv_fp = open(job_dir + '/rmsds.csv', 'r')
+                    reader = csv.DictReader(csv_fp)
+                    headers = [col for col in reader.fieldnames]
+                    headers = ['Filename', 'RMSD']
+                    out = []
+                    for row in reader:
+                        out.append((row['fn'], row['rmsd_all']))
+                    print(out)
 
+                    log += """
+
+    <center>
+    <table id="table_id" class="table display compact hover">
+      <thead>
+         <tr> """
+                    for h in headers:
+                       log += '<th>' + h + '</th>'
+                    log += """
+        </tr>
+      </thead>
+      <tbody>
+"""
+                    for r in out:
+                        print(r)
+                        log += """
+          <tr>
+          <td>""" + r[0] + """</td>
+          <td>"""+ r[1] + """</td>
+          </tr>"""
+                    log += """         
+
+      </tbody>
+    </table>"""
+
+## <script type="text/javascript">
+##     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_ChenHighLig_1_rpr.pdb; color [x00b159]; cartoons only; \
+##     load APPEND {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_Adamiak_1_rpr.pdb;select 2.1; color [xd11141]; cartoons only; frame *;`
+##   jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+## </script>
+## <p><b>Target [green] 21_ChenHighLig_1_rpr.pdb vs Model [red] 21_Adamiak_1_rpr</b></p>
+## </center>
+
+
+## """
+                    log += '<center></br><a href="/tools/%s/%s">Click get JSmol view</a></center>' % (tool, j)
+   
                 if 'DONE' in log:
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
                     j.status = JOB_STATUSES['finished']
@@ -611,6 +685,7 @@ def ajax_job_status(request, job_id, tool=''):
     #else:
     #     return HttpResponse({}) #json.dumps(response_dict), "application/json")
     return JsonResponse({'post':'false'})
+
 
 def tool(request, tool, job_id):
     if not job_id:
@@ -642,8 +717,69 @@ def tool(request, tool, job_id):
         except FileNotFoundError:
             log = ''
 
+    jsmol = ''
+    target = ''
+    topmodel = ''
+    out = ''
+    headers = ''
+    caption = ''
+    if 1:
+    ## try:
+    ##     import csv
+    ##     csv_fp = open(job_dir + '/rmsds.csv', 'r')
+    ##     reader = csv.DictReader(csv_fp)
+    ##     headers = [col for col in reader.fieldnames]
+    ##     headers = ['Filename', 'RMSD']
+    ##     out = []
+    ##     for row in reader:
+    ##         out.append((row['fn'], row['rmsd_all']))
+    ##     print(out)
+        # get target
+
+        # target: 21_Das_1_rpr.pdb
+        try:
+            for l in open(job_dir + '/log.txt', 'r'):
+                if '# target: ' in l:
+                    target = l.replace('# target: ', '')
+        except: # FileNotFoundError:
+            pass
+
+        try:
+            for l in open(job_dir + '/rmsds.csv', 'r'):
+                if '-1.0' in l:
+                    continue
+                if '.pdb' in l:
+                    topmodel = l.split(',')[0] # .replace('# target: ', '')
+                    break
+        except: # FileNotFoundError:
+            pass
+
+        
+        #target = '21_Adamiak_1_rpr.pdb'
+        #topmodel = '21_ChenHighLig_1_rpr.pdb'
+        caption =  '<b>Target [green] ' + target + ' vs Top Model [red] ' + topmodel + '</b>'
+##         jsmol = """
+## <script type="text/javascript">
+##     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_ChenHighLig_1_rpr.pdb; color [x00b159]; cartoons only; \
+##     load APPEND {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_Adamiak_1_rpr.pdb;select 2.1; color [xd11141]; cartoons only; frame *;`
+##   jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+## </script>
+## <p><b>Target [green] 21_ChenHighLig_1_rpr.pdb vs Model [red] 21_Adamiak_1_rpr</b></p>
+## </center>
+## """
+##         jsmol = ''
+    ## except:
+    ##      out = ''
+    ##      headers = ''
+
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log,
-        'tool' : tool,        
+        'tool' : tool,
+        'data' : out,
+        'headers' : headers,
+        'jsmol': jsmol,
+        'target': target,
+        'topmodel' : topmodel,
+        'caption' : caption,
         }))
