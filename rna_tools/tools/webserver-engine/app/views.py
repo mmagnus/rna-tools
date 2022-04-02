@@ -536,24 +536,24 @@ def ajax_job_status(request, job_id, tool=''):
 # LOG
         log = ''
         # http://rna-tools.online/tools/calc-rmsd/
-        log = '<title>%s</title>JOB ID %s <a href="http://rna-tools.online/tools/%s/%s">http://rna-tools.online/tools/%s/%s</a></br>' % (j,j, tool, j, tool, j) + log
+        log = '<title>%s</title>JOB ID %s <a href="http://rna-tools.online/tools/%s/%s">http://rna-tools.online/tools/%s/%s</a><br>' % (j,j, tool, j, tool, j) + log
         if files:
            # FILES
-           log += "</br>"
+           log += "<br>"
            for f in files:
                bf = os.path.basename(f)
                # The raw output files for each step of the pipeline can be found <a href="{{ {{ j.job_id }}.zip">here</a>
                # target="_blank" # for PDB files it open an empty page
                # this is not needed
                size = str(get_file_size(f, SIZE_UNIT.KB)) + ' KB'
-               bfl = size.rjust(10).replace(' ', '&nbsp') + ' <a href="/media/jobs/' + job_id + '/' + bf +'">' + bf + '</a>' # .ljust(60).replace(' ', '&nbsp') 
-               log += '<a class="icon-remove-circle" href="#" onclick="del(\'' + job_id + '/' + bf + '\');"></a> ' +  bfl + '</br>'
-        # log += "</br>== FILES END ==</br>"
+               bfl = size.rjust(10).replace(' ', '&nbsp;') + ' <a href="/media/jobs/' + job_id + '/' + bf +'">' + bf + '</a>' # .ljust(60).replace(' ', '&nbsp') 
+               log += '<a class="icon-remove-circle" href="#" onclick="del(\'' + job_id + '/' + bf + '\');"></a> ' +  bfl + '<br>'
+        # log += "<br>== FILES END ==<br>"
 
         try:
             # SCRIPT
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log += "</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
+                 log += "<br>" + f.read().replace('\n', "<br>")# + "<br>== SCRIPT END ==<br>"
         except FileNotFoundError:
             pass
         
@@ -561,15 +561,15 @@ def ajax_job_status(request, job_id, tool=''):
             log_filename = os.path.join(settings.JOBS_PATH, job_id, 'log.txt')
             with open(log_filename, 'r') as ifile:
                 l = ifile.read()
-                log += re.sub(r"[\n]", "</br>", l)
+                log += re.sub(r"[\n]", "<br>", l)
                 # http://rna-tools.online/tools/calc-rmsd/
                 # http://rna-tools.online/tools/calc-rmsd/
-                # '<title>%s</title><a href="%s">%s</a></br>' % (j,j,j) + log
-                log = log.replace('source ~/.env</br>', '')
+                # '<title>%s</title><a href="%s">%s</a><br>' % (j,j,j) + log
+                log = log.replace('source ~/.env<br>', '')
                 log = log.replace('cat rmsds.csv', '')
                 log = log.replace('PyMOL not running, entering library mode (experimental)', '')
  
-                #log += re.sub(r"^</br>%", "", log)
+                #log += re.sub(r"^<br>%", "", log)
                 # --> Clustering
                 #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
                 # --> Annealing
@@ -581,7 +581,7 @@ def ajax_job_status(request, job_id, tool=''):
 
                 if tool == 'cat': #log
                     log += '</div><pre>RESULTS<br>'
-                    log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a></br>'
+                    log += '<a href="/media/jobs/' + job_id + '/' + job_id  + '.pdb">' + job_id  + '.pdb</a><br>'
                     log += '</pre>'
 
                 if tool in ['extract', 'delete', 'rpr', 'mutate', 'mdr', 'min', 'h2a', 'rpl']:
@@ -590,7 +590,7 @@ def ajax_job_status(request, job_id, tool=''):
                     log += '</div>RESULTS<br>' # <pre
                     if files:
                         for f in files:
-                            log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a></br>'
+                            log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a><br>'
                     log += '</pre>'
 
                 print(tool)
@@ -641,7 +641,8 @@ def ajax_job_status(request, job_id, tool=''):
 
 
 ## """
-                    log += '<center></br><a href="/tools/%s/%s">Click get JSmol view</a></center>' % (tool, j)
+                    log += '<center><br><a href="/tools/%s/%s">Click get JSmol view</a></center>' % (tool, j)
+
    
                 if 'DONE' in log:
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
