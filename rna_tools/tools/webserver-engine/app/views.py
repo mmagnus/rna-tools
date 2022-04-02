@@ -436,7 +436,9 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
     # add conda at the beginning
     run = open(job_dir + '/run.sh').read()
     with open(job_dir + '/run.sh', 'w') as f:
+        #f.write('# <a href="http://rna-tools.online/tools/%s/%s">http://rna-tools.online/tools/%s/%s</a> >> log.txt \n' % (tool, job_id, tool, job_id))
         f.write('source ~/.env\n')
+        # f.write('echo `date` >> log.txt\n') # does not work
         f.write(run)
     #os.system('cd %s && chmod +x run.sh && /bin/zsh && /bin/zsh source ~/.zshr && /bin/zsh run.sh && touch ".done" &' % job_dir)
     # sh: 1: source: not found
