@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """This module contains functions for computing Dfire potential
+
+Installation:
+
+     git clone https://github.com/tcgriffith/dfire_rna.git
+     make
+     # add DFIRE_RNA_HOME to .bashrc
+
 """
 from __future__ import print_function
 import argparse
