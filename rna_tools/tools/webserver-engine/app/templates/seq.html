@@ -24,9 +24,20 @@
         progress_interval = setInterval(checkProgress, 1000);
     });
 
+    function fetch() {
+        $.ajax({
+            url: "/fetch/{{ j.job_id }}",
+	    data: { 
+		    fetch: $("#fetch").val(),
+		  },
+        }
+	      )
+             };
+
+
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -69,9 +80,13 @@
 <div align="right">
   <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Remove All Files</button>
-  <button onclick="javascript:location.reload();" class="btn btn-small btn-ok">Clear DropZone</button>  
+  <button onclick="javascript:location.reload();" class="btn btn-small btn-ok">Reset</button>  
 </div>
 
+<p>
+ <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+    <!--http://rna-tools.online/tools/seq/614e0a1b or-->
+</p>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -83,10 +98,10 @@
     </div>
 </form>
 
-    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
+    <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
+  <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>

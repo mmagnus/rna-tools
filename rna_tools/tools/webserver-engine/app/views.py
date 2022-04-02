@@ -75,26 +75,8 @@ def home(request):
     }))
 
 def tools(request):
-    ids = []
-    for i in range(0, 22):
-        id = str(uuid.uuid4()).split('-')[0]  # name plus hash
-        ids.append(id)
-        j = Job()
-        j.job_id = id
-        j.status = 0
-        print('tools, make:', j)
-        j.save()
-        # create folder
-        try:
-            JOB_PATH = settings.JOBS_PATH + sep + j.job_id
-            umask(0o002)
-            makedirs(JOB_PATH)
-        except OSError:
-            pass
     return render_to_response('tools.html', RequestContext(request, {
-        'ids': ids,
     }))
-
 
 def stop(request, job_id):
     """Stop job based on job_id /stop/<job_id>. Get the job, change status to stopped
@@ -184,6 +166,14 @@ def demo(request, tool, job_id):
     job_dir = settings.JOBS_PATH + sep + job_id + '/'
     p = settings.PATH + '/app/static/app/demo/'
     #demo
+    if tool == 'topdb':
+        f = '1xjr.cif'
+        shutil.copyfile(p + f, job_dir + f)        
+
+    if tool == 'tocif':
+        f = '1xjr.pdb'
+        shutil.copyfile(p + f, job_dir + f)        
+
     if tool in ['qrnas']:
         f = 'MissingAtomsAdded_rpr.pdb' # tetraloop_mdr.pdb'
         shutil.copyfile(p + f, job_dir + f)        
@@ -271,10 +261,18 @@ rna_pdb_replace.py %s %s &> log.txt\n
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
              f.write('rna_pdb_toolsx.py --get-ss *.pdb &> log.txt\n')
+
+    if tool == 'tocif':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_pdb_toolsx.py --pdb2cif *.pdb > log.txt\n\n')
              
+    if tool == 'topdb':
+        with open(job_dir + '/run.sh', 'w') as f:
+             f.write('rna_pdb_toolsx.py --cif2pdb *.cif > log.txt\n\n')
+
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_x3dna.py -l *.pdb &> log.txt\n')
+             f.write('rna_x3dna.py -l *.pdb &>> log.txt\n')
 
     if tool == 'minmd':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -288,9 +286,12 @@ rna_pdb_replace.py %s %s &> log.txt\n
     if tool == 'assess':
         with open(job_dir + '/run.sh', 'w') as f:
              #f.write('rna_mq_collect.py -t RASP *.pdb -m 0 -f -o mq.csv | tee log.txt\n')
-             f.write('rna_mq_rasp.py *.pdb 2>&1 | tee log.txt\n')
-             f.write('rna_csv_sort.py --col rasp_all mq.csv\n')
-             f.write('cat mq_sorted_rasp_all.csv > log.txt\n')
+             f.write('rna_mq_rasp.py *.pdb 2>&1\n')# | tee log.txt\n')
+             f.write('rna_csv_sort.py --col rasp_all rasp.csv\n')
+             f.write('cat rasp_sorted_rasp_all.csv > log.txt\n')
+             f.write('rna_mq_dfire.py *.pdb 2>&1\n')# | tee -a log.txt\n')
+             f.write('rna_csv_sort.py --col dfire dfire.csv\n')
+             f.write('cat dfire_sorted_dfire.csv >> log.txt\n')
             
     if tool == 'seq-search':
         print('run, seq,' + job_id)
@@ -324,21 +325,48 @@ rna_pdb_replace.py %s %s &> log.txt\n
     if tool == 'calc-rmsd':
         allvsall = request.GET['allvsall'].strip()
         if allvsall == 'true':
+            
             with open(job_dir + '/run.sh', 'w') as f:
                  #f.write("""rna_calc_rmsd_all_vs_all.py -i ../%s -o rmsds.csv -m all-atom &> log.txt\n""" % (job_id))
                  f.write("""rna_calc_rmsd_all_vs_all.py -i . -o rmsds.csv -m all-atom &> log.txt\n""")# % (job_id))
                  #f.write('ls *.pdb >> log.txt\n\n')
                  #f.write('cat rmsds.csv >> log.txt\n\n')
         else:
+
+            target = request.GET['target'].strip()
+            targetselection = request.GET['targetselection'].strip()
+            modelselection = request.GET['modelselection'].strip()
+            targetignoreselection = request.GET['targetignoreselection'].strip()
+            modelignoreselection = request.GET['modelignoreselection'].strip()
+
+            if targetselection:
+                targetselection = " --target-selection " + targetselection
+                
+            if modelselection:
+                modelselection = " --model-selection " + modelselection
+
+            if targetignoreselection:
+                targetignoreselection = " --target-ignore-selection " + targetignoreselection
+
+            if modelignoreselection:
+                modelignoreselection = " --model-ignore-selection " + modelignoreselection
+
             files = glob.glob(job_dir + "/*pdb")
             files.sort(key=os.path.getmtime)
             files = [os.path.basename(f) for f in files]
+
+            if not target:
+                target = files[0]
+                files = files[1:]                
+            else:
+                files.remove(target)
+
             with open(job_dir + '/run.sh', 'w') as f:
                  f.write("""
-    rna_calc_rmsd.py -t %s %s &> log.txt\n
-    """ % (files[0], ' '.join(files[1:])))
+    rna_calc_rmsd.py -sr -t """ + target + targetselection + modelselection + targetignoreselection + modelignoreselection + """ %s &> log.txt\n
+    """ % ' '.join(files))
                  #f.write('ls *.pdb >> log.txt\n\n')
-                 f.write('cat rmsds.csv >> log.txt\n\n')
+                 #f.write('cat rmsds.csv >> log.txt\n\n')
              
     if tool == 'calc-inf':
         files = glob.glob(job_dir + "/*pdb")
@@ -417,7 +445,9 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
     # add conda at the beginning
     run = open(job_dir + '/run.sh').read()
     with open(job_dir + '/run.sh', 'w') as f:
+        #f.write('# <a href="http://rna-tools.online/tools/%s/%s">http://rna-tools.online/tools/%s/%s</a> >> log.txt \n' % (tool, job_id, tool, job_id))
         f.write('source ~/.env\n')
+        # f.write('echo `date` >> log.txt\n') # does not work
         f.write(run)
     #os.system('cd %s && chmod +x run.sh && /bin/zsh && /bin/zsh source ~/.zshr && /bin/zsh run.sh && touch ".done" &' % job_dir)
     # sh: 1: source: not found
@@ -437,8 +467,17 @@ def file_upload(request, job_id):
                 destination.write(chunk)
     return JsonResponse({'post':'false'})
 
+def fetch(request, job_id):
+    fetch = request.GET['fetch'].strip()
+    src = settings.JOBS_PATH + sep + fetch
+    dst = settings.JOBS_PATH + sep + job_id
+    #f = settings.JOBS_PATH + sep + job_id
+    cmd = 'cp -v %s/*.pdb %s' % (src, dst)
+    os.system(cmd)
+    return JsonResponse({'post':'false'})
 
-def ajax_rm_file(rquest, job_id_fn):
+
+def ajax_rm_file(request, job_id_fn):
     f = settings.JOBS_PATH + sep + job_id_fn
     os.remove(f)
         
@@ -446,6 +485,7 @@ def ajax_job_status(request, job_id, tool=''):
     job_dir = settings.JOBS_PATH + sep + job_id
     job_id = job_id.replace('/', '')
 
+    print('ajax', job_id, tool)
     #if os.path.exists(job_dir + '/.done'):
     #    #return JsonResponse({'post':'false'})
 
@@ -471,10 +511,10 @@ def ajax_job_status(request, job_id, tool=''):
        size = os.path.getsize(file_name)
        return round(convert_unit(size, size_type), 2)
 
-    try:
-        tool = request.GET['tool']
-    except:
-        tool = ''    
+    #try:
+    #    tool = request.GET['tool']
+    #except:
+    #    tool = ''    
     response_dict = {'reload': False}
 
     if 1:
@@ -490,8 +530,11 @@ def ajax_job_status(request, job_id, tool=''):
         files.sort(key=os.path.getmtime)
 # LOG
         log = ''
+        # http://rna-tools.online/tools/calc-rmsd/
+        log = '<title>%s</title>JOB ID %s <a href="http://rna-tools.online/tools/%s/%s">http://rna-tools.online/tools/%s/%s</a></br>' % (j,j, tool, j, tool, j) + log
         if files:
-           log = "FILES</br>"
+           # FILES
+           log += "</br>"
            for f in files:
                bf = os.path.basename(f)
                # The raw output files for each step of the pipeline can be found <a href="{{ {{ j.job_id }}.zip">here</a>
@@ -503,8 +546,9 @@ def ajax_job_status(request, job_id, tool=''):
         # log += "</br>== FILES END ==</br>"
 
         try:
+            # SCRIPT
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
+                 log += "</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
             pass
         
@@ -513,6 +557,13 @@ def ajax_job_status(request, job_id, tool=''):
             with open(log_filename, 'r') as ifile:
                 l = ifile.read()
                 log += re.sub(r"[\n]", "</br>", l)
+                # http://rna-tools.online/tools/calc-rmsd/
+                # http://rna-tools.online/tools/calc-rmsd/
+                # '<title>%s</title><a href="%s">%s</a></br>' % (j,j,j) + log
+                log = log.replace('source ~/.env</br>', '')
+                log = log.replace('cat rmsds.csv', '')
+                log = log.replace('PyMOL not running, entering library mode (experimental)', '')
+ 
                 #log += re.sub(r"^</br>%", "", log)
                 # --> Clustering
                 #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
@@ -537,8 +588,56 @@ def ajax_job_status(request, job_id, tool=''):
                             log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a></br>'
                     log += '</pre>'
 
+                print(tool)
                 # response_dict['log'] = log.replace(' ', '&nbsp')
+                if tool in ['calc-rmsd']:
+                    import csv
+                    csv_fp = open(job_dir + '/rmsds.csv', 'r')
+                    reader = csv.DictReader(csv_fp)
+                    headers = [col for col in reader.fieldnames]
+                    headers = ['Filename', 'RMSD']
+                    out = []
+                    for row in reader:
+                        out.append((row['fn'], row['rmsd_all']))
+                    print(out)
 
+                    log += """
+
+    <center>
+    <table id="table_id" class="table display compact hover">
+      <thead>
+         <tr> """
+                    for h in headers:
+                       log += '<th>' + h + '</th>'
+                    log += """
+        </tr>
+      </thead>
+      <tbody>
+"""
+                    for r in out:
+                        print(r)
+                        log += """
+          <tr>
+          <td>""" + r[0] + """</td>
+          <td>"""+ r[1] + """</td>
+          </tr>"""
+                    log += """         
+
+      </tbody>
+    </table>"""
+
+## <script type="text/javascript">
+##     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_ChenHighLig_1_rpr.pdb; color [x00b159]; cartoons only; \
+##     load APPEND {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_Adamiak_1_rpr.pdb;select 2.1; color [xd11141]; cartoons only; frame *;`
+##   jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+## </script>
+## <p><b>Target [green] 21_ChenHighLig_1_rpr.pdb vs Model [red] 21_Adamiak_1_rpr</b></p>
+## </center>
+
+
+## """
+                    log += '<center></br><a href="/tools/%s/%s">Click get JSmol view</a></center>' % (tool, j)
+   
                 if 'DONE' in log:
                     j = Job.objects.get(job_id=job_id.replace('/', ''))
                     j.status = JOB_STATUSES['finished']
@@ -568,6 +667,7 @@ def ajax_job_status(request, job_id, tool=''):
     #else:
     #     return HttpResponse({}) #json.dumps(response_dict), "application/json")
     return JsonResponse({'post':'false'})
+
 
 def tool(request, tool, job_id):
     if not job_id:
@@ -599,8 +699,69 @@ def tool(request, tool, job_id):
         except FileNotFoundError:
             log = ''
 
+    jsmol = ''
+    target = ''
+    topmodel = ''
+    out = ''
+    headers = ''
+    caption = ''
+    if 1:
+    ## try:
+    ##     import csv
+    ##     csv_fp = open(job_dir + '/rmsds.csv', 'r')
+    ##     reader = csv.DictReader(csv_fp)
+    ##     headers = [col for col in reader.fieldnames]
+    ##     headers = ['Filename', 'RMSD']
+    ##     out = []
+    ##     for row in reader:
+    ##         out.append((row['fn'], row['rmsd_all']))
+    ##     print(out)
+        # get target
+
+        # target: 21_Das_1_rpr.pdb
+        try:
+            for l in open(job_dir + '/log.txt', 'r'):
+                if '# target: ' in l:
+                    target = l.replace('# target: ', '')
+        except: # FileNotFoundError:
+            pass
+
+        try:
+            for l in open(job_dir + '/rmsds.csv', 'r'):
+                if '-1.0' in l:
+                    continue
+                if '.pdb' in l:
+                    topmodel = l.split(',')[0] # .replace('# target: ', '')
+                    break
+        except: # FileNotFoundError:
+            pass
+
+        
+        #target = '21_Adamiak_1_rpr.pdb'
+        #topmodel = '21_ChenHighLig_1_rpr.pdb'
+        caption =  '<b>Target [green] ' + target + ' vs Top Model [red] ' + topmodel + '</b>'
+##         jsmol = """
+## <script type="text/javascript">
+##     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_ChenHighLig_1_rpr.pdb; color [x00b159]; cartoons only; \
+##     load APPEND {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_Adamiak_1_rpr.pdb;select 2.1; color [xd11141]; cartoons only; frame *;`
+##   jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+## </script>
+## <p><b>Target [green] 21_ChenHighLig_1_rpr.pdb vs Model [red] 21_Adamiak_1_rpr</b></p>
+## </center>
+## """
+##         jsmol = ''
+    ## except:
+    ##      out = ''
+    ##      headers = ''
+
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log,
-        'tool' : tool,        
+        'tool' : tool,
+        'data' : out,
+        'headers' : headers,
+        'jsmol': jsmol,
+        'target': target,
+        'topmodel' : topmodel,
+        'caption' : caption,
         }))

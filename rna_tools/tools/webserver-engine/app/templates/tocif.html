@@ -26,8 +26,7 @@
 
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id tool='h2a' %}",
-            data: { tool: '{{ tool }}' },
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='tocif' %}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -59,7 +58,7 @@
 	})
     };
 
-   function go() {
+    function go() {
 
         $.ajax({
             url: "/run/{{ tool }}/{{ j.job_id }}",
@@ -73,8 +72,9 @@
     };
 
 </script>
-    
-<h2>Replace HETATM to ATOM in PDB files</h2>
+
+<h2>To CIF</h2>
+
 
 <div align="right">
   <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
@@ -87,7 +87,7 @@
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
 
-<label for="comment">RNA structure (in the PDB format)</label>
+<label for="comment">Covert PDB files to CIF</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
   {% csrf_token %}
@@ -100,12 +100,9 @@
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-    <button onclick="go()" class="btn btn-success">Run!</button>
+  <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
-<p>
-  The raw concatenated file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb">here</a>.
-</p>
-															       
+
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
 <small class="hint">
@@ -113,8 +110,11 @@
   <p>
     <h5>Documentation</h5>
   </p>
-  Simple procedure to concatenate files.
-  
-  <small class="hint"></small>
+     <p>
+
+As only a limited number of chains and atoms can be deposited in the PDB format, the mmCIF format has been introduced to provide an alternative way to save structures. As the predicted RNA structures are normally within the capability of the PDB format, this format is still used in the RNA-Puzzles community. Moreover, many tools available in the field of RNA 3D bioinformatics still are using the PDB format and likely will not be updated for the mmCIF format. Thus, we decided to provide a web application to convert mmCIF format to PDB format (“Convert CIF files to PDB”) and reverse (“Convert PDB files to CIF”). These two tools are based on the open-source version of PyMOL.
+
+    <small class="hint"></small>
 
 {% endblock %}
+

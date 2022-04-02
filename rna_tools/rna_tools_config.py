@@ -1,3 +1,9 @@
+"""
+Example::
+
+   from rna_tools.rna_tools_config import PYMOL_PATH
+
+"""
 import configparser
 import os
 import pathlib
@@ -54,7 +60,7 @@ BIN_PATH = "/opt/homebrew/bin/"
 
 WRAPPERS_PATH = RT + "/rna_tools/tools/mq/"
 
-dfire_PATH = ""      # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/dfire_rna/"
+dfire_PATH = RT + "/opt/dfire_rna/"      # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/dfire_rna/"
 
 RNA3DCNN_PATH=""     # "/Users/magnus/work/papers/mqaprna/mqaprna_env/mqapRNA/opt/RNA3DCNN"
 PYTHON3_PATH=""      # "/Users/magnus/miniconda2/envs/py37/bin/python"

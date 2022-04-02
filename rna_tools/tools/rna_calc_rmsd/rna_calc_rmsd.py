@@ -338,6 +338,7 @@ if __name__ == '__main__':
 
     models = get_rna_models_from_dir(input_files)
 
+    print('# target:', target_fn)
     print('# of models:', len(models))
 
     f = open(rmsds_fn, 'w')
@@ -376,4 +377,4 @@ if __name__ == '__main__':
         print(df)
     df.to_csv(rmsds_fn, sep=',', index=False)  # easy to set \t here!
 
-    print('csv was created! ', rmsds_fn)
+    # print('# csv was created! ', rmsds_fn)

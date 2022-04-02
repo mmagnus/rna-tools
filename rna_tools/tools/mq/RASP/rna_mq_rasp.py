@@ -43,5 +43,6 @@ if __name__ == '__main__':
             tl = ','.join([str(i + 1), os.path.basename(f), str(result[0])])
             print(tl)
             t += tl + '\n'
-    with open('mq.csv', 'w') as f:
+
+    with open('rasp.csv', 'w') as f:
         f.write(t)
