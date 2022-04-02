@@ -476,6 +476,7 @@ def ajax_job_status(request, job_id, tool=''):
     job_dir = settings.JOBS_PATH + sep + job_id
     job_id = job_id.replace('/', '')
 
+    print('ajax', job_id, tool)
     #if os.path.exists(job_dir + '/.done'):
     #    #return JsonResponse({'post':'false'})
 
@@ -501,10 +502,10 @@ def ajax_job_status(request, job_id, tool=''):
        size = os.path.getsize(file_name)
        return round(convert_unit(size, size_type), 2)
 
-    try:
-        tool = request.GET['tool']
-    except:
-        tool = ''    
+    #try:
+    #    tool = request.GET['tool']
+    #except:
+    #    tool = ''    
     response_dict = {'reload': False}
 
     if 1:
@@ -520,8 +521,11 @@ def ajax_job_status(request, job_id, tool=''):
         files.sort(key=os.path.getmtime)
 # LOG
         log = ''
+        # http://rna-tools.online/tools/calc-rmsd/
+        log = '<title>%s</title>JOB ID %s <a href="http://rna-tools.online/tools/%s/%s">http://rna-tools.online/tools/%s/%s</a></br>' % (j,j, tool, j, tool, j) + log
         if files:
-           log = "FILES</br>"
+           # FILES
+           log += "</br>"
            for f in files:
                bf = os.path.basename(f)
                # The raw output files for each step of the pipeline can be found <a href="{{ {{ j.job_id }}.zip">here</a>
@@ -533,8 +537,9 @@ def ajax_job_status(request, job_id, tool=''):
         # log += "</br>== FILES END ==</br>"
 
         try:
+            # SCRIPT
             with open(os.path.join(settings.JOBS_PATH, job_id, 'run.sh')) as f:
-                 log += "SCRIPT</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
+                 log += "</br>" + f.read().replace('\n', "</br>")# + "</br>== SCRIPT END ==</br>"
         except FileNotFoundError:
             pass
         
@@ -543,6 +548,13 @@ def ajax_job_status(request, job_id, tool=''):
             with open(log_filename, 'r') as ifile:
                 l = ifile.read()
                 log += re.sub(r"[\n]", "</br>", l)
+                # http://rna-tools.online/tools/calc-rmsd/
+                # http://rna-tools.online/tools/calc-rmsd/
+                # '<title>%s</title><a href="%s">%s</a></br>' % (j,j,j) + log
+                log = log.replace('source ~/.env</br>', '')
+                log = log.replace('cat rmsds.csv', '')
+                log = log.replace('PyMOL not running, entering library mode (experimental)', '')
+ 
                 #log += re.sub(r"^</br>%", "", log)
                 # --> Clustering
                 #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
@@ -567,6 +579,7 @@ def ajax_job_status(request, job_id, tool=''):
                             log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a></br>'
                     log += '</pre>'
 
+                print(tool)
                 # response_dict['log'] = log.replace(' ', '&nbsp')
 
                 if 'DONE' in log:
