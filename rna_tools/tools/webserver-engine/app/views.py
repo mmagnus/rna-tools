@@ -290,7 +290,7 @@ rna_pdb_replace.py %s %s &> log.txt\n
 
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_x3dna.py -l *.pdb &> log.txt\n')
+             f.write('rna_x3dna.py -l *.pdb &>> log.txt\n')
 
     if tool == 'minmd':
         with open(job_dir + '/run.sh', 'w') as f:
