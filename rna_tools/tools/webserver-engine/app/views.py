@@ -75,26 +75,8 @@ def home(request):
     }))
 
 def tools(request):
-    ids = []
-    for i in range(0, 22):
-        id = str(uuid.uuid4()).split('-')[0]  # name plus hash
-        ids.append(id)
-        j = Job()
-        j.job_id = id
-        j.status = 0
-        print('tools, make:', j)
-        j.save()
-        # create folder
-        try:
-            JOB_PATH = settings.JOBS_PATH + sep + j.job_id
-            umask(0o002)
-            makedirs(JOB_PATH)
-        except OSError:
-            pass
     return render_to_response('tools.html', RequestContext(request, {
-        'ids': ids,
     }))
-
 
 def stop(request, job_id):
     """Stop job based on job_id /stop/<job_id>. Get the job, change status to stopped
