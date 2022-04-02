@@ -468,7 +468,7 @@ def fetch(request, job_id):
     return JsonResponse({'post':'false'})
 
 
-def ajax_rm_file(rquest, job_id_fn):
+def ajax_rm_file(request, job_id_fn):
     f = settings.JOBS_PATH + sep + job_id_fn
     os.remove(f)
         
