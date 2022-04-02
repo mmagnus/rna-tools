@@ -12,12 +12,17 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}app/rto.css" type="text/css" />
     
     <script src="{{ STATIC_URL }}app/bootstrap/js/jquery.js"></script>
+
+    <script src="{{ STATIC_URL }}app/js/jquery-2.1.4.min.js"></script>
+    <script src="{{ STATIC_URL }}app/js/jquery_3.2.1/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}app/js/jquery.dataTables_1.10.15/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}app/css/jquery.dataTables_1.10.15/jquery.dataTables.css">
+
+
     <script src="{{ STATIC_URL }}app/bootstrap/js/bootstrap.js"></script>
     <script src="{{ STATIC_URL }}app/bootstrap-filestyle/src/bootstrap-filestyle.min.js" ></script>
 
     <script src="{{ STATIC_URL }}app/bootstrap-acknowledgeinput.min.js"></script>
-
-    <title>rna-tools.online</title>
 
     <script src="{{ STATIC_URL }}app/dropzone/dropzone.min.js"></script>
     <link rel="stylesheet" href="{{ STATIC_URL }}app/dropzone/dropzone.min.css" type="text/css" />
@@ -108,7 +113,9 @@
         <hr>
 
         <div class="jumbotron">
-
+	  <!--
+	      <div style="color:red; font-size:20px">We're updating this server, please visit in a few hours! @mmagnus</div>
+          -->
 	    {% block content %} {% endblock %}
 
         </div>
@@ -116,4 +123,9 @@
         </div>
     </div> <!-- /container -->
     </body></html>
-
+<script type="text/javascript" src="https://www.termsfeed.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({"notice_banner_type":"simple","consent_type":"implied","palette":"dark","language":"en","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"rna-tools.online","open_preferences_center_selector":"#open_preferences_center"});
+});
+</script>

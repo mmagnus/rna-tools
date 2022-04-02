@@ -31,7 +31,7 @@
 
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='mutate' %}",
             data: { tool: 'mutate' },
             success: function(d) {
                 $("#log_txt").html(d['log']);
@@ -60,6 +60,16 @@
         })
     };
 
+    function fetch() {
+        $.ajax({
+            url: "/fetch/{{ j.job_id }}",
+	    data: { 
+		    fetch: $("#fetch").val(),
+		  },
+        }
+	      )
+             };
+
     function go() {
         $.ajax({
             url: "/run/mutate/{{ j.job_id }}",
@@ -74,8 +84,13 @@
 <div align="right">
   <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Remove All Files</button>
-  <button onclick="javascript:location.reload();" class="btn btn-small btn-ok">Clear DropZone</button>  
+  <button onclick="javascript:location.reload();" class="btn btn-small btn-ok">Reset</button>  
 </div>
+
+<p>
+ <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+    <!--http://rna-tools.online/tools/seq/614e0a1b or-->
+</p>
 
 <label for="comment">RNA structure (in the PDB format)</label>
 
@@ -93,11 +108,11 @@
     <small class="hint">Example: A:1A+2A+3A+4A,B:13A</small>
 </div>
 
-    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
+    <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-  <button onclick="analyze()" class="btn btn-large btn-success">Analyze</button>
-  <button onclick="go()" class="btn btn-large btn-success">Mutate</button>
+  <button onclick="go()" class="btn btn btn-success">Run!</button>
+  <button onclick="analyze()" class="btn btn">Analyze</button>
 </p>
 
     <small class="hint"></small>

@@ -12,7 +12,7 @@
 
 <h4>Sequence search</h4>
 <p>
-If you want to model an RNA sequence, search for potential templates in <a href="https://www.rcsb.org/search/advanced">PDB</a> and/or <a href="https://rfam.xfam.org/search#tabview=tab1">RFAM</a>.
+If you want to model an RNA sequence, search for potential templates in <a href="https://www.rcsb.org/search/advanced">PDB</a> and/or <a href="https://rfam.xfam.org/search#tabview=tab1">RFAM</a>. [External]
 </p>
 <!--
 <p>
@@ -22,18 +22,25 @@ If you want to model an RNA sequence, search for potential templates in <a href=
 <p>
   The <b>Rfam database</b> is a collection of RNA families, each represented by multiple sequence alignments, consensus secondary structures and covariance models  <a href="https://docs.rfam.org/en/latest/about-rfam.html">more</a>
 </p>
--->
+
+
 <span style="color:gray">Web wrappers to this tools are in progress. You can find more on wrappers that you can run in your terminal <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#search">here</a>.</span>
+-->
 
-<h3>RNA secondary structure tools</h3>
+<h4>RNA secondary structure tools</h4>
 <p>
-  The second group of tools aims to facilitate operations on RNA secondary structure.
+  To do RNA secondary structure we recommend to use <a href="http://rna.tbi.univie.ac.at/cgi-bin/RNAWebSuite/RNAfold.cgi">RNAfold</a>. [External]
 </p>
-
+<!--
 <p>
   <a href="/tools/secondary-structure/"><b>Secondary structure prediction</b></a>
 RNA secondary structure prediction are implemented, including RNAsubopt, RNAeval, RNAfold from ViennaRNA, CentroidFold, ContextFold, MC-Fold and IPknot. <span class="label">rna-tools -> online - in progress</span>
 </p>
+-->
+
+<h3><i class="fa-brands fa-sistrix"></i> RNA 3D structure conversion from CIF to PDB</h3>
+<i class="fa-brands fa-sistrix"></i> <a href="/tools/tocif/"><b>Convert CIF files to PDB</b></a><br>
+<i class="fa-brands fa-sistrix"></i> <a href="/tools/topdb/"><b>Convert PDB files to CIF</b></a><br>
 
 <h3><i class="fa-brands fa-sistrix"></i> RNA 3D structure analysis</h3>
 <p>The group of tools aims to facilitate analysis of RNA 3D structure.</p>
@@ -42,16 +49,15 @@ RNA secondary structure prediction are implemented, including RNAsubopt, RNAeval
 <i class="fa-solid fa-angle-right"></i> <a href="/tools/seq/"><b>Get sequences</b></a> get sequences of a bunch of PDB files<br>
 <i class="fa-solid fa-bars-staggered"></i> <a href="/tools/ss/"><b>Get secondary structures</b></a> get secondary structures of a bunch of PDB files</br>
 														      
-<h3><i class="fa-solid fa-pen-to-square"></i> RNA 3D structure editing</h3>
-<p>The group of tools aims to facilitate operations on RNA 3D structure.</p>
+<h3><i class="fa-solid fa-circle-check"></i> RNA 3D structure standardization</h3>
 <p>
   <i class="fa-solid fa-circle-check"></i> <a href="/tools/rpr/"><b>Standardize PDB files (get-rnapuzzle-ready, "_rpr.pdb")</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format proposed by the RNA-Puzzles community [report and add missing atoms], removes water and ions, keeps only canonical RNA atoms</b> <br>
 </p>
-<hr>
 
 <i class="fa-regular fa-circle-check"></i> <a href="/tools/mdr/"><b>Standardize PDB files for Molecular Dynamics (get-molecular-dynamics-ready, "_mdr.pdb")</b></a> get a standardized naming of atoms, residues, chains to be compatible with the format used e.g., by openmm [report and add missing atoms], removes water and ions, keeps only canonical RNA atoms<br>
 
-<hr>
+<h3><i class="fa-solid fa-pen-to-square"></i> RNA 3D structure editing</h3>
+<p>The group of tools aims to facilitate operations on RNA 3D structure.</p>
 
 <i class="fa-solid fa-down-left-and-up-right-to-center"></i> <a href="/tools/cat/"><b>Concatenate</b></a> merge a bunch of PDB files into one file<br>
 <i class="fa-solid fa-up-right-from-square"></i> <a href="/tools/extract/"><b>Extract</b></a> extract parts of PDB files<br>
@@ -63,8 +69,11 @@ RNA secondary structure prediction are implemented, including RNAsubopt, RNAeval
 <i class="fa-solid fa-syringe"></i> <a href="/tools/rpl/"><b>Replace</b></a> replace XYZ coordinates of one PDB file with XYZ coordinates from another file</br>
 <hr>
 
-<h3><i class="fa-brands fa-black-tie"></i></i> Minimize structure</h3>
-(remove steric clashes, optimize bonds)
+<h3><i class="fa-brands fa-black-tie"></i> RNA 3D structure minimization</h3>
+
+Remove steric clashes, optimize bonds angles.</br>
+Should be used to to molecules in reach of RNA 3D structure prediction, so of length of 150 bp.</br>
+
 </br>
 <i class="fa-solid fa-atom"></i> <a href="/tools/qrnas/"><b>Minimize with QRNAS</b></a> minimize PDB files to fix clashes based on QRNAS [this can take up to 1h]</a></span><br>
 <i class="fa-solid fa-atom"></i> <a href="/tools/min/"><b>Minimize with OpenMM</b></a> minimize PDB files to fix clashes based on OpenMM [this can take up to 1h]
@@ -85,7 +94,7 @@ INF is the measure specific for RNA molecules. RNAs are represented by network o
 
 <h3><i class="fa-solid fa-award"></i> RNA 3D model quality assessment</h3>
 
-<i class="fa-solid fa-award"></i> <a href="/tools/assess/"><b>Assess</b></a> tools to assess how good are the models obtained from modeling</span><br>
+<i class="fa-solid fa-award"></i> <a href="/tools/assess/"><b>Assess</b></a> tools to assess how good are the models obtained from modeling procedure.</span><br>
 
 <h3><i class="fa-solid fa-arrow-up-right-from-square"></i> RNA 3D modeling [External servers]</h3>
 <p><i>De novo</i> modeling (not based on fragments taken from the PDB database, usually better for modeling new folds, modeling structures without homologs with known structures)</p>

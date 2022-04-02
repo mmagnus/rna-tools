@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<title>rna-tools.online</title>
+<title>{{ j.job_id }}</title>
 
 <style>
  .hint {color:#808080;font-size:12px;}
@@ -17,18 +17,29 @@
 </style>
 
 <script>
-
+$(document).ready(function() {
+    $("#explain").hide();
+});
+</script>
+<script>
+$("#explainX").click(function() {
+    $("#explain").slideToggle();
+});
+</script>
+<script>
+  
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 1000);
+        progress_interval = setInterval(checkProgress, 2000);
     });
 
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id %}",
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='calc-rmsd' %}",
             success: function(d) {
                 $("#log_txt").html(d['log']);
+		
                 if (d['reload']==true){
                     window.location.reload()
                 }
@@ -58,18 +69,24 @@
 	      )
              };
 
+    function topdb() {
+        $.ajax({
+            url: "/run/topdb/{{ j.job_id }}",
+        });}
 
     function go() {
 
         $.ajax({
             url: "/run/calc-rmsd/{{ j.job_id }}",
 	    data: { allvsall: $('#allvsall').is(':checked'),
+		    target: $("#target").val(),
 		    targetselection: $("#target-selection").val(),
 		    modelselection: $("#model-selection").val(),
 
 		    targetignoreselection: $("#target-ignore-selection").val(),
 		    modelignoreselection: $("#model-ignore-selection").val()	
 		  },
+
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -92,12 +109,11 @@
      Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
  }		
 
- script = 'h2oOn=true;set animframecallback "jmolscript:if (!selectionHalos) {select model=_modelNumber}";'
+ script = 'h2oOn=true;'
 	 +'set errorCallback "myCallback";'
 	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
 	 +'set zoomlarge true;set echo top left;refresh;'
-	 +'load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb;set echo top center;'
-	 +'spacefill off;spin off;wireframe off;cartoons on;color group;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;'
 
  var Info = {
      spinRateX: 0.2,
@@ -105,7 +121,7 @@
      spinFPS: 20,
      spin:true,
 
-     width: 400,
+     width: 350,
      height: 400,
      debug: false,
      color: "white",
@@ -119,21 +135,61 @@
      disableInitialConsole: true
  }
 </script>
+<script>
+ var jmolApplet1; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;refresh;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 350,
+     height: 400,
+     debug: false,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
+</script>
+
 {% endif %}
 
 <h2>Calculate RMSD</h2>
 
+<span class="hint">RMSD is the measure of the average distance between the atoms of superimposed RNAs.</span>
+
 <div align="right">
   <button onclick="demo()" class="btn btn-small btn-ok">Load demo</button>
   <button onclick="rm()" class="btn btn-small btn-ok">Remove All Files</button>
-  <button onclick="javascript:location.reload();" class="btn btn-small btn-ok">Clear DropZone</button>  
+  <button onclick="javascript:location.reload();" class="btn btn-small btn-ok">Clear</button>  
 </div>
 
-<label for="comment">RNA structure (in the PDB format)[first file dropped will be the target file]</label>
+
 <p>
- <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:350px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+ <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
+
+<label for="comment">RNA structure (in the PDB format)[first file dropped will be the target file, if not set by "target" below]</label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
   {% csrf_token %}
@@ -151,52 +207,63 @@ all-vs-all <input type="checkbox" id="allvsall">
 
 <div class="form-group" style="width: 100%;">
 <p>
-  target selection: <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target-selection" name="xxx" placeholder="" value=""> </a><small class="hint"> e.g., A:1-17+24-110+115-168</small>
-</p>
-<p>
+  <span style="padding-right:10px">target:</span> <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target" name="xxx" placeholder="" value=""> </a><small class="hint"> filename of file to be used as the reference, if empty the first file dropped will be used</small>
+</br>
+target selection: <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target-selection" name="xxx" placeholder="" value=""> </a><small class="hint"> e.g., A:1-17+24-110+115-168</small>
+</br>
   model selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="model-selection" name="xxx" placeholder="" value=""> <small class="hint"> e.g., A:1-17+24-110+115-168</small>
-</p>
-<p> 
+</br>
 target ignore selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="target-ignore-selection" name="xxx" placeholder="" value=""><small class="hint"> e.g., A/57/O2\'</small>
-</p>
-<p>
+</br>
 model ignore selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="model-ignore-selection" name="xxx" placeholder="" value=""> <small class="hint">e.g., A/57/O2\'</small>
 </p>
 
-    <pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
+<hr>
+
+<div id="log_txt" class='log'>{{ log | safe }}</div>
+
+{{jsmol | safe}}
+
+<center>
+{% if target %}
+{{ caption | safe }}
+{% endif %}
+<table>
+  <td>
+  <script type="text/javascript">
+    Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ target }}; color [x00b159]; cartoons only; `
+  jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+</script>
+  </td>
+  <td>
+<script type="text/javascript">
+    Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ topmodel }}; color [xd11141]; cartoons only;`
+  jmolApplet1 = Jmol.getApplet("jmolApplet1", Info)
+</script>
+</td></table>
+
+</center>
+<!--align {1.1} {2.1};-->
 
 <p>
-  <button onclick="go()" class="btn btn-large btn-success">Run!</button>
-</p>
+  <button onclick="go()" class="btn btn btn-success">Run!</button>
+  <button onclick="topdb()" class="btn btn btn">CIF to PDB</button>
 <!--
-<table id="table_id" class="display compact hover">
-  <thead>
-    <tr>
-      {% for header in headers %}
-      <th>{{ header }}</th>
-      {% endfor %}
-    </tr>
-  </thead>
-  <tbody>
-
-      {% for row in data %}
-      <tr>
-      <td>{{ row.0 }}</td>
-      <td>{{ row.1 }}</td>
-      </tr>      
-      {% endfor %}
-
-  </tbody>
-</table>
+  <button onclick="go()" class="btn btn btn">Standardize</button>
 -->
+</p>
+
 <p>
   The RMSD csv output file can be found here  <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/rmsds.csv">rmsds.csv</a>
 </a>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
+<span class="pull-right">
+  <button class="btn btn-small" style="margin-bottom:10px;" id="explainX">Explain</button>
+</span>
 
-<small class="hint">
+<div id="explain" class="docs">
 
   <p>
     <h5>Documentation</h5>
@@ -241,8 +308,12 @@ It's also possible to compare all vs all structures to get a matrix (in numpy fo
                    } );
                })
               </script>
-	      
 
+<script>
+$("#explainX").click(function() {
+    $("#explain").slideToggle();
+});
+</script>
 
 {% endblock %}
 
