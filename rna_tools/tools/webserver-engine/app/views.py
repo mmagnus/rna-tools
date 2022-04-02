@@ -32,6 +32,11 @@ import zipfile
 from io import StringIO
 from django.http import JsonResponse
 
+from icecream import ic
+import sys
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
+ic.configureOutput(prefix='> ')
+
 try:
     from app.models import Job, JOB_STATUSES, SAXS_FORMATS
 except:
