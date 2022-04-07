@@ -61,6 +61,7 @@
     };
 
     function go() {
+        location.href="/tools/{{ tool }}/{{ j.job_id }}";
 
         $.ajax({
             url: "/run/mdr/{{ j.job_id }}",
