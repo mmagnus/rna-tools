@@ -21,7 +21,7 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 1000);
+        progress_interval = setInterval(checkProgress, 100);
     });
 
     function checkProgress() {
@@ -61,6 +61,7 @@
     };
 
   function go() {
+        location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/rpr/{{ j.job_id }}",
 	    data: { renumber: $('#renumber').is(':checked')},
