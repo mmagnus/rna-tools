@@ -41,7 +41,7 @@ setup(
              'rna_tools/tools/rna_rosetta/rna_rosetta_cluster.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_min.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_n.py',
-             'rna_tools/tools/rna_rosetta/rna_silent_file_sort_and_select.py',
+             'rna_tools/tools/rna_rosetta/rna_rosetta_silent_file_sort_and_select.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_extract_lowscore_decoys.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_check_progress.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_head.py',
