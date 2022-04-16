@@ -47,6 +47,9 @@ setup(
              'rna_tools/tools/rna_rosetta/rna_rosetta_head.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_extract.py',
              'rna_tools/tools/rna_rosetta/rna_rosetta_get_score.py',
+             'rna_tools/tools/rna_rosetta/rna_rosetta_silent_file_sort_and_select.py',
+             'rna_tools/tools/rna_rosetta/rna_rosetta_silent_random.py',
+             'rna_tools/tools/rna_rosetta/rna_rosetta_silent_split.py',
              
              'rna_tools/tools/simrna_trajectory/rna_simrna_lowest.py',
              'rna_tools/tools/simrna_trajectory/rna_simrna_extract.py',
