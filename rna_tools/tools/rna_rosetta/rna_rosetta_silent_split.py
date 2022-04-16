@@ -48,6 +48,7 @@ if __name__ == '__main__':
                 ic(id)
             else:
                 struc += line
+        strucs.append(struc)
 
         for i, s in zip(ids, strucs):
             if args.output_dir:
