@@ -38,6 +38,7 @@ if __name__ == '__main__':
         args.file = [args.file]
 
     c = 2
+    scores = []
     for f in args.file:
         row = 'id,score,fn'
         print(row)
@@ -45,12 +46,12 @@ if __name__ == '__main__':
         for l in open(f):
             if l.startswith('SCORE:     score'):
                 continue
-
             if l.startswith('SCORE'):
                 score = float(l.split()[1])
                 #ic(score)
                 #print(score)
                 row += str(score)
+                scores.append(score)
 
             if 1: # False:
                 if l.startswith('RES_NUM'):
@@ -60,4 +61,6 @@ if __name__ == '__main__':
                     print(row)
                     row = str(c) + ','
                     c += 1
+    scores.sort()
+    print(scores)
             
