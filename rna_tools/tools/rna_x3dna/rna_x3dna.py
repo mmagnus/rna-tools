@@ -209,7 +209,7 @@ if __name__ == '__main__':
             p = x3DNA(f)
             print((f, p.get_secstruc()))
         else:
-            print(f)
+            print('# ' + f + ' #')
 
             p = x3DNA(f, args.show_log)
 
