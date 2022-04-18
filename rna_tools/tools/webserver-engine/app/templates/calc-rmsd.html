@@ -47,7 +47,9 @@ $("#explainX").click(function() {
     })
     };
 
-   function demo(){
+  function demo(){
+        $("#target-selection").val('A:1-17')
+        $("#model-selection").val('A:1-17')
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})

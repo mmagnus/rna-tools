@@ -23,7 +23,8 @@
         progress_interval = setInterval(checkProgress, 100);
     });
 
-   function demo(){
+  function demo(){
+        $("#mutate").val('A:1A+2A+3A+4A,B:13A')
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})
