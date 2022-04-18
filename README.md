@@ -331,6 +331,10 @@ Tricks:
 	# at some point there was a seperate function --get_simrna_ready but there is no need for it
 	# simply use --get-rnapuzzle-ready 
 
+rna-tools loves to be used with parallel (wirte in shell script what you want rna-tools to do) and run to execute it in a set of folders:
+	
+   parallel --bar --eta --progress 'cp test.sh {} && cd {} && bash test.sh ' ::: *
+	
 ## Tools
 
 The (almost) full list of tools can be found here: <https://github.com/mmagnus/rna-tools/blob/master/index-of-tools.md>
