@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'.well-known/pki-validation/(?P<fn>.*)$', 'app.views.ssl'),
     url(r'2coejc8r22i2/(?P<fn>.*)$', 'app.views.notes'),
     url(r'4j6scj6p82zw400/(?P<fn>.*)$', 'app.views.qr'),
+    url(r'images/(?P<fn>.*)$', 'app.views.image'),
 
     url(r'fetch/(?P<job_id>.*)$','app.views.fetch', name='fetch'),
     url(r'del/(?P<job_id_fn>.*)$','app.views.ajax_rm_file', name='ajax_rm_file'),

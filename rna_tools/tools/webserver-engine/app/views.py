@@ -155,6 +155,11 @@ def qr(request, fn):
     f = open('qr/' + fn, "rb")
     return HttpResponse(f.read(), content_type="image/jpeg")
 
+def image(request, fn):
+    f = open('/home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/images/' + fn, "rb")
+    return HttpResponse(f.read(), content_type="image/jpeg")
+
+def ssl(request, fn):
 def contact(request):
     return render_to_response('contact.html', RequestContext(request, {}))
 
