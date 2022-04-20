@@ -325,6 +325,7 @@ rna_pdb_replace.py %s %s &> log.txt\n
     if tool == "h2a":
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --replace-htm $i &> ${i/.pdb/_h2a.pdb}; done\n")
+             f.write("head *.pdb >> log.txt\n") #for i in *.pdb; do echo -e '\n$i\n'; cat $i; done )             
 
     if tool == "mdr":
         with open(job_dir + '/run.sh', 'w') as f:
