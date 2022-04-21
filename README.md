@@ -12,7 +12,7 @@
 
 <p>
 <div align="center">
-	🔥 rna-tools goes online -> http://rna-tools.online 🔥</br></br>
+	🔥 rna-tools goes online -> https://rna-tools.online 🔥</br></br>
 	
 <a href='https://ko-fi.com/R5R6AERGM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 	
@@ -331,6 +331,10 @@ Tricks:
 	# at some point there was a seperate function --get_simrna_ready but there is no need for it
 	# simply use --get-rnapuzzle-ready 
 
+rna-tools loves to be used with parallel (wirte in shell script what you want rna-tools to do) and run to execute it in a set of folders:
+	
+   parallel --bar --eta --progress 'cp test.sh {} && cd {} && bash test.sh ' ::: *
+	
 ## Tools
 
 The (almost) full list of tools can be found here: <https://github.com/mmagnus/rna-tools/blob/master/index-of-tools.md>

@@ -47,7 +47,8 @@
 	      )
              };
 
-   function demo(){
+  function demo(){
+        $("#del").val('A:1-16')
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})

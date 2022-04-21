@@ -1,4 +1,4 @@
-RNA PDB Tools
+PDB Tools
 ===============================================
 
 rna_pdb_toolsx

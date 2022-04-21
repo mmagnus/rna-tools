@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'doc', 'app.views.help'),        
     url(r'contact', 'app.views.contact'),
     url(r'about', 'app.views.about'),
+    url(r'.well-known/pki-validation/(?P<fn>.*)$', 'app.views.ssl'),
     url(r'2coejc8r22i2/(?P<fn>.*)$', 'app.views.notes'),
     url(r'4j6scj6p82zw400/(?P<fn>.*)$', 'app.views.qr'),
 
