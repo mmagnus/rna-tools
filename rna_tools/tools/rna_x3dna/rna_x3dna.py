@@ -210,11 +210,8 @@ if __name__ == '__main__':
             print((f, p.get_secstruc()))
         else:
             print('# ' + f + ' #')
-
             p = x3DNA(f, args.show_log)
-
             # s = p.get_seq()
             # print s
-
-            s = p.get_secstruc()
-            print(s)
+            #s = p.get_secstruc()
+            #print(s)
