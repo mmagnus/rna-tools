@@ -115,7 +115,7 @@
 		if ($('#log_txt').html().length != d['log'].length ) {
                     $("#log_txt").html(d['log']);}
                 if (d['reload']==true){
-                    window.location.reload()
+		    location.href="/tools/{{ tool }}/{{ j.job_id }}";
                 }
             }
     })
@@ -133,7 +133,6 @@
     };
 
     function go() {
-        location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/qrnas/{{ j.job_id }}",
             success: function(d) {

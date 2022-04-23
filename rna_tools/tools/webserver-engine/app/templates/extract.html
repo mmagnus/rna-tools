@@ -70,7 +70,7 @@
 		if ($('#log_txt').html().length != d['log'].length ) {
                     $("#log_txt").html(d['log']);}
                 if (d['reload']==true){
-                    window.location.reload()
+		    location.href="/tools/{{ tool }}/{{ j.job_id }}";
                 }
             }
     })
@@ -114,7 +114,6 @@
     function go() {
       if ($('#extract').val())
       {
-        location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/extract/{{ j.job_id }}",
 	    data: { extract: $("#extract").val() }

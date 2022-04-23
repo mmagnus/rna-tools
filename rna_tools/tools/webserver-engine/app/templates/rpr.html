@@ -43,7 +43,7 @@
 		    };
 		};
                     if (d['reload']==true){
-			window.location.reload();
+			location.href="/tools/{{ tool }}/{{ j.job_id }}";
 		    };
 	    }})
     };
@@ -72,7 +72,6 @@
     };
 
   function go() {
-        location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/rpr/{{ j.job_id }}",
 	    data: { renumber: $('#renumber').is(':checked')},

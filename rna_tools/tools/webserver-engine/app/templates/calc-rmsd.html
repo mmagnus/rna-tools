@@ -49,7 +49,7 @@ $("#explainX").click(function() {
 		if ($('#log_txt').html().length != d['log'].length ) {
                     $("#log_txt").html(d['log']);}
                 if (d['reload']==true){
-                    window.location.reload()
+		    location.href="/tools/{{ tool }}/{{ j.job_id }}";
                 }
             }
     })
@@ -86,8 +86,6 @@ $("#explainX").click(function() {
         });}
 
     function go() {
-        location.href="/tools/{{ tool }}/{{ j.job_id }}";
-
         $.ajax({
             url: "/run/calc-rmsd/{{ j.job_id }}",
 	    data: { allvsall: $('#allvsall').is(':checked'),

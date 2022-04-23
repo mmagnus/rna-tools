@@ -42,7 +42,6 @@
             success: function(d) {
 		if ($('#log_txt').html().length != d['log'].length ) {
                     $("#log_txt").html(d['log']);}
-
                 if (d['reload']==true){
 		    location.href="/tools/{{ tool }}/{{ j.job_id }}";
                 }
