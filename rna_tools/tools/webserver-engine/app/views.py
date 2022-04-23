@@ -401,11 +401,19 @@ rna_pdb_replace.py %s %s &> log.txt\n
         files = glob.glob(job_dir + "/*pdb")
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
+        target = request.GET['target'].strip()
+
+        if not target:
+            target = files[0]
+            files = files[1:]                
+        else:
+            files.remove(target)
+
         #print("\n".join(files))
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
 rna_calc_inf.py -t %s %s &> log.txt\n
-""" % (files[0], ' '.join(files[1:])))
+""" % (target, ' '.join(files)))
              #f.write('ls *.pdb >> log.txt\n\n')
              f.write('column -s, -t < inf.csv >> log.txt\n\n')
 
