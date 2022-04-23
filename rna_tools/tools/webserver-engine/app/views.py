@@ -343,8 +343,7 @@ rna_pdb_replace.py %s %s &> log.txt\n
             f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
             #f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
 
-#rmsd
-    if tool == 'calc-rmsd':
+    if tool == 'calc-rmsd': #rmsd
         allvsall = request.GET['allvsall'].strip()
         if allvsall == 'true':
             
@@ -377,18 +376,26 @@ rna_pdb_replace.py %s %s &> log.txt\n
             files.sort(key=os.path.getmtime)
             files = [os.path.basename(f) for f in files]
 
-            if not target:
-                target = files[0]
-                files = files[1:]                
+            if not len(files):
+                with open(job_dir + '/run.sh', 'w') as f:
+                    f.write('echo "Empty folder, add files" >> log.txt\n')
             else:
-                files.remove(target)
-
-            with open(job_dir + '/run.sh', 'w') as f:
-                 f.write("""
-    rna_calc_rmsd.py -sr -t """ + target + targetselection + modelselection + targetignoreselection + modelignoreselection + """ %s &> log.txt\n
-    """ % ' '.join(files))
-                 #f.write('ls *.pdb >> log.txt\n\n')
-                 #f.write('cat rmsds.csv >> log.txt\n\n')
+                if not target:
+                    target = files[0]
+                    files = files[1:]                
+                else:
+                    try:
+                        files.remove(target)
+                    except:
+                        with open(job_dir + '/run.sh', 'w') as f:
+                            f.write('echo "Wrong name for target. Is %s OK?" >> log.txt\n' % target)
+                    else:
+                        with open(job_dir + '/run.sh', 'w') as f:
+                             f.write("""
+                rna_calc_rmsd.py -sr -t """ + target + targetselection + modelselection + targetignoreselection + modelignoreselection + """ %s &> log.txt\n
+                """ % ' '.join(files))
+                     #f.write('ls *.pdb >> log.txt\n\n')
+                     #f.write('cat rmsds.csv >> log.txt\n\n')
              
     if tool == 'calc-inf':
         files = glob.glob(job_dir + "/*pdb")
