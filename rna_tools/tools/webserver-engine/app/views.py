@@ -160,6 +160,10 @@ def image(request, fn):
     return HttpResponse(f.read(), content_type="image/jpeg")
 
 def ssl(request, fn):
+    f = open('/home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/ssl/' + fn, "r")
+    return HttpResponse(f.read())# , content_type="image/jpeg")
+
+
 def contact(request):
     return render_to_response('contact.html', RequestContext(request, {}))
 
