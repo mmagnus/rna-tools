@@ -198,7 +198,7 @@ def demo(request, tool, job_id):
         f = 'gtp.pdb'
         shutil.copyfile(p + f, job_dir + f)        
     if tool == 'analysis':
-        f = 'tetraloop_helix.pdb'
+        f = '5k7c_clean_onechain_renumber_as_puzzle_srr.pdb' #5k7c_clean_onechain_renumber_as_puzzle_srr_min.pdb'
         shutil.copyfile(p + f, job_dir + f)        
     if tool in ['rpr', 'mdr', 'mutate']:
         f = 'missing_op1op2_r43OK.pdb'
