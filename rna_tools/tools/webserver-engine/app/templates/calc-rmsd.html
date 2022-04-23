@@ -26,7 +26,16 @@ $("#explainX").click(function() {
     $("#explain").slideToggle();
 });
 </script>
+
 <script>
+
+    $(document).ready(function() {
+	$('#mytable').DataTable(
+	{
+        "order": [[ 1, "asc" ]]
+	}
+	)
+    });
   
     var progress_interval;
 
@@ -302,15 +311,6 @@ It's also possible to compare all vs all structures to get a matrix (in numpy fo
 <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#rna-calc-rmsd-all-vs-all">https://rna-tools.readthedocs.io/en/latest/tools.html#rna-calc-rmsd-all-vs-all</a>
      
 <small class="hint"></small>
-
-              <script type="text/javascript">
-               $(document).ready( function () {
-                   $('#table_id').DataTable( {
-                       "bSort": false,
-                       "lengthMenu": [[20, 50, -1], [20, 50, "All"]]
-                   } );
-               })
-              </script>
 
 <script>
 $("#explainX").click(function() {
