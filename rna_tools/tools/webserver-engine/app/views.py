@@ -205,7 +205,7 @@ def demo(request, tool, job_id):
         shutil.copyfile(p + f, job_dir + f)        
     if tool in ['seq', 'ss', 'calc-rmsd', 'calc-inf', 'assess', 'clarna']:
         fs = ['21_3dRNA_1_rpr.pdb', '21_Adamiak_1_rpr.pdb', '21_ChenHighLig_1_rpr.pdb',
-              '21_Das_1_rpr.pdb']
+              '21_Das_1_rpr.pdb', '21_solution_2_rpr.pdb']
         for f in fs:
             shutil.copyfile(p + f, job_dir + f)
     if tool in ['extract', 'delete', 'edit', 'swap']:
