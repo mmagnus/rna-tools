@@ -275,6 +275,7 @@ def run(request, tool, job_id):
              f.write("""
 rna_pdb_replace.py %s %s &> log.txt\n
 """ % (files[0], ' '.join(files[1:])))
+             f.write("head *.pdb &> log.txt\n")
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
