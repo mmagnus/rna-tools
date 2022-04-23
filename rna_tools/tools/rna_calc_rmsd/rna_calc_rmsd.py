@@ -198,7 +198,7 @@ def calc_rmsd(a, b, target_selection, target_ignore_selection, model_selection, 
         print(atomsQ, Q)
 
     if atomsQ != atomsP:
-        print('Error: # of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
+        print('Error: number of atoms is not equal target (' + b + '):' + str(atomsQ) + ' vs model (' + a + '):' + str(atomsP))
         return (-1,0) # skip this RNA
     # Calculate 'dumb' RMSD
     normal_rmsd = rmsd(P, Q)
@@ -296,7 +296,7 @@ if __name__ == '__main__':
     target_fn = args.target_fn
     method = args.method
         
-    print('# method:', method)
+    print('method:', method)
 
     target_selection = select_pdb_fragment(args.target_selection)
     model_selection = select_pdb_fragment(args.model_selection)
@@ -338,8 +338,8 @@ if __name__ == '__main__':
 
     models = get_rna_models_from_dir(input_files)
 
-    print('# target:', target_fn)
-    print('# of models:', len(models))
+    print('target:', target_fn)
+    print('of models:', len(models))
 
     f = open(rmsds_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
@@ -367,7 +367,7 @@ if __name__ == '__main__':
 
     #print t.strip() # matrix
 
-    print('# of atoms used:', atoms)
+    print('number of atoms used:', atoms)
 
     df = pd.read_csv(rmsds_fn)
     df = df.round(2)
