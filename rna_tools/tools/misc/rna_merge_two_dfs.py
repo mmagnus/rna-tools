@@ -123,7 +123,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     df1 = pd.read_csv(args.csv1, delimiter=args.sep1)
+    try:
+        df1.pop('id')
+    except:
+        pass
     df2 = pd.read_csv(args.csv2, delimiter=args.sep2)
+    try:
+        df2.pop('id')
+    except:
+        pass
     print(df1)
     print(df2)
 
