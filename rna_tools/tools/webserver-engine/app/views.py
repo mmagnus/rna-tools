@@ -444,9 +444,9 @@ diffpdb.py """ + opt + """ --method diff %s %s &> log.txt \n
     if tool == 'extract':
         opt = request.GET['extract'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write("""
-for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;
-""" % opt)
+             f.write("""for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;""" % opt)
+             f.write("rna_pdb_toolsx.py --get-seq *.pdb >> log.txt")
+
     if tool == 'delete':
         opt = request.GET['del'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
@@ -460,11 +460,13 @@ for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; d
              f.write("""
 for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
 """ % opt)
+             f.write("rna_pdb_toolsx.py --get-seq *.pdb >> log.txt\n")
 
     if tool == 'swap':
         opt = request.GET['swap'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("for i in *.pdb; do rna_pdb_toolsx.py --swap-chains '%s' $i > ${i/.pdb/_swap.pdb}; done\n" % opt)
+             f.write("rna_pdb_toolsx.py --get-seq *.pdb >> log.txt\n")
 
     if tool == 'mutate':
         opt = request.GET['mutate'].strip()
