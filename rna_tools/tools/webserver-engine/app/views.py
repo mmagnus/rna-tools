@@ -312,6 +312,7 @@ rna_pdb_replace.py %s %s &> log.txt\n
              f.write('rna_mq_dfire.py *.pdb 2>&1\n')# | tee -a log.txt\n')
              f.write('rna_csv_sort.py --col dfire dfire.csv\n')
              f.write('cat dfire_sorted_dfire.csv >> log.txt\n')
+             f.write('rna_merge_two_dfs.py dfire.csv rasp.csv fn --force-writing-output >> log.txt\n')
             
     if tool == 'seq-search':
         print('run, seq,' + job_id)
