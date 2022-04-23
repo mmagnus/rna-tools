@@ -16,7 +16,6 @@
 }
 </style>
 
-
 {% if j.get_status == 'finished' %}
 <script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
 <script>
@@ -92,31 +91,42 @@
 {% endif %}
 
 <script>
+
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 1000);
+        progress_interval = setInterval(checkProgress, 500);
     });
 
-  function demo(){
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
+            success: function(d) {
+		lt = $('#log_txt').html().trim().length;
+		nl = d['log'].trim().length;
+		//alert(lt);
+		if (lt < nl) {
+		    if (lt / nl < 0.9) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate lt / nl')
+		    }
+		} else {
+		    if (nl / lt < 0.9) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate nl / lt')
+		    };
+		};
+                    if (d['reload']==true){
+			window.location.reload();
+		    };
+	    }})
+    };
+
+    function demo(){
         $("#mutate").val('X:42a')
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})
-    };
-
-    function checkProgress() {
-        $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id tool='mutate' %}",
-            data: { tool: 'mutate' },
-            success: function(d) {
-		if ($('#log_txt').html().length != d['log'].length ) {
-                    $("#log_txt").html(d['log']);}
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
     };
 
   function rm(){
@@ -147,12 +157,15 @@
 	      )
              };
 
-    function go() {
+  function go() {
+      if ($('#mutate').val())
+      {
         location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/mutate/{{ j.job_id }}",
 	    data: { mutate: $("#mutate").val() }
 	})
+      }
     };
 
 </script>
@@ -182,21 +195,15 @@
     </div>
 </form>
 
+<form id="submit" ACTION="/tools/{{ tool }}/{{ j.job_id }}" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
+{% csrf_token %}
 <div class="form-group" style="width: 100%;">
     <label for="comment">To mutate:</label>
-    <input type="text" class="form-control" style="font-family:Monospace;" id="mutate" name="ss" placeholder="" value=""></textarea>
+    <input type="text" class="form-control" required style="font-family:Monospace;" id="mutate" name="ss" placeholder="" value=""></textarea>
     <small class="hint">Example: A:1A+2A+3A+4A,B:13A</small>
 </div>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
-
-<p>
-  <button onclick="go()" class="btn btn btn-success">Run!</button>
-  <button onclick="analyze()" class="btn btn">Analyze</button>
-</p>
-
-    <small class="hint"></small>
-<p>
 
 <center>
 <script type="text/javascript">
@@ -204,8 +211,26 @@
  load append {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ model }}; select 2.1; color [x00b159]; cartoons only; frame *`
   jmolApplet1 = Jmol.getApplet("jmolApplet1", Info)
 </script>
-Models: {{ ref }} vs {{ model }}
+{%if j.get_status == 'finished' %}
+{{ ref }} (green) vs {{ model }} (red)
+{% endif %}
+
 </center>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</p>
+
+<button type="submit" onclick="go()" id="submitButton" class="btn btn-medium btn-success">Run!</button></form>
+<button onclick="analyze()" class="btn btn-small">Get sequences</button>
+</table>
+
 <!--
 <table>
   <td>

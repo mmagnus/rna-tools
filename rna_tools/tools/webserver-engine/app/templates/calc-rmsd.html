@@ -38,9 +38,8 @@ $("#explainX").click(function() {
     });
   
     var progress_interval;
-
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
 
     function checkProgress() {
@@ -58,7 +57,8 @@ $("#explainX").click(function() {
 
   function demo(){
         $("#target-selection").val('A:1-17')
-        $("#model-selection").val('A:1-17')
+      $("#model-selection").val('A:1-17')
+      $("#target").val('21_solution_2_rpr.pdb')
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})
@@ -213,13 +213,14 @@ $("#explainX").click(function() {
 
 <div class="form-group" style="width: 100%;">
 
+<!--
 <label class="checkbox" type="checkbox">
 all-vs-all <input type="checkbox" id="allvsall"> 
-</label>
+</label>-->
 
 <div class="form-group" style="width: 100%;">
 <p>
-  <span style="padding-right:10px">target:</span> <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target" name="xxx" placeholder="" value=""> </a><small class="hint"> filename of file to be used as the reference, if empty the first file dropped will be used</small>
+  <span style="padding-right:10px">target:</span> <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="target" name="xxx" placeholder="" value=""> </a><small class="hint"> filename of file to be used as the reference, if empty the first file dropped will be used</small>
 </br>
 target selection: <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target-selection" name="xxx" placeholder="" value=""> </a><small class="hint"> e.g., A:1-17+24-110+115-168</small>
 </br>
@@ -230,32 +231,71 @@ target ignore selection: <input type="text" class="form-control" style="font-fam
 model ignore selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="model-ignore-selection" name="xxx" placeholder="" value=""> <small class="hint">e.g., A/57/O2\'</small>
 </p>
 
-<hr>
+{%if j.get_status == 'finished' %}
+{%if rows %}
+    <center>
+    <table id="mytable" class="display" width="100%">
+      <thead>
+	 {% for h in headers %}
+	 <th>{{ h }}</th>
+	 {% endfor %}
+      </thead>
+      <tbody>
+	{% for row in rows %}	  
+        <tr>
+ 	  {% for i in row %}
+	  <td>
+	    {{ i }}
+	  </td>
+	  {% endfor %}
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+    </center>
+    {% endif %}
+    {% endif %}
 
-<div id="log_txt" class='log'>{{ log | safe }}</div>
-
-{{jsmol | safe}}
-
+<p>
 <center>
-{% if target %}
-{{ caption | safe }}
-{% endif %}
 <table>
   <td>
+{%if target %}
   <script type="text/javascript">
     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ target }}; color [x00b159]; cartoons only; `
   jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
-</script>
+  </script>
+  Target: {{ target }} [green]
+{% endif %}
   </td>
   <td>
+{%if topmodel %}
 <script type="text/javascript">
     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ topmodel }}; color [xd11141]; cartoons only;`
   jmolApplet1 = Jmol.getApplet("jmolApplet1", Info)
 </script>
+Top Model {{ topmodel }} [red]
+{% endif %}
 </td></table>
-
 </center>
+</p>
+
+<div id="log_txt" class='log'>{{ log | safe }}</div>
+
 <!--align {1.1} {2.1};-->
+<p>
+</center>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</center>
+</p>
 
 <p>
   <button onclick="go()" class="btn btn btn-success">Run!</button>

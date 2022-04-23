@@ -16,11 +16,48 @@
 }
 </style>
 
+<script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
+<script>
+ var jmolApplet0; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;refresh;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 600,
+     height: 600,
+     debug: false,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
+</script>
+
 <script>
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 500);
     });
 
     function checkProgress() {
@@ -70,12 +107,15 @@
             url: "/run/clear/{{ j.job_id }}",
 	})
     };
-    function edit() {
-
+    function go() {
+      if ($('#edit').val())
+	{
+        location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/edit/{{ j.job_id }}",
 	    data: { edit: $("#edit").val() }
 	})
+      }
     };
 
 </script>
@@ -103,16 +143,33 @@
     </div>
 </form>
 
+<form id="submit" ACTION="/tools/{{ tool }}/{{ j.job_id }}" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
+{% csrf_token %}
+
 <div class="form-group" style="width: 100%;">
     <label for="comment">Edit:</label>
-    <input type="text" class="form-control" style="font-family:Monospace;" id="edit" name="xxx" placeholder="" value=""></textarea>
+    <input type="text" class="form-control" style="font-family:Monospace;" required id="edit" name="xxx" placeholder="" value=""></textarea>
     <small class="hint">Example: A:1-10>C:1-10</small>
 </div>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-  <button onclick="edit()" class="btn btn-success">Run</button>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</p>
+
+<p>
+  <button type="submit" onclick="go()" class="btn btn-success">Run</button></form>
+</p>
+<p>
   <button onclick="analyze()" class="btn">Analyze</button>
 
 </p>

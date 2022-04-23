@@ -21,7 +21,7 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
 
     function checkProgress() {
@@ -49,12 +49,6 @@
 	})
     };
 
-  function rm(){
-        $.ajax({
-            url: "/run/clear/{{ j.job_id }}",
-	})
-    };
-
     function fetch() {
         $.ajax({
             url: "/fetch/{{ j.job_id }}",
@@ -66,8 +60,6 @@
              };
 
     function go() {
-        location.href="/tools/{{ tool }}/{{ j.job_id }}";
-
         $.ajax({
             url: "/run/cat/{{ j.job_id }}",
             success: function(d) {
@@ -77,11 +69,12 @@
                 }
             }
         })
+        location.href="/tools/{{ tool }}/{{ j.job_id }}";
     };
 
 </script>
-    
-{% if j.get_status == 'finished' %}
+
+{% if struc %}
 <script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
 <script>
  var jmolApplet0; // set up in HTML table, below
@@ -105,8 +98,8 @@
      spinFPS: 20,
      spin:true,
 
-     width: 400,
-     height: 400,
+     width: 800,
+     height: 800,
      debug: false,
      color: "white",
      addSelectionOptions: false,
@@ -144,11 +137,19 @@
     </div>
 </form>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
-
 <p>
     <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
+
+<div id="log_txt" class='log'>{{ log | safe }}</div>
+
+<center>
+<script type="text/javascript">
+    Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb; cartoons only; `
+  jmolApplet0 = Jmol.getApplet("jmolApplet0", Info)
+</script>
+</center>
+
 <p>
   The raw concatenated file can be found <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ j.job_id }}.pdb">here</a>.
 </p>
@@ -156,12 +157,10 @@
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
 
 <small class="hint">
-
   <p>
     <h5>Documentation</h5>
   </p>
   Simple procedure to concatenate files.
-  
-  <small class="hint"></small>
+</small>
 
 {% endblock %}

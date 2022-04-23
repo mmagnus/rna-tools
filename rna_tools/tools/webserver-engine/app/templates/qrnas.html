@@ -16,12 +16,86 @@
 }
 </style>
 
+{% if j.get_status == 'finished' %}
+<script src="{{ STATIC_URL }}app/jsmol/JSmol.min.js"></script>
+<script>
+ var jmolApplet0; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;refresh;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 600,
+     height: 600,
+     debug: false,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
+</script>
+<script>
+ var jmolApplet1; // set up in HTML table, below
+ // logic is set by indicating order of USE -- default is HTML5 for this test page, though
+ var use = "HTML5" // JAVA HTML5 WEBGL IMAGE  are all otions
+
+ jmol_isReady = function(applet) {
+     Jmol._getElement(applet, "appletdiv").style.border="" //1px solid black
+ }		
+
+ script = 'h2oOn=true;'
+	 +'set errorCallback "myCallback";'
+	 +'set defaultloadscript "isDssp = false;set defaultVDW babel;if(!h2oOn){display !water}";'
+	 +'set zoomlarge true;set echo top left;refresh;'
+	 +'spacefill off;spin off;wireframe off;cartoons on;'
+
+ var Info = {
+     spinRateX: 0.2,
+     spinRateY: 0.5,
+     spinFPS: 20,
+     spin:true,
+
+     width: 350,
+     height: 400,
+     debug: false,
+     color: "white",
+     addSelectionOptions: false,
+     serverURL: "http://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+     use: "HTML5",
+     j2sPath: "{{ STATIC_URL }}app/jsmol/j2s",
+     reagdyFunction: jmol_isReady,
+     script: script,
+     disableJ2SLoadMonitor: true,
+     disableInitialConsole: true
+ }
+</script>
+{% endif %}
+
 <script>
 
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
 
     function fetch() {
@@ -60,7 +134,6 @@
 
     function go() {
         location.href="/tools/{{ tool }}/{{ j.job_id }}";
-
         $.ajax({
             url: "/run/qrnas/{{ j.job_id }}",
             success: function(d) {
@@ -99,11 +172,33 @@
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
+<center>
+<script type="text/javascript">
+    Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ ref }}; color [xd11141]; cartoons only;\
+ load append {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ model }}; select 2.1; color [x00b159]; cartoons only; frame *`
+  jmolApplet1 = Jmol.getApplet("jmolApplet1", Info)
+</script>
+{%if j.get_status == 'finished' %}
+{{ ref }} (green) vs {{ model }} (red)
+{% endif %}
+
+</center>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</p>
+
 <p>
     <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
 
-<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>.</p>
 
 <small class="hint">
   <p>

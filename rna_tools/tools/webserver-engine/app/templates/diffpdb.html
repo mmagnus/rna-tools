@@ -21,7 +21,7 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
 
     function checkProgress() {
@@ -104,14 +104,13 @@
       <input type="checkbox" id="names"> use atom names and residues only
 </label>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
+<pre><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
     
-
 <p>
     <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
 
-<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>.</p>
     <small class="hint">
 
   <p>

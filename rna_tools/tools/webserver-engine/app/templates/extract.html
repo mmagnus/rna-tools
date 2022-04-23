@@ -59,7 +59,7 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 500);
     });
 
     function checkProgress() {
@@ -111,12 +111,15 @@
 	})
     };
 
-    function extract() {
-
+    function go() {
+      if ($('#extract').val())
+      {
+        location.href="/tools/{{ tool }}/{{ j.job_id }}";
         $.ajax({
             url: "/run/extract/{{ j.job_id }}",
 	    data: { extract: $("#extract").val() }
 	})
+      }
     };
 
 </script>
@@ -144,16 +147,31 @@
     </div>
 </form>
 
+<form id="submit" ACTION="/tools/{{ tool }}/{{ j.job_id }}" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
+{% csrf_token %}
 <div class="form-group" style="width: 100%;">
     <label for="comment">To extract:</label>
-    <input type="text" class="form-control" style="font-family:Monospace;" id="extract" name="ss" placeholder="" value=""></textarea>
+    <input type="text" class="form-control" style="font-family:Monospace;" required id="extract" name="ss" placeholder="" value=""></textarea>
     <small class="hint">e.g., B:1-33</small>
 </div>
 
 <div id="log_txt" class='log'>{{ log | safe }}</div>
 
+{%if j.get_status == 'finished' %}
+<center>
+<script type="text/javascript">
+    Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ ref }}; color [xd11141]; cartoons only;\
+ load append {{ MEDIA_URL }}jobs/{{ j.job_id }}/{{ model }}; select 2.1; color [x00b159]; cartoons only; frame *`
+  jmolApplet1 = Jmol.getApplet("jmolApplet1", Info)
+</script>
+</center>
+{% endif %}
+
 <p>
-  <button onclick="extract()" class="btn btn btn-success">Run!</button>
+  <button  type="submit" onclick="go()" class="btn btn btn-success">Run!</button>
+</p>
+</form>
+<p>
   <button onclick="analyze()" class="btn btn">Analyze</button>
 </p>
 
@@ -167,8 +185,6 @@
   <p>
     Load the demo and extract chain B into a new file, "B:1-33".
   </p>    
-       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --extract EXTRACT functionality.
-
     </small>
 
 {% endblock %}

@@ -18,11 +18,6 @@
 
 <script>
 
-    var progress_interval;
-
-    $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
-    });
 
     function fetch() {
         $.ajax({
@@ -34,18 +29,34 @@
 	      )
              };
 
+    var progress_interval;
+
+    $(document).ready( function(){
+        progress_interval = setInterval(checkProgress, 500);
+    });
 
     function checkProgress() {
         $.ajax({
             url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
             success: function(d) {
-		if ($('#log_txt').html().length != d['log'].length ) {
-                    $("#log_txt").html(d['log']);}
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
+		lt = $('#log_txt').html().trim().length;
+		nl = d['log'].trim().length;
+		//alert(lt);
+		if (lt < nl) {
+		    if (lt / nl < 0.9) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate lt / nl')
+		    }
+		} else {
+		    if (nl / lt < 0.9) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate nl / lt')
+		    };
+		};
+                    if (d['reload']==true){
+			window.location.reload();
+		    };
+	    }})
     };
 
    function demo(){
@@ -60,11 +71,12 @@
 	})
     };
 
-    function go() {
+   function go() {
         location.href="/tools/{{ tool }}/{{ j.job_id }}";
 
         $.ajax({
             url: "/run/seq/{{ j.job_id }}",
+	    data: { fasta: $('#fasta').is(':checked')},	    
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -100,6 +112,11 @@
     </div>
 </form>
 
+<label class="checkbox" type="checkbox">
+      <input type="checkbox" id="fasta"> fasta
+</label>
+
+
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
@@ -110,13 +127,14 @@
 
 <small class="hint">
 
+<!--
   <p>
     <h5>Documentation</h5>
   </p>
      <p>
 
     This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence">https://rna-tools.readthedocs.io/en/latest/main.html#get-sequence</a>
-
+-->
     <small class="hint"></small>
 
 {% endblock %}

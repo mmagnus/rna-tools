@@ -15,15 +15,21 @@
     background-color: aliceblue !important;
 }
 </style>
-
 <script>
+
+    $(document).ready(function() {
+	$('#mytable').DataTable(
+	{
+        "order": [[ 1, "desc" ]]
+	}
+	)
+    });
 
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
-
     function fetch() {
         $.ajax({
             url: "/fetch/{{ j.job_id }}",
@@ -48,6 +54,7 @@
     };
 
    function demo(){
+       $("#target").val('21_solution_2_rpr.pdb')
         $.ajax({
             url: "/demo/{{ tool }}/{{ j.job_id }}",
 	})
@@ -64,6 +71,7 @@
 
         $.ajax({
             url: "/run/calc-inf/{{ j.job_id }}",
+	    data : { target: $("#target").val() },
             success: function(d) {
                 $("#log_txt").html(d['log']);
                 if (d['reload']==true){
@@ -138,8 +146,46 @@
     </div>
 </form>
 
+<div class="form-group" style="width: 100%;">
+<p>  <span style="padding-right:10px">target:</span> <input type="text" class="form-control" style="font-family:Monospace;;height:10px;" id="target" name="xxx" placeholder="" value=""> </a><small class="hint"> filename of file to be used as the reference, if empty the first file dropped will be used</small>
+</p>
+
+    <center>
+    <table id="mytable" class="display" width="100%">
+      <thead>
+	 {% for h in headers %}
+	 <th>{{ h }}</th>
+	 {% endfor %}
+      </thead>
+      <tbody>
+	{% for row in rows %}	  
+        <tr>
+ 	  {% for i in row %}
+	  <td>
+	    {{ i }}
+	  </td>
+	  {% endfor %}
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+    </center>
+
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
+<p>
+</center>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</center>
+</p>
 <p>
     <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
@@ -160,23 +206,15 @@
      <p>
        If you still have problem with various number of atoms, check out this issue: get_rnapuzzle_ready see <a href="/tools/">Tools</a>
        
-     <p>
-       Demo files <a href="{{ STATIC_URL }}app/demo/rp21.zip">rp21.zip</a>.
-     </p>
-       
     </p>
      <pre style="font-size: 10px">target              fn                        inf_all  inf_stack  inf_WC  inf_nWC  sns_WC  ppv_WC  sns_nWC  ppv_nWC
 21_3dRNA_1_rpr.pdb  21_ChenHighLig_1_rpr.pdb  0.64     0.65       0.6     0.58     1.0     0.36    1.0      0.33
 21_3dRNA_1_rpr.pdb  21_Adamiak_1_rpr.pdb      0.59     0.59       0.6     0.71     1.0     0.36    1.0      0.5
 21_3dRNA_1_rpr.pdb  21_Das_1_rpr.pdb          0.57     0.62       0.6     0.3      1.0     0.36    1.0      0.09</pre>
     <p>
-      <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#interaction-network-fidelity-inf">https://rna-tools.readthedocs.io/en/latest/tools.html#interaction-network-fidelity-inf</a>
-    </p>
     <p>
 T. Waleń, G. Chojnowski, P. Gierski, and J. M. Bujnicki, “ClaRNA: a classifier of contacts in RNA 3D structures based on a comparative analysis of various classification schemes.,” Nucleic Acids Research, vol. 42, no. 19, pp. e151–e151, Oct. 2014.
     </p>
 <small class="hint"></small>
 
 {% endblock %}
-
-    

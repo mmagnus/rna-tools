@@ -24,20 +24,31 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 500);
     });
 
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id tool='clarna' %}",
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
             success: function(d) {
-		if ($('#log_txt').html().length != d['log'].length ) {
-                    $("#log_txt").html(d['log']);}
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
+		lt = $('#log_txt').html().trim().length;
+		nl = d['log'].trim().length;
+		//alert(lt);
+		if (lt < nl) {
+		    if (lt / nl < 0.98) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate lt / nl')
+		    }
+		} else {
+		    if (nl / lt < 0.98) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate nl / lt')
+		    };
+		};
+                    if (d['reload']==true){
+			window.location.reload();
+		    };
+	    }})
     };
 
     function fetch() {
@@ -102,6 +113,17 @@
 </form>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
+<p>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</p>
 
 <p>
   <button onclick="go()" class="btn btn-success">Run!</button>
@@ -112,10 +134,9 @@
 <hr>
 
 <small class="hint">
-Demo files <a href="{{ STATIC_URL }}app/demo/rp21.zip">rp21.zip</a>.
+Here, the first file (21_3dRNA_1_rpr.pdb) has small number of detected interactions. This is a suggestion that this structure is not folded properly.
 
-Here, the first file has small number of detected interactions. This is a suggestion that this structure is not folded properly.
-  <pre style="font-size: 10px">21_3dRNA_1_rpr.pdb
+<pre style="font-size: 10px">21_3dRNA_1_rpr.pdb
 Classifier: Clarna
 chains: A 1 41
 A 1 A 24 bp C G WW_cis 0.9184

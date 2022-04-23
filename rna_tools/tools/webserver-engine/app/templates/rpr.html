@@ -21,22 +21,33 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 500);
     });
 
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id tool='rpr' %}",
-            data: { tool: 'rpr' },
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
             success: function(d) {
-		if ($('#log_txt').html().length != d['log'].length ) {
-                    $("#log_txt").html(d['log']);}
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
+		lt = $('#log_txt').html().trim().length;
+		nl = d['log'].trim().length;
+		//alert(lt);
+		if (lt < nl) {
+		    if (lt / nl < 0.98) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate lt / nl')
+		    }
+		} else {
+		    if (nl / lt < 0.98) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate nl / lt')
+		    };
+		};
+                    if (d['reload']==true){
+			window.location.reload();
+		    };
+	    }})
     };
+
 
     function fetch() {
         $.ajax({
@@ -121,10 +132,6 @@
   </p>
 <p>
 Demo files "missing_op1op2_r43OK.pdb", applied fix "- add the missing OP1 and OP2 in chain: A residue # 44", chains are renamed to ABC, renumber residues if you want with the checkbox.
-</p>
-<p>
-Read more <a 
-href="https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready">https://rna-tools.readthedocs.io/en/latest/main.html#get-rnapuzzle-ready</a>
 </p>
 </small>
 {% endblock %}

@@ -18,23 +18,34 @@
 
 <script>
 
-    var progress_interval;
+     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 500);
     });
 
     function checkProgress() {
         $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id tool='analysis' %}",
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
             success: function(d) {
-		if ($('#log_txt').html().length != d['log'].length ) {
-                    $("#log_txt").html(d['log']);}
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
+		lt = $('#log_txt').html().trim().length;
+		nl = d['log'].trim().length;
+		//alert(lt);
+		if (lt < nl) {
+		    if (lt / nl < 0.95) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate lt / nl')
+		    }
+		} else {
+		    if (nl / lt < 0.95) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate nl / lt')
+		    };
+		};
+                    if (d['reload']==true){
+			window.location.reload();
+		    };
+	    }})
     };
 
     function fetch() {
@@ -84,7 +95,7 @@
 </div>
 
 <p>
- <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+ <button onclick="fetch()" class="btn btn-small" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
 
@@ -98,14 +109,28 @@
     </div>
 </form>
 
-    <div id="log_txt" class='log'>{{ log | safe }}</div>
-    
+ <div id="log_txt" class='log'>{{ log | safe }}</div>
+
+</center>
+{%if j.get_status == 'finished' %}
+<span class="badge badge-success">done</span>
+{% endif %}
+{%if j.get_status == 'running' %}
+<span class="badge badge-warning">running</span>
+{% endif %}
+{%if j.get_status == 'waiting' %}
+<span class="badge badge-info">waiting</span>
+{% endif %}
+</p>
+
 <p>
   <button onclick="go()" class="btn btn-success">Run!</button>
 </p>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+<hr>
 
+    
  <small class="hint">
   <p>
     <h5>Documentation</h5>

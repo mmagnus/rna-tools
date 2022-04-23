@@ -21,8 +21,32 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 500);
     });
+
+    function checkProgress() {
+        $.ajax({
+            url: "{% url 'ajax_job_status' job_id=j.job_id tool='seq' %}",
+            success: function(d) {
+		lt = $('#log_txt').html().trim().length;
+		nl = d['log'].trim().length;
+		//alert(lt);
+		if (lt < nl) {
+		    if (lt / nl < 0.9) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate lt / nl')
+		    }
+		} else {
+		    if (nl / lt < 0.9) {
+			$("#log_txt").html(d['log']);
+			//alert('udpate nl / lt')
+		    };
+		};
+                    if (d['reload']==true){
+			window.location.reload();
+		    };
+	    }})
+    };
 
     function fetch() {
         $.ajax({
@@ -34,18 +58,6 @@
 	      )
              };
 
-    function checkProgress() {
-        $.ajax({
-            url: "{% url 'ajax_job_status' job_id=j.job_id tool='ss' %}",
-            success: function(d) {
-		if ($('#log_txt').html().length != d['log'].length ) {
-                    $("#log_txt").html(d['log']);}
-                if (d['reload']==true){
-                    window.location.reload()
-                }
-            }
-    })
-    };
   function rm(){
         $.ajax({
             url: "/run/clear/{{ j.job_id }}",
@@ -110,13 +122,6 @@
   <p>
     <h5>Documentation</h5>
   </p>
-     <p>
-       This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx">https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx</a> --get-ss functionality.
-     </p>
-     <p>Example
-       <a href="https://rna-tools.readthedocs.io/en/latest/want.html?module-rna_tools.tools.rna_x3dna.rna_x3dna#module-rna_tools.tools.rna_x3dna.rna_x3dna">https://rna-tools.readthedocs.io/en/latest/want.html?module-rna_tools.tools.rna_x3dna.rna_x3dna#module-rna_tools.tools.rna_x3dna.rna_x3dna</a>
-     </p>
-     
      <p>
        Get sequence in dot-bracket notation for the secondary structure:
      </p>

@@ -20,7 +20,7 @@
     var progress_interval;
 
     $(document).ready( function(){
-        progress_interval = setInterval(checkProgress, 100);
+        progress_interval = setInterval(checkProgress, 1000);
     });
 
     function checkProgress() {
@@ -70,12 +70,15 @@
             url: "/run/clear/{{ j.job_id }}",
 	})
     };
-    function go() {
-        location.href="/tools/{{ tool }}/{{ j.job_id }}";
-        $.ajax({
-            url: "/run/{{ tool }}/{{ j.job_id }}",
-	    data: { swap: $("#swap").val() }
-	})
+
+  function go() {
+      if ($('#swap').val()) {
+          location.href="/tools/{{ tool }}/{{ j.job_id }}";
+          $.ajax({
+              url: "/run/{{ tool }}/{{ j.job_id }}",
+	      data: { swap: $("#swap").val() }
+	  })
+      }
     };
 
 </script>
@@ -103,16 +106,20 @@
     </div>
 </form>
 
+<form id="submit" ACTION="/tools/{{ tool }}/{{ j.job_id }}" METHOD="Post" enctype="multipart/form-data" data-role="acknowledge-input">
+{% csrf_token %}
 <div class="form-group" style="width: 100%;">
     <label for="comment">Swap:</label>
-    <input type="text" class="form-control" style="font-family:Monospace;" id="swap" name="xxx" placeholder="" value=""></input>
+    <input type="text" class="form-control" style="font-family:Monospace;" required id="swap" name="xxx" placeholder="" value=""></input>
     <small class="hint">Example: A>B</small>
 </div>
 
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-  <button onclick="go()" class="btn btn-success">Run!</button>
+  <button type="submit" onclick="go()" class="btn btn-success">Run!</button></form>
+</p>
+<p>
   <button onclick="analyze()" class="btn">Analyze</button>
 </p>
 															       
@@ -137,9 +144,6 @@ UAAGUGAUCUAGAAAG
 >A:1-33
 </pre>
 </p>
-
-      This is <a href="https://rna-tools.readthedocs.io/en/latest/main.html#edit">https://rna-tools.readthedocs.io/en/latest/main.html#edit</a> --edit EDIT functionality.
-
     </small>
 
 {% endblock %}
