@@ -422,7 +422,7 @@ rna_calc_inf.py -t %s %s &> log.txt\n
         files.sort(key=os.path.getmtime)
         files = [os.path.basename(f) for f in files]
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write("""rm log.txt;
+             f.write("""
 for i in *pdb; do echo $i; rna_clarna_run.py -ipdb $i; done >> log.txt;
 """)
              #f.write('ls *.pdb >> log.txt\n\n')
@@ -602,11 +602,46 @@ def ajax_job_status(request, job_id, tool=''):
                 # '<title>%s</title><a href="%s">%s</a><br>' % (j,j,j) + log
                 log = log.replace('source ~/.env<br>', '')
                 log = log.replace('cat rmsds.csv', '')
+                log = log.replace('****************************************************************************', '<hr>')
+                log = log.replace('-----------------------------------------------------------------------------', '<hr>')
                 log = log.replace('PyMOL not running, entering library mode (experimental)', '')
- 
+                log = log.replace("echo 'DONE!'", "")
+                log = log.replace("rm log.txt", "")
+
+                nl = ''
+                for l in log.split('<br>'):
+                     if l.startswith('echo'):
+                         continue
+                     if 'Performing minimization step:' in l:
+                         pass
+                     elif 'Writing PDB file:' in l:
+                         pass
+                     elif 'Internal Warning:' in l:
+                         pass
+                     elif 'residue renamed' in l:
+                         pass
+                     elif 'Missing atom added' in l:
+                         pass
+                     else:
+                         nl += l + '<br>'
+                log = nl
+                #log = log.replace('>>', '>&gt;') # for fasta
+                #log = '<a href="#tetraloop_helix.pdb">tetraloop_helix.pdb</a>' + log
+                all = re.findall('# .*? #', log) # # f #
+                for a in all:
+                    # # f.pdb #
+                    inside = a.replace('#', '').strip()
+                    na = a.replace('# ', '<h3 id="#' + inside + '">')
+                    na = na.replace(' #', '</h3>')
+                    log = log.replace(a, na)
+                    #log = re.sub(r"# ", "<h3>", log)
+                    #log = re.sub(r"#<br>", "</h3>", log)
+                # collect H3 and make 
+                print(log)
+                
                 #log += re.sub(r"^<br>%", "", log)
                 # --> Clustering
-                #log = re.sub(r"[\-]+> Clustering[\w\s]+\d+\%[\s\|#]+ETA:\s+[(\d\-)\:]+\r", "", log)
+                #
                 # --> Annealing
                 #log = re.sub(r"[-]+> Annealing[\w\s]+\d+\%[\s\|#]+ETA:[\d\s\:\-]+\r", "", log)
                 # --> Preparing data
@@ -628,44 +663,6 @@ def ajax_job_status(request, job_id, tool=''):
                             log += '<a href="/media/jobs/' + job_id + '/' + f + '">' + f + '</a><br>'
                     log += '</pre>'
 
-                print(tool)
-                # response_dict['log'] = log.replace(' ', '&nbsp')
-                if tool in ['calc-rmsd']:
-                    import csv
-                    csv_fp = open(job_dir + '/rmsds.csv', 'r')
-                    reader = csv.DictReader(csv_fp)
-                    headers = [col for col in reader.fieldnames]
-                    headers = ['Filename', 'RMSD']
-                    out = []
-                    for row in reader:
-                        out.append((row['fn'], row['rmsd_all']))
-                    print(out)
-
-                    log += """
-
-    <center>
-    <table id="table_id" class="table display compact hover">
-      <thead>
-         <tr> """
-                    for h in headers:
-                       log += '<th>' + h + '</th>'
-                    log += """
-        </tr>
-      </thead>
-      <tbody>
-"""
-                    for r in out:
-                        print(r)
-                        log += """
-          <tr>
-          <td>""" + r[0] + """</td>
-          <td>"""+ r[1] + """</td>
-          </tr>"""
-                    log += """         
-
-      </tbody>
-    </table>"""
-
 ## <script type="text/javascript">
 ##     Info.script=`load {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_ChenHighLig_1_rpr.pdb; color [x00b159]; cartoons only; \
 ##     load APPEND {{ MEDIA_URL }}jobs/{{ j.job_id }}/21_Adamiak_1_rpr.pdb;select 2.1; color [xd11141]; cartoons only; frame *;`
@@ -676,14 +673,18 @@ def ajax_job_status(request, job_id, tool=''):
 
 
 ## """
-                    log += '<center><br><a href="/tools/%s/%s">Click get JSmol view</a></center>' % (tool, j)
+                    # log += '<center><br><a href="/tools/%s/%s">Click get JSmol view</a></center>' % (tool, j)
 
-   
-                if 'DONE' in log:
-                    j = Job.objects.get(job_id=job_id.replace('/', ''))
-                    j.status = JOB_STATUSES['finished']
-                    j.save()
-                    response_dict['reload'] = False # True # fix it
+                    #log += j.get_status()
+                
+                if 'DONE!' in log:
+                    if j.get_status() != 'finished': # of other then just leave it
+                        import time
+                        time.sleep(1)
+                        j = Job.objects.get(job_id=job_id.replace('/', ''))
+                        j.status = JOB_STATUSES['finished']
+                        j.save()
+                        response_dict['reload'] = True # False # True # fix it
 
         except FileNotFoundError:
             pass
@@ -695,7 +696,13 @@ def ajax_job_status(request, job_id, tool=''):
     log = log.replace(' >> log.txt', '')    
     log = log.replace(' > log.txt', '')
     log = log.replace("echo 'DONE'", '')     #log
-    
+    log = log.replace("DONE!", '')     #log
+
+    log = log.strip()
+
+    #if j.get_status() != 'finished':
+    #    log += '</br>(...)'
+
     #if os.path.exists(job_dir + '/.done'):
     #   log += '<span class="label label-success">DONE</span>'
     response_dict['log'] = log
@@ -721,9 +728,9 @@ def tool(request, tool, job_id):
         j.save()
         # create folder
         try:
-            JOB_PATH = settings.JOBS_PATH + sep + j.job_id
+            job_dir = settings.JOBS_PATH + sep + j.job_id
             umask(0o002)
-            makedirs(JOB_PATH)
+            makedirs(job_dir)
         except OSError:
             pass
         log = ''
@@ -795,14 +802,98 @@ def tool(request, tool, job_id):
     ##      out = ''
     ##      headers = ''
 
+    ref = ''
+    model = ''
+    rows = ''
+    headers = ''
+    import time
+
+    if tool == 'calc-inf':
+        time.sleep(1)
+        f = job_dir + '/inf.csv'
+        if os.path.exists(f):
+            import csv
+            csv_file = open(f, 'r')
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            c = 0
+            rows = []
+            for row in csv_reader:
+                if c == 0:            
+                    headers = row[1:] # skip target
+                else:
+                    rows.append(row[1:])
+                c += 1
+            ic(rows)
+
+    if tool == 'calc-rmsd':
+        time.sleep(1)
+        f = job_dir + '/rmsds.csv'
+        if os.path.exists(f):
+            try:
+                for l in open(job_dir + '/log.txt', 'r'):
+                    if 'target: ' in l:
+                        target = l.replace('target: ', '')
+            except: # FileNotFoundError:
+                pass
+
+            import csv
+            csv_file = open(f, 'r')
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            c = 0
+            rows = []
+            for row in csv_reader:
+                if c == 0:            
+                    headers = row[:] # skip target
+                else:
+                    rows.append(row[:])
+                c += 1
+
+    if tool == 'assess':
+            time.sleep(1)
+            f = job_dir + '/merged.csv'
+            if os.path.exists(f):
+                import csv
+                csv_file = open(f, 'r')
+                csv_reader = csv.reader(csv_file, delimiter=',')
+                c = 0
+                rows = []
+                for row in csv_reader:
+                    if c == 0:            
+                        headers = row[:] # skip target
+                    else:
+                        rows.append(row[:])
+                    c += 1
+
+    if tool in ['mutate', 'delete', 'edit', 'qrnas', 'min']:
+        time.sleep(1)
+        files = glob.glob(job_dir + "/*pdb")
+        files.sort(key=os.path.getmtime)
+        if len(files) > 1:
+            files = [os.path.basename(f) for f in files]
+            ref = files[0] # job_dir + os.sep + 
+            model = files[1] # job_dir + os.sep + 
+
+    struc = False
+    if tool == 'cat':
+        if os.path.exists(job_dir + '/' + job_id + '.pdb'):
+            struc = True
+        ic(struc)
+
     return render_to_response(tool + '.html', RequestContext(request, {
         'j': j,
         'log' : log,
         'tool' : tool,
         'data' : out,
+
         'headers' : headers,
+        'rows' : rows,
+        
         'jsmol': jsmol,
         'target': target,
         'topmodel' : topmodel,
         'caption' : caption,
+        'struc' : struc,
+        
+        'ref' : ref,
+        'model' : model,
         }))
