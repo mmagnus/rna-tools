@@ -113,7 +113,8 @@
 
     function go() {
       if ($('#extract').val())
-      {
+	{
+        $('#go').prop('disabled', true);
         $.ajax({
             url: "/run/extract/{{ j.job_id }}",
 	    data: { extract: $("#extract").val() }
@@ -167,7 +168,7 @@
 {% endif %}
 
 <p>
-  <button  type="submit" onclick="go()" class="btn btn btn-success">Run!</button>
+  <button type="submit" id="go" onclick="go()" class="btn btn btn-success">Run!</button>
 </p>
 </form>
 <p>

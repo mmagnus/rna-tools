@@ -160,6 +160,7 @@
   function go() {
       if ($('#mutate').val())
       {
+       $('#submitButton').prop('disabled', true);
         $.ajax({
             url: "/run/mutate/{{ j.job_id }}",
 	    data: { mutate: $("#mutate").val() }

@@ -60,7 +60,8 @@
 	})
     };
 
-    function go() {
+  function go() {
+      $('#go').prop('disabled', true);
         $.ajax({
             url: "/run/mdr/{{ j.job_id }}",
             success: function(d) {
@@ -109,7 +110,7 @@
 <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-    <button onclick="go()" class="btn btn-success">Run!</button>
+    <button id="go" onclick="go()" class="btn btn-success">Run!</button>
 </p>
 <p>
 

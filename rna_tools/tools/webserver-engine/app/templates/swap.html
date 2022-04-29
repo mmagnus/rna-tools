@@ -73,9 +73,10 @@
 
   function go() {
       if ($('#swap').val()) {
+          $('#go').prop('disabled', true);
           $.ajax({
               url: "/run/{{ tool }}/{{ j.job_id }}",
-	      data: { swap: $("#swap").val() }
+	      data: { swap: $("#swap").val()}
 	  })
       }
     };
@@ -116,7 +117,7 @@
     <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <p>
-  <button type="submit" onclick="go()" class="btn btn-success">Run!</button></form>
+  <button type="submit" id="go" onclick="go()" class="btn btn-success">Run!</button></form>
 </p>
 <p>
   <button onclick="analyze()" class="btn">Analyze</button>

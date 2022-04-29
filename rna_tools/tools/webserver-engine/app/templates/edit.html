@@ -111,6 +111,7 @@
     function go() {
       if ($('#edit').val())
 	{
+        $('#go').prop('disabled', true);
         $.ajax({
             url: "/run/edit/{{ j.job_id }}",
 	    data: { edit: $("#edit").val() }
@@ -167,7 +168,7 @@
 </p>
 
 <p>
-  <button type="submit" onclick="go()" class="btn btn-success">Run</button></form>
+  <button type="submit" id="go" onclick="go()" class="btn btn-success">Run</button></form>
 </p>
 <p>
   <button onclick="analyze()" class="btn">Analyze</button>

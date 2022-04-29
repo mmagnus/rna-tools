@@ -66,7 +66,8 @@
 	})
     };
 
-    function go() {
+  function go() {
+        $('#go').prop('disabled', true);
         $.ajax({
             url: "/run/calc-inf/{{ j.job_id }}",
 	    data : { target: $("#target").val() },
@@ -185,7 +186,7 @@
 </center>
 </p>
 <p>
-    <button onclick="go()" class="btn btn-success">Run!</button>
+    <button id="go" onclick="go()" class="btn btn-success">Run!</button>
 </p>
 <p>
   The INF csv output file can be found here  <a target="_blank" href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/inf.csv">inf.csv</a>

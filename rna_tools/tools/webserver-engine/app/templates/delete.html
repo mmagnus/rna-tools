@@ -111,6 +111,7 @@
 
     function go() {
 	if ($('#del').val()) {
+            $('#submitButton').prop('disabled', true);
             $.ajax({
 		url: "/run/delete/{{ j.job_id }}",
 		data: { del: $("#del").val() }
@@ -164,7 +165,7 @@
 </center>
 
 <p>
-  <button type="submit" onclick="go()"  id="submitButton" class="btn btn btn-success">Run!</button></form>
+  <button type="submit" onclick="go()" id="submitButton" class="btn btn btn-success">Run!</button></form>
 </p>
 
 <p>
