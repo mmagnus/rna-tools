@@ -17,4 +17,9 @@ rna_rosetta_run_for_folders(){
 #
 
 alias rna_rosetta_n_loop="find . -maxdepth 2 -iname '*out' -type f -not -name 'helix*' -exec rna_rosetta_n.py --verbose {} \; | tee looplog.txt && echo 'sorted' && cat looplog.txt | sort"
-alias duu='du -s -B G * 2> /dev/null | sort -nr | tee duu' #du -h -d 1'
+
+if [ "$(uname)" == "Darwin" ]; then
+    alias duu="du -h -d 1"
+elif
+    alias duu='du -s -B G * 2> /dev/null | sort -nr | tee duu' #du -h -d 1'
+fi
