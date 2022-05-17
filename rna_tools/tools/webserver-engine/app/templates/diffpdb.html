@@ -60,7 +60,8 @@
 	})
     };
 
-    function go() {
+  function go() {
+        $('#go').prop('disabled', true);
         $.ajax({
             url: "/run/diffpdb/{{ j.job_id }}",
 	    data: { names: $('#names').is(':checked')},
@@ -85,7 +86,7 @@
 </div>
 
 <p>
- <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+ <button onclick="fetch()" class="btn btn-small" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
 
@@ -106,7 +107,7 @@
 <pre style="background:none;border:none"><div id="log_txt" class='log'>{{ log | safe }}</div></pre>
     
 <p>
-    <button onclick="go()" class="btn btn-success">Run!</button>
+    <button id="go" onclick="go()" class="btn btn-success">Run!</button>
 </p>
 
 <p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>.</p>

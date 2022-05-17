@@ -85,7 +85,8 @@ $("#explainX").click(function() {
             url: "/run/topdb/{{ j.job_id }}",
         });}
 
-    function go() {
+  function go() {
+        $('#go').prop('disabled', true);
         $.ajax({
             url: "/run/calc-rmsd/{{ j.job_id }}",
 	    data: { allvsall: $('#allvsall').is(':checked'),
@@ -195,7 +196,7 @@ $("#explainX").click(function() {
 
 
 <p>
- <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+ <button onclick="fetch()" class="btn btn-small" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
 
@@ -296,10 +297,10 @@ Top Model {{ topmodel }} [red]
 </p>
 
 <p>
-  <button onclick="go()" class="btn btn btn-success">Run!</button>
+  <button id="go" onclick="go()" class="btn btn btn-success">Run!</button>
   <button onclick="topdb()" class="btn btn btn">CIF to PDB</button>
 <!--
-  <button onclick="go()" class="btn btn btn">Standardize</button>
+  <button onclick="rpr()" class="btn btn btn">Standardize</button>
 -->
 </p>
 

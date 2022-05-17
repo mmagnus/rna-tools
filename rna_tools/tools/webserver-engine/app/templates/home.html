@@ -50,18 +50,47 @@ height:5px;
 }
 </style>
 
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="color:white">
+<div id="myCarousel" class="carousel slide" data-ride="carousel" style="color:white">
+
+    <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+  
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="item active">
       <center>
-        <img src="{{ STATIC_URL }}app/img/01.png" height="" alt="">
+        <img src="{{ STATIC_URL }}app/img/01b.png" height="" alt="">
 	</center>
           <div class="carousel-caption">
-	      <h4>rna-tools</h4>
-	      a toolbox to analyze sequences, structures and simulations of RNA (and way more!)
+	      <h4>rna-tools.online</h4>
+	      is an online gateway to rna-tools
           </div>
+     </div>
+    
+      <div class="item">
+      <center>
+	<img src="{{ STATIC_URL }}app/img/02.png" alt="...">
+      </center>
+      <div class="carousel-caption">
+        <h4>rna-tools</h3>
+       rna-tools a toolbox to analyze sequences, structures and simulations of RNA with its nearly 100 tools (operations)
       </div>
+      </div>
+      
+      <div class="item">
+      <center>
+	<img src="{{ STATIC_URL }}app/img/03.png" alt="...">
+      </center>
+      <div class="carousel-caption">
+        <h4>make your own version of rna-tools</h3>
+       you can fork rna-tools to make your own unique toolbox
+      </div>
+      </div>
+
   </div>
 </div> 
 
@@ -77,7 +106,7 @@ height:5px;
 </p>
 -->
 
-<a class="btn btn-large btn-success" href="/tools">Submit your job</a>
+<a class="btn btn-large btn-success" href="/tools">Select a tool</a>
 
 <hr/>
 <p>

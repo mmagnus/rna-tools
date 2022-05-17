@@ -111,6 +111,7 @@
 
     function go() {
 	if ($('#del').val()) {
+            $('#submitButton').prop('disabled', true);
             $.ajax({
 		url: "/run/delete/{{ j.job_id }}",
 		data: { del: $("#del").val() }
@@ -128,7 +129,7 @@
 </div>
 
 <p>
- <button onclick="fetch()" class="btn btn-small btn-success" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
+ <button onclick="fetch()" class="btn btn-small" size="height:12px">Fetch</button> files from another job <input id="fetch" type="text" class="form-control" style="font-family:Monospace;width:150px;height:13px;" name="xxx" placeholder="" value=""></a><small class="hint"> e.g., 614e0a1b</small>
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
 
@@ -164,7 +165,7 @@
 </center>
 
 <p>
-  <button type="submit" onclick="go()"  id="submitButton" class="btn btn btn-success">Run!</button></form>
+  <button type="submit" onclick="go()" id="submitButton" class="btn btn btn-success">Run!</button></form>
 </p>
 
 <p>
