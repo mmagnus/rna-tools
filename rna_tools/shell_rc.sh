@@ -20,6 +20,6 @@ alias rna_rosetta_n_loop="find . -maxdepth 2 -iname '*out' -type f -not -name 'h
 
 if [ "$(uname)" == "Darwin" ]; then
     alias duu="du -h -d 1"
-elif
+else
     alias duu='du -s -B G * 2> /dev/null | sort -nr | tee duu' #du -h -d 1'
 fi
