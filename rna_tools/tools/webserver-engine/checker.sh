@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/rnamasonry/rnamasonryweb_env/rnamasonry-web
-source ../bin/activate && python checker.py
+ssh aws 'cd /home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/media/jobs && /home/ubuntu/miniconda3/bin/python check.py' > check.md
+emacsclient check.md
