@@ -82,7 +82,14 @@ The latest
 -------------------------------------------------------------------------------
 (see [CHANGELOG](https://github.com/mmagnus/rna-tools/tree/master/CHANGELOG.md) for more detailed description)
 
-**22-03-31** 🔥 rna-tools goes online, http://rna-tools.online 🔥
+**22-05-17** 🔥 a paper published on our server 🔥  
+	
+rna-tools.online: a Swiss army knife for RNA 3D structure modeling workflow   
+Marcin Magnus   
+Nucleic Acids Research     
+https://doi.org/10.1093/nar/gkac372
+	
+**22-03-31** rna-tools goes online, http://rna-tools.online
 	
 **21-05-24**  spotifier branched out into own repository to keep RT light https://github.com/mmagnus/yeast-spotifier
 	
