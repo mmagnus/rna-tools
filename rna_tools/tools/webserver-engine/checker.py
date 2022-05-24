@@ -38,7 +38,7 @@ def send_mail_to(mail, txt):
     subject = SERVER_NAME + ' report'
     toaddrs = mail
     msg_text = txt
-    msg = ("""From: %s\r\nTo: %s\r\nSubject: %s\r\nMIME-Version: 1.0\r\nContent-Type: text/html\r\nContent-Disposition: inline\r\n<html>\r\n<body>\r\n<pre style="font: monospace">\r\n\r\n%s\r\n""" % (fromaddr, toaddrs, subject, msg_text))
+    msg = ("""From: %s\r\nTo: %s\r\nSubject: %s\r\nMIME-Version: 1.0\r\nContent-Type: text/html\r\nContent-Disposition: inline\r\n<html>\r\n<body>\r\n<pre style="font: monospace; font-size: 11px;">\r\n\r\n%s\r\n""" % (fromaddr, toaddrs, subject, msg_text))
 
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.ehlo()
