@@ -129,7 +129,7 @@
   <button id="go" onclick="go()" class="btn btn-success">Run!</button>
 </p>
 
-<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+<p>The raw output files for each step of the pipeline can be found  <a href="https://rna-tools.online/media/jobs/{{ j.job_id }}/">here</a> and downloaded as a ZIP file <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>.</p>
 
 <hr>
 

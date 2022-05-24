@@ -143,7 +143,7 @@
   The csv with scores sorted from the best to the worst can be found here: for RASP <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/rasp_sorted_rasp_all.csv">rasp_sorted_rasp_all.csv</a> and Dfire <a href="{{ MEDIA_URL }}jobs/{{ j.job_id }}/dfire_sorted_dfire.csv">dfire_sorted_dfire.csv</a>
 </a>
 
-<p>The raw output files for each step of the pipeline can be found <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a></p>
+<p>The raw output files for each step of the pipeline can be found  <a href="https://rna-tools.online/media/jobs/{{ j.job_id }}/">here</a> and downloaded as a ZIP file <a href="{% url 'download_project_dir' job_id=j.job_id %}">here</a>.</p>
 
  <small class="hint">
   <p>
