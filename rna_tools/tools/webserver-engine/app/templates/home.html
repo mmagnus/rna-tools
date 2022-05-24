@@ -57,27 +57,38 @@ height:5px;
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
     <li data-target="#myCarousel" data-slide-to="1"></li>
     <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
   </ol>
   
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <div class="item active">
       <center>
-        <img src="{{ STATIC_URL }}app/img/01b.png" height="" alt="">
+        <img src="{{ STATIC_URL }}app/img/01c.jpg" height="" alt="">
 	</center>
           <div class="carousel-caption">
 	      <h4>rna-tools.online</h4>
-	      is an online gateway to rna-tools
+	      is an online gateway to rna-tools, see what we can do for you <a href="https://rna-tools.online/docs">docs</a> (more docs to come!)
           </div>
      </div>
     
+      <div class="item">
+      <center>
+	<img src="{{ STATIC_URL }}app/img/02x.png" alt="...">
+      </center>
+      <div class="carousel-caption">
+        <h4>rna-tools</h3>
+rna-tools a toolbox to analyze sequences, structures and simulations of RNA with its nearly 100 tools (operations) / see <a href="http://rna-tools.rtfd.io">docs</a> for more
+      </div>
+      </div>
+
       <div class="item">
       <center>
 	<img src="{{ STATIC_URL }}app/img/02.png" alt="...">
       </center>
       <div class="carousel-caption">
         <h4>rna-tools</h3>
-       rna-tools a toolbox to analyze sequences, structures and simulations of RNA with its nearly 100 tools (operations)
+       so rna-tools is more like this insane featured Swiss army knife ;-)
       </div>
       </div>
       
@@ -87,7 +98,7 @@ height:5px;
       </center>
       <div class="carousel-caption">
         <h4>make your own version of rna-tools</h3>
-       you can fork rna-tools to make your own unique toolbox
+       you can also fork rna-tools (<a href="https://github.com/mmagnus/rna-tools/">https://github.com/mmagnus/rna-tools/</a>) to make your own, custom version of a knife
       </div>
       </div>
 
@@ -95,11 +106,13 @@ height:5px;
 </div> 
 
 <p class="lead" style="margin-top:20px;font-size:16px;text-align: justify;">
-    <strong style="font-size:20px">rna-tools s a packages of shell utils that are using the common core library</strong>
+    <strong style="font-size:20px">rna-tools is a packages of shell utils that are using the common core library</strong>
     <br />
-    rna-tools is a core library and a set of programs to run various Python functions related to work, initially, with PDB files of RNA structures, but right now this is a huge toolbox of tools to process various types of RNA data.
+  rna-tools is a core library and a set of programs to run various Python functions related to work, initially, with PDB files of RNA structures, but right now this is a huge toolbox of tools to process various types of RNA data.
+</br>
+</br>
+rna-tools.online is an online gateway to some of these functionalities. We will do our best to copy more and more operations into the server.
 </p>
-
 <!--
 <p class="lead" style="margin-top:20px;font-size:16px;text-align: justify;">
     <strong>An exemplary results can be found <a href="/rna-tools-web/jobs/tRNA_with_SAXS-434e1522">here</a>.</strong>
