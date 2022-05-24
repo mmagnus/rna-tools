@@ -479,8 +479,8 @@ for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; d
              # ; rm ".done"; rm log.txt; 
 
     with open(job_dir + '/run.sh', 'a') as f:
-        f.write("echo 'DONE!' >> log.txt")
-
+        f.write("echo 'http://rna-tools.online/tools/%s/%s' >> log.txt\n" % (tool, job_id))
+        f.write("echo 'DONE!' >> log.txt\n")
     # add conda at the beginning
     run = open(job_dir + '/run.sh').read()
     with open(job_dir + '/run.sh', 'w') as f:
