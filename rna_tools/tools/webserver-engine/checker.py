@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+00 18 * * * /home/ubuntu/rna-tools/rna_tools/tools/webserver-engine/checker.sh
 
 2204bf9d
 862a9fae
@@ -47,13 +48,13 @@ def send_mail_to(mail, txt):
     server.quit()
 
 
-def get_jobs():
+def _get_jobs_():  # not used !
     """time of job is calculated beased on the files!
     If there is now file then you don't estimate the time
 
     Keep jobs that are on JOBS_TO_KEEP list"""
-    jobs = models.Job.objects.filter().order_by("-id")[:100]
-    text =SERVER_NAME + '- checker - scripts shows 100 last jobs!\n\n'
+    jobs = models.Job.objects.filter().order_by("-id")[:200]
+    text = SERVER_NAME + '- checker - scripts shows 100 last jobs!\n\n'
     if True:
         for j in jobs:
             status = j.get_status()
@@ -123,7 +124,7 @@ if __name__ == '__main__':
 
     #os.system('ls -l | grep ' + files[-100])
     txt = ''
-    for d in files[-200:]:
+    for d in files[-100:]: ## lenght set up here !!!!!!!!!
         if d == 'check.py':
             continue
         txt += '= ' + d + ' ' + '=' * 60 + ' \n'
