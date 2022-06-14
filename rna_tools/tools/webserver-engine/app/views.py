@@ -382,7 +382,12 @@ rna_pdb_replace.py %s %s &> log.txt\n
             else:
                 if not target:
                     target = files[0]
-                    files = files[1:]                
+                    files = files[1:]
+                    with open(job_dir + '/run.sh', 'w') as f:
+                             f.write("""
+                rna_calc_rmsd.py -sr -t """ + target + targetselection + modelselection + targetignoreselection + modelignoreselection + """ %s &> log.txt\n
+                """ % ' '.join(files))
+                             
                 else:
                     try:
                         files.remove(target)
