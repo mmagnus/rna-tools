@@ -684,11 +684,14 @@ def ajax_job_status(request, job_id, tool=''):
                     #log += j.get_status()
                 
                 if 'DONE!' in log:
-                    if j.get_status() != 'finished': # of other then just leave it
+                    if j.get_status() != 'finished' and j.get_status() != 'finished with errors': # of other then just leave it
                         import time
                         time.sleep(1)
                         j = Job.objects.get(job_id=job_id.replace('/', ''))
-                        j.status = JOB_STATUSES['finished']
+                        if 'Error' in log or 'Wrong' in log:
+                            j.status = JOB_STATUSES['finished with errors']
+                        else:
+                            j.status = JOB_STATUSES['finished']
                         j.save()
                         response_dict['reload'] = True # False # True # fix it
 
