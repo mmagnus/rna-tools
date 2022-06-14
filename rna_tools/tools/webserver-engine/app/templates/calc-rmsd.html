@@ -230,6 +230,8 @@ target ignore selection: <input type="text" class="form-control" style="font-fam
 model ignore selection: <input type="text" class="form-control" style="font-family:Monospace;height:10px;" id="model-ignore-selection" name="xxx" placeholder="" value=""> <small class="hint">e.g., A/57/O2\'</small>
 </p>
 
+
+
 {%if j.get_status == 'finished' %}
 {%if rows %}
     <center>
@@ -252,7 +254,6 @@ model ignore selection: <input type="text" class="form-control" style="font-fami
       </tbody>
     </table>
     </center>
-    {% endif %}
     {% endif %}
 
 <p>
@@ -279,6 +280,7 @@ Top Model {{ topmodel }} [red]
 </center>
 </p>
 
+{% endif %}
 <div id="log_txt" class='log'>{{ log | safe }}</div>
 
 <!--align {1.1} {2.1};-->
@@ -358,7 +360,6 @@ $("#explainX").click(function() {
     $("#explain").slideToggle();
 });
 </script>
-
 {% endblock %}
 
     
