@@ -344,7 +344,7 @@ rna-tools loves to be used with parallel (wirte in shell script what you want rn
 	
 ## Tools
 
-The (almost) full list of tools can be found here: <https://github.com/mmagnus/rna-tools/blob/master/index-of-tools.md>
+The (almost) full list of tools can be found here: <https://github.com/mmagnus/rna-tools/blob/master/index-of-tools.csv>
 
 Read more http://rna-tools.readthedocs.io/en/latest/
 
