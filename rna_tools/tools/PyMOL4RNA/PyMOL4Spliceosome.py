@@ -450,6 +450,11 @@ def spl2():
     ino()
 
 
+def x():
+    spl_extract()
+    spl_color()
+cmd.extend("x", x)
+
 def _spli():
     """
     # this trick is taken from Rhiju's Das code
@@ -482,3 +487,4 @@ else:
 
     #cmd.extend("spl", spl)
     cmd.extend("spl2", spl2)
+
