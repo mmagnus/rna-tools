@@ -4,6 +4,7 @@ import pandas as pd
 import argparse
 import os
 
+from rna_tools.tools.triplexibility import trx
 from icecream import ic
 import sys
 ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
@@ -18,7 +19,6 @@ def get_parser():
     parser.add_argument("ref", help="", default="") # nargs='+')
     parser.add_argument("-e", "--edge", help="", default= "Triple_cWW_cHS") # nargs='+')
     parser.add_argument("-t", "--threshold", help="if t not none then if score > t is 1 else 0", type=int) # nargs='+')
-
     return parser
 
 if __name__ == '__main__':
@@ -30,11 +30,18 @@ if __name__ == '__main__':
     sl = []
     sle = []
     sledge = []
+    stdb = []
+    stdb2 = []
+    stdb3 = []
+
     for a, b in zip(aa.split(','), bb.split(',')):
          if a != 'x':
              scores = []
              scores_exem = []
              scores_edge = []
+             scores_westhof2 = []
+             scores_westhof3 = []
+             scores_westhof = []
              
              for c in cc.split(','):
 
@@ -84,9 +91,23 @@ if __name__ == '__main__':
                  ic(score_edge)
                  scores_edge.append(score_edge)
 
+                 scores = []
+                 score_westhof = trx.wscore(seqm, 'cWW_cHS', type='exists')#clashes')
+                 scores_westhof.append(score_westhof)
+                 score_westhof2 = trx.wscore(seqm, 'cWW_cHS', type='instances')
+                 scores_westhof2.append(score_westhof2)
+                 score_westhof3 = trx.wscore(seqm, 'cWW_cHS', type='contacts_bo')#clashes')
+                 scores_westhof3.append(score_westhof3)
+
+                 #score_westhof = trx.wscore(seqm, 'cWW_cHS')
+                 #sscores_westhof.append(score_westhof)
+
              sl.append(scores)
              sle.append(scores_exem)
              sledge.append(scores_edge)
+             stdb.append(scores_westhof)
+             stdb2.append(scores_westhof2)
+             stdb3.append(scores_westhof3)
              n = sl
 
     df = pd.DataFrame(sl)
@@ -100,3 +121,17 @@ if __name__ == '__main__':
     df = pd.DataFrame(sledge)
     df = df.T
     df.to_csv('sledge.csv', index=False)
+
+    df = pd.DataFrame(stdb)
+    df = df.T
+    df.to_csv('stdb.csv', index=False)
+
+    df = pd.DataFrame(stdb2)
+    df = df.T
+    df.to_csv('stdb2.csv', index=False)
+
+    df = pd.DataFrame(stdb3)
+    df = df.T
+    df.to_csv('stdb3.csv', index=False)
+
+    ic(sle, stdb, stdb2, stdb3)
