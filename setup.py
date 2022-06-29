@@ -146,9 +146,10 @@ setup(
              'rna_tools/tools/triplexibility/trx_score_allvsall.py',
              'rna_tools/tools/triplexibility/trx_score.py',
              
-             'rna_tools/tools/misc/rna_merge_two_dfs.py',
-             'rna_tools/tools/misc/rna_merge_dfs.py',
-             'rna_tools/tools/misc/rna_csv_sort.py',
+             'rna_tools/tools/df/rna_df_csv_sort.py',
+             'rna_tools/tools/df/rna_df_merge.py',
+             'rna_tools/tools/df/rna_df_merge_on.py',
+             'rna_tools/tools/df/rna_df_merge_two.py',
              
              'rna_tools/tools/misc/rna_ok_mail.py',
              'rna_tools/tools/misc/rna_ok',
