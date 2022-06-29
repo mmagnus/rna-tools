@@ -42,4 +42,5 @@ if __name__ == '__main__':
         dfs.append(df)
     dfs = pd.concat(dfs, axis=1)
     print(dfs)
+    print('saved ', args.output)
     dfs.to_csv(args.output)

@@ -36,5 +36,6 @@ if __name__ == '__main__':
         dft = pd.read_csv(f, delimiter=args.sep)
         merged = pd.merge(merged, dft, on=args.mergeon)#, how=args.how, validate=args.validate)
     print(merged)
-    dfs.to_csv(args.output)
+    print('saved ', args.output)
+    merged.to_csv(args.output)
 
