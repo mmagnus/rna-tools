@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-
+https://pandas.pydata.org/docs/reference/api/pandas.concat.html
 """
 from __future__ import print_function
 import argparse
@@ -20,7 +20,6 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("-o", "--output", help="", default="_merged_.csv")
     parser.add_argument('--sep', help="default is ,; can be also '\t'", default=",")
-    parser.add_argument('mergeon', help="merge on column", default="")
     parser.add_argument("files", help="", default="", nargs='+')
     return parser
 
@@ -28,13 +27,15 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
-
+    print(args)
     files = args.files
-    f1 = files.pop()
-    merged = pd.read_csv(f1, delimiter=args.sep)
+    dfs = []
     for f in files:
-        dft = pd.read_csv(f, delimiter=args.sep)
-        merged = pd.merge(merged, dft, on=args.mergeon)#, how=args.how, validate=args.validate)
+        df = pd.read_csv(f, delimiter=args.sep)
+        print(f)
+        print(df)
+        dfs.append(df)
+    merged = pd.concat(dfs)
     print(merged)
     print('saved ', args.output)
     merged.to_csv(args.output, index=False)
