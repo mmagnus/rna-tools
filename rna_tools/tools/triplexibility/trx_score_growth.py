@@ -49,4 +49,4 @@ if __name__ == '__main__':
         s = s.strip()
         # load data
         d = open('/Users/magnus/Desktop/trx-farfar/t1-2/' + s + '/' + s + '_short.csv').read() # _full
-        print(s, g, d)
+        print(s + ',' + g + ',' + d.replace('source,target,n\n', '').replace('\n', ',')[:-1]) # to remove last coma

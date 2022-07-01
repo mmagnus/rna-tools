@@ -17,6 +17,7 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("--fig", help="", default="fig.py") # nargs='+')
     parser.add_argument("ref", help="", default="") # nargs='+')
+    parser.add_argument("--growth", help="", default="") # nargs='+')
     parser.add_argument("-e", "--edge", help="", default= "Triple_cWW_cHS") # nargs='+')
     parser.add_argument("-t", "--threshold", help="if t not none then if score > t is 1 else 0", type=int) # nargs='+')
     return parser
@@ -104,8 +105,15 @@ if __name__ == '__main__':
 
                  #score_westhof = trx.wscore(seqm, 'cWW_cHS')
                  #sscores_westhof.append(score_westhof)
-
                  rows.append(row)
+
+                 if args.growth:
+                     cols.append('growthby')
+                     df = pd.read_csv(args.growth, sep=',', index_col=False)
+                     growth = df[df['seql'] == seqm.lower()]['growthby'].values[0]
+                     row.append(growth)
+
+                 rows.append(row)                 
              
     print(cols)
     print(rows)
