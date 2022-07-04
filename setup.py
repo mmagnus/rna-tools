@@ -145,6 +145,7 @@ setup(
              'rna_tools/tools/triplexibility/trx_mutgen.py',
              'rna_tools/tools/triplexibility/trx_score_allvsall.py',
              'rna_tools/tools/triplexibility/trx_score.py',
+             'rna_tools/tools/triplexibility/trx_score_onCol.py',
              
              'rna_tools/tools/df/rna_df_csv_sort.py',
              'rna_tools/tools/df/rna_df_merge.py',
