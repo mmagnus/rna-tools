@@ -31,7 +31,7 @@ if __name__ == '__main__':
     files = args.files
     dfs = []
     for f in files:
-        df = pd.read_csv(f, delimiter=args.sep)
+        df = pd.read_csv(f, delimiter=args.sep)#, index_col=1)#index=False)
         print(f)
         print(df)
         dfs.append(df)

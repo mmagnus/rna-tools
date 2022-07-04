@@ -1,4 +1,4 @@
-id_x,seql,fn_x,rasp_all,fn_y,cs,id_y,seq,growth,growthb,growthby,sl,sledge,slexemplary,sle,ID,clarnaOnMutants_b,growth2b,stdb,instances,contacts,fn_x.1,dfire,md,fn_y.1,mdMeds
+id,seql,fn_x,rasp_all,fn_y,cs,id_y,seq,growth,growthb,growthby,sl,sledge,slexemplary,sle,ID,clarnaOnMutants_b,growth2b,stdb,instances,contacts,fn_x.1,dfire,md,fn_y.1,mdMeds
 1.0,aua,1x4.pdbA-22a-C-60u-B-52a-rpr.pdb,-1980.52,1x4.pdbA-22a-C-60u-B-52a-rpr.pdb,17.42,11.0,aua,0.0,0,n,2.19,3.06,2.47,2.47,,,,,,,,,,,
 2.0,auc,1x4.pdbA-22a-C-60u-B-52c-rpr.pdb,-1888.62,1x4.pdbA-22a-C-60u-B-52c-rpr.pdb,7.02,12.0,auc,0.0,0,n,1.91,3.21,2.29,2.29,,,,,,,,,,,
 3.0,aug,1x4.pdbA-22a-C-60u-B-52g-rpr.pdb,-2013.48,1x4.pdbA-22a-C-60u-B-52g-rpr.pdb,20.83,9.0,auG,0.0,0,n,1.55,3.85,1.55,1.55,,,,,,,,,,,

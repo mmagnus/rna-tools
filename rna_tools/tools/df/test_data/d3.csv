@@ -1,4 +1,4 @@
-id_x,seql,fn_x,rasp_all,fn_y,cs,id_y,seq,growth,growthb,growthby,sl,sledge,slexemplary,sle
+id,seql,fn_x,rasp_all,fn_y,cs,id_y,seq,growth,growthb,growthby,sl,sledge,slexemplary,sle
 1,aua,1x4.pdbA-22a-C-60u-B-52a-rpr.pdb,-1980.52,1x4.pdbA-22a-C-60u-B-52a-rpr.pdb,17.42,11,aua,0.0,0,n,2.19,3.06,2.47,2.47
 2,auc,1x4.pdbA-22a-C-60u-B-52c-rpr.pdb,-1888.62,1x4.pdbA-22a-C-60u-B-52c-rpr.pdb,7.02,12,auc,0.0,0,n,1.91,3.21,2.29,2.29
 3,aug,1x4.pdbA-22a-C-60u-B-52g-rpr.pdb,-2013.48,1x4.pdbA-22a-C-60u-B-52g-rpr.pdb,20.83,9,auG,0.0,0,n,1.55,3.85,1.55,1.55
