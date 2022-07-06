@@ -25,15 +25,17 @@ if __name__ == '__main__':
 
     for a, b in zip(aa.split(','), bb.split(',')):
          if a != 'x':
-             
              for c in cc.split(','):
                  seqm = a + b + c
+                 #seq = 'A:1' + a + '+2' + b + '+3' + c # search for the last column
                  seq = 'A:1' + a + '+2' + b + '+3' + c # search for the last column
                  f2 = args.ref + "_" + a + b + c + ".pdb"
                  cmd = "rna_pdb_toolsx.py --mutate '" + seq + "' " + args.ref + " > " + f2
                  print(seq)
                  print(cmd)
                  os.system(cmd)
+                 continue
+             
                  f3 = f2.replace('.pdb', '_rpr.pdb')
                  cmd = "rna_pdb_toolsx.py --rpr " + f2 + " > " + f3
                  print(cmd)

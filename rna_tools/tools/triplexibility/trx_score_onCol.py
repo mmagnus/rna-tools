@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+trx_score_onCol.py t3-3_rpr_fx.pdb --growth ~/Desktop/trx/mutget/t1-3/t1-3_full2.csv
+"""
+
 import pandas as pd
 import argparse
 import os
@@ -72,7 +76,7 @@ if __name__ == '__main__':
                  #except:
                  #    score_exem = 10 # there is not even any exemplar
                  row.append(score_exem)
-                 cols.append('rmsd_exemplar')
+                 cols.append('rmsd_exemplary')
                  
                  dfedge = df[df.fn.str.contains(args.edge)]
                  ic(dfedge)
@@ -105,7 +109,6 @@ if __name__ == '__main__':
 
                  #score_westhof = trx.wscore(seqm, 'cWW_cHS')
                  #sscores_westhof.append(score_westhof)
-                 rows.append(row)
 
                  if args.growth:
                      cols.append('growthby')

@@ -105,6 +105,7 @@ if __name__ == '__main__':
              sl.append(scores)
              sle.append(scores_exem)
              sledge.append(scores_edge)
+
              stdb.append(scores_westhof)
              stdb2.append(scores_westhof2)
              stdb3.append(scores_westhof3)
