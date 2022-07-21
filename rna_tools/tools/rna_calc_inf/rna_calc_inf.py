@@ -44,7 +44,7 @@ def get_parser():
 
     parser.add_argument('-m',"--number-of-threads",
                          dest="nt",
-                         default=3,
+                         default=1,
                          help="number of threads used for multiprocessing, if 1 then mp is not used \
                          (useful for debugging)!")
 
@@ -109,13 +109,14 @@ from ctypes import c_int
 lock = Lock()
 counter = Value(c_int)
 
-def do_job(i, method='clarna'):
+def do_job(l):
     """Run ClaRNA & Compare, add 1 to the counter, write output
     to csv file (keeping it locked)"""
     #if method == 'clarna':
         # run clarna & compare
 
     # ugly hack for direct import
+    i, target_cl_fn, method, DEBUG, verbose = l
     try:
          args.force
          args.no_stacking
@@ -127,8 +128,8 @@ def do_job(i, method='clarna'):
         no_stacking = args.no_stacking        
         
     i_cl_fn = clarna_app.clarna_run(i, force, not no_stacking)
-    output = clarna_app.clarna_compare(target_cl_fn,i_cl_fn, verbose=DEBUG)
-    if args.verbose:
+    output = clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
+    if verbose:
         print(output)
     ## else:
     ##     rmsd, DI_ALL, INF_ALL, INF_WC, INF_NWC,INF_STACK = InteractionNetworkFidelity(os.path.abspath(target_fn),
@@ -205,6 +206,7 @@ if __name__ == '__main__':
         target_fn = new_target_fn
 
     ss = args.ss
+    global target_cl_fn
     if ss:
         # generate target_fn
         ss_txt = open(ss).read().split('\n')[2]
@@ -216,9 +218,12 @@ if __name__ == '__main__':
     # target is in the folder that you are running ClaRNA on
     # /tmp/tmp2nmeVB/1i6uD_M1.pdb.outCR
     d = tempfile.mkdtemp()
+
+    
     tmp_target_cl_fn = d + os.sep + os.path.basename(target_cl_fn)
     shutil.copyfile(target_cl_fn, tmp_target_cl_fn)
     target_cl_fn = tmp_target_cl_fn
+
 
     out_fn = args.out_fn
 
@@ -246,10 +251,14 @@ if __name__ == '__main__':
 
     if number_processes > 1: # multi
         p = Pool(number_processes)
-        p.map(do_job, input_files) # , args.method)
+        lst = []
+        for i in input_files:
+            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose])
+        print(lst)
+        p.map(do_job, lst)
     else: # single process
         for c, i in enumerate(input_files):#, range(len(input_files))):
-            do_job(i, args.method)
+            do_job([i, target_cl_fn, args.method, args.debug, args.verbose])
     print('\ncsv was created! ', out_fn)
     
     # hack with pandas
