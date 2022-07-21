@@ -1,3 +1,9 @@
+"""Install by adding the Python file to you ~/.pymolrc, e.g.
+
+    run /Users/magnus/work/src/rna-tools/rna_tools/tools/mq/RASP/rasp_for_pymol.py
+    
+"""
+
 from pymol import cmd
 import os
 import subprocess
