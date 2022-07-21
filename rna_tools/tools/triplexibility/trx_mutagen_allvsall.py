@@ -28,6 +28,7 @@ if __name__ == '__main__':
                  os.makedirs('mutants_rpr', exist_ok=True)
 
                  seqm = a + b + c
+                 #seq = 'A:1' + a + '+2' + b + '+3' + c # search for the last column
                  seq = 'A:1' + a + '+2' + b + '+3' + c # search for the last column
                  f2 = args.ref + "_" + a + b + c + ".pdb"
                  cmd = "rna_pdb_toolsx.py --mutate '" + seq + "' " + args.ref + " > mutants/" + f2

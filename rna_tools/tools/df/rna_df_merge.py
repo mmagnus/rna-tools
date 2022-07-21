@@ -22,7 +22,7 @@ def get_parser():
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     parser.add_argument("--drop-col", help="", default="")
-    parser.add_argument("-o", "--output", help="", default="'_merged.csv'")
+    parser.add_argument("-o", "--output", help="", default="_merged_.csv")
     parser.add_argument("files", help="", default="", nargs='+')
     
     return parser
@@ -42,4 +42,5 @@ if __name__ == '__main__':
         dfs.append(df)
     dfs = pd.concat(dfs, axis=1)
     print(dfs)
-    dfs.to_csv(args.output)
+    print('saved ', args.output)
+    dfs.to_csv(args.output, index=False)

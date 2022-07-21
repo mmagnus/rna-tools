@@ -1,0 +1,17 @@
+id,seql,fn_x,rasp_all,fn_y,cs,id_y,seq,growth,growthb,growthby,sl,sledge,slexemplary,sle
+1,aua,1x4.pdbA-22a-C-60u-B-52a-rpr.pdb,-1980.52,1x4.pdbA-22a-C-60u-B-52a-rpr.pdb,17.42,11,aua,0.0,0,n,2.19,3.06,2.47,2.47
+2,auc,1x4.pdbA-22a-C-60u-B-52c-rpr.pdb,-1888.62,1x4.pdbA-22a-C-60u-B-52c-rpr.pdb,7.02,12,auc,0.0,0,n,1.91,3.21,2.29,2.29
+3,aug,1x4.pdbA-22a-C-60u-B-52g-rpr.pdb,-2013.48,1x4.pdbA-22a-C-60u-B-52g-rpr.pdb,20.83,9,auG,0.0,0,n,1.55,3.85,1.55,1.55
+4,auu,1x4.pdbA-22a-C-60u-B-52u-rpr.pdb,-1876.82,1x4.pdbA-22a-C-60u-B-52u-rpr.pdb,7.04,10,auu,0.0,0,n,1.41,3.16,2.74,2.74
+5,cca,1x4.pdbA-22c-C-60c-B-52a-rpr.pdb,-1880.76,1x4.pdbA-22c-C-60c-B-52a-rpr.pdb,17.48,15,Cca,0.0,0,n,2.53,3.71,3.6,3.6
+6,ccc,1x4.pdbA-22c-C-60c-B-52c-rpr.pdb,-1794.79,1x4.pdbA-22c-C-60c-B-52c-rpr.pdb,10.56,16,Ccc,0.0,0,n,1.62,3.87,3.82,3.82
+7,ccg,1x4.pdbA-22c-C-60c-B-52g-rpr.pdb,-1908.65,1x4.pdbA-22c-C-60c-B-52g-rpr.pdb,31.36,13,CcG,0.0,0,n,2.31,3.22,2.63,2.63
+8,ccu,1x4.pdbA-22c-C-60c-B-52u-rpr.pdb,-1781.95,1x4.pdbA-22c-C-60c-B-52u-rpr.pdb,10.6,14,Ccu,0.0,0,n,1.99,3.45,4.16,4.16
+9,cga,1x4.pdbA-22c-C-60g-B-52a-rpr.pdb,-2109.44,1x4.pdbA-22c-C-60g-B-52a-rpr.pdb,6.92,3,CGa,0.0,0,n,1.36,2.69,1.99,1.99
+10,cgc,1x4.pdbA-22c-C-60g-B-52c-rpr.pdb,-2017.49,1x4.pdbA-22c-C-60g-B-52c-rpr.pdb,6.97,4,CGc,0.0,0,n,2.02,3.6,2.12,2.12
+11,cgg,1x4.pdbA-22c-C-60g-B-52g-rpr.pdb,-2148.78,1x4.pdbA-22c-C-60g-B-52g-rpr.pdb,6.9,1,CGG,1.0,1,y,1.92,2.63,1.92,1.92
+12,cgu,1x4.pdbA-22c-C-60g-B-52u-rpr.pdb,-2002.48,1x4.pdbA-22c-C-60g-B-52u-rpr.pdb,6.99,2,CGu,1.0,1,y,1.28,3.4,2.79,2.79
+13,cua,1x4.pdbA-22c-C-60u-B-52a-rpr.pdb,-1887.53,1x4.pdbA-22c-C-60u-B-52a-rpr.pdb,17.54,7,Cua,0.0,0,n,2.55,3.81,2.88,2.88
+14,cuc,1x4.pdbA-22c-C-60u-B-52c-rpr.pdb,-1800.01,1x4.pdbA-22c-C-60u-B-52c-rpr.pdb,7.07,8,Cuc,0.0,0,n,2.2,3.17,3.62,3.62
+15,cug,1x4.pdbA-22c-C-60u-B-52g-rpr.pdb,-1919.04,1x4.pdbA-22c-C-60u-B-52g-rpr.pdb,20.98,5,CuG,0.0,0,n,2.44,3.41,3.38,3.38
+16,cuu,1x4.pdbA-22c-C-60u-B-52u-rpr.pdb,-1788.36,1x4.pdbA-22c-C-60u-B-52u-rpr.pdb,7.09,6,Cuu,0.5,1,y,2.02,3.17,3.71,3.71

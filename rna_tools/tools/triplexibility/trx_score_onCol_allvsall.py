@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+trx_score_onCol.py t3-3_rpr_fx.pdb --growth ~/Desktop/trx/mutget/t1-3/t1-3_full2.csv
+"""
+
 import pandas as pd
 import argparse
 import os
@@ -15,41 +19,37 @@ def get_parser():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument("--fig", help="", default="fig.py") # nargs='+')
-    parser.add_argument("ref", help="", default="") # nargs='+')
+    #parser.add_argument("--fig", help="", default="fig.py") # nargs='+')
+    parser.add_argument("--growth", help="", default="") # nargs='+')
     parser.add_argument("-e", "--edge", help="", default= "Triple_cWW_cHS") # nargs='+')
     parser.add_argument("-t", "--threshold", help="if t not none then if score > t is 1 else 0", type=int) # nargs='+')
+    parser.add_argument("ref", help="", default="") # nargs='+')
     return parser
 
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
-    exec(open(args.fig).read())
-    
-    sl = []
-    sle = []
-    sledge = []
-    stdb = []
-    stdb2 = []
-    stdb3 = []
+    print(args)
 
-    for a, b in zip(aa.split(','), bb.split(',')):
-         if a != 'x':
-             scores = []
-             scores_exem = []
-             scores_edge = []
-             scores_westhof2 = []
-             scores_westhof3 = []
-             scores_westhof = []
-             
-             for c in cc.split(','):
+    rows = [] # seq, scores
+    for a in ['a', 'c', 'g', 'u']:
+        for b in ['a', 'c', 'g', 'u']:
+             for c in ['a', 'c', 'g', 'u']:
+
+                 row = []
+                 cols = []
+
+                 cols.append('seq')
+                 cols.append('seql')
 
                  f2 = args.ref + "_" + a + b + c + ".pdb"
                  f3 = f2.replace('.pdb', '_rpr.pdb')
 
                  csvf = a + b + c + ".csv"
                  seqm = a + b + c
+                 row.append(seqm)
+                 row.append(seqm.lower())
                  
                  df = pd.read_csv(csvf, sep=',', index_col=False)#, index=False)
                  score = float(df['rmsd'][0])
@@ -61,7 +61,8 @@ if __name__ == '__main__':
                      else:
                          score = 0
                  ic(score)
-                 scores.append(score)
+                 cols.append('rmsd')
+                 row.append(score)
 
                  dfexemplar = df[df.fn.str.contains("exemplar")]
                  ic(dfexemplar)
@@ -74,7 +75,8 @@ if __name__ == '__main__':
                  ic(score_exem)
                  #except:
                  #    score_exem = 10 # there is not even any exemplar
-                 scores_exem.append(score_exem)
+                 row.append(score_exem)
+                 cols.append('rmsd_exemplary')
                  
                  dfedge = df[df.fn.str.contains(args.edge)]
                  ic(dfedge)
@@ -89,50 +91,36 @@ if __name__ == '__main__':
                      else:
                          score_edge = 0
                  ic(score_edge)
-                 scores_edge.append(score_edge)
+                 row.append(score_edge)
+                 cols.append('rmsd_edge')
 
                  scores = []
                  score_westhof = trx.wscore(seqm, 'cWW_cHS', type='exists')#clashes')
-                 scores_westhof.append(score_westhof)
+                 row.append(score_westhof)
+                 cols.append('exists')
+                 
                  score_westhof2 = trx.wscore(seqm, 'cWW_cHS', type='instances')
-                 scores_westhof2.append(score_westhof2)
+                 row.append(score_westhof2)
+                 cols.append('instances')
+                 
                  score_westhof3 = trx.wscore(seqm, 'cWW_cHS', type='contacts_bo')#clashes')
-                 scores_westhof3.append(score_westhof3)
+                 row.append(score_westhof3)
+                 cols.append('contacts')
 
                  #score_westhof = trx.wscore(seqm, 'cWW_cHS')
                  #sscores_westhof.append(score_westhof)
 
-             sl.append(scores)
-             sle.append(scores_exem)
-             sledge.append(scores_edge)
+                 if args.growth:
+                     cols.append('growthby')
+                     df = pd.read_csv(args.growth, sep=',', index_col=False)
+                     growth = df[df['seql'] == seqm.lower()]['growthby'].values[0]
+                     row.append(growth)
 
-             stdb.append(scores_westhof)
-             stdb2.append(scores_westhof2)
-             stdb3.append(scores_westhof3)
-             n = sl
-
-    df = pd.DataFrame(sl)
-    df = df.T
-    df.to_csv('sl.csv', index=False)
-
-    df = pd.DataFrame(sle)
-    df = df.T
-    df.to_csv('slexemplary.csv', index=False)
-
-    df = pd.DataFrame(sledge)
-    df = df.T
-    df.to_csv('sledge.csv', index=False)
-
-    df = pd.DataFrame(stdb)
-    df = df.T
-    df.to_csv('stdb.csv', index=False)
-
-    df = pd.DataFrame(stdb2)
-    df = df.T
-    df.to_csv('stdb2.csv', index=False)
-
-    df = pd.DataFrame(stdb3)
-    df = df.T
-    df.to_csv('stdb3.csv', index=False)
-
-    ic(sle, stdb, stdb2, stdb3)
+                 rows.append(row)                 
+             
+    print(cols)
+    print(rows)
+    
+    df = pd.DataFrame(rows, columns=cols)
+    print(df)
+    df.to_csv('_scores_.csv', index=False)

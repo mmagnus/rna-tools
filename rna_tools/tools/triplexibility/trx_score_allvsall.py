@@ -85,7 +85,8 @@ if __name__ == '__main__':
                          score_edge = 0
                  ic(score_edge)
                  scores_edge.append(score_edge)
-
+                 # # of cases
+                 
              sl.append(scores)
              sle.append(scores_exem)
              sledge.append(scores_edge)

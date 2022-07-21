@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""This module contains functions for computing NAST potential via Pyro.
+"""
 """
 from __future__ import print_function
 
