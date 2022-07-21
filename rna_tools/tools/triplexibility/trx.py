@@ -203,12 +203,13 @@ if __name__ == '__main__':
     score = wscore(args.seq, args.edge)#, df)
     print(score)
 
+
     # second
     #if v: print(triple2nd)
     #score2 = score_triple(triple2nd, edge)
     #print(score, score2, get_growth(seq))
     sys.exit(1)
-    
+
     x = growth_t23('GGG') # Nan
     x = growth_t23('AGU') # Nan
     ic(type(x))

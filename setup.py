@@ -140,6 +140,15 @@ setup(
              'rna_tools/tools/md/rna_traj_range.py',
              'rna_tools/tools/md/rna_traj_nohetm.py',
              
+             'rna_tools/tools/triplexibility/triplexibility.py',
+             'rna_tools/tools/triplexibility/triplexibility2.py',
+
+             'rna_tools/tools/triplexibility/trx_mutagen_allvsall.py',
+             'rna_tools/tools/triplexibility/trx_mutgen.py',
+             'rna_tools/tools/triplexibility/trx_score_allvsall.py',
+             'rna_tools/tools/triplexibility/trx_score.py',
+             'rna_tools/tools/triplexibility/trx_score_onCol.py',
+             
              'rna_tools/tools/df/rna_df_csv_sort.py',
              'rna_tools/tools/df/rna_df_merge.py',
              'rna_tools/tools/df/rna_df_merge_on.py',
