@@ -1,2 +1,3 @@
 include versioneer.py
 include rna_tools/_version.py
+recursive-include rna_tools *
