@@ -18,7 +18,7 @@ To my knowledge the clarna library (files in lib directory) are the same in repo
 
 ClaRNA requires:
 
-sudo pip install simplejson==2.6.1 networkx==1.8.1 scipy
+    pip install simplejson==2.6.1 networkx==1.8.1 scipy
 
 [!] somehow I could not install scipy via pip. I run sudo apt-get install python-scipy.
 
