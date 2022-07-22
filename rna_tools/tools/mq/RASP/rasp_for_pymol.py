@@ -12,11 +12,11 @@ from pymol import cmd
 import os
 import subprocess
 from tempfile import gettempdir
-RASP_PATH = "/Users/magnus/work/src/rna-tools/opt/" # rasp-fd-1.0/bin"
-PROFILE_FILE = '/Users/magnus/Desktop/profile.scr'
 
-def rasmol2pymol():
-    f = open(PROFILE_FILE)
+from rna_tools.rna_tools_config import RASP_PATH, RASP_PATH_DIR
+
+def rasmol2pymol(profile_file):
+    f = open(profile_file)
     old_lines = f.readlines()
     new_lines = []
     line = ''
@@ -39,21 +39,25 @@ def rasp(selection):
     tempdir = gettempdir()
     cmd.save(os.path.join(tempdir, 'rasp_input.pdb'), selection, format='pdb')
     cmd1 = (
-            os.path.join(RASP_PATH, 'rasp-fd-1.0', 'bin', 'rasp_fd') + 
+            os.path.join(RASP_PATH, '', 'bin', 'rasp_fd') + 
             ' -e all -p ' + os.path.join(tempdir, 'rasp_input.pdb')
             ).split()
     print(' '.join(cmd1))
     cmd2 = (
-            os.path.join(RASP_PATH, 'rasp-fd-1.0', 'bin', 'rasp_profile_fd') +
+            os.path.join(RASP_PATH, '', 'bin', 'rasp_profile_fd') +
             ' -e all -r -p ' + os.path.join(tempdir, 'rasp_input.pdb')
             ).split()
 
-    rasp_dir = os.path.join(RASP_PATH, 'rasp-fd-1.0')
+    rasp_dir = os.path.join(RASP_PATH, '')
+    curr_dir = os.getcwd()
+    os.chdir(tempdir)
+    print(tempdir)
     subprocess.Popen(cmd1, env={'RASP': rasp_dir})
     subprocess.Popen(cmd2, env={'RASP': rasp_dir})
     print(' '.join(cmd1))
     print(' '.join(cmd2))
-    cmds = rasmol2pymol()
+    os.chdir(curr_dir)
+    cmds = rasmol2pymol(tempdir + '/profile.scr')
     for c in cmds:
         print(c)
         cmd.do(c)
