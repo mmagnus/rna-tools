@@ -1,6 +1,7 @@
 <h1 align="center">
   rna-tools
 </h1>
+
 <p align="center" style="font-size:20px">
   <b >a toolbox to analyze sequences, structures and simulations of RNA (and way more!)</b>
 </p>
@@ -157,21 +158,30 @@ Take a tour http://mmagnus.github.io/rna-tools/#/
 ## rna_pdb_toolsx.py
 
 ```
-usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar] [--renum-atoms] [--renum-nmr]
-                         [--renum-residues-dirty] [--undo] [--delete-anisou] [--fix] [--to-mol2]
-                         [--split-alt-locations] [-c] [--is-pdb] [--is-nmr] [--nmr-dir NMR_DIR]
-                         [--un-nmr] [--orgmode] [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
-                         [--fetch-chain] [--get-seq] [--color-seq] [--ignore-files IGNORE_FILES]
-                         [--compact] [--hide-warnings] [--get-ss] [--rosetta2generic] [--no-hr]
-                         [--renumber-residues] [--dont-rename-chains] [--dont-fix-missing-atoms]
-                         [--inspect] [--collapsed-view] [--cv] [-v] [--mutate MUTATE] [--edit EDIT]
-                         [--rename-chain RENAME_CHAIN] [--swap-chains SWAP_CHAINS]
-                         [--set-chain SET_CHAIN] [--replace-chain REPLACE_CHAIN] [--delete DELETE]
-                         [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN] [--uniq UNIQ]
-                         [--chain-first] [--oneline] [--replace-htm] [--fasta] [--cif2pdb] [--pdb2cif]
-                         [--mdr] [--get-rnapuzzle-ready] [--rpr] [--keep-hetatm] [--inplace]
-                         [--suffix SUFFIX] [--replace-hetatm] [--dont-report-missing-atoms]
-                         [--backbone-only] [--no-backbone] [--bases-only]
+usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
+                         [--renum-atoms] [--renum-nmr]
+                         [--renum-residues-dirty] [--undo] [--delete-anisou]
+                         [--fix] [--to-mol2] [--split-alt-locations] [-c]
+                         [--is-pdb] [--is-nmr] [--nmr-dir NMR_DIR] [--un-nmr]
+                         [--orgmode] [--get-chain GET_CHAIN] [--fetch]
+                         [--fetch-ba] [--fetch-chain] [--get-seq]
+                         [--color-seq] [--ignore-files IGNORE_FILES]
+                         [--compact] [--hide-warnings] [--get-ss]
+                         [--rosetta2generic] [--no-hr] [--renumber-residues]
+                         [--dont-rename-chains] [--dont-fix-missing-atoms]
+                         [--inspect] [--collapsed-view] [--cv] [-v]
+                         [--mutate MUTATE] [--edit EDIT]
+                         [--rename-chain RENAME_CHAIN]
+                         [--swap-chains SWAP_CHAINS] [--set-chain SET_CHAIN]
+                         [--replace-chain REPLACE_CHAIN] [--delete DELETE]
+                         [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
+                         [--uniq UNIQ] [--chain-first] [--oneline]
+                         [--replace-htm] [--fasta] [--cif2pdb] [--pdb2cif]
+                         [--mdr] [--get-rnapuzzle-ready] [--rpr]
+                         [--keep-hetatm] [--inplace] [--here]
+                         [--suffix SUFFIX] [--replace-hetatm]
+                         [--dont-report-missing-atoms] [--backbone-only]
+                         [--no-backbone] [--bases-only]
                          file [file ...]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
@@ -304,6 +314,8 @@ CAN BE COMBINED WITH:
   --keep-hetatm         keep hetatoms
   --inplace             in place edit the file! [experimental,
                         only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]
+  --here                save a file next to the original file with auto suffix
+                        for --extract it's .extr.pdb
   --suffix SUFFIX       when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)
   --replace-hetatm      replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
   --dont-report-missing-atoms
