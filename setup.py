@@ -32,7 +32,7 @@ setup(
              'rna_tools/tools/rna_multimodels/rna_pdb_merge_into_one.py',
              'rna_tools/tools/rna_calc_inf/rna_calc_inf.py',
              'rna_tools/tools/rna_convert_pseudoknot_formats/rna_pk_simrna_to_one_line.py',
-             'rna_tools/tools/clarna_app/clarna_app.py',
+             'rna_tools/tools/clarna_app/rna_clarna_app.py',
              'rna_tools/tools/rna_helix_vis/rna_helix_vis.py',
              'rna_tools/tools/misc/rna_add_chain.py',
              'rna_tools/tools/rna_sali2dotbracket/rna_sali2dotbracket.py',
@@ -165,6 +165,8 @@ setup(
         'numpy',
         'biopython',
         'progressbar2',
+        'tqdm',
+
         'csvsort',
         # keep pip minimal
         #'sphinx==1.6.7',
@@ -177,6 +179,7 @@ setup(
         #'matplotlib',
         #'scipy',
         #'python-Levenshtein',
+
         'versioneer',
         'configparser',
         'icecream',

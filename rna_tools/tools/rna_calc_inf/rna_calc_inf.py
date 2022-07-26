@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/Users/magnus/miniconda3/bin/python
 # -*- coding: utf-8 -*-
 """A tool to calc inf_all, inf_stack, inf_WC, inf_nWC, SNS_WC, PPV_WC, SNS_nWC, PPV_nWC between two structures.
 
@@ -14,7 +14,6 @@ Second, the procedure implemented in here is composed of two steps, first for ea
 """
 from __future__ import print_function
 
-import progressbar
 import argparse
 import sys
 import os
@@ -24,11 +23,13 @@ import tempfile
 import csv
 import shutil
 
+from multiprocessing import Pool, Lock, Value, Process
+
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.filterwarnings('ignore', '.* resource_tracker: There appea*',)
 
-from multiprocessing import Pool, Lock, Value, Process
-from rna_tools.tools.clarna_app import clarna_app
+from rna_tools.tools.clarna_app import rna_clarna_app
 #from rna_tools.opt.BasicAssessMetrics.BasicAssessMetrics import InteractionNetworkFidelity
 
 import pandas as pd
@@ -44,7 +45,7 @@ def get_parser():
 
     parser.add_argument('-m',"--number-of-threads",
                          dest="nt",
-                         default=1,
+                         default=8,
                          help="number of threads used for multiprocessing, if 1 then mp is not used \
                          (useful for debugging)!")
 
@@ -117,6 +118,7 @@ def do_job(l):
 
     # ugly hack for direct import
     i, target_cl_fn, method, DEBUG, verbose = l
+
     try:
          args.force
          args.no_stacking
@@ -127,8 +129,9 @@ def do_job(l):
         force = args.force
         no_stacking = args.no_stacking        
         
-    i_cl_fn = clarna_app.clarna_run(i, force, not no_stacking)
-    output = clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
+    i_cl_fn = rna_clarna_app.clarna_run(i, force, not no_stacking)
+    output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
+
     if verbose:
         print(output)
     ## else:
@@ -139,20 +142,9 @@ def do_job(l):
     ##     if args.debug:
     ##         print(rmsd)
 
-    # counter and bar
     global counter
     counter.value += 1
-    bar.update(counter.value)
-
-    # write csv
-    lock.acquire()
-    # take only filename of target
-    cells = output.split()
-    cells[0] = os.path.basename(cells[0])
-
-    csv_writer.writerow(cells)
-    csv_file.flush()
-    lock.release()
+    return output
 
 #main
 if __name__ == '__main__':
@@ -210,9 +202,9 @@ if __name__ == '__main__':
     if ss:
         # generate target_fn
         ss_txt = open(ss).read().split('\n')[2]
-        target_cl_fn = clarna_app.get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
+        target_cl_fn = rna_clarna_app.get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
     else:
-        target_cl_fn = clarna_app.clarna_run(target_fn, args.force)
+        target_cl_fn = rna_clarna_app.clarna_run(target_fn, args.force)
         
     # keep target save, don't overwrite it when force and
     # target is in the folder that you are running ClaRNA on
@@ -236,30 +228,43 @@ if __name__ == '__main__':
     csv_writer.writerow('target,fn,inf_all,inf_stack,inf_WC,inf_nWC,sns_WC,ppv_WC,sns_nWC,ppv_nWC'.split(','))
     csv_file.flush()
 
-    # Init bar and to the job
-    try:
-        bar = progressbar.ProgressBar(max_value=len(input_files))
-        bar.update(0)
-    except TypeError:
-        print('Please install progressbar2 (not progressbar), e.g. pip install progressbar2')
-        sys.exit(1)
-
-    # Main meat
+    # main meat
     number_processes = int(args.nt)
 
-    open('/tmp/empty-index', 'a').close()  ## ugly hack
+    open('/tmp/empty-index', 'a').close()  ## ugly hack ## for what?
 
     if number_processes > 1: # multi
-        p = Pool(number_processes)
+        pool = Pool(number_processes)
         lst = []
         for i in input_files:
-            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose])
-        print(lst)
-        p.map(do_job, lst)
+            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose])#, csv_writer, csv_file])
+        #print(lst)
+        #res = p.map(do_job, lst)
+        #p.close()
+        #p.join()
+        from tqdm.contrib.concurrent import process_map  # or thread_map
+        outputs = process_map(do_job, lst, max_workers=2)
+        pool.close()
+        
     else: # single process
+        outputs = []
+        from tqdm import tqdm
+        bar = tqdm(input_files)
         for c, i in enumerate(input_files):#, range(len(input_files))):
-            do_job([i, target_cl_fn, args.method, args.debug, args.verbose])
-    print('\ncsv was created! ', out_fn)
+            output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose])
+            outputs.append(output)
+            bar.update(c)
+        bar.close()
+
+    for output in outputs:
+        # take only filename of target
+        cells = output.split()
+        cells[0] = os.path.basename(cells[0])
+
+        csv_writer.writerow(cells)
+        csv_file.flush()
+
+    print('csv was created! ', out_fn)
     
     # hack with pandas
     csv_file.close()

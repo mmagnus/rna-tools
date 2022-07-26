@@ -1,4 +1,4 @@
-from rna_tools.tools.clarna_app import clarna_app
+from rna_tools.tools.clarna_app import rna_clarna_app
 
 if __name__ == '__main__':
     ss = '((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))'

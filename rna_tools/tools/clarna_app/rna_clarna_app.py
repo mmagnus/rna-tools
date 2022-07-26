@@ -52,6 +52,7 @@ def clarna_run(fn, force=True, stacking=True, verbose=False):
         cmd = 'rna_clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
         if verbose: print(cmd)
         os.system(cmd)
+
     if os.stat(fn_out).st_size == 0: # if file is empty also run
         cmd = 'rna_clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
         if verbose: print(cmd)
@@ -95,7 +96,8 @@ def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
     std = o.stdout.read().strip().decode()
     if not std:
         raise Exception('ClaRNA output is empty, something went wrong:\n\t %s \n %s' % (cmd, std))
-    if verbose: 'clarna_app::o.stderr',o.stderr.read()
+    if verbose:
+        print('clarna_app::o.stderr', o.stderr.read())
 
     #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
     #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
@@ -158,6 +160,7 @@ def get_parser():
 
     return parser
 
+# main
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
