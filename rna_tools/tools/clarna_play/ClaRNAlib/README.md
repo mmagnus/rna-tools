@@ -1,4 +1,4 @@
-This is ClaRNA 3.0 , prepared by @mmagnus for rna-tools that works with Python3.
+This is mini_ClaRNA 3.0 (mini = code only required to run ClaRNA and calculate INFs), prepared by @mmagnus for rna-tools that works with Python3.
 
 ClaRNA
 ===========================================================
