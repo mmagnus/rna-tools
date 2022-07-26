@@ -31,4 +31,23 @@ if [ "$(uname)" == "Darwin" ]; then
 else
     alias duu='du -s -B G * 2> /dev/null | sort -nr | tee duu' #du -h -d 1'
 fi
->>>>>>> a665b7c46cbc1fb232b4e941591955d3d9a2033d
+
+xx(){
+    set -x
+    for 1 in $@; do
+       time 7zz a -m0=lzma2 -mmt=on ${1}.lzma2.7z ${1} && trash ${1} # mv -v ${1} ${1}_7zed
+    done;
+}
+
+x9(){
+    set -x
+    for 1 in $@; do
+	     time 7zz a  -mx=9 -m0=lzma2 -mmt=on ${1}.`date +%y%m%d`.lzma2.7z ${1} && trash ${1} # mv -v ${1} ${1}_7zed
+    done;
+
+    #
+    #
+    ## | tee ${1}.log
+    # zipinfo ${1}.7z >> ${1}.log
+    # trash ${1}
+}
