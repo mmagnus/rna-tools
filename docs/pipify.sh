@@ -17,7 +17,6 @@ trash rna_tools/output
 trash U6MolCell
 trash notes
 trash docs
-trash rna_tools/tools/spotifier/imgs/
 
 python setup.py bdist_wheel
 
