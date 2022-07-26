@@ -31,6 +31,11 @@ from __future__ import print_function
 from rna_tools.tools.rna_calc_rmsd.lib.rmsd.calculate_rmsd import rmsd, get_coordinates, centroid, kabsch_rmsd
 from rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd import calc_rmsd_pymol
 
+from icecream import ic
+import sys
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True)
+ic.configureOutput(prefix='> ')
+
 import argparse
 import glob
 import re
@@ -115,7 +120,7 @@ if __name__ == '__main__':
 
     models = get_rna_models_from_dir(input_dir)
 
-    print(' # of models:', len(models))
+    # print('number of models:', len(models))
 
     f = open(matrix_fn, 'w')
     t = '# '
@@ -126,6 +131,8 @@ if __name__ == '__main__':
     t += '\n'
 
     c = 1
+    avg = 0
+    avgs = []
     for r1 in models:
         for r2 in models:
             if args.method == 'align':
@@ -135,7 +142,9 @@ if __name__ == '__main__':
             else:
                 rmsd_curr = calc_rmsd(r1, r2)
             t += str(round(rmsd_curr, 3)) + ','
-        print('...', c, r1)
+            avg += round(rmsd_curr, 3)
+            avgs.append(round(rmsd_curr, 3))
+        # print('...', c, r1)
         c += 1
         t = t[:-1] # remove ending ,
         t += '\n'
@@ -143,9 +152,20 @@ if __name__ == '__main__':
     f.write(t)
     f.close()
 
-    print(t.strip())  # matrix
+    def avgf(lst):
+        return round(sum(lst) / len(lst), 2)
+    ic.disable()
+    ic(avg)
+    ic(avgf(avgs))
+    ic(c)
+    ic(avgs)
 
-    if True:
-        print('matrix was created! ', matrix_fn)
-    else:
-        print('matrix NOT was created!')
+    #print('score')
+    print(avgf(avgs))
+    #print(t.strip())  # matrix
+
+    if 0:
+        if True:
+            print('matrix was created! ', matrix_fn)
+        else:
+            print('matrix NOT was created!')

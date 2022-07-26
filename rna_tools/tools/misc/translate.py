@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from Bio.Seq import Seq
-from Bio.Alphabet import generic_dna, generic_protein
 import fileinput
 
 for line in fileinput.input():

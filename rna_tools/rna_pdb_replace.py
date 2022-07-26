@@ -29,8 +29,6 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    #parser.add_argument('-', "--", help="", default="")
-
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
     parser.add_argument("file", help="", default="") # nargs='+')
@@ -48,7 +46,14 @@ if __name__ == '__main__':
     r1 = RNAStructure(f1)
     r2 = RNAStructure(f2)    
 
-    t = replace_atoms(f1, f2)
-    if not args.output:
-        with open(args.file.replace('.pdb', '_rpl.pdb'), 'w') as f: f.write(t)
+    t = replace_atoms(f1, f2, args.verbose)
+    output = args.output
+    if not output:
+        output = args.file.replace('.pdb', '_rpl.pdb')
 
+    with open(output, 'w') as f:
+        f.write(t)
+        print('Saved %s' % output)
+        
+    
+            

@@ -29,7 +29,7 @@ def get_parser():
 if 'Darwin' == platform.system():
     is_mac = True
     #BIN = '/usr/local/bin' # TODO: fix it
-    BIN = BIN_PATH # "/opt/homebrew/bin/"
+    BIN = '/opt/homebrew/bin/' #BIN_PATH # "/opt/homebrew/bin/"
 else:
     is_mac = False
     BIN = '/usr/bin'
@@ -38,6 +38,8 @@ if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
+    print(BIN)
+    
     for file in args.files:
         tf = tempfile.NamedTemporaryFile(delete=False)
         f = tf.name + '.png'

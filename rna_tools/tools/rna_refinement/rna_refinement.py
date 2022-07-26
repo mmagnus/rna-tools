@@ -107,6 +107,7 @@ class QRNAS:
         
         conftxt = open(QRNAS_PATH + os.sep + 'configfile.txt').read()
         conftxt_tmp = re.sub('\#?\s?NSTEPS.+\d+', 'NSTEPS   ' + str(steps), conftxt)
+        conftxt_tmp = re.sub('\#?\s?VERBOSE.+\d+', 'VERBOSE 1', conftxt)
 
         if job_id_random:
             JOB_ID = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(20))
@@ -129,7 +130,7 @@ class QRNAS:
 
         # copy input to qrnas folder
         qrnas_inputfile = JOB_PATH + os.path.basename(inputfile)
-        qrnas_outputfile = JOB_PATH + os.path.basename(inputfile).replace('.pdb', '.refx.pdb')
+        qrnas_outputfile = JOB_PATH + os.path.basename(inputfile).replace('.pdb', '_refx.pdb')
         copyfile(inputfile, qrnas_inputfile)
 
         os.chdir(QRNAS_PATH)

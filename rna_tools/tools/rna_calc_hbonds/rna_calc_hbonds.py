@@ -32,7 +32,7 @@ if __name__ == '__main__':
         from pymol import stored
         pymol.finish_launching()
     except ImportError:
-        print('calc_rmsd_pymol: you need to have installed PyMOL')
+        print('you need to have installed PyMOL')
         import sys
         sys.exit(0) # no error
 

@@ -14,7 +14,7 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    parser.add_argument('--method', help="cyclefold, mcfold", default="cyclefold")#, required=True)
+    parser.add_argument('--method', help="cyclefold, mcfold")#, default="cyclefold")#, required=True)
     parser.add_argument("--seq", help="", default="")
     parser.add_argument("--file", help="", default="")
     parser.add_argument("--cstinfile", action="store_true", help="the 3rd file should have cst line, e.g. '((....))'")
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
     if args.method == 'cyclefold':
         seq = RNASequence(seq)
-        ss, en = seq.predict_ss('rnastructure_CycleFold', verbose=args.verbose)
+        #ss, en = seq.predict_ss('rnastructure_CycleFold', verbose=args.verbose)
         print(en, ss)
 
     if args.method == 'mcfold':
@@ -77,3 +77,5 @@ if __name__ == '__main__':
         #if not ss:
         #    ss = 'x'
         print(ss, en)
+
+     print(seq.predict_ss('ipknot', constraints=cst, verbose=args.verbose))

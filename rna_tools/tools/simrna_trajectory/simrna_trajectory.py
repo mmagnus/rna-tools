@@ -165,9 +165,9 @@ class Frame:
 
         self.V = []
         for r in self.residues:
-            # self.V.append(r.get_center())
-            for a in r.atoms:
-                self.V.append(a.get_coord())
+            self.V.append(r.get_center())
+            #for a in r.atoms:
+            #    self.V.append(a.get_coord())
             # self.V.append(r.get_center())
 
 

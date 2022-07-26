@@ -28,7 +28,7 @@ if __name__ == '__main__':
     struct = parser.get_structure('', args.file)
     model = struct[0]
     print("cmd.delete('%s_edges')" % args.name)
-    print("cmd.do('radius=0.3')")
+    print("cmd.do('radius=0.1')")
     for chain in model:
         for r in chain:
             chain = r.get_parent().id

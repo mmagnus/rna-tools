@@ -153,6 +153,7 @@ cd ../..
 
 rna_calc_fenergy.py --file input/u2/* --cstinfile --method all  > output/rna_calc_fenergy.txt
 
+rna_pdb_replace.py input/t2-4-ACA.pdb input/to-replace.pdb
 
 ./BlastPDB.py
 
