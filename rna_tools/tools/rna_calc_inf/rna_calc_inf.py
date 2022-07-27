@@ -117,33 +117,15 @@ def do_job(l):
         # run clarna & compare
 
     # ugly hack for direct import
-    i, target_cl_fn, method, DEBUG, verbose = l
-
-    try:
-         args.force
-         args.no_stacking
-    except NameError:
-         force = True
-         no_stacking = False
-    else:
-        force = args.force
-        no_stacking = args.no_stacking        
-        
+    i, target_cl_fn, method, DEBUG, verbose, force, no_stacking = l
     i_cl_fn = rna_clarna_app.clarna_run(i, force, not no_stacking)
     output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
-
-    if verbose:
-        print(output)
-    ## else:
     ##     rmsd, DI_ALL, INF_ALL, INF_WC, INF_NWC,INF_STACK = InteractionNetworkFidelity(os.path.abspath(target_fn),
     ##                                                                                   '/tmp/empty-index',
     ##                                                                                   os.path.abspath(i),
     ##                                                                                   '/tmp/empty-index')
     ##     if args.debug:
     ##         print(rmsd)
-
-    global counter
-    counter.value += 1
     return output
 
 #main
@@ -237,11 +219,7 @@ if __name__ == '__main__':
         pool = Pool(number_processes)
         lst = []
         for i in input_files:
-            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose])#, csv_writer, csv_file])
-        #print(lst)
-        #res = p.map(do_job, lst)
-        #p.close()
-        #p.join()
+            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])#, csv_writer, csv_file])
         from tqdm.contrib.concurrent import process_map  # or thread_map
         outputs = process_map(do_job, lst, max_workers=2)
         pool.close()
@@ -251,7 +229,7 @@ if __name__ == '__main__':
         from tqdm import tqdm
         bar = tqdm(input_files)
         for c, i in enumerate(input_files):#, range(len(input_files))):
-            output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose])
+            output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])
             outputs.append(output)
             bar.update(c)
         bar.close()
