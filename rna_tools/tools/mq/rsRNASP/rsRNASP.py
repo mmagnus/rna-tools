@@ -5,10 +5,10 @@
 import os
 from shutil import copyfile, copytree, rmtree
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
-from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.pdb_formatix.PDBFile import PDBFile#resname_check_and_3to1, set_residues_bfactor
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
 from rna_tools.rna_tools_config import rsRNASP_PATH
+
 import logging
 
 # directory where this script is
@@ -29,7 +29,7 @@ class rsRNASP(ProgramWrapper):
 
     def run(self, path_to_pdb, verbose=1):
         self.logger.setLevel(logging.INFO)
-        
+
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
         copyfile(rsRNASP_PATH + '/rsRNASP', self.sandbox_dir + os.sep + 'rsRNASP')
         os.symlink(rsRNASP_PATH + '/data', self.sandbox_dir + os.sep + 'data')
@@ -46,11 +46,16 @@ class rsRNASP(ProgramWrapper):
         out = ''
         self.log('rsRNASP::start for %s' % self.sandbox_dir + '/query.pdb')
         os.chdir(self.sandbox_dir)
-        if run_command('rsRNASP',
-                        ['query.pdb', 'output.txt'],
-                       stdout_file=self.sandbox_dir + '/std.txt', stderr_file=self.sandbox_dir + '/err.txt', verbose=verbose):
-            err = open(self.sandbox_dir + '/err.txt').read().strip()
-        f = open(self.sandbox_dir + '/output.txt')
+        #cmd = 'export rsRNASP=' + rsRNASP_PATH + ';'
+        # hack for m1 running arch -x86_64 rsRNASP
+        cmd = 'cd ' + rsRNASP_PATH + ' && ./rsRNASP ' + self.sandbox_dir + '/query.pdb' + ' ' + self.sandbox_dir + '/output.txt >> ' + self.sandbox_dir + '/std.txt'
+        os.system(cmd)
+        #    stdout_file=self.sandbox_dir + '/std.txt', stderr_file=self.sandbox_dir + '/err.txt', verbose=verbose):
+        #    err = open(self.sandbox_dir + '/err.txt').read().strip()
+        try:
+            f = open(self.sandbox_dir + '/output.txt')
+        except:
+            return -1
         try:
             result = float(f.read().split()[1])  # 'query.pdb     -3055.902390\n'
         except:

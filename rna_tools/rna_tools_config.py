@@ -91,6 +91,8 @@ GROMACS_LD_PATH=""
 GROMACS_PATH_BIN=""
 SIMRNA_PATH=""
 SIMRNA_DATA_PATH=""
+rsRNASP_PATH = RT + '/opt/rsRNASP/'
+
 
 X3DNA= RT + 'opt' + os.sep + 'dssr/x3dna-dssr-64bit' #x3dna-dssr-64bit
 X3DNA_FP=""
