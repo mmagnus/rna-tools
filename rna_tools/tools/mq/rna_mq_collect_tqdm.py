@@ -526,13 +526,13 @@ class RunAllDirectory():
         for f in filenames:
             fl.append([f,filenames_length])
 
+        lst = []
+        for f in fl:
+            # ['test/1xjrA_M1.pdb', 1, True, ['RASP']]
+            lst.append([f[0], f[1], verbose, methods, opt, ref_seq])
+
         if int(opt.number_processes) > 1:
             pool = Pool(opt.number_processes)
-            lst = []
-            for f in fl:
-                # ['test/1xjrA_M1.pdb', 1, True, ['RASP']]
-                lst.append([f[0], f[1], verbose, methods, opt, ref_seq])
-
             from tqdm.contrib.concurrent import process_map
             #pool.map(single_run, lst)
             outputs = process_map(single_run, lst, max_workers=2)
@@ -541,8 +541,8 @@ class RunAllDirectory():
             for cells in outputs:
                 csv_writer.writerow(cells)
         else:
-            for filename,x in fl:
-                single_run((filename,x))
+            for l in lst:
+                single_run(l)
 
 #main
 if __name__ == '__main__':
