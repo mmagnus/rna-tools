@@ -60,6 +60,12 @@ import imp
 from optparse import OptionParser, OptionGroup
 from ctypes import c_int
 
+from icecream import ic
+import sys
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
+ic.configureOutput(prefix='> ')
+
+
 #import lib.rmsd_calc.rmsd_calc as rmsd_calc
 from multiprocessing import Pool, Lock, Value
 
@@ -69,6 +75,7 @@ except ImportError:
     pass
 
 # super-verbose logging
+MP_VERBOSE = 0
 if MP_VERBOSE:
     import multiprocessing
     logger = multiprocessing.log_to_stderr()
@@ -148,7 +155,8 @@ attributes = {
     'rmsd_all': ['rmsd_all'],
 }
 
-def single_run(filename):
+
+def single_run(lst):
     """Start a mqaprna run for a given file
     with all methods (according to config file).
 
@@ -156,16 +164,15 @@ def single_run(filename):
 
     .. warning:: The function uses global variable.
     """
-    filename, filename_length = filename
-    #print 'fn: ', filename
-
-    global methods, c
+    filename, c, verbose, methods, opt, ref_seq = lst
     all_results = {}
 
     for m in methods:
+
             arguments = ''
             #if DEBUG_MODE: print 'method', m, arguments
             mfull = m
+
             if verbose: print(m + '...') # show method 'eSCORE...'
 
             if m == 'FARNA':
@@ -252,7 +259,7 @@ def single_run(filename):
         all_results['SCORE'] = mqap_score
 
     if True:
-        lock.acquire()
+        # lock.acquire()
 
         global counter_lock
         #with counter_lock:
@@ -269,14 +276,13 @@ def single_run(filename):
         results_str = str(all_results) # "{'AnalyzeGeometry': 0.0, 'eSCORE': 0.10661, 'FARNA': ['-2.411', '0.0', '0.0', '-9.672', '0.0', '-25.678', '0.0', '1.061', '0.0', '-32.098', '0.0', '0.0', '4.601', '0.0'], 'ClashScore': 36.458333, 'length': 0, 'SimRNA_0': ['0', '67.345305', '-37.428', '-23.073', '0.248', '104.524975', '87.955', '9.938', '5.669', '1.089', '-0.126', '', '67.345305'], 'FARNA_hires': ['0.0', '-13.107', '-0.711', '0.0', '5.22', '2.734', '-30.044', '0.223', '-10.511', '-0.173', '-4.719', '1.143', '0.0', '14.371', '9.358'], 'RNAscore': 8.11007, 'RASP': ['-0.1382', '15', '-0.00921333', '-0.0845115', '0.454033', '-0.118248', '-277.666', '949', '-0.292588', '-273.37', '2.51163', '-1.71042', '-584.451', '2144', '-0.272598', '-564.143', '5.77609', '-3.51588', '-1616.08', '6700', '-0.241206', '0', '0', '0'], 'RNAkb': -1}"
 
         results = [all_results[mfull] for m in methods]
-
         # progress bar
         #sys.stdout.write('\r')
         #sys.stdout.flush()
         #sys.stdout.write('\r' + ' ' * 110 + '\r' + filename.split(os.sep)[-1].ljust(50) + ' ' + ' '.join(results))
 
         ########### line with resluts ######################
-        bar.update(counter.value)
+        #bar.update(counter.value)
         ## my old progress bar here:
         # print(sg.pprogress_line(counter.value, filename_length, ''))# ,
         ## print results, use --verbose now
@@ -296,18 +302,17 @@ def single_run(filename):
         #time.sleep(1)
 
         #format_line([filename.split(os.sep)[-1] + [all_results[m] for m in methods]])  # @todo Nice print with ShellGraphics
-
-        cells = [counter.value, filename.split(os.sep)[-1]] # add id 
+        cells = [c, filename.split(os.sep)[-1]] # add id 
         for m in methods:
             if type(all_results[m]) == list:
                 cells.extend(all_results[m])
             else:
                 cells.append(all_results[m])
-        csv_writer.writerow(cells)
-
+        #csv_writer.writerow(cells)
+        return cells
         #print 'mqaprna::filename: %i %s' % (counter.value, filename)
-        csv_file.flush()
-        lock.release()
+        #csv_file.flush()
+        #lock.release()
 
     # hack
     try:
@@ -345,7 +350,7 @@ def option_parser():
                      action="store", type="string", dest="native_pdb_filename", help="native structure in PDB format to calculate RMSD")
 
     parser.add_option("-m", "--multiprocessing",
-                     action="store", type="int", dest="number_processes", default=8,
+                     action="store", type="int", dest="number_processes", default=1,
                       help="set a number of processes, default=8, 0 is no multiprocessing")
 
     group2 = OptionGroup(parser, "Ignore pdbs, don't have empty lines here! Example",
@@ -476,17 +481,22 @@ class RunAllDirectory():
         filenames = []
         for i, f in enumerate(input_files):
             # print(i, f)
-            if f.startswith('_'):  # skip
+            if '/_' in f:  # skip
                 continue
             if os.path.basename(f) not in files_to_ignore:
                 filenames.append(f)
+
+        with open('_mq_to_run_.txt', 'w') as f:
+            f.write('\n'.join(filenames))
+        print(' save filenames to run to _mq_to_run_.txt')
+
         ## for fi in files_to_ignore:
         ##     for fn in copy.copy(filenames):
         ##         if os.path.basename(fn).startswith('._'):
         ##             filenames.remove(fn)
         ##         if os.path.basename(fn).startswith(fi.split('\t')[0]): # # hack,  @todo <- re could be used here!  to ignore ['fn,RASP,SimRNA,FARNA,NAST_pyro\r', '1ykv_1_ba_c.pdb,-0.104705,-504.468933,-306.245,122.7\r', '2esj_1_ba_c.pdb,-0.1522,-1,-266.217,46.7\r', '2quw_1_ba_c.pdb,-0.103789,-729.386726,-419.047,984.0\r
         ##             filenames.remove(fn)
-        print(' files to analyze: %s' % len(filenames), filenames[:300])
+        print(' files to analyze: %s' % len(filenames), filenames[:5])
         ## headers
         methods_to_print = copy.copy(methods)
         if opt.native_pdb_filename:
@@ -516,12 +526,23 @@ class RunAllDirectory():
         for f in filenames:
             fl.append([f,filenames_length])
 
-        if opt.number_processes:
-            p = Pool(opt.number_processes)
-            p.map(single_run, fl)
+        lst = []
+        for f in fl:
+            # ['test/1xjrA_M1.pdb', 1, True, ['RASP']]
+            lst.append([f[0], f[1], verbose, methods, opt, ref_seq])
+
+        if int(opt.number_processes) > 1:
+            pool = Pool(opt.number_processes)
+            from tqdm.contrib.concurrent import process_map
+            #pool.map(single_run, lst)
+            outputs = process_map(single_run, lst, max_workers=2)
+            pool.close()
+
+            for cells in outputs:
+                csv_writer.writerow(cells)
         else:
-            for filename,x in fl:
-                single_run((filename,x))
+            for l in lst:
+                single_run(l)
 
 #main
 if __name__ == '__main__':
@@ -529,7 +550,6 @@ if __name__ == '__main__':
     import sys
     ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
     ic.configureOutput(prefix='> ')
-
 
     t = timex.Timex()
     t.start()
@@ -575,7 +595,7 @@ if __name__ == '__main__':
     
     opts = {
         'Input files': '#' + str(len(input_files)) + ' ' + str(input_files[:3]),
-        'Multiprocessing': bool(opt.number_processes),
+        'Multiprocessing': True if opt.number_processes > 1 else False,
         'Output csv': output_csv,
         'Seq ss fn': opt.seq_ss_filename,
         'Ignore pdb fn': opt.ignore_pdb_filename,
@@ -607,3 +627,6 @@ if __name__ == '__main__':
     f.close()
     print('logging: %s' % log_fn)
     print('logging wrappers %s' % Config.LOG_DIRECTORY + os.sep)
+
+    #with open(output_csv) as f:
+    #    print(f.read())
