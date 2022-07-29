@@ -29,13 +29,13 @@ class Dfire(ProgramWrapper):
         copyfile(path_to_pdb, self.sandbox_dir + os.sep + 'query.pdb')
         old_pwd = os.getcwd()
         os.chdir(self.sandbox_dir)
-        # self.log('dfire::start for %s' % self.sandbox_dir + '/query.pdb')
+        self.log('dfire::start for %s' % self.sandbox_dir + '/query.pdb')
         cmd = "export DFIRE_RNA_HOME=" + dfire_PATH + "; "
         cmd += dfire_PATH + '/bin/DFIRE_RNA ' + self.sandbox_dir + '/query.pdb >'  + self.sandbox_dir + '/log.txt.dfire.rna'
         if verbose: print(cmd)
         os.system(cmd)
 
-        # self.log('dfire::Run finished')
+        self.log('dfire::Run finished')
 
         for line in open(self.sandbox_dir + '/log.txt.dfire.rna'):
             score = line.strip().split()[1] # /tmp/tmplDNztf/query.pdb -12480.188898
