@@ -22,7 +22,7 @@ def get_parser():
     #parser.add_argument('-', "--", help="", default="")
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument('-d', "--done", help="a csv with already done scores", default="")
+    parser.add_argument('-o', "--output", help="a csv with already done scores", default="rasp.csv")
     parser.add_argument("file", help="", default="", nargs='+')
     return parser
 
@@ -39,10 +39,12 @@ if __name__ == '__main__':
     t += '\n'
     for i, f in enumerate(args.file):
             wrapper = RASP()
+            if args.verbose:
+                print(f)
             result = wrapper.run(f, potentials=['all'], verbose=args.verbose)
             tl = ','.join([str(i + 1), os.path.basename(f), str(result[0])])
             print(tl)
             t += tl + '\n'
 
-    with open('rasp.csv', 'w') as f:
+    with open(args.output, 'w') as f:
         f.write(t)

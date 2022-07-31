@@ -24,7 +24,7 @@ import matplotlib
 matplotlib.style.use('ggplot')
 
 from sklearn.preprocessing import MinMaxScaler
-from rna_tools.confi import MODEL_KEY, MODEL_PATH
+from rna_tools.config import MODEL_KEY, MODEL_PATH
 # plt.style.use('ggplot')#seaborn-deep')
 import pandas as pd
 
