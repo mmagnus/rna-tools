@@ -123,6 +123,7 @@ setup(
              'rna_tools/tools/mq/RNA3DCNN/rna_mq_rna3dcnn.py',
              'rna_tools/tools/mq/Dfire/rna_mq_dfire.py',
              'rna_tools/tools/mq/ClashScore/rna_mq_clashscore.py',
+             'rna_tools/tools/mq/AnalyzeGeometry/rna_mq_analyzegeometry.py',
              'rna_tools/tools/mq/RNAkb/rna_mq_rnakb.py',
              'rna_tools/tools/mq/rsRNASP/rna_mq_rsRNASP.py',
              'rna_tools/tools/mq/eSCORE/rna_mq_eSCORE.py',
