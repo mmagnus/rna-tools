@@ -14,7 +14,7 @@ def get_parser():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("-v", "--verbose",
                         action="store_true", help="be verbose")
-    parser.add_argument("--sep", help="", default="\t", nargs='+')
+    parser.add_argument("--sep", help="", default="\t")
     parser.add_argument("file", help="", default="", nargs='+')
     return parser
 
@@ -33,5 +33,6 @@ if __name__ == '__main__':
             result = wrapper.run(f, args.verbose)
         except:
             result = 'error'     
-        print(str(index + 1) + sep + str(round((index/len(args.file)) * 100)) + '%' + sep + f + sep + str(result))
+        #print(str(index + 1) + sep + str(round((index/len(args.file)) * 100)) + '%' + sep + f + sep + str(result))
+        print(f + sep + str(result))
         wrapper.cleanup()
