@@ -12,14 +12,13 @@ import re
 
 from math import isnan
 from shutil import copyfile
-import tempfile
 
 from rna_tools.tools.mq.lib.wrappers.SubprocessUtils import run_command
 from rna_tools.tools.mq.lib.wrappers.base_wrappers import ProgramWrapper
 from rna_tools.tools.md.rnakb_utils import make_rna_rnakb_ready, fix_gromacs_gro, prepare_groups, format_score_mdp
 from rna_tools.rna_tools_config import GRMLIB_PATH, DB_AA_PATH, DB_5PT_PATH, WRAPPERS_PATH, GROMACS_LD_PATH, GROMACS_PATH_BIN, TMP_PATH
 
-SANDBOX_PATH = '.'
+import tempfile
 
 class RNAkb(ProgramWrapper):
     """Wrapper class for running RNAkb automatically.
@@ -27,6 +26,7 @@ class RNAkb(ProgramWrapper):
     executable = ['/usr/local/gromacs/bin/' + exe for exe in ['pdb2gmx', 'make_ndx', 'editconf', 'grompp', 'mdrun']]
 
     def __init__(self, job_id='',  sandbox=False):
+        SANDBOX_PATH = tempfile.TemporaryDirectory().name # '.' or './sandbox' for sandbox here
         super(RNAkb, self).__init__('', '', job_id=job_id)
 
         # sandbox q-&-d
@@ -268,8 +268,9 @@ class RNAkb(ProgramWrapper):
                         elif txt.find('The cut-off length is longer') > -1:
                             if verbose: print('The cuf-off length -- error')
                         else:
-                            print('unknown -- error, see ' + self.sandbox_dir + 'err.txt')
+                            if verbose: print('unknown -- error, see ' + self.sandbox_dir + 'err.txt')
                             #sys.exit(1) # don't kill the function
+                            pass
 
                     self.log_stdout_stderr()
                 else:
@@ -298,7 +299,8 @@ class RNAkb(ProgramWrapper):
             self.log('Run failed', 'error')
             self.log_stdout_stderr()
             os.chdir(old_path)
-            return 255
+            #return 255
+            return [str(x) for x in [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]]
         try:
             os.chdir(old_pwd)
         except (OSError, NameError):
@@ -314,7 +316,7 @@ class RNAkb(ProgramWrapper):
         if isnan(result_sum):
             self.log('Result is NaN', 'error')
             os.chdir(old_path)
-            return -1
+            return [str(x) for x in [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]]
         else:
             self.log('Run successfull %s' % name)
             os.chdir(old_path)
