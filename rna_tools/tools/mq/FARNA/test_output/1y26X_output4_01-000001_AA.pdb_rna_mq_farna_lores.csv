@@ -1,2 +1,2 @@
 id,fn,farna_score_lowres,farna_rna_data_backbone,farna_rna_vdw,farna_rna_base_backbone,farna_rna_backbone_backbone,farna_rna_repulsive,farna_rna_base_pair,farna_rna_base_axis,farna_rna_base_stagger,farna_rna_base_stack,farna_rna_base_stack_axis,farna_rna_rg,farna_atom_pair_constraint,farna_linear_chainbreak
-1,1y26X_output4_01-000001_AA.pdb,-470.094,0.0,5.338,-19.25,-9.64,15.258,-283.892,-32.447,-120.9,-19.125,-25.104,19.669,0.0,0.0
+1,1y26X_output4_01-000001_AA.pdb,-468.132,0.0,5.733,-18.809,-9.627,16.709,-284.178,-32.491,-120.664,-19.202,-25.263,19.66,0.0,0.0

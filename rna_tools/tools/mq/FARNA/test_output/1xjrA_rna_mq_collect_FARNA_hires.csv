@@ -1,0 +1,5 @@
+id,fn,farna_score_hires,farna_fa_atr,farna_fa_rep,farna_fa_intra_rep,farna_lk_nonpolar,farna_fa_elec_rna_phos_phos,farna_ch_bond,farna_rna_torsion,farna_rna_sugar_close,farna_hbond_sr_bb_sc,farna_hbond_lr_bb_sc,farna_hbond_sc,farna_geom_sol,farna_atom_pair_constraint_hires,farna_linear_chainbreak_hires
+1,1xjrA.pdb,error
+2,1xjrA_M1.pdb,-259.696,-123.209,14.542,8.889,7.849,1.657,-63.816,15.106,11.287,-1.23,-19.153,-253.502,141.884,0.0,0.0
+3,1xjrA_M500.pdb,-5.15,-101.837,10.828,7.725,10.142,3.344,-55.035,168.965,13.501,-0.288,-13.221,-146.925,97.651,0.0,0.0
+4,1xjrA_output4_04-000056_AA.pdb,-172.373,-112.445,11.992,1.901,10.43,0.093,-73.736,6.796,7.111,-1.373,-9.434,-101.251,87.541,0.0,0.0
