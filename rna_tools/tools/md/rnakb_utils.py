@@ -94,12 +94,15 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
         [l for l in pdb_lines if l.startswith('ATOM')])))
 
     for l in pdb_lines:
-        if l.startswith('ATOM') and l[19] in ('A', 'U', 'C', 'G'): # hmm... [ RA5 ] will not be detected based on it (!?)
+        if l.startswith('ATOM') and l[17:20].strip() in ('A', 'U', 'C', 'G'): # hmm... [ RA5 ] will not be detected based on it (!?)
             res = get_res_code(l)        
-            if res.startswith('R') and res.endswith('5') : # it's RX5 file so skip fixing
-                if verbose:
-                    print('-- already gromacs ready')
-                return pdb_string
+            #if res.startswith('R') and res.endswith('5') : # it's RX5 file so skip fixing
+            #    if verbose:
+            #        print('-- already gromacs ready')
+            #    return pdb_string
+
+            if l.startswith('TER'):
+                continue
 
             l = l.replace('*', '\'')
             l = l.replace('O1P', 'OP1')
@@ -107,6 +110,7 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
 
             res_num = get_res_num(l)
             atom_type = l.split()[2].strip()
+
             # remove P OP1 OP2
             if res_num == min_res and atom_type == 'P':
                 continue
@@ -117,7 +121,10 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
 
             # convert G -> RG5, RG3
             # do this only if res does not start with R
-            if get_res_code(l).startswith('R'):
+            cres = get_res_code(l).strip()
+            # print(cres)
+            # aaaaaaaaa
+            if not cres.startswith('R'):
                 if res_num == min_res: # RG5
                     l = set_res_code(l, 'R' + get_res_code(l).strip() + '5')
                 elif res_num == max_res: # RG3
@@ -129,12 +136,12 @@ def make_rna_gromacs_ready(pdb_string, verbose=VERBOSE):
                 if atom_type in GROMACS_ALLOWED_5:
                     result.append(l)
                 else:
-                    print(('Wrong start line: ', l, atom_type))
+                    print('Wrong start line: ', l, atom_type)
             else:
                 if atom_type in GROMACS_ALLOWED_MIDDLE:
                     result.append(l)
                 else:
-                    print(('Wrong middle line: ', l, atom_type))
+                    print('Wrong middle line: ', l, atom_type)
         else:
             result.append(l)
     return '\n'.join(result)
