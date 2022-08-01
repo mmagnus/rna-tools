@@ -5,6 +5,8 @@ saves results to a CSV file.
 
 ss_agreement is ...
 
+ClashScore,AnalyzeGeometry,SimRNA_0,RNAscore,eSCORE,RNAkb,RASP,RNA3DCNN,Dfire,FARNA,FARFAR2,FARNA_hires,FARFAR2_hires
+
 The code is full of # hack and tricks.
 
 .. warning:: Uses global variables
@@ -23,6 +25,11 @@ Cmd::
      z.pdb
 
 88% (49329 of 55689) |############### | Elapsed Time: 0:45:23 ETA:  2 days, 18:42:16
+
+For this python progressbar works::
+
+    Python 3.7.10 (default, Feb 26 2021, 18:47:35)
+    [GCC 7.3.0] :: Anaconda, Inc. on linux
 
 """
 MP_VERBOSE = False
@@ -355,6 +362,9 @@ def option_parser():
     parser.add_option("-v", "--verbose",
                      action="store_true", default=False, dest="verbose", help="verbose")
 
+    parser.add_option("--force",
+                     action="store_true", default=False)
+
     parser.add_option("-f", "--no-filename-version",
                      action="store_true", default=False, dest="no_filename_version", help="don't add version of tool to csv filename")
 
@@ -473,20 +483,22 @@ class RunAllDirectory():
         files_to_ignore = []
         # or if not provided
         import glob
-        opt.ignore_pdb_filename = glob.glob('*' + opt.methods + '*.csv')
-        for f in opt.ignore_pdb_filename:  # do it for the list, that's nice!
-            fn = open(f)
-            for f in fn.read().strip().split('\n'):
-                if 'error' in f:
-                    continue  # don't add files with errors, so the program will be re-run for them
-                # if there is an error, this will give error again quickly
-                # but this solves when you kill the job, you get erros, but it's not rally errors
-                # but stopped jobs
-                if f.find('\t') > -1:
-                    f = f.split('\t')[1] # id, fn
-                if f.find(',') > -1:
-                    f = f.split(',')[1] # id, fn
-                files_to_ignore.append(os.path.basename(f))
+
+        if not opt.force:
+            opt.ignore_pdb_filename = glob.glob('*' + opt.methods + '*.csv')
+            for f in opt.ignore_pdb_filename:  # do it for the list, that's nice!
+                fn = open(f)
+                for f in fn.read().strip().split('\n'):
+                    if 'error' in f:
+                        continue  # don't add files with errors, so the program will be re-run for them
+                    # if there is an error, this will give error again quickly
+                    # but this solves when you kill the job, you get erros, but it's not rally errors
+                    # but stopped jobs
+                    if f.find('\t') > -1:
+                        f = f.split('\t')[1] # id, fn
+                    if f.find(',') > -1:
+                        f = f.split(',')[1] # id, fn
+                    files_to_ignore.append(os.path.basename(f))
 
         ## files to ignore
         print(' to ignore', len(files_to_ignore), files_to_ignore[:4])
