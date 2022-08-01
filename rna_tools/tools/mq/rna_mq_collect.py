@@ -5,6 +5,8 @@ saves results to a CSV file.
 
 ss_agreement is ...
 
+ClashScore,AnalyzeGeometry,SimRNA_0,RNAscore,eSCORE,RNAkb,RASP,RNA3DCNN,Dfire,FARNA,FARFAR2,FARNA_hires,FARFAR2_hires
+
 The code is full of # hack and tricks.
 
 .. warning:: Uses global variables
@@ -23,6 +25,11 @@ Cmd::
      z.pdb
 
 88% (49329 of 55689) |############### | Elapsed Time: 0:45:23 ETA:  2 days, 18:42:16
+
+For this python progressbar works::
+
+    Python 3.7.10 (default, Feb 26 2021, 18:47:35)
+    [GCC 7.3.0] :: Anaconda, Inc. on linux
 
 """
 MP_VERBOSE = False
