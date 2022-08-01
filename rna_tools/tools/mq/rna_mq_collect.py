@@ -589,6 +589,9 @@ if __name__ == '__main__':
     }
     sg.poptions(opts)
 
+    import platform
+    print('python:', platform.python_version())
+
     runner = RunAllDirectory()
     runner.run(input_files, output_csv, opt)
     # meta-scoring
