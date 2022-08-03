@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-
+Works on Ubuntu, on M1 a problem with libs.
 """
 from __future__ import print_function
 import argparse
