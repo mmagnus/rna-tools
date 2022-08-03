@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+Works both of M1 and Ubuntu.
+
 Example::
 
     rna_mq_dfire.py AA/*.pdb
