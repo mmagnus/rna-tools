@@ -63,6 +63,9 @@ def get_parser():
     parser.add_argument('--debug',
                          action="store_true")
 
+    parser.add_argument('--web',
+                         action="store_true")
+
     parser.add_argument('-pr', '--print-results',
                          action="store_true")
 
@@ -222,17 +225,22 @@ if __name__ == '__main__':
             lst.append([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])#, csv_writer, csv_file])
         from tqdm.contrib.concurrent import process_map  # or thread_map
         outputs = process_map(do_job, lst, max_workers=2)
-        pool.close()
         
     else: # single process
-        outputs = []
-        from tqdm import tqdm
-        bar = tqdm(input_files)
-        for c, i in enumerate(input_files):#, range(len(input_files))):
-            output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])
-            outputs.append(output)
-            bar.update(c)
-        bar.close()
+        if args.web:
+            outputs = []
+            for c, i in enumerate(input_files):#, range(len(input_files))):
+                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])
+                print(c,i,output)
+                outputs.append(output)
+        else:
+            outputs = []
+            from tqdm import tqdm
+            bar = tqdm(input_files)
+            for c, i in enumerate(input_files):#, range(len(input_files))):
+                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])
+                outputs.append(output)
+                bar.update(c)
 
     for output in outputs:
         # take only filename of target
