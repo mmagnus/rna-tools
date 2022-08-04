@@ -120,7 +120,9 @@ def do_job(l):
         # run clarna & compare
 
     # ugly hack for direct import
-    i, target_cl_fn, method, DEBUG, verbose, force, no_stacking = l
+    i, target_cl_fn, method, DEBUG, verbose, force, no_stacking, web = l
+    if web:
+        print(os.path.basename(i), '.. processed')
     i_cl_fn = rna_clarna_app.clarna_run(i, force, not no_stacking)
     output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
     ##     rmsd, DI_ALL, INF_ALL, INF_WC, INF_NWC,INF_STACK = InteractionNetworkFidelity(os.path.abspath(target_fn),
@@ -201,7 +203,6 @@ if __name__ == '__main__':
     shutil.copyfile(target_cl_fn, tmp_target_cl_fn)
     target_cl_fn = tmp_target_cl_fn
 
-
     out_fn = args.out_fn
 
     if args.no_stacking:
@@ -222,7 +223,7 @@ if __name__ == '__main__':
         pool = Pool(number_processes)
         lst = []
         for i in input_files:
-            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])#, csv_writer, csv_file])
+            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking, args.web])#, csv_writer, csv_file])
         from tqdm.contrib.concurrent import process_map  # or thread_map
         outputs = process_map(do_job, lst, max_workers=2)
         
@@ -230,15 +231,15 @@ if __name__ == '__main__':
         if args.web:
             outputs = []
             for c, i in enumerate(input_files):#, range(len(input_files))):
-                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])
-                print(c,i,output)
+                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking, args.web])
+                #print(c,i,output)
                 outputs.append(output)
         else:
             outputs = []
             from tqdm import tqdm
             bar = tqdm(input_files)
             for c, i in enumerate(input_files):#, range(len(input_files))):
-                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking])
+                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking, args.web])
                 outputs.append(output)
                 bar.update(c)
 
