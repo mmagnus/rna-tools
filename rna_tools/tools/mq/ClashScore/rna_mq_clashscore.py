@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+Works both of M1 and Ubuntu.
 """
 from __future__ import print_function
 

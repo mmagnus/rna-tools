@@ -3,6 +3,8 @@
 """This module contains functions for computing QRNAS.
 https://github.com/sunandanmukherjee/QRNAS
 
+Works both of M1 and Ubuntu.
+
 Output::
 
     (...)
