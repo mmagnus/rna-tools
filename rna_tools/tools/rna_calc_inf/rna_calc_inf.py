@@ -122,7 +122,7 @@ def do_job(l):
     # ugly hack for direct import
     i, target_cl_fn, method, DEBUG, verbose, force, no_stacking, web = l
     if web:
-        print(os.path.basename(i), '.. processed')
+        print(os.path.basename(i), '.. processed', flush=True)
     i_cl_fn = rna_clarna_app.clarna_run(i, force, not no_stacking)
     output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
     ##     rmsd, DI_ALL, INF_ALL, INF_WC, INF_NWC,INF_STACK = InteractionNetworkFidelity(os.path.abspath(target_fn),
