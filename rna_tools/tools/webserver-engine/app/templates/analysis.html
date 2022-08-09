@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+dupadupa
 {% block content %}
 <title>rna-tools.online</title>
 
@@ -98,7 +99,7 @@
     <!--http://rna-tools.online/tools/seq/614e0a1b or-->
 </p>
 
-<label for="comment">RNA structure (in the PDB format)<span style="color:red"></br>Please, remove all spaces and non-standard characters in filenames, we're working on a fix to do it automatically for you</span></label>
+<label for="comment">RNA structure (in the PDB format)<span style=""></br>Please, remove all spaces and non-standard characters in filenames, we're working on a fix to do it automatically for you</span></label>
 
 <form enctype='multipart/form-data' action="/upload/{{ j.job_id }}" method='POST' class="dropzone dz" id="my-dropzone" >
   {% csrf_token %}
