@@ -177,6 +177,7 @@ setup(
         #'sphinxcontrib-napoleon',
         #'forgi',
         'urllib3',
+        'wget',
         #'pandas',
         #'matplotlib',
         #'scipy',
