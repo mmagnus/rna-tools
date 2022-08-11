@@ -11,8 +11,11 @@ Integrate/tested by @mmagnus
 
 # Install 
 
-    pip install rna-tools simplejson networkx==1.8.1 scipy
-    # tested with simplejson==3.17.0
+	pip install rna-tools simplejson networkx scipy
+	# on m1/mac tested with
+	# networkx==2.7.1
+	# scipy==1.7.3
+	# simplejson==3.17.6 and 3.17.0
 
 # Start
 To start:
