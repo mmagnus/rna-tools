@@ -95,7 +95,7 @@ def fopen(filename, verbose=0):
     first_hit = out.split('\n')[0]
     return open(first_hit)
 
-def tdb_score(seq, edge='cWW_cHW', type='instances', binary=False):
+def tdb_score(seq, edge='cWW_cHW', type='instances', binary=False, if_exists=1):
     """
     x is
 
@@ -120,6 +120,9 @@ Traceback (most recent call last):
     triple = edge + '_' + seq.upper()
     #ic(triple)
     x = df[df['triple'] == triple]
+    if if_exists:
+        if not int(x['exists']):
+            return -1
     # ic(seq, x)
     #r3 = fopen('Triple_' + edge + '_' + seq  + '_rpr.pdb.3dcnn.csv').read()
     #score = triple + ':', round(int(x[contacts_bo'instances']) / 18, 2)
