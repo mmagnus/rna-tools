@@ -85,7 +85,7 @@ def fopen(filename, verbose=0):
     first_hit = out.split('\n')[0]
     return open(first_hit)
 
-def wscore(seq, edge, type='instances', binary=False):
+def wscore(seq, edge='cWW_cHW', type='instances', binary=False):
     """
     x is
 
