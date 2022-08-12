@@ -16,6 +16,16 @@ import random
 
 TRX_DB = "/Users/magnus/work/src/rna-tools/rna_tools/tools/triplexibility/trx-db/triple-db-ext-2+Clash200x2+Contacts-1_fix36UCG.csv"
 
+
+def get_seqs():
+    seq = []
+    for a in ['a', 'c', 'g', 'U']:
+        for b in ['A', 'c', 'g', 'u']:
+             for c in ['a', 'c', 'g', 'U']:
+                 seq.append(a + b + c)
+    return seq
+
+
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -85,7 +95,7 @@ def fopen(filename, verbose=0):
     first_hit = out.split('\n')[0]
     return open(first_hit)
 
-def wscore(seq, edge='cWW_cHW', type='instances', binary=False):
+def tdb_score(seq, edge='cWW_cHW', type='instances', binary=False):
     """
     x is
 
@@ -108,18 +118,19 @@ Traceback (most recent call last):
     import pandas as pd
     df = pd.read_csv('/Users/magnus/work/src/rna-tools/rna_tools/tools/triplexibility/triple-db.csv')
     triple = edge + '_' + seq.upper()
-    ic(triple)
+    #ic(triple)
     x = df[df['triple'] == triple]
     # ic(seq, x)
     #r3 = fopen('Triple_' + edge + '_' + seq  + '_rpr.pdb.3dcnn.csv').read()
     #score = triple + ':', round(int(x[contacts_bo'instances']) / 18, 2)
+    # print(x[type])
     try:
         score = str(round(int(x[type]))) # triple + ':' +  # contacts_bo
     except ValueError:
         score = -1 # triple + ':-1'
     #r3.split(',')[1].strip()
     score = int(score)
-    # print(score)
+    #print(score)
     if binary:
         if score > 0:
             return 1
