@@ -9,3 +9,7 @@
 	[0 rows x 1000 columns]
 	> trx.py:211 in <module>- type(x): <class 'int'>
 	UAU
+
+Warning:
+
+cWW_tsS_UUA,1#? means that the value or tsS was not visible at the page. For example: http://rna.bgsu.edu/triples/seq/AGA.html 

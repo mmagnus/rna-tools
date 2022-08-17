@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-
+proof of concept
 """
 import pandas as pd
 
@@ -17,14 +17,39 @@ import random
 TRX_DB = "/Users/magnus/work/src/rna-tools/rna_tools/tools/triplexibility/trx-db/triple-db-ext-2+Clash200x2+Contacts-1_fix36UCG.csv"
 
 
-def get_seqs():
+def get_seqs(type='all'):
     seq = []
-    for a in ['a', 'c', 'g', 'U']:
-        for b in ['A', 'c', 'g', 'u']:
-             for c in ['a', 'c', 'g', 'U']:
-                 seq.append(a + b + c)
-    return seq
+    if type == 'all':    
+        for a in ['a', 'c', 'g', 'u']:
+            for b in ['a', 'c', 'g', 'u']:
+                 for c in ['a', 'c', 'g', 'u']:
+                     seq.append(a + b + c)
+    if type == 't11':
+        aa='x,G,G,c' # U2 G21
+        bb='x,C,g,g' # U6 C61
+        cc='U,c,a,g' # U6 U80
+        # U2 G21 / U6 C61 / U6 U80
+        for a, b in zip(aa.split(','), bb.split(',')):
+             if a != 'x':
+                 for c in cc.split(','):
+                     seq.append(a + b + c)
+        # C61g -> GgU
+        seq = seq + ['GaU', 'GgU', 'GuU',
+               'uaU', 'ugU', 'uuU',
+               'aaU', 'agU', 'auU',
+               'caU', 'cgU', 'cuU',       
+               ]
 
+    if type == 't12':
+        aa='x,c,c,a,c'
+        bb='x,g,u,u,c'
+        cc='g,u,a,c'
+        for a, b in zip(aa.split(','), bb.split(',')):
+             if a != 'x':
+                 for c in cc.split(','):
+                     seq.append(a + b + c)
+
+    return seq
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -46,6 +71,28 @@ def growth_t13(s):#'uaa'):
     df = df.set_index('id')
     s = s.lower()
     # print(df)
+    p = s[:2]
+    t = s[2]
+    return df[p][t]
+
+def get_growth(s, t='t11'):
+    """Add constrain on G for t11"""
+    s = s.lower()
+    if t == 't11':
+        df = pd.read_csv('/Users/magnus/Desktop/trx/mutget/t1-1_scores_d8.csv')
+        #ic(s)
+        return int(df[df['seql'] == s]['growth'])
+
+    if t == 't12':
+        f = 'file:///Users/magnus/Desktop/trx/mutget/t1-2/t1-2/_scores_.csv'
+        df = pd.read_csv(f)
+        return int(df[df['seql'] == s]['growth'])
+    
+    if t == 't13':
+        df = pd.read_csv('/Users/magnus/Desktop/trx/mutget/t1-3/t1_3_rmNan.csv')#t1_3.csv')
+        return int(df[df['seql'] == s]['growthb'])
+        
+    df = df.set_index('id')
     p = s[:2]
     t = s[2]
     return df[p][t]
@@ -95,26 +142,31 @@ def fopen(filename, verbose=0):
     first_hit = out.split('\n')[0]
     return open(first_hit)
 
-def tdb_score(seq, edge='cWW_cHW', type='instances', binary=False, if_exists=1):
+def tdb_score(seq, edge='cWW_cHW', type='instances', binary=False, if_exists=1, triplex=''):
     """
-    x is
+    x is::
 
-    triple  instances  clashes  near  exists  contacts_bo  contacts_no_bk  contacts_rpr  clashscore_rpr  clashscore_no_bk  clashscore_bo  Unnamed: 11  Unnamed: 12  Unnamed: 13
-    1557  cWW_cHS_UCU        1.0      0.0   0.0     1.0          2.0             2.0           3.0             0.0               0.0            0.0          NaN          NaN          NaN
-    ('cWW_cHS_GCU:', 4) ('cWW_cHS_UCU:', 2)
+        triple  instances  clashes  near  exists  contacts_bo  contacts_no_bk  contacts_rpr  clashscore_rpr  clashscore_no_bk  clashscore_bo  Unnamed: 11  Unnamed: 12  Unnamed: 13
+        1557  cWW_cHS_UCU        1.0      0.0   0.0     1.0          2.0             2.0           3.0             0.0               0.0            0.0          NaN          NaN          NaN
+        ('cWW_cHS_GCU:', 4) ('cWW_cHS_UCU:', 2)
 
-    ValueError
+        ValueError
 
-           triple  instances  clashes  near  exists  contacts_bo  contacts_no_bk  contacts_rpr  clashscore_rpr  clashscore_no_bk  clashscore_bo  Unnamed: 11  Unnamed: 12  Unnamed: 13
-5202  cWW_cHS_CGU        0.0      0.0   0.0     0.0          NaN             NaN           NaN             NaN               NaN            NaN          NaN          NaN          NaN
-Traceback (most recent call last):
-  File "splix_trx2.py", line 76, in <module>
-    score2 = score_triple(triple2nd, edge)
-  File "splix_trx2.py", line 53, in score_triple
-    score = triple + ':', round(int(x['contacts_bo']))
-  File "/Users/magnus/miniconda2/envs/py37/lib/python3.7/site-packages/pandas/core/series.py", line 128, in wrapper
-    return converter(self.iloc[0])
+               triple  instances  clashes  near  exists  contacts_bo  contacts_no_bk  contacts_rpr  clashscore_rpr  clashscore_no_bk  clashscore_bo  Unnamed: 11  Unnamed: 12  Unnamed: 13
+    5202  cWW_cHS_CGU        0.0      0.0   0.0     0.0          NaN             NaN           NaN             NaN               NaN            NaN          NaN          NaN          NaN
+    Traceback (most recent call last):
+      File "splix_trx2.py", line 76, in <module>
+        score2 = score_triple(triple2nd, edge)
+      File "splix_trx2.py", line 53, in score_triple
+        score = triple + ':', round(int(x['contacts_bo']))
+      File "/Users/magnus/miniconda2/envs/py37/lib/python3.7/site-packages/pandas/core/series.py", line 128, in wrapper
+        return converter(self.iloc[0])
     """
+    if triplex == 't11':
+        if seq.endswith('g'):
+            ic('g correction used for ', seq)
+            return 0
+
     import pandas as pd
     df = pd.read_csv('/Users/magnus/work/src/rna-tools/rna_tools/tools/triplexibility/triple-db.csv')
     triple = edge + '_' + seq.upper()
@@ -146,7 +198,7 @@ def wall_score(seq, binary=False):
     """
     """
     import pandas as pd
-    df = pd.read_csv("/Users/magnus/work/src/rna-tools/rna_tools/tools/triplexibility/trx-db/triple-db-ext-2+Clash200x2+Contacts-1_fix36UCG.csv")
+    df = pd.read_csv("/Users/magnus/work/src/rna-tools/rna_tools/tools/triplexibility/db/triple-db-ext-2+Clash200x2+Contacts-1_fix36UCG.csv")
     seq = seq.upper()
     print(seq)
     x = df[df['seq'] == seq]
@@ -178,7 +230,7 @@ def score_triple2(seq, edge, rand=False):
         else:
             return 0
 
-def get_growth(seq, dfg, a):
+def _get_growth_(seq, dfg, a):
     """This is ugly, dfg global used"""
     x = dfg[dfg['seq'] == seq]
     try:
@@ -224,7 +276,6 @@ if __name__ == '__main__':
     #print(score, score2, get_growth(seq))
     sys.exit(1)
 
-    x = growth_t23('GGG') # Nan
     x = growth_t23('AGU') # Nan
     ic(type(x))
     if x == 'nan':
