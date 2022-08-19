@@ -772,6 +772,7 @@ def strip_selection_name(selection_name):
 
 def edges(selection):
     """Save selection into a file in a temp folder and run rna_draw_edges.py on it and load it into this session"""
+    my_view = cmd.get_view()
     f = tempfile.TemporaryDirectory()
     tmpf = f.name + os.sep + strip_selection_name(selection) + '.pdb'
     outf = f.name + '/output.py'
@@ -782,7 +783,7 @@ def edges(selection):
     if err:
         print(err)
     cmd.load(outf)
-    cmd.orient()
+    cmd.set_view(my_view)
 
 cmd.extend('edges', edges)
 
