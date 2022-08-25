@@ -6,8 +6,8 @@ biopython==1.74
 progressbar2
 
 # some fix
-sphinx==1.6.7
-sphinx-argparse==0.1.15
+sphinx
+sphinxcontrib-autoprogram
 
 pathlib
 sphinx-rtd-theme
