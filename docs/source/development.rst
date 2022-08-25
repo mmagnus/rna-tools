@@ -53,8 +53,7 @@ Run this script to see if there is any error, ``./install_links_bin.sh``.
 
      Renumber a pdb file according to alignment
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     .. argparse::
-        :ref: rna_tools.tools.<tool folder>.<tool script name>.get_parser
+     .. autoprogram:: rna_tools.tools.<tool folder>.<tool script name>.get_parser()
         :prog: <utl script name>
 
      .. automodule:: rna_tools.tools.<tool folder>.<tool script name>
@@ -64,8 +63,7 @@ Run this script to see if there is any error, ``./install_links_bin.sh``.
 
       Renumber a pdb file according to alignment
       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      .. argparse::
-         :ref: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
+      .. autoprogram:: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln.get_parser()
          :prog: renum_pdb_to_aln
 
       .. automodule:: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln

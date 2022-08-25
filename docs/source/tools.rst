@@ -13,10 +13,9 @@ RNA Secondary Structure
    :members:
    :undoc-members:
 
-rna_dot2ct.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. argparse::
-   :ref: rna_tools.rna_dot2ct.get_parser
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoprogram:: rna_tools.rna_dot2ct:get_parser()
    :prog: rna_dot2ct.py
 
 Secondary structure format conversion
@@ -109,56 +108,31 @@ RNAalignment
    :members:
    :undoc-members:
 
+.. autoprogram:: rna_tools.tools.rna_alignment.utils.rna_alignment_get_species:get_parser()
+   :prog: rna_alignment_get_species.py
 
-rna_alignment_get_species.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autoprogram:: rna_tools.tools.rna_alignment.utils.rna_alignment_calc_energy:get_parser()
+   :prog: rna_alignment_calc_energy.py
 
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.utils.rna_alignment_get_species.get_parser
-   :prog: rna_alignment_get_species
+.. autoprogram:: rna_tools.tools.rna_alignment.rna_align_get_ss_from_fasta:get_parser()
+   :prog: rna_align_get_ss_from_fasta.py
 
-rna_alignment_calc_energy.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.utils.rna_alignment_calc_energy.get_parser
-   :prog: rna_alignment_calc_energy
+.. autoprogram:: rna_tools.tools.rna_alignment.rna_align_get_ss_from_stk:get_parser()
+   :prog: rna_align_get_ss_from_stk.py
 
-rna_align_get_ss_from_fasta.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.rna_align_get_ss_from_fasta.get_parser
-   :prog: rna_align_get_ss_from_fasta
-
-rna_align_get_ss_from_stk.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.rna_align_get_ss_from_stk.get_parser
-   :prog: rna_align_get_ss_from_stk
-
-rna_align_distance_to_seq.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.rna_align_distance_to_seq.get_parser
+.. autoprogram:: rna_tools.tools.rna_alignment.rna_align_distance_to_seq:get_parser()
    :prog: rna_align_distance_to_seq.py
 
-rna_align_foldability.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.rna_align_foldability.get_parser
+.. autoprogram:: rna_tools.tools.rna_alignment.rna_align_foldability:get_parser()
    :prog: rna_align_foldability.py
-
 
 Random assignment of nucleotides
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_alignment.random_assignment_of_nucleotides.get_parser
-   :prog: random_assignment_of_nucleotides
+.. autoprogram:: rna_tools.tools.rna_alignment.random_assignment_of_nucleotides:get_parser()
+   :prog: random_assignment_of_nucleotides.py
 
 .. automodule:: rna_tools.tools.rna_alignment.random_assignment_of_nucleotides
    :members:
@@ -183,9 +157,8 @@ RChie
 Renumber a pdb file according to alignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln.get_parser
-   :prog: renum_to_aln
+.. autoprogram:: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln:get_parser()
+   :prog: renum_to_aln.py
 
 .. automodule:: rna_tools.tools.renum_pdb_to_aln.renum_pdb_to_aln
    :members:
@@ -197,38 +170,30 @@ Root Mean Square Deviation (RMSD)
 rna_calc_rmsd
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd.get_parser
+.. autoprogram:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd:get_parser()
    :prog: rna_calc_rmsd
 
 .. automodule:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd
    :members:
    :undoc-members:
 
-rna_calc_rmsd_multi_targets
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_multi_targets.get_parser
-   :prog: rna_calc_evo_rmsd
+.. autoprogram:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_multi_targets:get_parser()
+   :prog: rna_calc_rmsd_multi_targets.py
 
 rna_calc_rmsd_trafl
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_rmsd_trafl.rna_calc_rmsd_trafl.get_parser
+.. autoprogram:: rna_tools.tools.rna_calc_rmsd_trafl.rna_calc_rmsd_trafl:get_parser()
    :prog: rna_calc_evo_rmsd
 
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_rmsd_trafl.rna_cal_rmsd_trafl_plot.get_parser
+.. autoprogram:: rna_tools.tools.rna_calc_rmsd_trafl.rna_cal_rmsd_trafl_plot:get_parser()
    :prog: rna_cal_rmsd_trafl_plot
 
 
 rna_calc_rmsd_all_vs_all
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_all_vs_all.get_parser
+.. autoprogram:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_all_vs_all:get_parser()
    :prog: rna_calc_rmsd_all_vs_all
 
 .. automodule:: rna_tools.tools.rna_calc_rmsd.rna_calc_rmsd_all_vs_all
@@ -238,80 +203,53 @@ rna_calc_rmsd_all_vs_all
 Interaction Network Fidelity (INF)
 ------------------------------------------------------------
 
-rna_calc_inf
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. warning:: rna_calc_inf is using ClaRNA (included in the rna-tools packages). However, ClaRNA requires some extra libraires, not required by other tools in the package, that's why they are not included in the main installation configuration. To install these libraries in proper version, type "pip install rna-tools simplejson networkx==1.8.1".
-
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_inf.rna_calc_inf.get_parser
-   :prog: rna_calc_inf
+.. autoprogram:: rna_tools.tools.rna_calc_inf.rna_calc_inf:get_parser()
+   :prog: rna_calc_inf.py
 
 .. automodule:: rna_tools.tools.rna_calc_inf.rna_calc_inf
-   :members:
-   :undoc-members:
-
-rna_calc_dinf
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.rna_calc_inf.rna_calc_dinf.get_parser
-   :prog: rna_calc_inf
-
-.. automodule:: rna_tools.tools.rna_calc_dinf.rna_calc_dinf
    :members:
    :undoc-members:
 
 RNA filter (DCA)
 -----------------------------------------
 
-rna_filter.py - calculate distances based on given restrants on PDB files or SimRNA trajectories
+Calculate distances based on given restrants on PDB files or SimRNA trajectories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_filter.rna_filter.get_parser
+.. autoprogram:: rna_tools.tools.rna_filter.rna_filter:get_parser()
    :prog: rna_filter.py
 
-rna_dca_mapping.py
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. argparse::
-   :ref: rna_tools.tools.rna_filter.rna_dca_mapping.get_parser
+.. autoprogram:: rna_tools.tools.rna_filter.rna_dca_mapping:get_parser()
    :prog: rna_dca_mapping.py
 
-
-show_dists - show distances in PyMOL
+Show distances in PyMOL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: rna_tools.tools.rna_filter.pymol_dists
    :undoc-members:
 
-rna_ex2x.py - analyze an evolutionary coupling file.
+Analyze an evolutionary coupling file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 
-.. argparse::
-   :ref: rna_tools.tools.rna_filter.rna_ec2x.get_parser
+.. autoprogram:: rna_tools.tools.rna_filter.rna_ec2x:get_parser()
    :prog: rna_ec2x.py
 
-rna_pairs2SimRNArestrs.py - convert pairs to SimRNA restraints
+Convert pairs to SimRNA restraints
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_filter.rna_pairs2SimRNArestrs.get_parser
+.. autoprogram:: rna_tools.tools.rna_filter.rna_pairs2SimRNArestrs:get_parser()
    :prog: rna_pairs2SimRNArestrs.py
 
-rna_ss_get_bps.py - get a list of base pairs for a given "fasta ss" file.
+Get a list of base pairs for a given "fasta ss" file.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_filter.rna_ss_get_bps.get_parser
-   :prog: rna_ss_get_bps
+.. autoprogram:: rna_tools.tools.rna_filter.rna_ss_get_bps:get_parser()
+   :prog: rna_ss_get_bps.py
 
-rna_pairs_diff.py - get a diff of pairs
+Get a diff of pairs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_filter.rna_pairs_diff.get_parser
+.. autoprogram:: rna_tools.tools.rna_filter.rna_pairs_diff:get_parser()
    :prog: rna_pairs_diff.py
 
 Contacts classification & secondary structure detection
@@ -367,8 +305,7 @@ RNAkb
    :members:
    :undoc-members:
 
-.. argparse::
-   :ref: rna_tools.tools.mq.RNAkb.rna_mq_rnakb.get_parser
+.. autoprogram:: rna_tools.tools.mq.RNAkb.rna_mq_rnakb:get_parser()
    :prog: rna_mq_rnakb.py
 
 QRNA
@@ -432,8 +369,7 @@ A set of wrappers around Rosetta (https://www.rosettacommons.org/), mostly based
 Run (modeling)
 ^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_run.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_run:get_parser()
    :prog: rna_rosetta_run.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_run
@@ -443,8 +379,7 @@ Run (modeling)
 Get a number of structures
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_n.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_n:get_parser()
    :prog: rna_rosetta_n.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_n
@@ -454,8 +389,7 @@ Get a number of structures
 Get a head of a Rosetta silent file
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_head.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_head:get_parser()
    :prog: rna_rosetta_n.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_head
@@ -465,10 +399,7 @@ Get a head of a Rosetta silent file
 Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :nodescription:
-   :nosubcommands:
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_cluster.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_cluster:get_parser()
    :prog: rna_rosetta_cluster.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_cluster
@@ -478,8 +409,7 @@ Cluster
 Minimize
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_min.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_min:get_parser()
    :prog: rna_rosetta_min.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_min
@@ -489,8 +419,7 @@ Minimize
 Extract lowscore decoy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys:get_parser()
    :prog: rna_rosetta_extract_lowscore_decoys.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_extract_lowscore_decoys
@@ -500,8 +429,7 @@ Extract lowscore decoy
 Check progress
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress.get_parser
+.. autoprogram:: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress:get_parser()
    :prog: rna_rosetta_cluster.py
 
 .. automodule:: rna_tools.tools.rna_rosetta.rna_rosetta_check_progress
@@ -514,15 +442,13 @@ SimRNA
 Select low energy frames
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.simrna_trajectory.rna_simrna_lowest.get_parser
+.. autoprogram:: rna_tools.tools.simrna_trajectory.rna_simrna_lowest:get_parser()
    :prog: rna_simrna_lowest.py
 
 Extract
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.tools.simrna_trajectory.rna_simrna_extract.get_parser
+.. autoprogram:: rna_tools.tools.simrna_trajectory.rna_simrna_extract:get_parser()
    :prog: rna_simrna_extract.py
 
 SimRNAweb
@@ -531,8 +457,7 @@ SimRNAweb
 Download files of a SimRNAweb run
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. argparse::
-   :ref: rna_tools.rna_simrnaweb_download_job.get_parser
+.. autoprogram:: rna_tools.rna_simrnaweb_download_job:get_parser()
    :prog: rna_simrnaweb_download_job.py
 
 SimRNATrajectory
@@ -545,16 +470,14 @@ SimRNATrajectory
 RNA Refinement (QRNAS)
 -----------------------------------------
 
-.. argparse::
-   :ref: rna_tools.tools.rna_refinement.rna_refinement.get_parser
+.. autoprogram:: rna_tools.tools.rna_refinement.rna_refinement:get_parser()
    :prog: rna_refinement.py
 
 
 RNA Molecular Dynammics (MD)
 -----------------------------------------
 
-.. argparse::
-   :ref: rna_tools.tools.md.rna_minimize.get_parser
+.. autoprogram:: rna_tools.tools.md.rna_minimize:get_parser()
    :prog: rna_minimize.py
 
 diffpdb
@@ -576,20 +499,17 @@ Misc
 Plotting
 ~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.plotting.rna_plot_hist.get_parser
-   :prog: rna_plot_hist
+.. autoprogram:: rna_tools.tools.plotting.rna_plot_hist:get_parser()
+   :prog: rna_plot_hist.py
 
-.. argparse::
-   :ref: rna_tools.tools.plotting.rna_plot_density.get_parser
-   :prog: rna_plot_density
+.. autoprogram:: rna_tools.tools.plotting.rna_plot_density:get_parser()
+   :prog: rna_plot_density.py
 
 
 rna_sali2dotbracket
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. argparse::
-   :ref: rna_tools.tools.rna_sali2dotbracket.rna_sali2dotbracket.get_parser
+.. autoprogram:: rna_tools.tools.rna_sali2dotbracket.rna_sali2dotbracket:get_parser()
    :prog: rna_sali2dotbracket
 
 .. automodule:: rna_tools.tools.rna_sali2dotbracket.rna_sali2dotbracket

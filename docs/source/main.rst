@@ -1,11 +1,7 @@
 PDB Tools
 ===============================================
 
-rna_pdb_toolsx
------------------------------------------
-
-.. argparse::
-   :ref: rna_tools.rna_pdb_toolsx.get_parser
+.. autoprogram:: rna_tools.rna_pdb_toolsx:get_parser()
    :prog: rna_pdb_toolsx.py
 
 get RNAPuzzle ready
@@ -83,8 +79,7 @@ the library
 PDB Edit Bfactor/Occupancy
 ------------------------------------------
 
-.. argparse::
-   :ref: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.get_parser
+.. autoprogram:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor:get_parser()
    :prog: rna_pdb_edit_occupancy_bfactor.py
 
 .. autofunction:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.edit_occupancy_of_pdb
@@ -96,16 +91,14 @@ Add chain to a file
    :members:
    :undoc-members:
 
-.. argparse::
-   :ref: rna_tools.tools.misc.rna_add_chain.get_parser
-   :prog: rna_add_chain
+.. autoprogram:: rna_tools.tools.misc.rna_add_chain:get_parser()
+   :prog: rna_add_chain.py
 
 Measure distance between atoms
 ------------------------------------------
 
-.. argparse::
-   :ref: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists.get_parser
-   :prog: pdbs_measure_atom_dists
+.. autoprogram:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists:get_parser()
+   :prog: pdbs_measure_atom_dists.py
 
 .. automodule:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists
    :members:

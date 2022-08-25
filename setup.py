@@ -191,6 +191,7 @@ setup(
         #'matplotlib',
         #'scipy',
         #'python-Levenshtein',
+        'sphinxcontrib-autoprogram',
 
         'versioneer',
         'configparser',
