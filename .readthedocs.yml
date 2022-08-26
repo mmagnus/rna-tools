@@ -6,6 +6,7 @@ build:
 
 python:
    install:
-   - requirements: docs/requirements.txt
+   - requirements: docs/requirements_for_docs.txt
+
 #conda:
 #  environment: docs/env.yml    
