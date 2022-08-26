@@ -267,8 +267,6 @@ See also PyMOL4RNA for ways to visualize edges https://rna-tools.readthedocs.io/
 ClaRNA (contacts classification)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. warning:: ClaRNA requires some extra libraires, not required by other tools in the package, that's why they are not included in the main installation configuration. To install these libraries in proper version, type "pip install rna-tools simplejson networkx==1.8.1".
-
 If you want to calculate "Interaction Network Fidelity (INF) and not only" see also rna_calc_inf_.
 
 .. rna_calc_inf_: https://rna-tools.readthedocs.io/en/latest/tools.html#rna-calc-inf
