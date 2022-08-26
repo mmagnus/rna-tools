@@ -477,9 +477,6 @@ RNA Refinement (QRNAS)
 RNA Molecular Dynammics (MD)
 -----------------------------------------
 
-.. autoprogram:: rna_tools.tools.md.rna_minimize:get_parser()
-   :prog: rna_minimize.py
-
 diffpdb
 -----------------------------------------
 
