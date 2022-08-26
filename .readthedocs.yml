@@ -9,3 +9,6 @@ python:
    - requirements: docs/requirements.txt
 #conda:
 #  environment: docs/env.yml    
+formats:
+  - pdf
+  - epub
