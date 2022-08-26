@@ -20,5 +20,4 @@ mysql-connector-python
 termcolor
 versioneer==0.18
 icecream
-
 openmm
