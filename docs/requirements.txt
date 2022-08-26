@@ -16,6 +16,6 @@ scipy
 #future
 #six
 python-Levenshtein
-
+mysql-connector-python
 termcolor
 versioneer==0.18
