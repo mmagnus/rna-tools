@@ -267,9 +267,7 @@ See also PyMOL4RNA for ways to visualize edges https://rna-tools.readthedocs.io/
 ClaRNA (contacts classification)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to calculate "Interaction Network Fidelity (INF) and not only" see also rna_calc_inf_.
-
-.. rna_calc_inf_: https://rna-tools.readthedocs.io/en/latest/tools.html#interaction-network-fidelity-inf
+If you want to calculate "Interaction Network Fidelity (INF) and not only" see also `rna_calc_inf <https://rna-tools.readthedocs.io/en/latest/tools.html#interaction-network-fidelity-inf>`_
 
 To run ClaRNA, see the documentaton below:
 	     
