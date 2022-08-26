@@ -10,3 +10,6 @@ python:
 
 #conda:
 #  environment: docs/env.yml    
+formats:
+  - pdf
+  - epub
