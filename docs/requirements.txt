@@ -1,7 +1,7 @@
 numpy
 biopython
-forgi
-progressbar2
+#forgi
+#progressbar2
 
 sphinx
 sphinxcontrib-autoprogram
@@ -13,9 +13,9 @@ urllib3
 pandas
 matplotlib
 scipy
-future
-six
-python-Levenshtein
+#future
+#six
+#python-Levenshtein
 
 termcolor
 versioneer==0.18
