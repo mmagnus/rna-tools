@@ -273,7 +273,7 @@ If you want to calculate "Interaction Network Fidelity (INF) and not only" see a
 
 To run ClaRNA, see the documentaton below:
 	     
-.. automodule:: rna_tools.tools.clarna_app.clarna_app
+.. automodule:: rna_tools.tools.clarna_app.rna_clarna_app
    :members:
    :undoc-members:
 
