@@ -230,7 +230,7 @@ class RNASequence(object):
         """Predict secondary structure of the seq.
 
         Args:
-          method:
+          method: {mcfold, RNAfold}
           onstraints:
           shapefn (str): path to a file with shape reactivites
           verbose (boolean)
@@ -614,10 +614,16 @@ if __name__ == '__main__':
     #import doctest
     #doctest.testmod()
 
+    seq = RNASequence('GAUCguaaGAUC')
+    seq.name = 'RNA01'
+    print(seq.predict_ss("mcfold"))
+    sys.exit(1)
+
     seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA01'
     print(seq.predict_ss("RNAfold",
                           constraints="((((...............................................................))))"))  # noqa
+
     seq = RNASequence("CGCUUCAUAUAAUCCUAAUGAUAUGGUUUGGGAGUUUCUACCAAGAGCCUUAAACUCUUGAUUAUGAAGUG")
     seq.name = 'RNA02'
     print(seq.predict_ss("RNAsubopt",
