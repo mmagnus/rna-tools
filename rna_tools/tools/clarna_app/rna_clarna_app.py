@@ -60,7 +60,9 @@ def clarna_run(fn, force=True, stacking=True, verbose=False):
     return fn_out
 
 def get_dot_bracket_from_ClaRNAoutput(inCR, verbose=False):
-    """In inCR file"""
+    """In inCR file
+
+    .. warning:: This function requres 'ClaRNAwd_to_vienaSS' contact marcin.magnus@icloud.com """
     cmd = ClaRNA_play_path + '/lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS ' + inCR
     o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std = o.stdout.read().strip()
@@ -68,7 +70,7 @@ def get_dot_bracket_from_ClaRNAoutput(inCR, verbose=False):
     return std
 
 def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
-    """Run ClaRNA compare.
+    """Run ClaRNA compare (from rna_tools/tools/clarna_play).
 
     :return: a list target, fn, scores
 

@@ -52,6 +52,8 @@ class Usage_Clarna:
   def __init__(self):
      # define a usage statement
      USAGE =  'for multiple files:\n\n  for i in *.pdb; do echo $i; rna_clarna_run.py -ipdb $i; done | tee cl.txt\n\n'
+     USAGE +=  ' parallel --bar  --eta --progress rna_clarna_run.py -ipdb {} -thresh 0.3 > {}.cl ::: *.pdb cl.txt\n'
+     
      USAGE += PROGRAM + ' -ipdb <infile>.pdb [-Clarna] [ -thresh f ] [ -bps ] [ -PS ] [ -stack ] [ -other ]\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -rnaview\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -mc_annotate\n'
@@ -1187,7 +1189,9 @@ if __name__ == '__main__':
         sys.exit(1)
     
     cl = CommandLine()
+
     cl.parse_Clarna_CL(sys.argv)
+    # print(cl.flnm_pdb)
     print('chains: ', StrucFile(cl.flnm_pdb).get_info_chains())
     seeClarna = SeeClarna()
 
