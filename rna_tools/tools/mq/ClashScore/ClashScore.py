@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """
 """
-from __future__ import print_function
+from icecream import ic
+import sys
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True)
+ic.configureOutput(prefix='> ')
 
 import argparse
 import os
@@ -68,8 +71,13 @@ class ClashScore(object):
             # so the output is
             clashscore = 15.45
 
-        """ 
-        cmd = PHENIX_BIN_PATH + os.sep + 'phenix.clashscore %s ' % fn
+        """
+        keep_hydrogens = True
+        if verbose: ic(keep_hydrogens)
+        if keep_hydrogens:
+            cmd = PHENIX_BIN_PATH + os.sep + 'phenix.clashscore %s keep_hydrogens=True ' % fn
+        else:
+            cmd = PHENIX_BIN_PATH + os.sep + 'phenix.clashscore %s ' % fn
         if verbose: print(cmd)
         out = Popen([cmd], stderr=PIPE, stdout=PIPE, shell=True)
         stdout = out.stdout.read().decode().strip()
