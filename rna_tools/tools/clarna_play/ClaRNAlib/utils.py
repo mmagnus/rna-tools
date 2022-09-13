@@ -330,11 +330,23 @@ def load_graph(filename):
 
 def save_graph(filename,g,indent=None):
     from networkx.readwrite import json_graph
+    print('json save to file:', filename)
     if re.match(r".*\.gz$",filename):
         f = gzip.open(filename,"w")
     else:
         f = open(filename,"w")
-    return json_graph.dump(g, f, indent=indent)
+    f.write(json.dumps(json_graph.node_link_data(g)))
+    j = json_graph.node_link_data(g)
+    t = ''
+    for i in j['links']:
+        # ?<> 
+        if i['type'] != 'dist':
+            if '?' not in i['key']:
+                # print(i)
+                if i['key'].startswith('WW') or '>' in i['key'] or '<' in i['key']:
+                   t += i['source'].ljust(10) + i['target'].ljust(10) + i['key'].ljust(10) + str(round(i['weight'], 2)) + '\n'
+    print(t)
+    return json_graph.node_link_data(g)#, f, indent=indent)
 
 
 def load_motifs(dirname,include_positive=True,include_negative=False):
