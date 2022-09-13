@@ -72,7 +72,7 @@ class ClashScore(object):
             clashscore = 15.45
 
         """
-        keep_hydrogens = True
+        keep_hydrogens = False
         if verbose: ic(keep_hydrogens)
         if keep_hydrogens:
             cmd = PHENIX_BIN_PATH + os.sep + 'phenix.clashscore %s keep_hydrogens=True ' % fn
