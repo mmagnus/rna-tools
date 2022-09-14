@@ -54,7 +54,7 @@ class Usage_Clarna:
      USAGE =  'for multiple files:\n\n  for i in *.pdb; do echo $i; rna_clarna_run.py -ipdb $i; done | tee cl.txt\n\n'
      USAGE +=  ' parallel --bar  --eta --progress rna_clarna_run.py -ipdb {} -thresh 0.3 > {}.cl ::: *.pdb cl.txt\n'
      
-     USAGE += PROGRAM + ' -ipdb <infile>.pdb [-Clarna] [ -thresh f ] [ -bps ] [ -PS ] [ -stack ] [ -other ]\n'
+     USAGE += PROGRAM + ' -ipdb <infile>.pdb [-Clarna] [ -thresh f ] [ -bps ] [ -PS ] [ -stack ] [ -other ] [ -s ]\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -rnaview\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -mc_annotate\n'
      USAGE += PROGRAM + ' -ipdb <infile>.pdb -fr3d\n'
@@ -75,6 +75,8 @@ class Usage_Clarna:
      USAGE +=' -mc_annotate  required!       use MC-Annotate with clarna notation      N/A\n' 
      USAGE +='------         ---------       --------------------------------    -----------------\n'
      USAGE +=' -fr3d         required!       use FR3D with clarna notation             N/A\n' 
+     USAGE +='------         ---------       --------------------------------    -----------------\n'
+     USAGE +=' -s            (optional)      show the sequence                                    \n' 
      USAGE +='------         ---------       --------------------------------    -----------------\n'
      USAGE +=' -h                -           prints this message                          \n' 
      USAGE +=' -help             -           ditto                                        \n' 
@@ -186,6 +188,22 @@ class CommandLine:
                 if debug_Clarna_CL_Opt:
                     print("search for stacking interactions requested.")
                 #
+
+            elif self.command_line[i] == '-s':
+                #self.clarna_opts = "--seq"
+                #self.opt_cnt += 1
+                def exe(cmd):
+                    import subprocess
+                    o = subprocess.Popen(
+                        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    out = o.stdout.read().strip().decode()
+                    err = o.stderr.read().strip().decode()
+                    return out, err
+                o, e = exe('rna_pdb_tools.py --get-seq %s' % self.flnm_pdb)
+                print(o, e)
+                pass
+                
+                
             elif self.command_line[i] == '-bp+stack':
                 self.clarna_opts = "bp+stack"
                 self.opt_cnt += 1
