@@ -71,6 +71,6 @@ if __name__ == '__main__':
             exe('rm *out.1[1-9]0*.pdb')
             exe('rm *out.200.pdb')
             exe('rm p[0-9].pdb')
-            exe('rna_pdb_toolsx.py --rpr --renumber_residues --inplace  *')
+            exe('rna_pdb_tools.py --rpr --renumber_residues --inplace  *')
             os.chdir('..')
             exe('evox.py -c rp13')

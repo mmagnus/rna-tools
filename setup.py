@@ -12,7 +12,8 @@ setup(
     packages=find_packages(),
     test_suite="tests",
     url='https://github.com/mmagnus/rna-tools',
-    scripts=['rna_tools/rna_pdb_toolsx.py',
+    scripts=['rna_tools/rna_pdb_tools.py',
+             
              'rna_tools/rna_calc_fenergy.py',
              'rna_tools/rna_pdb_replace.py',
              

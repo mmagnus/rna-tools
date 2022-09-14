@@ -260,12 +260,12 @@ def run(request, tool, job_id):
         fasta = request.GET['fasta'].strip()
         if fasta == 'true':
             with open(job_dir + '/run.sh', 'w') as f:
-                 f.write('rna_pdb_toolsx.py --fasta --get-seq *.pdb &> log.txt\n')
+                 f.write('rna_pdb_tools.py --fasta --get-seq *.pdb &> log.txt\n')
         else:
             with open(job_dir + '/run.sh', 'w') as f:
-                 f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
+                 f.write('rna_pdb_tools.py --get-seq *.pdb &> log.txt\n')
                  #f.write('echo "ANOTHER FORMAT:" >> log.txt\n')
-                 #f.write("rna_pdb_toolsx.py --get-seq --uniq '[:10]' --compact  *.pdb | sort &>> log.txt\n") # --chain-first#
+                 #f.write("rna_pdb_tools.py --get-seq --uniq '[:10]' --compact  *.pdb | sort &>> log.txt\n") # --chain-first#
 
     if tool == 'rpl':
         files = glob.glob(job_dir + "/*pdb")
@@ -279,15 +279,15 @@ rna_pdb_replace.py %s %s &> log.txt\n
 
     if tool == 'ss':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --get-ss *.pdb &> log.txt\n')
+             f.write('rna_pdb_tools.py --get-ss *.pdb &> log.txt\n')
 
     if tool == 'tocif':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --pdb2cif *.pdb > log.txt\n\n')
+             f.write('rna_pdb_tools.py --pdb2cif *.pdb > log.txt\n\n')
              
     if tool == 'topdb':
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --cif2pdb *.cif > log.txt\n\n')
+             f.write('rna_pdb_tools.py --cif2pdb *.cif > log.txt\n\n')
 
     if tool == 'analysis':
         with open(job_dir + '/run.sh', 'w') as f:
@@ -318,7 +318,7 @@ rna_pdb_replace.py %s %s &> log.txt\n
         print('run, seq,' + job_id)
         seq = request.GET['seq'].strip()       
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write('rna_pdb_toolsx.py --get-seq *.pdb &> log.txt\n')
+             f.write('rna_pdb_tools.py --get-seq *.pdb &> log.txt\n')
 
     if tool == "rpr":
         r = request.GET['renumber'].strip()
@@ -327,20 +327,20 @@ rna_pdb_replace.py %s %s &> log.txt\n
             opt = ' --renumber-residues '
         with open(job_dir + '/run.sh', 'w') as f:
              #  2> log.txt
-             f.write("for i in *.pdb; do rna_pdb_toolsx.py " + opt + " --get-rnapuzzle-ready $i &> ${i/.pdb/_rpr.pdb}; done\n")
+             f.write("for i in *.pdb; do rna_pdb_tools.py " + opt + " --get-rnapuzzle-ready $i &> ${i/.pdb/_rpr.pdb}; done\n")
              #f.write("echo '== _rpr.pdb files created ==' >> log.txt \n")
              f.write("grep 'REMARK 250  - ' *_rpr.pdb &>> log.txt\n")
              f.write("head *_rpr.pdb &> log.txt\n")
 
     if tool == "h2a":
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write("for i in *.pdb; do rna_pdb_toolsx.py --replace-htm $i &> ${i/.pdb/_h2a.pdb}; done\n")
+             f.write("for i in *.pdb; do rna_pdb_tools.py --replace-htm $i &> ${i/.pdb/_h2a.pdb}; done\n")
              f.write("head *.pdb >> log.txt\n") #for i in *.pdb; do echo -e '\n$i\n'; cat $i; done )             
 
     if tool == "mdr":
         with open(job_dir + '/run.sh', 'w') as f:
             
-            f.write("for i in *.pdb; do rna_pdb_toolsx.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
+            f.write("for i in *.pdb; do rna_pdb_tools.py --mdr $i > ${i/.pdb/_mdr.pdb}; done\n")
             #f.write("echo '== _mdrpr.pdb files created ==' >> log.txt \n")
 
     if tool == 'calc-rmsd': #rmsd
@@ -449,35 +449,35 @@ diffpdb.py """ + opt + """ --method diff %s %s &> log.txt \n
     if tool == 'extract':
         opt = request.GET['extract'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write("""for i in *.pdb; do rna_pdb_toolsx.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;""" % opt)
-             f.write("rna_pdb_toolsx.py --get-seq *.pdb >> log.txt")
+             f.write("""for i in *.pdb; do rna_pdb_tools.py --extract '%s' $i > ${i/.pdb/_extract.pdb}; done;""" % opt)
+             f.write("rna_pdb_tools.py --get-seq *.pdb >> log.txt")
 
     if tool == 'delete':
         opt = request.GET['del'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
-for i in *.pdb; do rna_pdb_toolsx.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; done;
+for i in *.pdb; do rna_pdb_tools.py --delete '%s' $i > ${i/.pdb/_delete.pdb}; done;
 """ % opt)
 
     if tool == 'edit':
         opt = request.GET['edit'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
-for i in *.pdb; do rna_pdb_toolsx.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
+for i in *.pdb; do rna_pdb_tools.py --edit '%s' $i > ${i/.pdb/_edit.pdb}; done;
 """ % opt)
-             f.write("rna_pdb_toolsx.py --get-seq *.pdb >> log.txt\n")
+             f.write("rna_pdb_tools.py --get-seq *.pdb >> log.txt\n")
 
     if tool == 'swap':
         opt = request.GET['swap'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
-             f.write("for i in *.pdb; do rna_pdb_toolsx.py --swap-chains '%s' $i > ${i/.pdb/_swap.pdb}; done\n" % opt)
-             f.write("rna_pdb_toolsx.py --get-seq *.pdb >> log.txt\n")
+             f.write("for i in *.pdb; do rna_pdb_tools.py --swap-chains '%s' $i > ${i/.pdb/_swap.pdb}; done\n" % opt)
+             f.write("rna_pdb_tools.py --get-seq *.pdb >> log.txt\n")
 
     if tool == 'mutate':
         opt = request.GET['mutate'].strip()
         with open(job_dir + '/run.sh', 'w') as f:
              f.write("""
-for i in *.pdb; do rna_pdb_toolsx.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; done;
+for i in *.pdb; do rna_pdb_tools.py --mutate '%s' $i > ${i/.pdb/_mutate.pdb}; done;
 """ % opt)
              f.write('ls *.pdb > log.txt\n')
 

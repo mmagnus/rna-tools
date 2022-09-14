@@ -5,7 +5,7 @@ The RNA Puzzle organizers required ONE file with your submissions in the NMR-sty
 
 First, prepare your structures in the folder and run to get them RNApuzzle ready (`_rpr`)::
 
-	$ for i in *.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done
+	$ for i in *.pdb; do rna_pdb_tools.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done
 
 merge them as one file in the order as you like (or use `*`)::
 

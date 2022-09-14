@@ -2,7 +2,7 @@
 
 Get your sequences in a compact way:
 
-    [mm] structures$ git:(master) ✗ rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact *
+    [mm] structures$ git:(master) ✗ rna_pdb_tools.py --get_seq --uniq '[:5]' --compact *
     GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCCGGCAUCGAUAGCCGCCCGCCUGGGC # A:1-71 # rp13_20569fa1_ALL-000001_AA
     ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCGACAUGUGGGGCAGCGACCACGAGGAAGCGCAAGGUUUCUGGCGUCAUGCACAACGGCGCCUGCCGCUCGCCUGGGCAG # A:1-123 # rp13cp0016_min.out.1
     ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCCGGCAGUGGGCGUUGACCACGAGGAAGCGCAAGGUCUCUGGCGUCAUGCACAACGACGCCUGCCGCUCGCCUGGGCA # A:1-121 # rp13nc3295_min.out.1
@@ -14,7 +14,7 @@ Get your sequences in a compact way:
 
 and with chain id first:
 
-    [mm] structures$ git:(master) ✗ rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact --chain-first *
+    [mm] structures$ git:(master) ✗ rna_pdb_tools.py --get_seq --uniq '[:5]' --compact --chain-first *
     A:1-71         GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCCGGCAUCGAUAGCCGCCCGCCUGGGC # rp13_20569fa1_ALL-000001_AA
     A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCGACAUGUGGGGCAGCGACCACGAGGAAGCGCAAGGUUUCUGGCGUCAUGCACAACGGCGCCUGCCGCUCGCCUGGGCAG # rp13cp0016_min.out.1
     A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCCGGCAGUGGGCGUUGACCACGAGGAAGCGCAAGGUCUCUGGCGUCAUGCACAACGACGCCUGCCGCUCGCCUGGGCA # rp13nc3295_min.out.1
@@ -26,7 +26,7 @@ and with chain id first:
 
 which of course your can `sort`:
 
-    [mm] structures$ git:(master) ✗ rna_pdb_toolsx.py --get_seq --uniq '[:5]' --compact --chain-first * | sort
+    [mm] structures$ git:(master) ✗ rna_pdb_tools.py --get_seq --uniq '[:5]' --compact --chain-first * | sort
     A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCCGGCAGUGGGCGUUGACCACGAGGAAGCGCAAGGUCUCUGGCGUCAUGCACAACGACGCCUGCCGCUCGCCUGGGCA # rp13nc3295_min.out.1
     A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCGACAUGUGGGGCAGCGACCACGAGGAAGCGCAAGGUUUCUGGCGUCAUGCACAACGGCGCCUGCCGCUCGCCUGGGCAG # rp13cp0016_min.out.1
     A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCGACAUGUGGGGCAGCGACCACGAGGAAGCGCAAGGUUUCUGGCGUCAUGCACAACGGCGCCUGCCGCUCGCCUGGGCAG # zcp_6537608a_ALL-000001_AA
@@ -38,7 +38,7 @@ which of course your can `sort`:
 
 Another example:
 
-    [mm] rp20$ git:(master) ✗ rna_pdb_toolsx.py --get_seq --compact *.pdb
+    [mm] rp20$ git:(master) ✗ rna_pdb_tools.py --get_seq --compact *.pdb
     # 20_Bujnicki_1
     ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
     # 20_Bujnicki_2
@@ -144,7 +144,7 @@ Another example:
 
 or with `--online`:
 
-    [mm] rna_pdb_toolsx.py --get_seq --compact *.pdb  --oneline
+    [mm] rna_pdb_tools.py --get_seq --compact *.pdb  --oneline
     ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68 # 20_Bujnicki_1
     ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68 # 20_Bujnicki_2
     ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68 # 20_Bujnicki_3
@@ -173,7 +173,7 @@ or with `--online`:
 
 or as a fasta:
 
-    [mm] ✗ rna_pdb_toolsx.py --get_seq --compact --fasta *.pdb
+    [mm] ✗ rna_pdb_tools.py --get_seq --compact --fasta *.pdb
     > 20_Bujnicki_1
     ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
     > 20_Bujnicki_2

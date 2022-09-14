@@ -30,14 +30,14 @@ if __name__ == '__main__':
                  #seq = 'A:1' + a + '+2' + b + '+3' + c # search for the last column
                  seq = 'A:1' + a + '+2' + b + '+3' + c # search for the last column
                  f2 = args.ref + "_" + a + b + c + ".pdb"
-                 cmd = "rna_pdb_toolsx.py --mutate '" + seq + "' " + args.ref + " > " + f2
+                 cmd = "rna_pdb_tools.py --mutate '" + seq + "' " + args.ref + " > " + f2
                  print(seq)
                  print(cmd)
                  os.system(cmd)
                  continue
              
                  f3 = f2.replace('.pdb', '_rpr.pdb')
-                 cmd = "rna_pdb_toolsx.py --rpr " + f2 + " > " + f3
+                 cmd = "rna_pdb_tools.py --rpr " + f2 + " > " + f3
                  print(cmd)
                  os.system(cmd)
                  # --files ../../db/triples-all-v2-rpr/*

@@ -13,20 +13,20 @@ mkdir: simrna_ade_cp15-ca11f0d6: File exists
 ```shell
 
 set -x
-rna_pdb_toolsx.py --un-nmr *_MD.pdb
-for i in `ls *MD_*`; do rna_pdb_toolsx.py --rpr $i --replace-hetatm  --dont-fix-missing-atoms > ${i}_rpr.pdb; done	
-for i in `ls *rpr*`; do rna_pdb_toolsx.py --edit 'A:1-35>A:51-85,B:1-11>B:20-30' $i > ${i}_fixChains.pdb; done
+rna_pdb_tools.py --un-nmr *_MD.pdb
+for i in `ls *MD_*`; do rna_pdb_tools.py --rpr $i --replace-hetatm  --dont-fix-missing-atoms > ${i}_rpr.pdb; done	
+for i in `ls *rpr*`; do rna_pdb_tools.py --edit 'A:1-35>A:51-85,B:1-11>B:20-30' $i > ${i}_fixChains.pdb; done
 ```
 
 ```shell
 cat test.sh
 # X
-# rna_pdb_toolsx.py --un-nmr yC_5LJ3_U2U6_core_mdrFx_addh_MD.pdb
+# rna_pdb_tools.py --un-nmr yC_5LJ3_U2U6_core_mdrFx_addh_MD.pdb
 set -x
-#for i in `ls *MD_*` do rna_pdb_toolsx.py --rpr $i --replace-hetatm  --dont-fix-missing-atoms > ${i}_rpr.pdb done
+#for i in `ls *MD_*` do rna_pdb_tools.py --rpr $i --replace-hetatm  --dont-fix-missing-atoms > ${i}_rpr.pdb done
 
 for i in `ls *rpr*`; do
-	rna_pdb_toolsx.py --edit 'A:1-35>A:51-85,B:1-11>B:20-30' $i > ${i}_fixChains.pdb
+	rna_pdb_tools.py --edit 'A:1-35>A:51-85,B:1-11>B:20-30' $i > ${i}_fixChains.pdb
 done
 
 ```

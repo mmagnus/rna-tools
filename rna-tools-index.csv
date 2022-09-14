@@ -1,33 +1,33 @@
 ﻿Index,Group Name,Tool Group,Tool,Category,Help
-1,Swiss army knife tool,rna_pdb_toolsx.py, --get-rnapuzzle-ready,original,format PDB file to be compatible with the 'RNA-Puzzle PDB format'
-2,Swiss army knife tool,rna_pdb_toolsx.py, --report,original,get report
-3,Swiss army knife tool,rna_pdb_toolsx.py, --renum-atoms,original,"renumber atoms, tested with --get-seq"
-4,Swiss army knife tool,rna_pdb_toolsx.py, --renum-residues-dirty,original,"renumber residues, dirty way"
-5,Swiss army knife tool,rna_pdb_toolsx.py, --renumber-residues,original,by defult is false
-6,Swiss army knife tool,rna_pdb_toolsx.py, --delete-anisou,original,"remove files with ANISOU records, works with --inplace"
-7,Swiss army knife tool,rna_pdb_toolsx.py, --split-alt-locations,original,split into many structures based on alt locations
-8,Swiss army knife tool,rna_pdb_toolsx.py, --clean,original,get clean structure
-9,Swiss army knife tool,rna_pdb_toolsx.py, --is-pdb,original,check if a file is in the pdb format
-10,Swiss army knife tool,rna_pdb_toolsx.py, --is-nmr,original,check if a file is NMR-style multiple model pdb
-11,Swiss army knife tool,rna_pdb_toolsx.py, --un-nmr,original,split NMR-style multiple model pdb files into individual models [biopython required]
-12,Swiss army knife tool,rna_pdb_toolsx.py, --orgmode,original,get a structure in org-mode format <sick!>
-13,Swiss army knife tool,rna_pdb_toolsx.py, --get-chain GET_CHAIN,original,get a chain
-14,Swiss army knife tool,rna_pdb_toolsx.py, --fetch,original,fetch file from the PDB db
-15,Swiss army knife tool,rna_pdb_toolsx.py, --fetch-ba,original,fetch biological assembly from the PDB db
-16,Swiss army knife tool,rna_pdb_toolsx.py, --get-seq,original,get seq
-17,Swiss army knife tool,rna_pdb_toolsx.py, --compact,original,"with --get-seq, get it in compact view"
-18,Swiss army knife tool,rna_pdb_toolsx.py, --get-ss,original,get secondary structure
-19,Swiss army knife tool,rna_pdb_toolsx.py, --rosetta2generic,original,convert ROSETTA-like format to a generic pdb
-20,Swiss army knife tool,rna_pdb_toolsx.py, --collapsed-view,original,"collapsed view of pdb file. Only lines with C5’ atoms are shown and TER, MODEL, END"
-21,Swiss army knife tool,rna_pdb_toolsx.py, --replace-hetatm,original,replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
-22,Swiss army knife tool,rna_pdb_toolsx.py, --mutate MUTATE,original,"mutate residues, uses ModeRNA"
-23,Swiss army knife tool,rna_pdb_toolsx.py, --edit EDIT,original,"edit 'A:6>B:200', 'A:2-7>B:2-7'"
-24,Swiss army knife tool,rna_pdb_toolsx.py, --rename-chain RENAME_CHAIN,original,rename chain
-25,Swiss army knife tool,rna_pdb_toolsx.py, --swap-chains SWAP_CHAINS,original,swap two chains
-26,Swiss army knife tool,rna_pdb_toolsx.py, --replace-chain REPLACE_CHAIN,original,replace a chain
-27,Swiss army knife tool,rna_pdb_toolsx.py, --delete DELETE,original,"delete the selected fragment, e.g., A:10-16, or for more than one fragment --delete 'A:1-25+30-57'"
-28,Swiss army knife tool,rna_pdb_toolsx.py, --extract EXTRACT,original,"extract the selected fragment, e.g., A:10-16, or for more than one fragment --extract 'A:1-25+30-57'"
-29,Swiss army knife tool,rna_pdb_toolsx.py, --extract-chain EXTRACT_CHAIN,original,extract chain
+1,Swiss army knife tool,rna_pdb_tools.py, --get-rnapuzzle-ready,original,format PDB file to be compatible with the 'RNA-Puzzle PDB format'
+2,Swiss army knife tool,rna_pdb_tools.py, --report,original,get report
+3,Swiss army knife tool,rna_pdb_tools.py, --renum-atoms,original,"renumber atoms, tested with --get-seq"
+4,Swiss army knife tool,rna_pdb_tools.py, --renum-residues-dirty,original,"renumber residues, dirty way"
+5,Swiss army knife tool,rna_pdb_tools.py, --renumber-residues,original,by defult is false
+6,Swiss army knife tool,rna_pdb_tools.py, --delete-anisou,original,"remove files with ANISOU records, works with --inplace"
+7,Swiss army knife tool,rna_pdb_tools.py, --split-alt-locations,original,split into many structures based on alt locations
+8,Swiss army knife tool,rna_pdb_tools.py, --clean,original,get clean structure
+9,Swiss army knife tool,rna_pdb_tools.py, --is-pdb,original,check if a file is in the pdb format
+10,Swiss army knife tool,rna_pdb_tools.py, --is-nmr,original,check if a file is NMR-style multiple model pdb
+11,Swiss army knife tool,rna_pdb_tools.py, --un-nmr,original,split NMR-style multiple model pdb files into individual models [biopython required]
+12,Swiss army knife tool,rna_pdb_tools.py, --orgmode,original,get a structure in org-mode format <sick!>
+13,Swiss army knife tool,rna_pdb_tools.py, --get-chain GET_CHAIN,original,get a chain
+14,Swiss army knife tool,rna_pdb_tools.py, --fetch,original,fetch file from the PDB db
+15,Swiss army knife tool,rna_pdb_tools.py, --fetch-ba,original,fetch biological assembly from the PDB db
+16,Swiss army knife tool,rna_pdb_tools.py, --get-seq,original,get seq
+17,Swiss army knife tool,rna_pdb_tools.py, --compact,original,"with --get-seq, get it in compact view"
+18,Swiss army knife tool,rna_pdb_tools.py, --get-ss,original,get secondary structure
+19,Swiss army knife tool,rna_pdb_tools.py, --rosetta2generic,original,convert ROSETTA-like format to a generic pdb
+20,Swiss army knife tool,rna_pdb_tools.py, --collapsed-view,original,"collapsed view of pdb file. Only lines with C5’ atoms are shown and TER, MODEL, END"
+21,Swiss army knife tool,rna_pdb_tools.py, --replace-hetatm,original,replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]
+22,Swiss army knife tool,rna_pdb_tools.py, --mutate MUTATE,original,"mutate residues, uses ModeRNA"
+23,Swiss army knife tool,rna_pdb_tools.py, --edit EDIT,original,"edit 'A:6>B:200', 'A:2-7>B:2-7'"
+24,Swiss army knife tool,rna_pdb_tools.py, --rename-chain RENAME_CHAIN,original,rename chain
+25,Swiss army knife tool,rna_pdb_tools.py, --swap-chains SWAP_CHAINS,original,swap two chains
+26,Swiss army knife tool,rna_pdb_tools.py, --replace-chain REPLACE_CHAIN,original,replace a chain
+27,Swiss army knife tool,rna_pdb_tools.py, --delete DELETE,original,"delete the selected fragment, e.g., A:10-16, or for more than one fragment --delete 'A:1-25+30-57'"
+28,Swiss army knife tool,rna_pdb_tools.py, --extract EXTRACT,original,"extract the selected fragment, e.g., A:10-16, or for more than one fragment --extract 'A:1-25+30-57'"
+29,Swiss army knife tool,rna_pdb_tools.py, --extract-chain EXTRACT_CHAIN,original,extract chain
 30,RNA sequence,RNASequence,predict_ss(),wrapper,"ContextFold, also used for Jupyter Notebook"
 31,RNA sequence,RNASequence,predict_ss(),wrapper,"CentroidFold, also used for Jupyter Notebook"
 32,RNA sequence,RNASequence,eval(),wrapper,"RNAeval (ViennaRNA) with constraints, also used for Jupyter Notebook"

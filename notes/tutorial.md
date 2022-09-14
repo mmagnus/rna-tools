@@ -62,7 +62,7 @@ or
 
 # Misc
     
-    $ rna_pdb_toolsx.py --fetch 5lj3
+    $ rna_pdb_tools.py --fetch 5lj3
     downloading... 5lj3.pdb
     ok
 

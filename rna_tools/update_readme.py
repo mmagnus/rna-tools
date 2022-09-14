@@ -4,11 +4,11 @@
 import subprocess
 
 if __name__ == '__main__':
-    start_tag = "usage: rna_pdb_toolsx.py"
+    start_tag = "usage: rna_pdb_tools.py"
     end_tag = "Tricks:"
 
     #
-    doc = subprocess.Popen('python rna_pdb_toolsx.py -h', shell=True, stdout=subprocess.PIPE).stdout.read().decode()
+    doc = subprocess.Popen('python rna_pdb_tools.py -h', shell=True, stdout=subprocess.PIPE).stdout.read().decode()
     txt = ''
     f = open('../README.md', 'r')
     copy_line_flag = True

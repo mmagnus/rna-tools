@@ -6,7 +6,7 @@ fetch a structure from the PDB database
 
 Example::
 
-  $ rna_pdb_toolsx.py --fetch 1xjr
+  $ rna_pdb_tools.py --fetch 1xjr
   downloading...1xjr ok
 
 fetch a biologicaly assembly
@@ -14,7 +14,7 @@ fetch a biologicaly assembly
 
 Example::
 
-  $ rna_pdb_toolsx.py --fetch-ba 1xjr
+  $ rna_pdb_tools.py --fetch-ba 1xjr
   downloading...1xjr_ba.pdb ok
 
 or over a list of pdb ids in a text file::
@@ -23,7 +23,7 @@ or over a list of pdb ids in a text file::
   1y26
   1fir
 
-  $ while read p; do rna_pdb_toolsx.py --fetch-ba $p; done < data/pdb_ids.txt
+  $ while read p; do rna_pdb_tools.py --fetch-ba $p; done < data/pdb_ids.txt
   downloading...1y26_ba.pdb ok
   downloading...1fir_ba.pdb ok
 
@@ -35,7 +35,7 @@ get sequences of a bunch of PDB files
 
 Example::
 
-    $ rna_pdb_toolsx.py --get-seq *.pdb
+    $ rna_pdb_tools.py --get-seq *.pdb
     # 1xjr
     > A:1-47
     GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
@@ -62,7 +62,7 @@ Example::
 
 in some more fancy way ;-) ::
 
-    $ rna_pdb_toolsx.py --get-seq \
+    $ rna_pdb_tools.py --get-seq \
               --oneline 3_bujnicki_1_rpr* \
               --color-seq --compact
 
@@ -79,7 +79,7 @@ delete a part of of your structure
 
 Examples::
 
-    $ for i in *pdb; do rna_pdb_toolsx.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
+    $ for i in *pdb; do rna_pdb_tools.py --delete A:46-56 $i > ../rpr_rm_loop/$i ; done
 
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
@@ -87,11 +87,11 @@ get numbering of your structure and rename chains
 ----------------------------------------------------
 Rename chain B in structure 4_das_1_rpr.pdb::
 
-  $ rna_pdb_toolsx.py --get-seq  4_das_1_rpr.pdb
+  $ rna_pdb_tools.py --get-seq  4_das_1_rpr.pdb
   > 4_das_1_rpr.pdb B:1-126
   GGCUUAUCAAGAGAGGUGGAGGGACUGGCCCGAUGAAACCCGGCAACCACUAGUCUAGCGUCAGCUUCGGCUGACGCUAGGCUAGUGGUGCCAAUUCCUGCAGCGGAAACGUUGAAAGAUGAGCCA
-  $ rna_pdb_toolsx.py --edit 'B:1-126>A:1-126' 4_das_1_rpr.pdb > 4_das_1_rpr2.pdb
-  $ rna_pdb_toolsx.py --get-seq  4_das_1_rpr2.pdb
+  $ rna_pdb_tools.py --edit 'B:1-126>A:1-126' 4_das_1_rpr.pdb > 4_das_1_rpr2.pdb
+  $ rna_pdb_tools.py --get-seq  4_das_1_rpr2.pdb
   > 4_das_1_rpr2.pdb A:1-126
   GGCUUAUCAAGAGAGGUGGAGGGACUGGCCCGAUGAAACCCGGCAACCACUAGUCUAGCGUCAGCUUCGGCUGACGCUAGGCUAGUGGUGCCAAUUCCUGCAGCGGAAACGUUGAAAGAUGAGCCA
 
@@ -100,23 +100,23 @@ edit your structure (rename chain)
 
 Examples::
 
-   $ rna_pdb_toolsx.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
+   $ rna_pdb_tools.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
 
 or even::
 
-   $ rna_pdb_toolsx.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
+   $ rna_pdb_tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
 
 or even, even, do rename X chain to A only for Chen's pdb structures in the folder, in place (so don't create a new file)::
 
-    for i in *Chen*; do rna_pdb_toolsx.py --edit 'X:1-125>A:1-125' $i > ${i}_temp; mv ${i}_temp ${i}; done
-    # do only edit for Chen's pdb structures, in place.
+   $ for i in *Chen*; do rna_pdb_tools.py --edit 'X:1-125>A:1-125' $i > ${i}_temp; mv ${i}_temp ${i}; done
+   # do only edit for Chen's pdb structures, in place.
 
 extract part of your structure
 --------------------------------------------
 
 Example::
 
-  $ rna_pdb_toolsx.py --extract A:1-4 13_Bujnicki_1_rpr.pdb
+  $ rna_pdb_tools.py --extract A:1-4 13_Bujnicki_1_rpr.pdb
   REMARK 250 Model edited with rna-tools
   REMARK 250  ver 3.1.14
   REMARK 250  https://github.com/mmagnus/rna-tools
@@ -145,7 +145,7 @@ find missing atoms in my structure
 
 Run::
 
-    $ rna_pdb_toolsx.py --get-rnapuzzle-ready input/1_das_1_rpr_fixed.pdb
+    $ rna_pdb_tools.py --get-rnapuzzle-ready input/1_das_1_rpr_fixed.pdb
     HEADER Generated with rna-pdb-tools
     HEADER ver 91ed4f8-dirty
     HEADER https://github.com/mmagnus/rna-pdb-tools
@@ -165,7 +165,7 @@ mutate residues
 
 For example, to replace the first four residues of chain A into adenines and 13th A of chain B, run::
 
-    rna_pdb_toolsx.py --mutate 'A:1A+2A+3A+4A,B:13A' \
+    $ rna_pdb_tools.py --mutate 'A:1A+2A+3A+4A,B:13A' \
        --inplace output/205d_rmH2o_mutA1234-B1_inplace.pdb
 
 .. image:: ../pngs/mutate.png

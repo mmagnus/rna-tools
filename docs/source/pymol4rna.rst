@@ -6,7 +6,7 @@ See also https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/PyMOL4
 Inspect structure
 ----------------------------------------------------------------------
 
-There is new ```--inspect``` function for rna_pdb_toolsx.py that tells you what are missing atoms in your structure file.
+There is new ```--inspect``` function for rna_pdb_tools.py that tells you what are missing atoms in your structure file.
 
 You can run it also from PyMOL, so in here you can see missing atoms directly in PyMOL (the object comes green and the residues missing atoms comes in red).
 
@@ -16,7 +16,7 @@ PyMOL::
     
 .. image:: ../pngs/pymol_inspect.jpeg
 
-and here you can compare the input file vs file after ``--rpr`` (of rna_pdb_toolsx.py) to see what was rebuilt (in pink).
+and here you can compare the input file vs file after ``--rpr`` (of rna_pdb_tools.py) to see what was rebuilt (in pink).
 	   
 .. image:: ../pngs/pymol_inspect2.jpeg
 

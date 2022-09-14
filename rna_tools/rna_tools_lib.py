@@ -176,7 +176,7 @@ class RNAStructure:
 
         .. warning:: This function requires biopython.
 
-        rna_pdb_toolsx.py --un-nmr AF-Q5TCX8-F1-model_v1_core_Ctrim_mdr_MD.pdb
+        rna_pdb_tools.py --un-nmr AF-Q5TCX8-F1-model_v1_core_Ctrim_mdr_MD.pdb
 36
         cat *MD_* > md.pdb
         """
@@ -1816,11 +1816,11 @@ def edit_pdb(f, args):
 
     Examples::
 
-        $ rna_pdb_toolsx.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
+        $ rna_pdb_tools.py --edit 'A:3-21>A:1-19' 1f27_clean.pdb > 1f27_clean_A1-19.pdb
 
     or even::
 
-        $ rna_pdb_toolsx.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
+        $ rna_pdb_tools.py --edit 'A:3-21>A:1-19,B:22-32>B:20-30' 1f27_clean.pdb > 1f27_clean_renumb.pdb
 
     """
     # open a new file

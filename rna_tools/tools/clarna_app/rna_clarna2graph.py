@@ -3,7 +3,7 @@
 """
 Get the input::
 
-    rna_pdb_toolsx.py --extract 'A:80+A:61+B:21+A:85' S*.pdb --here
+    rna_pdb_tools.py --extract 'A:80+A:61+B:21+A:85' S*.pdb --here
     for i in *extr.pdb; do echo $i; rna_clarna_run.py -ipdb $i; done | tee log.txt
 
 Example::

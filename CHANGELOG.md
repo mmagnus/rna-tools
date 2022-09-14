@@ -11,12 +11,12 @@ See https://github.com/mmagnus/rna-tools/releases for more details for 3.7.x
     Fixed:
     
         rna_tools_lib.py (RNAStructure) for remove_hydrogen, correct atom name position now
-        rna_pdb_toolsx.py --get-seq works with protein fix #104	
+        rna_pdb_tools.py --get-seq works with protein fix #104	
 	    spotifer.py - fix alignments, and lots of other improvements
         
     Added:
 
-        rna_pdb_toolsx.py:
+        rna_pdb_tools.py:
         - add --fetch-chain to first fetch a structure and extract chain in one step
         
         mqapRNA: py3 wrappers and include them in RT
@@ -64,17 +64,17 @@ See https://github.com/mmagnus/rna-tools/releases for more details for 3.7.x
 
     Fixed:
 
-        rna_pdb_toolsx.py: --rpr fix correct resi for remarks
-        rna_pdb_toolsx.py: --rpr with --keep-hetatm ! [fixed issue with #71]
+        rna_pdb_tools.py: --rpr fix correct resi for remarks
+        rna_pdb_tools.py: --rpr with --keep-hetatm ! [fixed issue with #71]
 	
     Added:
     
-        rna_pdb_toolsx.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
-        rna_pdb_toolsx.py: add --triple-mode,--column-name
-        rna_pdb_toolsx.py: add --backbone-only
-        rna_pdb_toolsx.py: --rpr no also fixes missing OP1 and OP2 in backbone
-        rna_pdb_toolsx.py: refactor, path code executed once
-        rna_pdb_toolsx.py: add --inspect
+        rna_pdb_tools.py: --set-chain, set chain for all ATOM lines and TER (quite brutal function)
+        rna_pdb_tools.py: add --triple-mode,--column-name
+        rna_pdb_tools.py: add --backbone-only
+        rna_pdb_tools.py: --rpr no also fixes missing OP1 and OP2 in backbone
+        rna_pdb_tools.py: refactor, path code executed once
+        rna_pdb_tools.py: add --inspect
    
         rna_tools_lib.py (RNAStructure) - add get_res_text() & get_remarks_text()
         rna_tools_lib.py (RNAStructure) - add reload()
@@ -84,7 +84,7 @@ See https://github.com/mmagnus/rna-tools/releases for more details for 3.7.x
         rna_calc_rmsd_biopython.py: introduce way to save models after rmsd calc
         rna_calc_rmsd_biopython.py: add --triple-mode,--column-name
 		
-	PyMOL4RNA: add inspect function for rna_pdb_toolsx.py: --inspect
+	PyMOL4RNA: add inspect function for rna_pdb_tools.py: --inspect
 		
     Bug fixes and small improvements.
 
@@ -124,7 +124,7 @@ See https://github.com/mmagnus/rna-tools/releases for more details for 3.7.x
     - rna_calc_inf.py: with model_selection and target_selection
     - Fix problems with rna_calc_inf.py, re-write tests, add docs
     
-- rna_pdb_toolsx.py: 
+- rna_pdb_tools.py: 
     - add --no-progress-bar
     - add --color-seq
     - add --rpr for --mutate
@@ -139,9 +139,9 @@ Bug fixes and small improvements.
 
 200626
 
-- rna_pdb_toolsx.py: --undo --suffix --hide-warnings
-- rna_pdb_toolsx.py: add fetch RNA-Puzzles standardized_dataset
-- rna_pdb_toolsx.py: --to-mol2
+- rna_pdb_tools.py: --undo --suffix --hide-warnings
+- rna_pdb_tools.py: add fetch RNA-Puzzles standardized_dataset
+- rna_pdb_tools.py: --to-mol2
 - include mini-moderna3
 - add spotifier https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier 
 - add webserver-engine https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/webserver-engine 
@@ -160,18 +160,18 @@ Bug fixes and small improvements.
 - 190815 Add: Seq.py: load_fasta_ss_into_RNAseqs()
 - 190813 Add: copied and edited from rna_pdb_merge_into_one.py to:
 
-      rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
+      rna_pdb_tools.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
 
 - 190810 Add: ENTRNA wrapper for foldability
 
 ## Added
 
 - `rna_dot2ct.py`
-- `rna_pdb_toolsx.py --swap-chains SWAP_CHAINS` [190530]
+- `rna_pdb_tools.py --swap-chains SWAP_CHAINS` [190530]
 - Clanstix: with smart group name picking [190500]
-- `rna_pdb_toolsx.py --split-alt-locations`
-- `rna_pdb_toolsx.py --delete-anisou`
-- copied and edited from rna_pdb_merge_into_one.py to `rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb` [190813
+- `rna_pdb_tools.py --split-alt-locations`
+- `rna_pdb_tools.py --delete-anisou`
+- copied and edited from rna_pdb_merge_into_one.py to `rna_pdb_tools.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb` [190813
 ]
 
 ## Changed

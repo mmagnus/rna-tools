@@ -503,7 +503,7 @@ def clarna(selection):
 
 
 def seq(selection):
-    """Get sequence of the selected fragment using ``rna_pdb_toolsx.py --get_seq ``.
+    """Get sequence of the selected fragment using ``rna_pdb_tools.py --get_seq ``.
 
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
@@ -515,7 +515,7 @@ def seq(selection):
                 f = tempfile.NamedTemporaryFile(delete=False) # True)
                 f.name = f.name + '.pdb'
                 cmd.save(f.name, name)
-                cmdline = 'rna_pdb_toolsx.py --color-seq --get-seq ' + f.name
+                cmdline = 'rna_pdb_tools.py --color-seq --get-seq ' + f.name
                 out, err = exe(cmdline)
                 if out:
                     print('> ' + name)
@@ -530,7 +530,7 @@ def seq(selection):
         selection = strip_selection_name(selection)
         input = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
         cmd.save(input, selection)
-        cmdline = 'rna_pdb_toolsx.py  --color-seq --get-seq ' + input
+        cmdline = 'rna_pdb_tools.py  --color-seq --get-seq ' + input
         # print(cmdline)
         out, err = exe(cmdline)
         print(out)
@@ -539,14 +539,14 @@ def seq(selection):
         f.close()
 
 def seqsel():
-    """Get sequence of the selected fragment using ``rna_pdb_toolsx.py --get_seq ``.
+    """Get sequence of the selected fragment using ``rna_pdb_tools.py --get_seq ``.
     """
     f = tempfile.NamedTemporaryFile(delete=False)
     selection = '(sele)'
     input = os.path.dirname(f.name) + os.sep +  '_sele.pdb'
     cmd.save(input, selection)
 
-    cmdline = 'rna_pdb_toolsx.py --get-seq ' + input
+    cmdline = 'rna_pdb_tools.py --get-seq ' + input
     print(cmdline)
     out, err = exe(cmdline)
     print(out)
@@ -589,7 +589,7 @@ def mutate(mutation, selection):
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     output = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
     output2 = os.path.dirname(f.name) + os.sep + selection + '_mut.pdb'
-    cmdline = "rna_pdb_toolsx.py --mutate " + mutation + ' ' + output + ' > ' + output2
+    cmdline = "rna_pdb_tools.py --mutate " + mutation + ' ' + output + ' > ' + output2
     print(cmdline)
     exe(cmdline)
     cmd.load(output2)
@@ -864,7 +864,7 @@ def qrnas():
 def inspect(name, dont_green=False):
     f = tempfile.NamedTemporaryFile(delete=False)
     cmd.save(f.name + '.pdb', name)
-    out, err = exe('rna_pdb_toolsx.py --inspect ' + f.name + '.pdb')
+    out, err = exe('rna_pdb_tools.py --inspect ' + f.name + '.pdb')
     if not dont_green:
         cmd.color('green', name)
     for l in out.split('\n'):
@@ -889,7 +889,7 @@ def rpr(selection):
 
     output = os.path.dirname(f.name) + os.sep +  selection + '_rpr.pdb'
 
-    out, err = exe('rna_pdb_toolsx.py --rpr ' + input + ' > ' + output)
+    out, err = exe('rna_pdb_tools.py --rpr ' + input + ' > ' + output)
     cmd.load(output)
     print(out)
 cmd.extend('rpr', rpr)

@@ -5,9 +5,9 @@
 
 Usage::
 
-   $ rna_pdb_toolsx.py --delete A:46-56 --inplace *.pdb
+   $ rna_pdb_tools.py --delete A:46-56 --inplace *.pdb
 
-    $ rna_pdb_toolsx.py --get-seq *
+    $ rna_pdb_tools.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound
     > A:1-61
     # BujnickiLab_RNApuzzle14_n02bound
@@ -76,7 +76,7 @@ def get_parser():
                         action='store_true')
 
     parser.add_argument('--nmr-dir', help='make NMR-style multiple model pdb file from a set of files \n\n' +
-                        "  rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb\n\n" +
+                        "  rna_pdb_tools.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb\n\n" +
                         "please use '' for pattern file recognition, this is a hack to deal with folders with\n"
                         "thousands of models, if you used only *.pdb then the terminal will complain that you\n"
                         "selected to many files.")
@@ -105,7 +105,7 @@ def get_parser():
     
     parser.add_argument('--compact',
                         help=textwrap.dedent("""with --get-seq, get it in compact view'
-$ rna_pdb_toolsx.py --get-seq --compact *.pdb
+$ rna_pdb_tools.py --get-seq --compact *.pdb
 # 20_Bujnicki_1
 ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
 # 20_Bujnicki_2
@@ -191,7 +191,7 @@ the chain id in this file has to be the same with the chain id of the original c
                          help="extract chain, e.g. A")
 
     parser.add_argument('--uniq', help=textwrap.dedent("""
-rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
+rna_pdb_tools.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
 A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
 A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
 A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # zcp_6537608a_ALL-000001_AA
@@ -207,7 +207,7 @@ A:1-45 57-71   GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCGCCGCCCGCCUGGGC # so
                         help= textwrap.dedent("""with --get-seq, show sequences in fasta format,
 can be combined with --compact (mind, chains will be separated with ' ' in one line)
 
-$ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
+$ rna_pdb_tools.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
 > 20_Bujnicki_1
 ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
 
@@ -655,7 +655,7 @@ if __name__ == '__main__':
             shutil.copy(f, ftf)  # create a backup copy if inplace
 
             # go over each chain
-            # rna_pdb_toolsx.py --mutate 'A:1CB:1G,A:1U+B:1A' CG_AB.pdb > ~/Desktop/a.pdb
+            # rna_pdb_tools.py --mutate 'A:1CB:1G,A:1U+B:1A' CG_AB.pdb > ~/Desktop/a.pdb
             args.mutate = args.mutate.upper()
             for m in args.mutate.split(','):  # A:1A, B:1A
                 chain, resi_mutate_to = m.strip().split(':')  # A:1A+2C
@@ -686,7 +686,7 @@ if __name__ == '__main__':
                     f = f.replace('.pdb', '_' + args.suffix + '.pdb')
                 # rpr on the file
                 shutil.copy(ftf, f)
-                os.system('rna_pdb_toolsx.py --rpr --no-progress-bar --inplace ' + f)
+                os.system('rna_pdb_tools.py --rpr --no-progress-bar --inplace ' + f)
             else:  # write: to stdout
                 try:
                     sys.stdout.write(output)
@@ -818,7 +818,7 @@ if __name__ == '__main__':
         chain = args.file[1]
         nfn = fn.replace('.pdb','') + '_' + chain + '.pdb' # 6bk8_H.pdb
         #cmd = 'rna_pdb_tools.py --get-chain %s %s' > %s' % (chain, fn, nfn)
-        cmd = 'rna_pdb_toolsx.py --get-chain %s %s' % (chain, fn)
+        cmd = 'rna_pdb_tools.py --get-chain %s %s' % (chain, fn)
         os.system(cmd)
         # print(nfn)
 

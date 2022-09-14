@@ -48,9 +48,9 @@ The software is used by me in my servers **NPDock** (RNA/DNA-protein docking met
 A command-line tools:
 
 ```shell
-$ rna_pdb_toolsx.py --is-pdb input/1I9V_A.pdb
+$ rna_pdb_tools.py --is-pdb input/1I9V_A.pdb
 True
-$ rna_pdb_toolsx.py --is-pdb input/image.png
+$ rna_pdb_tools.py --is-pdb input/image.png
 False
 ```
 
@@ -77,7 +77,7 @@ Take a tour [http://mmagnus.github.io/rna-tools/#/](http://mmagnus.github.io/rna
   <img align="center" src="https://raw.githubusercontent.com/mmagnus/rna-tools/master/docs/pngs/qKPVoPxDmq.gif">
 </p>
 
-Fig. `rna_pdb_toolsx.py --get-rnapuzzle-ready *pdb --inplace`
+Fig. `rna_pdb_tools.py --get-rnapuzzle-ready *pdb --inplace`
 
 The latest
 -------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ Table of Contents
 -------------------------------------------------------------------------------
 
    * [Tour](#tour)
-   * [rna_pdb_toolsx.py](#rna_pdb_toolsxpy)
+   * [rna_pdb_tools.py](#rna_pdb_toolsxpy)
    * [Tools](#tools)
    * [Docs](#docs)
    * [Cite](#cite)
@@ -155,42 +155,40 @@ Table of Contents
 
 Take a tour http://mmagnus.github.io/rna-tools/#/
 
-## rna_pdb_toolsx.py
+## rna_pdb_tools.py
 
 ```
-usage: rna_pdb_toolsx.py [-h] [--version] [-r] [--no-progress-bar]
-                         [--renum-atoms] [--renum-nmr]
-                         [--renum-residues-dirty] [--undo] [--delete-anisou]
-                         [--fix] [--to-mol2] [--split-alt-locations] [-c]
-                         [--is-pdb] [--is-nmr] [--nmr-dir NMR_DIR] [--un-nmr]
-                         [--orgmode] [--get-chain GET_CHAIN] [--fetch]
-                         [--fetch-ba] [--fetch-chain] [--get-seq]
-                         [--color-seq] [--ignore-files IGNORE_FILES]
-                         [--compact] [--hide-warnings] [--get-ss]
-                         [--rosetta2generic] [--no-hr] [--renumber-residues]
-                         [--dont-rename-chains] [--dont-fix-missing-atoms]
-                         [--inspect] [--collapsed-view] [--cv] [-v]
-                         [--mutate MUTATE] [--edit EDIT]
-                         [--rename-chain RENAME_CHAIN]
-                         [--swap-chains SWAP_CHAINS] [--set-chain SET_CHAIN]
-                         [--replace-chain REPLACE_CHAIN] [--delete DELETE]
-                         [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
-                         [--uniq UNIQ] [--chain-first] [--oneline]
-                         [--replace-htm] [--fasta] [--cif2pdb] [--pdb2cif]
-                         [--mdr] [--get-rnapuzzle-ready] [--rpr]
-                         [--keep-hetatm] [--inplace] [--here]
-                         [--suffix SUFFIX] [--replace-hetatm]
-                         [--dont-report-missing-atoms] [--backbone-only]
-                         [--no-backbone] [--bases-only]
-                         file [file ...]
+usage: rna_pdb_tools.py [-h] [--version] [-r] [--no-progress-bar]
+                        [--renum-atoms] [--renum-nmr] [--renum-residues-dirty]
+                        [--undo] [--delete-anisou] [--fix] [--to-mol2]
+                        [--split-alt-locations] [-c] [--is-pdb] [--is-nmr]
+                        [--nmr-dir NMR_DIR] [--un-nmr] [--orgmode]
+                        [--get-chain GET_CHAIN] [--fetch] [--fetch-ba]
+                        [--fetch-chain] [--get-seq] [--color-seq]
+                        [--ignore-files IGNORE_FILES] [--compact]
+                        [--hide-warnings] [--get-ss] [--rosetta2generic]
+                        [--no-hr] [--renumber-residues] [--dont-rename-chains]
+                        [--dont-fix-missing-atoms] [--inspect]
+                        [--collapsed-view] [--cv] [-v] [--mutate MUTATE]
+                        [--edit EDIT] [--rename-chain RENAME_CHAIN]
+                        [--swap-chains SWAP_CHAINS] [--set-chain SET_CHAIN]
+                        [--replace-chain REPLACE_CHAIN] [--delete DELETE]
+                        [--extract EXTRACT] [--extract-chain EXTRACT_CHAIN]
+                        [--uniq UNIQ] [--chain-first] [--oneline]
+                        [--replace-htm] [--fasta] [--cif2pdb] [--pdb2cif]
+                        [--mdr] [--get-rnapuzzle-ready] [--rpr]
+                        [--keep-hetatm] [--inplace] [--here] [--suffix SUFFIX]
+                        [--replace-hetatm] [--dont-report-missing-atoms]
+                        [--backbone-only] [--no-backbone] [--bases-only]
+                        file [file ...]
 
 rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
 
 Usage::
 
-   $ rna_pdb_toolsx.py --delete A:46-56 --inplace *.pdb
+   $ rna_pdb_tools.py --delete A:46-56 --inplace *.pdb
 
-    $ rna_pdb_toolsx.py --get-seq *
+    $ rna_pdb_tools.py --get-seq *
     # BujnickiLab_RNApuzzle14_n01bound
     > A:1-61
     # BujnickiLab_RNApuzzle14_n02bound
@@ -222,7 +220,7 @@ optional arguments:
   --is-nmr              check if a file is NMR-style multiple model pdb
   --nmr-dir NMR_DIR     make NMR-style multiple model pdb file from a set of files 
                         
-                          rna_pdb_toolsx.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
+                          rna_pdb_tools.py --nmr-dir . 'cwc15_u5_fragments*.pdb' > ~/Desktop/cwc15-u5.pdb
                         
                         please use '' for pattern file recognition, this is a hack to deal with folders with
                         thousands of models, if you used only *.pdb then the terminal will complain that you
@@ -240,7 +238,7 @@ optional arguments:
   --ignore-files IGNORE_FILES
                         files to be ingored, .e.g, 'solution'
   --compact             with --get-seq, get it in compact view'
-                        $ rna_pdb_toolsx.py --get-seq --compact *.pdb
+                        $ rna_pdb_tools.py --get-seq --compact *.pdb
                         # 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGCGCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU # A:1-68
                         # 20_Bujnicki_2
@@ -284,7 +282,7 @@ optional arguments:
   --extract-chain EXTRACT_CHAIN
                         extract chain, e.g. A
   --uniq UNIQ           
-                        rna_pdb_toolsx.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
+                        rna_pdb_tools.py --get-seq --uniq '[:5]' --compact --chain-first * | sort
                         A:1-121        ACCUUGCGCAACUGGCGAAUCCUGGGGCUGCCGCCGGCAGUACCC...CA # rp13nc3295_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # rp13cp0016_min.out.1
                         A:1-123        ACCUUGCGCGACUGGCGAAUCCUGAAGCUGCUUUGAGCGGCUUCG...AG # zcp_6537608a_ALL-000001_AA
@@ -295,7 +293,7 @@ optional arguments:
   --fasta               with --get-seq, show sequences in fasta format,
                         can be combined with --compact (mind, chains will be separated with ' ' in one line)
                         
-                        $ rna_pdb_toolsx.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
+                        $ rna_pdb_tools.py --get-seq --fasta --compact input/20_Bujnicki_1.pdb
                         > 20_Bujnicki_1
                         ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
                         
@@ -327,16 +325,16 @@ CAN BE COMBINED WITH:
 
 Tricks:
 
-    $ rna_pdb_toolsx.py --delete A:48-52 --suffix=noloop --inplace
+    $ rna_pdb_tools.py --delete A:48-52 --suffix=noloop --inplace
     10_rp17c.out.14.pdb
     10_rp17c.out.14_out.pdb
     [..]
 
-    $ rna_pdb_toolsx.py --get-rnapuzzle-ready --inplace *.pdb
+    $ rna_pdb_tools.py --get-rnapuzzle-ready --inplace *.pdb
 
 .. keep original structures in original and use rpr:
 
-    ➜  bujnicki_server_ss for i in original/*.pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done
+    ➜  bujnicki_server_ss for i in original/*.pdb; do rna_pdb_tools.py --get-rnapuzzle-ready $i > ${i/.pdb/_rpr.pdb}; done
     ➜  bujnicki_server_ss ls
     17pz_withSS_all_thrs6.00A_clust01-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust06-000001_AA_rpr.pdb
     17pz_withSS_all_thrs6.00A_clust02-000001_AA_rpr.pdb 17pz_withSS_all_thrs6.00A_clust07-000001_AA_rpr.pdb
@@ -346,7 +344,7 @@ Tricks:
 
 .. or to get structures ready for SimRNA/SimRNAweb use :
 
-    $ for i in *pdb; do rna_pdb_toolsx.py --get-rnapuzzle-ready $i >  ${i/.pdb/_srr.pdb}; done
+    $ for i in *pdb; do rna_pdb_tools.py --get-rnapuzzle-ready $i >  ${i/.pdb/_srr.pdb}; done
 	# at some point there was a seperate function --get_simrna_ready but there is no need for it
 	# simply use --get-rnapuzzle-ready 
 
@@ -439,7 +437,7 @@ The index in a form of a searchable table can be found [here](https://github.com
   * [Python Classes](#python-classes)
   * [Other](#other)
 
-<h3><a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx"><code>rna_pdb_toolsx.py</code></a></h3>
+<h3><a href="https://rna-tools.readthedocs.io/en/latest/main.html#rna-pdb-toolsx"><code>rna_pdb_tools.py</code></a></h3>
 
 1. `--get-rnapuzzle-ready` format PDB file to be compatible with the "RNA-Puzzle PDB format",
 1. `--report`             get report
@@ -566,6 +564,7 @@ The index in a form of a searchable table can be found [here](https://github.com
 
 - https://github.com/mmagnus/rna-tools/blob/master/notes/fig3-manuscript.ipynb
 - https://github.com/mmagnus/rna-tools/blob/master/rna_tools/tools/rna_alignment/rna_alignment.ipynb
+
 ## References
 Components of rna-tools are based upon the following pieces of scientific literature:
 

@@ -2,7 +2,7 @@
 190515
 
 ```
-[mm] z_ISL$ rna_pdb_toolsx.py --get_seq 5y88.pdb
+[mm] z_ISL$ rna_pdb_tools.py --get_seq 5y88.pdb
 # 5y88
 > A:127-431 450-1576 1603-1827 1840-2085 3000-3000
 (...)
@@ -22,11 +22,11 @@ UUUUUUUUU
 ```
 
 ```
-[mm] z_ISL$ rna_pdb_toolsx.py --get-chain BDEFx 5y88.pdb > 5y88_RNAOnly.pdb
+[mm] z_ISL$ rna_pdb_tools.py --get-chain BDEFx 5y88.pdb > 5y88_RNAOnly.pdb
 ```
 
 ```
-[mm] z_ISL$ rna_pdb_toolsx.py --get_seq 5y88_RNAOnly.pdb
+[mm] z_ISL$ rna_pdb_tools.py --get_seq 5y88_RNAOnly.pdb
 # 5y88_RNAOnly
 > B:28-55 60-127 163-183
 GGAGGUCAACAUCAAGAACUGUGGGCCUUUGCCUAUAGAACUUAUAACGAACAUGGUUCUUGCCUUUUACCAGAACCAUCCGGGUGUUGUCUCCAUCCAUAUUUUUUGGAACUUUUC

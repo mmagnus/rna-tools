@@ -3,11 +3,11 @@
 
 Imagine that you have a folder with hundreds of models from a few simulations. Now, you want to get preview sequences for one example model from each simulation. So instead of running:
 
-    $ rna_pdb_toolsx.py --get_seq *
+    $ rna_pdb_tools.py --get_seq *
 
 and getting a few hundreds of results, you can select uniqueness of your hits, like in the following examples. Show me only sequences of models whose names differ for each other in the first 5 characters ;-)
 
-    [mm] structures$ git:(master) ✗ rna_pdb_toolsx.py --get_seq --uniq '[:5]' *
+    [mm] structures$ git:(master) ✗ rna_pdb_tools.py --get_seq --uniq '[:5]' *
     # rp13_20569fa1_ALL-000001_AA
     > A:1-71
     GGGUCGUGACUGGCGAACAGGUGGGAAACCACCGGGGAGCGACCCCGGCAUCGAUAGCCGCCCGCCUGGGC
