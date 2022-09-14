@@ -92,13 +92,13 @@ https://doi.org/10.1093/nar/gkac372
 	
 **22-03-31** rna-tools goes online, http://rna-tools.online
 	
-**21-05-24**  spotifier branched out into own repository to keep RT light https://github.com/mmagnus/yeast-spotifier
+**21-05-24** spotifier branched out into own repository to keep RT light https://github.com/mmagnus/yeast-spotifier
 	
 **20-10/12** [mqapRNA](https://github.com/mmagnus/rna-tools/blob/master/notes/mq.ipynb): py3 wrappers and include them in RT: RASP, Dfire, RNA3DCNN, QRNA, FARNA(Rosetta), AnalyzeGeometry, ClashScore, eSCORE (barnaba), 3dRNAscore, RNAkb (5pt)
     
 **20-08-20** A new structures of splicesome processed with rna-tools to be easily viewed with PyMOL (or as single chains) [PyMOL4Spliceosome](https://github.com/mmagnus/PyMOL4Spliceosome)
 
-**20-06-18** A new tool, [spotifier](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/spotifier), to process yeast plate images into figures 
+**20-06-18** A new tool, [spotifier](https://github.com/mmagnus/yeast-spotifier), to process yeast plate images into figures 
 
 **20-03-21** [PyMOL Preview Generator](https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/pymol_preview_generator) a new tool for generation of previews in Finders created :-)
 
@@ -118,7 +118,7 @@ M. Magnus, M., Kappel, K., Das, R., & Bujnicki, J. M. (2019). RNA 3D structure p
 
 **19-06-15** rna-tools used for spliceosome! :-) is accepted for publication! See [this folder](https://github.com/mmagnus/rna-tools/tree/master/U6MolCell) for the description of the analysis!
 
-Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2018). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell https://www.cell.com/molecular-cell/pdfExtended/S1097-2765(19)30390-9 
+Eysmont, K., Matylla-Kulinska, K., Jaskulska, A., Magnus, M., & Konarska, M. M. (2019). Rearrangements within the U6 snRNA core at the transition between the two catalytic steps of splicing. Molecular Cell https://github.com/mmagnus/rna-tools/tree/master/U6MolCell https://www.cell.com/molecular-cell/pdfExtended/S1097-2765(19)30390-9 
 
 See also [CHANGELOG](https://github.com/mmagnus/rna-tools/blob/master/CHANGELOG.md).
 	
@@ -491,7 +491,7 @@ The index in a form of a searchable table can be found [here](https://github.com
 
 ### Tertiary structure formats
 
-1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.tools.diffpdb.diffpdb><code>diffpdb</code></a> - a simple tool to compare text-content of PDB files,
+1. <a href="https://rna-tools.readthedocs.io/en/latest/tools.html#module-rna_tools.tools.diffpdb.diffpdb"><code>diffpdb</code></a> - a simple tool to compare text-content of PDB files,
 
 1. `rna_pdb_merge_into_one.py` - merge single files into an NMR-style multiple model file PDB file.
 
