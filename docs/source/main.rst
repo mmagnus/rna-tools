@@ -1,7 +1,7 @@
 PDB Tools
 ===============================================
 
-.. autoprogram:: rna_tools.rna_pdb_toolsx:get_parser()
+.. autoprogram:: rna_tools.rna_pdb_tools:get_parser()
    :prog: rna_pdb_tools.py
 
 get RNAPuzzle ready

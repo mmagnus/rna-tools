@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""rna_pdb_toolsx - a swiss army knife to manipulation of RNA pdb structures
+"""rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
 
 Usage::
 

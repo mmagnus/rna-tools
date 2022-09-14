@@ -126,7 +126,7 @@ Table of Contents
 -------------------------------------------------------------------------------
 
    * [Tour](#tour)
-   * [rna_pdb_tools.py](#rna_pdb_toolsxpy)
+   * [rna_pdb_tools.py](#rna_pdb_toolspy)
    * [Tools](#tools)
    * [Docs](#docs)
    * [Cite](#cite)
@@ -135,7 +135,7 @@ Table of Contents
    * [Inspiration (and alternatives)](#inspiration-and-alternatives)
    * [Install](#install)
    * [Index of Tools](#index-of-tools)
-      * [rna\_pdb\_toolsx\.py](#rna_pdb_toolsxpy)
+      * [rna\_pdb\_tools\.py](#rna_pdb_toolspy)
       * [Sequence analysis](#sequence-analysis)
       * [Secondary structure analysis](#secondary-structure-analysis)
       * [Tertiary structure comparison](#tertiary-structure-comparison)
@@ -423,7 +423,7 @@ For developers see this http://rna-tools.readthedocs.io/en/latest/install-dev.ht
 The index in a form of a searchable table can be found [here](https://github.com/mmagnus/rna-tools/blob/master/rna-tools-index.csv).
 
 * [Index of tools](#index-of-tools)
-  * [rna\_pdb\_toolsx\.py](#rna_pdb_toolsxpy)
+  * [rna\_pdb\_tools\.py](#rna_pdb_toolspy)
   * [Sequence analysis](#sequence-analysis)
   * [Secondary structure analysis](#secondary-structure-analysis)
   * [Tertiary structure comparison](#tertiary-structure-comparison)
