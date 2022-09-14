@@ -445,8 +445,8 @@ if __name__ == '__main__':
             s.std_resn()
             s.fix_op_atoms()
 
-            # s.remove_ion()
-            # s.remove_water()
+            s.remove_ion()
+            s.remove_water()
             # s.renum_atoms()
 
             s.shift_atom_names()
