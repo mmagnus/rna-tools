@@ -187,6 +187,7 @@ setup(
         #'sphinx-rtd-theme',
         #'sphinxcontrib-napoleon',
         #'forgi',
+        'simplejson',
         'urllib3',
         'wget',
         #'pandas',
