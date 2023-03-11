@@ -37,6 +37,7 @@ setup(
              'rna_tools/tools/clarna_app/rna_clarna_app.py',
              'rna_tools/tools/rna_helix_vis/rna_helix_vis.py',
              'rna_tools/tools/misc/rna_add_chain.py',
+             'rna_tools/tools/misc/rna_dict2fasta.py',
              'rna_tools/tools/rna_sali2dotbracket/rna_sali2dotbracket.py',
 
              'rna_tools/tools/rna_rosetta/rna_rosetta_run.py',
