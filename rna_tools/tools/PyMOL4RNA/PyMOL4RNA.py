@@ -476,8 +476,12 @@ def clarna2():
         f.close()
 
 
-def clarna(selection):
+def clarna(selection, folder:str=''):
     """Get contacts classification of the selected fragment based on ClaRNA (for each object).
+
+    Args:
+
+      folder (str): The path to save temporary files, by default they are save to system tmp
 
     Example::
 
@@ -489,7 +493,11 @@ def clarna(selection):
     .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
     f = tempfile.NamedTemporaryFile(delete=False) # True)
-    output = f.name + '_clarna.pdb'
+    if not folder:
+        output = f.name + '_clarna.pdb'
+    else:
+        output= folder + os.sep + os.path.basename(f.name) + '_clarna.pdb'
+
     cmd.save(output, selection)
     CLARNA_RUN = 'rna_clarna_run.py'
     cmdline = CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
