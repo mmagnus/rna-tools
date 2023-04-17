@@ -839,10 +839,26 @@ USAGE
     return rg
 
 
-def qrnass():
-    cmd.save('sele.pdb', '(sele)')
-    mini('sele.pdb')
 
+def exe(cmd):
+    o = subprocess.Popen(
+        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = o.stdout.read().strip().decode()
+    err = o.stderr.read().strip().decode()
+    return out, err
+
+
+def qrnass():
+    cmd.save('/tmp/sele.pdb', '(sele)')
+    #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
+    cmdline = '~/opt/qrnas/QRNA -i /tmp/sele.pdb -c ~/opt/qrnas/configfile.txt -o out.pdb'
+    print(cmdline)
+    os.system(cmdline)
+    #print(exe(cmdline))
+    cmd.delete('mini')
+    cmd.load('out.pdb', 'mini')
+
+cmd.extend('qrnass', qrnass)
 
 def qrnas():
     subset = "*"
