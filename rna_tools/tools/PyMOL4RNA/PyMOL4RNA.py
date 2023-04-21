@@ -197,6 +197,23 @@ def rs():
            i = 0
 
 
+def rx():
+    """    The function creates super-cool cartoon-like RNA and colors each structure as a rainbow.
+    Good to view aligned structures in a grid.
+
+    .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/rs.png
+    """
+    cmd.hide("sticks", "all")
+    cmd.hide("lines", "all")
+    cmd.show("cartoon", "all")
+    cmd.set("cartoon_ring_mode", 0)
+    cmd.set("cartoon_ring_finder", 0)
+    cmd.set("cartoon_ladder_mode", 0)
+    cmd.set("cartoon_ring_transparency", 0.30)
+
+cmd.extend('rx', rx)
+
+
 def get_intrs_all_vs_all(verbose=True, redundant=True):
     """
     get_intrs_all_vs_all()
@@ -849,16 +866,9 @@ def exe(cmd):
 
 
 def qrnass():
-    cmd.save('/tmp/sele.pdb', '(sele)')
-    #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
-    cmdline = '~/opt/qrnas/QRNA -i /tmp/sele.pdb -c ~/opt/qrnas/configfile.txt -o out.pdb'
-    print(cmdline)
-    os.system(cmdline)
-    #print(exe(cmdline))
-    cmd.delete('mini')
-    cmd.load('out.pdb', 'mini')
+    cmd.save('sele.pdb', '(sele)')
+    mini('sele.pdb')
 
-cmd.extend('qrnass', qrnass)
 
 def qrnas():
     subset = "*"
