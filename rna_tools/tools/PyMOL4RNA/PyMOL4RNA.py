@@ -35,7 +35,12 @@ import sys
 from rna_tools.tools.PyMOL4RNA.libs.show_contacts import show_contacts
 from rna_tools.tools.PyMOL4RNA.libs.get_raw_distances import get_raw_distances
 
+
 from pymol import cmd
+# axes.py
+from pymol.cgo import *
+from pymol.vfont import plain
+
 try:
     from pymol import cmd
 except ImportError:
@@ -1165,15 +1170,84 @@ cmd.extend('se', se)
 print('se - quick save enabled to tmp.pdb')
       
 
-from pymol.cgo import *
-
-def axes():
-    """Draw XYZ
+def axes_big():
+    """
     https://pymolwiki.org/index.php/Axes
     """
+    cmd.delete('axes')
+
+    # create the axes object, draw axes with cylinders coloured red, green,
+    #blue for X, Y and Z
+
+    obj = [
+       CYLINDER, 0., 0., 0., 10., 0., 0., 0.2, 1.0, 1.0, 1.0, 1.0, 0.0, 0.,
+       CYLINDER, 0., 0., 0., 0., 10., 0., 0.2, 1.0, 1.0, 1.0, 0., 1.0, 0.,
+       CYLINDER, 0., 0., 0., 0., 0., 10., 0.2, 1.0, 1.0, 1.0, 0., 0.0, 1.0,
+       ]
+
+    # add labels to axes object (requires pymol version 0.8 or greater, I
+    # believe
+
+    cyl_text(obj,plain,[-5.,-5.,-1],'Origin',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+    cyl_text(obj,plain,[10.,0.,0.],'X',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+    cyl_text(obj,plain,[0.,10.,0.],'Y',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+    cyl_text(obj,plain,[0.,0.,10.],'Z',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+
+    # then we load it into PyMOL
+    cmd.load_cgo(obj,'axes')
+
+def axes(gradient=False):
+    """
+    https://pymolwiki.org/index.php/Axes
+    """
+    cmd.delete('axes')
+
+    # create the axes object, draw axes with cylinders coloured red, green,
+    #blue for X, Y and Z
+
+    l = 1
+    width = 0.01 #  0.2
+    if gradient: # with gradient
+        obj = [
+           CYLINDER, 0., 0., 0., l, 0., 0., width, 1.0, 1.0, 1.0, 1.0, 0.0, 0.,
+           CYLINDER, 0., 0., 0., 0., l, 0., width, 1.0, 1.0, 1.0, 0., 1.0, 0.,
+           CYLINDER, 0., 0., 0., 0., 0., l, width, 1.0, 1.0, 1.0, 0., 0.0, 1.0,
+           ]
+    else:
+        obj = [
+           CYLINDER, 0., 0., 0., l, 0., 0., width, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+           CYLINDER, 0., 0., 0., 0., l, 0., width, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+           CYLINDER, 0., 0., 0., 0., 0., l, width, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
+           ]
+        
+    # add labels to axes object (requires pymol version 0.8 or greater, I
+    # believe
+    l
+    #cyl_text(obj,plain,[-5.,-5.,-1],'Origin',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+    width = 0.005 # 0.20
+    size = 0.05
+    cyl_text(obj,plain,[l,0.,0.],'X',width,axes=[[size,0,0],[0,size,0],[0,0,size]])
+    cyl_text(obj,plain,[0.,l,0.],'Y',width,axes=[[size,0,0],[0,size,0],[0,0,size]])
+    cyl_text(obj,plain,[0.,0.,l],'Z',width,axes=[[size,0,0],[0,size,0],[0,0,size]])
+
+    # then we load it into PyMOL
+    cmd.load_cgo(obj,'axes')
+
+
+cmd.extend('axes', axes)
+
+
+def axes2(length=0.75):
+    """Draw XYZ, no lables here, see axes()
+    https://pymolwiki.org/index.php/Axes
+
+    Args:
+        lenght: length of axes
+    """
+    cmd.delete('axes')
     print('Draw axis red, green blue for X, Y and Z')
     w = 0.06 # cylinder width 
-    l = 0.75 # cylinder length
+    l = float(length) # cylinder length
     h = 0.25 # cone hight
     d = w * 1.618 # cone base diameter
 
@@ -1185,7 +1259,21 @@ def axes():
            CONE, 0.0, 0.0,   l, 0.0, 0.0, h+l, d, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0]
 
     cmd.load_cgo(obj, 'axes')
-cmd.extend('axes', axes)
+cmd.extend('axes2', axes2)
+
+def v(x, y, z, name='v'):
+    cmd.delete(name)
+    w = 0.01 # cylinder width
+    length=0.75
+    l = float(length) # cylinder length
+    h = 0.25 # cone hight
+    d = w * 1.618 # cone base diameter
+    r1,g1,b1 = 1,1,1
+    r2,g2,b2 = r1,g1,b1
+    obj = [CYLINDER, 0.0, 0.0, 0.0,   x, y, z, w, r1, g1, b1, r2, g2, b2]
+    cmd.load_cgo(obj, name)
+cmd.extend('v', v)
+
 def ha():
     """
         cmd.do('h_add')
