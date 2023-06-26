@@ -1027,7 +1027,7 @@ class RNAStructure:
                             rename_chains=True,
                             ignore_op3 = False,
                             report_missing_atoms=True, keep_hetatm=False, backbone_only=False,
-                            no_backbone = False, bases_only = False,
+                            no_backbone = False, bases_only = False, save_single_res = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
@@ -1075,10 +1075,16 @@ class RNAStructure:
         #renumber_residues = True
         # if ready_for == "RNAPuzzle":
         if backbone_only:
-            G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-            A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-            U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
-            C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+            G_ATOMS = "P OP1 OP2 O5' C5'".split()
+            A_ATOMS = "P OP1 OP2 O5' C5'".split()
+            U_ATOMS = "P OP1 OP2 O5' C5'".split()
+            C_ATOMS = "P OP1 OP2 O5' C5'".split()
+
+            #G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+            #A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+            #U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+            #C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
+
         elif no_backbone:
             G_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
             A_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
@@ -1336,7 +1342,6 @@ class RNAStructure:
                     fixed.append(['add O2\' ', chain.id, r, c])
 
                 o2p_missing = False  # off this function
-
                 ######## fixing of missing OP1 and OP2 atoms in backbone ###########
                 if fix_missing_atoms:
                     if 'OP1' not in r:
@@ -1548,6 +1553,22 @@ class RNAStructure:
                             # print 'Missing:', an, r,' new resi', c
                             missing.append([an, chain.id, r, r.id[1]])
                     c2.add(r2)
+
+
+                # save each residue a sa single ife
+                if save_single_res:
+                    from Bio.PDB import Structure
+                    # Create an empty structure
+                    structure = Structure.Structure("my_structure")
+                    model = Model.Model(0)
+                    chain = Chain.Chain('A')
+                    chain.add(r2)
+                    model.add(chain)
+                    structure.add(model)
+
+                    io = PDBIO()
+                    io.set_structure(structure)
+                    io.save(f"{self.fn}_{r2.id[1]}.pdb")
 
                 prev_r = r  # hack to keep preview residue to be used in the function
                             # e.g., to get an atom from this residue
