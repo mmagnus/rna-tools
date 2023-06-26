@@ -440,7 +440,7 @@ if __name__ == '__main__':
 
             s = RNAStructure(f)
             if args.replace_hetatm:
-                s.replace_hetatm()
+                s.replace_hetatms()
 
             s.remove_hydrogen()
             s.decap_gtp()

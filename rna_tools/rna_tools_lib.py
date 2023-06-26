@@ -255,7 +255,7 @@ class RNAStructure:
                     return True
         return False
 
-    def replace_hetatm(self):
+    def replace_hetatms(self):
         nlines = []
         for l in self.lines:
             l = l.replace('HETATM', 'ATOM  ')
