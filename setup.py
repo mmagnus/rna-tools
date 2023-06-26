@@ -188,14 +188,15 @@ setup(
         #'sphinx-rtd-theme',
         #'sphinxcontrib-napoleon',
         #'forgi',
+        #'sphinxcontrib-autoprogram'
         'simplejson',
         'urllib3',
         'wget',
-        #'pandas',
+
+        'pandas',
         #'matplotlib',
         #'scipy',
         #'python-Levenshtein',
-        'sphinxcontrib-autoprogram',
 
         'versioneer',
         'configparser',
