@@ -196,6 +196,8 @@ Usage::
     CGUUAGCCCAGGAAACUGGGCGGAAGUAAGGCCCAUUGCACUCCGGGCCUGAAGCAACGCG
     [...]
 
+See `rna_pdb_merge_into_one.py` to merge PDB files in the order as you like into one NMR-like (multimodel) file
+
 -v is for verbose, --version for version ;)
 
 positional arguments:
