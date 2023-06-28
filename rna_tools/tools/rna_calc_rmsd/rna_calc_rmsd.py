@@ -72,8 +72,6 @@ import math
 import glob
 import re
 import os
-import pandas as pd
-pd.set_option('display.max_rows', 1000)
 
 def get_rna_models_from_dir(files):
     """
@@ -365,10 +363,16 @@ if __name__ == '__main__':
     f.write(t)
     f.close()
 
-    #print t.strip() # matrix
-
     print('number of atoms used:', atoms)
 
+    try:
+        import pandas as pdx
+        pd.set_option('display.max_rows', 1000)
+
+    except:
+        print(t.strip()) # matrix
+        sys.exit(0)
+        
     df = pd.read_csv(rmsds_fn)
     df = df.round(2)
     if args.sort_results:

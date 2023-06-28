@@ -193,7 +193,7 @@ setup(
         'urllib3',
         'wget',
 
-        'pandas',
+        #'pandas', # rna_calc
         #'matplotlib',
         #'scipy',
         #'python-Levenshtein',
