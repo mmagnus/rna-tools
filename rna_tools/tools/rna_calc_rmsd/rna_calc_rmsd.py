@@ -222,7 +222,7 @@ def get_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument('-t',"--target-fn",
-                            default='',
+                         default='', required = True,
                          help="pdb file")
 
     parser.add_argument('--ignore-files', help='files to be ingored, .e.g, \'solution\'', default='')
