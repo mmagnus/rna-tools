@@ -114,10 +114,16 @@ if __name__ == '__main__':
         args.file = args.file[0]
 
     # rnapuzzle
+    #import progressbar
+    #bar = progressbar.ProgressBar(max_value=len(args.file))
+    #bar.update(0)
+
+
     if True:
         # quick fix - make a list on the spot
         if list != type(args.file):
             args.file = [args.file]
+
         ##################################
         # progress bar only in --inplace mode!
         if args.inplace:
@@ -189,9 +195,6 @@ if __name__ == '__main__':
                     if remarks:
                         f.write('\n'.join(remarks) + '\n')
                     f.write(s.get_text())
-                # progress bar only in --inplace mode!
-                if not args.no_progress_bar:
-                   bar.update(c)
 
             else:
                 output = ''
@@ -213,13 +216,16 @@ if __name__ == '__main__':
                                 print('Output:', nf)
                                 print(s.get_seq())                                
                                 fio.write(output)
+
+
                     else:
                         try:
                             sys.stdout.write(output)
                             sys.stdout.flush()
                         except IOError:
                             pass
+            # bar.update(c)
+
         # hmm... fix for problem with renumbering, i do renumbering
         # and i stop here
         # i'm not sure that this is perfect
-        sys.exit(0)
