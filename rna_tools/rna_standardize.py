@@ -45,7 +45,10 @@ only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]"""),
     parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
                         action='store_true')
 
-    parser.add_argument('--keep-hetatm', help='keep hetatoms', action='store_true')
+    parser.add_argument('--dont-replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
+                        action="store_true")
+
+    parser.add_argument('--keep-hetatm', help='keep hetatoms, [if not replaced anyway with ATOM, see --dont-replace-hetatm', action='store_true')
 
     parser.add_argument('--here', help=textwrap.dedent("""save a file next to the original file with auto suffix
 for --extract it's .extr.pdb"""),
@@ -65,9 +68,6 @@ for --extract it's .extr.pdb"""),
                         action='store_true')
 
     parser.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""))
-
-    parser.add_argument('--replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
-                        action="store_true")
 
     parser.add_argument('--dont-report-missing-atoms',
                         help="""used only with --get-rnapuzzle-ready""",
@@ -141,7 +141,7 @@ if __name__ == '__main__':
             ######################
 
             s = RNAStructure(f)
-            if args.replace_hetatm:
+            if not args.dont_replace_hetatm:
                 s.replace_hetatms()
 
             s.remove_hydrogen()
@@ -177,6 +177,7 @@ if __name__ == '__main__':
                                             ignore_op3=ignore_op3,
                                             verbose=args.verbose)
 
+
             if args.inplace:
                 if args.suffix:
                     f = f.replace('.pdb', '_' + args.suffix + '.pdb')
@@ -209,7 +210,8 @@ if __name__ == '__main__':
                         if '_rpr' not in f:  # good idea?
                             nf = f.replace('.pdb', '_std.pdb')
                             with open(nf, 'w') as fio:
-                                print(nf)
+                                print('Output:', nf)
+                                print(s.get_seq())                                
                                 fio.write(output)
                     else:
                         try:
