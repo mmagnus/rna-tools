@@ -67,7 +67,7 @@ for --extract it's .extr.pdb"""),
     parser.add_argument('--renumber-residues', help='by defult is false',
                         action='store_true')
 
-    parser.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""))
+    parser.add_argument('--suffix', help=textwrap.dedent("""when used with --inplace allows you to change a name of a new file, --suffix del will give <file>_del.pdb (mind added _)"""), default='std')
 
     parser.add_argument('--dont-report-missing-atoms',
                         help="""used only with --get-rnapuzzle-ready""",
@@ -147,8 +147,9 @@ if __name__ == '__main__':
                         previous_edits.append(l.strip())
             ######################
             s = RNAStructure(f)
+            # ✗ ✓
             if not args.dont_replace_hetatm:
-                print('> Replace HETATM with ATOM')
+                print('✓ Replace HETATM with ATOM')
                 s.replace_hetatms()
 
             s.remove_hydrogen()
@@ -157,7 +158,7 @@ if __name__ == '__main__':
             s.fix_op_atoms()
 
             s.remove_ion()
-            print(f'> Remove ions and water')
+            print(f'✓ Remove ions and water')
             s.remove_water()
             # s.renum_atoms()
 
@@ -174,8 +175,6 @@ if __name__ == '__main__':
             ignore_op3 = False
             if args.mdr:
                 ignore_op3 = True
-                
-                
 
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
                                             rename_chains=rename_chains,
@@ -188,45 +187,32 @@ if __name__ == '__main__':
                                             verbose=args.verbose)
 
 
-            if args.inplace:
-                if args.suffix:
-                    f = f.replace('.pdb', '_' + args.suffix + '.pdb')
-                with open(f, 'w') as f:
-                    if not args.no_hr:
-                        f.write(add_header(version) + '\n')
-                    if previous_edits:
-                        f.write('\n'.join(previous_edits) + '\n')
-                    if remarks:
-                        f.write('\n'.join(remarks) + '\n')
-                    f.write(s.get_text())
+            output = ''
+            if not args.no_hr:
+                output += add_header(version) + '\n'
+            if remarks:
+                output += '\n'.join(remarks) + '\n'
+            output += s.get_text() + '\n'
 
+            if remarks_only:
+                sys.stdout.write('\n'.join(remarks))
+                sys.stdout.flush()
             else:
-                output = ''
-                if not args.no_hr:
-                    output += add_header(version) + '\n'
-                if remarks:
-                    output += '\n'.join(remarks) + '\n'
-                output += s.get_text() + '\n'
+                args.here = True
+                if args.here:
+                        nf = f.replace('.pdb', f'_{args.suffix}.pdb')
+                        with open(nf, 'w') as fio:
+                            print('Output:', nf)
+                            print(s.get_seq())                                
+                            fio.write(output)
 
-                if remarks_only:
-                    sys.stdout.write('\n'.join(remarks))
-                    sys.stdout.flush()
+
                 else:
-                    args.here = True
-                    if args.here:
-                            nf = f.replace('.pdb', '_std.pdb')
-                            with open(nf, 'w') as fio:
-                                print('Output:', nf)
-                                print(s.get_seq())                                
-                                fio.write(output)
-
-
-                    else:
-                        try:
-                            sys.stdout.write(output)
-                            sys.stdout.flush()
-                        except IOError:
-                            pass
+                    try:
+                        sys.stdout.write(output)
+                        sys.stdout.flush()
+                    except IOError:
+                        pass
             # bar.update(c)
 
         # hmm... fix for problem with renumbering, i do renumbering
