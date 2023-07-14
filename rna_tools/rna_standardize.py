@@ -210,7 +210,6 @@ if __name__ == '__main__':
                 else:
                     args.here = True
                     if args.here:
-                        if '_rpr' not in f:  # good idea?
                             nf = f.replace('.pdb', '_std.pdb')
                             with open(nf, 'w') as fio:
                                 print('Output:', nf)
