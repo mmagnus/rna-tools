@@ -133,6 +133,7 @@ if __name__ == '__main__':
                 bar.update(0)
 
         for c, f in enumerate(args.file):
+            print(f'Input: {f}')
             if args.verbose:
                 print(f)
             if args.inplace:
@@ -145,9 +146,9 @@ if __name__ == '__main__':
                     if l.startswith('HEADER --'):
                         previous_edits.append(l.strip())
             ######################
-
             s = RNAStructure(f)
             if not args.dont_replace_hetatm:
+                print('> Replace HETATM with ATOM')
                 s.replace_hetatms()
 
             s.remove_hydrogen()
@@ -156,6 +157,7 @@ if __name__ == '__main__':
             s.fix_op_atoms()
 
             s.remove_ion()
+            print(f'> Remove ions and water')
             s.remove_water()
             # s.renum_atoms()
 
@@ -173,6 +175,8 @@ if __name__ == '__main__':
             if args.mdr:
                 ignore_op3 = True
                 
+                
+
             remarks = s.get_rnapuzzle_ready(args.renumber_residues, fix_missing_atoms=fix_missing_atom,
                                             rename_chains=rename_chains,
                                             report_missing_atoms=report_missing_atoms,
