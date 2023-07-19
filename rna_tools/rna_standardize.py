@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+"""rna_standardize.py - standardzie RNA PDB structures
 
 Usage::
 
-   $ rna_pdb_tools.py *
-
-See `rna_pdb_merge_into_one.py` to merge PDB files in the order as you like into one NMR-like (multimodel) file
+   $ rna_standardize.py
 
 -v is for verbose, --version for version ;)
+
 """
 import argparse
 import textwrap
@@ -153,7 +152,9 @@ if __name__ == '__main__':
                 s.replace_hetatms()
 
             s.remove_hydrogen()
+            print('✓ Remove hydrogens')
             s.decap_gtp()
+            print('✓ Decap GTP')
             s.std_resn()
             s.fix_op_atoms()
 
@@ -202,11 +203,11 @@ if __name__ == '__main__':
                 if args.here:
                         nf = f.replace('.pdb', f'_{args.suffix}.pdb')
                         with open(nf, 'w') as fio:
+                            for r in remarks:
+                                print(r.replace('REMARK 250', ' '))
                             print('Output:', nf)
-                            print(s.get_seq())                                
+                            print(s.get_seq(addfn = nf))                                
                             fio.write(output)
-
-
                 else:
                     try:
                         sys.stdout.write(output)
