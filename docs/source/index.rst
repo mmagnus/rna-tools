@@ -19,6 +19,7 @@ If something does not work for you, please make an issue, using https://github.c
    :caption: User Documentation
 
    want
+   std
    main
    tools
    pymol4rna
