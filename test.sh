@@ -7,9 +7,7 @@ cd rna_tools
 python update_readme.py
 
 rna_pdb_tools.py -h | tee rna_pdb_tools.out
-
 rna_pdb_tools.py -r input/1xjr.pdb
-
 rna_pdb_tools.py --no-hr -c input/1xjr.pdb > output/1xjr_clx.pdb
 
 ##  --rosetta2generic
