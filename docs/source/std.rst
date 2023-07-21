@@ -55,4 +55,4 @@ The first residue will have only OP1 and OP2 (OP3 will be removed)::
 
 Listing. An example: `1ehz.pdb`.
 
-.. image :: ../pngs/op3.jpg
+.. image :: ../pngs/op3.jpg # op3.pse 
