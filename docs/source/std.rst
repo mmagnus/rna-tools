@@ -35,6 +35,7 @@ Atoms order, A as an example::
 	ATOM     21  N2    G A   1      54.452  42.733  55.671  1.00 91.23           N  
 	ATOM     22  N3    G A   1      53.077  44.429  54.946  1.00 91.92           N  
 	ATOM     23  C4    G A   1      52.356  44.836  53.879  1.00 92.62           C  
+
 	ATOM     24  P     C A   2      54.635  50.420  53.741  1.00100.19           P  
 	ATOM     25  OP1   C A   2      55.145  51.726  54.238  1.00100.19           O  
 
@@ -54,3 +55,4 @@ The first residue will have only OP1 and OP2 (OP3 will be removed)::
 
 Listing. An example: `1ehz.pdb`.
 
+.. image :: ../pngs/op3.jpg
