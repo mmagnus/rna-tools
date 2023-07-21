@@ -188,3 +188,23 @@ Read more:
 
 - https://github.com/openmm/pdbfixer
 - http://htmlpreview.github.io/?https://raw.github.com/pandegroup/pdbfixer/master/Manual.html
+
+
+Test for Cuda
+=======================
+
+Run a test for CUDA::
+
+	rna_test_cuda.py
+	> rna_test_cuda.py:9 in <module>- torch.cuda.current_device(): 0
+	> rna_test_cuda.py:10 in <module>
+	  torch.cuda.device(0): <torch.cuda.device object at 0x146bf9bf7b80>
+	> rna_test_cuda.py:11 in <module>- torch.cuda.is_available(): True
+	Using device: cuda
+	
+	NVIDIA A40
+	Memory Usage:
+	Allocated: 0.0 GB
+	Reserved:  0.0 GB
+	
+	tensor([[ 0.9374,  1.1526, -0.5648,  0.9870]], device='cuda:0')
