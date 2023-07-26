@@ -15,6 +15,11 @@ import subprocess
 
 from rna_tools.tools.extra_functions.select_fragment import select_pdb_fragment_pymol_style, select_pdb_fragment
 
+from icecream import ic
+import sys
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True)
+ic.configureOutput(prefix='')
+
 import logging
 logger = logging.getLogger('rna-tools')
 handler = logging.StreamHandler()
@@ -49,7 +54,7 @@ RESS = ['A', 'C', 'G', 'U', 'ADE', 'CYT', 'GUA', 'URY', 'URI', 'U34', 'U31', 'C3
         'I'] + ['RC', 'RU', 'RA', 'RG', 'RT']
 DNA = ['DA', 'DG', 'DT', 'DC']
 RNA = ['A', 'G', 'U', 'C']
-IONS = ['NA', 'MG', 'MN']
+IONS = ['NA', 'MG', 'MN', 'JOS'] # and ligands JOS
 HYDROGEN_NAMES = ["H", "H5'", "H5''", "H4'", "H3'", "H2'", "HO2'", "H1'", "H3", "H5", "H6", "H5T", "H41", "1H5'",
                   "2H5'", "HO2'", "1H4", "2H4", "1H2", "2H2", "H1", "H8", "H2", "1H6", "2H6", "HO5'", "H21", "H22",
                   "H61", "H62", "H42", "HO3'", "1H2'", "2HO'", "HO'2", "H2'1", "HO'2", "HO'2", "H2", "H2'1", "H1", "H2",
@@ -1328,7 +1333,10 @@ class RNAStructure:
                     o2p_struc = PDB.PDBParser().get_structure('', path + '/data/o2prim.pdb')
                     o2p = [o2p_atom for o2p_atom in o2p_struc[0].get_residues()][0]
 
-                    r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
+                    try:
+                        r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
+                    except:
+                        ic(r)
                     o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
 
                     sup = PDB.Superimposer()
