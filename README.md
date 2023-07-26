@@ -418,9 +418,14 @@ Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 
 ## Install
 
-    pip install rna-tools
+Simply run:
 
-For developers see this http://rna-tools.readthedocs.io/en/latest/install-dev.html
+        $ pip install rna-tools
+
+OR to get the newest version from this GitHub repository:
+
+	$ git clone http://github.com/mmagnus/rna-tools.git
+	$ cd rna-tools && pip install -e .
 
 ## Index of tools
 
