@@ -420,12 +420,12 @@ Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 
 Simply run:
 
-        $ pip install rna-tools
+    $ pip install rna-tools
 
 OR to get the newest version from this GitHub repository:
 
-	$ git clone http://github.com/mmagnus/rna-tools.git
-	$ cd rna-tools && pip install -e .
+    $ git clone http://github.com/mmagnus/rna-tools.git
+    $ cd rna-tools && pip install -e .
 
 ## Index of tools
 
