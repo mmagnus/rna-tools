@@ -17,6 +17,7 @@ setup(
              'rna_tools/rna_calc_fenergy.py',
              'rna_tools/rna_pdb_replace.py',
              'rna_tools/rna_standardize.py',
+             'rna_tools/rna_pdb_inspect.py',
              
              'rna_tools/tools/misc/rna_tools_which.py',
              'rna_tools/tools/misc/rna_tools_demo.py',
