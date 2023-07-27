@@ -71,11 +71,13 @@ if __name__ == '__main__':
         print(f'Input: {f}')
         r = RNAStructure(f)
         
-        print(f' {len(r.get_all_chain_ids())} of chains:', ' '.join(r.get_all_chain_ids()))
-        # get_residue() # even as lines
-
         parser = PDBParser()
         struc = parser.get_structure('', f)
+
+        for model in struc:
+            print(f' model {model.id} with {len(list(model.get_chains()))} of chains:',' '.join([chain.id for chain in model.get_chains()]))
+        # get_residue() # even as lines
+
         rnas = []
         for model in struc:
             for chain in model:
@@ -102,5 +104,5 @@ if __name__ == '__main__':
                             else:
                                 if res_std[rtype][i] != a.id:
                                     #                        print(f'    {res.get_resname()} {res}')
-                                    print(f'  wrong atom order in residue of chain {chain.id} resid {res.id[1]} {res_std[rtype][i]} {a.id}')
+                                    print(f'  non-standard atom order in residue {res.id[1]} of chain {chain.id} resid {res_std[rtype][i]} {a.id}')
 
