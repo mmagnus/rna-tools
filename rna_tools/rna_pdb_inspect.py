@@ -39,10 +39,14 @@ if __name__ == '__main__':
         'C': "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split() }         # 20
 
     def is_rna_chain(chain):
+        """
+        https://pdb101.rcsb.org/learn/guide-to-understanding-pdb-data/primary-sequences-and-the-pdb-format
+        """
         AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
                    "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
                    "TRP", "TYR", "VAL"]
-        RES = ['A', 'G', 'U', 'C']
+        RES = ['A', 'G', 'U', 'C', 'I']
+        # 
 
         aa = []
         na = []
@@ -67,18 +71,27 @@ if __name__ == '__main__':
         print(f'Input: {f}')
         r = RNAStructure(f)
         
-        print(f'{len(r.get_all_chain_ids())} of chains:', r.get_all_chain_ids())
+        print(f' {len(r.get_all_chain_ids())} of chains:', ' '.join(r.get_all_chain_ids()))
         # get_residue() # even as lines
 
         parser = PDBParser()
         struc = parser.get_structure('', f)
+        rnas = []
         for model in struc:
             for chain in model:
-                print(f'  {chain.id} of RNA? {is_rna_chain(chain)}')
+                if is_rna_chain(chain):
+                    rnas.append(chain.id)
+                else:
+                    #rnas.append(chain.id)
+                    pass
+
+        print(f'  {len(rnas)} of RNA chains: ' + ' '.join(rnas))
+        for model in struc:
+            for chain in model:
                 if is_rna_chain(chain):
                     # is it protein?
                     for res in chain:
-                        #print(f'    {res.get_resname()} {res}')
+
                         rtype = res.get_resname()
                         for i, a in enumerate(res):
                             try:
@@ -88,4 +101,6 @@ if __name__ == '__main__':
                                 pass
                             else:
                                 if res_std[rtype][i] != a.id:
-                                    print(f'      !wrong order of atoms in residue ! {res_std[rtype][i]} {a.id}')
+                                    #                        print(f'    {res.get_resname()} {res}')
+                                    print(f'  wrong atom order in residue of chain {chain.id} resid {res.id[1]} {res_std[rtype][i]} {a.id}')
+
