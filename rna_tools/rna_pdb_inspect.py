@@ -67,6 +67,7 @@ if __name__ == '__main__':
         return False
 
     n = 0
+
     for f in args.file:
         print(f'Input: {f}')
         r = RNAStructure(f)
@@ -104,5 +105,5 @@ if __name__ == '__main__':
                             else:
                                 if res_std[rtype][i] != a.id:
                                     #                        print(f'    {res.get_resname()} {res}')
-                                    print(f'  non-standard atom order in residue {res.id[1]} of chain {chain.id} resid {res_std[rtype][i]} {a.id}')
+                                    print(f'  non-standard atom order in residue {str(res.id[1]).ljust(4)} of chain {chain.id} expected: {res_std[rtype][i].ljust(4)} observed: {a.id}')
 
