@@ -4,7 +4,6 @@
 
 """
 from __future__ import print_function
-from rna_tools_lib import RNAStructure
 import argparse
 from icecream import ic
 import sys
@@ -66,11 +65,12 @@ if __name__ == '__main__':
             return True
         return False
 
+    print('Inspecting:')
+    print('- non-standard order of atoms within a residue')
     n = 0
 
     for f in args.file:
         print(f'Input: {f}')
-        r = RNAStructure(f)
         
         parser = PDBParser()
         struc = parser.get_structure('', f)
