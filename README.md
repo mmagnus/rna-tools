@@ -411,6 +411,7 @@ Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 + https://www.rosettacommons.org/docs/latest/application_documentation/rna/RNA-tools
 + http://blue11.bch.msu.edu/mmtsb/convpdb.pl
 + https://github.com/haddocking/pdb-tools
++ https://github.com/graik/biskit
 + https://github.com/harmslab/pdbtools
 + http://ginsberg.med.virginia.edu/Links/Phenix/pdbtools.htm
 + an amazing PDB fixer! https://github.com/openmm/pdbfixer
@@ -418,14 +419,18 @@ Read at https://rna-tools.readthedocs.io/en/latest/rna-puzzles.html
 
 ## Install
 
-Simply run:
+Simply run (this is recommended for most of the users):
 
     $ pip install rna-tools
 
-OR to get the newest version from this GitHub repository:
+Get the newest version from this GitHub repository:
 
     $ git clone http://github.com/mmagnus/rna-tools.git
     $ cd rna-tools && pip install -e .
+
+or (to install in current `./src/`):
+
+    pip install -e git+http://github.com/mmagnus/rna-tools.git#egg=rna-tools
 
 ## Index of tools
 
