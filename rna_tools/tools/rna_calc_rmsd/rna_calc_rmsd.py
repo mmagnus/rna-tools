@@ -217,7 +217,15 @@ def calc_rmsd(a, b, target_selection, target_ignore_selection, model_selection, 
     return round(kabsch_rmsd(P, Q),2), atomsP
 
 def get_parser():
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
+    import argparse
+    class SmartFormatter(argparse.HelpFormatter):
+        def _split_lines(self, text, width):
+            if text.startswith('R|'):
+                return text[2:].splitlines()  
+            # this is the RawTextHelpFormatter._split_lines
+            return argparse.HelpFormatter._split_lines(self, text, width)
+
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=SmartFormatter)#formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument('-t',"--target-fn",
                          default='', required = True,
@@ -262,11 +270,14 @@ def get_parser():
                          default=False,
                          action="store_true")
 
-    parser.add_argument('--way', help="""c1p = C1'
+    parser.add_argument('--way', help="""R|c1p = C1'
 backbone = P OP1 OP2 O5' C5' C4' C3' O3'
 po = P OP1 OP2
 no-backbone = all - po
-bases, backbone+sugar, sugar""", default='all')
+bases, backbone+sugar, sugar
+pooo = P OP1 OP2 O5'
+alpha = P OP1 OP2 O5' C5'
+""", default='all')
 
     parser.add_argument("--name-rmsd-column", help="default: fn,rmsd, with this cols will be fn,<name-rmsd-column>")
 

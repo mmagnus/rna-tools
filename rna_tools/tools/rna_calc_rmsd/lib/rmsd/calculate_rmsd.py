@@ -125,6 +125,10 @@ def get_coordinates_pdb(filename, selection, ignore_selection, ignore_hydrogens,
     resi_set = set()
     if way == "c1p":
         way_atoms = ["C1'"]
+    elif way == 'pooo':
+        way_atoms = "P OP1 OP2 O5'".split()
+    elif way == 'alpha':
+        way_atoms = "P OP1 OP2 O5' C5'".split()
     elif way == 'backbone':
         way_atoms = "P OP1 OP2 O5' C5' C4' C3' O3'".split()
     elif way == 'po':
