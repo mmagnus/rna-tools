@@ -427,6 +427,9 @@ OR to get the newest version from this GitHub repository:
 
     $ git clone http://github.com/mmagnus/rna-tools.git
     $ cd rna-tools && pip install -e .
+OR
+
+	pip install -e git+http://github.com/mmagnus/rna-tools.git#egg=rna-tools
 
 ## Index of tools
 
