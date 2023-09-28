@@ -82,6 +82,15 @@ warnings.filterwarnings('ignore', '.*Some atoms or residues may be missing in th
 warnings.filterwarnings('ignore', '.*Ignoring unrecognized record.*',)
 
 
+import subprocess
+def exe(cmd):
+    o = subprocess.Popen(
+        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = o.stdout.read().strip().decode()
+    err = o.stderr.read().strip().decode()
+    return out, err
+
+
 def get_rna_tools_path():
     import inspect
     import rna_tools
@@ -1942,6 +1951,10 @@ def fetch(pdb_id, path="."):
     Returns:
     a path to a file"""
 
+    chains = ''
+    if ':' in pdb_id:
+        pdb_id, chains = pdb_id.split(':') # >>> 'X:A+B+C'.split(':') ['X', 'A+B+C']
+
     if pdb_id == 'rp':
         os.system('wget https://github.com/RNA-Puzzles/standardized_dataset/archive/master.tar.gz -O - | tar -xz')
         return
@@ -1966,6 +1979,10 @@ def fetch(pdb_id, path="."):
     print('downloading... ' + npath)
     with open(npath, 'wb') as f:
         f.write(txt)
+    for chain in chains.split('+'):
+        cmd = f'rna_pdb_tools.py --extract-chain {chain} {pdb_id}.pdb > {pdb_id}_{chain}.pdb'
+        print(cmd)
+        exe(cmd)
     print('ok')
     return npath
 
