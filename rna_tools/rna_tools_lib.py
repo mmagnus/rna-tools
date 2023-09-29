@@ -1947,9 +1947,14 @@ def collapsed_view(args):
 def fetch(pdb_id, path="."):
     """fetch pdb file from RCSB.org
     https://files.rcsb.org/download/1Y26.pdb
+
+    Args:
+    - pdb_id, but also a chain can be specified, 1jj2:A+B+C
     
     Returns:
-    a path to a file"""
+    - a path to a file
+
+    TODO: na_pdb_tools.py --extract A:1-25+B:30-57 1jj2.pdb"""
 
     chains = ''
     if ':' in pdb_id:
