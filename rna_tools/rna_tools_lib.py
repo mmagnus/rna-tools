@@ -1984,11 +1984,12 @@ def fetch(pdb_id, path="."):
     print('downloading... ' + npath)
     with open(npath, 'wb') as f:
         f.write(txt)
-    for chain in chains.split('+'):
-        cmd = f'rna_pdb_tools.py --extract-chain {chain} {pdb_id}.pdb > {pdb_id}_{chain}.pdb'
-        print(cmd)
-        exe(cmd)
-    print('ok')
+    if chains:
+        for chain in chains.split('+'):
+            cmd = f'rna_pdb_tools.py --extract-chain {chain} {pdb_id}.pdb > {pdb_id}_{chain}.pdb'
+            print(cmd)
+            exe(cmd)
+    # print('ok')
     return npath
 
 
