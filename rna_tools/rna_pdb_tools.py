@@ -187,7 +187,7 @@ the chain id in this file has to be the same with the chain id of the original c
     parser.add_argument('--extract',  # type="string",
                         dest="extract",
                         default='',
-                        help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57'")
+                        help="extract the selected fragment, e.g. A:10-16, or for more than one fragment --extract 'A:1-25+30-57', or even 'A:1-25+B:30-57'")
 
     parser.add_argument('--extract-chain',
                          help="extract chain, e.g. A")
