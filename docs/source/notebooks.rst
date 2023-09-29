@@ -1,4 +1,4 @@
-Jupyter Notebooks & rna-tools
+rna-tools & Jupyter Notebooks / Colab
 =============================================
 
 The tools collected here as rna-tools, ideally could be also used in IPython/Jupiter (https://ipython.org/notebook.html)

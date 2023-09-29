@@ -23,13 +23,14 @@ If something does not work for you, please make an issue, using https://github.c
    main
    tools
    pymol4rna
-   selection
-   workflows
-   tips
-   rna-puzzles
+   os
    notebooks
    emacs
    geekbook
+   workflows
+   rna-puzzles
+   selection
+   tips
    install
    
 .. toctree::

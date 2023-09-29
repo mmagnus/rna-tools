@@ -1,4 +1,4 @@
-PyMOL4RNA
+rna-tools & PyMOL [PyMOL4RNA]
 =========================================
 
 See also https://github.com/mmagnus/rna-tools/tree/master/rna_tools/tools/PyMOL4RNA

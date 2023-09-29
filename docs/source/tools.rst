@@ -1,4 +1,4 @@
-RNA Tools
+rna-tools
 =========================================
 
 RNA Sequence

@@ -1,4 +1,4 @@
-Geekbook & rna-tools
+rna-tools & geekbook
 ============================================================
 
 .. warning :: Proof of concept

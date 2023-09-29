@@ -1,4 +1,4 @@
-Emacs & rna-tools
+rna-tools & Emacs
 ============================================================
 
 .. warning :: Proof of concept

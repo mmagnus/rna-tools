@@ -1,4 +1,4 @@
-PDB Tools
+rna-pdb-tools
 ===============================================
 
 .. autoprogram:: rna_tools.rna_pdb_tools:get_parser()
