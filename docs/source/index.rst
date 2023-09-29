@@ -27,10 +27,10 @@ If something does not work for you, please make an issue, using https://github.c
    notebooks
    emacs
    geekbook
-   workflows
    rna-puzzles
    selection
    tips
+   workflows
    install
    
 .. toctree::
