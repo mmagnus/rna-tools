@@ -1,5 +1,5 @@
 ===========
- Workflows
+Examples of workflows
 ===========
 
 Example #1
