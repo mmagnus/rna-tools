@@ -182,10 +182,21 @@ File name: /tmp/tmp0pdNHS
     def get_secstruc(self):
         """Get secondary structure.
         """
-        # return open('dssr-2ndstrs.dbn').read().strip()
         return self.report.split('\n')[-1]
 
-
+    def get_torsions(self):
+        angles = ''
+        save = False
+        for l in open('dssr-torsions.txt'):
+            if 'nt               alpha    beta' in l:
+                save = True
+                l = 'id   res   ' + l.strip()
+            if '***************' in l and save:
+                save = False
+            if save:
+                angles += l
+        return angles.strip()
+    
 # name
 if __name__ == '__main__':
     if not X3DNA:
@@ -211,7 +222,9 @@ if __name__ == '__main__':
         else:
             print('# ' + f + ' #')
             p = x3DNA(f, args.show_log)
-            # s = p.get_seq()
-            # print s
+            #s = p.get_seq()
+            #print(s)
             #s = p.get_secstruc()
             #print(s)
+            s = p.get_torsions()
+            print(s)

@@ -17,6 +17,10 @@ Usage::
 
 See `rna_pdb_merge_into_one.py` to merge PDB files in the order as you like into one NMR-like (multimodel) file
 
+Examples::
+
+    rna_pdb_tools.py --backbone-only   --get-rnapuzzle-ready  --inplace --suffix=bo examples/4GXY_min.pdb
+
 -v is for verbose, --version for version ;)
 """
 import argparse
@@ -478,6 +482,8 @@ if __name__ == '__main__':
             if args.inplace:
                 if args.suffix:
                     f = f.replace('.pdb', '_' + args.suffix + '.pdb')
+                    if args.verbose: print(f)
+                        
                 with open(f, 'w') as f:
                     if not args.no_hr:
                         f.write(add_header(version) + '\n')
