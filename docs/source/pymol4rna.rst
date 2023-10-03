@@ -82,6 +82,21 @@ and type::
 
 .. image:: ../pngs/pymol_dists.png
 
+Pucker analysis
+-----------------------------------------
+
+pucker.py is a PyMol script that returns the sugar pucker information (phase, amplitude, pucker) for a given selection.
+
+This script uses its own dihedral calculation scheme rather than the get_dihedral command. Thus, it is lightning fast!
+
+If a selection does not contain any ribose sugars then an error message is returned.
+
+Author: Sean Law (Institute: University of Michigan) adapted for Python 3 by magnus <mmagnus@fas.harvard.edu>.
+
+Source: <https://pymolwiki.org/index.php/Pucker>
+
+.. image:: ../../rna_tools/tools/PyMOL4RNA/doc/pucker.jpg
+	   
 Install
 -----------------------------------------
 
