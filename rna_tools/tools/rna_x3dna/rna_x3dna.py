@@ -209,6 +209,15 @@ File name: /tmp/tmp0pdNHS
             print(c2)
             print(c3)
         # r'^\s+$'
+        import re
+        nangles = ''
+        for l in angles.split('\n'):
+            l = re.sub(r'\s+', ',', l, 0, re.MULTILINE)
+            nangles += l[1:] + '\n'
+        print(nangles)
+        nangles = re.sub(r'---', 'nan', nangles, 0, re.MULTILINE)
+        with open('test_data/torsion.csv', 'w') as f:
+            f.write(nangles)
         return angles.strip()
     
 # name
