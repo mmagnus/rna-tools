@@ -187,14 +187,28 @@ File name: /tmp/tmp0pdNHS
     def get_torsions(self):
         angles = ''
         save = False
+
+        c2pendo = []
+        c3pendo = []
         for l in open('dssr-torsions.txt'):
             if 'nt               alpha    beta' in l:
                 save = True
-                l = 'id   res   ' + l.strip()
+                l = l.replace('nt',  'nt id   res   ')
             if '***************' in l and save:
                 save = False
             if save:
+                if "~C2'-endo" in l:
+                    c2pendo.append(l.split()[0])
+                if "~C3'-endo" in l:
+                    c3pendo.append(l.split()[0])
                 angles += l
+        #ic(c2pendo, c3pendo)
+        c2 = 'color pink, resi ' + '+'.join(c2pendo)
+        c3 = 'color blue, resi ' + '+'.join(c3pendo)
+        if 0:
+            print(c2)
+            print(c3)
+        # r'^\s+$'
         return angles.strip()
     
 # name
