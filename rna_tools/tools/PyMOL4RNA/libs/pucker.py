@@ -1,18 +1,23 @@
 """
+pucker.py is a PyMol script that returns the sugar pucker information (phase, amplitude, pucker) for a given selection.
+
+This script uses its own dihedral calculation scheme rather than the get_dihedral command. Thus, it is lightning fast!
+
+If a selection does not contain any ribose sugars then an error message is returned.
+
 Author: Sean Law
 Institute: University of Michigan
 E-mail: seanlaw@umich.edu
 
 Adapted for Python 3 by magnus <mmagnus@fas.harvard.edu>
 
-Source: https://pymolwiki.org/index.php/Pucker
+Source: <https://pymolwiki.org/index.php/Pucker>
 """
 from pymol.cgo import *    # get constants
 from math import *
 from pymol import cmd
 
 def pucker(selection,state=1):
-
 
 	#Comparison to output from 3DNA is identical
 	#Note that the 3DNA output has the second chain
