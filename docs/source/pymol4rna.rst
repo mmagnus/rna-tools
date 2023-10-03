@@ -82,21 +82,6 @@ and type::
 
 .. image:: ../pngs/pymol_dists.png
 
-Pucker analysis
------------------------------------------
-
-pucker.py is a PyMol script that returns the sugar pucker information (phase, amplitude, pucker) for a given selection.
-
-This script uses its own dihedral calculation scheme rather than the get_dihedral command. Thus, it is lightning fast!
-
-If a selection does not contain any ribose sugars then an error message is returned.
-
-Author: Sean Law (Institute: University of Michigan) adapted for Python 3 by magnus <mmagnus@fas.harvard.edu>.
-
-Source: <https://pymolwiki.org/index.php/Pucker>
-
-.. image:: ../../rna_tools/tools/PyMOL4RNA/doc/pucker.jpg
-	   
 Install
 -----------------------------------------
 
@@ -109,3 +94,20 @@ so something like this will be added to your ``~/.pymolrc``::
 
     sys.path.append('/Users/magnus/work/src/rna-tools')
     PyMOL4RNA_PATH='/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py'; cmd.run(PyMOL4RNA_PATH)
+
+Libs: Pucker analysis
+-----------------------------------------
+
+pucker.py is a PyMol script that returns the sugar pucker information (phase, amplitude, pucker) for a given selection.
+
+This script uses its own dihedral calculation scheme rather than the get_dihedral command. Thus, it is lightning fast!
+
+If a selection does not contain any ribose sugars then an error message is returned.
+
+Author: Sean Law (Institute: University of Michigan) adapted for Python 3 by magnus <mmagnus@fas.harvard.edu>.
+
+Install, add `run <path>/rna-tools/rna_tools/tools/PyMOL4RNA/libs/pucker.py` to your ~/.pymolrc
+
+Source: <https://pymolwiki.org/index.php/Pucker>
+
+.. image:: ../../rna_tools/tools/PyMOL4RNA/doc/pucker.jpg
