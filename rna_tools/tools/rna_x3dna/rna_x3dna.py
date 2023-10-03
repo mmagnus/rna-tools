@@ -185,6 +185,17 @@ File name: /tmp/tmp0pdNHS
         return self.report.split('\n')[-1]
 
     def get_torsions(self):
+        """Get torsion angles into 'torsion.csv' file::
+
+            nt,id,res,alpha,beta,gamma,delta,epsilon,zeta,e-z,chi,phase-angle,sugar-type,ssZp,Dp,splay
+            1,g,A.GTP1,nan,nan,142.1,89.5,-131.0,-78.3,-53(BI),-178.2(anti),358.6(C2'-exo),~C3'-endo,4.68,4.68,29.98
+            2,G,A.G2,-75.8,-167.0,57.2,79.5,-143.4,-69.7,-74(BI),-169.2(anti),5.8(C3'-endo),~C3'-endo,4.68,4.76,25.61
+            3,A,A.A3,-59.8,171.0,48.5,80.7,-152.1,-77.0,-75(BI),-167.6(anti),12.0(C3'-endo),~C3'-endo,4.62,4.68,24.77
+            4,G,A.G4,-60.6,172.5,46.8,74.6,-159.6,-62.7,-97(BI),-169.1(anti),12.0(C3'-endo),~C3'-endo,4.65,4.71,23.91
+            5,U,A.U5,-71.0,166.3,62.6,78.3,-146.8,-76.4,-70(BI),-163.4(anti),14.3(C3'-endo),~C3'-endo,4.39,4.60,21.76
+
+        
+        """
         angles = ''
         save = False
 
@@ -202,13 +213,13 @@ File name: /tmp/tmp0pdNHS
                 if "~C3'-endo" in l:
                     c3pendo.append(l.split()[0])
                 angles += l
-        #ic(c2pendo, c3pendo)
+
         c2 = 'color pink, resi ' + '+'.join(c2pendo)
         c3 = 'color blue, resi ' + '+'.join(c3pendo)
         if 0:
             print(c2)
             print(c3)
-        # r'^\s+$'
+
         import re
         nangles = ''
         for l in angles.split('\n'):
