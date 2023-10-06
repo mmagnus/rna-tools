@@ -224,10 +224,14 @@ File name: /tmp/tmp0pdNHS
         for i, l in enumerate(angles.split('\n')):
             if l.strip():
                 l = re.sub(r'\s+', ',', l, 0, re.MULTILINE)
+                if bpseq[i] == '0':
+                    bpseq[i] = 'no paired'
+                else:
+                    bpseq[i] = 'paired'
                 l = l[1:] + ',' + bpseq[i] + '\n'
                 nangles += l
         nangles = re.sub(r'---', 'nan', nangles, 0, re.MULTILINE)
-        with open('torsion.csv', 'w') as f:
+        with open('rna-tools-torsion.csv', 'w') as f:
             f.write(nangles.strip())
         return nangles.strip()
     
