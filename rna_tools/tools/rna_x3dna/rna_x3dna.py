@@ -216,20 +216,24 @@ File name: /tmp/tmp0pdNHS
 
         c2 = 'color pink, resi ' + '+'.join(c2pendo)
         c3 = 'color blue, resi ' + '+'.join(c3pendo)
-        if 0:
+        if 1:
             print(c2)
             print(c3)
 
         import re
         nangles = ''
-        for l in angles.split('\n'):
-            l = re.sub(r'\s+', ',', l, 0, re.MULTILINE)
-            nangles += l[1:] + '\n'
-        print(nangles)
+        #'9 C    41',
+        #'10 C     0',
+        bpseq = ['bpseq'] + [x.strip().split()[2] for x in open('dssr-2ndstrs.bpseq').readlines()]
+        for i, l in enumerate(angles.split('\n')):
+            if l.strip():
+                l = re.sub(r'\s+', ',', l, 0, re.MULTILINE)
+                l = l[1:] + ',' + bpseq[i] + '\n'
+                nangles += l
         nangles = re.sub(r'---', 'nan', nangles, 0, re.MULTILINE)
-        with open('test_data/torsion.csv', 'w') as f:
-            f.write(nangles)
-        return angles.strip()
+        with open('torsion.csv', 'w') as f:
+            f.write(nangles.strip())
+        return nangles.strip()
     
 # name
 if __name__ == '__main__':
