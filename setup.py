@@ -154,6 +154,7 @@ setup(
              'rna_tools/tools/triplexibility/trx_score_onCol.py',
              
              'rna_tools/tools/df/rna_df_csv_sort.py',
+             'rna_tools/tools/df/rna_df_concat.py',
              'rna_tools/tools/df/rna_df_merge.py',
              'rna_tools/tools/df/rna_df_merge_on.py',
              'rna_tools/tools/df/rna_df_merge_two.py',
