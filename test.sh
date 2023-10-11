@@ -145,6 +145,8 @@ rna_pdb_tools.py --no-hr --mdr input/u6-duplex.pdb > output/u6-duplex_mdr.pdb
 ## --renumber_residues
 rna_pdb_tools.py --no-hr --renumber-residues input/rp03_solution.pdb > output/rp03_solution_renumber.pdb
 
+tools/misc/rna_topdb.py input/openfoldrna.out output/openfoldrna.out 
+
 exit
 
 cd ./tools/mq/ClashScore/
