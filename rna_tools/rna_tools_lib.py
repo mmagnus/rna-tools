@@ -123,7 +123,11 @@ class RNAStructure:
 
     """
 
-    def __init__(self, fn):
+    def __init__(self, fn=''):
+        if not fn: # if empty
+            tf = tempfile.NamedTemporaryFile(delete=False)
+            fn = tf.name
+
         self.fn = os.path.abspath(fn) # ../rna_tools/input/4ts2.pdb
         # add name attribute with filename 4ts2.pdb
         self.name = self.fn.split(os.sep)[-1] # OS.path.splitext(self.fn)[0]
@@ -977,6 +981,14 @@ class RNAStructure:
             return None
         return tuple(map(float, line[31:54].split()))
 
+    def set_atom_coords(self, line, x, y, z):
+        """Get atom coordinates from a line of a PDB file
+        """
+        line = line[:31] + (" %5.3f" % x) + line[38:]
+        line = line[:39] + (" %5.3f" % y) + line[46:]
+        line = line[:47] + (" %5.3f" % z) + line[54:]
+        return  line
+
     def set_line_bfactor(self, line, bfactor):
         if not line.startswith('ATOM'):
             return None
@@ -1002,7 +1014,7 @@ class RNAStructure:
         Returns:
             BufferedFileStorage: A buffered writable file descriptor
         """
-        return line[:17] + code.rjust(3) + line[21:]
+        return line[:17] + code.rjust(3) + line[20:]
 
     def get_chain_id(self, line):
         return line[21:22]
@@ -1835,7 +1847,14 @@ class RNAStructure:
             return r.run(self.fn, verbose)
 
         raise MethodUnknown('Define corrent method')
-        
+
+    def get_empty_line(self):
+        l = "ATOM      1  C5'   A A   3      25.674  19.091   3.459  1.00  1.00           X"
+        return l
+    
+    def add_line(self, l):
+        self.lines.append(l)
+
 def add_header(version=None):
     now = time.strftime("%c")
     txt = 'REMARK 250 Model edited with rna-tools\n'
