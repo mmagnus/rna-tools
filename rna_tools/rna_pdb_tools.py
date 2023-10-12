@@ -95,13 +95,15 @@ def get_parser():
 
     parser.add_argument('--get-chain', help='get chain, one or many, e.g, A, but now also ABC works')
 
-    parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db, e.g., 1xjr,\nuse \'rp\' to fetch' +
+    parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db, e.g., 1xjr,\nuse \'rp\' to fetch, fetch a given join, 4w90:C or 4w90_C'  +
                         'the RNA-Puzzles standardized_dataset [around 100 MB]')
 
     parser.add_argument('--fetch-ba', action='store_true',
                         help='fetch biological assembly from the PDB db')
 
     parser.add_argument('--fetch-chain', action='store_true', help='fetch a structure in extract chain, e.g. 6bk8 H')
+
+    parser.add_argument('--fetch-fasta', action='store_true', help='fetch a fasta/sequence for given PDB ID, e.g. 6bk8')
 
     parser.add_argument('--get-seq', help='get seq', action='store_true')
 
@@ -821,6 +823,26 @@ if __name__ == '__main__':
     if args.fetch:
         fn = fetch(args.file)
             
+    if args.fetch_fasta:
+        pdb_id = args.file
+        pdb_id = pdb_id.replace('.pdb', '')
+
+        import urllib3
+        http = urllib3.PoolManager()
+
+        response = http.request('GET', 'https://www.rcsb.org/fasta/entry/' + pdb_id.upper())
+        if not response.status == 200:
+            raise PDBFetchError()
+        else:
+            txt = response.data.decode("utf-8").strip()
+            print(txt)            
+            if 'No valid PDB IDs were submitted' in txt:
+                pass
+            else:
+                with open(pdb_id + '.fa', 'w') as f:
+                    f.write(txt)
+
+        
     if args.fetch_chain:
         fn = fetch(args.file[0])
         chain = args.file[1]

@@ -157,6 +157,9 @@ rna_calc_fenergy.py --file input/u2/* --cstinfile --method all  > output/rna_cal
 
 rna_pdb_replace.py input/t2-4-ACA.pdb input/to-replace.pdb
 
+rna_pdb_tools.py --fetch-fasta 4gxy.pdb
+mv 4gxy.fa output/
+
 ./BlastPDB.py
 
 if [ "$1" == "--full" ]; then
