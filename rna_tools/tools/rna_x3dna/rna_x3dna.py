@@ -56,6 +56,7 @@ def get_parser():
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-c', '--compact',  action='store_true')
     parser.add_argument('--rerun',  action='store_true')
+    parser.add_argument('--pymol',  action='store_true', help='get resi to color code puckers in PyMOL')
     parser.add_argument('-l', '--show-log',  action='store_true', help="show full log")
     parser.add_argument('-v', '--verbose',  action='store_true', help="show full log")
     parser.add_argument('files', help='file', nargs='+')
@@ -222,10 +223,12 @@ File name: /tmp/tmp0pdNHS
 
         c2 = 'color pink, resi ' + '+'.join(c2pendo)
         c3 = 'color blue, resi ' + '+'.join(c3pendo)
-        if 1:
+
+        if args.pymol:
             print(c2)
             print(c3)
-
+            return
+            
         import re
         nangles = ''
         #'9 C    41',
