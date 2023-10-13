@@ -186,7 +186,7 @@ File name: /tmp/tmp0pdNHS
         """
         return self.report.split('\n')[-1]
 
-    def get_torsions(self) -> str:
+    def get_torsions(self, outfn) -> str:
         """Get torsion angles into 'torsion.csv' file::
 
             nt,id,res,alpha,beta,gamma,delta,epsilon,zeta,e-z,chi,phase-angle,sugar-type,ssZp,Dp,splay,bpseq
@@ -233,7 +233,7 @@ File name: /tmp/tmp0pdNHS
                 l = l[1:] + ',' + bpseq[i] + '\n'
                 nangles += l
         nangles = re.sub(r'---', 'nan', nangles, 0, re.MULTILINE)
-        with open('rna-tools-torsion.csv', 'w') as f:
+        with open(outfn, 'w') as f:
             f.write(nangles.strip())
         return nangles.strip()
     
@@ -261,6 +261,7 @@ if __name__ == '__main__':
             print((f, p.get_secstruc()))
         else:
             print('# ' + f + ' #')
+            outfn = os.path.basename(f.replace('.pdb', '')) + '-torsion-paired.csv'
             p = x3DNA(f, args.show_log)
             #s = p.get_seq()
             #print(s)
@@ -268,3 +269,4 @@ if __name__ == '__main__':
             #print(s)
             s = p.get_torsions()
             print(s)
+            s = p.get_torsions(outfn)
