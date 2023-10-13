@@ -55,7 +55,9 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-c', '--compact',  action='store_true')
+    parser.add_argument('--rerun',  action='store_true')
     parser.add_argument('-l', '--show-log',  action='store_true', help="show full log")
+    parser.add_argument('-v', '--verbose',  action='store_true', help="show full log")
     parser.add_argument('files', help='file', nargs='+')
     return parser
 
@@ -119,6 +121,7 @@ class x3DNA(object):
         outerr = str(out.stderr.read().decode())
 
         f = open('py3dna.log', 'w')
+        if args.verbose: print(f'cmd: {cmd}')
         f.write(cmd + '\n' + stdout)
 
         if show_log:
@@ -171,7 +174,7 @@ File name: /tmp/tmp0pdNHS
                 pass
             except OSError:
                 if verbose:
-                    print('can not remove %s' % f)
+                    print('error: can not remove %s' % f)
 
     def get_seq(self):
         """Get sequence.
@@ -199,6 +202,11 @@ File name: /tmp/tmp0pdNHS
 
         c2pendo = []
         c3pendo = []
+        if not os.path.isfile('dssr-torsions.txt'):
+            
+            print(f'Problem to get torsion angles for {self.curr_fn}')
+            return f'Problem to get torsion angles for {self.curr_fn}'
+            
         for l in open('dssr-torsions.txt'):
             if 'nt               alpha    beta' in l:
                 save = True
@@ -260,13 +268,16 @@ if __name__ == '__main__':
             p = x3DNA(f)
             print((f, p.get_secstruc()))
         else:
-            print('# ' + f + ' #')
+            print(f'input: {f}')
             outfn = os.path.basename(f.replace('.pdb', '')) + '-torsion-paired.csv'
+            if not args.rerun:
+                if os.path.isfile(outfn):
+                    continue
             p = x3DNA(f, args.show_log)
             #s = p.get_seq()
             #print(s)
             #s = p.get_secstruc()
             #print(s)
-            s = p.get_torsions()
-            print(s)
             s = p.get_torsions(outfn)
+            if args.verbose: print(s)
+            p.clean_up(args.verbose)
