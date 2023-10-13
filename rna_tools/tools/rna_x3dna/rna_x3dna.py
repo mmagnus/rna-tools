@@ -35,12 +35,14 @@ For multiple structures in the folder, run the script like this::
     CCGGAGGAACUACUG&CCGGCAGCCU&CCGGAGGAACUACUG&CCGGCAGCCU&CCGGAGGAACUACUG&CCGGCAGCCU&CCGGAGGAACUACUG&CCGGCAGCCU
     [[[[(((.....(((&{{{{))))))&(((((((.....(.(&]]]]).))))&[[[[[[......[[[&))))]]].]]&}}}}(((.....(((&]]]]))))))
 
+.. warning:: This script should not be used in this given form with Parallel because it process output files from x3dna that are named always in the same way, e.g. dssr-torsions.txt. #TODO
+
 """
 import re
 import argparse
 
 from subprocess import Popen, PIPE
-from os import remove, path
+import os
 from rna_tools.rna_tools_config import X3DNA, X3DNA_FP
 # x3dna-dssr-64bit
 
@@ -165,7 +167,7 @@ File name: /tmp/tmp0pdNHS
 
         for f in files_to_remove:
             try:
-                remove(f)
+                os.remove(f)
                 pass
             except OSError:
                 if verbose:
