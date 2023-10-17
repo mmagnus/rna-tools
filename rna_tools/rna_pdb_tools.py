@@ -87,7 +87,14 @@ def get_parser():
                         "thousands of models, if you used only *.pdb then the terminal will complain that you\n"
                         "selected to many files.")
 
-    parser.add_argument('--un-nmr', help='split NMR-style multiple model pdb files into individual models [biopython]',
+    parser.add_argument('--un-nmr', help="""split NMR-style multiple model pdb files into individual models [biopython],
+
+   rna_pdb_tools.py  --un-nmr  split.pdb
+   2
+   /Users/magnus/Desktop/3hl2/split_1.pdb
+   /Users/magnus/Desktop/3hl2/split_2.pdb
+
+""",
                         action='store_true')
 
     parser.add_argument('--orgmode', help='get a structure in org-mode format <sick!>',
