@@ -21,7 +21,7 @@ Examples::
 
     rna_pdb_tools.py --backbone-only   --get-rnapuzzle-ready  --inplace --suffix=bo examples/4GXY_min.pdb
 
-To extract specific atoms for each residue and write them to separate PDB file (next to the input files, following synstac <input>_<resid>.pdb")::
+To extract specific atoms for each residue and write them to separate PDB file (next to the input files, following syntax "<input>_<resid>.pdb")::
 
       rna_pdb_tools.py add --save-single-res --ref-frame-only
       
