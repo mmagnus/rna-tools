@@ -1059,6 +1059,7 @@ class RNAStructure:
                             ignore_op3 = False,
                             report_missing_atoms=True, keep_hetatm=False, backbone_only=False,
                             no_backbone = False, bases_only = False, save_single_res = False,
+                            ref_frame_only = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
@@ -1116,6 +1117,12 @@ class RNAStructure:
             #U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
             #C_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
 
+        elif ref_frame_only:
+            G_ATOMS = "P OP1 OP2".split()
+            A_ATOMS = "P OP1 OP2".split()
+            U_ATOMS = "P OP1 OP2".split()
+            C_ATOMS = "P OP1 OP2".split()
+            
         elif no_backbone:
             G_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split() 
             A_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()     

@@ -269,12 +269,20 @@ for --extract it's .extr.pdb"""),
                         help="""used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)""",
                         action='store_true')
 
+    rpr.add_argument('--ref-frame-only',
+                        help="""used only with --get-rnapuzzle-ready, keep only reference frames, OP1 OP2 P""",
+                        action='store_true')
+
     rpr.add_argument('--no-backbone',
                         help="""used only with --get-rnapuzzle-ready, remove atoms of backbone (define as P OP1 OP2 O5')""",
                         action='store_true')
 
     rpr.add_argument('--bases-only',
                         help="""used only with --get-rnapuzzle-ready, keep only atoms of bases""",
+                        action='store_true')
+
+    rpr.add_argument('--save-single-res',
+                        help="""used only with --get-rnapuzzle-ready, for each residue create a new pdb output file, you can combine it with --bases-only etc.""",
                         action='store_true')
 
     parser.add_argument('file', help='file', nargs='+')
@@ -486,6 +494,8 @@ if __name__ == '__main__':
                                             bases_only=args.bases_only,
                                             keep_hetatm=args.keep_hetatm,
                                             ignore_op3=ignore_op3,
+                                            save_single_res=args.save_single_res,
+                                            ref_frame_only = args.ref_frame_only,
                                             verbose=args.verbose)
 
             if args.inplace:

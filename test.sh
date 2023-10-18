@@ -147,6 +147,8 @@ rna_pdb_tools.py --no-hr --renumber-residues input/rp03_solution.pdb > output/rp
 
 tools/misc/rna_topdb.py input/openfoldrna.out output/openfoldrna.pdb
 
+rna_pdb_tools.py --rpr input/4GXY_min.pdb --save-single-res --ref-frame-only
+
 exit
 
 cd ./tools/mq/ClashScore/
