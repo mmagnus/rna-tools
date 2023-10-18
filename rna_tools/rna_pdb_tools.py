@@ -21,6 +21,12 @@ Examples::
 
     rna_pdb_tools.py --backbone-only   --get-rnapuzzle-ready  --inplace --suffix=bo examples/4GXY_min.pdb
 
+To extract specific atoms for each residue and write them to separate PDB file (next to the input files, following synstac <input>_<resid>.pdb")::
+
+      rna_pdb_tools.py add --save-single-res --ref-frame-only
+      
+.. image:: ../pngs/276411138-236435ff-2944-4bec-ab75-dca0d1e3aacf.jpg
+
 -v is for verbose, --version for version ;)
 """
 import argparse
