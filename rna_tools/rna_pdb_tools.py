@@ -23,7 +23,8 @@ Examples::
 
 To extract specific atoms for each residue and write them to separate PDB file (next to the input files, following syntax "<input>_<resid>.pdb")::
 
-      rna_pdb_tools.py add --save-single-res --ref-frame-only
+    rna_pdb_tools.py --rpr input/4GXY_min.pdb --save-single-res --ref-frame-only
+
       
 .. image:: ../pngs/276411138-236435ff-2944-4bec-ab75-dca0d1e3aacf.jpg
 
