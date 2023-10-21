@@ -1,6 +1,33 @@
 rna-pdb-tools
 ===============================================
 
+rna_pdb_tools - a swiss army knife to manipulation of RNA pdb structures
+
+Remove atoms with XYZ equals 0::
+
+    (base) ➜  MiniRoseTTA git:(main) ✗ cat  4GXY_min_at0_chemicals.pdb
+    ATOM      1  OP1   G A   1      50.150  76.113  39.198  1.00  0.00
+    ATOM      2  P     G A   1      50.001  77.254  40.137  1.00  0.00
+    ATOM      3  OP2   G A   1      48.880  77.258  41.111  1.00  0.00
+    ATOM      4  O5'   G A   1      51.362  77.417  40.948  1.00  0.00
+    ATOM      5  C5'   G A   1       0.000   0.000   0.000  1.00  0.00
+    ATOM      6  C4'   G A   1       0.000   0.000   0.000  1.00  0.00
+    ATOM      7  O4'   G A   1       0.000   0.000   0.000  1.00  0.00
+    ATOM      8  C3'   G A   1       0.000   0.000   0.000  1.00  0.00
+
+to get::
+
+    (base) ➜  MiniRoseTTA git:(main) ✗ rna_pdb_tools.py --remove0  4GXY_min_at0_chemicals.pdb
+    ATOM      1  OP1   G A   1      50.150  76.113  39.198  1.00  0.00
+    ATOM      2  P     G A   1      50.001  77.254  40.137  1.00  0.00
+    ATOM      3  OP2   G A   1      48.880  77.258  41.111  1.00  0.00
+    ATOM      4  O5'   G A   1      51.362  77.417  40.948  1.00  0.00
+    ATOM     35  OP1   C A   2      54.648  73.216  44.394  1.00  0.00
+    ATOM     36  P     C A   2      53.712  74.058  43.607  1.00  0.00
+    ATOM     37  OP2   C A   2      53.842  74.111  42.128  1.00  0.00
+    ATOM     38  O5'   C A   2      52.223  73.613  43.957  1.00  0.00
+
+
 .. autoprogram:: rna_tools.rna_pdb_tools:get_parser()
    :prog: rna_pdb_tools.py
 
