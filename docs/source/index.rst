@@ -22,6 +22,7 @@ If something does not work for you, please make an issue, using https://github.c
    :maxdepth: 4
    :caption: User Documentation
 
+   install
    want
    main
    tools
@@ -34,7 +35,7 @@ If something does not work for you, please make an issue, using https://github.c
    selection
    tips
    workflows
-   install
+   
    
 .. toctree::
    :maxdepth: 2
