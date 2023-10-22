@@ -166,6 +166,8 @@ Listing. An example: `1ehz.pdb`.
 Torsion angle analysis
 -----------------------------------------------
 
+.. image :: ../pngs/torsions.jpg
+
 .. autoprogram:: rna_tools.rna_torsions:get_parser()
    :prog: rna_torsions.py
 
