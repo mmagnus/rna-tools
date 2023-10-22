@@ -1,9 +1,9 @@
-Getting Started: I want to ...
+Quickstart
 ===========================================
 
-With rna-tools, you can execute a variety of standard tasks in RNA 3D structural bioinformatics.
+This guide will walk you through the basic usage of rna-tools.
 
-Here is a list of typical tasks you can carry out using rna-tools.
+Let’s get started with some examples.
 
 fetch a structure from the PDB database
 --------------------------------------------
