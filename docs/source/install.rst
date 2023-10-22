@@ -1,19 +1,22 @@
 Install
 =============================================
 
-To install kind of vanilla version rna-tools by use pip::
+This guide assumes you already have python and pip installed.
+
+To install pytube, run the following command in your terminal::
 
      $ pip install rna-tools
 
-Test if the package is installed::
+Get the Source Code
+=============================================
 
-     $ python -c 'import rna_tools'
+rna-toos is actively developed on GitHub, where the source is available:
 
-if nothing appears that's good. If you see this::
+You can either clone the public repository::
 
-     $ python -c 'import rna_tools'
-     Traceback (most recent call last):
-       File "<string>", line 1, in <module>
-     ImportError: No module named rna_tools
+   $ git clone http://github.com/mmagnus/rna-tools.git
+   $ cd rna-tools && pip install -e .
 
-then go to custom installation: <http://rna-tools.readthedocs.io/en/latest/install-dev.html>
+or (to install in current ./src/)::
+
+   pip install -e git+http://github.com/mmagnus/rna-tools.git#egg=rna-tools
