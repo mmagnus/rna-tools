@@ -27,18 +27,20 @@ to get::
     ATOM     37  OP2   C A   2      53.842  74.111  42.128  1.00  0.00
     ATOM     38  O5'   C A   2      52.223  73.613  43.957  1.00  0.00
 
+rna_pdb_tools
+--------------------------
 
 .. autoprogram:: rna_tools.rna_pdb_tools:get_parser()
    :prog: rna_pdb_tools.py
 
 get RNAPuzzle ready
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. autoclass:: rna_tools.rna_tools_lib.RNAStructure
    :members: get_rnapuzzle_ready
 
 get sequence
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 Example::
 
@@ -50,7 +52,7 @@ Example::
    :members: get_seq
 
 fetch
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Example::
 
@@ -60,7 +62,7 @@ Example::
 .. autofunction:: rna_tools.rna_tools_lib.fetch
 
 fetch Biological Assembly
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Example::
 
@@ -83,7 +85,7 @@ or over a list of pdb ids in a text file::
 .. autofunction:: rna_tools.rna_tools_lib.fetch_ba
 
 delete
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Examples::
 
@@ -92,16 +94,15 @@ Examples::
 go over all files in the current directory, remove a fragment of chain A, residues between 46-56 (including them) and save outputs to in the folder `rpr_rm_loops`.
 
 edit
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~
 
 .. autofunction:: rna_tools.rna_tools_lib.edit_pdb
 
-the library
------------------------------------------
+RNAStructure (rna_tools_lib)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   .. automodule:: rna_tools.rna_tools_lib
    :members:
-
 
 PDB Edit Bfactor/Occupancy
 ------------------------------------------
@@ -132,7 +133,7 @@ Measure distance between atoms
    :undoc-members:
 
 Standardize your PDB files
-===============================================
+-----------------------------------------------
 
 .. autoprogram:: rna_tools.rna_standardize:get_parser()
    :prog: rna_standardize.py
@@ -141,7 +142,7 @@ Standardize your PDB files
    :members: get_rnapuzzle_ready
 
 Atoms order
------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Atoms order, A as an example::
 
@@ -174,7 +175,7 @@ Atoms order, A as an example::
 
 
 OP3
-------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first residue will have only OP1 and OP2 (OP3 will be removed)::
 
