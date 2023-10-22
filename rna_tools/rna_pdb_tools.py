@@ -28,6 +28,7 @@ To extract specific atoms for each residue and write them to separate PDB file (
       
 .. image:: ../pngs/276411138-236435ff-2944-4bec-ab75-dca0d1e3aacf.jpg
 
+
 -v is for verbose, --version for version ;)
 """
 import argparse
@@ -68,6 +69,9 @@ def get_parser():
     parser.add_argument('--undo', help='undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)',  action='store_true')
 
     parser.add_argument('--delete-anisou', help='remove files with ANISOU records, works with --inplace',
+                        action='store_true')
+
+    parser.add_argument('--remove0', help='remove atoms of X=0 position',
                         action='store_true')
 
     parser.add_argument('--fix', help='fix a PDB file, ! external program, pdbfixer used to fix missing atoms',
@@ -1135,6 +1139,18 @@ if __name__ == '__main__':
             else:
                 print(txt)
 
+    if args.remove0:
+        if list != type(args.file):
+            args.file = [args.file]
+
+        for f in args.file:
+            s = RNAStructure(f)
+            for l in s.lines:
+                if s.get_atom_coords(l) == (0.0, 0.0, 0.0):
+                    continue
+                else:
+                    print(l)
+
     if args.replace_htm:
         if list != type(args.file):
             args.file = [args.file]
@@ -1191,6 +1207,7 @@ if __name__ == '__main__':
             cmd.delete('all')
             print(fo, 'saved')
             
+
     if args.pdb2cif:
         try:
             from pymol import cmd
