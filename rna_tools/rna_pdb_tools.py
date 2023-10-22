@@ -25,6 +25,12 @@ To extract specific atoms for each residue and write them to separate PDB file (
 
     rna_pdb_tools.py --rpr input/4GXY_min.pdb --save-single-res --ref-frame-only
 
+Atoms presets::
+
+  --backbone-only       used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)
+  --ref-frame-only      used only with --get-rnapuzzle-ready, keep only reference frames, OP1 OP2 P
+  --no-backbone         used only with --get-rnapuzzle-ready, remove atoms of backbone (define as P OP1 OP2 O5')
+  --bases-only          used only with --get-rnapuzzle-ready, keep only atoms of bases
       
 .. image:: ../pngs/276411138-236435ff-2944-4bec-ab75-dca0d1e3aacf.jpg
 
