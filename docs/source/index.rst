@@ -12,6 +12,8 @@ The code of the project can be found at GitHub https://github.com/mmagnus/rna-to
 
 This documentation can be found at http://rna-tools.rtfd.io.
 
+The PDF version of documentation can be found at https://rna-tools.readthedocs.io/_/downloads/en/latest/pdf/
+
 If something does not work for you, please make an issue, using https://github.com/mmagnus/rna-tools/issues.
 
 .. toctree::
