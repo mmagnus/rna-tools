@@ -8,7 +8,7 @@ To install pytube, run the following command in your terminal::
      $ pip install rna-tools
 
 Get the Source Code
-=============================================
+-----------------------------------------------
 
 rna-toos is actively developed on GitHub, where the source is available:
 

@@ -104,34 +104,6 @@ RNAStructure (rna_tools_lib)
   .. automodule:: rna_tools.rna_tools_lib
    :members:
 
-PDB Edit Bfactor/Occupancy
-------------------------------------------
-
-.. autoprogram:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor:get_parser()
-   :prog: rna_pdb_edit_occupancy_bfactor.py
-
-.. autofunction:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.edit_occupancy_of_pdb
-
-Add chain to a file
-------------------------------------------
-
-.. automodule:: rna_tools.tools.misc.rna_add_chain
-   :members:
-   :undoc-members:
-
-.. autoprogram:: rna_tools.tools.misc.rna_add_chain:get_parser()
-   :prog: rna_add_chain.py
-
-Measure distance between atoms
-------------------------------------------
-
-.. autoprogram:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists:get_parser()
-   :prog: pdbs_measure_atom_dists.py
-
-.. automodule:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists
-   :members:
-   :undoc-members:
-
 Standardize your PDB files
 -----------------------------------------------
 
@@ -189,5 +161,39 @@ The first residue will have only OP1 and OP2 (OP3 will be removed)::
 
 Listing. An example: `1ehz.pdb`.
 
-.. image :: ../pngs/op3.jpg # op3.pse 
+.. image :: ../pngs/op3.jpg 
       
+Torsion angle analysis
+-----------------------------------------------
+
+.. autoprogram:: rna_tools.rna_torsions:get_parser()
+   :prog: rna_torsions.py
+
+PDB Edit Bfactor/Occupancy
+------------------------------------------
+
+.. autoprogram:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor:get_parser()
+   :prog: rna_pdb_edit_occupancy_bfactor.py
+
+.. autofunction:: rna_tools.tools.rna_pdb_edit_occupancy_bfactor.rna_pdb_edit_occupancy_bfactor.edit_occupancy_of_pdb
+
+Add chain to a file
+------------------------------------------
+
+.. automodule:: rna_tools.tools.misc.rna_add_chain
+   :members:
+   :undoc-members:
+
+.. autoprogram:: rna_tools.tools.misc.rna_add_chain:get_parser()
+   :prog: rna_add_chain.py
+
+Measure distance between atoms
+------------------------------------------
+
+.. autoprogram:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists:get_parser()
+   :prog: pdbs_measure_atom_dists.py
+
+.. automodule:: rna_tools.tools.pdbs_measure_atom_dists.pdbs_measure_atom_dists
+   :members:
+   :undoc-members:
+
