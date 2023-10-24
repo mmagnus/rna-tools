@@ -43,7 +43,7 @@ if __name__ == '__main__':
                 x3,y3,z3 = [str(x) for x in r["C5"].get_coord()]
                 r1,g1,b1,r2,g2,b2 = [1,0,0] * 2
                 print('cmd.load_cgo( [ 9.0, ' + x1 + ','+ y1 + ','+ z1 +',' + x3 + ',' + y3 +',' + z3 +', radius,  %i,%i,%i,%i,%i,%i], "Hoogesteen_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
-                atom = r["O2'"]
+                atom = r["C1'"]
                 x4,y4,z4 = [str(x) for x in atom.get_coord()]
                 r1,g1,b1,r2,g2,b2 = 1,1,0,1,1,0
                 print('cmd.load_cgo( [ 9.0, ' + x2 + ','+ y2 + ','+ z2 +',' + x4 + ',' + y4 +',' + z4 +', radius,  %i,%i,%i,%i,%i,%i], "Sugar_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
@@ -57,7 +57,7 @@ if __name__ == '__main__':
                 x3,y3,z3 = [str(x) for x in atom.get_coord()]
                 r1,g1,b1,r2,g2,b2 = [1,0,0] * 2
                 print('cmd.load_cgo( [ 9.0, ' + x1 + ','+ y1 + ','+ z1 +',' + x3 + ',' + y3 +',' + z3 +', radius,  %i,%i,%i,%i,%i,%i], "Hoogesteen_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
-                atom = r["O2'"]
+                atom = r["C1'"]
                 x4,y4,z4 = [str(x) for x in atom.get_coord()]
                 r1,g1,b1,r2,g2,b2 = 1,1,0,1,1,0
                 print('cmd.load_cgo( [ 9.0, ' + x2 + ','+ y2 + ','+ z2 +',' + x4 + ',' + y4 +',' + z4 +', radius,  %i,%i,%i,%i,%i,%i], "Sugar_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 x3,y3,z3 = [str(x) for x in r["N7"].get_coord()]
                 r1,g1,b1,r2,g2,b2 = [1,0,0] * 2
                 print('cmd.load_cgo( [ 9.0, ' + x1 + ','+ y1 + ','+ z1 +',' + x3 + ',' + y3 +',' + z3 +', radius,  %i,%i,%i,%i,%i,%i], "Hoogesteen_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
-                atom = r["O2'"]
+                atom = r["C1'"]
                 x4,y4,z4 = [str(x) for x in atom.get_coord()]
                 r1,g1,b1,r2,g2,b2 = 1,1,0,1,1,0
                 print('cmd.load_cgo( [ 9.0, ' + x2 + ','+ y2 + ','+ z2 +',' + x4 + ',' + y4 +',' + z4 +', radius,  %i,%i,%i,%i,%i,%i], "Sugar_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
@@ -85,7 +85,7 @@ if __name__ == '__main__':
                 x3,y3,z3 = [str(x) for x in r["C6"].get_coord()]
                 r1,g1,b1,r2,g2,b2 = [1,0,0] * 2
                 print('cmd.load_cgo( [ 9.0, ' + x1 + ','+ y1 + ','+ z1 +',' + x3 + ',' + y3 +',' + z3 +', radius,  %i,%i,%i,%i,%i,%i], "Hoogesteen_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
-                atom = r["O2'"]
+                atom = r["C1'"]
                 x4,y4,z4 = [str(x) for x in atom.get_coord()]
                 r1,g1,b1,r2,g2,b2 = 1,1,0,1,1,0
                 print('cmd.load_cgo( [ 9.0, ' + x2 + ','+ y2 + ','+ z2 +',' + x4 + ',' + y4 +',' + z4 +', radius,  %i,%i,%i,%i,%i,%i], "Sugar_%s-%i" )' % (r1,g1,b1,r2,g2,b2, chain, resi))
