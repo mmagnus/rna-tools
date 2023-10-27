@@ -138,6 +138,7 @@ class RNAStructure:
         self.mol2_format = False
 
         self.lines = []
+
         try:
             # lines = open(fn).read().strip().split('\n') # don't strip?, good or bed?
             lines = open(fn).read().split('\n')
@@ -1090,6 +1091,7 @@ class RNAStructure:
         .. warning:: It was only tested with the whole base missing!
 
         .. warning:: requires: Biopython"""
+
         if verbose:
             logger.setLevel(logging.DEBUG)
 
@@ -1106,12 +1108,12 @@ class RNAStructure:
         # for debugging
         #renumber_residues = True
         # if ready_for == "RNAPuzzle":
+
         if backbone_only:
             G_ATOMS = "P OP1 OP2 O5' C5'".split()
             A_ATOMS = "P OP1 OP2 O5' C5'".split()
             U_ATOMS = "P OP1 OP2 O5' C5'".split()
             C_ATOMS = "P OP1 OP2 O5' C5'".split()
-
             #G_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
             #A_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
             #U_ATOMS = "P OP1 OP2 O5' C5' C4' O4' C3' O3' C2' O2' C1'".split()
@@ -1128,6 +1130,7 @@ class RNAStructure:
             A_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()     
             U_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 O4 C5 C6".split()
             C_ATOMS = "C5' C4' O4' C3' O3' C2' O2' C1' N1 C2 O2 N3 C4 N4 C5 C6".split()
+
         elif bases_only:
             G_ATOMS = "N9 C8 N7 C5 C6 O6 N1 C2 N2 N3 C4".split()
             A_ATOMS = "N9 C8 N7 C5 C6 N6 N1 C2 N3 C4".split()
@@ -1969,7 +1972,7 @@ def collapsed_view(args):
     r = RNAStructure(args.file)
     for l in r.lines:
         at = r.get_atom_code(l)
-        if at == "C5'":
+        if at == "P": # C5'":
             print(l)
         if l.startswith('TER') or l.startswith('MODEL') or l.startswith('END'):
             print(l)
@@ -1988,6 +1991,7 @@ def fetch(pdb_id, path="."):
     TODO: na_pdb_tools.py --extract A:1-25+B:30-57 1jj2.pdb"""
 
     chains = ''
+    pdb_id = pdb_id.replace('_', ':') # to accept also 1jj2_A
     if ':' in pdb_id:
         pdb_id, chains = pdb_id.split(':') # >>> 'X:A+B+C'.split(':') ['X', 'A+B+C']
 
