@@ -35,7 +35,6 @@ from rna_tools import SecondaryStructure
 from rna_tools.rna_tools_config import RCHIE_PATH
 from collections import OrderedDict
 
-import Levenshtein
 import tempfile
 import subprocess
 import os
@@ -368,6 +367,10 @@ class RNASeq(object):
 
     def get_distance_to(self, nseq):
         """Get distance of self.seq to nseq."""
+        try:
+            import Levenshtein
+        except:
+            print('pip install python-Levenshtein')
         return round(Levenshtein.ratio(self.seq, nseq), 2)
 
 class RNAalignment(object):
