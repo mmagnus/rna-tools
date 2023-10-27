@@ -1090,7 +1090,16 @@ class RNAStructure:
 
         .. warning:: It was only tested with the whole base missing!
 
-        .. warning:: requires: Biopython"""
+        .. warning:: requires: Biopython
+
+        Selection of atoms:
+        
+        - posphate group (3x, OP1 ,P, OP2),
+        - connector (2x O5', C5'), /5x
+        - sugar (5x, C4', O4', C3', O3', C1', C2'), /10
+        - extra oxygens from sugar (2x, O2' O3'), for now it's /12!
+        - A (10x), G (11x), C (8x), U(8x), max 12+11=23
+        """
 
         if verbose:
             logger.setLevel(logging.DEBUG)
