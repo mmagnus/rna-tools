@@ -28,8 +28,6 @@ Get sequnce/s from teh aligment::
 """
 
 from Bio import AlignIO
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
 from Bio.Phylo.TreeConstruction import DistanceCalculator
 from rna_tools import SecondaryStructure
 from rna_tools.rna_tools_config import RCHIE_PATH
@@ -41,7 +39,6 @@ import os
 import shutil
 import re
 import gzip
-import copy
 
 
 class RNAalignmentError(Exception):
