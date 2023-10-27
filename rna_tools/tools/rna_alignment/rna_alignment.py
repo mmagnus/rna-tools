@@ -156,6 +156,13 @@ class RNASeq(object):
        seq_no_gaps(str) : seq.replace('-', '')
        ss_no_gaps(str)  : ss.replace('-', '')
 
+    .. warning::
+
+       >>> if 'EF' in s.id: print('Y')
+       Y
+       >>> if 'EF' in s: print('Y')       
+       # nothing
+       
     """
 
     def __init__(self, id, seq, ss=None):
