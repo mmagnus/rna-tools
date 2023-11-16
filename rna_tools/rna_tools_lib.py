@@ -1046,6 +1046,14 @@ class RNAStructure:
     def set_atom_index(self, line, index):
         return line[:6] + str(index).rjust(5) + line[11:]
 
+    def reindex_atom_index(self):
+        self.nlines = []
+        for i, l in enumerate(self.lines):
+            nl = self.set_atom_index(l, i + 1)  # start from 1
+            self.nlines.append(nl)
+        self.lines = self.nlines
+        return self.nlines
+
     def get_res_index(self, line):
         return int(line[22:26])
 
