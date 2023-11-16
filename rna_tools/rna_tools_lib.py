@@ -985,9 +985,9 @@ class RNAStructure:
     def set_atom_coords(self, line, x, y, z):
         """Get atom coordinates from a line of a PDB file
         """
-        line = line[:31] + (" %5.3f" % x) + line[38:]
-        line = line[:39] + (" %5.3f" % y) + line[46:]
-        line = line[:47] + (" %5.3f" % z) + line[54:]
+        line = line[:30] + (f"{x:>8.3f}") + line[38:]
+        line = line[:38] + (f"{y:>8.3f}") + line[46:]
+        line = line[:46] + (f"{z:>8.3f}") + line[54:]
         return  line
 
     def set_line_bfactor(self, line, bfactor):
@@ -1005,7 +1005,7 @@ class RNAStructure:
            ATOM      1  OP2   C A   1      29.615  36.892  42.657  1.00  1.00          O
                         ^^^                                                            ^ and element
         """
-        return line[:12] + ' ' + code + ' ' * (3 - len(code)) + line[16:76] + code[0] + line[78:]
+        return line[:12] + ' ' + code + ' ' * (3 - len(code)) + line[16:77] + code[0] + line[78:]
 
     def set_res_code(self, line, code):
         """
