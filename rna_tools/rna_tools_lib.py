@@ -1099,6 +1099,8 @@ class RNAStructure:
         - sugar (5x, C4', O4', C3', O3', C1', C2'), /10
         - extra oxygens from sugar (2x, O2' O3'), for now it's /12!
         - A (10x), G (11x), C (8x), U(8x), max 12+11=23
+
+        And 27 unique atoms: {'N9', 'O2', 'OP2', "O2'", "O4'", 'C8', "O3'", "C1'", 'C2', 'C6', "C5'", 'N6', 'C5', "C4'", 'C4', "O5'", "C3'", 'O6', 'N2', 'N7', 'OP1', 'N1', 'N4', 'P', "C2'", 'N3', 'O4'}.
         """
 
         if verbose:
