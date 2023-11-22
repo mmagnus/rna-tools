@@ -1274,6 +1274,16 @@ def v(x, y, z, name='v'):
     cmd.load_cgo(obj, name)
 cmd.extend('v', v)
 
+def pdbsrc(selection):
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    f = f.name + '.pdb'
+    cmd.save(f, '(sele)')
+    for l in open(f):
+        if l.strip() not in ['TER', 'END']:
+            print(l.strip())
+
+cmd.extend("pdbsrc", pdbsrc)
+
 def ha():
     """
         cmd.do('h_add')
