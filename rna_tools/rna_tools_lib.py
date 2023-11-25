@@ -358,7 +358,10 @@ class RNAStructure:
         return len(self.lines)
 
     def check_connectivity(self):
-        """
+        """Check for correct "Polymer linkage, it should be around 1.6Å with a sigma around 0.01.
+        
+        Carrascoza, F., Antczak, M., Miao, Z., Westhof, E. & Szachniuk, M. Evaluation of the stereochemical quality of predicted RNA 3D models in the RNA-Puzzles submissions. Rna 28, 250–262 (2022).
+
         Values for 1xjr.pdb::
 
             op.mean(): 1.599316
@@ -388,6 +391,7 @@ class RNAStructure:
         op = []
         po = []
         angles = []
+
         sigma = 0.009274074
         mean =  1.599316
         import numpy as np
@@ -398,8 +402,8 @@ class RNAStructure:
                     if resi_prev:
                         v = resi_prev["O3'"] - r['P']
                         op.append(v)
-                        x = mean - 12 * sigma
-                        y = mean + 12 * sigma
+                        x = mean - 6 * sigma
+                        y = mean + 6 * sigma
 
                         v2 = r["P"] - r["O5'"]
                         ic(v2)
