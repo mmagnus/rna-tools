@@ -357,6 +357,78 @@ class RNAStructure:
     def get_no_lines(self):
         return len(self.lines)
 
+    def check_connectivity(self):
+        """
+        Values for 1xjr.pdb::
+
+            op.mean(): 1.599316
+            op.std(): 0.009274074
+
+            po.mean(): 1.5984017
+            po.std(): 0.0069191623
+        
+        requires biopython
+        """
+        verbose = False
+        if verbose:
+            logger.setLevel(logging.DEBUG)
+
+        try:
+            from Bio import PDB
+            from Bio.PDB import PDBIO
+            import warnings
+            warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
+            warnings.filterwarnings('ignore', '.*with given element *',)
+        except:
+            sys.exit('Error: Install biopython to use this function (pip biopython)')
+
+        pdb = self.fn
+        struc = PDB.PDBParser().get_structure('struc', pdb)
+        resi_prev = {}
+        op = []
+        po = []
+        angles = []
+        sigma = 0.009274074
+        mean =  1.599316
+        import numpy as np
+
+        for s in struc:
+            for c in s:
+                for r in c:
+                    if resi_prev:
+                        v = resi_prev["O3'"] - r['P']
+                        op.append(v)
+                        x = mean - 12 * sigma
+                        y = mean + 12 * sigma
+
+                        v2 = r["P"] - r["O5'"]
+                        ic(v2)
+                        po.append(v2)
+
+                        if not (x <= v <= y):
+                            print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
+                        # angle
+                        p = r['P'].get_vector()
+                        pc3p = resi_prev["O3'"].get_vector()
+                        o5p = r["O5'"].get_vector()
+                        bo5p = p - o5p # b as bond
+                        bpc3p = p - pc3p
+                        if 0:
+                            ic(bo5p.angle(bpc3p))
+                            ic(bpc3p.angle(bo5p))
+                        angle = np.rad2deg(bpc3p.angle(bo5p))
+                        angles.append(angle)
+                    resi_prev = r
+
+        op = np.array(op)
+        ic(op.mean(), op.std())
+
+        po = np.array(po)
+        ic(po.mean(), po.std())
+
+        angles = np.array(angles)
+        ic(angles.mean(), angles.std())
+        
     def get_text(self, add_end=True):
         """works on self.lines."""
         txt = ''
@@ -1671,6 +1743,7 @@ class RNAStructure:
         # fix ter 'TER' -> TER    1528        G A  71
         #
         s = RNAStructure(fout)
+        s.check_connectivity()
         self.lines = s.lines
         c = 0
         # ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
