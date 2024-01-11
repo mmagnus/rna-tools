@@ -192,7 +192,7 @@ File name: /tmp/tmp0pdNHS
         """
         hits = re.search("as a whole and per chain.*?\n(?P<ss>.+?)\n\*", self.report, re.DOTALL|re.MULTILINE)
         if hits:
-             return hits.group('ss')
+             return hits.group('ss').strip()
         else:
             self.report.split('\n')[-1] # tofix
 
