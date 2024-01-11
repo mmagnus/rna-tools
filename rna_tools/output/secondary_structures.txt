@@ -1,0 +1,126 @@
+input/1xjr.pdb
+>1xjr nts=47 [whole]
+gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+>1xjr-A #1 nts=47 0.27(3.09) [chain] RNA
+gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+
+input/1xjr_A1-4.pdb
+>1xjr_A1-4 nts=4 [whole]
+GGAG
+....
+>1xjr_A1-4-A #1 nts=4 2.61(0.09) [chain] RNA
+GGAG
+....
+
+input/1xjr_A3-4.pdb
+>1xjr_A3-4 nts=2 [whole]
+AG
+..
+>1xjr_A3-4-A #1 nts=2 [chain] RNA
+AG
+..
+
+input/1xjr_A5-10.pdb
+>1xjr_A5-10 nts=6 [whole]
+UUCACC
+......
+>1xjr_A5-10-A #1 nts=6 2.73(0.10) [chain] RNA
+UUCACC
+......
+
+input/1xjr_C10-11.pdb
+>1xjr_C10-11 nts=2 [whole]
+AG
+..
+>1xjr_C10-11-C #1 nts=2 [chain] RNA
+AG
+..
+
+input/1xjr_GTP.pdb
+>1xjr_GTP nts=1 [whole]
+g
+.
+>1xjr_GTP-A #1 nts=1 [chain] RNA
+g
+.
+
+input/1xjr_ba.pdb
+>1xjr_ba nts=47 [whole]
+gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+>1xjr_ba-1-A #1 nts=47 0.27(3.09) [chain] RNA
+gGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+
+input/1xjr_clx_charmm.pdb
+>1xjr_clx_charmm nts=46 [whole]
+GAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+.(((((((...((((.((((.....))..))..))).).)))))))
+>1xjr_clx_charmm-A #1 nts=46 0.27(3.12) [chain] RNA
+GAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+.(((((((...((((.((((.....))..))..))).).)))))))
+
+input/1xjr_missing_atom.pdb
+>1xjr_missing_atom nts=3 [whole]
+gGA
+...
+>1xjr_missing_atom-A #1 nts=3 2.98(0.03) [chain] RNA
+gGA
+...
+
+input/1xjr_no_op3.pdb
+>1xjr_no_op3 nts=2 [whole]
+g&A
+.&.
+>1xjr_no_op3-A #1 nts=1 [chain] RNA
+g
+.
+>1xjr_no_op3-B #2 nts=1 [chain] RNA
+A
+.
+
+input/1xjr_no_op3_simrna_ready.pdb
+>1xjr_no_op3_simrna_ready nts=2 [whole]
+G&A
+.&.
+>1xjr_no_op3_simrna_ready-A #1 nts=1 [chain] RNA
+G
+.
+>1xjr_no_op3_simrna_ready-B #2 nts=1 [chain] RNA
+A
+.
+
+input/1xjr_onlyGTP.pdb
+>1xjr_onlyGTP nts=1 [whole]
+g
+.
+>1xjr_onlyGTP-A #1 nts=1 [chain] RNA
+g
+.
+
+input/1xjr_onlyGTP_X.pdb
+>1xjr_onlyGTP_X nts=1 [whole]
+G
+.
+>1xjr_onlyGTP_X-A #1 nts=1 [chain] RNA
+G
+.
+
+input/1xjr_rpr.pdb
+>1xjr_rpr nts=47 [whole]
+GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+>1xjr_rpr-A #1 nts=47 0.27(3.09) [chain] RNA
+GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+
+input/1xjr_std.pdb
+>1xjr_std nts=47 [whole]
+GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+>1xjr_std-A #1 nts=47 0.27(3.09) [chain] RNA
+GGAGUUCACCGAGGCCACGCGGAGUACGAUCGAGGGUACAGUGAAUU
+..(((((((...((((.((((.....))..))..))).).)))))))
+

@@ -55,7 +55,8 @@ def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('-c', '--compact',  action='store_true')
-    parser.add_argument('--rerun',  action='store_true')
+    parser.add_argument('-x', '--rerun',  action='store_true')
+    parser.add_argument('-s', '--show',  action='store_true', help="show results")
     parser.add_argument('--pymol',  action='store_true', help='get resi to color code puckers in PyMOL')
     parser.add_argument('-l', '--show-log',  action='store_true', help="show full log")
     parser.add_argument('-v', '--verbose',  action='store_true', help="show full log")
@@ -112,7 +113,7 @@ class x3DNA(object):
                 text += l.replace('uncommon residue ', '') + '\n'
         return text.strip()
 
-    def run_x3dna(self, show_log=False):
+    def run_x3dna(self, show_log=False, verbose=False):
         """
         """
         cmd = X3DNA + ' -i=' + self.curr_fn
@@ -122,7 +123,7 @@ class x3DNA(object):
         outerr = str(out.stderr.read().decode())
 
         f = open('py3dna.log', 'w')
-        if args.verbose: print(f'cmd: {cmd}')
+        if verbose: print(f'cmd: {cmd}')
         f.write(cmd + '\n' + stdout)
 
         if show_log:
@@ -182,13 +183,18 @@ File name: /tmp/tmp0pdNHS
 
         Somehow 1bzt_1 x3dna	UCAGACUUUUAAPCUGA, what is P?
         P -> u
+        
         """
         return self.report.split('\n')[-2].replace('P', 'u').replace('I', 'a')
 
     def get_secstruc(self):
         """Get secondary structure.
         """
-        return self.report.split('\n')[-1]
+        hits = re.search("as a whole and per chain.*?\n(?P<ss>.+?)\n\*", self.report, re.DOTALL|re.MULTILINE)
+        if hits:
+             return hits.group('ss')
+        else:
+            self.report.split('\n')[-1] # tofix
 
     def get_torsions(self, outfn) -> str:
         """Get torsion angles into 'torsion.csv' file::
@@ -246,6 +252,11 @@ File name: /tmp/tmp0pdNHS
         nangles = re.sub(r'---', 'nan', nangles, 0, re.MULTILINE)
         with open(outfn, 'w') as f:
             f.write(nangles.strip())
+
+        if args.show:
+            import pandas as pd
+            df = pd.read_csv(outfn)
+            print(df)
         return nangles.strip()
     
 # name
@@ -275,12 +286,13 @@ if __name__ == '__main__':
             outfn = os.path.basename(f.replace('.pdb', '')) + '-torsion-paired.csv'
             if not args.rerun:
                 if os.path.isfile(outfn):
+                    print(f'skip: {f}, use --rerun to run analysis again')
                     continue
-            p = x3DNA(f, args.show_log)
-            #s = p.get_seq()
-            #print(s)
-            #s = p.get_secstruc()
-            #print(s)
+            p = x3DNA(f, args.show_log, args.verbose)
+            s = p.get_seq()
+            print(s)
+            s = p.get_secstruc()
+            print(s)
             s = p.get_torsions(outfn)
             if args.verbose: print(s)
             p.clean_up(args.verbose)
