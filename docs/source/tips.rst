@@ -109,6 +109,10 @@ To get residue index use::
 
     resi = int(l[22:26].strip())
 
+Example::
+
+   ATOM      1  P     C A   1     -16.936  -3.789  68.770  1.00 11.89           P
+
 Qucikref::
 
     COLUMNS PYTHON     DATA  TYPE    FIELD        DEFINITION
