@@ -2009,7 +2009,7 @@ def edit_pdb(f, args):
             if len(selection_to) != len(selection_from):
                 raise Exception('len(selection_to) != len(selection_from)')
             selects.append([selection_from, selection_to])
-        output += edits
+          
     else:
         # one edit
         e = args.edit
