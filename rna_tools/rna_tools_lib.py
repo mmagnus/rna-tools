@@ -92,6 +92,7 @@ def exe(cmd):
 
 
 def get_rna_tools_path():
+    """Return path to the rt."""
     import inspect
     import rna_tools
     return os.path.dirname(inspect.getfile(rna_tools))
@@ -165,6 +166,7 @@ class RNAStructure:
         self.res = self.get_resn_uniq()
 
     def reload(self):
+        """Reload the object."""
         self.__init__(self.fn)
         
     def is_pdb(self):
