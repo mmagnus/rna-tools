@@ -358,8 +358,8 @@ class RNAStructure:
 
     def get_no_lines(self):
         return len(self.lines)
-
-    def check_connectivity(self):
+        
+    def check_geometry(self, verbose=False):
         """Check for correct "Polymer linkage, it should be around 1.6Å with a sigma around 0.01.
         
         Carrascoza, F., Antczak, M., Miao, Z., Westhof, E. & Szachniuk, M. Evaluation of the stereochemical quality of predicted RNA 3D models in the RNA-Puzzles submissions. Rna 28, 250–262 (2022).
@@ -374,7 +374,6 @@ class RNAStructure:
         
         requires biopython
         """
-        verbose = False
         if verbose:
             logger.setLevel(logging.DEBUG)
 
@@ -393,29 +392,37 @@ class RNAStructure:
         op = []
         po = []
         angles = []
+        angles2 = []
 
+        p_ps = []
         sigma = 0.009274074
         mean =  1.599316
         import numpy as np
 
         for s in struc:
             for c in s:
+                # for new chain reset resi_prev
+                resi_prev = None
                 for r in c:
                     if resi_prev:
+                        p_p = resi_prev["P"] - r['P']
+                        p_ps.append(p_p)
+                        
                         v = resi_prev["O3'"] - r['P']
                         op.append(v)
                         x = mean - 6 * sigma
                         y = mean + 6 * sigma
 
                         v2 = r["P"] - r["O5'"]
-                        ic(v2)
+                        #ic(v2)
                         po.append(v2)
 
                         if not (x <= v <= y):
                             print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
+
                         # angle
-                        p = r['P'].get_vector()
                         pc3p = resi_prev["O3'"].get_vector()
+                        p = r['P'].get_vector()
                         o5p = r["O5'"].get_vector()
                         bo5p = p - o5p # b as bond
                         bpc3p = p - pc3p
@@ -424,7 +431,37 @@ class RNAStructure:
                             ic(bpc3p.angle(bo5p))
                         angle = np.rad2deg(bpc3p.angle(bo5p))
                         angles.append(angle)
+
+
+                        # angle
+                        po3p = resi_prev["O3'"].get_vector()
+                        p = r['P'].get_vector()
+                        o5p = r["O5'"].get_vector()
+                        bo5p = p - o5p # b as bond
+                        bpc3p = p - po3p
+                        if 0:
+                            ic(bo5p.angle(bpc3p))
+                            ic(bpc3p.angle(bo5p))
+                        angle = np.rad2deg(bpc3p.angle(bo5p))
+                        angles.append(angle)
+
+                        pc3p = resi_prev["C3'"].get_vector()
+                        v1 = po3p - pc3p
+                        v2 = po3p - p
+                        angle2 = np.rad2deg(v2.angle(v1))
+                        angles2.append(angle2)
+
                     resi_prev = r
+
+        p_ps = np.array(p_ps)
+        #np.set_printoptions(threshold=np.inf)
+        ic(p_ps)
+        ic(p_ps.mean(), p_ps.std())
+        if False:
+            import matplotlib.pyplot as plt
+            plt.hist(p_ps, bins='auto')
+            plt.title("p-ps")
+            plt.show()
 
         op = np.array(op)
         ic(op.mean(), op.std())
@@ -433,8 +470,26 @@ class RNAStructure:
         ic(po.mean(), po.std())
 
         angles = np.array(angles)
+        ic(angles)
         ic(angles.mean(), angles.std())
+        if False:
+            import matplotlib.pyplot as plt
+            plt.hist(angles, bins='auto')
+            plt.title("Histogram of angles o3'-p-o5'")
+            plt.xlim(0, 360)
+            plt.show()
         
+        angles2 = np.array(angles2)
+        ic(angles2)
+        ic(angles2.mean(), angles2.std())
+
+        if False:
+            import matplotlib.pyplot as plt
+            plt.hist(angles2, bins='auto')
+            plt.title("Histogram of angles c3'-o3'-p")
+            plt.xlim(0, 360)
+            plt.show()
+
     def get_text(self, add_end=True):
         """works on self.lines."""
         txt = ''
@@ -1147,6 +1202,7 @@ class RNAStructure:
                             report_missing_atoms=True, keep_hetatm=False, backbone_only=False,
                             no_backbone = False, bases_only = False, save_single_res = False,
                             ref_frame_only = False,
+                            check_geometry = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
@@ -1749,7 +1805,8 @@ class RNAStructure:
         # fix ter 'TER' -> TER    1528        G A  71
         #
         s = RNAStructure(fout)
-        s.check_connectivity()
+        if check_geometry:
+            s.check_geometry()
         self.lines = s.lines
         c = 0
         # ATOM   1527  C4    G A  71       0.000   0.000   0.000  1.00  0.00           C
@@ -2011,7 +2068,6 @@ def edit_pdb(f, args):
             if len(selection_to) != len(selection_from):
                 raise Exception('len(selection_to) != len(selection_from)')
             selects.append([selection_from, selection_to])
-          
     else:
         # one edit
         e = args.edit

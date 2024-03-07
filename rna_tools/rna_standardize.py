@@ -56,6 +56,9 @@ for --extract it's .extr.pdb"""),
     parser.add_argument('--no-hr', help='do not insert the header into files',
                         action='store_true')
 
+    parser.add_argument('--check-geometry', help='check connectivity betweeen residues and angles',
+                        action='store_true')
+
     parser.add_argument('--dont-fix-missing-atoms',
                         help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')
@@ -185,6 +188,7 @@ if __name__ == '__main__':
                                             bases_only=args.bases_only,
                                             keep_hetatm=args.keep_hetatm,
                                             ignore_op3=ignore_op3,
+                                            check_geometry=args.check_geometry,
                                             verbose=args.verbose)
 
 
