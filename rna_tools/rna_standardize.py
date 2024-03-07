@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """rna_standardize.py - standardzie RNA PDB structures
 
 Usage::
 
-   $ rna_standardize.py
+   $ rna_standardize.py <pdb file>
 
 -v is for verbose, --version for version ;)
-
 """
 import argparse
 import textwrap
