@@ -57,6 +57,9 @@ for --extract it's .extr.pdb"""),
     parser.add_argument('--check-geometry', help='check connectivity betweeen residues and angles',
                         action='store_true')
 
+    parser.add_argument('--check-geometry', help='check connectivity betweeen residues and angles',
+                        action='store_true', default=True)
+
     parser.add_argument('--dont-fix-missing-atoms',
                         help="""used only with --get-rnapuzzle-ready""",
                         action='store_true')

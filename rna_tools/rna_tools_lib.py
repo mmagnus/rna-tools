@@ -455,6 +455,7 @@ class RNAStructure:
 
         p_ps = np.array(p_ps)
         #np.set_printoptions(threshold=np.inf)
+        ic.disable()
         ic(p_ps)
         ic(p_ps.mean(), p_ps.std())
         if False:
@@ -489,7 +490,8 @@ class RNAStructure:
             plt.title("Histogram of angles c3'-o3'-p")
             plt.xlim(0, 360)
             plt.show()
-
+        ic.enable()
+        
     def get_text(self, add_end=True):
         """works on self.lines."""
         txt = ''
