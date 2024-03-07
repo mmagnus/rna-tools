@@ -86,7 +86,7 @@ def get_parser():
     parser.add_argument('--to-mol2', help='fix a PDB file, ! external program, pdbfixer used to fix missing atoms',
                         action='store_true')
 
-    parser.add_argument('--split-alt-locations', help='splits atoms, e.g. for alt locs A and B, it splits atoms two MODELS (all localizations A goes into MODEL1 and all localizations B goes into MODEL2'),
+    parser.add_argument('--split-alt-locations', help='splits atoms, e.g. for alt locs A and B, it splits atoms two MODELS (all localizations A goes into MODEL1 and all localizations B goes into MODEL2',
                         action='store_true')
 
     parser.add_argument('-c', '--clean', help='get clean structure',
