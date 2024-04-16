@@ -185,7 +185,7 @@ setup(
         'biopython',
         'progressbar2',
         'tqdm',
-
+        'icecream',
         'csvsort',
         # keep pip minimal
         #'sphinx==1.6.7',
@@ -205,7 +205,7 @@ setup(
 
         'versioneer',
         'configparser',
-        'icecream',
+       
       ],
 )
 
