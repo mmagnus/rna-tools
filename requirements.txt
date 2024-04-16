@@ -1,1 +1,10 @@
 icecream
+configparser
+numpy
+biopython
+progressbar2
+tqdm
+csvsort
+simplejson
+urllib3
+versioneer
