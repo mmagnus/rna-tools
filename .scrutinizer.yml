@@ -14,8 +14,8 @@ filter:
 build:
     environment:
         python: 3.8.12
-  nodes:
-    analysis:
-      tests:
-        override:
-          - py-scrutinizer-run
+    nodes:
+        analysis:
+            tests:
+                override:
+                  - py-scrutinizer-run
