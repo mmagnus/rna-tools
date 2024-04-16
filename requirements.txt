@@ -8,3 +8,4 @@ csvsort
 simplejson
 urllib3
 versioneer
+wget
