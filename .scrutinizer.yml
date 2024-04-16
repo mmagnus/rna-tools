@@ -13,7 +13,7 @@ filter:
         - 'rna_tools/tools/webserver-engine/*'
 build:
     environment:
-        python: 3.8.12
+        python: 3.9.15
     nodes:
         analysis:
             tests:
