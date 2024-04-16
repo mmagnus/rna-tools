@@ -18,5 +18,5 @@ build:
         analysis:
             tests:
                 override:
-                  - pip install -e .
+                  - pip install -r requirements.txt
                   - py-scrutinizer-run
