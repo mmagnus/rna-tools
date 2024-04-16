@@ -11,13 +11,9 @@ filter:
         - 'rna_tools/tools/clarna_play/*'
         - 'rna_tools/tools/mini_moderna3/*'
         - 'rna_tools/tools/webserver-engine/*'
-        
 build:
     environment:
         python: 3.8.12
-
-
-build:
   nodes:
     analysis:
       tests:
