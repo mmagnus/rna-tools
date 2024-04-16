@@ -2,6 +2,8 @@
 set -v
 export PYTHONPATH=$PYTHONPATH:$(pwd)
 
+exit(1)
+
 cd rna_tools
 
 python update_readme.py
