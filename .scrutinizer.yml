@@ -18,4 +18,5 @@ build:
         analysis:
             tests:
                 override:
+                  - pip install -e .
                   - py-scrutinizer-run
