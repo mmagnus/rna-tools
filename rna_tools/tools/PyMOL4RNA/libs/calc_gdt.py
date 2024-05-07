@@ -44,7 +44,7 @@ def gdt(sel1, sel2):
     return GDT
 
 @cmd.extend
-def gdt_hs(sel1, sel2):
+def gdt_ha(sel1, sel2):
     """
     Calculate the GDT (Global Distance Test) High Accuracy between two RNA (using P atoms) selections.
     Args:
