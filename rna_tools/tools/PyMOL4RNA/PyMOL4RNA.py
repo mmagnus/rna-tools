@@ -1,6 +1,13 @@
 #!/usr/bin/env python
+from icecream import ic
+import sys
+ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True)
+ic.configureOutput(prefix='')
+BIN = "/Users/magnus/miniconda3/bin/"
+print(BIN)
+
 """
-Quick reference:
+DOCS! Quick reference:
 
 - clarna: show contacts classification of the selected fragment based on ClaRNA
 - ss: show secondary structure of the selection based on py3dna.py (3DNA (Lu, Olson 2003))
@@ -32,51 +39,7 @@ user = getpass.getuser()
 
 import os
 import sys
-from rna_tools.tools.PyMOL4RNA.libs.show_contacts import show_contacts
-from rna_tools.tools.PyMOL4RNA.libs.get_raw_distances import get_raw_distances
 
-
-from pymol import cmd
-# axes.py
-from pymol.cgo import *
-from pymol.vfont import plain
-
-try:
-    from pymol import cmd
-except ImportError:
-    print("PyMOL Python lib is missing")
-    # sys.exit(0)
-
-import imp
-try:
-    from rna_tools.rna_tools_lib import RNAStructure
-    from rna_tools.tools.PyMOL4RNA import code_for_spl
-    imp.reload(code_for_spl)
-    print('code_for_spl loaded...')
-    from rna_tools.tools.PyMOL4RNA import code_for_color_spl
-    imp.reload(code_for_color_spl)
-    print('code_for_color_spl loaded...')
-    import rna_tools
-    RNA_TOOLS_PATH = rna_tools.rna_tools_lib.get_rna_tools_path()
-    sys.path.insert(0, RNA_TOOLS_PATH) # '/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA')#
-    #(os.path.abspath(os.path.dirname(__file__))))
-    from rna_tools.tools.PyMOL4RNA import PyMOL4Spliceosome
-    imp.reload(PyMOL4Spliceosome)
-except ImportError:
-    print("rna_tools lib is missing")
-    RNA_TOOLS_PATH = ''
-    
-try:
-    RNA_TOOLS_PATH
-    EXECUTABLE
-except NameError:
-    EXECUTABLE="/bin/zsh"
-    SOURCE=""
-
-try:
-    cmd.set('cartoon_gap_cutoff', 0)
-except:
-    pass
 
 def exe(cmd, verbose=False):
     """Helper function to run cmd. Using in this Python module."""
@@ -164,6 +127,7 @@ def show_all_at_once():
 
 def grid_on():
     cmd.set('grid_mode', 1)
+
 def grid_off():
     cmd.set('grid_mode', 0)
 
@@ -314,6 +278,75 @@ def align_all(cycles = 5, filename="_rmsd_.csv"):
 
 cmd.extend('align_all', align_all)
 
+def align_all_atoms(cycles = 5, filename="_rmsd_.csv"):
+    """
+    Args:
+
+        cycles (int): maximum number of outlier rejection cycles {default: 5}
+
+    Returns:
+
+        Prints a table of ref vs models with 7 items:
+
+        RaR  RMSD after refinement
+        #AA  Number of aligned atoms after refinement
+        CoR  Number of refinement cycles
+        RbR  RMSD before refinement
+        #AbR Number of aligned atoms before refinement
+        RS   Raw alignment score
+        AR   Number of residues aligned 
+
+        and saves the table to filename as csv
+
+    old version:
+
+          1_solution_0_rpr 1_santalucia_1_rpr 5.60600471496582 958 4 5.763411521911621 974 416.0 46 -- RMSD 5.76  of  46 residues
+
+"""
+    molecules = cmd.get_names_of_type("object:molecule")
+    ref = molecules.pop(0)
+    print("""
+    RaR  RMSD after refinement
+    #AA  Number of aligned atoms after refinement
+    CoR  Number of refinement cycles
+    RbR  RMSD before refinement
+    #AbR Number of aligned atoms before refinement
+    RS   Raw alignment score
+    AR   Number of residues aligned 
+    """)
+    report = []
+    header = 'Ref                  Model                RaR  #AA  CoR  RbR  #AbR RS   AR'
+    print(header)
+    txt = 'Ref,Model,RMSD after refinement,Number of aligned atoms after refinement, Number of refinement cycles, RMSD before refinement, Number of aligned atoms before refinement, Raw alignment score, Number of residues aligned\n'
+    atoms = "O4'+C1'+C4'+C3'"
+    atoms = "P+O5'+C5'" #OP1'
+    ref = r"/" + ref + "////" + atoms 
+    for molecule in molecules:
+        molecule = r"/" + molecule + "////" + atoms
+        values = cmd.align(molecule, ref, cycles=cycles)
+        l = ([ref[:20].ljust(20), molecule[:20].ljust(20), str(round(values[0], 2)).ljust(4),
+            str(round(values[1], 2)).ljust(4),
+            str(round(values[2], 2)).ljust(4),
+            str(round(values[3], 2)).ljust(4),
+            str(round(values[4], 2)).ljust(4),
+            str(round(values[5])).ljust(4),
+            str(round(values[6], 2)).ljust(4)])
+        print(' '.join(l))
+        txt += ','.join([x.strip() for x in l]) + '\n'
+        report.append([ref, molecule, values[3], values[6]])
+    with open(filename, 'w') as f:
+        f.write(txt)
+
+cmd.extend('aaa', align_all_atoms)
+
+def load(f):
+    from glob import glob
+    lst = glob(f)
+    lst.sort()
+    for fil in lst:
+        cmd.load(fil)
+cmd.extend('load', load)
+
 
 def rmsdx(cycles = 5, matrix_fn = 'matrix.txt'):
     """
@@ -384,6 +417,20 @@ def save_all(dir=''):
 
 cmd.extend('save_all', save_all)
 
+def ls(name='', width=80):
+    molecules = cmd.get_names_of_type("object:molecule")
+    for i in range(10):
+            print()
+    t = ''
+    if name:
+        t = name + ': '
+    for molecule in molecules:
+        t += '%s' % molecule + ' | '
+    print(t[:-2].center(int(width))) # remove ending |
+    print()
+cmd.extend('ls', ls)
+    
+
 def save_each_object(folder='', prefix=''):
     """
 
@@ -440,29 +487,68 @@ def rcomp():
         if(i == ncolours):
            i = 0
 
+
+def colmol():  # donors accepters
+    t = """
+h_add,
+bg gray,
+color white,
+color black, elem C
+color blue , elem N
+color red, elem O
+color violet, elem P
+    """
+    cmd.do(t)
+cmd.extend('colmol', colmol)
+
 def da():  # donors accepters
     t = """
     h_add;
-    set sphere_scale, 0.2, (all)
-    set sphere_transparency, 0
+     set sphere_scale, 0.3, (all)
+     set sphere_transparency, 0
+     color blue, donors;
+     color green, acceptors;
+     show sphere, donors;
+     show sphere, acceptors;
+     color gray,  name H*; # color atoms from white to gray
+    """
+    cmd.do(t)
+
+cmd.extend('da', da)
+
+def da():  # donors accepters
+    t = """
+    h_add;
     #color blue, donors;
     #color green, acceptors;
+    set sphere_scale, 0.3, (donors)
+    set sphere_transparency, 0
     show sphere, donors;
-    show sphere, acceptors;
+    set sphere_scale, 0.2, (acceptors)
+    set sphere_transparency, 0
+    set dot_width, 0.3, (donors)
+    show dots, acceptors;
     color gray,  name H*; # color atoms from white to gray
     """
     cmd.do(t)
-cmd.extend('da', da)
-    
-def pdb():
-    """Get PDB content of selection.
+#cmd.extend('da', da)
 
+def pdb(sele = ''):
+    """Get PDB content of selection.
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/pdb.png"""
-    tmpfn = '/tmp/pymol_get_pdb.pdb'
-    cmd.save(tmpfn, '(sele)')
-    s = RNAStructure(tmpfn)
-    for l in s.lines:
-        print(l)
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    f = f.name + '.pdb'
+    #tmpfn = '/tmp/pymol_get_pdb.pdb'
+    if sele:
+        cmd.save(f, '(' + sele + ')')
+    else:
+        cmd.save(f, '(sele)')
+    for l in open(f):
+        if l.strip() not in ['TER', 'END']:
+            print(l.strip())
+    #s = RNAStructure(tmpfn)
+    #for l in s.lines:
+    #    print(l)
 
 
 def x3dna():
@@ -487,7 +573,7 @@ def clarna2():
         f = tempfile.NamedTemporaryFile(delete=False) # True)
         #cmd.save(f.name + '.pdb', '(backbone_)')
         cmd.save(f.name + '.pdb', '(sele) and "' + name + '"')
-        CLARNA_RUN = 'rna_clarna_run.py'
+        CLARNA_RUN = BIN + 'rna_clarna_run.py'
         #cmdline = #SOURCE + " && " +
         cmdline = CLARNA_RUN + " -ipdb " + f.name + '.pdb -bp+stack'
         print(cmdline)
@@ -498,12 +584,14 @@ def clarna2():
         f.close()
 
 
-def clarna(selection, folder:str=''):
+def clarna(selection, folder:str='', sele_as_name=False):# fn:str=''):
     """Get contacts classification of the selected fragment based on ClaRNA (for each object).
 
     Args:
 
       folder (str): The path to save temporary files, by default they are save to system tmp
+
+      # replace resi? or keep resi there?
 
     Example::
 
@@ -514,22 +602,30 @@ def clarna(selection, folder:str=''):
 
     .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
-    f = tempfile.NamedTemporaryFile(delete=False) # True)
-    if not folder:
-        output = f.name + '_clarna.pdb'
+    # save the selection to a file
+    if sele_as_name:
+        output = folder + os.sep + strip_selection_name(selection).replace('resi ', '') + '.pdb' # 
+        print(output)
     else:
-        output= folder + os.sep + os.path.basename(f.name) + '_clarna.pdb'
-
+        f = tempfile.NamedTemporaryFile(delete=False) # True)
+        if not folder:
+            output = f.name + '_clarna.pdb'
+        else:
+            output= folder + os.sep + os.path.basename(f.name) + '_clarna.pdb'
+        f.close()
     cmd.save(output, selection)
+    
+    # run the code
     CLARNA_RUN = 'rna_clarna_run.py'
-    cmdline = CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
-    print(cmdline)
+    cmdline = BIN + CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
     out, err = exe(cmdline)
+
+    # get the output 
     print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
-    if err:
-        print(err)
+    if err: print(err)
+
+    # load a file
     cmd.load(output)
-    f.close()
 
 
 def seq(selection):
@@ -817,6 +913,24 @@ def edges(selection):
 
 cmd.extend('edges', edges)
 
+def fr(selection):
+    """Save selection into a file in a temp folder and run rna_draw_edges.py on it and load it into this session"""
+    my_view = cmd.get_view()
+    f = tempfile.TemporaryDirectory()
+    tmpf = f.name + os.sep + strip_selection_name(selection) + '.pdb'
+    outf = f.name + '/output.py'
+    cmd.save(tmpf, selection)
+    path = "/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA/"
+    cmdline = path + 'rna_draw_frames.py --name %s %s > %s' % (strip_selection_name(selection), tmpf, outf)
+    print(cmdline)
+    out, err = exe(cmdline)
+    if err:
+        print(err)
+    cmd.load(outf)
+    cmd.set_view(my_view)
+
+cmd.extend('fr', fr)
+
 
 def ino():
     """Sphare and yellow inorganic, such us Mg.
@@ -871,9 +985,16 @@ def exe(cmd):
 
 
 def qrnass():
-    cmd.save('sele.pdb', '(sele)')
-    mini('sele.pdb')
+    cmd.save('/tmp/sele.pdb', '(sele)')
+    #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
+    cmdline = '~/opt/qrnas/QRNA -i /tmp/sele.pdb -c ~/opt/qrnas/configfile.txt -o out.pdb'
+    print(cmdline)
+    os.system(cmdline)
+    #print(exe(cmdline))
+    cmd.delete('mini')
+    cmd.load('out.pdb', 'mini')
 
+cmd.extend('qrnass', qrnass)
 
 def qrnas():
     subset = "*"
@@ -948,10 +1069,12 @@ def diff(selection, selection2):
 cmd.extend('diff', diff)
 
 def mini(f):  # min with qrna
-
     #os.system('/home/magnus/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c /home/magnus/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
-    os.system('~/opt/qrnas/QRNA02/QRNA -i ' + f + ' -c ~/opt/qrnas/QRNA02/configfile.txt -o out.pdb')
-    cmd.delete('mini')
+    cmd = '~/opt/qrnas/QRNA -i /tmp/' + f + ' -c ~/opt/qrnas/configfile.txt -o out.pdb'
+    print(cmd)
+    os.system(cmd)
+
+    #cmd.delete('mini')
     cmd.load('out.pdb', 'mini')
     print('end')
 
@@ -1271,18 +1394,12 @@ def v(x, y, z, name='v'):
     r1,g1,b1 = 1,1,1
     r2,g2,b2 = r1,g1,b1
     obj = [CYLINDER, 0.0, 0.0, 0.0,   x, y, z, w, r1, g1, b1, r2, g2, b2]
+    width = 0.005 # 0.20
+    size = 0.2
+    cyl_text(obj,plain,[x,y,z],name,width,axes=[[size,0,0],[0,size,0],[0,0,size]])
     cmd.load_cgo(obj, name)
+
 cmd.extend('v', v)
-
-def pdbsrc(selection):
-    f = tempfile.NamedTemporaryFile(delete=False) # True)
-    f = f.name + '.pdb'
-    cmd.save(f, '(sele)')
-    for l in open(f):
-        if l.strip() not in ['TER', 'END']:
-            print(l.strip())
-
-cmd.extend("pdbsrc", pdbsrc)
 
 def ha():
     """
@@ -1327,12 +1444,58 @@ def quickref():
     #    green: U2,  blue: U5, red:U6, orange:U2""")
     print('\_ RNA_TOOLS_PATH env variable used: ' + RNA_TOOLS_PATH)
 
+from rna_tools.tools.PyMOL4RNA.libs.show_contacts import show_contacts
+from rna_tools.tools.PyMOL4RNA.libs.get_raw_distances import get_raw_distances
+
+
+try:
+    from pymol import cmd
+    # axes.py
+    from pymol.cgo import *
+    from pymol.vfont import plain
+except ImportError:
+    print("PyMOL Python lib is missing")
+    # sys.exit(0)
+
+import imp
+try:
+    from rna_tools.rna_tools_lib import RNAStructure
+    from rna_tools.tools.PyMOL4RNA import code_for_spl
+    imp.reload(code_for_spl)
+    print('code_for_spl loaded...')
+    from rna_tools.tools.PyMOL4RNA import code_for_color_spl
+    imp.reload(code_for_color_spl)
+    print('code_for_color_spl loaded...')
+    import rna_tools
+    RNA_TOOLS_PATH = rna_tools.rna_tools_lib.get_rna_tools_path()
+    sys.path.insert(0, RNA_TOOLS_PATH) # '/Users/magnus/work/src/rna-tools/rna_tools/tools/PyMOL4RNA')#
+    #(os.path.abspath(os.path.dirname(__file__))))
+    from rna_tools.tools.PyMOL4RNA import PyMOL4Spliceosome
+    imp.reload(PyMOL4Spliceosome)
+except ImportError:
+    print("rna_tools lib is missing")
+    RNA_TOOLS_PATH = ''
+    
+try:
+    RNA_TOOLS_PATH
+    EXECUTABLE
+except NameError:
+    EXECUTABLE="/bin/zsh"
+    SOURCE=""
+
+try:
+    cmd.set('cartoon_gap_cutoff', 0)
+except:
+    pass
+
+
+print(__doc__)
 try:
     from pymol import cmd
 except ImportError:
     print("PyMOL Python lib is missing")
 else:
-    quickref()
+    #quickref()
     #cmd.set_key('CTRL-S', cmd.save, ['/home/magnus/Desktop/tmp.pse'])
     cmd.set_key('CTRL-S', sav_tmp)
     cmd.set_key('CTRL-Z', load_tmp)  # ostatni wrzucam tutaj
