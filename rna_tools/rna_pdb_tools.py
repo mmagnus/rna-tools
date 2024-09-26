@@ -1293,16 +1293,16 @@ if __name__ == '__main__':
                             remarks = []
                             remarks.append(f'REMARK rna chain {chain.id} -> {chain_id_new}')
 
+                            pdb_file = cif_file.replace('.cif', f'_{chain_id}_n{chain_id_new}_fCIF.pdb')
+                            print(f'rna chain {chain.id} -> {chain_id_new} {pdb_file} # of atoms: {atom_count}')
+
                             chain.id = chain_id_new
                             new_model.add(chain)
 
-                            pdb_file = cif_file.replace('.cif', f'_{chain_id}_n{chain_id_new}_fCIF.pdb')
-   
                             io = PDBIO()
                             io.set_structure(new_structure)
                             
                             io.save(pdb_file)
-                            print(f'rna chain {chain.id} -> {chain_id_new} # of atoms: {atom_count} {pdb_file}')
                             # open a file add remarks
                             new_file = ''
                             with open(pdb_file, 'r') as f:
