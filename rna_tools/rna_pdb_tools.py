@@ -1209,23 +1209,96 @@ if __name__ == '__main__':
     from rna_tools.rna_tools_config import PYMOL_PATH
     sys.path.insert(0, PYMOL_PATH)
     if args.cif2pdb:
-        try:
-            from pymol import cmd
-        except ImportError:
-            print('This functionality needs PyMOL. Install it or if installed, check your setup')
-            sys.exit(1)
-
         # quick fix - make a list on the spot
         if list != type(args.file):
             args.file = [args.file]
         ##################################
-        for f in args.file:
-            cmd.load(f)
-            fo = f.replace('.cif', '.pdb')
-            cmd.save(fo, '(all)')
-            cmd.delete('all')
-            print(fo, 'saved')
-            
+        for cif_file in args.file:
+            from Bio.PDB import MMCIFParser, PDBIO
+            parser = MMCIFParser()
+            structure = parser.get_structure("structure_id", cif_file)
+            pdb_file = cif_file.replace('.cif', '_fCIF.pdb')
+
+            remarks = []
+            try:
+                # Save to PDB format
+                io = PDBIO()
+                io.set_structure(structure)
+                io.save(pdb_file)
+            except TypeError as e:
+                print('Warning: some of the chains in this mmCIF file has chain names with more char than 1, e.g. AB, and the PDB format needs single-letter code, e.g. A.')
+
+                def has_high_rna_content(chain, threshold=0.8):
+                    # RNA nucleotides: A, C, G, U, and X (you can modify as needed)
+                    rna_nucleotides = ['A', 'C', 'G', 'U', 'X']
+                    total_residues = 0
+                    rna_residues = 0
+
+                    # Count the total number of residues and RNA-like residues
+                    for residue in chain:
+                        total_residues += 1
+                        if residue.get_resname().strip() in rna_nucleotides:
+                            rna_residues += 1
+
+                    # Calculate the proportion of RNA residues
+                    if total_residues == 0:
+                        return False  # Avoid division by zero if chain has no residues
+
+                    rna_percentage = rna_residues / total_residues
+
+                    # Check if the percentage of RNA residues is greater than or equal to the threshold (80% by default)
+                    return rna_percentage >= threshold
+
+                from Bio.PDB.MMCIFParser import MMCIFParser
+                from Bio.PDB import MMCIFParser, Structure, Model, Chain
+                
+                # Initialize the parser
+                parser = MMCIFParser()
+
+                # Parse the structure
+                structure = parser.get_structure("structure", cif_file)
+
+                # Create a list of single-letter chain identifiers
+                import string
+                letters = list(string.ascii_uppercase)
+
+                # New structure
+                new_structure = Structure.Structure("new_structure")
+                new_model = Model.Model(0)  # Create a new model
+                new_structure.add(new_model)  # Add the new model to the new structure
+
+                for model in structure:
+                    for chain in model:
+                        if has_high_rna_content(chain):
+                            chain_id_new = letters.pop(0)
+                            chain_id = chain.get_id()
+
+                            atom_count = 0
+                            for residue in chain:
+                                  for atom in residue:
+                                       atom_count += 1
+                            print(f'rna chain {chain.id} -> {chain_id_new} # of atoms: {atom_count}')
+                            remarks.append(f'REMARK rna chain {chain.id} -> {chain_id_new}')
+                            chain.id = chain_id_new
+                            new_model.add(chain)
+
+                io = PDBIO()
+                io.set_structure(new_structure)
+                io.save(pdb_file)
+
+            print(f'saved: {pdb_file}')
+
+            # open a file add remarks
+            new_file = ''
+            with open(pdb_file, 'r') as f:
+                if not args.no_hr:
+                    new_file += add_header(version) + '\n'
+                if remarks:
+                    new_file += '\n'.join(remarks) + '\n'
+                new_file += f.read()
+
+            with open(pdb_file, 'w') as f:
+                f.write(new_file)
 
     if args.pdb2cif:
         try:
