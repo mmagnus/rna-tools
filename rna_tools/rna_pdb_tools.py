@@ -1237,7 +1237,7 @@ if __name__ == '__main__':
                 with open(pdb_file, 'w') as f:
                     f.write(new_file)
 
-            except TypeError as e:
+            except:
                 print('Warning: some of the chains in this mmCIF file has chain names with more char than 1, e.g. AB, and the PDB format needs single-letter code, e.g. A.')
 
                 def has_high_rna_content(chain, threshold=0.8):
