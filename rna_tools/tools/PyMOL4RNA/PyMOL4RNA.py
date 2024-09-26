@@ -602,31 +602,26 @@ def clarna(selection, folder:str='', sele_as_name=False):# fn:str=''):
 
     .. image:: ../../rna_tools/tools/PyMOL4RNA/doc/clarna.png
     """
-    # save the selection to a file
-    if sele_as_name:
-        output = folder + os.sep + strip_selection_name(selection).replace('resi ', '') + '.pdb' # 
-        print(output)
+    # save the file
+    f = tempfile.NamedTemporaryFile(delete=False) # True)
+    if not folder:
+        output = f.name + '_clarna.pdb'
     else:
-        f = tempfile.NamedTemporaryFile(delete=False) # True)
-        if not folder:
-            output = f.name + '_clarna.pdb'
-        else:
-            output= folder + os.sep + os.path.basename(f.name) + '_clarna.pdb'
-        f.close()
+        output= folder + os.sep + os.path.basename(f.name) + '_clarna.pdb'
     cmd.save(output, selection)
-    
-    # run the code
+    # run cmd    
     CLARNA_RUN = 'rna_clarna_run.py'
-    cmdline = BIN + CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
+    cmdline = CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
     out, err = exe(cmdline)
-
-    # get the output 
+    # get the output
     print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
-    if err: print(err)
-
-    # load a file
+    if err:
+        print(err)
+    # load a (sele) pdb file 
     cmd.load(output)
-
+    f.close()
+    
+cmd.extend('clarna', clarna)  # export the function for pymol
 
 def seq(selection):
     """Get sequence of the selected fragment using ``rna_pdb_tools.py --get_seq ``.

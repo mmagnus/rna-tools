@@ -84,6 +84,11 @@ To renumber residues::
 	Alter: modified 708 atoms.
 	PyMOL>sort
 
+Renumber again, your chain starts at 123, renumber it, so it starts at 1.
+
+    PyMOL>alter (sele), resv -= 122
+    Alter: modified 2921 atoms.
+
 Read more_.
 
 .. _more: https://pymolwiki.org/index.php?title=Iterate&redirect=no
