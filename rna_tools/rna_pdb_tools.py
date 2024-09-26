@@ -245,7 +245,7 @@ ACCCGCAAGGCCGACGGC GCCGCCGCUGGUGCAAGUCCAGCCACGCUUCGGCGUGGGCGCUCAUGGGU
 
 """), action='store_true')
 
-    parser.add_argument('--cif2pdb', help="[PyMOL Python package required]", action='store_true')
+    parser.add_argument('--cif2pdb', help="convert cif to PDB, fancy way", action='store_true')
     parser.add_argument('--pdb2cif', help="[PyMOL Python package required]", action='store_true')
 
     parser.add_argument('--mdr', help='get structures ready for MD (like rpr but without first)',
