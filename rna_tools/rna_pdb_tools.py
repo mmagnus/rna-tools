@@ -286,6 +286,10 @@ for --extract it's .extr.pdb"""),
                         help="""used only with --get-rnapuzzle-ready, keep only backbone (= remove bases)""",
                         action='store_true')
 
+    rpr.add_argument('--p-only',
+                        help="""used only with --get-rnapuzzle-ready, keep p backbone (= remove bases)""",
+                        action='store_true')
+
     rpr.add_argument('--ref-frame-only',
                         help="""used only with --get-rnapuzzle-ready, keep only reference frames, OP1 OP2 P""",
                         action='store_true')
@@ -509,6 +513,7 @@ if __name__ == '__main__':
                                             backbone_only=args.backbone_only,
                                             no_backbone=args.no_backbone,
                                             bases_only=args.bases_only,
+                                            p_only=args.p_only,
                                             keep_hetatm=args.keep_hetatm,
                                             ignore_op3=ignore_op3,
                                             save_single_res=args.save_single_res,
@@ -1151,11 +1156,19 @@ if __name__ == '__main__':
 
         for f in args.file:
             s = RNAStructure(f)
+            txt = ''
             for l in s.lines:
                 if s.get_atom_coords(l) == (0.0, 0.0, 0.0):
                     continue
                 else:
-                    print(l)
+                    txt += l + '\n'
+
+            if args.inplace:
+                shutil.move(f, f.replace('.pdb', '.pdb~'))
+                with open(f, 'w') as fi:
+                    fi.write(txt)
+            else:
+                print(txt)
 
     if args.replace_htm:
         if list != type(args.file):
