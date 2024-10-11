@@ -46,7 +46,7 @@ import tempfile
 import glob
 import os
 from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version, \
-                          collapsed_view, fetch, fetch_ba, replace_chain, RNAStructure, \
+                          collapsed_view, fetch, fetch_ba, fetch_cif, replace_chain, RNAStructure, \
                           select_pdb_fragment, sort_strings, set_chain_for_struc
 from rna_tools.tools.rna_x3dna.rna_x3dna import x3DNA
 
@@ -121,6 +121,8 @@ def get_parser():
 
     parser.add_argument('--fetch', action='store_true', help='fetch file from the PDB db, e.g., 1xjr,\nuse \'rp\' to fetch, fetch a given join, 4w90:C or 4w90_C'  +
                         'the RNA-Puzzles standardized_dataset [around 100 MB]')
+
+    parser.add_argument('--fetch-cif',  action='store_true', help='')
 
     parser.add_argument('--fetch-ba', action='store_true',
                         help='fetch biological assembly from the PDB db')
@@ -893,6 +895,13 @@ if __name__ == '__main__':
 
     if args.fetch_ba:
         fetch_ba(args.file)
+
+    if args.fetch_cif:
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            fetch_cif(f)
 
     if args.collapsed_view or args.cv:
         collapsed_view(args)

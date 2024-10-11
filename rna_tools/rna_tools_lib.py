@@ -2229,6 +2229,23 @@ def fetch_cif_ba(cif_id, path="."):
     print('ok')
     return cif_id + '_ba.cif'
 
+def fetch_cif(cif_id, path="."):
+    """fetch biological assembly cif file from RCSB.org"""
+    import urllib3
+    http = urllib3.PoolManager()
+    # try:
+    ic(cif_id)
+    response = http.request('GET', url='https://files.rcsb.org/download/' +
+                            cif_id.lower() + '.cif')
+    if not response.status == 200:
+        raise PDBFetchError()
+    txt = response.data
+
+    npath = path + os.sep + cif_id + '.cif'
+    #print('downloading... ' + npath)
+    with open(npath, 'wb') as f:
+        f.write(txt)
+    return cif_id + '.cif'
 
 def replace_chain(struc_fn, insert_fn, chain_id):
     """Replace chain of the main file (struc_fn) with some new chain (insert_fn) of given chain id.
