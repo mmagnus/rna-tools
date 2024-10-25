@@ -1282,7 +1282,7 @@ if __name__ == '__main__':
 
             rg = calc_rg()
             rgn = radius_of_gyration(N)
-            print(f'radius of gyration: {rg}; expected for this seqlen ({N}): {rgn} %: {round(rg / rgn * 100, 2)}%')
+            print(f'radius of gyration: {rg}; expected for this seqlen ({N}): {rgn}, {round(rg / rgn * 100, 2)}%')
 
     if args.renum_nmr:
         if list != type(args.file):
