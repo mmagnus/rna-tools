@@ -133,6 +133,8 @@ def get_parser():
 
     parser.add_argument('--get-seq', help='get seq', action='store_true')
 
+    parser.add_argument('--rgyration', help='get seq', action='store_true')
+
     parser.add_argument('--color-seq', help='color seq, works with --get-seq', action='store_true')
 
     parser.add_argument('--ignore-files', help='files to be ingored, .e.g, \'solution\'')
@@ -1193,6 +1195,94 @@ if __name__ == '__main__':
                     fi.write(txt)
             else:
                 print(txt)
+
+    if args.rgyration:
+        if list != type(args.file):
+            args.file = [args.file]
+        # quick fix - make a list on the spot
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        analyzed = []
+        for f in args.file:
+            #####################################
+            if args.uniq:
+                subname = eval('f' + args.uniq)
+                if subname in analyzed:
+                    continue
+                else:
+                    analyzed.append(subname)
+
+            s = RNAStructure(f)
+            if not s.is_pdb():
+                print('Error: Not a PDB file %s' % f)
+                sys.exit(1)
+            s.decap_gtp()
+            s.std_resn()
+            s.remove_hydrogen()
+            s.remove_ion()
+            s.remove_water()
+            if args.renum_atoms:
+                s.renum_atoms()
+            s.fix_O_in_UC()
+            s.fix_op_atoms()
+
+            output = ''
+
+            # with # is easier to grep this out
+            if args.fasta:
+                # s.fn vs s.name
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, fasta=args.fasta, addfn=s.name, color=args.color_seq) + '\n'
+            elif args.oneline:
+                output += s.get_seq(compact=args.compact, chainfirst=args.chain_first, color=args.color_seq).strip() + ' # '+ os.path.basename(f.replace('.pdb', '')) + '\n'
+            else:
+                N = len(s.get_seq(compact=args.compact, chainfirst=args.chain_first, color=args.color_seq))
+                output += '' + os.path.basename(f.replace('.pdb', '')).ljust(60) + ' seq len: ' + str(N) + ' '
+            try:
+                sys.stdout.write(output)
+                sys.stdout.flush()
+            except IOError:
+                pass
+
+            import math
+            def calc_rg():
+                    """modified after https://github.com/sarisabban/Rg"""
+                    coord = list()
+                    mass = list()
+                    for line in s.lines:
+                            try:
+                                    line = line.split()
+                                    x = float(line[6])
+                                    y = float(line[7])
+                                    z = float(line[8])
+                                    coord.append([x, y, z])
+                                    atom = line[2][0]
+                                    if atom == 'C':
+                                            mass.append(12.0107)
+                                    elif atom == 'O':
+                                            mass.append(15.9994)
+                                    elif atom == 'N':
+                                            mass.append(14.0067)
+                                    elif atom == 'S':
+                                            mass.append(32.065)
+                                    elif atom == 'P':
+                                            mass.append(30.97)
+                            except:
+                                    pass
+
+                    xm = [(m*i, m*j, m*k) for (i, j, k), m in zip(coord, mass)]
+                    tmass = sum(mass)
+                    rr = sum(mi*i + mj*j + mk*k for (i, j, k), (mi, mj, mk) in zip(coord, xm))
+                    mm = sum((sum(i) / tmass)**2 for i in zip(*xm))
+                    rg = math.sqrt(rr / tmass-mm)
+                    return(round(rg, 3))
+
+            def radius_of_gyration(N):
+                    return round(5.5 * (N ** (1/3)), 2)
+
+            rg = calc_rg()
+            rgn = radius_of_gyration(N)
+            print(f'radius of gyration: {rg}; expected for this seqlen ({N}): {rgn}')
 
     if args.renum_nmr:
         if list != type(args.file):

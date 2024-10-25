@@ -115,6 +115,8 @@ rna_pdb_tools.py --get-seq input/1xjr.pdb > output/1xjr2.seq
 rna_pdb_tools.py --get-seq input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb > output/5k7c_clean_onechain_renumber_as_puzzle_srr.seq
 rna_pdb_tools.py --get-seq input/6_solution_0.pdb > output/6_solution_0.seq
 
+rna_pdb_tools.py --rgyration input/1xjr.pdb > output/1xjr.rgyration
+
 ## --orgmode
 rna_pdb_tools.py --orgmode input/2_das_1_rpr.pdb > output/2_das_1_rpr.org
 
