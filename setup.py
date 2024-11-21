@@ -83,6 +83,8 @@ setup(
              'rna_tools/tools/rna_alignment/rna_align_find_core.py',
              'rna_tools/tools/rna_alignment/rna_align_get_ss_from_stk.py',
              'rna_tools/tools/rna_alignment/rna_align_seq_to_alignment.py',
+             'rna_tools/tools/rna_alignment/rna_align_fetch_seed.py',
+             'rna_tools/tools/rna_alignment/rna_align_fetch_cm.py',             
              'rna_tools/tools/rna_alignment/utils/rna_alignment_get_species.py',
              'rna_tools/tools/rna_alignment/utils/rna_alignment_process_id.py',
              'rna_tools/tools/rna_alignment/utils/rna_alignment_r2r.py',
