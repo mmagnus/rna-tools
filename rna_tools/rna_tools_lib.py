@@ -1204,6 +1204,7 @@ class RNAStructure:
                             report_missing_atoms=True, keep_hetatm=False, backbone_only=False,
                             no_backbone = False, bases_only = False, save_single_res = False,
                             ref_frame_only = False,
+                            p_only = False,
                             check_geometry = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
