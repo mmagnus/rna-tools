@@ -2239,9 +2239,13 @@ def fetch_cif(cif_id, path="."):
     import urllib3
     http = urllib3.PoolManager()
     # try:
+    if '_' in cif_id:
+        cif_id = cif_id.split('_')[0]  
     ic(cif_id)
-    response = http.request('GET', url='https://files.rcsb.org/download/' +
-                            cif_id.lower() + '.cif')
+    cif_id = cif_id.replace('.cif', '')
+    url = 'https://files.rcsb.org/download/' + cif_id.lower() + '.cif'
+    print(url)
+    response = http.request('GET', url)
     if not response.status == 200:
         raise PDBFetchError()
     txt = response.data
