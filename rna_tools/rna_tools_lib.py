@@ -399,6 +399,7 @@ class RNAStructure:
         mean =  1.599316
         import numpy as np
 
+        dist_o3pp= []
         for s in struc:
             for c in s:
                 # for new chain reset resi_prev
@@ -410,6 +411,8 @@ class RNAStructure:
                         
                         v = resi_prev["O3'"] - r['P']
                         op.append(v)
+                        import math
+                        dist_o3pp.append(abs(1.6 - v))
                         x = mean - 6 * sigma
                         y = mean + 6 * sigma
 
@@ -418,7 +421,8 @@ class RNAStructure:
                         po.append(v2)
 
                         if not (x <= v <= y):
-                            print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
+                            #print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
+                            pass
 
                         # angle
                         pc3p = resi_prev["O3'"].get_vector()
@@ -452,18 +456,29 @@ class RNAStructure:
                         angles2.append(angle2)
 
                     resi_prev = r
+        #ic(dist_o3pp, len(dist_o3pp), np.mean(dist_o3pp))
+        # Colors
+        RED = "\033[31m"
+        GREEN = "\033[32m"
+        YELLOW = "\033[33m"
+        BLUE = "\033[34m"
+        RESET = "\033[0m"
 
+        print(f'Connectivity Score; {GREEN} {sum(dist_o3pp) } {RESET}')
+        print('Connectivity Score; ', sum(dist_o3pp) / len(dist_o3pp))
         p_ps = np.array(p_ps)
         #np.set_printoptions(threshold=np.inf)
-        ic.disable()
+        # ic.disable()
         ic(p_ps)
         ic(p_ps.mean(), p_ps.std())
-        if False:
-            import matplotlib.pyplot as plt
-            plt.hist(p_ps, bins='auto')
-            plt.title("p-ps")
-            plt.show()
 
+        plots = False
+        if plots:
+            import matplotlib.pyplot as plt
+            plt.hist(f'{self.name} p_ps', bins='auto')
+            plt.title("p-ps")
+            plt.savefig("histogram.png")  # Save the figure as a PNG file
+            
         op = np.array(op)
         ic(op.mean(), op.std())
 
@@ -473,7 +488,7 @@ class RNAStructure:
         angles = np.array(angles)
         ic(angles)
         ic(angles.mean(), angles.std())
-        if False:
+        if plots:
             import matplotlib.pyplot as plt
             plt.hist(angles, bins='auto')
             plt.title("Histogram of angles o3'-p-o5'")
@@ -484,13 +499,13 @@ class RNAStructure:
         ic(angles2)
         ic(angles2.mean(), angles2.std())
 
-        if False:
+        if plots:
             import matplotlib.pyplot as plt
             plt.hist(angles2, bins='auto')
             plt.title("Histogram of angles c3'-o3'-p")
             plt.xlim(0, 360)
             plt.show()
-        ic.enable()
+        #ic.enable()
         
     def get_text(self, add_end=True):
         """works on self.lines."""
