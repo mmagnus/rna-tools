@@ -123,6 +123,8 @@ def get_parser():
                         'the RNA-Puzzles standardized_dataset [around 100 MB]')
 
     parser.add_argument('--fetch-cif',  action='store_true', help='')
+    
+    parser.add_argument('--fetch-header', action='store_true', help='')
 
     parser.add_argument('--fetch-ba', action='store_true',
                         help='fetch biological assembly from the PDB db')
@@ -864,9 +866,15 @@ if __name__ == '__main__':
 
 
     if args.fetch:
-        fn = fetch(args.file)
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+        for f in args.file:
+            fn = fetch(f)
             
     if args.fetch_fasta:
+
+
         pdb_id = args.file
         pdb_id = pdb_id.replace('.pdb', '')
 
@@ -897,6 +905,34 @@ if __name__ == '__main__':
 
     if args.fetch_ba:
         fetch_ba(args.file)
+
+    if args.fetch_header:
+
+        import requests
+        if list != type(args.file):
+            args.file = [args.file]
+        ##################################
+
+
+        def get_pdb_header(pdb_id):
+            url = f"https://files.rcsb.org/download/{pdb_id}.pdb"
+            response = requests.get(url)
+            response.raise_for_status()  # Check if the request was successful
+
+            header_lines = []
+            for line in response.text.splitlines():
+                if line.startswith("TITLE"): #or line.startswith("COMPND") or line.startswith("SOURCE"):
+                    header_lines.append(line)
+                elif line.startswith("ATOM"):  # Stop once ATOM records begin
+                    break
+            
+            return " ".join([l.replace('TITLE', '').strip() for l in header_lines])
+
+        for f in args.file:
+                f = f.replace('.pdb', '').replace('.cif', '')
+                pdb_id = f.split('_')[0] # _A.cif
+                header = get_pdb_header(pdb_id)
+                print(f'{pdb_id} {header}')
 
     if args.fetch_cif:
         if list != type(args.file):
