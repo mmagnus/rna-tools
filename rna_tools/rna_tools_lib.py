@@ -1264,7 +1264,12 @@ class RNAStructure:
         #renumber_residues = True
         # if ready_for == "RNAPuzzle":
 
-        if backbone_only:
+        if p_only:
+            G_ATOMS = "P".split()
+            A_ATOMS = "P".split()
+            U_ATOMS = "P".split()
+            C_ATOMS = "P".split()
+        elif backbone_only:
             G_ATOMS = "P OP1 OP2 O5' C5'".split()
             A_ATOMS = "P OP1 OP2 O5' C5'".split()
             U_ATOMS = "P OP1 OP2 O5' C5'".split()
