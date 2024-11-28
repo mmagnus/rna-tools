@@ -397,6 +397,7 @@ class RNAStructure:
         p_ps = []
         sigma = 0.009274074
         mean =  1.599316
+        po3p_p  = []
         import numpy as np
 
         dist_o3pp= []
@@ -410,6 +411,7 @@ class RNAStructure:
                         p_ps.append(p_p)
                         
                         v = resi_prev["O3'"] - r['P']
+                        po3p_p = resi_prev["O3'"] - r['P']
                         op.append(v)
                         import math
                         dist_o3pp.append(abs(1.6 - v))
@@ -424,34 +426,20 @@ class RNAStructure:
                             #print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
                             pass
 
-                        # angle
-                        pc3p = resi_prev["O3'"].get_vector()
-                        p = r['P'].get_vector()
-                        o5p = r["O5'"].get_vector()
-                        bo5p = p - o5p # b as bond
-                        bpc3p = p - pc3p
-                        if 0:
-                            ic(bo5p.angle(bpc3p))
-                            ic(bpc3p.angle(bo5p))
-                        angle = np.rad2deg(bpc3p.angle(bo5p))
-                        angles.append(angle)
-
-
-                        # angle
+                        # angle o3' p o5'
+                        pc3p = resi_prev["C3'"].get_vector()
                         po3p = resi_prev["O3'"].get_vector()
                         p = r['P'].get_vector()
-                        o5p = r["O5'"].get_vector()
-                        bo5p = p - o5p # b as bond
-                        bpc3p = p - po3p
-                        if 0:
-                            ic(bo5p.angle(bpc3p))
-                            ic(bpc3p.angle(bo5p))
-                        angle = np.rad2deg(bpc3p.angle(bo5p))
+
+                        v1 = po3p - p
+                        v2 = po3p - pc3p
+                        angle = np.rad2deg(v1.angle(v2))#o5p)) 
                         angles.append(angle)
 
-                        pc3p = resi_prev["C3'"].get_vector()
-                        v1 = po3p - pc3p
-                        v2 = po3p - p
+                        # agnle o3'-p-o5' angle
+                        o5p = r["O5'"].get_vector()
+                        v1 = po3p - p
+                        v2 = o5p - p
                         angle2 = np.rad2deg(v2.angle(v1))
                         angles2.append(angle2)
 
@@ -467,37 +455,84 @@ class RNAStructure:
         print(f'Connectivity Score; {GREEN} {sum(dist_o3pp) } {RESET}')
         print('Connectivity Score; ', sum(dist_o3pp) / len(dist_o3pp))
         p_ps = np.array(p_ps)
+
+        plots = True
+
+        ic(v)
+
+        plots = False
+
+        if plots:
+            import matplotlib.pyplot as plt
+            plt.hist(op, bins='auto')
+            plt.xlim(-1, 10)
+            plt.title("prev-o3' p")
+            plt.show()
+
         #np.set_printoptions(threshold=np.inf)
         # ic.disable()
         ic(p_ps)
         ic(p_ps.mean(), p_ps.std())
 
-        plots = False
         if plots:
             import matplotlib.pyplot as plt
-            plt.hist(f'{self.name} p_ps', bins='auto')
+            plt.hist(p_ps, bins='auto')
             plt.title("p-ps")
-            plt.savefig("histogram.png")  # Save the figure as a PNG file
-            
+            plt.xlim(0, 10)
+            plt.show()
+
+            #plt.savefig("histogram.png")  # Save the figure as a PNG file
+        
         op = np.array(op)
         ic(op.mean(), op.std())
 
         po = np.array(po)
         ic(po.mean(), po.std())
 
+        print("c3'-o3'-p")
         angles = np.array(angles)
         ic(angles)
         ic(angles.mean(), angles.std())
+
+        import math
+        angle_degrees = angles.mean()
+        angle_radians = math.radians(angle_degrees)  # Convert to radians
+        cos_value = math.cos(angle_radians)  # Calculate cosine
+        ic(cos_value)
+        
+        coss = []
+        for a in angles:
+            angle_radians = math.radians(a)
+            cos_value = math.cos(angle_radians)  # Calculate cosine
+            coss.append(cos_value)
+        coss = np.array(coss)
+        ic(coss.std())
+
         if plots:
             import matplotlib.pyplot as plt
             plt.hist(angles, bins='auto')
             plt.title("Histogram of angles o3'-p-o5'")
             plt.xlim(0, 360)
             plt.show()
-        
+
         angles2 = np.array(angles2)
+        print("o3'-p-o5'")
         ic(angles2)
         ic(angles2.mean(), angles2.std())
+
+        angle_degrees = angles2.mean()
+        angle_radians = math.radians(angle_degrees)  # Convert to radians
+        cos_value = math.cos(angle_radians)  # Calculate cosine
+
+        ic(cos_value)
+
+        coss = []
+        for a in angles2:
+            angle_radians = math.radians(a)
+            cos_value = math.cos(angle_radians)  # Calculate cosine
+            coss.append(cos_value)
+        coss = np.array(coss)
+        ic(coss.std())
 
         if plots:
             import matplotlib.pyplot as plt
