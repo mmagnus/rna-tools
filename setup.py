@@ -19,6 +19,7 @@ setup(
              'rna_tools/rna_standardize.py',
              'rna_tools/rna_pdb_inspect.py',
              'rna_tools/rna_cif2pdb.py',
+             'rna_tools/rna_pdb_fetch_header.py',             
 
              'rna_tools/tools/misc/rna_tools_which.py',
              'rna_tools/tools/misc/rna_tools_demo.py',
