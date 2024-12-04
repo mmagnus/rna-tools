@@ -85,6 +85,8 @@ if __name__ == '__main__':
         args.file = args.file
  
     for pdb_id in [f.replace('.pdb', '').replace('.cif', '') for f in args.file]:
+        if '_' in pdb_id:
+            pdb_id, chain = pdb_id.split('_')
         header_info = fetch_pdb_header(pdb_id)
         title = header_info.get('entry', {}).get('struct', {}).get('title', 'Title not found')
         # Print the extracted title
