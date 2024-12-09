@@ -27,7 +27,7 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument('--no-hr', help='do not insert the header into files',
                         action='store_true')
-    parser.add_argument("file", help="", default="") # nargs='+')
+    parser.add_argument("file", help="", default="", nargs='+')
     return parser, version
 
 
