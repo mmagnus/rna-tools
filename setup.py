@@ -80,6 +80,7 @@ setup(
              'rna_tools/tools/rna_filter/rna_ss_get_bps.py',
              'rna_tools/tools/rna_filter/rna_pairs_diff.py',
 
+             'rna_tools/tools/rna_alignment/rna_align_rna_align_coverage.py',
              'rna_tools/tools/rna_alignment/rna_align_seq_to_alignment.py',
              'rna_tools/tools/rna_alignment/rna_align_find_core.py',
              'rna_tools/tools/rna_alignment/rna_align_get_ss_from_stk.py',
