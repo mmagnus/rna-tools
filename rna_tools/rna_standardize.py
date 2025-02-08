@@ -42,6 +42,10 @@ only for get_rnapuzzle_ready, --delete, --get-ss, --get-seq, --edit-pdb]"""),
     parser.add_argument('-v', '--verbose', help='tell me more what you\'re doing, please!',
                         action='store_true')
 
+    parser.add_argument('--conect', help='add conect to rpr file',  action='store_true')
+
+    parser.add_argument('--conect-no-linkage', help='dont add conect from our residue to another',  action='store_true')
+
     parser.add_argument('--dont-replace-hetatm', help="replace 'HETATM' with 'ATOM' [tested only with --get-rnapuzzle-ready]",
                         action="store_true")
 
@@ -187,8 +191,9 @@ if __name__ == '__main__':
                                             keep_hetatm=args.keep_hetatm,
                                             ignore_op3=ignore_op3,
                                             check_geometry=args.check_geometry,
+                                            conect=args.conect,
+                                            conect=args.conect_no_linkage,
                                             verbose=args.verbose)
-
 
             output = ''
             if not args.no_hr:
