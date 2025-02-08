@@ -35,7 +35,7 @@ AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
                    "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
                    "TRP", "TYR", "VAL"]
 
-def generate_conect_records(residue_type, shift=0):
+def generate_conect_records(residue_type, shift=0, no_junction=True):
     """
     Generate CONECT records for an RNA residue (U, A, C, or G).
     
@@ -70,8 +70,10 @@ def generate_conect_records(residue_type, shift=0):
             (19, 20), # C5 -> C6
             (20, 13), # C6 -> N1
             (7, 12),  # O4' -> C1'
-            (9, 21)  # junction
         ]
+        if not no_junction:
+            connections.append((9, 21))
+        print(connections)
     elif residue_type == "A":
         connections = [
             (1, 2),   # P -> OP1
@@ -98,8 +100,9 @@ def generate_conect_records(residue_type, shift=0):
             (22, 16), # C4 -> C5
             (22, 13), # C4 -> N9
             (7, 12),  # O4' -> C1'
-            (9, 23)  # junction
         ]
+        if not no_junction:
+            connections.append((9, 23))
     elif residue_type == "C":
         connections = [
             (1, 2),   # P -> OP1
@@ -123,8 +126,9 @@ def generate_conect_records(residue_type, shift=0):
             (19, 20), # C5 -> C6
             (20, 13), # C6 -> N1
             (7, 12),  # O4' -> C1' (additional connection)
-            (9, 21)  # junction
         ]
+        if not no_junction:
+            connections.append((9, 21))
     elif residue_type == "G":
         connections = [
             (1, 2),   # P -> OP1
@@ -152,8 +156,9 @@ def generate_conect_records(residue_type, shift=0):
             (23, 16), # C4 -> C5
             (23, 13), # C4 -> N9
             (7, 12),  # O4' -> C1' (additional connection)
-            (9, 24)  # junction
         ]
+        if not no_junction:
+            connections.append((9, 24))
     else:
         raise ValueError("Invalid residue type. Choose 'U', 'A', 'C', or 'G'.")
 
@@ -164,8 +169,7 @@ def generate_conect_records(residue_type, shift=0):
         # Shift the serial numbers
         atom1_serial += shift
         atom2_serial += shift
-        conect_records.append(f"CONECT{atom1_serial:>4}{atom2_serial:>4}")
-
+        conect_records.append(f"CONECT{atom1_serial:>5}{atom2_serial:>5}")
     return conect_records
 
     
@@ -1391,6 +1395,7 @@ class RNAStructure:
                             p_only = False,
                             check_geometry = False,
                             conect = False,
+                            conect_no_linkage = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
@@ -1965,7 +1970,7 @@ class RNAStructure:
                 # add CONET
                 if conect:
                     ic(atom_index, r2)
-                    conects.extend(generate_conect_records(r2.get_resname().strip(), atom_index)) # + '\n'
+                    conects.extend(generate_conect_records(r2.get_resname().strip(), atom_index, conect_no_linkage))
                     atom_index += len(r2)
                     print(conect)
 

@@ -72,6 +72,8 @@ def get_parser():
 
     parser.add_argument('--conect', help='add conect to rpr file',  action='store_true')
 
+    parser.add_argument('--conect-no-linkage', help='dont add conect from our residue to another',  action='store_true')
+
     parser.add_argument('--renum-residues-dirty', help='',  action='store_true')
 
     parser.add_argument('--undo', help='undo operation of action done --inplace, , rename "backup files" .pdb~ to pdb, ALL files in the folder, not only ~ related to the last action (that you might want to revert, so be careful)',  action='store_true')
@@ -527,6 +529,7 @@ if __name__ == '__main__':
                                             save_single_res=args.save_single_res,
                                             ref_frame_only = args.ref_frame_only,
                                             conect=args.conect,
+                                            conect_no_linkage=args.conect_no_linkage,
                                             verbose=args.verbose)
 
             if args.inplace:
