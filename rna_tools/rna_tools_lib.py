@@ -35,6 +35,140 @@ AMINOACID_CODES = ["ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY",
                    "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR",
                    "TRP", "TYR", "VAL"]
 
+def generate_conect_records(residue_type, shift=0):
+    """
+    Generate CONECT records for an RNA residue (U, A, C, or G).
+    
+    Args:
+        residue_type (str): Type of residue ('U', 'A', 'C', or 'G').
+        shift (int): Value to shift all atom serial numbers by.
+    
+    Returns:
+        list: List of CONECT records as strings.
+    """
+    # Define connections for each residue type
+    if residue_type == "U":
+        connections = [
+            (1, 2),   # P -> OP1
+            (1, 3),   # P -> OP2
+            (1, 4),   # P -> O5'
+            (4, 5),   # O5' -> C5'
+            (5, 6),   # C5' -> C4'
+            (6, 7),   # C4' -> O4'
+            (6, 8),   # C4' -> C3'
+            (8, 9),   # C3' -> O3'
+            (8, 10),  # C3' -> C2'
+            (10, 11), # C2' -> O2'
+            (10, 12), # C2' -> C1'
+            (12, 13), # C1' -> N1
+            (13, 14), # N1 -> C2
+            (14, 15), # C2 -> O2
+            (14, 16), # C2 -> N3
+            (16, 17), # N3 -> C4
+            (17, 18), # C4 -> O4
+            (17, 19), # C4 -> C5
+            (19, 20), # C5 -> C6
+            (20, 13), # C6 -> N1
+            (7, 12),  # O4' -> C1'
+            (9, 21)  # junction
+        ]
+    elif residue_type == "A":
+        connections = [
+            (1, 2),   # P -> OP1
+            (1, 3),   # P -> OP2
+            (1, 4),   # P -> O5'
+            (4, 5),   # O5' -> C5'
+            (5, 6),   # C5' -> C4'
+            (6, 7),   # C4' -> O4'
+            (6, 8),   # C4' -> C3'
+            (8, 9),   # C3' -> O3'
+            (8, 10),  # C3' -> C2'
+            (10, 11), # C2' -> O2'
+            (10, 12), # C2' -> C1'
+            (12, 13), # C1' -> N9
+            (13, 14), # N9 -> C8
+            (14, 15), # C8 -> N7
+            (15, 16), # N7 -> C5
+            (16, 17), # C5 -> C6
+            (17, 18), # C6 -> N6
+            (17, 19), # C6 -> N1
+            (19, 20), # N1 -> C2
+            (20, 21), # C2 -> N3
+            (21, 22), # N3 -> C4
+            (22, 16), # C4 -> C5
+            (22, 13), # C4 -> N9
+            (7, 12),  # O4' -> C1'
+            (9, 23)  # junction
+        ]
+    elif residue_type == "C":
+        connections = [
+            (1, 2),   # P -> OP1
+            (1, 3),   # P -> OP2
+            (1, 4),   # P -> O5'
+            (4, 5),   # O5' -> C5'
+            (5, 6),   # C5' -> C4'
+            (6, 7),   # C4' -> O4'
+            (6, 8),   # C4' -> C3'
+            (8, 9),   # C3' -> O3'
+            (8, 10),  # C3' -> C2'
+            (10, 11), # C2' -> O2'
+            (10, 12), # C2' -> C1'
+            (12, 13), # C1' -> N1
+            (13, 14), # N1 -> C2
+            (14, 15), # C2 -> O2
+            (14, 16), # C2 -> N3
+            (16, 17), # N3 -> C4
+            (17, 18), # C4 -> N4
+            (17, 19), # C4 -> C5
+            (19, 20), # C5 -> C6
+            (20, 13), # C6 -> N1
+            (7, 12),  # O4' -> C1' (additional connection)
+            (9, 21)  # junction
+        ]
+    elif residue_type == "G":
+        connections = [
+            (1, 2),   # P -> OP1
+            (1, 3),   # P -> OP2
+            (1, 4),   # P -> O5'
+            (4, 5),   # O5' -> C5'
+            (5, 6),   # C5' -> C4'
+            (6, 7),   # C4' -> O4'
+            (6, 8),   # C4' -> C3'
+            (8, 9),   # C3' -> O3'
+            (8, 10),  # C3' -> C2'
+            (10, 11), # C2' -> O2'
+            (10, 12), # C2' -> C1'
+            (12, 13), # C1' -> N9
+            (13, 14), # N9 -> C8
+            (14, 15), # C8 -> N7
+            (15, 16), # N7 -> C5
+            (16, 17), # C5 -> C6
+            (17, 18), # C6 -> O6
+            (17, 19), # C6 -> N1
+            (19, 20), # N1 -> C2
+            (20, 21), # C2 -> N2
+            (20, 22), # C2 -> N3
+            (22, 23), # N3 -> C4
+            (23, 16), # C4 -> C5
+            (23, 13), # C4 -> N9
+            (7, 12),  # O4' -> C1' (additional connection)
+            (9, 24)  # junction
+        ]
+    else:
+        raise ValueError("Invalid residue type. Choose 'U', 'A', 'C', or 'G'.")
+
+    # Generate CONECT records with shifted serial numbers
+    conect_records = []
+    for conn in connections:
+        atom1_serial, atom2_serial = conn
+        # Shift the serial numbers
+        atom1_serial += shift
+        atom2_serial += shift
+        conect_records.append(f"CONECT{atom1_serial:>4}{atom2_serial:>4}")
+
+    return conect_records
+
+    
 def aa3to1(aaa):
     """based on https://pymolwiki.org/index.php/Aa_codes"""
     if len(aaa) != 3:  # aaa is 'G', like for RNA ;-)
@@ -1256,6 +1390,7 @@ class RNAStructure:
                             ref_frame_only = False,
                             p_only = False,
                             check_geometry = False,
+                            conect = False,
                             verbose=False):  # :, ready_for="RNAPuzzle"):
         """Get rnapuzzle (SimRNA) ready structure.
 
@@ -1430,6 +1565,8 @@ class RNAStructure:
             c = 1  # new chain, goes from 1 !!! if renumber True
             prev_r = '' # init prev_r 
 
+            conects = []
+            atom_index = 0
             for r in res:
                 #
                 #  deal with heteratm
@@ -1825,6 +1962,13 @@ class RNAStructure:
                     io.set_structure(structure)
                     io.save(f"{self.fn}_{r2.id[1]}.pdb")
 
+                # add CONET
+                if conect:
+                    ic(atom_index, r2)
+                    conects.extend(generate_conect_records(r2.get_resname().strip(), atom_index)) # + '\n'
+                    atom_index += len(r2)
+                    print(conect)
+
                 prev_r = r  # hack to keep preview residue to be used in the function
                             # e.g., to get an atom from this residue
                 c += 1
@@ -1896,6 +2040,8 @@ class RNAStructure:
                 nlines.append(l)
             c += 1
         self.lines = nlines
+        if conect:
+            self.lines += conects
         return remarks
 
     def set_occupancy_atoms(self, occupancy):
