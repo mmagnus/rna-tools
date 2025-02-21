@@ -34,29 +34,33 @@ else:
     is_mac = False
     BIN = '/usr/bin'
     
+def exe(cmd):
+                o = subprocess.Popen(
+                    cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                out = o.stdout.read().strip().decode()
+                err = o.stderr.read().strip().decode()
+                return out, err
+
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
 
     print(BIN)
     
-    for file in args.files:
-        tf = tempfile.NamedTemporaryFile(delete=False)
-        f = tf.name + '.png'
-        file = file.replace(" ", "\\ ")
+    for f in args.files:
+        if 0:
+            tf = tempfile.NamedTemporaryFile(delete=False)
+            fcover = tf.name + '.png'
+            f = f.replace(" ", "\\ ")
+        else:
+            fcover = f.replace('.pdb', '.png')
         rainbow = ''
         if args.rainbow:
             rainbow = 'util.chainbow;'
 
         # pdb mode
-        if file.endswith('.pdb'):
-            def exe(cmd):
-                o = subprocess.Popen(
-                    cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                out = o.stdout.read().strip().decode()
-                err = o.stderr.read().strip().decode()
-                return out, err
-            cmd = BIN + '/pymol -c ' + file + " -d 'print(len([x for x in cmd.get_model().atom]))'"
+        if f.endswith('.pdb'):
+            cmd = BIN + '/pymol -c ' + f + " -d 'print(len([x for x in cmd.get_model().atom]))'"
             out, err = exe(cmd)
             # ugly way to get n of atoms
             """
@@ -69,19 +73,27 @@ if __name__ == '__main__':
             #if len(open(file).readlines()) < args.detailed:
             sh = ''
             if n <  300: # atoms
-                sh = ' show lines; '#sticks; ' # lines;
-            os.system(BIN + '/pymol -c ' + file + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + f + "; quit'") #  ray 300,300,renderer=0 ray 800, 800;
+                #sh = ' show lines; '#sticks; ' # lines;
+                sh = ' show mesh; ' #set ray_opaque_background, off;
+            #  bg_color black; 
+            os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, on; hide cartoon;" + sh + "; save " + fcover + "; quit'") #ray 1000,1000; #  ,renderer=0            #os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + fcover + "; quit'") 
         else:  # pse mode  for pse do nothing! # set ray_opaque_background, off; 
-            os.system(BIN + '/pymol -c ' + file + " -d 'save " + f + "; quit'")
+            os.system(BIN + '/pymol -c ' + f + " -d 'save " + fcover + "; quit'")
 
         if args.verbose:
             print(f)
 
         if is_mac:
-            fcrop = f.replace('.png', '32.png')
-            cmd = BIN + "/convert " + f + " -gravity center -crop 3:3 +repage " + fcrop
+            print('MAC')
+            fcrop = fcover.replace('.png', '32.png')
+            cmd = BIN + "/convert " + fcover + " -gravity center -crop 3:3 +repage " + fcrop
             os.system(cmd)
-            cmd = 'unset PYTHONPATH && ' + BIN + 'fileicon set ' + file + ' ' + fcrop
+            print(cmd)
+            cmd = 'unset PYTHONPATH && ' + BIN + 'fileicon set ' + f + ' ' + fcrop
+            print(cmd)
+            os.system(cmd)
+            os.remove(fcover)
+            os.remove(fcrop)
         else:
             cmd = 'gvfs-set-attribute ' + file + ' metadata::custom-icon file://' + f  # f so the file before convert
-        os.system(cmd)
+            os.system(cmd)
