@@ -1,8 +1,16 @@
 #!/usr/bin/env python
-from icecream import ic
-import sys
-ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True)
-ic.configureOutput(prefix='')
+#from icecream import ic
+#import sys
+#ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True)
+#ic.configureOutput(prefix='')
+
+try:
+    from icecream import ic
+    ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
+    ic.configureOutput(prefix='> ')
+except ImportError:
+    ic = print
+
 BIN = "/Users/magnus/miniconda3/bin/"
 print(BIN)
 
@@ -955,7 +963,10 @@ USAGE
  :::warning:::
  if nothing is selected  function is calculating radius of gyration for all pdbs in current Pymol session
     '''
-    from itertools import izip
+    try:
+        from itertools import izip
+    except ImportError:
+        izip = zip
     quiet = int(quiet)
     model = cmd.get_model(selection).atom
     x = [i.coord for i in model]
@@ -969,6 +980,35 @@ USAGE
         print("Radius of gyration: %.2f" % (rg))
     return rg
 
+
+def rgyrate(selection='(all)', quiet=1):
+    '''
+DESCRIPTION
+
+    Radius of gyration
+
+USAGE
+
+    rgyrate [ selection ]
+    '''
+    try:
+        from itertools import izip
+    except ImportError:
+        izip = zip
+    quiet = int(quiet)
+    model = cmd.get_model(selection).atom
+    x = [i.coord for i in model]
+    mass = [i.get_mass() for i in model]
+    xm = [(m*i,m*j,m*k) for (i,j,k),m in izip(x,mass)]
+    tmass = sum(mass)
+    rr = sum(mi*i+mj*j+mk*k for (i,j,k),(mi,mj,mk) in izip(x,xm))
+    mm = sum((sum(i)/tmass)**2 for i in izip(*xm))
+    rg = math.sqrt(rr/tmass - mm)
+    if not quiet:
+        print("Radius of gyration: %.2f" % (rg))
+    return rg
+
+cmd.extend("rgyrate", rgyrate)
 
 
 def exe(cmd):
@@ -1452,8 +1492,8 @@ except ImportError:
     print("PyMOL Python lib is missing")
     # sys.exit(0)
 
-import imp
 try:
+    import imp
     from rna_tools.rna_tools_lib import RNAStructure
     from rna_tools.tools.PyMOL4RNA import code_for_spl
     imp.reload(code_for_spl)
