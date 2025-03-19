@@ -1,3 +1,6 @@
+See also own repo https://github.com/mmagnus/PyMOL-QuickLook
+
+
 # PyMOL Preview Generator
 <p align="center">
 <img src="docs/demo.gif">
