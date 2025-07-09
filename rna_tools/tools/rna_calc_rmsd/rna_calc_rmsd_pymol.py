@@ -1,8 +1,5 @@
-#!/Applications/PyMOL3.app/Contents/bin/python3
 #-*- coding: utf-8 -*-
-
 """rna_calc_rmsd_pymol.py - calculate RMSDs of structures with PyMOL
-
 """
 from __future__ import print_function
 
