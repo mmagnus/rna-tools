@@ -277,6 +277,7 @@ if __name__ == '__main__':
 
     rmsds_fn = args.rmsds_fn
     target_fn = args.target_fn
+    target_fn_only = os.path.basename(target_fn)
     method = args.method
         
     if args.verbose:
@@ -288,7 +289,7 @@ if __name__ == '__main__':
         print('target:', target_fn)
         print('of models:', len(models))
 
-    f = open(rmsds_fn, 'w')
+    fl = open(rmsds_fn, 'w')
     #t = 'target:' + os.path.basename(target_fn) + ' , rmsd_all\n'
     if args.name_rmsd_column:
         t = 'fn,' + args.name_rmsd_column + '\n'
@@ -305,12 +306,14 @@ if __name__ == '__main__':
             rmsd_curr, atoms, seq_identity = calc_rmsd_pymol(r1, target_fn, method, args.verbose)
         r1_basename = os.path.basename(r1)
         if args.print_progress: print(r1_basename, rmsd_curr, atoms)
-        t += r1_basename + ',' + str(round(rmsd_curr,3)) + ',' + str(seq_identity)
+        line = f"{target_fn_only},{r1_basename},{str(round(rmsd_curr,3))},{str(seq_identity)}"
+        #print(line)
+        t += line
         c += 1
         t += '\n'
 
-    f.write(t)
-    f.close()
+    fl.write(t)
+    fl.close()
 
     if args.verbose:
         print('number of atoms used:', atoms)
