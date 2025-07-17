@@ -286,6 +286,70 @@ def align_all(cycles = 5, filename="_rmsd_.csv"):
 
 cmd.extend('align_all', align_all)
 
+def align_all_vs_all(cycles = 5, filename="_rmsd_all_vs_all_.csv"):
+    """
+    Args:
+
+        cycles (int): maximum number of outlier rejection cycles {default: 5}
+
+    Returns:
+
+        Prints a table of ref vs models with 7 items:
+
+        RaR  RMSD after refinement
+        #AA  Number of aligned atoms after refinement
+        CoR  Number of refinement cycles
+        RbR  RMSD before refinement
+        #AbR Number of aligned atoms before refinement
+        RS   Raw alignment score
+        AR   Number of residues aligned 
+
+        and saves the table to filename as csv
+
+    old version:
+
+          1_solution_0_rpr 1_santalucia_1_rpr 5.60600471496582 958 4 5.763411521911621 974 416.0 46 -- RMSD 5.76  of  46 residues
+
+"""
+    molecules = cmd.get_names_of_type("object:molecule")
+
+    print("""
+    RaR  RMSD after refinement
+    #AA  Number of aligned atoms after refinement
+    CoR  Number of refinement cycles
+    RbR  RMSD before refinement
+    #AbR Number of aligned atoms before refinement
+    RS   Raw alignment score
+    AR   Number of residues aligned 
+    """)
+    report = []
+    header = 'Ref                  Model                RaR  #AA  CoR  RbR  #AbR RS   AR'
+    print(header)
+    txt = 'Ref,Model,RMSD after refinement,Number of aligned atoms after refinement, Number of refinement cycles, RMSD before refinement, Number of aligned atoms before refinement, Raw alignment score, Number of residues aligned\n'
+    for ref in molecules:
+      #print(ref)
+      for molecule in molecules:
+        if ref == molecule:
+            continue
+        #print(molecule)  
+        values = cmd.align(molecule, ref, cycles=cycles)
+        l = ([ref[:20].ljust(20), molecule[:20].ljust(20), str(round(values[0], 2)).ljust(4),
+            str(round(values[1], 2)).ljust(4),
+            str(round(values[2], 2)).ljust(4),
+            str(round(values[3], 2)).ljust(4),
+            str(round(values[4], 2)).ljust(4),
+            str(round(values[5])).ljust(4),
+            str(round(values[6], 2)).ljust(4)])
+        print(' '.join(l))
+        txt += ','.join([x.strip() for x in l]) + '\n'
+        report.append([ref, molecule, values[3], values[6]])
+
+    with open(filename, 'w') as f:
+        f.write(txt)
+
+cmd.extend('align_all_vs_all', align_all_vs_all)
+cmd.extend('aaa', aaa)
+
 def align_all_atoms(cycles = 5, filename="_rmsd_.csv"):
     """
     Args:
@@ -345,7 +409,7 @@ def align_all_atoms(cycles = 5, filename="_rmsd_.csv"):
     with open(filename, 'w') as f:
         f.write(txt)
 
-cmd.extend('aaa', align_all_atoms)
+#cmd.extend('aaa', align_all_atoms)
 
 def load(f):
     from glob import glob
