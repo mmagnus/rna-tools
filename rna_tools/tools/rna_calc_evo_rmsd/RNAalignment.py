@@ -23,7 +23,6 @@ warnings.filterwarnings("ignore")
 
 from Bio import AlignIO
 
-
 class RNAalignment:
     """RNAalignemnt"""
 
@@ -40,7 +39,7 @@ class RNAalignment:
 
         .. warning:: EvoClust lines has to be -1 in the alignemnt."""
         # evoclust line
-        x = self.alignment.get_all_seqs()[-1].seq  # ---(((((((----xxxxx--
+        x = self.alignment[-1].seq  # ---(((((((----xxxxx--
 
         x_range = []
         seq_found = False
