@@ -18,7 +18,8 @@ trash U6MolCell
 trash notes
 trash docs
 
-python setup.py bdist_wheel
+# build wheel and sdist via the pinned build backend (see pyproject.toml)
+python -m build --wheel --sdist
 
 
 # py3
@@ -32,4 +33,3 @@ twine upload dist/* --verbose
 cd ..
 trash rna-tools-pip
 trash rna-tools/build
-
