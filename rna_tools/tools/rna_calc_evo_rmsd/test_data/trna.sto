@@ -1,0 +1,11 @@
+# STOCKHOLM 1.0
+#=GF AU Infernal 1.1.5
+
+#=GS 6Y2L_2|Chain DE B[auth B4]|tRNA|Homo sapiens (9606)
+
+6Y2L_2_std           GCCCGGAUAGCUCAGUcGGUAGAGCAGGGGAUUGAAAAUCCCCGUGuCCUUGGUUCGAUUCCGAGUCCGGGCAcca
+#=GR 6Y2L_2|Chain PP ***********************************************************************84444
+1ehz_std             GCGGAUUUAGCUCAGUuGGGAGAGCGCCAGACUGAAGAUCUGGAGGuCCUGUGUUCGAUCCACAGAAUUCGCAcca
+#=GR 1ehz         PP ****************9555***************************************************84444
+#=GC SS_cons         (((((((,,<<<<___.____>>>>,<<<<<_______>>>>>,,,.,<<<<<_______>>>>>))))))):...
+#=GC RF              GgagauaUAGCucAgU.GGUAgaGCgucgGaCUuaaAAuCcgaagg.cgcgGGUUCgAaUCCcgcuaucucCa...

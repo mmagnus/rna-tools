@@ -9,6 +9,29 @@ from Bio.PDB import PDBIO
 from Bio.SVDSuperimposer import SVDSuperimposer
 from numpy import sqrt, array, asarray
 
+
+BACKBONE_ATOMS = [
+    'P', 'OP1', 'OP2', "O5'", "C5'", "C4'", "O4'", "C3'", "O3'", "C2'", "O2'", "C1'"
+]
+# Atoms used to anchor base orientation per residue type
+PURINE_ATOMS = ['N9', 'C8', 'C7']  # G, A
+PYRIMIDINE_ATOMS = ['N1', 'C6', 'C2']  # C, U (and T)
+PURINES = {'A', 'G', 'DA', 'DG'}
+PYRIMIDINES = {'C', 'U', 'T', 'DT'}
+
+ATOM_SELECTION_SUMMARY = "\n".join([
+    f"BACKBONE_ATOMS = {BACKBONE_ATOMS}",
+    "# Atoms used to anchor base orientation per residue type",
+    f"PURINE_ATOMS = {PURINE_ATOMS}  # G, A",
+    f"PYRIMIDINE_ATOMS = {PYRIMIDINE_ATOMS}  # C, U (and T)",
+    f"PURINES = {sorted(PURINES)}",
+    f"PYRIMIDINES = {sorted(PYRIMIDINES)}",
+])
+
+
+def get_atom_selection_summary():
+    return ATOM_SELECTION_SUMMARY
+
 class RNAmodel:
     """RNAmodel
 
@@ -52,15 +75,39 @@ class RNAmodel:
 
     def __get_atoms(self):
         self.atoms = []
+        self.atom_ids = []  # (resSeq, atomName)
+        self.atom_lookup = {}
         for res in self.struc.get_residues():
-            if res.id[1] in self.residues:
-                self.atoms.append(res["C3'"])
-                #print res.id
-                #ref_atoms.extend(, ref_res['P'])
-            #ref_atoms.append(ref_res.get_list())
-        if len(self.atoms) <= 0:
-            raise Exception('problem: none atoms were selected!: %s' % self.fn)
+            res_seq = res.id[1]
+            if res_seq not in self.residues:
+                continue
+            # backbone atoms
+            for atom_name in BACKBONE_ATOMS:
+                self._append_atom_if_present(res, res_seq, atom_name)
+            # base atoms
+            for atom_name in self._get_base_atoms(res):
+                self._append_atom_if_present(res, res_seq, atom_name)
+        if len(self.atom_ids) <= 0:
+            raise Exception('problem: no atoms were selected!: %s' % self.fn)
         return self.atoms
+
+    def _append_atom_if_present(self, residue, res_seq, atom_name):
+        if residue.has_id(atom_name):
+            atom = residue[atom_name]
+            key = (res_seq, atom_name)
+            self.atom_lookup[key] = atom
+            self.atom_ids.append(key)
+            self.atoms.append(atom)
+        else:
+            pass  # silently ignore missing atoms
+
+    def _get_base_atoms(self, residue):
+        resname = residue.get_resname().strip().upper()
+        if resname in PURINES or (resname and resname[0] in ('A', 'G')):
+            return PURINE_ATOMS
+        if resname in PYRIMIDINES or (resname and resname[0] in ('C', 'U', 'T')):
+            return PYRIMIDINE_ATOMS
+        return []
 
     def __str__(self):
         return self.fn #+ ' # beads' + str(len(self.residues))
@@ -79,20 +126,15 @@ class RNAmodel:
         """Calc rmsd P-atom based rmsd to other rna model"""
         sup = Bio.PDB.Superimposer()
 
+        paired_self, paired_other = self._get_matched_atom_lists(other_rnamodel)
         if dont_move:
-            # fix http://biopython.org/DIST/docs/api/Bio.PDB.Vector%27.Vector-class.html
-            coords = array([a.get_vector().get_array() for a in self.atoms])
-            other_coords = array([a.get_vector().get_array() for a in other_rnamodel.atoms])
+            coords = array([a.get_vector().get_array() for a in paired_self])
+            other_coords = array([a.get_vector().get_array() for a in paired_other])
             s = SVDSuperimposer()
-            s.set(coords,other_coords)
+            s.set(coords, other_coords)
             return s.get_init_rms()
 
-        try:
-            sup.set_atoms(self.atoms, other_rnamodel.atoms)
-        except:
-            print(self.fn, len(self.atoms),  other_rnamodel.fn, len(other_rnamodel.atoms))
-            for a,b in zip(self.atoms, other_rnamodel.atoms):
-                print(a.parent, b.parent)#a.get_full_id(), b.get_full_id())
+        sup.set_atoms(paired_self, paired_other)
 
         rms = round(sup.rms, 3)
         
@@ -107,6 +149,15 @@ class RNAmodel:
             io.set_structure( other_rnamodel.struc )
             io.save("aligned2.pdb")
         return rms
+
+    def _get_matched_atom_lists(self, other_rnamodel):
+        other_lookup = other_rnamodel.atom_lookup
+        common_keys = [key for key in self.atom_ids if key in other_lookup]
+        if not common_keys:
+            raise Exception('No common atoms found between %s and %s' % (self.fn, other_rnamodel.fn))
+        self_atoms = [self.atom_lookup[key] for key in common_keys]
+        other_atoms = [other_lookup[key] for key in common_keys]
+        return self_atoms, other_atoms
 
     def save(self, output_dir, verbose=True):
         """Save structures and motifs """
