@@ -553,15 +553,16 @@ class RNAStructure:
                         op.append(v)
                         import math
                         dist_o3pp.append(abs(1.6 - v))
-                        x = mean - 6 * sigma
-                        y = mean + 6 * sigma
+                        x = mean - 12 * sigma
+                        y = mean + 12 * sigma
 
                         v2 = r["P"] - r["O5'"]
                         #ic(v2)
                         po.append(v2)
 
+                        #ic(x, v, y)
                         if not (x <= v <= y):
-                            #print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
+                            print(f' ! lack of connectivity between {r}, {resi_prev}, distance between residues: {v:.2f}')
                             pass
 
                         # angle o3' p o5'
@@ -589,6 +590,30 @@ class RNAStructure:
         YELLOW = "\033[33m"
         BLUE = "\033[34m"
         RESET = "\033[0m"
+        
+        ic(np.array(op))
+
+        # Create a boxplot
+        import numpy as np
+        import pandas as pd
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        df = pd.DataFrame(op, columns=["Values"])
+        
+        # Assuming df is your DataFrame
+        sns.histplot(data=df, x="Values")#, bins=200)#, kde=True)  # kde=True adds a density curve
+        plt.title("Histogram of O3'-P distances for 2o44.pdb")
+        plt.xlabel("Values")
+        plt.ylabel("Frequency")
+        percentile_95 = np.percentile(df['Values'], 95)
+        percentile_05 = np.percentile(df['Values'], 5)
+        # Add a vertical line for the 95th percentile
+        plt.axvline(percentile_95, color='red', linestyle='--', linewidth=1, label=f"95th Percentile: {percentile_95:.2f}")
+        plt.axvline(percentile_05, color='blue', linestyle='--', linewidth=1, label=f"05th Percentile: {percentile_05:.2f}")
+        plt.legend()
+        plt.show()
+        #ic(dist_o3pp)
+        #aaa
 
         print(f'Connectivity Score; {GREEN} {sum(dist_o3pp) } {RESET}')
         print('Connectivity Score; ', sum(dist_o3pp) / len(dist_o3pp))
@@ -1986,7 +2011,7 @@ class RNAStructure:
         # print c2
         # print m2
         io.set_structure(s2)
-
+        
         tf = tempfile.NamedTemporaryFile(delete=False)
         fout = tf.name
         io.save(fout)
@@ -2036,7 +2061,7 @@ class RNAStructure:
                 new_l = self.set_chain_id(new_l, self.get_chain_id(atom_l))
                 new_l = self.set_res_index(new_l, self.get_res_index(atom_l))
                 nlines.append(new_l)
-                #nlines.append(l)
+                #nlines.append(l)file:/Users/magnus/Desktop/3nt_rpr.pdb
                 no_ters += 1
             else:
                 if self.get_atom_index(l):

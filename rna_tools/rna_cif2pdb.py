@@ -13,6 +13,122 @@ ic.configureOutput(prefix='> ')
 from rna_tools.rna_tools_lib import edit_pdb, add_header, get_version
 import os
 
+
+def convert_cif_to_pdb(cif_file, add_header_to_output=True, version='', verbose=True,
+                       split_conflicting_chains=True, output_path=None):
+    """Convert an mmCIF file into one or more PDB files.
+
+    Returns a list of generated PDB filenames. When a direct conversion fails
+    (e.g. multi-character chain ids) the chains are split into separate models
+    following the legacy CLI behavior.
+    """
+    from Bio.PDB import MMCIFParser, PDBIO
+
+    def _prepend_header(pdb_file, remarks=None):
+        if not add_header_to_output and not remarks:
+            return
+        new_content = ''
+        if add_header_to_output:
+            new_content += add_header(version) + '\n'
+        if remarks:
+            new_content += '\n'.join(remarks) + '\n'
+        with open(pdb_file, 'r') as fh:
+            new_content += fh.read()
+        with open(pdb_file, 'w') as fh:
+            fh.write(new_content)
+
+    if output_path and split_conflicting_chains:
+        raise ValueError('output_path is only supported when split_conflicting_chains is False')
+
+    outputs = []
+    parser = MMCIFParser()
+    structure = parser.get_structure("structure_id", cif_file)
+    pdb_file = output_path or cif_file.replace('.cif', '_fCIF.pdb')
+
+    io = PDBIO()
+    io.set_structure(structure)
+    try:
+        io.save(pdb_file)
+        _prepend_header(pdb_file)
+        outputs.append(pdb_file)
+        if verbose:
+            print(f'saved: {pdb_file}')
+        return outputs
+    except Exception:
+        if verbose:
+            print('Warning: some of the chains in this mmCIF file have multi-character ids.')
+
+    from Bio.PDB.MMCIFParser import MMCIFParser
+    from Bio.PDB import Structure, Model, PDBIO
+
+    def has_high_rna_content(chain, threshold=0.8):
+        rna_nucleotides = ['A', 'C', 'G', 'U', 'X']
+        total_residues = 0
+        rna_residues = 0
+        for residue in chain:
+            total_residues += 1
+            if residue.get_resname().strip() in rna_nucleotides:
+                rna_residues += 1
+        if total_residues == 0:
+            return False
+        return (rna_residues / total_residues) >= threshold
+
+    parser = MMCIFParser()
+    structure = parser.get_structure("structure", cif_file)
+
+    if not split_conflicting_chains:
+        import string
+        letters = list(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+        letter_iter = iter(letters)
+        for model in structure:
+            for chain in model:
+                try:
+                    chain.id = next(letter_iter)
+                except StopIteration:
+                    raise RuntimeError('Too many chains to assign unique single-letter IDs in %s' % cif_file)
+        io = PDBIO()
+        io.set_structure(structure)
+        io.save(pdb_file)
+        _prepend_header(pdb_file)
+        outputs.append(pdb_file)
+        if verbose:
+            print(f'saved: {pdb_file} (renamed chain ids)')
+        return outputs
+
+    import string
+    letters = list(string.ascii_uppercase)
+
+    for model in structure:
+        for chain in model:
+            if has_high_rna_content(chain):
+                new_structure = Structure.Structure("new_structure")
+                new_model = Model.Model(0)
+                new_structure.add(new_model)
+
+                chain_id_new = letters.pop(0)
+                chain_id = chain.get_id()
+
+                atom_count = 0
+                for residue in chain:
+                    for atom in residue:
+                        atom_count += 1
+
+                remarks = [f'REMARK rna chain {chain.id} -> {chain_id_new}']
+                pdb_file = cif_file.replace('.cif', f'_{chain_id}_n{chain_id_new}_fCIF.pdb')
+                if verbose:
+                    print(f'rna chain {chain.id} -> {chain_id_new} {pdb_file} # of atoms: {atom_count}')
+
+                chain.id = chain_id_new
+                new_model.add(chain)
+
+                io = PDBIO()
+                io.set_structure(new_structure)
+                io.save(pdb_file)
+                _prepend_header(pdb_file, remarks)
+                outputs.append(pdb_file)
+
+    return outputs
+
 def get_parser():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -39,101 +155,9 @@ if __name__ == '__main__':
         args.file = [args.file]
 
     for cif_file in args.file:
-        from Bio.PDB import MMCIFParser, PDBIO
-        parser = MMCIFParser()
-        structure = parser.get_structure("structure_id", cif_file)
-        pdb_file = cif_file.replace('.cif', '_fCIF.pdb')
-
-        try:
-            # Save to PDB format
-            io = PDBIO()
-            io.set_structure(structure)
-            io.save(pdb_file)
-
-            print(f'saved: {pdb_file}')
-            # open a file add remarks
-            new_file = ''
-            with open(pdb_file, 'r') as f:
-                if not args.no_hr:
-                    new_file += add_header(version) + '\n'
-                new_file += f.read()
-
-            with open(pdb_file, 'w') as f:
-                f.write(new_file)
-
-        except:
-            print('Warning: some of the chains in this mmCIF file has chain names with more char than 1, e.g. AB, and the PDB format needs single-letter code, e.g. A.')
-            def has_high_rna_content(chain, threshold=0.8):
-                # RNA nucleotides: A, C, G, U, and X (you can modify as needed)
-                rna_nucleotides = ['A', 'C', 'G', 'U', 'X']
-                total_residues = 0
-                rna_residues = 0
-
-                # Count the total number of residues and RNA-like residues
-                for residue in chain:
-                    total_residues += 1
-                    if residue.get_resname().strip() in rna_nucleotides:
-                        rna_residues += 1
-
-                # Calculate the proportion of RNA residues
-                if total_residues == 0:
-                    return False  # Avoid division by zero if chain has no residues
-
-                rna_percentage = rna_residues / total_residues
-
-                # Check if the percentage of RNA residues is greater than or equal to the threshold (80% by default)
-                return rna_percentage >= threshold
-
-            from Bio.PDB.MMCIFParser import MMCIFParser
-            from Bio.PDB import MMCIFParser, Structure, Model, Chain
-
-            # Initialize the parser
-            parser = MMCIFParser()
-
-            # Parse the structure
-            structure = parser.get_structure("structure", cif_file)
-
-            # Create a list of single-letter chain identifiers
-            import string
-            letters = list(string.ascii_uppercase)
-
-            for model in structure:
-                for chain in model:
-                    if has_high_rna_content(chain):
-                        # New structure
-                        new_structure = Structure.Structure("new_structure")
-                        new_model = Model.Model(0)  # Create a new model
-                        new_structure.add(new_model)  # Add the new model to the new structure
-
-                        chain_id_new = letters.pop(0)
-                        chain_id = chain.get_id()
-
-                        atom_count = 0
-                        for residue in chain:
-                              for atom in residue:
-                                   atom_count += 1
-
-                        remarks = []
-                        remarks.append(f'REMARK rna chain {chain.id} -> {chain_id_new}')
-
-                        pdb_file = cif_file.replace('.cif', f'_{chain_id}_n{chain_id_new}_fCIF.pdb')
-                        print(f'rna chain {chain.id} -> {chain_id_new} {pdb_file} # of atoms: {atom_count}')
-
-                        chain.id = chain_id_new
-                        new_model.add(chain)
-
-                        io = PDBIO()
-                        io.set_structure(new_structure)
-
-                        io.save(pdb_file)
-                        # open a file add remarks
-                        new_file = ''
-                        with open(pdb_file, 'r') as f:
-                            if not args.no_hr:
-                                new_file += add_header(version) + '\n'
-                            if remarks:
-                                new_file += '\n'.join(remarks) + '\n'
-                            new_file += f.read()
-
-                        with open(pdb_file, 'w') as f:
-                            f.write(new_file)
+        convert_cif_to_pdb(
+            cif_file,
+            add_header_to_output=not args.no_hr,
+            version=version,
+            verbose=True,
+        )
