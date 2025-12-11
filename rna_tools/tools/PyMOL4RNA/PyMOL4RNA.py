@@ -970,7 +970,8 @@ def edges(selection):
     tmpf = f.name + os.sep + strip_selection_name(selection) + '.pdb'
     outf = f.name + '/output.py'
     cmd.save(tmpf, selection)
-    cmdline = '/Users/magnus/miniconda3/bin/rna_draw_edges.py --name %s %s > %s' % (strip_selection_name(selection), tmpf, outf)
+    #/Users/magnus/miniconda3/bin/
+    cmdline = 'rna_draw_edges.py --name %s %s > %s' % (strip_selection_name(selection), tmpf, outf)
     print(cmdline)
     out, err = exe(cmdline)
     if err:
