@@ -348,7 +348,6 @@ def align_all_vs_all(cycles = 5, filename="_rmsd_all_vs_all_.csv"):
         f.write(txt)
 
 cmd.extend('align_all_vs_all', align_all_vs_all)
-cmd.extend('aaa', aaa)
 
 def align_all_atoms(cycles = 5, filename="_rmsd_.csv"):
     """
