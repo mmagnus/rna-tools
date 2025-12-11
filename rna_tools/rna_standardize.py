@@ -192,7 +192,7 @@ if __name__ == '__main__':
                                             ignore_op3=ignore_op3,
                                             check_geometry=args.check_geometry,
                                             conect=args.conect,
-                                            conect=args.conect_no_linkage,
+                                            conect_no_linkage=args.conect_no_linkage,
                                             verbose=args.verbose)
 
             output = ''
