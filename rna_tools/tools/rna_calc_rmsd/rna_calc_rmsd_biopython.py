@@ -13,6 +13,7 @@ from __future__ import print_function
 
 import Bio.PDB.PDBParser
 import Bio.PDB.Superimposer
+from Bio.Align import PairwiseAligner
 import copy
 import warnings
 warnings.filterwarnings('ignore', '.*Invalid or missing.*',)
@@ -20,12 +21,106 @@ warnings.filterwarnings('ignore', '.*with given element *',)
 warnings.filterwarnings('ignore', '.*is discontinuous*',)
 warnings.filterwarnings('ignore', '.*Ignoring unrecognized record*',)
 
+from collections import OrderedDict
 from rna_tools.rna_tools_lib import set_chain_for_struc, RNAStructure
 import argparse
 import sys
 import glob
 import re
 import os
+
+NUCLEOTIDE_THREE_TO_ONE = {
+    'A': 'A', 'DA': 'A', 'ADE': 'A',
+    'C': 'C', 'DC': 'C', 'CYT': 'C',
+    'G': 'G', 'DG': 'G', 'GUA': 'G',
+    'U': 'U', 'DU': 'U', 'DT': 'U', 'T': 'U', 'PSU': 'U', 'URA': 'U',
+    'I': 'I', 'DI': 'I'
+}
+
+WAY_TO_ATOMS = {
+    'c1': ["C1'"],
+    'backbone+sugar': "P,OP1,OP2,C5',O5',C4',O4',C3',O3',C2',O2',C1'".split(',')
+}
+
+
+def _residue_is_polymer(residue):
+    hetfield = residue.id[0].strip()
+    return hetfield == ''
+
+
+def _residue_to_letter(residue):
+    name = residue.get_resname().strip().upper()
+    return NUCLEOTIDE_THREE_TO_ONE.get(name, 'N')
+
+
+def _build_alignment_strings(alignment, seq1, seq2):
+    seq1_line = []
+    seq2_line = []
+    match_line = []
+    matched_pairs = []
+    matches = 0
+
+    path = getattr(alignment, 'path', None)
+    if not path:
+        return '', '', '', matched_pairs, matches
+
+    seq1_idx = path[0][0]
+    seq2_idx = path[0][1]
+
+    for next_i, next_j in path[1:]:
+        while seq1_idx < next_i or seq2_idx < next_j:
+            if seq1_idx < next_i and seq2_idx < next_j:
+                char_a = seq1[seq1_idx]
+                char_b = seq2[seq2_idx]
+                seq1_line.append(char_a)
+                seq2_line.append(char_b)
+                if char_a == char_b:
+                    match_line.append('|')
+                    matches += 1
+                else:
+                    match_line.append(' ')
+                matched_pairs.append((seq1_idx, seq2_idx))
+                seq1_idx += 1
+                seq2_idx += 1
+            elif seq1_idx < next_i:
+                char_a = seq1[seq1_idx]
+                seq1_line.append(char_a)
+                seq2_line.append('-')
+                match_line.append(' ')
+                seq1_idx += 1
+            else:
+                char_b = seq2[seq2_idx]
+                seq1_line.append('-')
+                seq2_line.append(char_b)
+                match_line.append(' ')
+                seq2_idx += 1
+
+    seq1_line = ''.join(seq1_line)
+    match_line = ''.join(match_line)
+    seq2_line = ''.join(seq2_line)
+    return seq1_line, match_line, seq2_line, matched_pairs, matches
+
+
+def _print_alignment(seq1_line, match_line, seq2_line, header,
+                     target_len=None, model_len=None, matches=None, residue_pairs=None):
+    print(header)
+    if seq1_line:
+        print(seq1_line)
+    if match_line:
+        print(match_line)
+    if seq2_line:
+        print(seq2_line)
+    details = []
+    if target_len is not None:
+        details.append('target_len={}'.format(target_len))
+    if model_len is not None:
+        details.append('model_len={}'.format(model_len))
+    if residue_pairs is not None:
+        details.append('residue_pairs={}'.format(residue_pairs))
+    if matches is not None:
+        details.append('matches={}'.format(matches))
+    if details:
+        print('# alignment info:', ', '.join(details))
 
 
 class RNAmodel:
@@ -40,12 +135,25 @@ class RNAmodel:
         #    self.save() # @save
 
     def __get_atoms(self):
-        self.atoms=[]
-        # [<Atom P>, <Atom C5'>, <Atom O5'>, <Atom C4'>, <Atom O4'>, <Atom C3'>, <Atom O3'>, <Atom C2'>, <Atom O2'>, <Atom C1'>, <Atom N1>, <Atom C2>, <Atom N3>, <Atom C4>, <Atom C5>, <Atom C6>, <Atom N6>, <Atom N7>, <Atom C8>, <Atom N9>, <Atom OP1>, <Atom OP2>]
+        self.atoms = []
+        self.residues = []
+        self.sequence = ''
+        self.sequence_residues = []
+        self.sequence_positions = []
+        self.sequence_atom_maps = []
         for res in self.struc.get_residues():
+            self.residues.append(res)
+            atom_map = OrderedDict()
             for at in res:
-                #if args.debug: print(res.resname, res.get_id, at)
                 self.atoms.append(at)
+                atom_map[at.name] = at
+            if _residue_is_polymer(res):
+                self.sequence += _residue_to_letter(res)
+                chain_id = res.get_parent().id
+                resseq = res.get_id()[1]
+                self.sequence_positions.append(f"{chain_id}:{resseq}")
+                self.sequence_residues.append(res)
+                self.sequence_atom_maps.append(atom_map)
         return self.atoms
 
     def __str__(self):
@@ -61,10 +169,89 @@ class RNAmodel:
             t += ' '.join(['resi: ', str(r) ,' atom: ', str(a) , '\n' ])
         return t
 
+    def _atoms_from_sequence_alignment(self, other_rnamodel, way):
+        if not self.sequence or not other_rnamodel.sequence:
+            raise ValueError('Cannot align sequences when one of the models has no polymer residues')
+
+        aligner = PairwiseAligner()
+        aligner.mode = 'local'
+        aligner.match_score = 1.0
+        aligner.mismatch_score = 0.0
+        gap_open_penalty = -abs(args.align_gap_open if args.align_gap_open is not None else 0.0)
+        gap_extend_source = args.align_gap_extend if args.align_gap_extend is not None else args.align_gap_open
+        gap_extend_penalty = -abs(gap_extend_source if gap_extend_source is not None else 0.0)
+        aligner.open_gap_score = gap_open_penalty
+        aligner.extend_gap_score = gap_extend_penalty
+
+        alignments = aligner.align(self.sequence, other_rnamodel.sequence)
+        try:
+            alignment = alignments[0]
+        except IndexError:
+            raise ValueError('Biopython did not return an alignment')
+
+        seq1_line, match_line, seq2_line, matched_pairs, matches = _build_alignment_strings(
+            alignment, self.sequence, other_rnamodel.sequence)
+
+        if getattr(args, 'print_alignment', False):
+            header = '# alignment between {} and {}'.format(self.fn, other_rnamodel.fn)
+            _print_alignment(
+                seq1_line,
+                match_line,
+                seq2_line,
+                header,
+                target_len=len(seq1_line),
+                model_len=len(seq2_line),
+                matches=matches,
+                residue_pairs=len(matched_pairs))
+
+        if not matched_pairs:
+            raise ValueError('Sequence alignment returned no overlapping residues')
+
+        allowed_names = WAY_TO_ATOMS.get(way)
+        atoms_self = []
+        atoms_other = []
+        residues_used = 0
+
+        for idx_a, idx_b in matched_pairs:
+            atom_map_a = self.sequence_atom_maps[idx_a]
+            atom_map_b = other_rnamodel.sequence_atom_maps[idx_b]
+            if allowed_names:
+                atom_names = [n for n in allowed_names if n in atom_map_a and n in atom_map_b]
+            else:
+                atom_names = [n for n in atom_map_a.keys() if n in atom_map_b]
+            if not atom_names:
+                continue
+            for name in atom_names:
+                atoms_self.append(atom_map_a[name])
+                atoms_other.append(atom_map_b[name])
+            residues_used += 1
+
+        if not atoms_self:
+            raise ValueError('No overlapping atoms remained after sequence alignment')
+
+        seq_len = max(len(self.sequence), len(other_rnamodel.sequence))
+        identity = (matches / float(seq_len)) if seq_len else 0.0
+
+        info = {
+            'aligned_residues': residues_used,
+            'identity': identity,
+            'atoms': len(atoms_self),
+            'alignment_pairs': len(matched_pairs)
+        }
+        return atoms_self, atoms_other, info
+
     def get_rmsd_to(self, other_rnamodel, way="", triple_mode=False, save=True):
         """Calc rmsd P-atom based rmsd to other rna model"""
         sup = Bio.PDB.Superimposer()
-        if way == 'c1':
+        if args.align_sequence:
+            if triple_mode:
+                raise ValueError('Sequence alignment mode is not supported together with triple mode')
+            self.atoms_for_rmsd, other_atoms_for_rmsd, info = self._atoms_from_sequence_alignment(other_rnamodel, way)
+            if args.debug:
+                print('Aligned residues:', info['aligned_residues'], 'identity:', round(info['identity'], 3), '#atoms:', info['atoms'])
+            if not self.atoms_for_rmsd:
+                raise ValueError('No overlapping atoms remained after sequence alignment based filtering')
+        elif way == 'c1':
             self.atoms_for_rmsd = []
             for a in self.atoms:
                 if a.name in ["C1'"]:
@@ -248,6 +435,16 @@ def get_parser():
     parser.add_argument('--ignore-files', default='aligned', help="use to ignore files, .e.g. with 'aligned'")
     parser.add_argument('--suffix', default='aligned', help="used with --saved, by default: aligned")
     parser.add_argument('--way', help="e.g., backbone+sugar")
+    parser.add_argument('--align-sequence', action='store_true',
+                        help='align sequences with Biopython and compute RMSD only over aligned residues')
+    parser.add_argument('--align-gap-open', type=float, default=10.0,
+                        help='gap opening penalty (positive value) when using --align-sequence, default: 10')
+    parser.add_argument('--align-gap-extend', type=float,
+                        help='gap extension penalty (positive value) when using --align-sequence; default: same as gap open')
+    parser.add_argument('--print-alignment', action='store_true',
+                        help='print the pairwise sequence alignment used for atom matching')
+    parser.add_argument('--print-target-sequence', action='store_true',
+                        help='print the polymer sequence extracted from the target structure and continue processing')
     parser.add_argument('--triple-mode', help="same crazy strategy to align triples", action="store_true")
     parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file",
                         default="rmsd")
@@ -263,6 +460,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     target = RNAmodel(args.target)
+
+    if args.print_target_sequence:
+        print('# target sequence (polymer residues only):', target.fn)
+        if target.sequence:
+            print(target.sequence)
+            print('# length:', len(target.sequence))
+        else:
+            print('# warning: target structure does not contain polymer residues with standard names')
 
     models = args.files  # opts.input_dir
     tmp = []
@@ -281,7 +486,14 @@ if __name__ == '__main__':
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
         # print(m)
-        rmsd = target.get_rmsd_to(mrna, args.way, args.triple_mode, args.save) #, 'tmp.pdb')
+        try:
+            rmsd = target.get_rmsd_to(mrna, args.way, args.triple_mode, args.save) #, 'tmp.pdb')
+        except ValueError as exc:
+            if args.align_sequence:
+                print('# warning:', mrna.fn, exc, file=sys.stderr)
+                rmsd = 'nan'
+            else:
+                raise
         #except:
         if 0:
             print(m)
