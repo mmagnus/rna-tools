@@ -102,7 +102,8 @@ def _build_alignment_strings(alignment, seq1, seq2):
 
 
 def _print_alignment(seq1_line, match_line, seq2_line, header,
-                     target_len=None, model_len=None, matches=None, residue_pairs=None):
+                     target_len=None, model_len=None, matches=None, residue_pairs=None,
+                     rmsd=None):
     print(header)
     if seq1_line:
         print(seq1_line)
@@ -119,6 +120,8 @@ def _print_alignment(seq1_line, match_line, seq2_line, header,
         details.append('residue_pairs={}'.format(residue_pairs))
     if matches is not None:
         details.append('matches={}'.format(matches))
+    if rmsd is not None:
+        details.append('rmsd={}'.format(rmsd))
     if details:
         print('# alignment info:', ', '.join(details))
 
@@ -192,17 +195,18 @@ class RNAmodel:
         seq1_line, match_line, seq2_line, matched_pairs, matches = _build_alignment_strings(
             alignment, self.sequence, other_rnamodel.sequence)
 
+        alignment_report = None
         if getattr(args, 'print_alignment', False):
-            header = '# alignment between {} and {}'.format(self.fn, other_rnamodel.fn)
-            _print_alignment(
-                seq1_line,
-                match_line,
-                seq2_line,
-                header,
-                target_len=len(seq1_line),
-                model_len=len(seq2_line),
-                matches=matches,
-                residue_pairs=len(matched_pairs))
+            alignment_report = {
+                'header': '# alignment between {} and {}'.format(self.fn, other_rnamodel.fn),
+                'seq1_line': seq1_line,
+                'match_line': match_line,
+                'seq2_line': seq2_line,
+                'target_len': len(seq1_line),
+                'model_len': len(seq2_line),
+                'matches': matches,
+                'residue_pairs': len(matched_pairs)
+            }
 
         if not matched_pairs:
             raise ValueError('Sequence alignment returned no overlapping residues')
@@ -236,17 +240,20 @@ class RNAmodel:
             'aligned_residues': residues_used,
             'identity': identity,
             'atoms': len(atoms_self),
-            'alignment_pairs': len(matched_pairs)
+            'alignment_pairs': len(matched_pairs),
+            'alignment_report': alignment_report
         }
         return atoms_self, atoms_other, info
 
     def get_rmsd_to(self, other_rnamodel, way="", triple_mode=False, save=True):
         """Calc rmsd P-atom based rmsd to other rna model"""
         sup = Bio.PDB.Superimposer()
+        alignment_report = None
         if args.align_sequence:
             if triple_mode:
                 raise ValueError('Sequence alignment mode is not supported together with triple mode')
             self.atoms_for_rmsd, other_atoms_for_rmsd, info = self._atoms_from_sequence_alignment(other_rnamodel, way)
+            alignment_report = info.get('alignment_report')
             if args.debug:
                 print('Aligned residues:', info['aligned_residues'], 'identity:', round(info['identity'], 3), '#atoms:', info['atoms'])
             if not self.atoms_for_rmsd:
@@ -389,6 +396,18 @@ class RNAmodel:
             sup.set_atoms(self.atoms_for_rmsd, other_atoms_for_rmsd)
             rms = round(sup.rms, 2)
 
+            if alignment_report and getattr(args, 'print_alignment', False):
+                _print_alignment(
+                    alignment_report['seq1_line'],
+                    alignment_report['match_line'],
+                    alignment_report['seq2_line'],
+                    alignment_report['header'],
+                    target_len=alignment_report['target_len'],
+                    model_len=alignment_report['model_len'],
+                    matches=alignment_report['matches'],
+                    residue_pairs=alignment_report['residue_pairs'],
+                    rmsd=rms)
+
             if save:
                 ## io = Bio.PDB.PDBIO()
                 ## sup.apply(self.struc.get_atoms())
@@ -422,6 +441,22 @@ def sort_nicely( l ):
    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
    l.sort( key=alphanum_key )
    return l
+
+
+def expand_input_patterns(patterns):
+    expanded = []
+    for pattern in patterns:
+        if any(char in pattern for char in '*?['):
+            matches = glob.glob(pattern)
+            if matches:
+                expand_list = matches[:]
+                sort_nicely(expand_list)
+                expanded.extend(expand_list)
+            else:
+                expanded.append(pattern)
+        else:
+            expanded.append(pattern)
+    return expanded
 
 
 def get_parser():
@@ -469,10 +504,10 @@ if __name__ == '__main__':
         else:
             print('# warning: target structure does not contain polymer residues with standard names')
 
-    models = args.files  # opts.input_dir
+    models = expand_input_patterns(args.files)
     tmp = []
     if args.ignore_files:
-        for f in args.files:
+        for f in models:
             if args.debug: print(f)
             if args.ignore_files in f:
                 continue
