@@ -6,9 +6,11 @@ set -x
 #cat rmsds.csv
 
 # ugly test, works only for magnus
-find /Volumes/Seagate/rna3db-mmcifs/2024-12-04/train_set/component_37 -iname '*cif' | parallel /Applications/PyMOL3.app/Contents/bin/python3 rna_calc_rmsd_pymol.py -m align -t /Users/magnus/Desktop/rmsd-all-vs-all/6qn3_A.cif {}
+#find /Volumes/Seagate/rna3db-mmcifs/2024-12-04/train_set/component_37 -iname '*cif' | parallel /Applications/PyMOL3.app/Contents/bin/python3 rna_calc_rmsd_pymol.py -m align -t /Users/magnus/Desktop/rmsd-all-vs-all/6qn3_A.cif {}
 #
 #set -x
 #
 #p=../../input/comparison
 #./rna_calc_rmsd.py -t $p/4GXY_min.pdb $p/4GXY_min_reconstruction.pdb
+
+python  rna_calc_rmsd_biopython.py --align-sequence -t test_data/crops/3jbv_A_rpr.pdb test_data/crops/rRNA_3jbv_A_PrepC* --print-alignment --alignment-fasta test_data/crops/seqs.fasta --add-rmsd-to-fasta-header --sort-by-rmsd

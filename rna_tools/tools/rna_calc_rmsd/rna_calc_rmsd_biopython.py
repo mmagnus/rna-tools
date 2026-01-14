@@ -67,6 +67,26 @@ def _build_alignment_strings(alignment, seq1, seq2):
     seq1_idx = path[0][0]
     seq2_idx = path[0][1]
 
+    try:
+        seq1_ranges = alignment.aligned[0]
+        seq2_ranges = alignment.aligned[1]
+    except AttributeError:
+        seq1_ranges = []
+        seq2_ranges = []
+
+    if len(seq1_ranges):
+        seq1_start = int(seq1_ranges[0][0])
+        seq1_end_idx = int(seq1_ranges[-1][1])
+    else:
+        seq1_start = seq1_idx
+        seq1_end_idx = seq1_idx
+    if len(seq2_ranges):
+        seq2_start = int(seq2_ranges[0][0])
+        seq2_end_idx = int(seq2_ranges[-1][1])
+    else:
+        seq2_start = seq2_idx
+        seq2_end_idx = seq2_idx
+
     for next_i, next_j in path[1:]:
         while seq1_idx < next_i or seq2_idx < next_j:
             if seq1_idx < next_i and seq2_idx < next_j:
@@ -98,7 +118,87 @@ def _build_alignment_strings(alignment, seq1, seq2):
     seq1_line = ''.join(seq1_line)
     match_line = ''.join(match_line)
     seq2_line = ''.join(seq2_line)
-    return seq1_line, match_line, seq2_line, matched_pairs, matches
+    alignment_span = {
+        'seq1_start': seq1_start,
+        'seq2_start': seq2_start,
+        'seq1_end': seq1_end_idx,
+        'seq2_end': seq2_end_idx
+    }
+    return seq1_line, match_line, seq2_line, matched_pairs, matches, alignment_span
+
+
+def _merge_alignment_columns(reference, existing_models, new_target, new_model, model_name='model'):
+    """Merge pairwise alignments so every model shares the same gapped target string."""
+    new_reference = []
+    updated_models = [[] for _ in existing_models]
+    aligned_new_model = []
+    i = 0
+    j = 0
+    ref_len = len(reference)
+    new_len = len(new_target)
+
+    while i < ref_len or j < new_len:
+        ref_char = reference[i] if i < ref_len else None
+        new_char = new_target[j] if j < new_len else None
+
+        if ref_char is None:
+            new_reference.append(new_char)
+            for existing in updated_models:
+                existing.append('-')
+            aligned_new_model.append(new_model[j])
+            j += 1
+            continue
+        if new_char is None:
+            new_reference.append(ref_char)
+            for idx, existing in enumerate(updated_models):
+                existing.append(existing_models[idx][i])
+            aligned_new_model.append('-')
+            i += 1
+            continue
+
+        if ref_char == new_char:
+            new_reference.append(ref_char)
+            for idx, existing in enumerate(updated_models):
+                existing.append(existing_models[idx][i])
+            aligned_new_model.append(new_model[j])
+            i += 1
+            j += 1
+            continue
+
+        if ref_char == '-':
+            new_reference.append('-')
+            for idx, existing in enumerate(updated_models):
+                existing.append(existing_models[idx][i])
+            aligned_new_model.append('-')
+            i += 1
+            continue
+
+        if new_char == '-':
+            new_reference.append('-')
+            for existing in updated_models:
+                existing.append('-')
+            aligned_new_model.append(new_model[j])
+            j += 1
+            continue
+
+        # mismatch: keep both columns but warn the user
+        print('# warning: inconsistent target alignment between reference and {}: {!r} vs {!r}'.format(
+            model_name, ref_char, new_char), file=sys.stderr)
+        new_reference.append(ref_char)
+        for idx, existing in enumerate(updated_models):
+            existing.append(existing_models[idx][i])
+        aligned_new_model.append('-')
+        i += 1
+        new_reference.append(new_char)
+        for existing in updated_models:
+            existing.append('-')
+        aligned_new_model.append(new_model[j])
+        j += 1
+        continue
+
+    merged_models = updated_models[:]
+    merged_models.append(aligned_new_model)
+    return new_reference, merged_models
 
 
 def _print_alignment(seq1_line, match_line, seq2_line, header,
@@ -192,21 +292,23 @@ class RNAmodel:
         except IndexError:
             raise ValueError('Biopython did not return an alignment')
 
-        seq1_line, match_line, seq2_line, matched_pairs, matches = _build_alignment_strings(
+        seq1_line, match_line, seq2_line, matched_pairs, matches, alignment_span = _build_alignment_strings(
             alignment, self.sequence, other_rnamodel.sequence)
 
-        alignment_report = None
-        if getattr(args, 'print_alignment', False):
-            alignment_report = {
-                'header': '# alignment between {} and {}'.format(self.fn, other_rnamodel.fn),
-                'seq1_line': seq1_line,
-                'match_line': match_line,
-                'seq2_line': seq2_line,
-                'target_len': len(seq1_line),
-                'model_len': len(seq2_line),
-                'matches': matches,
-                'residue_pairs': len(matched_pairs)
-            }
+        alignment_report = {
+            'header': '# alignment between {} and {}'.format(self.fn, other_rnamodel.fn),
+            'seq1_line': seq1_line,
+            'match_line': match_line,
+            'seq2_line': seq2_line,
+            'target_len': len(seq1_line),
+            'model_len': len(seq2_line),
+            'matches': matches,
+            'residue_pairs': len(matched_pairs),
+            'seq1_start': alignment_span['seq1_start'],
+            'seq1_end': alignment_span['seq1_end'],
+            'seq2_start': alignment_span['seq2_start'],
+            'seq2_end': alignment_span['seq2_end']
+        }
 
         if not matched_pairs:
             raise ValueError('Sequence alignment returned no overlapping residues')
@@ -254,6 +356,7 @@ class RNAmodel:
                 raise ValueError('Sequence alignment mode is not supported together with triple mode')
             self.atoms_for_rmsd, other_atoms_for_rmsd, info = self._atoms_from_sequence_alignment(other_rnamodel, way)
             alignment_report = info.get('alignment_report')
+            other_rnamodel.alignment_report = alignment_report
             if args.debug:
                 print('Aligned residues:', info['aligned_residues'], 'identity:', round(info['identity'], 3), '#atoms:', info['atoms'])
             if not self.atoms_for_rmsd:
@@ -480,6 +583,12 @@ def get_parser():
                         help='print the pairwise sequence alignment used for atom matching')
     parser.add_argument('--print-target-sequence', action='store_true',
                         help='print the polymer sequence extracted from the target structure and continue processing')
+    parser.add_argument('--alignment-fasta', nargs='?', const='seq.fasta',
+                        help='write the aligned target/model sequences to FASTA; optional output path, default: seq.fasta')
+    parser.add_argument('--add-rmsd-to-fasta-header', action='store_true',
+                        help='prefix each FASTA model header with its RMSD value when writing --alignment-fasta')
+    parser.add_argument('--sort-by-rmsd', action='store_true',
+                        help='order FASTA entries by descending RMSD when using --alignment-fasta')
     parser.add_argument('--triple-mode', help="same crazy strategy to align triples", action="store_true")
     parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file",
                         default="rmsd")
@@ -493,8 +602,12 @@ def get_parser():
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
+    if args.alignment_fasta and not args.align_sequence:
+        parser.error('--alignment-fasta requires --align-sequence')
 
     target = RNAmodel(args.target)
+    target_sequence = target.sequence if target.sequence else ''
+    target_len = len(target_sequence)
 
     if args.print_target_sequence:
         print('# target sequence (polymer residues only):', target.fn)
@@ -517,6 +630,7 @@ if __name__ == '__main__':
     print('# of models:', len(models))
     c = 1
     t = 'fn,' + args.column_name + ',aligned_seq, aligned_fn\n'
+    alignment_entries = [] if args.alignment_fasta else None
     for m in models:
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
@@ -534,6 +648,19 @@ if __name__ == '__main__':
             print(m)
             sys.exit(1)
         #print rmsd
+        if alignment_entries is not None:
+            alignment = getattr(mrna, 'alignment_report', None)
+            if alignment and alignment.get('seq1_line') and alignment.get('seq2_line'):
+                alignment_entries.append({
+                    'model_name': mrna.fn,
+                    'target_seq': alignment['seq1_line'],
+                    'model_seq': alignment['seq2_line'],
+                    'seq1_start': alignment.get('seq1_start', 0),
+                    'seq1_end': alignment.get('seq1_end', target_len),
+                    'rmsd': rmsd
+                })
+            else:
+                print('# warning: no alignment info collected for', mrna.fn, file=sys.stderr)
         t += mrna.fn + ',' + str(rmsd) + '\n'
         #break    
     print(t.strip())
@@ -547,5 +674,63 @@ if __name__ == '__main__':
             df = df.sort_values('rmsd')
             df.to_csv(args.result, index=False)
             print(df.to_string(index=False))
-        
+
+    if alignment_entries is not None:
+        fasta_path = args.alignment_fasta
+        valid_entries = [entry for entry in alignment_entries if entry['target_seq'] and entry['model_seq']]
+        if not valid_entries:
+            print('# warning: requested FASTA output but no alignment data was generated', file=sys.stderr)
+        else:
+            padded_entries = []
+            for entry in valid_entries:
+                seq1_start = entry.get('seq1_start', 0)
+                seq1_end = entry.get('seq1_end', target_len)
+                target_leading = target_sequence[:seq1_start] if target_sequence else '-' * max(seq1_start, 0)
+                target_trailing = target_sequence[seq1_end:] if target_sequence else '-' * max((target_len - seq1_end) if target_len else 0, 0)
+
+                leading = '-' * len(target_leading)
+                trailing = '-' * len(target_trailing)
+                padded_entries.append({
+                    'model_name': entry['model_name'],
+                    'target_seq': target_leading + entry['target_seq'] + target_trailing,
+                    'model_seq': leading + entry['model_seq'] + trailing,
+                    'rmsd': entry.get('rmsd')
+                })
+
+            if args.sort_by_rmsd:
+                def rmsd_key(entry):
+                    value = entry.get('rmsd')
+                    try:
+                        return float(value)
+                    except (TypeError, ValueError):
+                        return float('-inf')
+                padded_entries = sorted(padded_entries, key=rmsd_key, reverse=True)
+
+            ref_target = list(padded_entries[0]['target_seq'])
+            model_names = [padded_entries[0]['model_name']]
+            model_columns = [list(padded_entries[0]['model_seq'])]
+
+            for entry in padded_entries[1:]:
+                ref_target, model_columns = _merge_alignment_columns(
+                    ref_target,
+                    model_columns,
+                    list(entry['target_seq']),
+                    list(entry['model_seq']),
+                    entry['model_name']
+                )
+                model_names.append(entry['model_name'])
+
+            with open(fasta_path, 'w') as fasta:
+                fasta.write('>{}\n'.format(target.fn))
+                fasta.write(''.join(ref_target) + '\n')
+                for name, seq in zip(model_names, model_columns):
+                    header_name = name
+                    if args.add_rmsd_to_fasta_header:
+                        rmsd_value = next((entry['rmsd'] for entry in padded_entries if entry['model_name'] == name), None)
+                        if rmsd_value is not None:
+                            header_name = '{}|rmsd={}'.format(rmsd_value, name)
+                    fasta.write('>{}\n'.format(header_name))
+                    fasta.write(''.join(seq) + '\n')
+            print('# FASTA alignment written to', fasta_path)
+
         
