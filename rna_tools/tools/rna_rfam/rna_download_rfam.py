@@ -28,10 +28,16 @@ ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr))
 ic.configureOutput(prefix='> ')
 import os
 
-def process_rfam(family_id, job_path='./rfam'):
-        os.system(f"wget https://rfam.org/family/{family_id}/alignment/stockholm -O  {job_path}/{family_id}.seed.sto")
-        os.system(f"wget https://rfam.org/family/{family_id}/alignment/fastau -O {job_path}/{family_id}.seed.fa")
-        os.system(f"wget https://rfam.org/family/{family_id}/cm -O {job_path}/{family_id}.cm")
+def process_rfam(family_id, job_path='rfam'):
+        cmd = f"wget https://rfam.org/family/{family_id}/alignment/stockholm -O {job_path}/{family_id}.seed.sto"
+        print(cmd)
+        os.system(cmd)
+        cmd = f"wget https://rfam.org/family/{family_id}/alignment/fastau -O {job_path}/{family_id}.seed.fa"
+        print(cmd)
+        os.system(cmd)
+        cmd = f"wget https://rfam.org/family/{family_id}/cm -O {job_path}/{family_id}.cm"
+        print(cmd)
+        os.system(cmd)
 
 def get_parser():
     parser = argparse.ArgumentParser(
