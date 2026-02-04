@@ -203,7 +203,8 @@ def _merge_alignment_columns(reference, existing_models, new_target, new_model, 
 
 def _print_alignment(seq1_line, match_line, seq2_line, header,
                      target_len=None, model_len=None, matches=None, residue_pairs=None,
-                     rmsd=None):
+                     rmsd=None, target_start_label=None, target_end_label=None,
+                     model_start_label=None, model_end_label=None):
     print(header)
     if seq1_line:
         print(seq1_line)
@@ -222,6 +223,14 @@ def _print_alignment(seq1_line, match_line, seq2_line, header,
         details.append('matches={}'.format(matches))
     if rmsd is not None:
         details.append('rmsd={}'.format(rmsd))
+    if target_start_label:
+        details.append('target_start={}'.format(target_start_label))
+    if target_end_label:
+        details.append('target_end={}'.format(target_end_label))
+    if model_start_label:
+        details.append('model_start={}'.format(model_start_label))
+    if model_end_label:
+        details.append('model_end={}'.format(model_end_label))
     if details:
         print('# alignment info:', ', '.join(details))
 
@@ -272,6 +281,18 @@ class RNAmodel:
             t += ' '.join(['resi: ', str(r) ,' atom: ', str(a) , '\n' ])
         return t
 
+    def _sequence_position_label(self, index):
+        """Return chain:resseq label for a given sequence index or None."""
+        if index is None:
+            return None
+        try:
+            idx = int(index)
+        except (TypeError, ValueError):
+            return None
+        if idx < 0 or idx >= len(self.sequence_positions):
+            return None
+        return self.sequence_positions[idx]
+
     def _atoms_from_sequence_alignment(self, other_rnamodel, way):
         if not self.sequence or not other_rnamodel.sequence:
             raise ValueError('Cannot align sequences when one of the models has no polymer residues')
@@ -309,6 +330,15 @@ class RNAmodel:
             'seq2_start': alignment_span['seq2_start'],
             'seq2_end': alignment_span['seq2_end']
         }
+
+        seq1_start_idx = alignment_span['seq1_start']
+        seq1_end_idx = alignment_span['seq1_end']
+        seq2_start_idx = alignment_span['seq2_start']
+        seq2_end_idx = alignment_span['seq2_end']
+        alignment_report['target_start_position'] = self._sequence_position_label(seq1_start_idx)
+        alignment_report['target_end_position'] = self._sequence_position_label((seq1_end_idx - 1) if seq1_end_idx else None)
+        alignment_report['model_start_position'] = other_rnamodel._sequence_position_label(seq2_start_idx)
+        alignment_report['model_end_position'] = other_rnamodel._sequence_position_label((seq2_end_idx - 1) if seq2_end_idx else None)
 
         if not matched_pairs:
             raise ValueError('Sequence alignment returned no overlapping residues')
@@ -509,7 +539,11 @@ class RNAmodel:
                     model_len=alignment_report['model_len'],
                     matches=alignment_report['matches'],
                     residue_pairs=alignment_report['residue_pairs'],
-                    rmsd=rms)
+                    rmsd=rms,
+                    target_start_label=alignment_report.get('target_start_position'),
+                    target_end_label=alignment_report.get('target_end_position'),
+                    model_start_label=alignment_report.get('model_start_position'),
+                    model_end_label=alignment_report.get('model_end_position'))
 
             if save:
                 ## io = Bio.PDB.PDBIO()
@@ -629,7 +663,10 @@ if __name__ == '__main__':
  
     print('# of models:', len(models))
     c = 1
-    t = 'fn,' + args.column_name + ',aligned_seq, aligned_fn\n'
+    header_columns = ['fn', args.column_name]
+    if args.align_sequence:
+        header_columns.extend(['target_alignment_start', 'target_alignment_end'])
+    t = ','.join(header_columns) + '\n'
     alignment_entries = [] if args.alignment_fasta else None
     for m in models:
         mrna = RNAmodel(m)
@@ -647,9 +684,9 @@ if __name__ == '__main__':
         if 0:
             print(m)
             sys.exit(1)
+        alignment = getattr(mrna, 'alignment_report', None)
         #print rmsd
         if alignment_entries is not None:
-            alignment = getattr(mrna, 'alignment_report', None)
             if alignment and alignment.get('seq1_line') and alignment.get('seq2_line'):
                 alignment_entries.append({
                     'model_name': mrna.fn,
@@ -657,11 +694,21 @@ if __name__ == '__main__':
                     'model_seq': alignment['seq2_line'],
                     'seq1_start': alignment.get('seq1_start', 0),
                     'seq1_end': alignment.get('seq1_end', target_len),
+                    'target_start_position': alignment.get('target_start_position'),
+                    'target_end_position': alignment.get('target_end_position'),
                     'rmsd': rmsd
                 })
             else:
                 print('# warning: no alignment info collected for', mrna.fn, file=sys.stderr)
-        t += mrna.fn + ',' + str(rmsd) + '\n'
+        row = [mrna.fn, str(rmsd)]
+        if args.align_sequence:
+            start_label = alignment.get('target_start_position') if alignment else ''
+            end_label = alignment.get('target_end_position') if alignment else ''
+            row.extend([
+                start_label if start_label is not None else '',
+                end_label if end_label is not None else ''
+            ])
+        t += ','.join(row) + '\n'
         #break    
     print(t.strip())
     if args.result:
