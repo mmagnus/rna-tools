@@ -43,6 +43,63 @@ WAY_TO_ATOMS = {
 }
 
 
+
+def _read_fasta_sequence(fpath):
+    """Return the first sequence found in a FASTA file as an uppercase string."""
+    sequence_lines = []
+    with open(fpath, 'r') as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith('>'):
+                if sequence_lines:
+                    break
+                continue
+            sequence_lines.append(line)
+    return ''.join(sequence_lines).upper()
+
+
+def _map_fasta_onto_target_sequence(target_sequence, fasta_sequence, gap_open=None, gap_extend=None):
+    """Align a FASTA sequence to the target sequence and return a residue-wise mapping."""
+    if not target_sequence:
+        raise ValueError('target structure does not contain a polymer sequence to align against')
+    aligner = PairwiseAligner()
+    aligner.mode = 'global'
+    aligner.match_score = 1.0
+    aligner.mismatch_score = 0.0
+    gap_open_penalty = -abs(gap_open) if gap_open is not None else -1.0
+    if gap_extend is None:
+        gap_extend = gap_open
+    gap_extend_penalty = -abs(gap_extend) if gap_extend is not None else -0.5
+    aligner.open_gap_score = gap_open_penalty
+    aligner.extend_gap_score = gap_extend_penalty
+
+    alignments = aligner.align(target_sequence, fasta_sequence)
+    try:
+        alignment = alignments[0]
+    except IndexError:
+        raise ValueError('global alignment between target sequence and FASTA failed')
+
+    seq1_line, _, seq2_line, _, _, _ = _build_alignment_strings(
+        alignment, target_sequence, fasta_sequence)
+
+    mapped = []
+    for char_target, char_fasta in zip(seq1_line, seq2_line):
+        if char_target == '-':
+            # FASTA insertion w.r.t. structure; skip since no residue exists
+            continue
+        if char_fasta == '-':
+            raise ValueError('FASTA sequence is missing residues present in the target structure')
+        mapped.append(char_fasta)
+
+    if len(mapped) != len(target_sequence):
+        raise ValueError('alignment did not cover all target residues ({} mapped, {} expected)'.format(
+            len(mapped), len(target_sequence)))
+
+    return ''.join(mapped)
+
+
 def _residue_is_polymer(residue):
     hetfield = residue.id[0].strip()
     return hetfield == ''
@@ -602,6 +659,10 @@ def get_parser():
 
     parser.add_argument('-t',"--target",
                          help="target file")
+    parser.add_argument('--target-fasta',
+                        help='FASTA file with the sequence that should override the target PDB sequence for alignments')
+    parser.add_argument('--early-stop', type=int, metavar='N', default=None,
+                        help='stop after processing N models (useful for debugging); default: process all models')
     parser.add_argument('--result', #default='out.rmsd',
                          help="result file")
     parser.add_argument('--ignore-files', default='aligned', help="use to ignore files, .e.g. with 'aligned'")
@@ -640,6 +701,29 @@ if __name__ == '__main__':
         parser.error('--alignment-fasta requires --align-sequence')
 
     target = RNAmodel(args.target)
+    if args.target_fasta:
+        fasta_sequence = _read_fasta_sequence(args.target_fasta)
+        if not fasta_sequence:
+            parser.error('target FASTA does not contain any sequence data')
+        polymer_len = len(getattr(target, 'sequence_atom_maps', []))
+        if polymer_len == 0:
+            parser.error('target FASTA override requires the target structure to contain polymer residues')
+        try:
+            mapped_sequence = _map_fasta_onto_target_sequence(
+                target.sequence,
+                fasta_sequence,
+                args.align_gap_open,
+                args.align_gap_extend
+            )
+        except ValueError as exc:
+            parser.error('target FASTA override failed: {}'.format(exc))
+        if len(mapped_sequence) != polymer_len:
+            parser.error('internal error: remapped FASTA length ({}) does not match target residues ({})'.format(
+                len(mapped_sequence), polymer_len))
+        print('# overriding target sequence with FASTA {} (length={} -> mapped {})'.format(
+            args.target_fasta, len(fasta_sequence), len(mapped_sequence)), file=sys.stderr)
+        target.sequence = mapped_sequence
+
     target_sequence = target.sequence if target.sequence else ''
     target_len = len(target_sequence)
 
@@ -662,7 +746,7 @@ if __name__ == '__main__':
         models = tmp
  
     print('# of models:', len(models))
-    c = 1
+    processed = 0
     header_columns = ['fn', args.column_name]
     if args.align_sequence:
         header_columns.extend(['target_alignment_start', 'target_alignment_end'])
@@ -709,6 +793,10 @@ if __name__ == '__main__':
                 end_label if end_label is not None else ''
             ])
         t += ','.join(row) + '\n'
+        processed += 1
+        if args.early_stop and processed >= args.early_stop:
+            print('# early stop after {} models'.format(processed), file=sys.stderr)
+            break
         #break    
     print(t.strip())
     if args.result:
@@ -781,3 +869,17 @@ if __name__ == '__main__':
             print('# FASTA alignment written to', fasta_path)
 
         
+def _read_fasta_sequence(fpath):
+    """Return the first sequence found in a FASTA file as an uppercase string."""
+    sequence_lines = []
+    with open(fpath, 'r') as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith('>'):
+                if sequence_lines:
+                    break
+                continue
+            sequence_lines.append(line)
+    return ''.join(sequence_lines).upper()
