@@ -31,6 +31,7 @@ setup(
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_all_vs_all.py',
              'rna_tools/tools/rna_calc_rmsd/rna_calc_rmsd_biopython.py',
+             'rna_tools/tools/rna_calc_rmsd/rna_plot_alignment_bounds.py',
              
              'rna_tools/rna_torsions.py',
 
