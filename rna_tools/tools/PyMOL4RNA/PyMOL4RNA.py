@@ -682,18 +682,233 @@ def clarna(selection, folder:str='', sele_as_name=False):# fn:str=''):
         output= folder + os.sep + os.path.basename(f.name) + '_clarna.pdb'
     cmd.save(output, selection)
     # run cmd    
-    CLARNA_RUN = 'rna_clarna_run.py'
+    CLARNA_RUN = BIN + os.sep + 'rna_clarna_run.py'
     cmdline = CLARNA_RUN + " -ipdb " + output + ' -bp+stack'
+    print(cmdline)
     out, err = exe(cmdline)
-    # get the output
-    print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
+    lines = out.splitlines()
+    # tylko do debug printa
+    if len(lines) > 1:
+        for l in lines:
+            print(l)
+    else:
+        print(out)
     if err:
         print(err)
-    # load a (sele) pdb file 
+
+    print('parse clarna raw out:')
     cmd.load(output)
+
+    seqs, seq_by_chain = pdb_rna_sequence(output)
+    for chain, seq in seqs.items():
+        print_seq_numbered_1_6(seq, label='')#, label=f"Chain {chain}")
+        print(seq)
+        parse_clarna(lines)
+
     f.close()
     
 cmd.extend('clarna', clarna)  # export the function for pymol
+
+def print_seq_numbered_1_6(seq, label="Chain A", step=5):
+    n = len(seq)
+    nums = []
+    pos = 1
+    while pos <= n:
+        nums.append(f"{pos:<5}")
+        pos += step
+    num_line = "".join(nums).rstrip()
+    print(" " * (len(label) + 2) + num_line)
+    print(f"{label}{seq}")
+
+import re
+from pymol import cmd
+
+BP_RE = re.compile(
+    r"^\s*([A-Za-z0-9])\s+(\d+)\s+\1\s+(\d+)\s+bp\s+\S+\s+\S+\s+(\S+)\s+([0-9.]+)\s*$"
+)
+
+def clarna_regular_pairs_from_out(clarna_out: str, typ="WW_cis", min_prob=0.90):
+    chain = None
+    pairs = []
+    for ln in clarna_out.splitlines():
+        ln = ln.strip()
+        if ln.startswith("chains:"):
+            parts = ln.split()
+            chain = parts[1]
+            continue
+        m = BP_RE.match(ln)
+        if not m:
+            continue
+        ch, i, j, itype, prob = m.group(1), int(m.group(2)), int(m.group(3)), m.group(4), float(m.group(5))
+        if itype != typ or prob < min_prob:
+            continue
+        if i > j:
+            i, j = j, i
+        pairs.append((i, j))
+    return chain, pairs
+
+def color_regular_bp_gray_from_clarna(obj="all", clarna_out="", gray="gray70", typ="WW_cis", min_prob=0.90):
+    chain, pairs = clarna_regular_pairs_from_out(clarna_out, typ=typ, min_prob=min_prob)
+    if not chain or not pairs:
+        return
+    resi = sorted({i for i, j in pairs} | {j for i, j in pairs})
+    resi_str = "+".join(str(r) for r in resi)
+    sel = f"({obj} and chain {chain} and resi {resi_str})"
+    cmd.color(gray, sel)
+    cmd.show("sticks", sel)
+
+# Example:
+# color_regular_bp_gray_from_clarna(obj="your_obj", clarna_out=out, typ="WW_cis", min_prob=0.90)
+
+def pdb_rna_sequence(pdb_path):
+    # common residue-name → RNA letter mapping
+    map_res = {
+        "A": "A", "C": "C", "G": "G", "U": "U",
+        "RA": "A", "RC": "C", "RG": "G", "RU": "U",
+        "DA": "A", "DC": "C", "DG": "G", "DT": "U",
+        "ADE": "A", "CYT": "C", "GUA": "G", "URA": "U",
+    }
+
+    # chain -> {resi -> base}
+    seq_by_chain = {}
+    seen_res = set()  # (chain, resi, icode)
+
+    with open(pdb_path) as fh:
+        for line in fh:
+            if line[0:6] not in ("ATOM  ", "HETATM"):
+                continue
+
+            resn = line[17:20].strip()
+            base = map_res.get(resn)
+            if base is None:
+                continue  # not a nucleotide
+
+            chain = line[21].strip() or "_"
+
+            resi_s = line[22:26].strip()
+            icode = line[26].strip()
+            if not resi_s:
+                continue
+            try:
+                resi = int(resi_s)
+            except ValueError:
+                continue
+
+            key = (chain, resi, icode)
+            if key in seen_res:
+                continue
+            seen_res.add(key)
+
+            seq_by_chain.setdefault(chain, {})[resi] = base
+
+    if not seq_by_chain:
+        return {}, {}
+
+    # build sequences with gaps filled as 'N'
+    seqs = {}
+    for chain, by_resi in seq_by_chain.items():
+        min_i = min(by_resi)
+        max_i = max(by_resi)
+        seqs[chain] = "".join(by_resi.get(i, "N") for i in range(min_i, max_i + 1))
+
+    return seqs, seq_by_chain
+
+
+import sys
+import re
+from typing import Dict, List, Tuple, Set
+
+LINE_RE = re.compile(
+    r"^\s*([A-Za-z0-9])\s+(\d+)\s+([A-Za-z0-9])\s+(\d+)\s+bp\s+\S+\s+\S+\s+(?:(\S+)\s+)?>>\s+([0-9.]+)\s*$"
+)
+
+# Your input lines look like:
+# A    1   A   64          bp G C                  WW_cis   0.9361
+# The ">>" is not literally present in the line above, so we also accept:
+LINE_RE2 = re.compile(
+    r"^\s*([A-Za-z0-9])\s+(\d+)\s+([A-Za-z0-9])\s+(\d+)\s+bp\s+\S+\s+\S+\s+(?:(\S+)\s+)?([0-9.]+)\s*$"
+)
+
+def parse_pairs(lines: List[str]) -> List[Tuple[int,int,str,float]]:
+    out = []
+    for ln in lines:
+        ln = ln.rstrip("\n")
+        if not ln or ln.startswith("chains:"):
+            continue
+        m = LINE_RE2.match(ln)
+        if not m:
+            continue
+        c1, i, c2, j, typ, prob = m.groups()
+        i = int(i); j = int(j); prob = float(prob)
+        typ = typ if typ is not None else ""
+        if c1 != c2:
+            continue  # ignore inter-chain for dot-bracket per chain
+        if i == j:
+            continue
+        if i > j:
+            i, j = j, i
+        out.append((i, j, typ, prob))
+    return out
+
+def select_nonconflicting(pairs: List[Tuple[int,int,str,float]], min_prob: float,
+                          allowed_types: Set[str], exclude_adjacent: bool = True) -> List[Tuple[int,int]]:
+    # Filter
+    filt = []
+    for i, j, typ, p in pairs:
+        if exclude_adjacent and abs(i - j) <= 1:
+            continue
+        if allowed_types and typ not in allowed_types:
+            continue
+        if p < min_prob:
+            continue
+        filt.append((i, j, p))
+    # Greedy by probability (highest first), avoid conflicts
+    filt.sort(key=lambda x: x[2], reverse=True)
+    used = set()
+    chosen = []
+    for i, j, p in filt:
+        if i in used or j in used:
+            continue
+        used.add(i); used.add(j)
+        chosen.append((i, j))
+    return chosen
+
+def to_dotbracket(n: int, chosen: List[Tuple[int,int]]) -> str:
+    s = ["." for _ in range(n)]
+    for i, j in chosen:
+        if 1 <= i <= n and 1 <= j <= n:
+            s[i-1] = "("
+            s[j-1] = ")"
+    return "".join(s)
+
+def parse_clarna(text: List[str]) -> str:
+    pairs = parse_pairs(text)
+    #print('Parsed pairs:', pairs)
+    # infer length from "chains:" line if present, else from max index
+    n = 0
+    for ln in text:
+        if ln.startswith("chains:"):
+            # example: chains:  A 1 69
+            parts = ln.split()
+            if len(parts) >= 4:
+                n = int(parts[3])
+                break
+    if n == 0 and pairs:
+        n = max(j for _, j, _, _ in pairs)
+
+    # default behavior: keep only labeled basepairs (exclude blank typ)
+    allowed_types = {"WW_cis", "SH_tran", "WH_cis", "HW_cis", "SS_tran", "HS_tran", "SH_cis", "HS_cis"}
+
+    chosen = select_nonconflicting(
+        pairs,
+        min_prob=0.90,
+        allowed_types=allowed_types,
+        exclude_adjacent=True
+    )
+
+    dbn = to_dotbracket(n, chosen)
+    print(dbn)
+
 
 def seq(selection):
     """Get sequence of the selected fragment using ``rna_pdb_tools.py --get_seq ``.
