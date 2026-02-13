@@ -44,6 +44,7 @@ import argparse
 from subprocess import Popen, PIPE
 import os
 from rna_tools.rna_tools_config import X3DNA, X3DNA_FP
+from icecream import ic;import sys;ic.configureOutput(outputFunction=lambda *a: print(*a, file=sys.stderr), includeContext=True,contextAbsPath=True);ic.configureOutput(prefix='')
 # x3dna-dssr-64bit
 
 
@@ -60,6 +61,7 @@ def get_parser():
     parser.add_argument('--pymol',  action='store_true', help='get resi to color code puckers in PyMOL')
     parser.add_argument('-l', '--show-log',  action='store_true', help="show full log")
     parser.add_argument('-v', '--verbose',  action='store_true', help="show full log")
+    parser.add_argument('-f', '--foldability',  type=int, default=50, help="move files with foldability < this to folder _low_foldability_X")
     parser.add_argument('files', help='file', nargs='+')
     return parser
 
@@ -74,7 +76,7 @@ class x3DNA(object):
 
     """
 
-    def __init__(self, pdbfn, show_log=False):
+    def __init__(self, pdbfn, show_log=False, verbose=False):
         """Set self.curr_fn based on pdbfn"""
         self.curr_fn = pdbfn
         self.run_x3dna(show_log)
@@ -122,26 +124,32 @@ class x3DNA(object):
         stdout = str(out.stdout.read().decode())
         outerr = str(out.stderr.read().decode())
 
-        f = open('py3dna.log', 'w')
-        if verbose: print(f'cmd: {cmd}')
-        f.write(cmd + '\n' + stdout)
-
-        if show_log:
-            print(stdout)
-        f.close()
+        # print(stdout, outerr, cmd)
+        #f = open('py3dna.log', 'w')
+        #if verbose: print(f'cmd: {cmd}')
+        #f.write(cmd + '\n' + stdout)
+        # if show_log:
+        #     print(stdout)
+        # f.close()
 
         if outerr.find('does not exist!') > -1:  # not very pretty
             raise x3DNAMissingFile
         if outerr.find('not found') > -1:  # not very pretty
-            raise Exception('x3dna not found!')
+            raise Exception(f'x3dna not found! {self.curr_fn} {cmd}')
+
+        if verbose:
+            print(stdout)
+        self.report = stdout # msg + '\n' + msg + '\n'  # hack!
+        return        
 
         rx = re.compile('no. of DNA/RNA chains:\s+(?P<no_DNARNAchains>\d+)\s').search(stdout)
-        if rx:
+        if rx or True:
             no_of_DNARNA_chains = int(rx.group('no_DNARNAchains'))
             msg = 'py3dna::no of DNARNA chains'
             self.report = msg + '\n' + msg + '\n'  # hack!
         else:
-            raise Exception('no_of_DNARNA_chains not found')
+            print(stdout)
+            raise Exception(f'no_of_DNARNA_chains not found  {self.curr_fn} {cmd}')
 
         if no_of_DNARNA_chains:
             self.report = stdout.strip()
@@ -185,16 +193,47 @@ File name: /tmp/tmp0pdNHS
         P -> u
         
         """
-        return self.report.split('\n')[-2].replace('P', 'u').replace('I', 'a')
+        #return self.report.split('\n')[-2].replace('P', 'u').replace('I', 'a')
+        pass
 
     def get_secstruc(self):
         """Get secondary structure.
         """
+        def percent_paired(dot_bracket):
+            # Remove invalid characters (e.g. '&')
+            valid_chars = [c for c in dot_bracket if c in '.()']
+
+            total = len(valid_chars)
+            ic(total, valid_chars.count('(') + valid_chars.count(')'))
+            paired = valid_chars.count('(') + valid_chars.count(')')  # each base counts, not each pair
+            if total == 0:
+                return 0.0  # avoid division by zero
+
+            return round(100 * paired / total, 2)
+
+        def parse_chain_block(lines):
+            for i in range(len(lines) - 2):
+                if "[chain]" in lines[i]:
+                    header = lines[i].strip()
+                    seq = lines[i + 1].strip()
+                    struct = lines[i + 2].strip()
+                    return header, seq, struct
+            return None, None, None
+
+        header, seq, struct = parse_chain_block(self.report.split('\n'))
+        #print("Header:", header)
+        #print("Sequence:", seq)
+        #print("Structure:", struct)
+        if struct:
+            return struct, percent_paired(struct)
+        else:
+            return struct, None
         hits = re.search("as a whole and per chain.*?\n(?P<ss>.+?)\n\*", self.report, re.DOTALL|re.MULTILINE)
         if hits:
              return hits.group('ss').strip()
         else:
-            self.report.split('\n')[-1] # tofix
+            ic(self.report)
+            return self.report.split('\n')[-1] # tofix
 
     def get_torsions(self, outfn) -> str:
         """Get torsion angles into 'torsion.csv' file::
@@ -282,7 +321,7 @@ if __name__ == '__main__':
             p = x3DNA(f)
             print((f, p.get_secstruc()))
         else:
-            print(f'input: {f}')
+            #print(f'input: {f}')
             outfn = os.path.basename(f.replace('.pdb', '')) + '-torsion-paired.csv'
             if not args.rerun:
                 if os.path.isfile(outfn):
@@ -290,9 +329,22 @@ if __name__ == '__main__':
                     continue
             p = x3DNA(f, args.show_log, args.verbose)
             s = p.get_seq()
-            print(s)
-            s = p.get_secstruc()
-            print(s)
-            s = p.get_torsions(outfn)
-            if args.verbose: print(s)
+            #print(s)
+            s, foldability = p.get_secstruc()
+            print(f'{f} {s} {foldability}%')
+            #s = p.get_torsions(outfn)
+            #if args.verbose: print(s)
+            import math
+            def round_up_to_10(x: int) -> int:
+                return int(math.ceil(x / 10.0)) * 10
+
             p.clean_up(args.verbose)
+            if foldability is not None and foldability < args.foldability:
+                print(f'Warning: {f} has low foldability {foldability}%')
+                # foldibilty very 5And move to folder
+                foldability = round_up_to_10(foldability)
+                os.makedirs(f'_low_foldability_{foldability}', exist_ok=True)
+                os.rename(f, os.path.join(f'_low_foldability_{foldability}', os.path.basename(f)))
+                
+                
+                
