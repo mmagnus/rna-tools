@@ -627,7 +627,7 @@ def x3dna():
     f = tempfile.NamedTemporaryFile(delete=False) # True)
     #cmd.save(f.name + '.pdb', '(backbone_)')
     cmd.save(f.name + '.pdb', '(sele)')
-    out, err = exe("rna_x3dna.py --show-log " + f.name + ".pdb ")
+    out, err = exe(BIN + os.sep + "rna_x3dna.py --show-log " + f.name + ".pdb ")
     print('\n'.join(out.split('\n')[1:]))  # to remove first line of py3dna /tmp/xxx
     if err:
         print(err)
@@ -969,16 +969,15 @@ def ss(selection):
     .. image:: ../../rna_tools/utils/PyMOL4RNA/doc/ss.png
     """
     f = tempfile.NamedTemporaryFile(delete=False)
-    output = os.path.dirname(f.name) + os.sep +  selection + '.pdb'
+    output = os.path.dirname(f.name) + os.sep + str(selection) + '.pdb'
     cmd.save(output, '(sele)')
 
-    cmdline = 'rna_x3dna.py ' + output
+    cmdline = BIN + os.sep + 'rna_x3dna.py ' + output
     out, err = exe(cmdline)
     print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
     if err:
         print(err)
     f.close()
-
 
 
 def rtrun(cmd, selection, suffix):
@@ -1014,15 +1013,18 @@ def ss_all():
         if not name.startswith('_align'):
             print('> ' + name)
             f = tempfile.NamedTemporaryFile(delete=False) # True)
-            cmd.save(f.name, name)
-            out, err = exe(RNA_TOOLS_PATH + '/bin/rna_x3dna.py ' + f.name)
-            print('\n'.join(out.split('\n')[2:]))  # to remove first line of py3dna /tmp/xxx
+            cmd.save(f.name + '.pdb', name)
+            #out, err = exe(RNA_TOOLS_PATH + '/bin/rna_x3dna.py ' + f.name)
+            cmdline = BIN + os.sep + 'rna_x3dna.py ' + f.name + '.pdb'
+            out, err = exe(cmdline)
+            print(out.strip())
+            #print('\n'.join(out.split('\n')[2:]).strip())  # to remove first line of py3dna /tmp/xxx
             # hide this line: is >tmpGCszi7 nts=4 [tmpGCszi7] -- secondary structure derived by DSSR
             if err:
                 print(err)
             f.close()
-    print('-- secondary structure derived by DSSR')
-
+    print('-- secondary structure derived by DSSR [rna-tools/PyMOL4RNA]')
+cmd.extend('sss', ss_all)
 
 def p():
     """A shortcut for putting a seq at the bottom. Pretty cool for screenshots with names of objects.
