@@ -61,7 +61,7 @@ def get_parser():
     parser.add_argument('--pymol',  action='store_true', help='get resi to color code puckers in PyMOL')
     parser.add_argument('-l', '--show-log',  action='store_true', help="show full log")
     parser.add_argument('-v', '--verbose',  action='store_true', help="show full log")
-    parser.add_argument('-f', '--foldability',  type=int, default=50, help="move files with foldability < this to folder _low_foldability_X")
+    parser.add_argument('-f', '--foldability',  type=int, default=0, help="move files with foldability < this to folder _low_foldability_X")
     parser.add_argument('files', help='file', nargs='+')
     return parser
 
@@ -193,8 +193,20 @@ File name: /tmp/tmp0pdNHS
         P -> u
         
         """
-        #return self.report.split('\n')[-2].replace('P', 'u').replace('I', 'a')
-        pass
+        def parse_sequence_block(lines, token):
+            for i in range(len(lines) - 2):
+                if token in lines[i]:
+                    return lines[i + 1].strip()
+            return None
+
+        lines = self.report.split('\n')
+        seq = parse_sequence_block(lines, '[chain]')
+        if not seq:
+            seq = parse_sequence_block(lines, '[whole]')
+
+        if seq:
+            return seq.replace('P', 'u').replace('I', 'a')
+        return ''
 
     def get_secstruc(self):
         """Get secondary structure.
@@ -204,7 +216,7 @@ File name: /tmp/tmp0pdNHS
             valid_chars = [c for c in dot_bracket if c in '.()']
 
             total = len(valid_chars)
-            ic(total, valid_chars.count('(') + valid_chars.count(')'))
+            #ic(total, valid_chars.count('(') + valid_chars.count(')'))
             paired = valid_chars.count('(') + valid_chars.count(')')  # each base counts, not each pair
             if total == 0:
                 return 0.0  # avoid division by zero
@@ -328,23 +340,28 @@ if __name__ == '__main__':
                     print(f'skip: {f}, use --rerun to run analysis again')
                     continue
             p = x3DNA(f, args.show_log, args.verbose)
-            s = p.get_seq()
-            #print(s)
-            s, foldability = p.get_secstruc()
-            print(f'{f} {s} {foldability}%')
-            #s = p.get_torsions(outfn)
-            #if args.verbose: print(s)
-            import math
-            def round_up_to_10(x: int) -> int:
-                return int(math.ceil(x / 10.0)) * 10
+            sequence = p.get_seq()
+            secstruc, foldability = p.get_secstruc()
+            if args.foldability:
+                print(f'{f} {secstruc} {foldability}%')
+                #s = p.get_torsions(outfn)
+                #if args.verbose: print(s)
+                import math
+                def round_up_to_10(x: int) -> int:
+                    return int(math.ceil(x / 10.0)) * 10
 
-            p.clean_up(args.verbose)
-            if foldability is not None and foldability < args.foldability:
-                print(f'Warning: {f} has low foldability {foldability}%')
-                # foldibilty very 5And move to folder
-                foldability = round_up_to_10(foldability)
-                os.makedirs(f'_low_foldability_{foldability}', exist_ok=True)
-                os.rename(f, os.path.join(f'_low_foldability_{foldability}', os.path.basename(f)))
-                
+                p.clean_up(args.verbose)
+                if foldability is not None and foldability < args.foldability:
+                    print(f'Warning: {f} has low foldability {foldability}%')
+                    # foldibilty very 5And move to folder
+                    foldability = round_up_to_10(foldability)
+                    os.makedirs(f'_low_foldability_{foldability}', exist_ok=True)
+                    os.rename(f, os.path.join(f'_low_foldability_{foldability}', os.path.basename(f)))
+
+            else:
+                if sequence:
+                    print(sequence.strip())
+                if secstruc:
+                    print(secstruc.strip())
                 
                 
