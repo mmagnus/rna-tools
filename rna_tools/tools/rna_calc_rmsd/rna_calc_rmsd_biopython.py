@@ -29,6 +29,11 @@ import glob
 import re
 import os
 
+try:
+    from tqdm import tqdm as _tqdm
+except ImportError:
+    _tqdm = None
+
 NUCLEOTIDE_THREE_TO_ONE = {
     'A': 'A', 'DA': 'A', 'ADE': 'A',
     'C': 'C', 'DC': 'C', 'CYT': 'C',
@@ -838,6 +843,13 @@ if __name__ == '__main__':
     t = ','.join(header_columns) + '\n'
     alignment_entries = [] if args.alignment_fasta else None
     progress_enabled = bool(args.progress and total_models)
+    tqdm_bar = None
+    manual_progress = None
+    if progress_enabled:
+        if _tqdm is not None:
+            tqdm_bar = _tqdm(total=total_models, unit='model', desc='RMSD', leave=False)
+        else:
+            manual_progress = {'current': 0, 'total': total_models}
     for m in models:
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
@@ -880,16 +892,21 @@ if __name__ == '__main__':
             ])
         t += ','.join(row) + '\n'
         processed += 1
-        if progress_enabled:
-            _print_progress(processed, total_models)
+        if tqdm_bar is not None:
+            tqdm_bar.update(1)
+        elif manual_progress is not None:
+            manual_progress['current'] += 1
+            _print_progress(manual_progress['current'], manual_progress['total'])
         if args.result and (processed % RESULTS_FLUSH_INTERVAL == 0):
             _write_result_file(args.result, t)
         if args.early_stop and processed >= args.early_stop:
             print('# early stop after {} models'.format(processed), file=sys.stderr)
-            if progress_enabled:
+            if manual_progress is not None:
                 print('', file=sys.stderr)
             break
         #break    
+    if tqdm_bar is not None:
+        tqdm_bar.close()
     print(t.strip())
     if args.result:
         _write_result_file(args.result, t)
