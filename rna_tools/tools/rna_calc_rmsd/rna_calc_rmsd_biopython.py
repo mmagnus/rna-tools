@@ -44,6 +44,33 @@ WAY_TO_ATOMS = {
 
 
 
+RESULTS_FLUSH_INTERVAL = 1000  # write intermediate CSV every N processed models
+
+
+def _print_progress(current, total, width=40):
+    """Render a lightweight progress bar to stderr."""
+    if total <= 0:
+        return
+    ratio = min(max(float(current) / float(total), 0.0), 1.0)
+    filled = int(width * ratio)
+    bar = '#' * filled + '-' * (width - filled)
+    percent = ratio * 100.0
+    msg = '\r[{bar}] {cur}/{tot} ({pct:5.1f}%)'.format(
+        bar=bar, cur=current, tot=total, pct=percent)
+    print(msg, end='', file=sys.stderr)
+    if current >= total:
+        print('', file=sys.stderr)
+    sys.stderr.flush()
+
+
+def _write_result_file(result_path, content):
+    """Write accumulated CSV data to disk."""
+    if not result_path:
+        return
+    with open(result_path, 'w') as handle:
+        handle.write(content)
+
+
 def _read_fasta_sequence(fpath):
     """Return the first sequence found in a FASTA file as an uppercase string."""
     sequence_lines = []
@@ -742,9 +769,12 @@ def get_parser():
     parser.add_argument('--column-name', help="name column for rmsd, by default 'rmsd', but can also be a name of the target file",
                         default="rmsd")
     parser.add_argument("-s", "--save", action="store_true", help="set suffix with --suffix, by default: aligned")
+    parser.add_argument('--no-progress', dest='progress', action='store_false',
+                        help='disable the progress bar output written to stderr')
     parser.add_argument('files', help='files', nargs='+')
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--sort", action="store_true", help='sort results based on rmsd (ascending)')
+    parser.set_defaults(progress=sys.stderr.isatty())
     return parser
 
 # main
@@ -799,13 +829,15 @@ if __name__ == '__main__':
             tmp.append(f)
         models = tmp
  
-    print('# of models:', len(models))
+    total_models = len(models)
+    print('# of models:', total_models)
     processed = 0
     header_columns = ['fn', args.column_name]
     if args.align_sequence:
         header_columns.extend(['target_alignment_start', 'target_alignment_end'])
     t = ','.join(header_columns) + '\n'
     alignment_entries = [] if args.alignment_fasta else None
+    progress_enabled = bool(args.progress and total_models)
     for m in models:
         mrna = RNAmodel(m)
         #print r1.fn, r2.fn, r1.get_rmsd_to(r2)#, 'tmp.pdb')
@@ -848,14 +880,19 @@ if __name__ == '__main__':
             ])
         t += ','.join(row) + '\n'
         processed += 1
+        if progress_enabled:
+            _print_progress(processed, total_models)
+        if args.result and (processed % RESULTS_FLUSH_INTERVAL == 0):
+            _write_result_file(args.result, t)
         if args.early_stop and processed >= args.early_stop:
             print('# early stop after {} models'.format(processed), file=sys.stderr)
+            if progress_enabled:
+                print('', file=sys.stderr)
             break
         #break    
     print(t.strip())
     if args.result:
-        with open(args.result, 'w') as f:
-            f.write(t)
+        _write_result_file(args.result, t)
 
         if args.sort:
             import pandas as pd
