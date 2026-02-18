@@ -93,6 +93,7 @@ setup(
              'rna_tools/tools/rna_alignment/rna_align_fetch_seed.py',
              'rna_tools/tools/rna_alignment/rna_align_fetch_cm.py',
              'rna_tools/tools/rna_alignment/rna_align_sto2csv.py',
+             'rna_tools/tools/rna_alignment/rna_align_mfa2sto.py',
              'rna_tools/tools/rna_alignment/utils/rna_alignment_get_species.py',
              'rna_tools/tools/rna_alignment/utils/rna_alignment_process_id.py',
              'rna_tools/tools/rna_alignment/utils/rna_alignment_r2r.py',
