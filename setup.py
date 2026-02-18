@@ -183,7 +183,7 @@ setup(
              'rna_tools/tools/rna_pdb_merge_structure_with_fragments/rna_pdb_merge_structure_with_fragments.py',
              'rna_tools/tools/clarna_app/rna_clarna2graph.py',
 
-             'rna-tools/rna_tools/tools/openfold/rna_openfold_json_to_cif.py',
+             'rna_tools/tools/openfold/rna_openfold_json_to_cif.py',
              ],
 
     license='GPLv3',
