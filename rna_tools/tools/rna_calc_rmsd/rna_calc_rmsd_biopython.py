@@ -111,15 +111,24 @@ def _residue_to_letter(residue):
 
 
 def _build_alignment_strings(alignment, seq1, seq2):
+    path = getattr(alignment, 'path', None)
+    if not path:
+        fallback = _build_alignment_strings_from_text(alignment, seq1, seq2)
+        if fallback is not None:
+            return fallback
+        empty_span = {
+            'seq1_start': 0,
+            'seq2_start': 0,
+            'seq1_end': 0,
+            'seq2_end': 0,
+        }
+        return '', '', '', [], 0, empty_span
+
     seq1_line = []
     seq2_line = []
     match_line = []
     matched_pairs = []
     matches = 0
-
-    path = getattr(alignment, 'path', None)
-    if not path:
-        return '', '', '', matched_pairs, matches
 
     seq1_idx = path[0][0]
     seq2_idx = path[0][1]
@@ -180,6 +189,51 @@ def _build_alignment_strings(alignment, seq1, seq2):
         'seq2_start': seq2_start,
         'seq1_end': seq1_end_idx,
         'seq2_end': seq2_end_idx
+    }
+    return seq1_line, match_line, seq2_line, matched_pairs, matches, alignment_span
+
+
+def _build_alignment_strings_from_text(alignment, seq1, seq2):
+    """Reconstruct alignment strings from ``str(alignment)`` when ``path`` is unavailable."""
+    raw_lines = [line for line in str(alignment).splitlines() if line]
+    if not raw_lines:
+        return None
+    if len(raw_lines) == 1:
+        seq1_line = raw_lines[0]
+        match_line = ''
+        seq2_line = ''
+    else:
+        seq1_line = raw_lines[0]
+        if len(raw_lines) >= 3:
+            match_line = raw_lines[1]
+            seq2_line = raw_lines[2]
+        else:
+            match_line = ''
+            seq2_line = raw_lines[1]
+
+    if len(seq1_line) != len(seq2_line):
+        return None
+
+    seq1_pos = -1
+    seq2_pos = -1
+    matched_pairs = []
+    matches = 0
+    for char_a, char_b in zip(seq1_line, seq2_line):
+        if char_a != '-':
+            seq1_pos += 1
+        if char_b != '-':
+            seq2_pos += 1
+        if char_a == '-' or char_b == '-':
+            continue
+        matched_pairs.append((seq1_pos, seq2_pos))
+        if char_a == char_b:
+            matches += 1
+
+    alignment_span = {
+        'seq1_start': matched_pairs[0][0] if matched_pairs else 0,
+        'seq2_start': matched_pairs[0][1] if matched_pairs else 0,
+        'seq1_end': (matched_pairs[-1][0] + 1) if matched_pairs else 0,
+        'seq2_end': (matched_pairs[-1][1] + 1) if matched_pairs else 0
     }
     return seq1_line, match_line, seq2_line, matched_pairs, matches, alignment_span
 
