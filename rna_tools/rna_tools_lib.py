@@ -1684,7 +1684,7 @@ class RNAStructure:
                             p_missing = False
                     logger.debug('p_missing %s' % p_missing)
 
-                    if p_missing and fix_missing_atoms:
+                    if p_missing and fix_missing_atoms and (not ignore_op3):
                         currfn = __file__
                         if currfn == '':
                             path = '.'
