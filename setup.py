@@ -13,6 +13,7 @@ setup(
     test_suite="tests",
     url='https://github.com/mmagnus/rna-tools',
     scripts=['rna_tools/rna_pdb_tools.py',
+             'rna_tools/rna_pdb_seq.py',
              
              'rna_tools/rna_calc_fenergy.py',
              'rna_tools/rna_pdb_replace.py',
