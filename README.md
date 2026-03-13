@@ -41,7 +41,7 @@ rna-tools is a core library and a set of programs to run various Python function
 
 The software is used by me in my servers **NPDock** (RNA/DNA-protein docking method, http://genesilico.pl/NPDock/) and **SimRNAweb** (RNA 3D structure prediction method, http://iimcb.genesilico.pl/SimRNAweb/) and **mqapRNA** (RNA 3D quality control, http://iimcb.genesilico.pl/mqapRNA/) and other projects [EvoClustRNA](https://github.com/mmagnus/EvoClustRNA) and [RNA-Puzzles-Normalized-submissions](https://github.com/mmagnus/RNA-Puzzles-Normalized-submissions).
 
-[Test at Colab](https://colab.research.google.com/drive/1I-W4lPFtaqMSNJCLxh6Ff1l9BYZoo_nG#scrollTo=c86aajqeBsSy)
+You can launch the notebook and experiment with the tool interactively using the [Test at Colab](https://colab.research.google.com/drive/1I-W4lPFtaqMSNJCLxh6Ff1l9BYZoo_nG#scrollTo=c86aajqeBsSy).
 
 **What is fun here?**
 
