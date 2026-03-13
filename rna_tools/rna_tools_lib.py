@@ -844,12 +844,14 @@ class RNAStructure:
                 for s in seq:
                     if s in ['G']:
                         seqc += colored(s, 'green')
-                    if s in ['G']:
+                    elif s in ['A']:
                         seqc += colored(s, 'red')
-                    if s in ['T', 'U']:
+                    elif s in ['T', 'U']:
                         seqc += colored(s, 'blue')                        
-                    if s in ['C']:
-                        seqc += colored(s, 'yellow')                        
+                    elif s in ['C']:
+                        seqc += colored(s, 'yellow')
+                    else:
+                        seqc += s
                 return seqc
             
 
