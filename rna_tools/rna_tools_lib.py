@@ -1406,7 +1406,7 @@ class RNAStructure:
         return int(line[22:26])
 
     def set_res_index(self, line, index):
-        return line[:23] + str(index).rjust(3) + line[26:]
+        return line[:22] + str(index).rjust(4) + line[26:]
 
     def set_chain_id(self, line, chain_id):
         return line[:21] + chain_id + line[22:]
