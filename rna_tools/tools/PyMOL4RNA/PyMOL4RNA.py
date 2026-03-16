@@ -1676,6 +1676,108 @@ def axes(gradient=False):
 
 cmd.extend('axes', axes)
 
+from pymol import cmd
+
+def fit_by_resi(mobile, target,
+                atom_names="P,C4',C3',C2',C1',O4'",
+                mobile_sel="all",
+                target_sel="all",
+                quiet=0):
+    """
+    Fit mobile onto target by matching residues using chain+resi and atom name.
+
+    Parameters
+    ----------
+    mobile : str
+        Name of mobile object
+    target : str
+        Name of target/reference object
+    atom_names : str
+        Comma-separated atom names to use for matching
+        Example: "P,C4',C3',C2',C1',O4'"
+        For very robust RNA fitting, try just: "P"
+    mobile_sel : str
+        Extra selection restriction for mobile, default "all"
+    target_sel : str
+        Extra selection restriction for target, default "all"
+    quiet : int
+        0 = print details, 1 = quiet
+
+    Returns
+    -------
+    tuple
+        (n_atom_pairs, rmsd_after_fit)
+
+    atom_names = [a.strip() for a in atom_names.split(",") if a.strip()]
+
+    mobile_atoms = []
+    target_atoms = []
+
+    def collect_atoms(selection):
+        model = cmd.get_model(selection)
+        d = {}
+        for a in model.atom:
+            key = (a.chain, a.resi, a.name)
+            d[key] = (a.model, a.segi, a.chain, a.resi, a.name, a.index, a.resn)
+        return d
+
+    mob_dict = collect_atoms(f"({mobile}) and ({mobile_sel})")
+    tar_dict = collect_atoms(f"({target}) and ({target_sel})")
+
+    common_keys = []
+    for key in mob_dict:
+        chain, resi, atom_name = key
+        if atom_name in atom_names and key in tar_dict:
+            common_keys.append(key)
+
+    common_keys.sort(key=lambda x: (x[0], _safe_int(x[1]), x[1], x[2]))
+
+    if not common_keys:
+        print("No matching atoms found by chain+resi+atom name.")
+        print("Check residue numbering, chain IDs, and atom names.")
+        return 0, None
+
+    for key in common_keys:
+        mob_atom = mob_dict[key]
+        tar_atom = tar_dict[key]
+
+        mob_sel_atom = f"({mobile} and index {mob_atom[5]})"
+        tar_sel_atom = f"({target} and index {tar_atom[5]})"
+
+        mobile_atoms.append(mob_sel_atom)
+        target_atoms.append(tar_sel_atom)
+
+    mobile_pair_sel = " or ".join(mobile_atoms)
+    target_pair_sel = " or ".join(target_atoms)
+
+    if not quiet:
+        residues = sorted(set((k[0], k[1]) for k in common_keys),
+                          key=lambda x: (x[0], _safe_int(x[1]), x[1]))
+        print(f"Matched residues: {len(residues)}")
+        print(f"Matched atom pairs: {len(common_keys)}")
+        if len(residues) < 20:
+            print("Residues used:", residues)
+
+    # Fit
+    cmd.fit(mobile_pair_sel, target_pair_sel, matchmaker=-1)
+
+    # RMSD after fit
+    rmsd = cmd.rms_cur(mobile_pair_sel, target_pair_sel, matchmaker=-1)
+
+    if not quiet:
+        print(f"RMSD after fit: {rmsd:.4f} A")
+
+    return len(common_keys), rmsd
+
+
+def _safe_int(x):
+    try:
+        return int(x)
+    except Exception:
+        return 10**9
+
+
+cmd.extend("fit_by_resi", fit_by_resi)
 
 def axes2(length=0.75):
     """Draw XYZ, no lables here, see axes()
