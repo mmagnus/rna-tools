@@ -46,17 +46,32 @@ def clarna_run(fn, force=True, stacking=True, verbose=False):
     if os.path.isfile(fn_out) and not force:
         pass
     else:
-        opts = ''
-        if stacking:
-            opts = ' -bp+stack '
-        cmd = 'rna_clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
-        if verbose: print(cmd)
-        os.system(cmd)
+        clarna_opts = 'bp+stack' if stacking else 'bps'
+        try:
+            from rna_tools.tools.clarna_play.rna_clarna_run import run_clarna_direct
+            if verbose: print('clarna_run: direct call, opts=%s' % clarna_opts)
+            result = run_clarna_direct(fn, clarna_opts=clarna_opts)
+            with open(fn_out, 'w') as f:
+                f.write(result)
+        except Exception as e:
+            if verbose: print('clarna_run: direct call failed (%s), falling back to subprocess' % e)
+            opts = ''
+            if stacking:
+                opts = ' -bp+stack '
+            cmd = 'rna_clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
+            if verbose: print(cmd)
+            os.system(cmd)
 
     if os.stat(fn_out).st_size == 0: # if file is empty also run
-        cmd = 'rna_clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
-        if verbose: print(cmd)
-        os.system(cmd)
+        try:
+            from rna_tools.tools.clarna_play.rna_clarna_run import run_clarna_direct
+            result = run_clarna_direct(fn, clarna_opts='bp+stack')
+            with open(fn_out, 'w') as f:
+                f.write(result)
+        except Exception:
+            cmd = 'rna_clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
+            if verbose: print(cmd)
+            os.system(cmd)
     return fn_out
 
 def get_dot_bracket_from_ClaRNAoutput(inCR, verbose=False):

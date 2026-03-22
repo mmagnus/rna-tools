@@ -1198,6 +1198,48 @@ class testClarna:
             if d['type']=='contact' and d['weight']>min_score: print(u,v, d['n_type'], d['desc'], d['weight'])
         #
     #
+
+# Module-level cache for classifier libraries (expensive to load)
+_cached_see_clarna = {}
+
+def run_clarna_direct(fn, clarna_opts="bp+stack", min_score=0.5):
+    """Run ClaRNA classification directly without spawning a subprocess.
+
+    Caches the classifier libraries so they are loaded only once per process,
+    making repeated calls much faster.
+
+    Args:
+        fn: path to PDB file
+        clarna_opts: "bps", "stack", or "bp+stack"
+        min_score: minimum classifier score threshold
+
+    Returns:
+        str: ClaRNA output text (same format as CLI)
+    """
+    if clarna_opts not in _cached_see_clarna:
+        see = SeeClarna()
+        see.min_score = min_score
+        see.clarna_opts = clarna_opts
+        see.cutils = Clarna_utils()
+        see.cutils.set_min_score(min_score)
+        see.cutils.set_clarna_opts(clarna_opts)
+        see.cutils.set_library(clarna_opts)
+        _cached_see_clarna[clarna_opts] = see
+
+    see = _cached_see_clarna[clarna_opts]
+    see.pdbclasslist = {}
+
+    res_graph = see.cutils.start_clarna(fn)
+    for (u, v, d) in res_graph.edges(data=True):
+        if d['type'] == 'contact' and d['weight'] > min_score:
+            see.pdbclasslist = see.make_structure_dict(u, v, d, see.pdbclasslist)
+
+    chains_info = StrucFile(fn).get_info_chains()
+    result = "Classifier: Clarna\n"
+    result += "chains:  " + chains_info + "\n"
+    result += see.display_bbstack(see.pdbclasslist)
+    return result
+
 #main
 if __name__ == '__main__':
     if len(sys.argv) < 2:

@@ -343,7 +343,7 @@ def save_graph(filename,g,indent=None):
         if i['type'] != 'dist':
             if '?' not in i['key']:
                 # print(i)
-                if i['key'].startswith('WW') or '>' in i['key'] or '<' in i['key']:
+                if i['key'].startswith('WW'): #  or '>' in i['key'] or '<' in i['key']:
                    t += i['source'].ljust(10) + i['target'].ljust(10) + i['key'].ljust(10) + str(round(i['weight'], 2)) + '\n'
     print(t)
     return json_graph.node_link_data(g)#, f, indent=indent)
