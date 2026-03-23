@@ -69,11 +69,17 @@ def clarna_compare(target_cl_fn, i_cl_fn, verbose=False):
     return scores['raw_line']
 
 
+# Cache for target .outCR paths: {(abs_path, stacking): outCR_path}
+_target_cache = {}
+
+
 def calc_inf(target_pdb, model_pdb, stacking=True, force=True, verbose=False):
     """Calculate INF scores between two PDB structures.
 
     Pure-Python, no subprocess. Classifier libraries are cached after
-    the first call, so repeated calls are fast.
+    the first call, so repeated calls are fast. The target annotation
+    is also cached so comparing many models against the same target
+    only annotates the target once.
 
     Args:
         target_pdb (str): path to reference PDB file
@@ -94,7 +100,14 @@ def calc_inf(target_pdb, model_pdb, stacking=True, force=True, verbose=False):
         print(scores['inf_all'])   # 0.706
         print(scores['inf_WC'])    # 0.865
     """
-    target_cl_fn = clarna_run(target_pdb, force=force, stacking=stacking, verbose=verbose)
+    # Cache target annotation — only run ClaRNA on the target once
+    target_key = (os.path.abspath(target_pdb), stacking)
+    if target_key in _target_cache:
+        target_cl_fn = _target_cache[target_key]
+    else:
+        target_cl_fn = clarna_run(target_pdb, force=force, stacking=stacking, verbose=verbose)
+        _target_cache[target_key] = target_cl_fn
+
     model_cl_fn = clarna_run(model_pdb, force=force, stacking=stacking, verbose=verbose)
     return compare_clarna_direct(target_cl_fn, model_cl_fn)
 

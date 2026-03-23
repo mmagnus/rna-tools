@@ -798,9 +798,12 @@ def confusion_matrix_params(m):
 ##################
 
 def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
+    import numpy as np
+    from scipy.spatial.distance import cdist
+
     result = []
     n = len(residues)
-    residues_atoms = []
+    residues_atoms_np = []  # numpy arrays of all atom coords per residue
     residues_coords = []
     residues_num = []
     for i in range(n):
@@ -815,7 +818,8 @@ def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
                 break
         if p is not None:
             residues_num.append(i)
-            residues_atoms.append(a_dict)
+            coords = np.array(list(a_dict.values()), dtype=np.float64)
+            residues_atoms_np.append(coords)
             residues_coords.append(p)
     if len(residues_coords)==0:
       return []
@@ -829,12 +833,9 @@ def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
             if jj>=len(residues_num):
                 continue
             j = residues_num[jj]
-            if j<=i or j>=len(residues_atoms) or residues[j] is None:
+            if j<=i or j>=len(residues_atoms_np) or residues[j] is None:
                 continue
-            d = 1000
-            for a1,p1 in list(residues_atoms[ii].items()):
-                for a2,p2 in list(residues_atoms[jj].items()):
-                    d = min(d, dist(p1,p2))
+            d = cdist(residues_atoms_np[ii], residues_atoms_np[jj]).min()
             if d>=min_distance and d<=max_distance:
                 result.append((i,j))
     return result

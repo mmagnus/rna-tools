@@ -1202,7 +1202,7 @@ class testClarna:
 # Module-level cache for classifier libraries (expensive to load)
 _cached_see_clarna = {}
 
-def run_clarna_direct(fn, clarna_opts="bp+stack", min_score=0.5):
+def run_clarna_direct(fn, clarna_opts="bp+stack", min_score=0.6):
     """Run ClaRNA classification directly without spawning a subprocess.
 
     Caches the classifier libraries so they are loaded only once per process,
