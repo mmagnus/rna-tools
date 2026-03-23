@@ -1,145 +1,119 @@
 #!/usr/bin/env python
 
-"""
-Usage::
+"""ClaRNA app — pure-Python interface for INF calculation.
 
-  $ rna_clarna_app.py ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb \
-            ../../input/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
-  ((((([[[[[[)))))........(.((....(]]]]]].)..(((......)))...)).)
+No subprocess calls. Everything runs in-process so it works anywhere
+rna-tools is importable (Colab, OpenRNAFold, etc.).
 
-Example:
+Quick usage::
 
- .. code-block:: python
+    from rna_tools.tools.clarna_app.rna_clarna_app import calc_inf
 
-    from rna_tools.utils.clarna_app import clarna_app
-    if __name__ == '__main__':
-        ss = '((((.[[[[[[.))))........((((.....]]]]]]...(((((....)))))..))))'
-        fnCRref = clarna_app.get_ClaRNA_output_from_dot_bracket(ss)
-        f = '../rna_calc_rmsd/test_data/pistol/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb'
-        fnCR = clarna_app.clarna_run(f, force=False)
-        results = clarna_app.clarna_compare(fnCRref, fnCR)
-        print results #
-        #tmp_Z42i_..pdb.outCR     5k7c_clean_onechain_renumber_as_puzzle_srr.pdb.outCR      0.706      NA         0.865      NA         0.842      0.889      NA         0.000
-
+    scores = calc_inf('target.pdb', 'pred.pdb')
+    print(scores['inf_all'])   # 0.706
+    print(scores['inf_WC'])    # 0.865
 """
 
 import argparse
-import subprocess
 import sys
 import os
 import tempfile
+
+from rna_tools.tools.clarna_play.rna_clarna_run import run_clarna_direct
+from rna_tools.tools.clarna_play.rna_clarna_compare import compare_clarna_direct
 from rna_tools.tools.rna_convert_pseudoknot_formats.rna_pk_simrna_to_one_line import get_one_line
 
 
 def clarna_run(fn, force=True, stacking=True, verbose=False):
-    """Run ClaRNA run
+    """Run ClaRNA annotation on a single PDB file (pure Python, no subprocess).
 
     Args:
-        fn (str): filename to analyze
+        fn (str): path to PDB file
+        force (bool): re-run even if .outCR already exists
+        stacking (bool): include stacking interactions
 
-    Return:
-        str: a filename to ClaRNA output (fn + '.outCR')"""
-
+    Returns:
+        str: path to the generated .outCR file
+    """
     if verbose:
         print('stacking', stacking)
     fn_out = fn + '.outCR'
     if os.path.isfile(fn_out) and not force:
-        pass
-    else:
-        clarna_opts = 'bp+stack' if stacking else 'bps'
-        try:
-            from rna_tools.tools.clarna_play.rna_clarna_run import run_clarna_direct
-            if verbose: print('clarna_run: direct call, opts=%s' % clarna_opts)
-            result = run_clarna_direct(fn, clarna_opts=clarna_opts)
-            with open(fn_out, 'w') as f:
-                f.write(result)
-        except Exception as e:
-            if verbose: print('clarna_run: direct call failed (%s), falling back to subprocess' % e)
-            opts = ''
-            if stacking:
-                opts = ' -bp+stack '
-            cmd = 'rna_clarna_run.py ' + opts + ' -ipdb ' + fn + ' > ' + fn_out
-            if verbose: print(cmd)
-            os.system(cmd)
+        return fn_out
 
-    if os.stat(fn_out).st_size == 0: # if file is empty also run
-        try:
-            from rna_tools.tools.clarna_play.rna_clarna_run import run_clarna_direct
-            result = run_clarna_direct(fn, clarna_opts='bp+stack')
-            with open(fn_out, 'w') as f:
-                f.write(result)
-        except Exception:
-            cmd = 'rna_clarna_run.py -bp+stack -ipdb ' + fn + ' > ' + fn_out
-            if verbose: print(cmd)
-            os.system(cmd)
+    clarna_opts = 'bp+stack' if stacking else 'bps'
+    if verbose:
+        print('clarna_run: direct call, opts=%s' % clarna_opts)
+    result = run_clarna_direct(fn, clarna_opts=clarna_opts)
+    with open(fn_out, 'w') as f:
+        f.write(result)
+
+    if os.stat(fn_out).st_size == 0:
+        result = run_clarna_direct(fn, clarna_opts='bp+stack')
+        with open(fn_out, 'w') as f:
+            f.write(result)
     return fn_out
 
-def get_dot_bracket_from_ClaRNAoutput(inCR, verbose=False):
-    """In inCR file
 
-    .. warning:: This function requres 'ClaRNAwd_to_vienaSS' contact marcin.magnus@icloud.com """
-    cmd = ClaRNA_play_path + '/lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS ' + inCR
-    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    std = o.stdout.read().strip()
-    if verbose: std
-    return std
+def clarna_compare(target_cl_fn, i_cl_fn, verbose=False):
+    """Compare two .outCR files and return the raw score line (pure Python).
 
-def clarna_compare(target_cl_fn,i_cl_fn, verbose=False):
-    """Run ClaRNA compare (from rna_tools/tools/clarna_play).
+    Args:
+        target_cl_fn (str): path to reference .outCR
+        i_cl_fn (str): path to model .outCR
 
-    :return: a list target, fn, scores
+    Returns:
+        str: space-separated line with filenames and 8 scores
+    """
+    scores = compare_clarna_direct(target_cl_fn, i_cl_fn)
+    return scores['raw_line']
 
-    Scores::
 
-        inf_all      0.706
-        inf_stack -999.999 -> NA
-        inf_WC       0.865
-        inf_nWC   -999.999 -> NA
-        SNS_WC       0.842
-        PPV_WC       0.889
-        SNS_nWC     NA
-        PPV_nWC      0.000
+def calc_inf(target_pdb, model_pdb, stacking=True, force=True, verbose=False):
+    """Calculate INF scores between two PDB structures.
 
-    Example of the list::
+    Pure-Python, no subprocess. Classifier libraries are cached after
+    the first call, so repeated calls are fast.
 
-       5k7c_clean_onechain_renumber_as_puzzle_srr.pdb     pistol_thrs0.50A_clust01-000001_AA.pdb
-        0.642      NA         0.874      0.000      0.944      0.810      0.000      0.000s
+    Args:
+        target_pdb (str): path to reference PDB file
+        model_pdb (str): path to predicted PDB file
+        stacking (bool): include stacking interactions (default True)
+        force (bool): re-run ClaRNA even if .outCR exists (default True)
+        verbose (bool): print debug info
 
-    use ``results.split()[4]`` to get inf_WC"""
+    Returns:
+        dict: scores with keys inf_all, inf_stack, inf_WC, inf_nWC,
+              sns_WC, ppv_WC, sns_nWC, ppv_nWC.
+              Values are float or None (for NA).
 
-    cmd = 'rna_clarna_compare.py -iref ' + target_cl_fn + ' -ichk ' + i_cl_fn
-    if verbose: print('clarna_app::cmd', cmd)
-    o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    std = o.stdout.read().strip().decode()
-    if not std:
-        raise Exception('ClaRNA output is empty, something went wrong:\n\t %s \n %s' % (cmd, std))
-    if verbose:
-        print('clarna_app::o.stderr', o.stderr.read())
+    Example::
 
-    #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
-    #WARNING: nWC has more than one values struc/1i6uD_M425.pdb.outCR:  ['SW_tran', 'WW_tran']
-    #1i6uD_M1.pdb.outCR                         1i6uD_M425.pdb.outCR      0.707      0.000      0.756      0.500      0.571      1.000      0.250      1.000
-        
-    return std.split('\n')[-1] # solution for this ^, keep the clarna_compare quite
+        from rna_tools.tools.clarna_app.rna_clarna_app import calc_inf
+        scores = calc_inf('target.pdb', 'pred.pdb')
+        print(scores['inf_all'])   # 0.706
+        print(scores['inf_WC'])    # 0.865
+    """
+    target_cl_fn = clarna_run(target_pdb, force=force, stacking=stacking, verbose=verbose)
+    model_cl_fn = clarna_run(model_pdb, force=force, stacking=stacking, verbose=verbose)
+    return compare_clarna_direct(target_cl_fn, model_cl_fn)
 
 
 def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
-    """
-    Get dummy ClaRNA output out of dat bracket secondary structure (ss)
+    """Get ClaRNA .outCR output from a dot-bracket secondary structure string.
 
     Args:
-        ss (string): secondary structure
+        ss (str): secondary structure, optionally prefixed with chain like "A:((...))"
 
-    Return:
-
-        a filename to ClaRNA output"""
+    Returns:
+        str: path to generated .outCR file
+    """
     from rna_tools.SecondaryStructure import parse_vienna_to_pairs
 
     if ss.find(':') > -1:
-        chain,ss = ss.split(':')
+        chain, ss = ss.split(':')
     else:
         chain = 'A'
-        ss = ss
 
     pairs, pairs_pk = parse_vienna_to_pairs(ss, remove_gaps_in_ss=False)
     pairs += pairs_pk
@@ -148,7 +122,8 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
     txt += 'chains:  A 1 ' + str(len(ss)) + '\n'
     for bp in pairs:
         txt += '%s    %i   %s   %i          bp G C                  WW_cis   1 \n' % (chain, bp[0], chain, bp[1])
-    if verbose: print(txt.strip())
+    if verbose:
+        print(txt.strip())
 
     if temp:
         f = tempfile.NamedTemporaryFile()
@@ -157,25 +132,22 @@ def get_ClaRNA_output_from_dot_bracket(ss, temp=True, verbose=False):
         name = 'target'
 
     foutCR = name + '.pdb.outCR'
-    if verbose: print(foutCR)
-    ft = open(foutCR, 'w')
-    ft.write(txt)
-    ft.close()
+    if verbose:
+        print(foutCR)
+    with open(foutCR, 'w') as ft:
+        ft.write(txt)
     return foutCR
 
-def get_parser():
-    parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
-    parser.add_argument('files', help="files", nargs='+')
-    parser.add_argument('-f',"--force",
-                         dest="force",
-                         action="store_true",
-                        help="force to run ClaRNA")
-    parser.add_argument('-v',"--verbose",
-                         dest="verbose",
-                         action="store_true",
-                        help="verbose")
 
+def get_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('files', help="files", nargs='+')
+    parser.add_argument('-f', "--force", dest="force", action="store_true",
+                        help="force to run ClaRNA")
+    parser.add_argument('-v', "--verbose", dest="verbose", action="store_true",
+                        help="verbose")
     return parser
+
 
 # main
 if __name__ == '__main__':
@@ -188,6 +160,11 @@ if __name__ == '__main__':
     for f in args.files:
         print(f)
         fn_out = clarna_run(f, args.force)
-        mdb = get_dot_bracket_from_ClaRNAoutput(fn_out, args.verbose) # multie line dot bracket
+        # get_dot_bracket_from_ClaRNAoutput requires external ClaRNAwd_to_vienaSS binary
+        import subprocess
+        ClaRNA_play_path = os.path.dirname(os.path.abspath(__file__)) + '/../clarna_play'
+        cmd = ClaRNA_play_path + '/lib/ClaRNAwd_to_vienaSS/ClaRNAwd_output_parser_get_SS ' + fn_out
+        o = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        mdb = o.stdout.read().strip()
         db = get_one_line(mdb.split('\n'))
         print(db)

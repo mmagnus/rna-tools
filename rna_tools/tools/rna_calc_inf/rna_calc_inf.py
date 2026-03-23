@@ -5,7 +5,7 @@
 Mind, that ClaRNA is pretty slow, it takes even a few seconds to analyze a structure,
 so for, say, 1000 models you need a few hours.
 
-How to make it faster? 
+How to make it faster?
 
 First, you can use ``--number-of-threads`` to specify the number of cores used for multiprocessing.
 
@@ -17,20 +17,15 @@ from __future__ import print_function
 import argparse
 import sys
 import os
-import subprocess
-import re
 import tempfile
 import csv
 import shutil
-
-from multiprocessing import Pool, Lock, Value, Process
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', '.* resource_tracker: There appea*',)
 
 from rna_tools.tools.clarna_app import rna_clarna_app
-#from rna_tools.opt.BasicAssessMetrics.BasicAssessMetrics import InteractionNetworkFidelity
 
 import pandas as pd
 pd.set_option('display.max_rows', 1000)
@@ -38,14 +33,14 @@ pd.set_option('display.max_rows', 1000)
 
 def get_parser():
     parser =  argparse.ArgumentParser()#usage="%prog [<options>] <pdb files (test_data/*)>")
-    parser.add_argument('-t',"--target_fn",
-                           dest="target_fn",
+    parser.add_argument('-t',"--target-fn",
                          default='',
                          help="pdb file")
 
     parser.add_argument('-m',"--number-of-threads",
                          dest="nt",
                          default=8,
+                         type=int,
                          help="number of threads used for multiprocessing, if 1 then mp is not used \
                          (useful for debugging)!")
 
@@ -89,7 +84,7 @@ def get_parser():
     parser.add_argument('--dont-remove-sel-files',
                          action="store_true",
                          help="don't remove temp files created based on target|model-selectionforce")
-     
+
     parser.add_argument('-f',"--force",
                          dest="force",
                          action="store_true",
@@ -100,38 +95,29 @@ def get_parser():
                          action="store_true",
                          help="be verbose, tell me more what're doing")
 
-    parser.add_argument('-o',"--out_fn",
-                         dest="out_fn",
+    parser.add_argument('-o',"--out-fn",
                          default='inf.csv',
                          help="out csv file, be default `inf.csv`")
 
     parser.add_argument('files', help="files, .e.g folder_with_pdbs/*pdbs", nargs='+')
     return parser
 
-# Prepare the lock and the counter for MP
-from ctypes import c_int
-lock = Lock()
-counter = Value(c_int)
 
-def do_job(l):
-    """Run ClaRNA & Compare, add 1 to the counter, write output
-    to csv file (keeping it locked)"""
-    #if method == 'clarna':
-        # run clarna & compare
-
-    # ugly hack for direct import
-    i, target_cl_fn, method, DEBUG, verbose, force, no_stacking, web = l
+def run_clarna_single(args_tuple):
+    """Run ClaRNA on a single file (step 1: annotation)."""
+    fn, force, no_stacking, web = args_tuple
     if web:
-        print(os.path.basename(i), '.. processed', flush=True)
-    i_cl_fn = rna_clarna_app.clarna_run(i, force, not no_stacking)
-    output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=DEBUG)
-    ##     rmsd, DI_ALL, INF_ALL, INF_WC, INF_NWC,INF_STACK = InteractionNetworkFidelity(os.path.abspath(target_fn),
-    ##                                                                                   '/tmp/empty-index',
-    ##                                                                                   os.path.abspath(i),
-    ##                                                                                   '/tmp/empty-index')
-    ##     if args.debug:
-    ##         print(rmsd)
+        print(os.path.basename(fn), '.. processed', flush=True)
+    cl_fn = rna_clarna_app.clarna_run(fn, force, not no_stacking)
+    return fn, cl_fn
+
+
+def run_compare_single(args_tuple):
+    """Compare a single model's ClaRNA output against the target (step 2: comparison)."""
+    target_cl_fn, i_cl_fn, debug = args_tuple
+    output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=debug)
     return output
+
 
 #main
 if __name__ == '__main__':
@@ -143,7 +129,7 @@ if __name__ == '__main__':
         DEBUG = True
         args.verbose = True
         print(args)
-        
+
     if len(sys.argv) == 1:
         print((parser.print_help()))
         sys.exit(1)
@@ -161,7 +147,7 @@ if __name__ == '__main__':
 
     if args.model_selection or args.target_selection:
         args.force = True
-        
+
     if args.model_selection:
         tmp = []
         for f in input_files:
@@ -185,20 +171,17 @@ if __name__ == '__main__':
         target_fn = new_target_fn
 
     ss = args.ss
-    global target_cl_fn
     if ss:
         # generate target_fn
         ss_txt = open(ss).read().split('\n')[2]
         target_cl_fn = rna_clarna_app.get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
     else:
         target_cl_fn = rna_clarna_app.clarna_run(target_fn, args.force)
-        
+
     # keep target save, don't overwrite it when force and
     # target is in the folder that you are running ClaRNA on
     # /tmp/tmp2nmeVB/1i6uD_M1.pdb.outCR
     d = tempfile.mkdtemp()
-
-    
     tmp_target_cl_fn = d + os.sep + os.path.basename(target_cl_fn)
     shutil.copyfile(target_cl_fn, tmp_target_cl_fn)
     target_cl_fn = tmp_target_cl_fn
@@ -214,34 +197,31 @@ if __name__ == '__main__':
     csv_writer.writerow('target,fn,inf_all,inf_stack,inf_WC,inf_nWC,sns_WC,ppv_WC,sns_nWC,ppv_nWC'.split(','))
     csv_file.flush()
 
-    # main meat
     number_processes = int(args.nt)
 
-    open('/tmp/empty-index', 'a').close()  ## ugly hack ## for what?
+    # ---- STEP 1: Run ClaRNA on all models in parallel (the slow part) ----
+    clarna_args = [(f, args.force, args.no_stacking, args.web) for f in input_files]
 
-    if number_processes > 1: # multi
-        pool = Pool(number_processes)
-        lst = []
-        for i in input_files:
-            lst.append([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking, args.web])#, csv_writer, csv_file])
-        from tqdm.contrib.concurrent import process_map  # or thread_map
-        outputs = process_map(do_job, lst, max_workers=2)
-        
-    else: # single process
-        if args.web:
-            outputs = []
-            for c, i in enumerate(input_files):#, range(len(input_files))):
-                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking, args.web])
-                #print(c,i,output)
-                outputs.append(output)
-        else:
-            outputs = []
-            from tqdm import tqdm
-            bar = tqdm(input_files)
-            for c, i in enumerate(input_files):#, range(len(input_files))):
-                output = do_job([i, target_cl_fn, args.method, args.debug, args.verbose, args.force, args.no_stacking, args.web])
-                outputs.append(output)
-                bar.update(c)
+    if number_processes > 1:
+        from tqdm.contrib.concurrent import process_map
+        clarna_results = process_map(run_clarna_single, clarna_args, max_workers=number_processes)
+    else:
+        from tqdm import tqdm
+        clarna_results = []
+        for a in tqdm(clarna_args, desc="Running ClaRNA", disable=args.web):
+            clarna_results.append(run_clarna_single(a))
+
+    # ---- STEP 2: Run comparisons in parallel (fast, but still benefits from parallelism) ----
+    compare_args = [(target_cl_fn, cl_fn, DEBUG) for _, cl_fn in clarna_results]
+
+    if number_processes > 1:
+        from tqdm.contrib.concurrent import process_map
+        outputs = process_map(run_compare_single, compare_args, max_workers=number_processes,
+                              desc="Comparing")
+    else:
+        outputs = []
+        for a in tqdm(compare_args, desc="Comparing", disable=args.web):
+            outputs.append(run_compare_single(a))
 
     for output in outputs:
         # take only filename of target
@@ -252,7 +232,7 @@ if __name__ == '__main__':
         csv_file.flush()
 
     print('csv was created! ', out_fn)
-    
+
     # hack with pandas
     csv_file.close()
 
@@ -263,7 +243,7 @@ if __name__ == '__main__':
     if args.sort_results:
         df = df.sort_values('inf_all', ascending=False)
     if args.print_results:
-        print(df)#.to_html()) #df.replace(' ', '&nsbp'))
+        print(df)
     df.to_csv(out_fn, sep=',', index=False)
 
     # remove temp files

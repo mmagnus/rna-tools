@@ -1057,6 +1057,43 @@ class Analyze:
 
         return sdt
 
+
+def compare_clarna_direct(ref_outCR, chk_outCR, min_score=0.6):
+    """Compare two ClaRNA .outCR files directly and return INF scores as a dict.
+
+    This avoids spawning a subprocess for rna_clarna_compare.py.
+
+    Args:
+        ref_outCR: path to reference .outCR file
+        chk_outCR: path to prediction/check .outCR file
+        min_score: minimum classifier score threshold
+
+    Returns:
+        dict with keys: inf_all, inf_stack, inf_WC, inf_nWC,
+                        sns_WC, ppv_WC, sns_nWC, ppv_nWC
+        Also includes 'raw_line' with the original text output format.
+    """
+    anal = Analyze()
+    anal.set_verbose(False)
+    anal.set_print_with_file_list(True)
+    anal.refflnm = ref_outCR
+    anal.chkflnm = chk_outCR
+    anal.min_score = min_score
+    anal.get_outdata()
+    raw_line = anal.analyze_data()
+
+    # Parse the raw output line into a dict
+    parts = raw_line.split()
+    # parts: [reffile, chkfile, inf_all, inf_stack, inf_WC, inf_nWC, sns_WC, ppv_WC, sns_nWC, ppv_nWC]
+    keys = ['inf_all', 'inf_stack', 'inf_WC', 'inf_nWC', 'sns_WC', 'ppv_WC', 'sns_nWC', 'ppv_nWC']
+    result = {}
+    for i, key in enumerate(keys):
+        val = parts[2 + i]
+        result[key] = float(val) if val != 'NA' else None
+    result['raw_line'] = raw_line
+    return result
+
+
 # main
 if __name__ == '__main__':
     cl = CommandLine()
