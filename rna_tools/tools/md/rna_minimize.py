@@ -36,6 +36,9 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("--mdr",
                         action="store_true", help="run md-ready (rpr with ignore_op3) on input before minimization")
+    parser.add_argument("--staged", action="store_true",
+                        help="staged restrained minimization protocol "
+                             "(heavy->backbone->weak->free) to preserve starting geometry")
     return parser
 
 
@@ -106,7 +109,71 @@ if __name__ == '__main__':
         simulation.reporters.append(StateDataReporter(stdout, 1000, step=True,
         potentialEnergy=True, temperature=True))
         #simulation.reporters.append(PDBReporter("output.pdb", 1))
-        simulation.minimizeEnergy(maxIterations=1000)#, verbose=True)#1.0, verbose=True) #)
+
+        if args.staged:
+            # Staged restrained minimization protocol.
+            # Two CustomExternalForces (heavy + backbone) pull selected atoms
+            # toward their initial positions; their global k constants are
+            # updated per stage to gradually relax the structure.
+            print('Staged minimization: heavy -> backbone -> weak -> free')
+
+            backbone_names = {"P", "C1'"}
+            positions = modeller.positions
+
+            heavy_force = CustomExternalForce('kh*((x-x0)^2+(y-y0)^2+(z-z0)^2)')
+            heavy_force.addGlobalParameter('kh', 0.0 * kilojoules_per_mole / nanometer**2)
+            heavy_force.addPerParticleParameter('x0')
+            heavy_force.addPerParticleParameter('y0')
+            heavy_force.addPerParticleParameter('z0')
+
+            bb_force = CustomExternalForce('kb*((x-x0)^2+(y-y0)^2+(z-z0)^2)')
+            bb_force.addGlobalParameter('kb', 0.0 * kilojoules_per_mole / nanometer**2)
+            bb_force.addPerParticleParameter('x0')
+            bb_force.addPerParticleParameter('y0')
+            bb_force.addPerParticleParameter('z0')
+
+            for atom in modeller.topology.atoms():
+                if atom.element is None or atom.element.symbol == 'H':
+                    continue
+                if atom.residue.name == 'HOH':
+                    continue
+                p = positions[atom.index]
+                heavy_force.addParticle(atom.index, [p.x, p.y, p.z])
+                if atom.name in backbone_names:
+                    bb_force.addParticle(atom.index, [p.x, p.y, p.z])
+
+            system.addForce(heavy_force)
+            system.addForce(bb_force)
+            # fresh integrator — the previous one is already bound to a context
+            integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.002*picoseconds)
+            simulation = Simulation(modeller.topology, system, integrator)
+            simulation.context.setPositions(modeller.positions)
+
+            kunit = kilojoules_per_mole / nanometer**2
+
+            # Stage 1: heavy restraints on all heavy atoms (relax H + waters)
+            print('  Stage 1: kh=1000, kb=0  (relax H and waters)')
+            simulation.context.setParameter('kh', 1000.0 * kunit)
+            simulation.context.setParameter('kb', 0.0 * kunit)
+            simulation.minimizeEnergy(maxIterations=500)
+
+            # Stage 2: only backbone restrained, sidechains relaxed
+            print('  Stage 2: kh=0, kb=500  (relax sidechains)')
+            simulation.context.setParameter('kh', 0.0 * kunit)
+            simulation.context.setParameter('kb', 500.0 * kunit)
+            simulation.minimizeEnergy(maxIterations=500)
+
+            # Stage 3: weak backbone restraints
+            print('  Stage 3: kh=0, kb=50   (weak backbone restraint)')
+            simulation.context.setParameter('kb', 50.0 * kunit)
+            simulation.minimizeEnergy(maxIterations=500)
+
+            # Stage 4: unrestrained
+            print('  Stage 4: unrestrained')
+            simulation.context.setParameter('kb', 0.0 * kunit)
+            simulation.minimizeEnergy(maxIterations=1000)
+        else:
+            simulation.minimizeEnergy(maxIterations=1000)#, verbose=True)#1.0, verbose=True) #)
         # from http://zarbi.chem.yale.edu/ligpargen/openMM_tutorial.html
         position = simulation.context.getState(getPositions=True).getPositions()
         energy = simulation.context.getState(getEnergy=True).getPotentialEnergy()
