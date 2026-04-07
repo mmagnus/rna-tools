@@ -16,7 +16,10 @@ except:
 
 from sys import stdout
 import argparse
+import tempfile
+import os
 from rna_tools.tools.mq.lib.timex import timex
+from rna_tools.rna_tools_lib import RNAStructure
 
 
 def get_parser():
@@ -31,6 +34,8 @@ def get_parser():
                         action="store_true", help="be verbose")
     parser.add_argument("--pymol",
                         action="store_true", help="be verbose")
+    parser.add_argument("--mdr",
+                        action="store_true", help="run md-ready (rpr with ignore_op3) on input before minimization")
     return parser
 
 
@@ -47,6 +52,25 @@ if __name__ == '__main__':
             print(f, '...')
             t = timex.Timex()
             t.start()
+
+        if args.mdr:
+            print('Running md-ready (mdr) on', f)
+            s = RNAStructure(f)
+            s.remove_hydrogen()
+            s.decap_gtp()
+            s.std_resn()
+            s.fix_op_atoms()
+            s.remove_ion()
+            s.remove_water()
+            s.shift_atom_names()
+            s.prune_elements()
+            s.get_rnapuzzle_ready(renumber_residues=False, fix_missing_atoms=True,
+                                  rename_chains=False, ignore_op3=True, verbose=args.verbose)
+            mdr_f = f.replace('.pdb', '_mdr.pdb')
+            with open(mdr_f, 'w') as fh:
+                fh.write(s.get_text())
+            print('Saved mdr file:', mdr_f)
+            f = mdr_f
 
         pdbout = f.replace('.pdb','') + '_min.pdb'
         pdb = PDBFile(f)
