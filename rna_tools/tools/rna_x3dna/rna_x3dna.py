@@ -79,7 +79,8 @@ class x3DNA(object):
     def __init__(self, pdbfn, show_log=False, verbose=False):
         """Set self.curr_fn based on pdbfn"""
         self.curr_fn = pdbfn
-        self.run_x3dna(show_log)
+        self.show_log = show_log
+        self.run_x3dna(show_log, verbose)
         self.clean_up()
 
     def __get_report(self):
@@ -137,12 +138,12 @@ class x3DNA(object):
         if outerr.find('not found') > -1:  # not very pretty
             raise Exception(f'x3dna not found! {self.curr_fn} {cmd}')
 
-        if verbose:
+        if show_log or verbose:
             print(stdout)
         self.report = stdout # msg + '\n' + msg + '\n'  # hack!
-        return        
+        return
 
-        rx = re.compile('no. of DNA/RNA chains:\s+(?P<no_DNARNAchains>\d+)\s').search(stdout)
+        rx = re.compile(r'no. of DNA/RNA chains:\s+(?P<no_DNARNAchains>\d+)\s').search(stdout)
         if rx or True:
             no_of_DNARNA_chains = int(rx.group('no_DNARNAchains'))
             msg = 'py3dna::no of DNARNA chains'
@@ -240,7 +241,7 @@ File name: /tmp/tmp0pdNHS
             return struct, percent_paired(struct)
         else:
             return struct, None
-        hits = re.search("as a whole and per chain.*?\n(?P<ss>.+?)\n\*", self.report, re.DOTALL|re.MULTILINE)
+        hits = re.search(r"as a whole and per chain.*?\n(?P<ss>.+?)\n\*", self.report, re.DOTALL|re.MULTILINE)
         if hits:
              return hits.group('ss').strip()
         else:
@@ -335,13 +336,15 @@ if __name__ == '__main__':
         else:
             #print(f'input: {f}')
             outfn = os.path.basename(f.replace('.pdb', '')) + '-torsion-paired.csv'
-            if not args.rerun:
+            if not args.rerun and not args.show and not args.show_log:
                 if os.path.isfile(outfn):
                     print(f'skip: {f}, use --rerun to run analysis again')
                     continue
             p = x3DNA(f, args.show_log, args.verbose)
             sequence = p.get_seq()
             secstruc, foldability = p.get_secstruc()
+            if args.show:
+                print(p.report)
             if args.foldability:
                 print(f'{f} {secstruc} {foldability}%')
                 #s = p.get_torsions(outfn)
@@ -359,6 +362,7 @@ if __name__ == '__main__':
                     os.rename(f, os.path.join(f'_low_foldability_{foldability}', os.path.basename(f)))
 
             else:
+                print('>' + os.path.basename(f).replace('.pdb', ''))
                 if sequence:
                     print(sequence.strip())
                 if secstruc:
