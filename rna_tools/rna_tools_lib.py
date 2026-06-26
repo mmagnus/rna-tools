@@ -1753,6 +1753,7 @@ class RNAStructure:
                         r_atoms = [r["C3'"], r["C2'"], r["C1'"]]
                     except:
                         ic(r)
+                        continue
                     o2p_atoms = [o2p["C3'"], o2p["C2'"], o2p["C1'"]]
 
                     sup = PDB.Superimposer()
