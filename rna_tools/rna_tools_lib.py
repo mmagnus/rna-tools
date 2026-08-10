@@ -881,6 +881,30 @@ class RNAStructure:
                 txt += color_seq(''.join(chains[c]['seq']), color) + '\n' # color ;-)
             return txt.strip()
 
+    def get_seqres(self):
+        """Generate SEQRES records from ATOM/HETATM lines."""
+        chains = OrderedDict()
+        resi_prev = None
+        chain_prev = None
+        for l in self.lines:
+            if l.startswith('ATOM') or l.startswith('HETATM'):
+                resi = int(l[22:26])
+                chain_curr = l[21]
+                resname = l[17:20].strip()
+                if resi != resi_prev or chain_curr != chain_prev:
+                    chains.setdefault(chain_curr, []).append(resname)
+                    resi_prev = resi
+                    chain_prev = chain_curr
+        lines = []
+        for chain_id, residues in chains.items():
+            nres = len(residues)
+            for i in range(0, nres, 13):
+                chunk = residues[i:i + 13]
+                serial = i // 13 + 1
+                res_str = ' '.join(f'{r:>3s}' for r in chunk)
+                lines.append(f'SEQRES {serial:3d} {chain_id} {nres:4d}  {res_str}'.ljust(80))
+        return '\n'.join(lines)
+
     def __get_seq(self):
         """get_seq DEPRECATED
 
