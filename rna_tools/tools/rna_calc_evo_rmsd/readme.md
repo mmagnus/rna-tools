@@ -38,11 +38,17 @@
 			 target           model   rmsd group_name
 	0  1ehz_std.pdb  6Y2L_2_std.pdb  1.652
 
-Automated mode, no alignment needed (sequences are taken from the PDB files and each model is aligned to the target with a pairwise alignment; all aligned residues are used):
+Automated mode, no alignment needed. Sequences are taken from the PDB files and searched against Rfam (`cmscan`); if the target and a model hit the same family, they are aligned to the family covariance model (`cmalign`) and the residues in the consensus (`#=GC RF`) columns are used for the RMSD. Requires Infernal and Rfam.cm (`--rfam_db` or `RFAM_DB_PATH`, see RfamAlign.py). Alignments are saved to `<output>_rfam/<family>.sto`:
 
-	rna_calc_evo_rmsd.py -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+	rna_calc_evo_rmsd.py --rfam_db Rfam.cm -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
 
-	         target           model  rmsd  n_residues group_name
+Use `--rfam_evalue 0.01` instead of Rfam gathering thresholds (`--cut_ga`, default). Models that do not share a family with the target are skipped.
+
+Without Rfam, `--auto pairwise` aligns each model to the target with a pairwise sequence alignment (all aligned residues are used):
+
+	rna_calc_evo_rmsd.py --auto pairwise -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+
+	         target           model  rmsd  n_residues family group_name
 	0  1ehz_std.pdb  6Y2L_2_std.pdb   3.3          76
 
 Residues are paired according to the alignment columns (the n-th residue of a sequence in the alignment is the n-th nucleotide in the PDB file), not by the residue numbers in the PDB files.

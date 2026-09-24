@@ -5,6 +5,8 @@
 
 ./rna_calc_evo_rmsd.py -a test_data/trna.sto -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
 
-# automated, no alignment needed
-./rna_calc_evo_rmsd.py -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
-./rna_calc_evo_rmsd.py -t test_data/4qk8_cl.pdb test_data/4qlm_cl.pdb -v
+# automated, no alignment needed: Rfam (requires Infernal and Rfam.cm, see RfamAlign.py)
+#./rna_calc_evo_rmsd.py --rfam_db Rfam.cm -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb -v
+# automated, pairwise sequence alignment
+./rna_calc_evo_rmsd.py --auto pairwise -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+./rna_calc_evo_rmsd.py --auto pairwise -t test_data/4qk8_cl.pdb test_data/4qlm_cl.pdb -v

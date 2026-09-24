@@ -26,16 +26,25 @@ used for the RMSD measurement.
 When ``--target_name`` is not given the script uses the basename of the target
 structure passed with ``--target`` as the identifier in the alignment.
 
-Automated mode (no alignment)
------------------------------
+Automated mode (no alignment), Rfam
+-----------------------------------
 
 If ``-a/--rna_alignment_fn`` is omitted, sequences are taken from the PDB files
-and every model is aligned to the target with a global pairwise alignment. All
-aligned (non-gap) positions are used for the RMSD calculation, so no alignment,
-mapping or selector line has to be prepared by hand (this works best for closely
-related sequences, for divergent homologs use a structure-based alignment)::
+and searched against Rfam with ``cmscan``. For each model, the Rfam family hit
+by both the target and the model (the best one, if there are more) is taken,
+the sequences are aligned to its covariance model with ``cmalign``, and the
+residues in the consensus (``#=GC RF``) columns are used for the RMSD
+calculation. No alignment, mapping or selector line has to be prepared by hand::
 
-    rna_calc_evo_rmsd.py -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+    rna_calc_evo_rmsd.py --rfam_db Rfam.cm -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+
+The alignments are saved to ``<output>_rfam/<family>.sto`` (they can be
+inspected and re-used with ``-a``). Models that do not share a family with the
+target are skipped. Requires Infernal and Rfam.cm (see RfamAlign.py).
+
+With ``--auto pairwise`` the sequences are instead aligned with a simple
+pairwise sequence alignment (no Rfam needed), and all aligned positions are
+used. This works best for closely related sequences.
 
 Residues are always paired according to the alignment columns (the n-th residue
 in the alignment is the n-th nucleotide in the PDB file), not according to the
@@ -63,6 +72,8 @@ from Bio.PDB import PDBIO, Superimposer
 from RNAalignment import RNAalignment
 from RNAmodel import RNAmodel, get_atom_selection_summary, get_sequence
 from Bio.Align import PairwiseAligner
+import RfamAlign
+import tempfile
 import csv
 
 debug = False
@@ -124,8 +135,14 @@ def get_parser():
 
     parser.add_argument('-a', "--rna_alignment_fn",
                         help="Stockholm alignment file with either an x/EvoClust selector line, a #=GC RF reference annotation, or gap-free columns that will be auto-detected (e.g. test_data/rp14sub.stk). \
-                        If omitted, sequences are extracted from the PDB files and each model is automatically aligned to the target (pairwise alignment).",
+                        If omitted, the alignment is made automatically, see --auto.",
                         default=None)
+    parser.add_argument('--auto', choices=['rfam', 'pairwise'], default='rfam',
+                        help="how to align the structures if no alignment (-a) is given: rfam - find the Rfam family shared by the target and a model (cmscan) and align them to its covariance model (cmalign), \
+                        consensus (RF) columns are used; pairwise - a pairwise sequence alignment of the model to the target, all aligned residues are used (default: rfam)")
+    parser.add_argument('--rfam_db', help="path to Rfam.cm (cmpress'ed), by default $RFAM_DB_PATH or RFAM_DB_PATH from the rna-tools config")
+    parser.add_argument('--rfam_evalue', type=float,
+                        help="report Rfam hits with E-value <= this value; by default Rfam gathering thresholds (--cut_ga) are used")
     parser.add_argument('-t', "--target", help="the native structure file", required=True)
     parser.add_argument('-o', "--output_fn", help="output csv file", default="evoclust_rmsd.csv")
     parser.add_argument('-n', "--target_name",
@@ -171,31 +188,81 @@ def align_structures(target_struc, model_struc, verbose=False):
     return pos1, pos2
 
 
+def rfam_align(targetfn, files, output_dir, rfam_db=None, rfam_evalue=None, verbose=False):
+    """Align the target and models using Rfam, see RfamAlign.py.
+
+    :returns: list of (model fn, target positions, model positions, family)"""
+    rfam_db = RfamAlign.get_rfam_db(rfam_db)
+    print(' Rfam db:', rfam_db)
+    fns = [targetfn] + files
+    names = RfamAlign.get_seq_names(fns)
+    target_name = names[0]
+    seqs = [(name, get_sequence(RNAmodel.parse(fn))) for name, fn in zip(names, fns)]
+
+    pairs = []
+    workdir = tempfile.mkdtemp()
+    try:
+        hits = RfamAlign.cmscan(seqs, rfam_db, workdir, rfam_evalue, verbose)
+        scores = RfamAlign.get_best_scores(hits)
+        print(' Rfam families of the target (%s): %s' % (target_name, ', '.join(sorted(scores.get(target_name, {}))) or 'none'))
+        if not scores.get(target_name):
+            raise RfamAlign.RfamAlignError('No Rfam hit for the target %s' % targetfn)
+        families = {}  # family: [(fn, name), ...]
+        for fn, name in zip(fns[1:], names[1:]):
+            family = RfamAlign.find_common_family(scores, target_name, name)
+            if not family:
+                print(' WARNING: no Rfam family shared with the target, skipped:', fn)
+                continue
+            print(' %s: %s' % (name, family))
+            families.setdefault(family, []).append((fn, name))
+
+        if families and not os.path.isdir(output_dir):
+            os.makedirs(output_dir)
+        seq_of = dict(seqs)
+        for family, models in families.items():
+            aln_fn = os.path.join(output_dir, family + '.sto')
+            RfamAlign.cmalign(family, [(target_name, seq_of[target_name])] + [(name, seq_of[name]) for fn, name in models],
+                              rfam_db, workdir, aln_fn, verbose)
+            print(' alignment saved:', aln_fn)
+            ra = RNAalignment(aln_fn, verbose=verbose)
+            for fn, name in models:
+                target_pos, model_pos = ra.get_paired_positions(target_name, name, verbose=verbose)
+                pairs.append((fn, target_pos, model_pos, family))
+    finally:
+        shutil.rmtree(workdir, ignore_errors=True)
+    return pairs
+
+
 def calc_evo_rmsd(targetfn, target_name_alignment, files, mapping_fn, rna_alignment_fn, group_name='', output_fn=None,
-                  verbose=False):
+                  verbose=False, auto='rfam', rfam_db=None, rfam_evalue=None):
     """Calculate RMSD of models to the target.
 
     If rna_alignment_fn is None, the models are automatically aligned to the target
-    (see align_structures) and mapping_fn is ignored."""
+    and mapping_fn is ignored: auto='rfam' (see rfam_align) or auto='pairwise'
+    (see align_structures)."""
     global _atom_summary_printed
     if not _atom_summary_printed:
         print(get_atom_selection_summary())
         _atom_summary_printed = True
     print('target', targetfn)
 
-    pairs = []  # (model fn, target positions, model positions)
+    pairs = []  # (model fn, target positions, model positions, family)
     if not rna_alignment_fn:
-        print(' alignment not provided; aligning models to the target automatically')
-        target_struc = RNAmodel.parse(targetfn)
-        for f in files:
-            if os.path.abspath(f) == os.path.abspath(targetfn):
-                continue
-            if verbose:
-                print(' ', os.path.basename(targetfn), '<->', os.path.basename(f))
-            target_pos, model_pos = align_structures(target_struc, RNAmodel.parse(f), verbose)
-            if not target_pos:
-                raise Exception('Sequences of %s and %s could not be aligned' % (targetfn, f))
-            pairs.append((f, target_pos, model_pos))
+        files = [f for f in files if os.path.abspath(f) != os.path.abspath(targetfn)]
+        if auto == 'rfam':
+            print(' alignment not provided; aligning models to the target with Rfam')
+            output_dir = os.path.splitext(output_fn or 'evoclust_rmsd.csv')[0] + '_rfam'
+            pairs = rfam_align(targetfn, files, output_dir, rfam_db, rfam_evalue, verbose)
+        else:
+            print(' alignment not provided; aligning models to the target (pairwise)')
+            target_struc = RNAmodel.parse(targetfn)
+            for f in files:
+                if verbose:
+                    print(' ', os.path.basename(targetfn), '<->', os.path.basename(f))
+                target_pos, model_pos = align_structures(target_struc, RNAmodel.parse(f), verbose)
+                if not target_pos:
+                    raise Exception('Sequences of %s and %s could not be aligned' % (targetfn, f))
+                pairs.append((f, target_pos, model_pos, ''))
     else:
         ra = RNAalignment(rna_alignment_fn, verbose=verbose)
         # check if the target is in the alignment
@@ -228,10 +295,10 @@ def calc_evo_rmsd(targetfn, target_name_alignment, files, mapping_fn, rna_alignm
                 if rs_name_dir in f:  # rp14_farna_eloop_nol2fixed_cst*pdb
                     target_pos, model_pos = ra.get_paired_positions(target_name_alignment, rs_name_alignment,
                                                                     verbose=verbose)
-                    pairs.append((f, target_pos, model_pos))
+                    pairs.append((f, target_pos, model_pos, ''))
 
-    data = {'target': [], 'model': [], 'rmsd': [], 'n_residues': [], 'group_name': []}
-    for f, target_pos, model_pos in pairs:
+    data = {'target': [], 'model': [], 'rmsd': [], 'n_residues': [], 'family': [], 'group_name': []}
+    for f, target_pos, model_pos, family in pairs:
         target = RNAmodel(targetfn, target_pos, save=False, output_dir=None)
         model = RNAmodel(f, model_pos, save=False, output_dir=None)
         rmsd = target.get_rmsd_to(model)
@@ -239,8 +306,9 @@ def calc_evo_rmsd(targetfn, target_name_alignment, files, mapping_fn, rna_alignm
         data['model'].append(model)
         data['rmsd'].append(rmsd)
         data['n_residues'].append(len(target_pos))
+        data['family'].append(family)
         data['group_name'].append(group_name)
-    df = pd.DataFrame(data, columns=('target', 'model', 'rmsd', 'n_residues', 'group_name'))
+    df = pd.DataFrame(data, columns=('target', 'model', 'rmsd', 'n_residues', 'family', 'group_name'))
     if output_fn:
         df.to_csv(output_fn)
         try:
@@ -269,7 +337,12 @@ if __name__ == '__main__':
     if not target_name and opts.rna_alignment_fn:
         target_name = os.path.splitext(os.path.basename(opts.target))[0]
         print(' target name not provided; using basename:', target_name)
-    df = calc_evo_rmsd(opts.target, target_name, opts.files, opts.mapping_fn,
-                       opts.rna_alignment_fn, opts.group_name, opts.output_fn,
-                       verbose=opts.verbose)
+    try:
+        df = calc_evo_rmsd(opts.target, target_name, opts.files, opts.mapping_fn,
+                           opts.rna_alignment_fn, opts.group_name, opts.output_fn,
+                           verbose=opts.verbose, auto=opts.auto, rfam_db=opts.rfam_db,
+                           rfam_evalue=opts.rfam_evalue)
+    except RfamAlign.RfamAlignError as e:
+        print('Error:', e)
+        sys.exit(1)
     print(df)

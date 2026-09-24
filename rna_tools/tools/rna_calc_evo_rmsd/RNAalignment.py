@@ -89,7 +89,7 @@ class RNAalignment:
                 positions = []
                 spos = 0
                 for xi, si in zip(x, str(record.seq)):
-                    is_gap = si in ('-', '.')
+                    is_gap = si in ('-', '.', '~')
                     if not is_gap:
                         spos += 1
                     if self._include_column(xi):
@@ -152,7 +152,7 @@ class RNAalignment:
 
         selector_chars = []
         for column in zip(*sequences):
-            if all(base not in ('-', '.') for base in column):
+            if all(base not in ('-', '.', '~') for base in column):
                 selector_chars.append('x')
             else:
                 selector_chars.append('-')
