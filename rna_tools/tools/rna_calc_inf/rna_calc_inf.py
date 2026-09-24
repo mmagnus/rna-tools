@@ -25,7 +25,12 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', '.* resource_tracker: There appea*',)
 
-from rna_tools.tools.clarna_app import rna_clarna_app
+
+
+def get_clarna_app():
+    """Import ClaRNA only when it is needed (e.g. not to build docs of the parser)."""
+    from rna_tools.tools.clarna_app import rna_clarna_app
+    return rna_clarna_app
 
 import pandas as pd
 pd.set_option('display.max_rows', 1000)
@@ -108,14 +113,14 @@ def run_clarna_single(args_tuple):
     fn, force, no_stacking, web = args_tuple
     if web:
         print(os.path.basename(fn), '.. processed', flush=True)
-    cl_fn = rna_clarna_app.clarna_run(fn, force, not no_stacking)
+    cl_fn = get_clarna_app().clarna_run(fn, force, not no_stacking)
     return fn, cl_fn
 
 
 def run_compare_single(args_tuple):
     """Compare a single model's ClaRNA output against the target (step 2: comparison)."""
     target_cl_fn, i_cl_fn, debug = args_tuple
-    output = rna_clarna_app.clarna_compare(target_cl_fn, i_cl_fn, verbose=debug)
+    output = get_clarna_app().clarna_compare(target_cl_fn, i_cl_fn, verbose=debug)
     return output
 
 
@@ -174,9 +179,9 @@ if __name__ == '__main__':
     if ss:
         # generate target_fn
         ss_txt = open(ss).read().split('\n')[2]
-        target_cl_fn = rna_clarna_app.get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
+        target_cl_fn = get_clarna_app().get_ClaRNA_output_from_dot_bracket(ss_txt, temp=False)
     else:
-        target_cl_fn = rna_clarna_app.clarna_run(target_fn, args.force)
+        target_cl_fn = get_clarna_app().clarna_run(target_fn, args.force)
 
     # keep target save, don't overwrite it when force and
     # target is in the folder that you are running ClaRNA on

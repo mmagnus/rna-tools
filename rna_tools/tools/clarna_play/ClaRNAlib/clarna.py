@@ -9,7 +9,10 @@ import os
 import re
 import math
 import gzip
-import simplejson as json
+try:
+    import simplejson as json
+except ImportError:
+    import json
 import networkx as nx
 import itertools
 from networkx.readwrite import json_graph

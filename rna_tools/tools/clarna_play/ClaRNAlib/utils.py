@@ -6,7 +6,10 @@ import sys
 import os
 import re
 import math
-import simplejson as json
+try:
+    import simplejson as json
+except ImportError:
+    import json
 import urllib.request, urllib.parse, urllib.error
 import io
 import gzip
