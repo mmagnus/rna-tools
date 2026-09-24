@@ -32,6 +32,33 @@ ATOM_SELECTION_SUMMARY = "\n".join([
 def get_atom_selection_summary():
     return ATOM_SELECTION_SUMMARY
 
+
+def get_nucleotide_residues(struc):
+    """Get nucleotides of the first model, in the file order.
+
+    Waters, ions and ligands are skipped; modified nucleotides (HETATM with
+    P and C1' atoms) are kept. The n-th residue returned here corresponds to
+    the n-th residue of the sequence in an alignment (1-based)."""
+    model = next(struc.get_models())
+    residues = []
+    for res in model.get_residues():
+        hetflag = res.id[0]
+        if hetflag == ' ' or (hetflag.startswith('H_') and res.has_id('P') and res.has_id("C1'")):
+            residues.append(res)
+    return residues
+
+
+def get_sequence(struc):
+    """Get the sequence of nucleotides (see get_nucleotide_residues), unknown residues as N."""
+    seq = ''
+    for res in get_nucleotide_residues(struc):
+        resname = res.get_resname().strip().upper()
+        if resname in ('A', 'C', 'G', 'U', 'T', 'DA', 'DC', 'DG', 'DT'):
+            seq += resname[-1]
+        else:
+            seq += 'N'
+    return seq
+
 class RNAmodel:
     """RNAmodel
 
@@ -52,7 +79,7 @@ class RNAmodel:
     def __init__(self, fpath, residues, save=False, output_dir=""):
 
         # parser 1-5 -> 1 2 3 4 5
-        self.struc = Bio.PDB.PDBParser().get_structure('', fpath)
+        self.struc = RNAmodel.parse(fpath)
         self.fpath = fpath
         self.fn = os.path.basename(fpath)
         self.residues = residues #self.__parser_residues(residues)
@@ -60,6 +87,11 @@ class RNAmodel:
         #self.atoms = []
         if save:
             self.save(output_dir) # @save
+
+    @staticmethod
+    def parse(fpath):
+        """Parse a PDB file, return Bio.PDB structure"""
+        return Bio.PDB.PDBParser(QUIET=True).get_structure('', fpath)
 
     def __parser_residues(self, residues):
         """Get string and parse it
@@ -74,27 +106,36 @@ class RNAmodel:
         return rs
 
     def __get_atoms(self):
+        """Select atoms of the residues.
+
+        self.residues are positions (1-based) in the sequence of the structure
+        (see get_nucleotide_residues), not the residue numbers from the PDB file.
+        Atoms are keyed by (index in self.residues, atom name) so two models
+        built from lists of paired positions can be compared directly."""
         self.atoms = []
-        self.atom_ids = []  # (resSeq, atomName)
+        self.atom_ids = []  # (index in self.residues, atomName)
         self.atom_lookup = {}
-        for res in self.struc.get_residues():
-            res_seq = res.id[1]
-            if res_seq not in self.residues:
-                continue
+        nts = get_nucleotide_residues(self.struc)
+        self.selected_residues = []
+        for i, pos in enumerate(self.residues):
+            if pos < 1 or pos > len(nts):
+                raise Exception('residue position %s out of range (%s has %s nucleotides)' % (pos, self.fn, len(nts)))
+            res = nts[pos - 1]
+            self.selected_residues.append(res)
             # backbone atoms
             for atom_name in BACKBONE_ATOMS:
-                self._append_atom_if_present(res, res_seq, atom_name)
+                self._append_atom_if_present(res, i, atom_name)
             # base atoms
             for atom_name in self._get_base_atoms(res):
-                self._append_atom_if_present(res, res_seq, atom_name)
+                self._append_atom_if_present(res, i, atom_name)
         if len(self.atom_ids) <= 0:
             raise Exception('problem: no atoms were selected!: %s' % self.fn)
         return self.atoms
 
-    def _append_atom_if_present(self, residue, res_seq, atom_name):
+    def _append_atom_if_present(self, residue, index, atom_name):
         if residue.has_id(atom_name):
             atom = residue[atom_name]
-            key = (res_seq, atom_name)
+            key = (index, atom_name)
             self.atom_lookup[key] = atom
             self.atom_ids.append(key)
             self.atoms.append(atom)
@@ -177,13 +218,13 @@ class RNAmodel:
         except OSError:
             pass
 
-        RESI = self.residues
+        RESI = set(id(r) for r in self.selected_residues)
         if not self.struc:
             raise Exception('self.struct was not defined! Can not save a pdb!')
 
         class BpSelect(Select):
             def accept_residue(self, residue):
-                if residue.get_id()[1] in RESI:
+                if id(residue) in RESI:
                     return 1
                 else:
                     return 0

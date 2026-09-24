@@ -72,43 +72,68 @@ class RNAalignment:
             "Alignment must contain an EvoClust/x line, a #=GC RF reference annotation, or columns without gaps"
         )
 
-    def get_range(self, seqid, offset=0, verbose=None):
-        """Get a list of positions for selected residues based on the last line of the alignment!
+    def get_column_positions(self, seqid, offset=0):
+        """Get the residue position (1-based, + offset) for every selected column.
 
-        If seqis not found in the alignment, raise an exception, like ::
+        Returns a list with one entry per selected column of the alignment; the
+        entry is ``None`` when the sequence has a gap in that column. Lists
+        returned for different sequences are therefore column-wise comparable,
+        which is what is needed to pair residues between two structures.
 
-            Exception: Seq not found in the alignment: 'CP000879.1/21644622164546
-
-        .. warning:: EvoClust lines has to be -1 in the alignemnt."""
-        # evoclust/reference line
+        If seqid is not found in the alignment, raise an exception."""
         x = self._selection_track  # ---(((((((----xxxxx-- or RF annotation
-
-        if verbose is None:
-            verbose = self.verbose
-
-        x_range = []
-        seq_found = False
         for record in self.alignment:
             if record.id.strip().lower() in ("x", "evoclust"):
                 continue
             if record.id == seqid.strip():
-                seq_found = True
+                positions = []
                 spos = 0
-                for xi, si in zip(x, record.seq):
-                    if si != '-':
+                for xi, si in zip(x, str(record.seq)):
+                    is_gap = si in ('-', '.')
+                    if not is_gap:
                         spos += 1
                     if self._include_column(xi):
-                        # print xi, si,
-                        # print si, spos
-                        x_range.append(spos + offset)
-        # if verbose: print '  # selected residues:', len(x_range)
+                        positions.append(None if is_gap else spos + offset)
+                return positions
+        raise Exception('Seq not found in the alignment: %s' % seqid)
+
+    def get_range(self, seqid, offset=0, verbose=None):
+        """Get a list of positions for selected residues based on the selector line.
+
+        Columns where the sequence has a gap are skipped.
+
+        If seqis not found in the alignment, raise an exception, like ::
+
+            Exception: Seq not found in the alignment: 'CP000879.1/21644622164546
+        """
+        if verbose is None:
+            verbose = self.verbose
+        x_range = [p for p in self.get_column_positions(seqid, offset) if p is not None]
         if verbose:
             print(' Selected residues for %s: %s' % (seqid, x_range))
-        if not seq_found:
-            raise Exception('Seq not found in the alignment: %s' % seqid)
         if not x_range:
             raise Exception('Seq not found or selector line is malformed')
         return x_range
+
+    def get_paired_positions(self, seqid1, seqid2, offset=0, verbose=None):
+        """Get residue positions of two sequences paired by selected alignment columns.
+
+        Only columns where both sequences have a residue are kept.
+
+        :returns: (positions1, positions2), two lists of the same length"""
+        if verbose is None:
+            verbose = self.verbose
+        pairs = [(a, b) for a, b in zip(self.get_column_positions(seqid1, offset),
+                                         self.get_column_positions(seqid2, offset))
+                 if a is not None and b is not None]
+        if not pairs:
+            raise Exception('No selected columns shared by %s and %s' % (seqid1, seqid2))
+        positions1 = [a for a, b in pairs]
+        positions2 = [b for a, b in pairs]
+        if verbose:
+            print(' Paired residues %s <-> %s: %s' % (seqid1, seqid2,
+                                                    ' '.join('%s:%s' % p for p in pairs)))
+        return positions1, positions2
 
     def _include_column(self, selector_char):
         """Return True when the selector character marks a column to use."""
@@ -127,7 +152,7 @@ class RNAalignment:
 
         selector_chars = []
         for column in zip(*sequences):
-            if all(base != '-' for base in column):
+            if all(base not in ('-', '.') for base in column):
                 selector_chars.append('x')
             else:
                 selector_chars.append('-')

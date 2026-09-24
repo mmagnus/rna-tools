@@ -37,3 +37,12 @@
 	 Selected residues for 6Y2L_2_std: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
 			 target           model   rmsd group_name
 	0  1ehz_std.pdb  6Y2L_2_std.pdb  1.652
+
+Automated mode, no alignment needed (sequences are taken from the PDB files and each model is aligned to the target with a pairwise alignment; all aligned residues are used):
+
+	rna_calc_evo_rmsd.py -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+
+	         target           model  rmsd  n_residues group_name
+	0  1ehz_std.pdb  6Y2L_2_std.pdb   3.3          76
+
+Residues are paired according to the alignment columns (the n-th residue of a sequence in the alignment is the n-th nucleotide in the PDB file), not by the residue numbers in the PDB files.
