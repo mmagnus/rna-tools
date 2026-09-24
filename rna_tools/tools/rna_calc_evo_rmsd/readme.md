@@ -37,3 +37,24 @@
 	 Selected residues for 6Y2L_2_std: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
 			 target           model   rmsd group_name
 	0  1ehz_std.pdb  6Y2L_2_std.pdb  1.652
+
+Automated mode, no alignment needed. Sequences are taken from the PDB files and searched against Rfam (`cmscan`); if the target and a model hit the same family, they are aligned to the family covariance model (`cmalign`) and the residues in the consensus (`#=GC RF`) columns are used for the RMSD. Requires Infernal and Rfam.cm (`--rfam_db` or `RFAM_DB_PATH`, see RfamAlign.py). Alignments are saved to `<output>_rfam/<family>.sto`:
+
+	rna_calc_evo_rmsd.py --rfam_db Rfam.cm -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+
+Use `--rfam_evalue 0.01` instead of Rfam gathering thresholds (`--cut_ga`, default). Models that do not share a family with the target are skipped.
+
+All vs all: map all structures on Rfam families, build an alignment per family, and calculate RMSD and sequence identity for all pairs within each family, with a plot of sequence identity vs RMSD (`<output>_seqid_vs_rmsd.png`):
+
+	rna_calc_evo_rmsd.py --all_vs_all --rfam_db Rfam.cm -o rmsd.csv *.pdb
+
+Sequence identity (column `seq_identity`) is calculated in all modes with `esl-alipid` from Easel (https://github.com/EddyRivasLab/easel, comes with HMMER/Infernal source distributions), if it is in the $PATH.
+
+Without Rfam, `--auto pairwise` aligns each model to the target with a pairwise sequence alignment (all aligned residues are used):
+
+	rna_calc_evo_rmsd.py --auto pairwise -t test_data/1ehz_std.pdb test_data/6Y2L_2_std.pdb
+
+	         target           model  rmsd  n_residues  seq_identity family group_name
+	0  1ehz_std.pdb  6Y2L_2_std.pdb   3.3          76         63.16
+
+Residues are paired according to the alignment columns (the n-th residue of a sequence in the alignment is the n-th nucleotide in the PDB file), not by the residue numbers in the PDB files.
