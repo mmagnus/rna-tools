@@ -115,6 +115,15 @@ class RNAalignment:
             raise Exception('Seq not found or selector line is malformed')
         return x_range
 
+    def get_seq(self, seqid):
+        """Get the aligned sequence (with gaps) of seqid."""
+        for record in self.alignment:
+            if record.id.strip().lower() in ("x", "evoclust"):
+                continue
+            if record.id == seqid.strip():
+                return str(record.seq)
+        raise Exception('Seq not found in the alignment: %s' % seqid)
+
     def get_paired_positions(self, seqid1, seqid2, offset=0, verbose=None):
         """Get residue positions of two sequences paired by selected alignment columns.
 
