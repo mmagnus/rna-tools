@@ -350,6 +350,152 @@ def align_all_vs_all(cycles = 5, filename="_rmsd_all_vs_all_.csv"):
 cmd.extend('align_all_vs_all', align_all_vs_all)
 cmd.extend('aaa', align_all_vs_all)
 
+
+def _clarna_get_pairs(obj):
+    """Run ClaRNA on a PyMOL object and return classified pair sets."""
+    import tempfile
+    f = tempfile.NamedTemporaryFile(delete=False, suffix='.pdb')
+    f.close()
+    cmd.save(f.name, obj)
+    CLARNA_RUN = BIN + os.sep + 'rna_clarna_run.py'
+    # child needs rna_tools on its path, but not PyMOL's own python env (old Bio shadows miniconda's)
+    # repo root: first candidate that holds rna_tools/tools/clarna_play
+    # (not `import rna_tools` nor __file__: under PyMOL those point into PyMOL.app)
+    cands = [os.path.expanduser('~/work/src/rna-tools'), os.path.expanduser('~/work-src/rna-tools')]
+    try:
+        cands.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+    except NameError:
+        pass
+    root = next((c for c in cands if os.path.isdir(os.path.join(c, 'rna_tools', 'tools', 'clarna_play'))), None)
+    if root is None:
+        raise RuntimeError('rna-tools repo not found, tried: ' + ', '.join(cands))
+    cmdline = ('env -i HOME=' + os.path.expanduser('~') + ' PATH=' + BIN + ':/usr/bin:/bin PYTHONPATH=' + root + ' '
+               + CLARNA_RUN + " -ipdb " + f.name + ' -bp+stack')
+    out, err = exe(cmdline)
+    os.unlink(f.name)
+    lines = out.splitlines()
+    if not any(ln.strip().startswith('chains:') for ln in lines):
+        raise RuntimeError('ClaRNA failed on %s: %s\n  cmd: %s' % (obj, err.splitlines()[-1] if err else 'no output', cmdline))
+    wc, nwc, stack = set(), set(), set()
+    for i, j, typ, prob in parse_pairs(lines):
+        if prob < 0.0:
+            continue
+        key = (min(i, j), max(i, j))
+        if typ in CLARNA_STACKING_TYPES:
+            stack.add(key)
+        elif typ == 'WW_cis':
+            wc.add(key)
+        else:
+            nwc.add(key)
+    return wc, nwc, stack
+
+
+def _inf(ref_set, model_set):
+    """Compute INF = sqrt(PPV * sensitivity) for two interaction sets."""
+    if not ref_set and not model_set:
+        return None
+    tp = len(ref_set & model_set)
+    fp = len(model_set - ref_set)
+    fn = len(ref_set - model_set)
+    ppv = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+    sns = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    return (ppv * sns) ** 0.5
+
+
+def ac(filename="_inf_.csv"):
+    """Run ClaRNA INF analysis on all loaded structures vs the first (reference).
+
+    Prints a table with inf_WC, inf_nWC, inf_stack, inf_all for each model.
+
+    Usage:
+        PyMOL> ac
+    """
+    molecules = [m for m in cmd.get_names_of_type("object:molecule") if not m.endswith('_ss')]
+    if len(molecules) < 2:
+        print("Need at least 2 structures loaded.")
+        return
+
+    ref = molecules[0]
+    models = molecules[1:]
+    w = max(len(m) for m in [ref] + models) + 2
+
+    print(f"\n=== ClaRNA INF: ref = {ref} ===")
+    print(f"Running ClaRNA on reference: {ref}")
+    ref_wc, ref_nwc, ref_stack = _clarna_get_pairs(ref)
+    ref_all = ref_wc | ref_nwc | ref_stack
+
+    header = f"{'Model':<{w}}  inf_WC  inf_nWC  inf_stack  inf_all"
+    print(header)
+
+    txt = "Ref,Model,inf_WC,inf_nWC,inf_stack,inf_all\n"
+    for mol in models:
+        try:
+            m_wc, m_nwc, m_stack = _clarna_get_pairs(mol)
+            m_all = m_wc | m_nwc | m_stack
+            scores = {
+                'inf_WC':    _inf(ref_wc,    m_wc),
+                'inf_nWC':   _inf(ref_nwc,   m_nwc),
+                'inf_stack': _inf(ref_stack,  m_stack),
+                'inf_all':   _inf(ref_all,    m_all),
+            }
+            fmt = lambda v: f"{v:.3f}" if v is not None else "NA   "
+            wc, nwc, stack, alla = (fmt(scores[k]) for k in ('inf_WC', 'inf_nWC', 'inf_stack', 'inf_all'))
+            print(f"{mol:<{w}}  {wc:<6}  {nwc:<7}  {stack:<9}  {alla}")
+            txt += f"{ref},{mol},{wc},{nwc},{stack},{alla}\n"
+        except Exception as e:
+            print(f"{mol:<{w}}  ERROR: {e}")
+
+    with open(filename, 'w') as f:
+        f.write(txt)
+    print(f"\nSaved to {filename}")
+
+cmd.extend('ac', ac)
+print('ac - ClaRNA INF analysis (inf_WC, inf_nWC, inf_stack, inf_all) for all objects vs first')
+
+
+def inf_all_vs_all(filename="_inf_all_vs_all_.csv"):
+    """Run ClaRNA INF analysis for all loaded structures, all vs all (like aaa, but INF instead of RMSD).
+
+    ClaRNA is run once per object; the pair sets are reused for every comparison.
+    Prints a table (and saves a csv) with inf_WC, inf_nWC, inf_stack, inf_all for each Ref/Model pair.
+
+    Usage:
+        PyMOL> bbb
+    """
+    molecules = [m for m in cmd.get_names_of_type("object:molecule") if not m.endswith('_ss')]
+    if len(molecules) < 2:
+        print("Need at least 2 structures loaded.")
+        return
+    w = max(len(m) for m in molecules) + 2
+
+    pairs = {}
+    for mol in molecules:
+        print(f"Running ClaRNA on: {mol}")
+        try:
+            wc, nwc, stack = _clarna_get_pairs(mol)
+            pairs[mol] = (wc, nwc, stack, wc | nwc | stack)
+        except Exception as e:
+            print(f"{mol:<{w}}  ERROR: {e}")
+
+    fmt = lambda v: f"{v:.3f}" if v is not None else "NA"
+    print(f"\n{'Ref':<{w}} {'Model':<{w}} inf_WC  inf_nWC  inf_stack  inf_all")
+    txt = "Ref,Model,inf_WC,inf_nWC,inf_stack,inf_all\n"
+    for ref in molecules:
+        for mol in molecules:
+            if ref == mol or ref not in pairs or mol not in pairs:
+                continue
+            vals = [fmt(_inf(r, m)) for r, m in zip(pairs[ref], pairs[mol])]
+            print(f"{ref:<{w}} {mol:<{w}} {vals[0]:<6}  {vals[1]:<7}  {vals[2]:<9}  {vals[3]}")
+            txt += f"{ref},{mol},{','.join(vals)}\n"
+
+    with open(filename, 'w') as f:
+        f.write(txt)
+    print(f"\nSaved to {filename}")
+
+cmd.extend('inf_all_vs_all', inf_all_vs_all)
+cmd.extend('bbb', ac)
+print('bbb - ClaRNA INF analysis (inf_WC, inf_nWC, inf_stack, inf_all), all objects vs first (ref)')
+
 def align_all_atoms(cycles = 5, filename="_rmsd_.csv"):
     """
     Args:
@@ -759,6 +905,9 @@ def color_regular_bp_gray_from_clarna(obj="all", clarna_out="", gray="gray70", t
 
 # Example:
 # color_regular_bp_gray_from_clarna(obj="your_obj", clarna_out=out, typ="WW_cis", min_prob=0.90)
+
+
+CLARNA_STACKING_TYPES = {">>", "><", "<<", "<>"}
 
 def pdb_rna_sequence(pdb_path):
     # common residue-name → RNA letter mapping
@@ -1707,6 +1856,7 @@ def fit_by_resi(mobile, target,
     -------
     tuple
         (n_atom_pairs, rmsd_after_fit)
+    """
 
     atom_names = [a.strip() for a in atom_names.split(",") if a.strip()]
 
