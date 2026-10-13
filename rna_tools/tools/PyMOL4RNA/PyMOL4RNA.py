@@ -579,6 +579,138 @@ cmd.extend('bbbv', bbbv)
 print('bb/bbv - ClaRNA INF (inf_WC, inf_nWC, inf_stack, inf_all) vs top object (bbv: active objects only)')
 print('bbb/bbbv - ClaRNA INF all vs all (bbbv: active objects only)')
 
+
+# R2R drawing colors, as in R-scape .R2R.sto.svg
+R2R_COLORS = {
+    'r2r_97':  [0xd9 / 255., 0.0, 0.0],                          # conss 1: >=97% identity (red)
+    'r2r_90':  [0.0, 0.0, 0.0],                                  # conss 2: >=90% (black)
+    'r2r_75':  [0x80 / 255., 0x7b / 255., 0x88 / 255.],          # conss 3: >=75% (gray)
+    'r2r_pr':  [1.0, 1.0, 1.0],                                  # conss 4: present only (white circle)
+    'r2r_cov': [0x31 / 255., 0xa3 / 255., 0x54 / 255.],          # cov_SS_cons: covarying pair (green box)
+}
+
+
+def load_r2r(sto_file, obj='', seq_name='', chain='', other_color='gray50', cov_sticks=1):
+    """Color a structure the same way as the R2R drawing of an R-scape alignment (.R2R.sto.svg).
+
+    Uses the per-column annotation R2R draws from:
+
+        #=GC conss        1 red (>=97%), 2 black (>=90%), 3 gray (>=75%), 4 white (present)
+        #=GC cov_SS_cons  green, significantly covarying pair (R-scape)
+
+    Columns not drawn in the svg (inserts, RF '.') get other_color.
+    Alignment columns are mapped onto the structure via seq_name (default: the first
+    sequence in the file), matched against the sequence of the structure.
+
+    Usage::
+
+        PyMOL> load_r2r seq+RF00026_seed_1.cacofold.R2R.sto
+        PyMOL> load_r2r seq+RF00026_seed_1.cacofold.R2R.sto, model1, seq_name=u6
+        PyMOL> load_r2r https://rnahub.org/.../seq+RF00026_seed_1.cacofold.R2R.sto.svg
+
+    Args:
+        sto_file (str): R-scape .R2R.sto (a local path or url; a .sto.svg url is turned into .sto)
+        obj (str): object to color (default: the first loaded object)
+        seq_name (str): sequence in the alignment that corresponds to the structure
+        chain (str): chain of the structure (default: the first one)
+        other_color (str): color of residues not drawn in the svg
+        cov_sticks (int): show covarying residues as sticks
+    """
+    import tempfile
+    if sto_file.startswith('http'):
+        import urllib.request
+        if sto_file.endswith('.svg'):
+            sto_file = sto_file[:-len('.svg')]
+        txt = urllib.request.urlopen(sto_file).read().decode()
+    else:
+        txt = open(os.path.expanduser(sto_file)).read()
+
+    seqs, gc = {}, {}
+    for line in txt.splitlines():
+        if not line.strip() or line.startswith('//'):
+            continue
+        if line.startswith('#=GC'):
+            p = line.split()
+            if len(p) == 3:
+                gc[p[1]] = gc.get(p[1], '') + p[2]
+        elif not line.startswith('#'):
+            p = line.split()
+            if len(p) == 2:
+                seqs[p[0]] = seqs.get(p[0], '') + p[1]
+    if 'conss' not in gc:
+        print("ERROR: no '#=GC conss' line, is this an R2R .sto (R-scape --r2r output)?")
+        return
+    seq_name = seq_name or next(iter(seqs))
+    if seq_name not in seqs:
+        print(f"ERROR: '{seq_name}' not found in alignment. Available: {list(seqs)[:8]}")
+        return
+    aln = seqs[seq_name]
+    rf = gc.get('RF', 'x' * len(aln))
+    cov = gc.get('cov_SS_cons', '.' * len(aln))
+
+    # alignment column -> 0-based position in seq_name
+    col_to_pos, pos = {}, 0
+    for col, nt in enumerate(aln):
+        if nt not in '-.':
+            col_to_pos[col] = pos
+            pos += 1
+    seq = ''.join(nt for nt in aln if nt not in '-.').upper().replace('T', 'U')
+
+    # structure residues
+    obj = obj or cmd.get_names('objects')[0]
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.pdb')
+    tmp.close()
+    cmd.save(tmp.name, obj)
+    _, seq_by_chain = pdb_rna_sequence(tmp.name)
+    os.unlink(tmp.name)
+    chain = chain or next(iter(seq_by_chain), '')
+    resi_map = seq_by_chain.get(chain, {})
+    resis = sorted(resi_map)
+    struct_seq = ''.join(resi_map[r] for r in resis)
+
+    # seq position -> structure resi (seq inside structure, or structure inside seq)
+    if seq in struct_seq:
+        shift = struct_seq.find(seq)
+    elif struct_seq in seq:
+        shift = -seq.find(struct_seq)
+    else:
+        shift = 0
+        print(f"WARNING: sequence of '{seq_name}' does not match {obj} chain {chain}, mapping by position order")
+        print(f"  aln:  {seq}\n  pdb:  {struct_seq}")
+    pos_to_resi = {p: resis[p + shift] for p in range(len(seq)) if 0 <= p + shift < len(resis)}
+
+    for name, rgb in R2R_COLORS.items():
+        cmd.set_color(name, rgb)
+    level_color = {'1': 'r2r_97', '2': 'r2r_90', '3': 'r2r_75', '4': 'r2r_pr'}
+
+    groups = {}
+    for col, p in col_to_pos.items():
+        if p not in pos_to_resi:
+            continue
+        if rf[col] in '.-':
+            c = other_color
+        else:
+            c = level_color.get(gc['conss'][col], other_color)
+        if cov[col] not in '.-':
+            c = 'r2r_cov'
+        groups.setdefault(c, []).append(pos_to_resi[p])
+
+    sel = f"{obj} and chain {chain}" if chain and chain != '_' else obj
+    cmd.color(other_color, obj)
+    print(f"\n=== load_r2r: {obj} chain {chain} <- {seq_name} ({len(pos_to_resi)}/{len(seq)} positions mapped) ===")
+    for c in ['r2r_97', 'r2r_90', 'r2r_75', 'r2r_pr', other_color, 'r2r_cov']:
+        rs = groups.get(c, [])
+        if not rs:
+            continue
+        rsel = f"({sel}) and resi {'+'.join(str(r) for r in rs)}"
+        cmd.color(c, rsel)
+        if c == 'r2r_cov' and int(cov_sticks):
+            cmd.show('sticks', rsel + " and not name OP1+OP2+P")
+        print(f"  {c:<10} {len(rs):>4}  {'+'.join(str(r) for r in rs)}")
+
+cmd.extend('load_r2r', load_r2r)
+print('load_r2r - color structure like the R2R drawing of an R-scape alignment (conservation + covariation)')
+
 def align_all_atoms(cycles = 5, filename="_rmsd_.csv"):
     """
     Args:
