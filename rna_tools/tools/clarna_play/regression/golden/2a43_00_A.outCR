@@ -1,0 +1,37 @@
+Classifier: Clarna
+chains:  A 3 28
+A    3   A    4          bp G C                      >>   0.9879
+A    3   A   16          bp G C                  WW_cis   0.9041
+A    3   A   20          bp G A                 SS_tran   0.9057
+A    4   A    5          bp C G                      >>   1.0000
+A    4   A   15          bp C G                  WW_cis   0.9195
+A    5   A    6          bp G G                      >>   0.9877
+A    5   A   14          bp G C                  WW_cis   0.9108
+A    5   A   15          bp G G                      <>   0.9713
+A    6   A    7          bp G C                      >>   0.9830
+A    6   A   13          bp G C                  WW_cis   0.9242
+A    6   A   24          bp G A                 SW_tran   0.8634
+A    6   A   14          bp G C                      <>   0.6983
+A    7   A   11          bp C G                 WH_tran   0.8926
+A    8   A    9          bp A C                      >>   0.9895
+A    9   A   10          bp C C                      >>   0.9346
+A    9   A   28          bp C G                  WW_cis   0.9420
+A   10   A   11          bp C G                      >>   1.0000
+A   10   A   27          bp C G                  WW_cis   0.9079
+A   11   A   13          bp G C                      >>   0.9300
+A   11   A   26          bp G C                  WW_cis   0.8971
+A   11   A   27          bp G G                      <>   0.9788
+A   13   A   14          bp C C                      >>   0.9311
+A   13   A   25          bp C A                  SW_cis   0.7861
+A   14   A   15          bp C G                      >>   1.0000
+A   14   A   23          bp C A                  SW_cis   0.8697
+A   15   A   16          bp G C                      >>   0.9953
+A   16   A   17          bp C U                      >>   0.9433
+A   18   A   20          bp C A                      <>   0.9709
+A   21   A   22          bp A C                      >>   0.9889
+A   22   A   23          bp C A                      >>   0.9725
+A   23   A   24          bp A A                      >>   0.9823
+A   24   A   25          bp A A                      >>   0.7678
+A   25   A   26          bp A C                      >>   0.9874
+A   26   A   27          bp C G                      >>   0.9168
+A   27   A   28          bp G G                      >>   0.9943

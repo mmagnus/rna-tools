@@ -1,0 +1,22 @@
+# ClaRNA regression set, paths relative to rna_tools/tools/
+# 6chr*.pdb are not in git (3.3 MB): they are skipped where missing
+clarna_play/test_data/1a51_00_A.pdb
+clarna_play/test_data/1ehz_H2A.pdb
+clarna_play/test_data/1ehz_manClean.pdb
+clarna_play/test_data/1ehz_rpr.pdb
+clarna_play/test_data/1ehz.pdb
+clarna_play/test_data/1kxk_00_A.pdb
+clarna_play/test_data/1q9a_00_A.pdb
+clarna_play/test_data/2a43_00_A.pdb
+clarna_play/test_data/3e5fA_M15_c.pdb
+clarna_play/test_data/3e5fA_M500_c.pdb
+clarna_play/test_data/5k7c_clean_onechain_renumber_as_puzzle_srr_AB.pdb
+clarna_play/test_data/5k7c.pdb
+clarna_play/test_data/6chr_rpr.pdb
+clarna_play/test_data/6chr.pdb
+clarna_play/tests/1evv_00_A.pdb
+clarna_play/tests/3e5fA_M15.pdb
+rna_calc_rmsd/test_data/pistol/5k7c_clean_onechain_renumber_as_puzzle_srr.pdb
+rna_calc_rmsd/test_data/pistol/clusters/pistol_thrs0.50A_clust01-000001_AA.pdb
+rna_calc_rmsd/test_data/pistol/clusters/pistol_thrs0.50A_clust02-000001_AA.pdb
+rna_calc_rmsd/test_data/pistol/clusters/pistol_thrs0.50A_clust03-000001_AA.pdb

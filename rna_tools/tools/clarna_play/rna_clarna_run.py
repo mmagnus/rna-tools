@@ -1242,6 +1242,29 @@ def run_clarna_direct(fn, clarna_opts="bp+stack", min_score=0.6):
 
 #main
 if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == '--batch':
+        # rna_clarna_run.py --batch [-bps|-stack|-bp+stack] [-thresh 0.6] a.pdb b.pdb ...
+        # one process for many files: libraries are loaded only once.
+        # Output of each file (same as for -ipdb) is preceded by a line: ### <file>
+        args = sys.argv[2:]
+        opts, min_score, fns = 'bps', 0.6, []
+        while args:
+            a = args.pop(0)
+            if a in ('-bps', '-stack', '-bp+stack'):
+                opts = a[1:]
+            elif a == '-thresh':
+                min_score = float(args.pop(0))
+            else:
+                fns.append(a)
+        for fn in fns:
+            print('### ' + fn)
+            try:
+                sys.stdout.write(run_clarna_direct(fn, opts, min_score))
+            except Exception as e:
+                print('ERROR: %s: %s' % (type(e).__name__, e))
+            sys.stdout.flush()
+        sys.exit(0)
+
     if len(sys.argv) < 2:
         print("ERROR: %s requires at least one argument!" % PROGRAM)
         a = Usage_Clarna()

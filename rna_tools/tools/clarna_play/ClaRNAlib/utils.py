@@ -828,7 +828,9 @@ def compute_close_doublets(residues, min_distance=0.0, max_distance=4.0):
         i = residues_num[ii]
         if residues[i] is None:
             continue
-        points = t.query_ball_point(residues_coords[ii], r=max_distance+15.0)
+        # sorted: scipy returns neighbours in (unsorted) tree order, which made the order of output lines
+        # depend on scipy internals; sorting makes it deterministic and portable (e.g. to clarna_rs)
+        points = sorted(t.query_ball_point(residues_coords[ii], r=max_distance+15.0))
         for jj in points:
             if jj>=len(residues_num):
                 continue
