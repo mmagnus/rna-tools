@@ -11,6 +11,10 @@ import os
 import subprocess
 import platform
 from rna_tools.rna_tools_config import BIN_PATH
+import rna_tools
+
+# rr style (rhiju's RNA coloring), defined in PyMOL4RNA
+DASLAB = os.path.join(os.path.dirname(rna_tools.__file__), 'tools', 'PyMOL4RNA', 'libs', 'pymol_daslab.py')
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -23,6 +27,8 @@ def get_parser():
                         help="show lines/sticks for files with # of lines slower than, default 200")
     parser.add_argument("-r", "--rainbow",
                         action="store_true", help="rainbow")
+    parser.add_argument("--no-rr",
+                        action="store_true", help="don't use the rr style (cartoon tube, filled base rings, 2'-OH spheres) for pdb/cif files")
     parser.add_argument("files", help="", default="", nargs='+')
     return parser
 
@@ -62,8 +68,8 @@ if __name__ == '__main__':
         if args.rainbow:
             rainbow = 'util.chainbow;'
 
-        # pdb mode
-        if f.endswith('.pdb'):
+        # pdb/cif mode
+        if f.endswith(('.pdb', '.cif')):
             cmd = BIN + '/pymol -c ' + f + " -d 'print(len([x for x in cmd.get_model().atom]))'"
             out, err = exe(cmd)
             # ugly way to get n of atoms
@@ -80,7 +86,10 @@ if __name__ == '__main__':
                 #sh = ' show lines; '#sticks; ' # lines;
                 sh = ' show mesh; ' #set ray_opaque_background, off;
             #  bg_color black;  set ray_opaque_background, off; 
-            os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off; hide cartoon;" + sh + "; save " + fcover + "; quit'") #ray 1000,1000; #  ,renderer=0      #os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + fcover + "; quit'") 
+            style = " hide cartoon;" + sh
+            if not args.no_rr:
+                style = " hide lines; run " + DASLAB + "; rr;"
+            os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off;" + style + "; save " + fcover + "; quit'") #ray 1000,1000; #  ,renderer=0      #os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + fcover + "; quit'") 
         else:  # pse mode  for pse do nothing!
             os.system(BIN + '/pymol -c ' + f + " -d 'save " + fcover + "; quit'")
 
