@@ -53,7 +53,11 @@ if __name__ == '__main__':
             fcover = tf.name + '.png'
             f = f.replace(" ", "\\ ")
         else:
-            fcover = f.replace('.pdb', '.png')
+            fcover = os.path.splitext(f)[0] + '.png'
+        if fcover == f:  # never overwrite/remove the input structure
+            print('skip, cannot make a png name for', f)
+            continue
+
         rainbow = ''
         if args.rainbow:
             rainbow = 'util.chainbow;'
@@ -75,9 +79,9 @@ if __name__ == '__main__':
             if n <  300: # atoms
                 #sh = ' show lines; '#sticks; ' # lines;
                 sh = ' show mesh; ' #set ray_opaque_background, off;
-            #  bg_color black; 
-            os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, on; hide cartoon;" + sh + "; save " + fcover + "; quit'") #ray 1000,1000; #  ,renderer=0            #os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + fcover + "; quit'") 
-        else:  # pse mode  for pse do nothing! # set ray_opaque_background, off; 
+            #  bg_color black;  set ray_opaque_background, off; 
+            os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off; hide cartoon;" + sh + "; save " + fcover + "; quit'") #ray 1000,1000; #  ,renderer=0      #os.system(BIN + '/pymol -c ' + f + " -d 'set ray_opaque_background, off;" + rainbow + " show cartoon; " + sh + "; rr; save " + fcover + "; quit'") 
+        else:  # pse mode  for pse do nothing!
             os.system(BIN + '/pymol -c ' + f + " -d 'save " + fcover + "; quit'")
 
         if args.verbose:

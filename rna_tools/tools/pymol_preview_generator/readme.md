@@ -8,6 +8,17 @@ See also own repo https://github.com/mmagnus/PyMOL-QuickLook
 </p>
 <a href="https://www.youtube.com/watch?v=mNgW7sekgug"><img src="docs/demo.png"></a>
 
+## Cite
+
+If you find it useful, cite:
+
+Magnus M, Antczak M, Zok T, Wiedemann J, Lukasiak P, Cao Y, Bujnicki JM, Westhof E, Szachniuk M, Miao Z.  
+<i>RNA-Puzzles toolkit: a computational resource of RNA 3D structure benchmark datasets, structure manipulation, and evaluation tools.</i>  
+Nucleic Acids Research. 2019  
+<https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkz1108/5651330>
+
+This is a part of the rna-tools package (https://github.com/mmagnus/rna-tools)
+
 ## Quick Installation [OSX]
 The requirements:
 
@@ -138,4 +149,6 @@ for me:
         echo "$f"
         /Users/magnus/work-src/rna-tools/rna_tools/tools/pymol_preview_generator/pymol_preview_generator.py $f
     done
+
+
     
