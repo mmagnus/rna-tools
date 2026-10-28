@@ -1071,7 +1071,36 @@ def clarna(selection, folder:str='', sele_as_name=False):# fn:str=''):
 cmd.extend('clarna', clarna)  # export the function for pymol
 
 
-NAPAIR_PATH = os.environ.get('NAPAIR_PATH', os.path.expanduser('~/work/src/NAPAIR'))
+def _find_napair():
+    """Return (NAPAIR folder or None, list of places tried).
+
+    Looks at: NAPAIR_PATH env variable, assign_in_structure.py on PATH,
+    a NAPAIR checkout next to the rna-tools repo this file was loaded from.
+    """
+    import shutil
+    cands = []
+    if os.environ.get('NAPAIR_PATH'):
+        cands.append(os.environ['NAPAIR_PATH'])
+    exe_path = shutil.which('assign_in_structure.py')
+    if exe_path:
+        cands.append(os.path.dirname(os.path.realpath(exe_path)))
+    # this file is <repo>/rna_tools/tools/PyMOL4RNA/PyMOL4RNA.py; under PyMOL __file__ may be
+    # missing or point into PyMOL.app, so also use PyMOL4RNA_PATH (set in .pymolrc) and RNA_TOOLS_PATH
+    srcs = [globals().get('__file__'), globals().get('PyMOL4RNA_PATH')]
+    if globals().get('RNA_TOOLS_PATH'):
+        srcs.append(os.path.join(RNA_TOOLS_PATH, 'tools', 'PyMOL4RNA', 'PyMOL4RNA.py'))
+    for src in srcs:
+        if not src:
+            continue
+        repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(src)))))
+        if os.path.isdir(os.path.join(repo, 'rna_tools')):
+            cands += [os.path.join(os.path.dirname(repo), n) for n in ('NAPAIR', 'napair')]
+    tried = list(dict.fromkeys(cands))
+    for c in tried:
+        if os.path.isfile(os.path.join(c, 'assign_in_structure.py')):
+            return c, tried
+    return None, tried
+
 
 # PyMOL's own mmCIF export leaves label_asym_id/label_seq_id empty and NAPAIR then finds no pairs,
 # so save as PDB and let gemmi (from NAPAIR's env) write a proper mmCIF
@@ -1106,7 +1135,7 @@ def _dotbracket_pk(n, pairs):
 
 
 def napair(selection='', show=0, folder='', canonical_only=0):
-    """Annotate base pairs of the selection (e.g. a chain) with NAPAIR (https://github.com/mmagnus/NAPAIR).
+    """Annotate base pairs of the selection (e.g. a chain) with NAPAIR (https://github.com/kubasvoboda4/NAPAIR).
 
     Prints the pairs (Leontis-Westhof family + subclass), the sequence and the dot-bracket
     of cWW pairs (pseudoknots as [], {}; chains separated by &). The selection is copied
@@ -1125,12 +1154,14 @@ def napair(selection='', show=0, folder='', canonical_only=0):
         folder (str): where to keep input/output files (default: a new tmp folder)
         canonical_only (int): 1 - print only cWW pairs
 
-    NAPAIR_PATH env variable sets the NAPAIR folder (default ~/work/src/NAPAIR); its .venv is used if present.
+    NAPAIR is found via the NAPAIR_PATH env variable, assign_in_structure.py on PATH, or a NAPAIR
+    checkout next to the rna-tools repo; its .venv is used if present.
     """
     import csv
     import glob
-    if not os.path.isfile(os.path.join(NAPAIR_PATH, 'assign_in_structure.py')):
-        print('NAPAIR not found in %s, set NAPAIR_PATH' % NAPAIR_PATH)
+    NAPAIR_PATH, tried = _find_napair()
+    if not NAPAIR_PATH:
+        print('NAPAIR not found (tried: %s), set NAPAIR_PATH to the NAPAIR folder' % (', '.join(tried) or 'nothing'))
         return
     py = os.path.join(NAPAIR_PATH, '.venv', 'bin', 'python')
     if not os.path.isfile(py):
@@ -1239,6 +1270,7 @@ def napair(selection='', show=0, folder='', canonical_only=0):
 
 cmd.extend('napair', napair)
 print('napair - base pairs of a selection (e.g. chain A) with NAPAIR; napair chain A, show=1')
+
 
 def print_seq_numbered_1_6(seq, label="Chain A", step=5):
     n = len(seq)
